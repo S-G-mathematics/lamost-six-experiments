@@ -44,13 +44,13 @@ WRAPPER_RSS_LIMIT=1536*1024**2
 WRAPPER_AS_LIMIT=1536*1024**2
 TERM_GRACE=30
 EXPECTED_INSTANCE='i-095641a281a4038b9'
-PINS={'controller.py': 'db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae',
+PINS={'controller.py': 'a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9',
  'cold_model_storage.py': '0bff884e4cdb897320d0565a2da9b073fea378d3c078e6b800b21a5a29a616cf',
  'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c',
  'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
- 'run_batch.py': 'a313e17a03db0c5517ad2684707bcf41531200bae8b15e232b9d6186df5cdcda',
- 'commit_batch_child.py': '7a329574198fc33093cb25743552d3efda6bd598d9353bae3546f531637aab86',
+ 'run_batch.py': 'e9b4eafed7c3d62dcb1c9203049621c40a3ed06307385cbe2ffb8a5f1001a0ad',
+ 'commit_batch_child.py': 'a3a8288355404415b2e6667a53a29cece7bdd157d6f315d8480ee7e450b47c0e',
  'batch_plan.py': '6616597e4e3d3fc9c6eb550553c6ee9033496ea5d5174feb58d4f6a3d723e575',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
  'archive_fit_admission.py': 'd06fdf9b616b41eebcbaf43f4276c9bab2085901f618f8f6c17068538bd0b25c',

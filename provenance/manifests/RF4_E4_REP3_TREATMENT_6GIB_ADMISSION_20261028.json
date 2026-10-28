@@ -1,0 +1,74 @@
+{
+  "cache_manifest_sha256": "bbcc195e0564066d541fbd483896935d7471e8893e6db34ca6184dfe90ee9720",
+  "dynamic_promotion_to_hard_limit": true,
+  "empirical_resource_evidence_sources": [
+    {
+      "interpretation": "10 selected RF4 rep2 treatment fits, process-tree RSS observations including observed max-row 125,955; remains the primary high-row RF4 reference.",
+      "path": "reports/engineering_audits/RF4_E4_6GIB_PROSPECTIVE_ADMISSION_EVIDENCE_20261028.json",
+      "sha256": "28716b215c993cd5a8830fbfd423ba4254cb547427c048c9abc1641644a16dd5"
+    },
+    {
+      "interpretation": "Cross-rep context; separates 87 generated RF4 fit observations from the 25-fit/one-observation earlier 5-GiB scope. Not pooled with the old-engine audit.",
+      "path": "reports/engineering_audits/E4_RF_TREATMENT_6GIB_PROSPECTIVE_ADMISSION_REVIEW_20261028.json",
+      "sha256": "cb024de71499cc454f69aed12de327253bfb7a3357dc8d9859579895100784ca"
+    },
+    {
+      "interpretation": "Historical old-engine resource evidence, distinct from RF4; its 34 E4 direct RF and one E4 treatment RF observations are not used as RF4 phase RSS.",
+      "path": "reports/engineering_audits/RF_FIT_ADMISSION_EVIDENCE_20261026.json",
+      "sha256": "e7342209031f85878f69e5135ddcac51dc8646f052c2f1dd721fa38b6501b461"
+    },
+    {
+      "interpretation": "ARF generation receipts only (four phase receipts in its review); it is not RF fitting evidence and is not pooled with RF4.",
+      "path": "reports/engineering_audits/ARF_GENERATION_ADMISSION_REVIEW_20261027.json",
+      "sha256": "7f632bde2863e9e3c4be95d19ec3395243bda8ad580d56a3f93528106a73ceaf"
+    },
+    {
+      "interpretation": "Separate downstream ARF-fit evidence: 30 fit records, 244 successful trial-phase receipts, 56 duplicate cached slots, and 30 final-fit receipts; this is not RF4 and is not ARF generation-phase evidence. Per-fit recorded phase receipts remain in the bound audit.",
+      "path": "staging/arf_generated_rf_admission_audit_20261028/E4_ARF_GENERATED_RF_ADMISSION_READONLY_20261028.json",
+      "sha256": "e6f73b776d8f306253199b6b834488c8076f5a4376bf22da9c6803dc83a14235"
+    }
+  ],
+  "evidence_path": "reports/RF4_E4_REP3_TREATMENT_6GIB_ADMISSION_EVIDENCE_20261028.json",
+  "evidence_sha256": "f08e9e4db22d0ea5091d8f613b248c0006344a5180a353f6d4aad5b6ea24d140",
+  "hard_rss_limit_gib": 10,
+  "interpretation": "Admission estimate only; does not change scientific trial/phase limits. Retain 10 GiB hard RSS limit, 600 second limits, 30 second grace, host reserve and PSS promotion/reclaim.",
+  "phase_timeout_seconds": 600,
+  "plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+  "plan_summary_sha256": "09caf33a226c48f431f5a16c7fe0acb50b97487a1a1ecfecb8f170fc655f1306",
+  "profile_id": "e4-rep3-rf4-treatment-fit-admission-6gib-20261028-v1",
+  "reservation_gib": 6,
+  "resource_evidence_path": "manifests/RF4_E4_TREATMENT_6GIB_ADMISSION_20261028.json",
+  "resource_evidence_sha256": "108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2",
+  "role_cache_sha256": "c149e76882c6c978d1fa1fd2cbe4dd98374c6cdfc716331e73f6f7f9998f46e7",
+  "role_source_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e",
+  "schema_version": "lamost-rf4-e4-rep3-admission-policy/1",
+  "scope": {
+    "experiment": 4,
+    "max_rows": 125955,
+    "method": "random_forest",
+    "min_rows": 80000,
+    "never_attempted_only": true,
+    "rep": 3,
+    "route": "treatment",
+    "treatments": [
+      "weighted",
+      "ros",
+      "smote",
+      "generated_gmm",
+      "generated_copula",
+      "generated_arf",
+      "generated_kde",
+      "generated_chow_liu"
+    ]
+  },
+  "source_pins": {
+    "parallel_rf/phase_worker.py": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3",
+    "parallel_rf/science.py": "e36c8040c7dca254fc7e16a53ffe860872df31a77868a7bc6480162f32d253c6",
+    "parallel_rf/worker.py": "5741d1f60b513a6da0023e508b8d17d28e8f6e4355f30c08d5cfb81f1f233ab9"
+  },
+  "status": "qualified",
+  "supplement_module_sha256": "472502e9456196459561bc0a0bfe481aa977d3cef873a8b5bdcfd9752cbbbea1",
+  "tasks_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+  "termination_grace_seconds": 30,
+  "trial_timeout_seconds": 600
+}

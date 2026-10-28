@@ -46,27 +46,29 @@
     "batch_plan.py",
     "commit_batch_child.py",
     "run_batch.py",
-    "runtime_20261025/tests/run_guarded_tests.py"
+    "runtime_20261025/tests/run_guarded_tests.py",
+    "rf4_e4_rep3_admission.py"
   ],
   "current_project_operations_collection": {
-    "baseline_preserved": 667,
-    "elapsed_seconds": 9.691635928000323,
-    "engineering_memory_bytes": 1073741824,
-    "engineering_wall_cpu_seconds": 120,
+    "baseline_preserved": 717,
+    "collection_log_path": "runtime_20261025/reports/COMBINED_COLLECT_REP3_20261028.log",
+    "collection_log_sha256": "e9466adee3ea6e764abf1b41a3c09b1e73c1b592c6c8ce516b806a95233f4600",
+    "collection_report_path": "runtime_20261025/reports/COMBINED_COLLECT_REP3_20261028.json",
+    "collection_report_sha256": "51c76062cfdb8f5eec68c64b646dcd87f5f67c71db0b6647bcc1c4e41b70eef0",
     "executed_test_bodies": false,
-    "expected_test_count": 717,
-    "native_threads": 1,
+    "expected_test_count": 730,
     "new_test_counts": {
-      "test_durable_baseline_digest_cache.py": 8,
-      "test_et17_archive_scope.py": 5,
-      "test_metadata_access_contract_v2.py": 18,
-      "test_native_fit_controller_harness.py": 7,
-      "test_native_fit_mixedsmall_profile.py": 12
+      "test_rf4_rep3_admission.py": 11,
+      "test_rf4_rep3_controller_admit.py": 2
     },
-    "nodeids_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_project_operations_20261028/PORTABLE_COLLECTED_NODEIDS_717.txt",
-    "nodeids_sha256": "1b8529b7a811dd2dd366b74927ad72d3b60f0e6ec46c06baaf5f3f290b35f42d",
-    "observed_utc": "2026-10-28T12:01:21.727176+00:00",
-    "removed_nodeids": 0,
+    "nodeids_path": "runtime_20261025/tests/PORTABLE_COLLECTED_NODEIDS_REP3_730.txt",
+    "nodeids_sha256": "143abdd3be2325e936a0a9d60444c1ec74a8ee5d0c42fc3b38358c8f7c4e1c2a",
+    "resource_guard": {
+      "native_threads": 1,
+      "nice": 19,
+      "rss_bytes": 1073741824,
+      "wall_seconds": 120
+    },
     "status": "collect_only_passed"
   },
   "extra_root_resource_proofs_present": true,
@@ -85,7 +87,8 @@
     "final_review.py",
     "finalization_safety.py",
     "finalize_project.py",
-    "reporting.py"
+    "reporting.py",
+    "rf4_e4_rep3_admission.py"
   ],
   "previous_collection_evidence": {
     "collected_utc": "2026-10-26T20:55:04.441158+00:00",
@@ -242,9 +245,29 @@
       },
       "scientific_inputs_or_results_changed": false,
       "scope": "Combine verified-digest storage cache reuse, bounded batch inode inventory, E3 metadata-only consumer lifecycle proof, mixed-family source scope, and prospective RAW 2048-group profile."
+    },
+    {
+      "new_nodeids": 13,
+      "observed_utc": "2026-10-28T16:40:19.654856+00:00",
+      "planned_test_count": 730,
+      "prior_nodeids_retained": 717,
+      "scientific_models_or_queues_changed": false,
+      "scope": "Staged integration of E4 rep3 RF4 admission supplement into D2 candidate; source pins and test collection refreshed."
     }
   ],
   "readme": "runtime_20261025/tests/README.md",
+  "rep3_rf4_admission_stage": {
+    "archive_overlap_policy_sha256": "700bc265ba7f447c00df3826efd79c6d4ab94017ec1058ff02d78d68c853c0ad",
+    "archive_overlap_qualification_sha256": "259065872f870097c9a485354913f84918bcf13a4dd6f5e76cc0294eab500e08",
+    "controller_sha256": "a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9",
+    "freeze_sha256": "2a24d2b82722f052dd94a196d62fc6e9a27162aa2f1aca3cb13c484870e20fe0",
+    "module_sha256": "472502e9456196459561bc0a0bfe481aa977d3cef873a8b5bdcfd9752cbbbea1",
+    "policy_sha256": "e1cf768468d9463f4f0af9917473eb2d454a55c17b5511d13e8cbb4bbda93e09",
+    "portable_suite_full_run": "pending_final_refreshed_qdocs",
+    "qualification_sha256": "658d61ec9cca78e7d892d066da7d9896fffa91ee9b003b57fb7064251e46c6be",
+    "rf4_qualification_sha256": "ef83dec8ce10793f457bb6273bc685cfe8c2b0c55a3acb912d783ba85b89cabb",
+    "scope": "Prospective E4 rep3 RF fit admission reservation; retains hard10GiB/600s and frozen science request; staged only."
+  },
   "resource_review_proofs": [
     {
       "archive_member": "runtime_20261025/staging/e4_rf_fit_reservation_review_20261026/E4_RF_FIT_RESERVATION_RESOURCE_REVIEW_20261026.json",
@@ -325,7 +348,7 @@
     }
   ],
   "runner": "runtime_20261025/tests/run_portable_tests.sh",
-  "runner_sha256": "8e32e48dc7410bb7b1f009d0329249c3ff38e470809d2365b85a2ffa0883168a",
+  "runner_sha256": "8bdd471e304f51289aabaec99fe966e4c1e05dae37b42b94bbe5ed87264acc3c",
   "runtime_staging_present": false,
   "schema": "archive-native-installed-portable-tests/1",
   "scope": "RF4 prospective adapter/admission, E6 availability narrative, and E6 terminal-resume idempotence candidate; no test collection or scientific fits performed.",
@@ -419,11 +442,11 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/cohorts.py"
     },
     {
-      "bundle_sha256": "4d6bd35a52ea47cc0dadde4c68ddaa40cffe636a58cc2fd405a198a4b9386a9a",
+      "bundle_sha256": "55ec82225b1b00782c0cad711615086ad9330f9cd5638e65c8ad2da10e60c544",
       "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/cold_auto_compaction.py",
-      "source_sha256": "4d6bd35a52ea47cc0dadde4c68ddaa40cffe636a58cc2fd405a198a4b9386a9a",
+      "source_sha256": "55ec82225b1b00782c0cad711615086ad9330f9cd5638e65c8ad2da10e60c544",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/cold_auto_compaction.py"
     },
     {
@@ -466,11 +489,11 @@
       "source_sha256": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273"
     },
     {
-      "bundle_sha256": "7a329574198fc33093cb25743552d3efda6bd598d9353bae3546f531637aab86",
+      "bundle_sha256": "a3a8288355404415b2e6667a53a29cece7bdd157d6f315d8480ee7e450b47c0e",
       "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/commit_batch_child.py",
-      "source_sha256": "7a329574198fc33093cb25743552d3efda6bd598d9353bae3546f531637aab86",
+      "source_sha256": "a3a8288355404415b2e6667a53a29cece7bdd157d6f315d8480ee7e450b47c0e",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/commit_batch_child.py"
     },
     {
@@ -481,11 +504,11 @@
       "upstream_stage_member": "staging/raw_io_cron_cleanup_20261027/source/complete_delivery.py"
     },
     {
-      "bundle_sha256": "db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae",
-      "candidate_refresh_reason": "reviewed run-loop task snapshot refresh after stale registry/task object became inconsistent",
+      "bundle_sha256": "a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9",
+      "candidate_refresh_reason": "E4 rep3 RF4 6 GiB prospective gate integration; only controller source changed in the frozen 16-source map.",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/controller.py",
-      "source_sha256": "db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae",
+      "source_sha256": "a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/controller.py"
     },
     {
@@ -631,11 +654,11 @@
       "source_sha256": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca"
     },
     {
-      "bundle_sha256": "a313e17a03db0c5517ad2684707bcf41531200bae8b15e232b9d6186df5cdcda",
+      "bundle_sha256": "e9b4eafed7c3d62dcb1c9203049621c40a3ed06307385cbe2ffb8a5f1001a0ad",
       "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/run_batch.py",
-      "source_sha256": "a313e17a03db0c5517ad2684707bcf41531200bae8b15e232b9d6186df5cdcda",
+      "source_sha256": "e9b4eafed7c3d62dcb1c9203049621c40a3ed06307385cbe2ffb8a5f1001a0ad",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/run_batch.py"
     },
     {
@@ -855,25 +878,25 @@
       "upstream_stage_member": "e4_generated_rf_profile_stage_20261027/tests/fixtures/v2_append_proof/validation.json"
     },
     {
-      "bundle_sha256": "395d23f42cb650f1e6bc46b07c0523d11239b39c43650fd9373310fb44c40668",
+      "bundle_sha256": "2a24d2b82722f052dd94a196d62fc6e9a27162aa2f1aca3cb13c484870e20fe0",
       "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
       "runtime_member": "runtime_20261025/manifests/freeze.json",
-      "source_sha256": "395d23f42cb650f1e6bc46b07c0523d11239b39c43650fd9373310fb44c40668"
+      "source_sha256": "2a24d2b82722f052dd94a196d62fc6e9a27162aa2f1aca3cb13c484870e20fe0"
     },
     {
-      "bundle_sha256": "db6030f293a09de42abdd87fecd77ab850fb010bba85c4f4f5f689eac7077e01",
+      "bundle_sha256": "7138900cb7a5627dfe205b6b6afc917608e5a5cac4cdd8d79b7e0b0733414c31",
       "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
       "runtime_member": "runtime_20261025/manifests/RF4_EXECUTION_POLICY_20261028.json",
-      "source_sha256": "db6030f293a09de42abdd87fecd77ab850fb010bba85c4f4f5f689eac7077e01"
+      "source_sha256": "7138900cb7a5627dfe205b6b6afc917608e5a5cac4cdd8d79b7e0b0733414c31"
     },
     {
-      "bundle_sha256": "53d10b4254997b7c4a5c778c4f7dc9ca51cb8566535aa2b5213e23a68bdb0438",
+      "bundle_sha256": "ef83dec8ce10793f457bb6273bc685cfe8c2b0c55a3acb912d783ba85b89cabb",
       "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
       "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_EXECUTION_QUALIFICATION_20261028.json",
-      "source_sha256": "53d10b4254997b7c4a5c778c4f7dc9ca51cb8566535aa2b5213e23a68bdb0438"
+      "source_sha256": "ef83dec8ce10793f457bb6273bc685cfe8c2b0c55a3acb912d783ba85b89cabb"
     },
     {
       "bundle_sha256": "108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2",
@@ -953,16 +976,16 @@
       "source_sha256": "3eab459df67c5d4dadcfba85a62e0b3a00580ecb017cb7e2fbd5a424fb14c302"
     },
     {
-      "bundle_sha256": "c9e51fb5b64279e9ab8ef395afc123608bc4894c25a42ff951a214cf485613b4",
+      "bundle_sha256": "700bc265ba7f447c00df3826efd79c6d4ab94017ec1058ff02d78d68c853c0ad",
       "kind": "bounded_native_fit_overlap_qualification_evidence",
       "runtime_member": "runtime_20261025/manifests/ARCHIVE_NATIVE_FIT_OVERLAP_20261028.json",
-      "source_sha256": "c9e51fb5b64279e9ab8ef395afc123608bc4894c25a42ff951a214cf485613b4"
+      "source_sha256": "700bc265ba7f447c00df3826efd79c6d4ab94017ec1058ff02d78d68c853c0ad"
     },
     {
-      "bundle_sha256": "274d20b2664710173215eba607a5cefd5805a2108f31da8291e168b8550efc81",
+      "bundle_sha256": "259065872f870097c9a485354913f84918bcf13a4dd6f5e76cc0294eab500e08",
       "kind": "bounded_native_fit_overlap_qualification_evidence",
       "runtime_member": "runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_FIT_OVERLAP_QUALIFICATION_20261028.json",
-      "source_sha256": "274d20b2664710173215eba607a5cefd5805a2108f31da8291e168b8550efc81"
+      "source_sha256": "259065872f870097c9a485354913f84918bcf13a4dd6f5e76cc0294eab500e08"
     },
     {
       "bundle_sha256": "bbcc195e0564066d541fbd483896935d7471e8893e6db34ca6184dfe90ee9720",
@@ -1017,6 +1040,25 @@
       "kind": "bounded_native_fit_overlap_qualification_evidence",
       "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/controller_harness_7_receipt.json",
       "source_sha256": "91500a66118bebed7a18de6aba944c2823c69c02a69d5067a6b6ee02bdfbb0fe"
+    },
+    {
+      "bundle_sha256": "472502e9456196459561bc0a0bfe481aa977d3cef873a8b5bdcfd9752cbbbea1",
+      "kind": "staged_profile_gate",
+      "runtime_member": "runtime_20261025/source/rf4_e4_rep3_admission.py",
+      "source_sha256": "472502e9456196459561bc0a0bfe481aa977d3cef873a8b5bdcfd9752cbbbea1",
+      "upstream_stage_member": "staging/rf4_rep3_6g_supplement_20261028/source/rf4_e4_rep3_admission.py"
+    },
+    {
+      "bundle_sha256": "b43a36f15fac3adcb8db634dbea2e591caf4161b2e8391cb81cb16a091ee7f34",
+      "kind": "qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_NATIVE_HARNESS_REP3_QUALIFICATION_20261028.json",
+      "source_sha256": "b43a36f15fac3adcb8db634dbea2e591caf4161b2e8391cb81cb16a091ee7f34"
+    },
+    {
+      "bundle_sha256": "bf8cfe3cd28d7840d380492f7c82260096b135026ef841e4e1343eb2e9573299",
+      "kind": "qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_REP3_FOCUSED_QUALIFICATION_20261028.json",
+      "source_sha256": "bf8cfe3cd28d7840d380492f7c82260096b135026ef841e4e1343eb2e9573299"
     }
   ],
   "staged_integration_note": "Staged only. Historical candidate passes are retained. This bundle is separately content-addressed and must qualify before publication.",
@@ -1214,13 +1256,15 @@
     "test_reporting_gaps.py": 6,
     "test_rf4_controller_policy.py": 11,
     "test_rf4_fit_jobs.py": 4,
+    "test_rf4_rep3_admission.py": 11,
+    "test_rf4_rep3_controller_admit.py": 2,
     "test_startup_identity.py": 8,
     "test_supervisor_e6_pairs.py": 2,
     "test_unlink_checkpoint_batch.py": 8,
     "test_verified_zombie_reap.py": 10,
     "test_weighted_mean_gate.py": 2
   },
-  "test_count_plan_total": 717,
+  "test_count_plan_total": 730,
   "test_directory": "runtime_20261025/tests",
   "test_summary_note": "Preserves all 596 R3 baseline IDs and all 637 historical combined archive-contract IDs; adds 16 inventory/lifecycle/profile IDs with 2048-group bounded fixtures.",
   "tests": [
@@ -1876,6 +1920,20 @@
       "portable_sha256": "61f6cbbe899a05367cafa669dba8e84c83a133e42c2b6b28feee79d252ba53b7",
       "scope": "engineering fixture only; no scientific results",
       "test_member": "runtime_20261025/tests/test_native_fit_controller_harness.py"
+    },
+    {
+      "group": "rf4_e4_rep3_admission",
+      "portable_sha256": "6280c2bb4fe4316b36759df9b5211c33c4962cc80e147095ae6fe04e46540cff",
+      "scope": "E4 rep3 RF4 admission gate and header-only NPZ checks; mocked controller admit/resume only; no fits.",
+      "test_member": "runtime_20261025/tests/test_rf4_rep3_admission.py",
+      "upstream_stage_member": "staging/rf4_rep3_6g_supplement_20261028/tests/test_rf4_rep3_admission.py"
+    },
+    {
+      "group": "rf4_e4_rep3_admission",
+      "portable_sha256": "3a36a564aad3ee12c32ba6e41533b75e57d3ad48546b120504af85485181fe69",
+      "scope": "E4 rep3 RF4 admission gate and header-only NPZ checks; mocked controller admit/resume only; no fits.",
+      "test_member": "runtime_20261025/tests/test_rf4_rep3_controller_admit.py",
+      "upstream_stage_member": "staging/qualified_project_operations_admit_fix_20261028/runtime_20261025/tests/test_rf4_rep3_controller_admit.py"
     }
   ]
 }

@@ -83,6 +83,8 @@ test_files=(
   "$R/tests/test_child_cache_adoption.py" \
   "$R/tests/test_archive_fit_launch_gate_legacy.py" \
   "$R/tests/test_e4_rf4_6g_admission.py" \
+  "$R/tests/test_rf4_rep3_admission.py" \
+  "$R/tests/test_rf4_rep3_controller_admit.py" \
   "$R/tests/test_e4_et_dependency_priority.py" \
   "$R/tests/test_public_registry_process_privacy.py" \
   "$R/tests/test_archive_digest_coalescing.py" \

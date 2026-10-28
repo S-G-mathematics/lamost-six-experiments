@@ -1,5 +1,5 @@
 from __future__ import annotations
-import argparse,collections,datetime,fcntl,hashlib,json,os,pathlib,signal,sqlite3,subprocess,sys,time,uuid,shutil,importlib.util,stat,zipfile,struct,ast
+import argparse,collections,datetime,fcntl,hashlib,json,os,pathlib,signal,sqlite3,subprocess,sys,time,uuid,shutil,importlib.util,stat,zipfile,struct,ast,copy
 try:
  import admission_evidence
 except ModuleNotFoundError:
@@ -8,6 +8,10 @@ try:
  import archive_fit_admission
 except ModuleNotFoundError:
  _spec=importlib.util.spec_from_file_location("archive_fit_admission",pathlib.Path(__file__).resolve().with_name("archive_fit_admission.py"));archive_fit_admission=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(archive_fit_admission)
+try:
+ import rf4_e4_rep3_admission
+except ModuleNotFoundError:
+ _spec=importlib.util.spec_from_file_location("rf4_e4_rep3_admission",pathlib.Path(__file__).resolve().with_name("rf4_e4_rep3_admission.py"));rf4_e4_rep3_admission=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(rf4_e4_rep3_admission)
 R=pathlib.Path(__file__).resolve().parents[1]
 SUCCESS='successful'
 TERMINAL={'successful','scientific_failure','unsupported','unavailable_dependency','user_stopped'}
@@ -41,6 +45,9 @@ RF4_E4_6G_POLICY_REL='manifests/RF4_E4_TREATMENT_6GIB_ADMISSION_20261028.json'
 RF4_E4_6G_PROFILE_ID='rf4-e4-rep2-treatment-fit-6gib-admission-20261028'
 RF4_E4_6G_EVIDENCE_REL='reports/engineering_audits/RF4_E4_6GIB_PROSPECTIVE_ADMISSION_EVIDENCE_20261028.json'
 RF4_E4_6G_EVIDENCE_SHA='28716b215c993cd5a8830fbfd423ba4254cb547427c048c9abc1641644a16dd5'
+RF4_E4_REP3_POLICY_FIELD='rf4_e4_rep3_treatment_6g_admission_sha256'
+RF4_E4_REP3_POLICY_REL='manifests/RF4_E4_REP3_TREATMENT_6GIB_ADMISSION_20261028.json'
+RF4_E4_REP3_PROFILE_ID=rf4_e4_rep3_admission.PROFILE_ID
 RF4_EXECUTION_POLICY='rf4-fit_n_jobs4-v1'
 RF4_RESOURCE_PROFILE='rf-fit_n_jobs4'
 RF4_PROFILE_ID=RF4_RESOURCE_PROFILE
@@ -92,7 +99,7 @@ def source_hashes():
  if freeze_path.is_file():
   try: freeze_doc=json.loads(freeze_path.read_text())
   except (OSError,ValueError,AttributeError): freeze_doc={}
-  if isinstance(freeze_doc,dict) and (RF4_POLICY_FIELD in freeze_doc or RF4_E4_6G_POLICY_FIELD in freeze_doc):names.extend(RF4_SOURCE_NAMES)
+  if isinstance(freeze_doc,dict) and (RF4_POLICY_FIELD in freeze_doc or RF4_E4_6G_POLICY_FIELD in freeze_doc or RF4_E4_REP3_POLICY_FIELD in freeze_doc):names.extend(RF4_SOURCE_NAMES)
   if isinstance(freeze_doc,dict) and (ARCHIVE_FIT_POLICY_FIELD in freeze_doc or archive_fit_admission.WORKER_REAPER_FIELD in freeze_doc):names.append('archive_fit_admission.py')
  return {n:sha(R/'source'/n) for n in names}
 def _rf4_manifest_and_freeze(frozen=None):
@@ -269,6 +276,23 @@ def load_registry_record_for_profile(key):
   finally:db.close()
   return json.loads(row[0]) if row else None
  except (OSError,sqlite3.Error,ValueError,TypeError):return None
+def _e4_treatment_rf4_rep3_6g_eligible(task):
+ if not isinstance(task,dict):return None
+ try:
+  if (int(task.get('experiment',0))!=4 or int(task.get('rep',0))!=3 or task.get('kind')!='fit'
+      or task.get('method')!='random_forest' or task.get('route')!='treatment'):
+   return None
+ except (TypeError,ValueError):return None
+ definition=DEFINITIONS.get(task.get('key'))
+ if not isinstance(definition,dict):return None
+ frozen=_rf4_policy_freeze_doc()
+ if RF4_E4_REP3_POLICY_FIELD not in frozen:return None
+ train_key=definition.get('train_key')
+ if not isinstance(train_key,str):return None
+ dep=load_registry_record_for_profile(train_key)
+ if not isinstance(dep,dict):return None
+ return rf4_e4_rep3_admission.eligible(task,definition,dep,frozen,R,rf4_e4_rep3_admission.header_shapes)
+
 def _e4_treatment_rf4_6g_eligible(task):
  if not isinstance(task,dict) or task.get('attempts') or task.get('reuse_pipeline'):return None
  try:rep=int(task.get('rep'));exp=int(task.get('experiment'))
@@ -372,20 +396,21 @@ def _e4_rf_npz_headers_match(path,rows):
 def _rf4_policy_freeze_doc():
  p=R/'manifests/freeze.json'
  return _safe_profile_json(p) or {}
-def _has_recorded_e4_treatment_rf6_profile(task):
+def _recorded_e4_treatment_rf6_profile_id(task):
  profiles=[task.get('admission_resource_policy')]
  if task.get('attempts'):profiles.append(task['attempts'][-1].get('resource_profile'))
- 
- for x in profiles:
-  if isinstance(x,dict) and x.get('admission_profile_id')==RF4_E4_6G_PROFILE_ID:
+ for profile in profiles:
+  if isinstance(profile,dict) and profile.get('admission_profile_id') in (RF4_E4_6G_PROFILE_ID,RF4_E4_REP3_PROFILE_ID):
    try:
-    if int(x.get('admission_reservation_bytes')) in (6*GIB,10*GIB):return True
+    if int(profile.get('admission_reservation_bytes')) in (6*GIB,10*GIB):return profile['admission_profile_id']
    except (TypeError,ValueError):pass
- return False
+ return None
+def _has_recorded_e4_treatment_rf6_profile(task):
+ return _recorded_e4_treatment_rf6_profile_id(task) is not None
 def _has_recorded_rf4_profile(task):
  profiles=[task.get('admission_resource_policy')]
  if task.get('attempts'):profiles.append(task['attempts'][-1].get('resource_profile'))
- return any(isinstance(x,dict) and x.get('execution_policy')==RF4_EXECUTION_POLICY and x.get('resource_profile')==RF4_RESOURCE_PROFILE and x.get('admission_profile_id')!=RF4_E4_6G_PROFILE_ID for x in profiles)
+ return any(isinstance(x,dict) and x.get('execution_policy')==RF4_EXECUTION_POLICY and x.get('resource_profile')==RF4_RESOURCE_PROFILE and x.get('admission_profile_id') not in (RF4_E4_6G_PROFILE_ID,RF4_E4_REP3_PROFILE_ID) for x in profiles)
 def _rf4_fit_eligible(task):
  policy=_rf4_policy()
  if policy is None or not isinstance(task,dict):return None
@@ -913,16 +938,22 @@ def light_fit_blocked(task,heavy_fit_waiting):
  return bool(heavy_fit_waiting and task.get('kind')=='fit' and worker_resource_class(task)=='light')
 
 def admit(db,t,idle_hint=None,storage_drain_evidence=None):
- overlap_evidence=_archive_fit_launch_gate(db,t,idle_hint)
+ # Keep the verified scientific candidate immutable across operational metadata updates.
+ pristine_candidate=copy.deepcopy(t)
+ overlap_evidence=_archive_fit_launch_gate(db,pristine_candidate,idle_hint)
  if overlap_evidence is False:return False
  aid=uuid.uuid4().hex;attempt=R/'attempts'/t['key']/aid;attempt.mkdir(parents=True,exist_ok=True)
  request=attempt/'request.json';result=attempt/'worker_result.json';log=attempt/'worker.log'
  reservation=worker_reservation_bytes(t)
  profile_id=t.get('admission_profile_id') if t.get('admission_reservation_bytes') is not None and not t.get('adaptive_promoted_heavy') else None
  profile_evidence=t.get('admission_profile_evidence') if profile_id and not t.get('adaptive_promoted_heavy') else None
+ rf6_rep3_evidence=_e4_treatment_rf4_rep3_6g_eligible(t) if not t.get('attempts') else None
  rf6_evidence=_e4_treatment_rf4_6g_eligible(t) if not t.get('attempts') else None
  rf4_evidence=_rf4_fit_eligible(t) if not t.get('attempts') else None
- if rf6_evidence is not None:
+ if rf6_rep3_evidence is not None:
+  if reservation!=6*GIB:raise RuntimeError('qualified E4 rep3 treatment RF4 task lacks 6 GiB reservation')
+  profile_id=RF4_E4_REP3_PROFILE_ID;profile_evidence=rf6_rep3_evidence
+ elif rf6_evidence is not None:
   if reservation!=6*GIB:raise RuntimeError('qualified E4 treatment RF4 task lacks 6 GiB reservation')
   profile_id=RF4_E4_6G_PROFILE_ID;profile_evidence=rf6_evidence
  elif rf4_evidence is not None:
@@ -936,9 +967,10 @@ def admit(db,t,idle_hint=None,storage_drain_evidence=None):
   if not profile_evidence and t.get('attempts'):
    profile_evidence=t['attempts'][-1].get('resource_profile',{}).get('admission_profile_evidence')
  elif _has_recorded_e4_treatment_rf6_profile(t):
-  if reservation not in (6*GIB,10*GIB) or (reservation==10*GIB and not t.get('adaptive_promoted_heavy')) or profile_id not in (None,RF4_E4_6G_PROFILE_ID):
+  recorded_rf6_profile=_recorded_e4_treatment_rf6_profile_id(t)
+  if reservation not in (6*GIB,10*GIB) or (reservation==10*GIB and not t.get('adaptive_promoted_heavy')) or profile_id not in (None,RF4_E4_6G_PROFILE_ID,RF4_E4_REP3_PROFILE_ID):
    raise RuntimeError('recorded E4 RF6 operational resume profile is inconsistent')
-  profile_id=RF4_E4_6G_PROFILE_ID
+  profile_id=recorded_rf6_profile
   profile_evidence=t.get('admission_profile_evidence')
   if not profile_evidence and t.get('attempts'):
    profile_evidence=t['attempts'][-1].get('resource_profile',{}).get('admission_profile_evidence')
@@ -995,7 +1027,7 @@ def admit(db,t,idle_hint=None,storage_drain_evidence=None):
    profile_id=evidence['profile_id'];profile_evidence=evidence
  resource_profile=dict(ADAPTIVE_POLICY);resource_profile.update({'admission_profile_id':profile_id,'admission_reservation_bytes':reservation})
  if storage_drain_evidence is not None:resource_profile['storage_drain_policy']=dict(storage_drain_evidence)
- if profile_id in (RF4_PROFILE_ID,RF4_E4_6G_PROFILE_ID):
+ if profile_id in (RF4_PROFILE_ID,RF4_E4_6G_PROFILE_ID,RF4_E4_REP3_PROFILE_ID):
   resource_profile.update({'execution_policy':RF4_EXECUTION_POLICY,'resource_profile':RF4_RESOURCE_PROFILE,'cpu_reservation_units':RF4_CPU_UNITS,'fit_n_jobs':4,'prediction_n_jobs':1,'native_threads':1})
  if profile_evidence:resource_profile['admission_profile_evidence']=dict(profile_evidence)
  if overlap_evidence:resource_profile['archive_native_fit_overlap_admission']=overlap_evidence
@@ -1014,13 +1046,13 @@ def admit(db,t,idle_hint=None,storage_drain_evidence=None):
   definition['effective_dependencies']=eff
   definition['member_evaluation_dependency_observations']={k:{'status':allstates[k]['status'],'outcome':allstates[k].get('outcome'),'reason':allstates[k].get('reason')} for k in definition.get('member_evaluations',{}).values()}
  cfg={'task':definition,'attempt_id':aid,'result_path':str(result),'dispatch_policy_id':DISPATCH_POLICY_ID}
- if profile_id in (RF4_PROFILE_ID,RF4_E4_6G_PROFILE_ID):cfg.update({'execution_policy':RF4_EXECUTION_POLICY,'resource_profile':RF4_RESOURCE_PROFILE})
+ if profile_id in (RF4_PROFILE_ID,RF4_E4_6G_PROFILE_ID,RF4_E4_REP3_PROFILE_ID):cfg.update({'execution_policy':RF4_EXECUTION_POLICY,'resource_profile':RF4_RESOURCE_PROFILE})
  worker_script=worker_script_for_task(definition,cfg.get('execution_policy'),cfg.get('resource_profile'))
  if definition.get('e6_protocol_version')==E6_V2 and int(definition.get('experiment',0) or 0)==6:
   definition['_controller_request_sha256']=_e6_request_digest(cfg)
  atomic(request,cfg)
  env=os.environ.copy();env.update(THREADS);env['PYTHONUNBUFFERED']='1'
- final_overlap_evidence=_archive_fit_launch_gate(db,t,idle_hint)
+ final_overlap_evidence=_archive_fit_launch_gate(db,pristine_candidate,idle_hint)
  if (final_overlap_evidence is False or _archive_overlap_evidence_identity(final_overlap_evidence)!=_archive_overlap_evidence_identity(overlap_evidence)):
   shutil.rmtree(attempt)
   return False
@@ -1249,6 +1281,8 @@ def worker_reservation_bytes(t):
   except (TypeError,ValueError):return 10*GIB
  # Narrow E4 treatment RF4 estimate; historical attempts remain at recorded reservations.
  if not t.get('attempts'):
+  rf6_rep3=_e4_treatment_rf4_rep3_6g_eligible(t)
+  if rf6_rep3 is not None and rf6_rep3.get('reservation_gib')==6:return 6*GIB
   rf6=_e4_treatment_rf4_6g_eligible(t)
   if rf6 is not None and rf6.get('reservation_gib')==6:return 6*GIB
  # RF4 is prospective only and needs a freeze-bound qualified policy.
@@ -1308,7 +1342,7 @@ def worker_cpu_reservation_units(t):
 def candidate_cpu_reservation_units(t):
  # Operational retries retain the execution profile already recorded on the task.
  if worker_cpu_reservation_units(t)==RF4_CPU_UNITS:return RF4_CPU_UNITS
- return RF4_CPU_UNITS if (_rf4_fit_eligible(t) is not None or _e4_treatment_rf4_6g_eligible(t) is not None) else 1
+ return RF4_CPU_UNITS if (_rf4_fit_eligible(t) is not None or _e4_treatment_rf4_rep3_6g_eligible(t) is not None or _e4_treatment_rf4_6g_eligible(t) is not None) else 1
 def cpu_admission_units(running,total_cpus,idle_cores,reserve_cores=2):
  occupied=sum(worker_cpu_reservation_units(t) for t in running)
  extra=max(0,int(idle_cores)-int(reserve_cores))

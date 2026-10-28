@@ -2,7 +2,7 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research snapshot - 2026-10-28T22:06:51.126740+05:30 (2026-10-28T16:36:51.126740+00:00 UTC).** This repository is a saved research record, not a claim that all six experiments have passed final validation. E4 and E5 still have pending evaluations. Existing E1 failures are preserved, E2 has incomplete primary coverage, and E6 has no successful primary ensemble test evaluations.
+**Interim research snapshot - live status observed 2026-10-28T17:30:46.034919+00:00 UTC.** This repository is a saved research record, not a claim that all six experiments have passed final validation. The tables and figures in `reports/INTERIM_REFRESH_20261028T170039Z/` are bound to the earlier registry snapshot 2026-10-28T17:00:39.712874+00:00; later case counts below are status-only and do not update those figures.
 
 ## Experiment status and navigation
 
@@ -11,11 +11,11 @@ Code, recorded results, figures and scientific provenance for seven-class classi
 | E1 | Frozen classification benchmark | 765 terminal: 674 successful, 81 failed, 10 unsupported | [E1 report and ledger](experiments/E1/README.md) |
 | E2 | Generator fidelity versus classification | 108/150 primary evaluations; 120/120 separate classical references | [E2 report and provenance](experiments/E2/README.md) |
 | E3 | Direct Bayes, synthetic-only and real-only learning | 69 terminal: 64 successful, 3 failed, 2 unavailable | [E3 results](experiments/E3/README.md) |
-| E4 | Imbalance and target-class restoration | 1587 successful, 71 failed, 3 unavailable, **112 waiting** / 1,773 | [E4 interim results](experiments/E4/README.md) |
+| E4 | Imbalance and target-class restoration | 1592 successful, 71 failed, 3 unavailable, **107 waiting** / 1,773 | [E4 interim results](experiments/E4/README.md) |
 | E5 | Fitting-data corruption | 700 successful, 50 failed, 78 unavailable, **132 waiting** / 960 | [E5 interim results](experiments/E5/README.md) |
 | E6 | Generative posterior ensembles | 12 member-reference successes, 3 primary failures, 6 unavailable / 21; primary ensemble successes: **0** | [E6 availability and findings](experiments/E6/README.md) |
 
-At the 2026-10-28T11:12:34.883459+00:00 status snapshot, 268 E4/E5 scientific evaluation cases remained waiting (136 E4, 132 E5). This is a point-in-time status, not a liveness claim.
+At the latest status snapshot, 2026-10-28T17:30:46.034919+00:00, E4/E5 had 239 waiting scientific cases and the runtime recorded two running tasks. A separate live-process check at 17:28:29Z had verified three RF4 workers, but that is not current liveness. The report figures remain bound to the earlier 17:00:39 registry snapshot with 241 waiting cases.
 
 The stopped E1 recovery supplement is separate: 24 successes, 10 failures, 2 user-stopped partial cells and 55 not attempted. These outcomes never replace frozen E1.
 
@@ -27,7 +27,9 @@ Counts refer to scientific evaluation cases, not controller dependency tasks. La
 - [Engineering tests](code/tests/), [frozen manifests and configurations](provenance/manifests/).
 - [Experiment navigation](experiments/), [reports, CSV tables and figures](reports/).
 - [Per-repetition metrics](reports/per_repetition_metrics.csv), [per-class metrics](reports/per_class_metrics.csv), [coverage ledger](reports/experiment_outcome_coverage.csv), [resource failures](reports/resource_failure_ledger.csv).
-- [File-level source/export hashes](file_manifest.csv), [snapshot hashes](snapshot_manifest.json), [explicit exclusion inventory](exclusion_inventory.csv).\n- [Incremental validated E4/E5 results](reports/E4_INCREMENTAL_RESULTS_20261028T084431Z.md) record three post-snapshot validated ledger entries and link the two unique outcome arrays.
+- [File-level source/export hashes](file_manifest.csv), [snapshot hashes](snapshot_manifest.json), [explicit exclusion inventory](exclusion_inventory.csv).
+- [Current 730 qualification and interim report snapshot](docs/QUALIFIED_730_AND_INTERIM_REFRESH.md).
+- [Incremental validated E4/E5 results](reports/E4_INCREMENTAL_RESULTS_20261028T084431Z.md) record three post-snapshot validated ledger entries and link the two unique outcome arrays.
 
 Large scientific result arrays and role-membership arrays are delivered separately through [GitHub Releases](https://github.com/S-G-mathematics/lamost-six-experiments/releases), with member manifests, ZIP CRC verification and SHA-256 checksums. The [verified array delivery](docs/RESULT_ARRAYS.md) contains 19 ZIPs (7.25 GB), with remote SHA-256 and byte-size verification. Fitted-model files and FITS files are excluded. Raw/generated training datasets are not part of this code-and-results repository.
 

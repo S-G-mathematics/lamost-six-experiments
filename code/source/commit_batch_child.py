@@ -8,7 +8,7 @@ PINS={'cold_model_storage.py': '0bff884e4cdb897320d0565a2da9b073fea378d3c078e6b8
  'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c',
  'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
- 'controller.py': 'db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae',
+ 'controller.py': 'a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9',
  'batch_plan.py': '6616597e4e3d3fc9c6eb550553c6ee9033496ea5d5174feb58d4f6a3d723e575',
  'archive_fit_admission.py': 'd06fdf9b616b41eebcbaf43f4276c9bab2085901f618f8f6c17068538bd0b25c',
  'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
