@@ -33,6 +33,11 @@ def stub_batch_plan():
     m.RAW_WIDE_MAX_BYTES=8<<30;m.RAW_WIDE_MAX_GROUPS=64;m.RAW_WIDE_PROFILE='bounded-1800-wide8gib';m.RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES=6<<30
     m.RAW_MIXED_SMALL_MAX_BYTES=4<<30;m.RAW_MIXED_SMALL_MAX_GROUPS=2048;m.RAW_MIXED_SMALL_PROFILE='bounded-1800-mixedsmall4gib2048';m.RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES=6<<30
     m.RAW_ARCHIVE_IO_PROFILES=(m.RAW_WIDE_PROFILE,m.RAW_MIXED_SMALL_PROFILE)
+    m.CODEC_MULTIGROUP_PROFILE='bounded-1800-codec1gib64';m.CODEC_MULTIGROUP_MAX_BYTES=1<<30;m.CODEC_MULTIGROUP_MAX_GROUPS=64
+    m.CODEC_MULTIGROUP_TEMP_MAX_BYTES=4<<30;m.CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES=10<<30;m.CODEC_MULTIGROUP_DISK_MARGIN_BYTES=2<<30
+    m.CODEC_ARCHIVE_IO_PROFILES=(m.CODEC_MULTIGROUP_PROFILE,)
+    m.completed_archive_tail_bytes=lambda *a,**k:0
+    m.codec_multigroup_disk_required_bytes=lambda tail:(13<<30)+tail
     m.resource_admission_ready=lambda *a: True
     for n in ('build_candidates','select_batch','public_candidate_summary','require_reviewed_baseline','validate_operation_directory','verify_alias_resolution'):
         setattr(m,n,lambda *a,**k:None)

@@ -1,16 +1,16 @@
 from pathlib import Path
-import argparse, datetime, hashlib, json, sqlite3, stat, sys, time, zipfile
+import argparse, datetime, hashlib, json, sqlite3, stat, sys, time, zipfile, shutil
 ROOT=Path('/home/ubuntu/lamost_e1_migration_20261023'); R=ROOT/'runtime_20261025'; D=Path(__file__).resolve().parent.parent
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import cold_model_storage as cold
-from batch_plan import build_candidates, select_batch, public_candidate_summary, require_reviewed_baseline, validate_operation_directory, verify_alias_resolution, MAX_INITIAL_BYTES, MAX_INITIAL_GROUPS, MAX_LATER_BYTES, MAX_LATER_GROUPS, RAW_WIDE_MAX_BYTES, RAW_WIDE_MAX_GROUPS, RAW_WIDE_PROFILE, RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES, RAW_MIXED_SMALL_MAX_BYTES, RAW_MIXED_SMALL_MAX_GROUPS, RAW_MIXED_SMALL_PROFILE, RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES
-PINS={'cold_model_storage.py': '0bff884e4cdb897320d0565a2da9b073fea378d3c078e6b800b21a5a29a616cf',
- 'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c',
- 'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca',
+from batch_plan import build_candidates, select_batch, public_candidate_summary, require_reviewed_baseline, validate_operation_directory, verify_alias_resolution, MAX_INITIAL_BYTES, MAX_INITIAL_GROUPS, MAX_LATER_BYTES, MAX_LATER_GROUPS, RAW_WIDE_MAX_BYTES, RAW_WIDE_MAX_GROUPS, RAW_WIDE_PROFILE, RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES, RAW_MIXED_SMALL_MAX_BYTES, RAW_MIXED_SMALL_MAX_GROUPS, RAW_MIXED_SMALL_PROFILE, RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES, CODEC_MULTIGROUP_PROFILE, CODEC_MULTIGROUP_MAX_BYTES, CODEC_MULTIGROUP_MAX_GROUPS, CODEC_MULTIGROUP_TEMP_MAX_BYTES, CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES, CODEC_MULTIGROUP_DISK_MARGIN_BYTES, CODEC_ARCHIVE_IO_PROFILES, completed_archive_tail_bytes, codec_multigroup_disk_required_bytes
+PINS={'cold_model_storage.py': '485776aa20aedba397a666ae910244171155a32c6d9ae4551606d9e2b760f3d3',
+ 'cold_codec_storage.py': 'b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b',
+ 'reversible_joblib_codec.py': 'f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
  'controller.py': 'a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9',
- 'batch_plan.py': '6616597e4e3d3fc9c6eb550553c6ee9033496ea5d5174feb58d4f6a3d723e575',
- 'archive_fit_admission.py': 'd06fdf9b616b41eebcbaf43f4276c9bab2085901f618f8f6c17068538bd0b25c',
+ 'batch_plan.py': '0fb23c09532ee34c38907497d65a0833c328a1b95fa99f024ad00146d32fbf34',
+ 'archive_fit_admission.py': '578dce5e4cca15f9dbd9d1afdacf048cb86654b0db876cb7af97c0375075341c',
  'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
  'metadata_access_contract_v2.py': '3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8'}
@@ -28,7 +28,7 @@ CODEC_FOLLOWUP_MAX_BYTES=1<<30
 CODEC_FOLLOWUP_MAX_GROUPS=1
 ARCHIVE_IO_PROFILE='bounded-1800'
 RAW_WIDE_PROFILE='bounded-1800-wide8gib'
-ARCHIVE_IO_PROFILES=(ARCHIVE_IO_PROFILE,RAW_WIDE_PROFILE,RAW_MIXED_SMALL_PROFILE)
+ARCHIVE_IO_PROFILES=(ARCHIVE_IO_PROFILE,RAW_WIDE_PROFILE,RAW_MIXED_SMALL_PROFILE,*CODEC_ARCHIVE_IO_PROFILES)
 ARCHIVE_IO_WALL_SECONDS=1800
 POLICIES={"initial":{"max_bytes":MAX_INITIAL_BYTES,"max_groups":MAX_INITIAL_GROUPS,"wall_seconds":180,"packing":"smallest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup":{"max_bytes":MAX_LATER_BYTES,"max_groups":MAX_LATER_GROUPS,"wall_seconds":600,"packing":"largest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup-codec":{"max_bytes":CODEC_FOLLOWUP_MAX_BYTES,"max_groups":CODEC_FOLLOWUP_MAX_GROUPS,"wall_seconds":600,"packing":"largest_first","storage_codec_policy":"reversible-xz-v1","transient_disk_reserve_bytes":0}}
 def validate_storage_policy(batch_policy,storage_codec_policy,archive_io_profile=None):
@@ -37,6 +37,15 @@ def validate_storage_policy(batch_policy,storage_codec_policy,archive_io_profile
     if storage_codec_policy!=expected: raise ValueError('batch/storage codec policy mismatch')
     if archive_io_profile is None:return POLICIES[batch_policy]
     if archive_io_profile not in ARCHIVE_IO_PROFILES:raise ValueError('unknown archive I/O profile')
+    if archive_io_profile in CODEC_ARCHIVE_IO_PROFILES:
+        if batch_policy!='storage-followup-codec' or storage_codec_policy!='reversible-xz-v1':
+            raise ValueError('codec multigroup profile requires storage-followup-codec and reversible-xz-v1')
+        policy=dict(POLICIES[batch_policy])
+        policy.update({'max_bytes':CODEC_MULTIGROUP_MAX_BYTES,'max_groups':CODEC_MULTIGROUP_MAX_GROUPS,
+            'wall_seconds':ARCHIVE_IO_WALL_SECONDS,'transient_disk_reserve_bytes':CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,
+            'codec_temp_budget_bytes':CODEC_MULTIGROUP_TEMP_MAX_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES,
+            'archive_io_profile':archive_io_profile})
+        return policy
     if batch_policy!='storage-followup' or storage_codec_policy is not None:
         raise ValueError('bounded archive I/O profiles are only valid for raw storage-followup')
     policy=dict(POLICIES[batch_policy]);policy['wall_seconds']=ARCHIVE_IO_WALL_SECONDS
@@ -357,12 +366,22 @@ def main():
     items,candidate_filter=filter_candidate_publication_aliases(raw_items,rec,store)
     candidate_filter['observed_utc']=now()
     batch=select_batch(items,max_bytes=policy['max_bytes'],max_groups=policy['max_groups'])
+    codec_tail_bytes=None;codec_disk_required=None;codec_disk_free=None
+    if args.archive_io_profile in CODEC_ARCHIVE_IO_PROFILES:
+        codec_tail_bytes=completed_archive_tail_bytes(ROOT,R,archive,baseline)
+        codec_disk_required=codec_multigroup_disk_required_bytes(codec_tail_bytes)
+        codec_disk_free=shutil.disk_usage(R).free
+        if batch and codec_disk_free<codec_disk_required:
+            raise RuntimeError(f'codec multigroup transient disk headroom insufficient: free={codec_disk_free} required={codec_disk_required}')
     if not batch:
-        result={'schema':'lamost-rf-cold-batch/1','status':'no_eligible_candidates','observed_utc':now(),'baseline_archive_sha256':baseline,'candidate_count':len(items),'candidate_filter':candidate_filter,'batch':public_candidate_summary(batch),'batch_policy':args.batch_policy,'storage_codec_policy':args.storage_codec_policy,'storage_evidence':{'codec_policy':args.storage_codec_policy,'model_count':0,'encoded_model_count':0,'raw_fallback_count':0,'logical_source_bytes':0,'physical_payload_bytes':0,'archive_bytes_delta':0,'exact_logical_verifications':[]},'batch_max_bytes':policy['max_bytes'],'batch_max_inode_groups':policy['max_groups'],'transient_disk_reserve_bytes':policy['transient_disk_reserve_bytes'],'batch_packing':policy['packing'],'child_wall_limit_seconds':policy['wall_seconds'],**({'archive_io_profile':args.archive_io_profile} if args.archive_io_profile else {}),'child_elapsed_seconds':round(time.monotonic()-child_started,3),'archive_mutated':False,'model_paths_removed':False,'operation_id':args.operation_id,'scientific_fits_started':0}
+        result={'schema':'lamost-rf-cold-batch/1','status':'no_eligible_candidates','observed_utc':now(),'baseline_archive_sha256':baseline,'candidate_count':len(items),'candidate_filter':candidate_filter,'batch':public_candidate_summary(batch),'batch_policy':args.batch_policy,'storage_codec_policy':args.storage_codec_policy,'storage_evidence':{'codec_policy':args.storage_codec_policy,'model_count':0,'encoded_model_count':0,'raw_fallback_count':0,'logical_source_bytes':0,'physical_payload_bytes':0,'archive_bytes_delta':0,'exact_logical_verifications':[]},'batch_max_bytes':policy['max_bytes'],'batch_max_inode_groups':policy['max_groups'],'transient_disk_reserve_bytes':policy['transient_disk_reserve_bytes'],'codec_temp_budget_bytes':policy.get('codec_temp_budget_bytes'),'codec_temp_peak_bound_bytes':j.get('codec_temp_peak_bound_bytes') if 'j' in locals() else None,'transient_disk_required_bytes':codec_disk_required,'archive_tail_backup_bytes':codec_tail_bytes,'transient_disk_free_bytes':codec_disk_free,'batch_packing':policy['packing'],'child_wall_limit_seconds':policy['wall_seconds'],**({'archive_io_profile':args.archive_io_profile} if args.archive_io_profile else {}),'child_elapsed_seconds':round(time.monotonic()-child_started,3),'archive_mutated':False,'model_paths_removed':False,'operation_id':args.operation_id,'scientific_fits_started':0}
         cold._atomic_json(op/'child_result.json',result); return 0
     # Keep private candidate path/process evidence inside this unique operation directory.
     (op/'private_candidate_plan.json').write_text(json.dumps({'observed_utc':now(),'items':batch,'candidate_filter':candidate_filter,'private':True},indent=2,sort_keys=True)+'\n')
-    tx=store.commit_models(batch,rec)
+    if policy.get('codec_temp_budget_bytes') is not None:
+        tx=store.commit_models(batch,rec,codec_temp_budget_bytes=policy['codec_temp_budget_bytes'])
+    else:
+        tx=store.commit_models(batch,rec)
     j=json.loads((store.journals/tx/'journal.json').read_text())
     if j.get('state')!='complete': raise RuntimeError('core journal not complete; hold must remain for explicit recovery')
     store2=cold.ColdModelStore.from_runtime(ROOT,R,storage_codec_policy=args.storage_codec_policy)
@@ -373,7 +392,7 @@ def main():
         storage_evidence=_bind_completed_core_payload_evidence(ROOT,store2,tx,batch,baseline)
         if storage_evidence['codec_policy']!=args.storage_codec_policy: raise RuntimeError('post-commit codec policy evidence mismatch')
         _verify_completed_alias_metadata(ROOT,store2,j['items'],tx,storage_evidence)
-        result={'schema':'lamost-rf-cold-batch/1','status':'committed_and_resolved','observed_utc':now(),'transaction_id':tx,'archive_path':'packages/LAMOST_ALL_EXPERIMENTS_BUILDING_20261026.zip','baseline_archive_sha256':baseline,'archive_sha256_after':new_manifest['archive_sha256'],'archive_bytes_after':archive.stat().st_size,'zip_crc_verified':True,'zip_crc_verification_basis':'pinned_core_transaction_item_verification','fresh_archive_sha_verified':storage_evidence.get('archive_digest_basis')=='fresh_manifest_digest_fallback','archive_digest_basis':storage_evidence.get('archive_digest_basis'),'verification_basis':'pinned_core_complete_transaction_journal_plus_archive_manifest_digest_and_zip_index','candidate_filter':candidate_filter,'batch':public_candidate_summary(batch),'batch_policy':args.batch_policy,'storage_codec_policy':args.storage_codec_policy,'storage_evidence':storage_evidence,'batch_max_bytes':policy['max_bytes'],'batch_max_inode_groups':policy['max_groups'],'transient_disk_reserve_bytes':policy['transient_disk_reserve_bytes'],'batch_packing':policy['packing'],'child_wall_limit_seconds':policy['wall_seconds'],**({'archive_io_profile':args.archive_io_profile} if args.archive_io_profile else {}),'child_elapsed_seconds':round(time.monotonic()-child_started,3),'archive_mutated':True,'model_paths_removed':True,'scientific_fits_started':0,'operation_id':args.operation_id,'source_pins':PINS}
+        result={'schema':'lamost-rf-cold-batch/1','status':'committed_and_resolved','observed_utc':now(),'transaction_id':tx,'archive_path':'packages/LAMOST_ALL_EXPERIMENTS_BUILDING_20261026.zip','baseline_archive_sha256':baseline,'archive_sha256_after':new_manifest['archive_sha256'],'archive_bytes_after':archive.stat().st_size,'zip_crc_verified':True,'zip_crc_verification_basis':'pinned_core_transaction_item_verification','fresh_archive_sha_verified':storage_evidence.get('archive_digest_basis')=='fresh_manifest_digest_fallback','archive_digest_basis':storage_evidence.get('archive_digest_basis'),'verification_basis':'pinned_core_complete_transaction_journal_plus_archive_manifest_digest_and_zip_index','candidate_filter':candidate_filter,'batch':public_candidate_summary(batch),'batch_policy':args.batch_policy,'storage_codec_policy':args.storage_codec_policy,'storage_evidence':storage_evidence,'batch_max_bytes':policy['max_bytes'],'batch_max_inode_groups':policy['max_groups'],'transient_disk_reserve_bytes':policy['transient_disk_reserve_bytes'],'codec_temp_budget_bytes':policy.get('codec_temp_budget_bytes'),'codec_temp_peak_bound_bytes':j.get('codec_temp_peak_bound_bytes') if 'j' in locals() else None,'transient_disk_required_bytes':codec_disk_required,'archive_tail_backup_bytes':codec_tail_bytes,'transient_disk_free_bytes':codec_disk_free,'batch_packing':policy['packing'],'child_wall_limit_seconds':policy['wall_seconds'],**({'archive_io_profile':args.archive_io_profile} if args.archive_io_profile else {}),'child_elapsed_seconds':round(time.monotonic()-child_started,3),'archive_mutated':True,'model_paths_removed':True,'scientific_fits_started':0,'operation_id':args.operation_id,'source_pins':PINS}
         cold._atomic_json(op/'child_result.json',result)
     print(json.dumps(result),flush=True)
     return 0

@@ -49,7 +49,8 @@ def encode_entry_payload(source_path, *, archive_member, temp_root,
                          joblib_compressor_source_path,
                          max_payload_bytes=codec.DEFAULT_MAX_PAYLOAD_BYTES,
                          max_file_bytes=codec.DEFAULT_MAX_FILE_BYTES,
-                         chunk_bytes=codec.DEFAULT_CHUNK_BYTES):
+                         chunk_bytes=codec.DEFAULT_CHUNK_BYTES,
+                         max_encoded_temp_bytes=None):
     """Return (encoded temporary path, additive identity fields).
 
     The caller appends payload_path as ZIP_STORED within its existing journaled
@@ -60,7 +61,7 @@ def encode_entry_payload(source_path, *, archive_member, temp_root,
     m=codec.encode_file(source_path,payload,output_root=root,
         joblib_compressor_source_path=joblib_compressor_source_path,
         max_payload_bytes=max_payload_bytes,max_file_bytes=max_file_bytes,
-        chunk_bytes=chunk_bytes)
+        chunk_bytes=chunk_bytes,max_encoded_temp_bytes=max_encoded_temp_bytes)
     logical_crc,logical_n=_crc_file(source_path)
     payload_crc,payload_n=_crc_file(payload)
     if logical_n!=m["original_size_bytes"] or payload_n!=m["encoded_size_bytes"]:

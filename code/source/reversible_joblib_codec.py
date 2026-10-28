@@ -31,6 +31,8 @@ class UnsupportedCodec(CodecError):
     """Runtime or stream falls outside the pinned codec contract."""
 class CodecLimitError(CodecError):
     """Fixed storage-stream bound reached; original source remains untouched."""
+class AggregateTempBudgetExceeded(CodecError):
+    """Transaction-wide encoded temporary budget reached; never raw-fallback."""
 
 def sha_file(path, chunk_bytes=DEFAULT_CHUNK_BYTES):
     h = hashlib.sha256()
@@ -111,11 +113,13 @@ def _hash_update(h, f, data):
 
 def encode_file(source_path, encoded_path, *, output_root, joblib_compressor_source_path,
                 max_payload_bytes=DEFAULT_MAX_PAYLOAD_BYTES,
-                max_file_bytes=DEFAULT_MAX_FILE_BYTES, chunk_bytes=DEFAULT_CHUNK_BYTES):
+                max_file_bytes=DEFAULT_MAX_FILE_BYTES, chunk_bytes=DEFAULT_CHUNK_BYTES,
+                max_encoded_temp_bytes=None):
     """Encode one pinned zlib joblib stream into XZ. Never replaces/deletes source/output."""
     _versions()
     _int(max_payload_bytes, "max_payload_bytes", 1)
     _int(max_file_bytes, "max_file_bytes", 1)
+    if max_encoded_temp_bytes is not None: _int(max_encoded_temp_bytes, "max_encoded_temp_bytes", 1, max_file_bytes)
     _int(chunk_bytes, "chunk_bytes", 1, 8 << 20)
     src = _input(source_path)
     dst = _new_output(output_root, encoded_path)
@@ -156,6 +160,8 @@ def encode_file(source_path, encoded_path, *, output_root, joblib_compressor_sou
                         hraw.update(raw)
                         part = enc.compress(raw)
                         if part:
+                            if max_encoded_temp_bytes is not None and nenc + len(part) > max_encoded_temp_bytes:
+                                raise AggregateTempBudgetExceeded("transaction encoded temporary budget exceeded")
                             if nenc + len(part) > max_file_bytes:
                                 raise CodecLimitError("encoded output exceeds configured maximum size")
                             _hash_update(henc, out, part); nenc += len(part)
@@ -167,11 +173,15 @@ def encode_file(source_path, encoded_path, *, output_root, joblib_compressor_sou
                 hraw.update(tail)
                 part = enc.compress(tail)
                 if part:
+                    if max_encoded_temp_bytes is not None and nenc + len(part) > max_encoded_temp_bytes:
+                        raise AggregateTempBudgetExceeded("transaction encoded temporary budget exceeded")
                     if nenc + len(part) > max_file_bytes:
                         raise CodecLimitError("encoded output exceeds configured maximum size")
                     _hash_update(henc, out, part); nenc += len(part)
             part = enc.flush()
             if part:
+                if max_encoded_temp_bytes is not None and nenc + len(part) > max_encoded_temp_bytes:
+                    raise AggregateTempBudgetExceeded("transaction encoded temporary budget exceeded")
                 if nenc + len(part) > max_file_bytes:
                     raise CodecLimitError("encoded output exceeds configured maximum size")
                 _hash_update(henc, out, part); nenc += len(part)

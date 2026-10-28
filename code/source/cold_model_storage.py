@@ -875,7 +875,7 @@ class ColdModelStore:
                 # Legacy journal/test rows predate source_ctime_ns. Preserve their inode, alias, and link-count checks; new normalized commits also bind ctime to catch write-and-restore mutations.
                 if "source_ctime_ns" in item and st.st_ctime_ns!=item["source_ctime_ns"]:raise AmbiguousState("source inode metadata changed before archive commit: "+rel)
 
-    def _append_locked(self,j,fault_after_bytes=None):
+    def _append_locked(self,j,fault_after_bytes=None,codec_temp_budget_bytes=None):
         st=self.archive.stat();identity=(st.st_dev,st.st_ino,st.st_size,st.st_mtime_ns,st.st_ctime_ns)
         cached=self._archive_identity_cache
         if not (cached and cached.get("identity")==identity and cached.get("sha256")==j["archive_sha256_before"]):
@@ -886,16 +886,27 @@ class ColdModelStore:
         jp=self._journal_dir(j["transaction_id"])/"journal.json"
         # Temporary payloads are reproducible derivatives only. The journal,
         # source aliases, old central tail and old archive remain retained.
+        if codec_temp_budget_bytes is not None and (type(codec_temp_budget_bytes) is not int or codec_temp_budget_bytes<=0 or j.get("storage_codec_policy")!="reversible-xz-v1"):
+            raise UnsafePlan("aggregate codec temp budget requires reversible-xz-v1 and positive bytes")
         with tempfile.TemporaryDirectory(prefix="encoding-",dir=jp.parent) as td:
-            payloads={}
+            payloads={};retained_codec_temp_bytes=0;codec_temp_peak_bytes=0
             for item in j["items"]:
                 source=self._physical_path(item["source_relpath"])
                 if sha256_file(source)!=item["sha256"]:
                     raise AmbiguousState("source changed before payload preparation")
                 if j.get("storage_codec_policy")=="reversible-xz-v1":
                     opts=self._codec_options();opts["temp_root"]=Path(td)
+                    if codec_temp_budget_bytes is not None:
+                        # Accepted outputs stay in this transaction temp tree
+                        # and remain smaller than their logical source. Reserve
+                        # the current exact reconstructed source size.
+                        remaining=codec_temp_budget_bytes-retained_codec_temp_bytes-int(item["bytes"])
+                        if remaining<=0:raise _codec_storage.codec.AggregateTempBudgetExceeded("transaction encoded temporary budget exhausted before next item")
+                        opts["max_encoded_temp_bytes"]=min(_codec_storage.codec.DEFAULT_MAX_FILE_BYTES,remaining)
                     try:
                         payload,fields=_codec_storage.encode_entry_payload(source,archive_member=item["archive_member"],**opts)
+                    except _codec_storage.codec.AggregateTempBudgetExceeded:
+                        raise
                     except (_codec_storage.codec.UnsupportedCodec,_codec_storage.codec.CodecLimitError) as exc:
                         # A known unsupported codec is a storage fallback, never
                         # a new scientific failure or permission to alter data.
@@ -913,11 +924,19 @@ class ColdModelStore:
                             h,n,crc=_stream_hash(f)
                         if (h,n,crc)!=(item["sha256"],item["bytes"],fields["crc32"]):
                             raise AmbiguousState("preappend codec logical verification failed")
+                        current_temp_bound=retained_codec_temp_bytes+int(descriptor["encoded_size_bytes"])+int(item["bytes"])
+                        if codec_temp_budget_bytes is not None:
+                            if current_temp_bound>codec_temp_budget_bytes:raise _codec_storage.codec.AggregateTempBudgetExceeded("transaction encoded temporary budget exceeded after round-trip")
+                            codec_temp_peak_bytes=max(codec_temp_peak_bytes,current_temp_bound)
                         if descriptor["encoded_size_bytes"]<item["bytes"]:
                             item.update(fields);payloads[item["archive_member"]]=payload
+                            retained_codec_temp_bytes+=int(descriptor["encoded_size_bytes"])
                             item["storage_decision"]={"selected":descriptor["codec_version"],"reason":"verified exact original-byte restoration and smaller physical payload"}
                         else:
+                            if codec_temp_budget_bytes is not None:payload.unlink(missing_ok=True)
                             item["storage_decision"]={"selected":"raw-v1","reason":"verified encoding has no size benefit"}
+                if codec_temp_budget_bytes is not None:
+                    j["codec_temp_peak_bound_bytes"]=codec_temp_peak_bytes
                 _atomic_json(jp,j)
             # A crash during preparation has not modified the archive; ordinary
             # precommit recovery restores the exact retained central directory.
@@ -1085,8 +1104,10 @@ class ColdModelStore:
                 p.unlink();_fsync_dir(p.parent);item["removed_aliases"].append(rel);_atomic_json(jp,j);done+=1
                 if fail_after_unlinks is not None and done>=fail_after_unlinks:raise RuntimeError("injected interruption during alias removal")
         j["state"]="complete";j["completed_utc"]=time.time();_atomic_json(jp,j)
-    def commit_models(self,items,registry_records,fail_after_unlinks=None,fault_after_bytes=None):
+    def commit_models(self,items,registry_records,fail_after_unlinks=None,fault_after_bytes=None,*,codec_temp_budget_bytes=None):
         with self._write_lock():
+            if codec_temp_budget_bytes is not None and (type(codec_temp_budget_bytes) is not int or codec_temp_budget_bytes<=0 or self.storage_codec_policy!="reversible-xz-v1"):
+                raise UnsafePlan("aggregate codec temp budget requires reversible-xz-v1 and positive bytes")
             self._assert_no_pending_transactions()
             normalized=self._normalize(items,registry_records)
             required=set()
@@ -1119,6 +1140,7 @@ class ColdModelStore:
             manifest_before_sha=sha256_file(self.manifest) if self.manifest.exists() else None
             j={"schema_version":SCHEMA,"transaction_id":tx,"state":"creating_backup","archive_relpath":self.archive.relative_to(self.root).as_posix(),"archive_sha256_before":oldsha,"archive_size_before":oldsize,"archive_device":self.archive.stat().st_dev,"archive_inode":self.archive.stat().st_ino,"central_directory_offset":start,"old_zip_records":oldrec,"old_zip_records_sha256":_record_sha(oldrec),"items":normalized,"required_task_keys":sorted(required),"process_inventory_complete":private_receipt.get("complete") is True,"created_utc":_safety.now_utc(),"public_manifest_before_sha256":manifest_before_sha,"member_records_after":None,"archive_sha256_after":None,"last_error":None}
             j["storage_codec_policy"]=self.storage_codec_policy
+            if codec_temp_budget_bytes is not None:j["codec_temp_budget_bytes"]=codec_temp_budget_bytes
             j["codec_verifier_source_sha256"]=_IMPORTED_SOURCE_SHA256
             j["unlink_checkpoint_policy"]={"schema":"bounded-intent-batch/1","max_aliases":48}
             jp=d/"journal.json";_atomic_json(jp,j)
@@ -1126,7 +1148,7 @@ class ColdModelStore:
             tail=self._backup_tail(j)
             j["tail_sha256"]=sha256_file(tail);j["prefix_sha256"]=self._verified_prefix_digest(oldsha,start);j["state"]="prepared";_atomic_json(jp,j)
             try:
-                j=self._append_locked(j,fault_after_bytes);self._write_manifest(j);self._unlink_aliases(j,fail_after_unlinks)
+                j=self._append_locked(j,fault_after_bytes,codec_temp_budget_bytes=codec_temp_budget_bytes);self._write_manifest(j);self._unlink_aliases(j,fail_after_unlinks)
                 self._persist_completed_baseline_cache(tx)
             except BaseException as e:
                 with contextlib.suppress(Exception):

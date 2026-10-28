@@ -9,6 +9,14 @@ import stat
 import time
 
 POLICY_FIELD = 'archive_native_fit_overlap_sha256'
+CODEC_POLICY_FIELD = 'archive_native_codec_fit_overlap_sha256'
+CODEC_QUALIFICATION_FIELD = 'archive_native_codec_fit_overlap_qualification_sha256'
+CODEC_POLICY_REL = pathlib.Path('manifests/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_20261029.json')
+CODEC_QUALIFICATION_SCHEMA = 'lamost-archive-native-codec-fit-overlap-qualification/1'
+CODEC_POLICY_ID = 'archive-native-codec-fit-overlap-1.5gib-cpu1-v1'
+CODEC_BATCH_POLICY = 'storage-followup-codec'
+CODEC_IO_PROFILE = 'bounded-1800-codec1gib64'
+CODEC_STORAGE_POLICY = 'reversible-xz-v1'
 WORKER_REAPER_FIELD = 'worker_reaper_source_sha256'
 QUALIFICATION_FIELD = 'archive_native_fit_overlap_qualification_sha256'
 POLICY_REL = pathlib.Path('manifests/ARCHIVE_NATIVE_FIT_OVERLAP_20261028.json')
@@ -185,6 +193,123 @@ def _policy(runtime, frozen):
     return {'document':doc,'policy_sha256':declared,'qualification_sha256':qdeclared,
             'source_sha256':current,'native_input_manifests':native_actual}
 
+def _codec_policy(runtime, frozen):
+    if not isinstance(frozen,dict):raise ValueError('freeze_malformed')
+    declared=frozen.get(CODEC_POLICY_FIELD);qdeclared=frozen.get(CODEC_QUALIFICATION_FIELD)
+    if declared is None and qdeclared is None:return None
+    if not _hex(declared) or not _hex(qdeclared):raise ValueError('codec_policy_freeze_binding_malformed')
+    root=pathlib.Path(runtime);policy_path=_safe_file(root,CODEC_POLICY_REL);raw=policy_path.read_bytes()
+    if _sha256_bytes(raw)!=declared:raise ValueError('codec_policy_sha_mismatch')
+    doc=json.loads(raw)
+    if not isinstance(doc,dict) or doc.get('schema')!='lamost-archive-native-codec-fit-overlap-policy/1' or doc.get('status')!='qualified':
+        raise ValueError('codec_policy_not_qualified')
+    if doc.get('policy_id')!=CODEC_POLICY_ID:raise ValueError('codec_policy_id')
+    expected_scope={'experiments':[4,5],'kind':'fit','never_attempted':True,'reuse_pipeline':False,
+        'routes':{'4':['direct','treatment'],'5':['direct','synthetic']},
+        'require_successful_dependencies':True,'no_existing_same_task_pipeline_or_checkpoint':True,
+        'native_input_only':True,'archive_model_aliases_must_be_terminal':True}
+    if doc.get('scope')!=expected_scope:raise ValueError('codec_policy_scope')
+    expected_resources={'helper_reservation_gib':1.5,'helper_cpu_reservation_units':1,
+        'host_os_harbor_reserve_gib':6,'commitment_growth_margin_gib':2,'admission_only_safety_buffer_gib':1,
+        'worker_memory_limit_gib':10,'trial_timeout_seconds':600,'phase_timeout_seconds':600,
+        'termination_grace_seconds':30,'archive_wall_seconds':1800,'archive_wrapper_wall_seconds':1860,
+        'archive_child_rss_limit_bytes':1073741824,'archive_child_address_space_limit_bytes':939524096,
+        'archive_wrapper_rss_limit_bytes':1610612736,'native_threads':1,'nested_threads':1,
+        'batch_max_bytes':1073741824,'batch_max_inode_groups':64,'encoded_temp_max_bytes':4294967296,
+        'archive_disk_reserve_bytes':10737418240,'archive_disk_growth_margin_bytes':2147483648}
+    if doc.get('resources')!=expected_resources:raise ValueError('codec_policy_resources')
+    op={'owner_operation':OWNER_OPERATION,'batch_policy':CODEC_BATCH_POLICY,
+        'archive_io_profile':CODEC_IO_PROFILE,'storage_codec_policy':CODEC_STORAGE_POLICY}
+    if doc.get('archive_operation')!=op:raise ValueError('codec_policy_archive_operation')
+    expected_overlap={'current_workers':'validated_existing_worker_identities','new_workers':'native_fit_proof_pristine_task_and_dependencies'}
+    if doc.get('overlap_classes')!=expected_overlap:raise ValueError('codec_policy_overlap_classes')
+    required={'controller.py','archive_fit_admission.py','cold_auto_compaction.py','run_batch.py','commit_batch_child.py',
+        'cold_model_storage.py','cold_codec_storage.py','reversible_joblib_codec.py','cold_storage_safety.py',
+        'batch_plan.py','admission_evidence.py'}
+    source_map=doc.get('source_sha256')
+    if not isinstance(source_map,dict) or set(source_map)!=required or any(not _hex(v) for v in source_map.values()):
+        raise ValueError('codec_policy_source_inventory')
+    current={n:_cached_sha(root/'source'/n,source_map[n]) for n in sorted(required)}
+    freeze_sources=frozen.get('source_sha256')
+    if not isinstance(freeze_sources,dict) or freeze_sources.get('controller.py')!=current['controller.py'] or freeze_sources.get('archive_fit_admission.py')!=current['archive_fit_admission.py']:
+        raise ValueError('codec_freeze_source_binding')
+    for pins in (_source_pin_dict(root/'source/cold_auto_compaction.py','PINS'),_source_pin_dict(root/'source/run_batch.py','SOURCE_PINS')):
+        for name,digest in pins.items():
+            if name in current and current[name]!=digest:raise ValueError('codec_operation_source_pin_mismatch:'+name)
+    native=doc.get('native_input_manifests');expected_native={'cache/cache_manifest.json','manifests/E4_MANIFEST.json','manifests/E5_MANIFEST.json'}
+    if not isinstance(native,dict) or set(native)!=expected_native or any(not _hex(x) for x in native.values()):raise ValueError('codec_native_input_manifest_inventory')
+    native_actual={n:_cached_sha(root/n,native[n]) for n in sorted(native)}
+    qv=doc.get('qualification_path')
+    if not isinstance(qv,str):raise ValueError('codec_qualification_path')
+    qr=pathlib.PurePosixPath(qv)
+    if qr.is_absolute() or '..' in qr.parts:raise ValueError('codec_qualification_path_unsafe')
+    qp=_safe_file(root,qr);qraw=qp.read_bytes()
+    if _sha256_bytes(qraw)!=qdeclared:raise ValueError('codec_qualification_sha_mismatch')
+    qdoc=json.loads(qraw)
+    if not isinstance(qdoc,dict) or qdoc.get('schema')!=CODEC_QUALIFICATION_SCHEMA or qdoc.get('status')!='passed':raise ValueError('codec_qualification_not_passed')
+    if qdoc.get('policy_sha256')!=declared or qdoc.get('source_sha256')!=current or qdoc.get('native_input_manifests')!=native_actual:raise ValueError('codec_qualification_binding_mismatch')
+    focused=qdoc.get('focused_codec_tests')
+    if not isinstance(focused,dict) or focused.get('status')!='passed':raise ValueError('codec_focused_tests_missing')
+    fpath=focused.get('receipt_path');fsha=focused.get('receipt_sha256')
+    if not isinstance(fpath,str) or not _hex(fsha):raise ValueError('codec_focused_receipt_binding')
+    frel=pathlib.PurePosixPath(fpath)
+    if frel.is_absolute() or '..' in frel.parts:raise ValueError('codec_focused_receipt_path_unsafe')
+    ffile=_safe_file(root,frel);fraw=ffile.read_bytes()
+    if _sha256_bytes(fraw)!=fsha:raise ValueError('codec_focused_receipt_sha_mismatch')
+    freceipt=json.loads(fraw);fsource=focused.get('test_file_sha256')
+    required_tests={'tests/test_native_codec_overlap.py','tests/test_native_fit_scope.py','tests/test_verified_zombie_reap.py'}
+    if not isinstance(fsource,dict) or set(fsource)!=required_tests or any(not _hex(v) for v in fsource.values()):raise ValueError('codec_focused_test_inventory')
+    for rel,digest in fsource.items():
+        _cached_sha(_safe_file(root,rel),digest)
+    if freceipt.get('schema')!='lamost-archive-native-codec-fit-overlap-focused-tests/1' or freceipt.get('status')!='passed' or freceipt.get('source_sha256')!=current or freceipt.get('test_file_sha256')!=fsource:raise ValueError('codec_focused_receipt_binding_mismatch')
+    if freceipt.get('expected_test_count')!=21 or freceipt.get('passed_test_count')!=21 or freceipt.get('failed_test_count')!=0 or freceipt.get('fit_attempts_started')!=0:raise ValueError('codec_focused_receipt_counts')
+    flimits=freceipt.get('limits')
+    if not isinstance(flimits,dict) or flimits.get('address_space_limit_bytes')>1073741824 or flimits.get('wall_seconds')>60 or flimits.get('native_threads')!=1 or flimits.get('nice')!=19:raise ValueError('codec_focused_receipt_limits')
+    admission=qdoc.get('native_admission_harness')
+    if not isinstance(admission,dict) or admission.get('status')!='passed':raise ValueError('codec_native_admission_harness_missing')
+    apath=admission.get('receipt_path');asha=admission.get('receipt_sha256')
+    if not isinstance(apath,str) or not _hex(asha):raise ValueError('codec_admission_receipt_binding')
+    arel=pathlib.PurePosixPath(apath)
+    if arel.is_absolute() or '..' in arel.parts:raise ValueError('codec_admission_receipt_path_unsafe')
+    afile=_safe_file(root,arel);araw=afile.read_bytes()
+    if _sha256_bytes(araw)!=asha:raise ValueError('codec_admission_receipt_sha_mismatch')
+    areceipt=json.loads(araw)
+    if areceipt.get('schema')!='lamost-archive-native-codec-overlap-admission-harness/1' or areceipt.get('status')!='passed' or areceipt.get('source_sha256')!=current:raise ValueError('codec_admission_receipt_binding_mismatch')
+    if areceipt.get('fit_attempts_started')!=0 or areceipt.get('archive_helper_fixture_only') is not True or areceipt.get('controller_admission_gate')!='passed' or areceipt.get('helper_identity_and_resource_gates')!='passed':raise ValueError('codec_admission_receipt_checks')
+    if areceipt.get('existing_worker_identity_validation')!='passed' or areceipt.get('archive_alias_ownership_closure')!='passed' or areceipt.get('no_candidate_archive_model_fd_race') is not True:raise ValueError('codec_active_worker_or_alias_safety')
+    if not isinstance(areceipt.get('workers_checked'),int) or areceipt.get('workers_checked')<0 or areceipt.get('unverified_workers')!=0:raise ValueError('codec_worker_inventory_incomplete')
+    if areceipt.get('archive_operation')!=op or areceipt.get('overlap_classes')!=doc.get('overlap_classes'):raise ValueError('codec_admission_receipt_profile')
+    predecessor=qdoc.get('predecessor_regression_evidence')
+    if predecessor is not None and (not isinstance(predecessor,dict) or predecessor.get('classification')!='predecessor_only'):raise ValueError('codec_predecessor_evidence_misclassified')
+    overlap=qdoc.get('overlap_classes')
+    if overlap!={'current_workers':'validated_existing_worker_identities','new_workers':'native_fit_proof_pristine_task_and_dependencies'}:raise ValueError('codec_qualification_overlap_scope')
+    return {'document':doc,'policy_sha256':declared,'qualification_sha256':qdeclared,
+        'source_sha256':current,'native_input_manifests':native_actual,'profile':'codec'}
+
+def native_codec_overlap_policy_allowed(runtime, frozen, *, archive_io_profile, batch_policy, storage_codec_policy):
+    if archive_io_profile!=CODEC_IO_PROFILE or batch_policy!=CODEC_BATCH_POLICY or storage_codec_policy!=CODEC_STORAGE_POLICY:
+        return False
+    try:
+        policy=_codec_policy(runtime,frozen)
+        return bool(policy and policy.get('profile')=='codec'
+                    and policy['document'].get('archive_operation')=={
+                        'owner_operation':OWNER_OPERATION,'batch_policy':CODEC_BATCH_POLICY,
+                        'archive_io_profile':CODEC_IO_PROFILE,'storage_codec_policy':CODEC_STORAGE_POLICY})
+    except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError):
+        return False
+
+def native_codec_overlap_policy_allowed(runtime, frozen, *, archive_io_profile, batch_policy, storage_codec_policy):
+    if archive_io_profile!=CODEC_IO_PROFILE or batch_policy!=CODEC_BATCH_POLICY or storage_codec_policy!=CODEC_STORAGE_POLICY:
+        return False
+    try:
+        policy=_codec_policy(runtime,frozen)
+        return bool(policy and policy.get('profile')=='codec'
+                    and policy['document'].get('archive_operation')=={
+                        'owner_operation':OWNER_OPERATION,'batch_policy':CODEC_BATCH_POLICY,
+                        'archive_io_profile':CODEC_IO_PROFILE,'storage_codec_policy':CODEC_STORAGE_POLICY})
+    except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError):
+        return False
+
 def _hex(x):
     return isinstance(x,str) and len(x)==64 and all(c in '0123456789abcdef' for c in x)
 
@@ -352,15 +477,16 @@ def inspect_runtime(runtime, frozen, *, proc_root='/proc', uid=None):
     if hold.is_symlink():return {'mode':'blocked','reason':'hold_symlink'}
     try:hd=_json_regular(hold)
     except (OSError,ValueError,TypeError,json.JSONDecodeError):return {'mode':'blocked','reason':'hold_malformed'}
-    if hd.get('owner_operation')!=OWNER_OPERATION or hd.get('batch_policy')!=BATCH_POLICY:
+    if hd.get('owner_operation')!=OWNER_OPERATION or hd.get('batch_policy') not in (BATCH_POLICY,CODEC_BATCH_POLICY):
         return {'mode':'blocked','reason':'foreign_or_wrong_policy_hold'}
     opid=hd.get('operation_id');nonce=hd.get('nonce')
     if not isinstance(opid,str) or not re.fullmatch(r'auto_storage_[A-Za-z0-9T_-]+_[0-9a-f]{8}',opid) or not isinstance(nonce,str) or not re.fullmatch(r'[0-9a-f]{32}',nonce):
         return {'mode':'blocked','reason':'hold_identity_malformed'}
     if descriptor.exists() or descriptor.is_symlink():return {'mode':'blocked','reason':'unexpected_helper_descriptor'}
-    try:policy=_policy(root,frozen)
+    try:policy=_codec_policy(root,frozen) if hd.get('batch_policy')==CODEC_BATCH_POLICY else _policy(root,frozen)
     except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError):return {'mode':'blocked','reason':'overlap_policy_invalid'}
     if policy is None:return {'mode':'blocked','reason':'overlap_policy_not_enabled'}
+    operation=policy['document']['archive_operation'];batch_policy=operation['batch_policy'];io_profile=operation['archive_io_profile'];storage_codec=operation['storage_codec_policy']
     if hd.get('reason')!='one-shot bounded cold-model archive batch; pause new admissions only':
         return {'mode':'blocked','reason':'hold_reason_mismatch'}
     if len(processes)!=3:return {'mode':'blocked','reason':'helper_process_chain_incomplete'}
@@ -380,10 +506,10 @@ def inspect_runtime(runtime, frozen, *, proc_root='/proc', uid=None):
     except (OSError,ValueError,TypeError,json.JSONDecodeError):return {'mode':'blocked','reason':'private_helper_receipt_missing'}
     driver=byrole['cold_auto_compaction.py'];wrapper=byrole['run_batch.py'];child_proc=byrole['commit_batch_child.py']
     if any(x['uid']!=uid for x in (driver,wrapper,child_proc)):return {'mode':'blocked','reason':'helper_uid_mismatch'}
-    if driver['argv'][:2]!=[str(root.parent/'venv/bin/python'),str(root/'source/cold_auto_compaction.py')] or driver['argv'][2:]!=['--archive-io-profile',IO_PROFILE]:
+    if driver['argv'][:2]!=[str(root.parent/'venv/bin/python'),str(root/'source/cold_auto_compaction.py')] or driver['argv'][2:]!=(['--batch-policy',batch_policy,'--storage-codec-policy',storage_codec,'--archive-io-profile',io_profile] if storage_codec else ['--archive-io-profile',io_profile]):
         return {'mode':'blocked','reason':'driver_command_mismatch'}
     if driver['cwd']!=str(root):return {'mode':'blocked','reason':'driver_cwd_mismatch'}
-    if inventory.get('operation_id')!=opid or inventory.get('archive_io_profile')!=IO_PROFILE:return {'mode':'blocked','reason':'driver_receipt_mismatch'}
+    if inventory.get('operation_id')!=opid or inventory.get('archive_io_profile')!=io_profile:return {'mode':'blocked','reason':'driver_receipt_mismatch'}
     dr=inventory.get('driver_identity',{});wr=inventory.get('wrapper_identity',{})
     if dr.get('pid')!=driver['pid'] or str(dr.get('process_start_ticks'))!=driver['start_ticks'] or dr.get('source_sha256')!=policy['source_sha256']['cold_auto_compaction.py']:
         return {'mode':'blocked','reason':'driver_receipt_identity_mismatch'}
@@ -394,7 +520,7 @@ def inspect_runtime(runtime, frozen, *, proc_root='/proc', uid=None):
     if wrapper['argv'][:2]!=[str(root.parent/'venv/bin/python'),str(root/'source/run_batch.py')]:
         return {'mode':'blocked','reason':'wrapper_command_mismatch'}
     flags=wrapper['argv'][2:]
-    if flags!=['--baseline-sha256',flags[1] if len(flags)>1 else '', '--operation-id',opid,'--batch-policy',BATCH_POLICY,'--archive-io-profile',IO_PROFILE] or not _sha_safe(flags[1] if len(flags)>1 else None):
+    if flags!=['--baseline-sha256',flags[1] if len(flags)>1 else '', '--operation-id',opid,'--batch-policy',batch_policy]+(['--storage-codec-policy',storage_codec] if storage_codec else [])+['--archive-io-profile',io_profile] or not _sha_safe(flags[1] if len(flags)>1 else None):
         return {'mode':'blocked','reason':'wrapper_arguments_mismatch'}
     if child.get('pid')!=child_proc['pid'] or str(child.get('process_start_ticks'))!=child_proc['start_ticks'] or child.get('pgid')!=child_proc['pgid'] or child.get('script')!=str(root/'source/commit_batch_child.py'):
         return {'mode':'blocked','reason':'child_receipt_identity_mismatch'}
@@ -402,14 +528,21 @@ def inspect_runtime(runtime, frozen, *, proc_root='/proc', uid=None):
         return {'mode':'blocked','reason':'child_process_tree_mismatch'}
     expected_child=[str(root.parent/'venv/bin/python'),str(root/'source/commit_batch_child.py'),
         '--operation-dir',str(op),'--baseline-sha256',flags[1],'--operation-id',opid,
-        '--hold-nonce',nonce,'--batch-policy',BATCH_POLICY,'--archive-io-profile',IO_PROFILE]
+        '--hold-nonce',nonce,'--batch-policy',batch_policy]+(['--storage-codec-policy',storage_codec] if storage_codec else [])+['--archive-io-profile',io_profile]
     if child_proc['argv']!=expected_child:return {'mode':'blocked','reason':'child_command_mismatch'}
     if child.get('address_space_limit_bytes')!=policy['document']['resources']['archive_child_address_space_limit_bytes']:
         return {'mode':'blocked','reason':'child_address_limit_mismatch'}
-    if admission.get('batch_policy')!=BATCH_POLICY or admission.get('archive_io_profile')!=IO_PROFILE or admission.get('storage_codec_policy') is not None:
+    if admission.get('batch_policy')!=batch_policy or admission.get('archive_io_profile')!=io_profile or admission.get('storage_codec_policy')!=storage_codec:
         return {'mode':'blocked','reason':'admission_profile_mismatch'}
     if admission.get('helper_reservation_bytes')!=HELPER_RESERVATION_BYTES or admission.get('policy_host_reserve_bytes')!=6*GIB or admission.get('policy_growth_margin_bytes')!=2*GIB:
         return {'mode':'blocked','reason':'admission_resource_record_mismatch'}
+    if storage_codec:
+        r=policy['document']['resources'];tail=admission.get('archive_tail_backup_bytes')
+        if not isinstance(tail,int) or tail<0:return {'mode':'blocked','reason':'codec_tail_receipt_invalid'}
+        if admission.get('batch_max_bytes')!=r['batch_max_bytes'] or admission.get('batch_max_inode_groups')!=r['batch_max_inode_groups'] or admission.get('child_wall_limit_seconds')!=r['archive_wall_seconds'] or admission.get('transient_disk_reserve_bytes')!=r['archive_disk_reserve_bytes'] or admission.get('transient_disk_required_bytes')!=r['batch_max_bytes']+r['archive_disk_reserve_bytes']+r['archive_disk_growth_margin_bytes']+tail:
+            return {'mode':'blocked','reason':'codec_admission_envelope_mismatch'}
+        if admission.get('encoded_temp_max_bytes')!=r['encoded_temp_max_bytes']:
+            return {'mode':'blocked','reason':'codec_temp_envelope_mismatch'}
     try:
         for name,digest in policy['source_sha256'].items():
             if _cached_sha(root/'source'/name,digest)!=digest:raise ValueError(name)
@@ -422,7 +555,7 @@ def inspect_runtime(runtime, frozen, *, proc_root='/proc', uid=None):
        'private_admission_sha256':admission_sha,'hold_sha256':hold_sha,
        'helper_reservation_bytes':HELPER_RESERVATION_BYTES,'helper_cpu_reservation_units':HELPER_CPU_UNITS}
     evidence['context_sha256']=_sha256_bytes(json.dumps(evidence,sort_keys=True,separators=(',',':')).encode())
-    return {'mode':'active','reason':'verified_raw_archive_helper','evidence':evidence,
+    return {'mode':'active','reason':'verified_codec_archive_helper' if storage_codec else 'verified_raw_archive_helper','evidence':evidence,
             'operation_id':opid,'_private_processes':[driver,wrapper,child_proc],
             '_private_paths':[inventory_path,child_path,admission_path,hold]}
 
@@ -526,14 +659,27 @@ def reap_recorded_zombies(tasks, runtime, parent_pid, *, proc_root='/proc', uid=
             continue
     return reaped
 
+def _selected_policy(runtime, frozen):
+    root=pathlib.Path(runtime);hold=root/'ADMISSION_HOLD.json'
+    try:
+        if hold.is_symlink():return None
+        if not hold.is_file():return _policy(root,frozen)
+        hd=_json_regular(hold)
+        if hd.get('owner_operation')!=OWNER_OPERATION:return None
+        if hd.get('batch_policy')==CODEC_BATCH_POLICY:return _codec_policy(root,frozen)
+        if hd.get('batch_policy')==BATCH_POLICY:return _policy(root,frozen)
+        return None
+    except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError):return None
+
 def qualify_candidate(runtime, task, definition, tasks, frozen):
     try:
-        policy=_policy(runtime,frozen)
+        policy=_selected_policy(runtime,frozen)
         if policy is None:return None
         proof=native_fit_proof(runtime,task,definition,tasks)
         if proof is None:return None
         proof.update({'policy_sha256':policy['policy_sha256'],'qualification_sha256':policy['qualification_sha256'],
                       'source_sha256':policy['source_sha256'],'native_input_manifests':policy['native_input_manifests']})
+        if policy.get('profile')=='codec':proof.update({'archive_operation':policy['document']['archive_operation'],'overlap_profile':'codec'})
         proof['proof_sha256']=_sha256_bytes(json.dumps({k:v for k,v in proof.items() if k!='proof_sha256'},sort_keys=True,separators=(',',':'),default=str).encode())
         return proof
     except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError):return None

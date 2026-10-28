@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+import hashlib
 import json
 import os
 
@@ -19,6 +20,61 @@ RAW_MIXED_SMALL_MAX_GROUPS = 2048
 RAW_MIXED_SMALL_PROFILE = "bounded-1800-mixedsmall4gib2048"
 RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES = 6 << 30
 RAW_ARCHIVE_IO_PROFILES = (RAW_WIDE_PROFILE, RAW_MIXED_SMALL_PROFILE)
+CODEC_MULTIGROUP_PROFILE = "bounded-1800-codec1gib64"
+CODEC_MULTIGROUP_MAX_BYTES = 1 << 30
+CODEC_MULTIGROUP_MAX_GROUPS = 64
+CODEC_MULTIGROUP_TEMP_MAX_BYTES = 4 << 30
+CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES = (4 << 30) + (6 << 30)
+CODEC_MULTIGROUP_DISK_MARGIN_BYTES = 2 << 30
+CODEC_ARCHIVE_IO_PROFILES = (CODEC_MULTIGROUP_PROFILE,)
+ARCHIVE_IO_PROFILES = RAW_ARCHIVE_IO_PROFILES + CODEC_ARCHIVE_IO_PROFILES
+
+
+def completed_archive_tail_bytes(root: Path, runtime: Path, archive: Path, expected_sha256: str) -> int:
+    """Read only exact completed manifest/journal metadata plus archive stat."""
+    root=Path(root).resolve(strict=True);runtime=Path(runtime).resolve(strict=True);archive=Path(archive)
+    if not archive.is_absolute(): archive=root/archive
+    def regular(path):
+        path=Path(path)
+        resolved=path.resolve(strict=True)
+        try: resolved.relative_to(root)
+        except ValueError as exc: raise ValueError("path escapes migration root") from exc
+        cur=path
+        while cur!=root:
+            if cur.is_symlink(): raise ValueError("path crosses symlink")
+            cur=cur.parent
+        if path.is_symlink() or not path.is_file(): raise ValueError("path is not regular")
+        return path
+    archive=regular(archive);manifest_path=regular(runtime/"manifests"/"cold_model_store_manifest.json")
+    st=archive.stat();identity=[st.st_dev,st.st_ino,st.st_size,st.st_mtime_ns,st.st_ctime_ns]
+    manifest_bytes=manifest_path.read_bytes();msha=hashlib.sha256(manifest_bytes).hexdigest();manifest=json.loads(manifest_bytes)
+    rel=archive.relative_to(root).as_posix();tx=manifest.get("transaction_id")
+    if (manifest.get("schema_version")!="lamost-cold-model-store/1" or manifest.get("archive_path")!=rel or
+        manifest.get("archive_sha256")!=expected_sha256 or manifest.get("archive_bytes")!=st.st_size or
+        not isinstance(tx,str) or len(tx)!=32 or any(c not in "0123456789abcdef" for c in tx)):
+        raise ValueError("manifest does not bind expected archive")
+    journal_path=regular(runtime/"journals"/"cold_model_store"/tx/"journal.json")
+    jb=journal_path.read_bytes();jsha=hashlib.sha256(jb).hexdigest();journal=json.loads(jb)
+    prefix=journal.get("archive_prefix_bytes_after");prefix_sha=journal.get("archive_prefix_sha256_after")
+    if (journal.get("schema_version")!="lamost-cold-model-store/1" or journal.get("transaction_id")!=tx or
+        journal.get("state")!="complete" or journal.get("archive_relpath")!=rel or
+        journal.get("archive_sha256_after")!=expected_sha256 or journal.get("archive_bytes_after")!=st.st_size or
+        journal.get("archive_identity_after")!=identity or journal.get("manifest_sha256")!=msha or
+        journal.get("public_manifest_after_sha256")!=msha or journal.get("member_records_after")!=manifest.get("zip_records") or
+        type(prefix) is not int or not 0<=prefix<=st.st_size or not isinstance(prefix_sha,str) or len(prefix_sha)!=64 or
+        any(c not in "0123456789abcdef" for c in prefix_sha)):
+        raise ValueError("completed journal does not bind archive tail")
+    after=archive.stat()
+    if [after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns]!=identity:
+        raise ValueError("archive changed while reading tail witness")
+    if hashlib.sha256(journal_path.read_bytes()).hexdigest()!=jsha or hashlib.sha256(manifest_path.read_bytes()).hexdigest()!=msha:
+        raise ValueError("manifest/journal changed while reading tail witness")
+    return st.st_size-prefix
+
+
+def codec_multigroup_disk_required_bytes(tail_bytes: int) -> int:
+    if type(tail_bytes) is not int or tail_bytes<0: raise ValueError("invalid archive tail bound")
+    return CODEC_MULTIGROUP_MAX_BYTES+CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES+CODEC_MULTIGROUP_DISK_MARGIN_BYTES+tail_bytes
 ARCHIVABLE_FIT_METHODS = frozenset(['arf', 'cart', 'chow_liu', 'copula', 'extra_trees', 'gaussian_nb', 'gmm', 'hist_gb', 'kde', 'knn', 'lda', 'linear_svm', 'logistic', 'qda', 'random_forest', 'rbf_svm', 'shared_diagonal'])
 
 
