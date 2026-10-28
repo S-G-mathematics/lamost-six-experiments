@@ -23,3 +23,8 @@ Download release_manifest.json for member SHA-256 hashes and aliases; SHA256SUMS
 E2 fidelity diagnostic samples and E5 corruption realizations are included. Fitted models, FITS, raw baseline matrices and generated downstream training datasets are excluded. Historical E1 arrays absent from EC2 cannot be restored by this release.
 
 The array manifest binds to the initial audited code/report snapshot at commit 79ae75b8b2b01890f4771697cc18374f7d2e9198 (manifest f4b0940648604dda466f352c2dc7f5ce5c2f7d9e0b3bfe044f606c796a8897c3). Later documentation commits do not change those scientific results.
+
+
+## Incremental outcomes staged after the base release
+
+An additional E4 delta is staged at github_delta_results_20261028/e4_three_validated_cells_20261028T084431Z/e4_three_validated_outcomes_delta.zip. It contains two unique arrays for three validated records (the E5 direct Extra Trees clean record aliases the E4 rep-3 control). ZIP CRC passed; the ZIP is 3144012 bytes with SHA-256 49d94bba6fc13f4d4f56b10332e0410701e5a3e3d247ec1db37df772388c54a5. The archive is staged locally and has not yet been uploaded as a GitHub Release asset. Its task-level manifest is linked from the incremental E4/E5 results supplement.

@@ -1,55 +1,58 @@
 {
-  "observed_utc": "2026-10-28T07:28:21.258888+00:00",
-  "host": "i-095641a281a4038b9",
-  "controller_sha256": "d34bf3db889ee7c642cf28d079cbeb32f27fb772584163f497e78499a994d5ac",
-  "E1_frozen": "765:674 successful,81 failed,10 unsupported",
-  "E1_recovery_stopped": "24 successful,10 failed,2 user-stopped,55 not attempted",
-  "E2_primary": "108/150;42 unavailable",
-  "E2_classical": "120/120",
-  "E3": "69 terminal:64 successful,3 failure,2 unavailable",
-  "E4": "1551 successful,71 scientific failures,3 unavailable,148 waiting /1773",
-  "E5": "699 successful,50 scientific failures,78 unavailable,133 waiting /960",
-  "E6": "12 successful,3 failure,6 unavailable /21; primary ensemble success 0",
-  "limitations": "31 E2 reconstruction accuracy differences;210 low precision flags;4 complete strata. No bootstrap. Calibration-q replay and final validation pending.",
-  "workers_actual_verified_at_observation": [],
-  "holds_at_observation": [
-    "STORAGE_HOLD.json"
-  ],
-  "storage_admission": "backoff_by_current_recorded_estimate; headroom deficit 117335231 bytes",
-  "E1_frozen_detail": "765 terminal: 674 successful, 81 failed (55 resource failures, 26 supervisor-terminal manifests still started), 10 unsupported.",
-  "E2_detail": "Primary 108/150 evaluated, 42 unavailable; classical references 120/120; 228 evaluated cells, 1596 class reports, zero integrity errors, 210 low-precision flags, 31 reconstruction accuracy differences, four complete primary correlation strata.",
-  "E6_historical_member_references": "15 planned: 12 successful, 3 unavailable; references, not primary ensemble evaluations.",
-  "E6_primary_v2": "6 planned: 0 successful, 3 scientific failures, 3 unavailable; no ensemble benefit result.",
-  "observed_ist": "2026-10-28T12:58:21+00:00",
-  "active_science_workers": 0,
-  "storage_forecast": "admission backoff; 281 scientific evaluation cases remain waiting (148 E4, 133 E5)",
-  "experiment_counts": {
-    "E3": {
-      "scientific_failure": 3,
-      "successful": 64,
-      "unavailable_dependency": 2
-    },
-    "E4": {
-      "scientific_failure": 71,
-      "successful": 1551,
-      "unavailable_dependency": 3,
-      "waiting_for_dependency": 148
-    },
-    "E5": {
-      "scientific_failure": 50,
-      "successful": 699,
-      "unavailable_dependency": 78,
-      "waiting_for_dependency": 133
-    },
-    "E6": {
-      "scientific_failure": 3,
-      "successful": 12,
-      "unavailable_dependency": 6
-    }
+  "E1_frozen": "765 terminal: 674 successful, 81 failed (55 resource failures; 26 supervisor-terminal manifests still started), 10 unsupported.",
+  "E1_recovery_stopped": "24 successful, 10 failed, 2 user-stopped, 55 not attempted following user stop; pending 0.",
+  "E2_classical": "120/120 evaluated.",
+  "E2_details": "228 evaluated cells; 1,596 class reports; zero integrity errors; 210 low-precision flags; 31 reconstruction accuracy differences; four complete primary correlation strata.",
+  "E2_primary": "108/150 evaluated; 42 unavailable.",
+  "E3": {
+    "planned": 69,
+    "scientific_failure": 3,
+    "successful": 64,
+    "unavailable_dependency": 2
   },
-  "scientific_waiting_cases": 281,
+  "E4": {
+    "planned": 1773,
+    "scientific_failure": 71,
+    "successful": 1553,
+    "unavailable_dependency": 3,
+    "waiting_for_dependency": 146
+  },
+  "E5": {
+    "planned": 960,
+    "scientific_failure": 50,
+    "successful": 700,
+    "unavailable_dependency": 78,
+    "waiting_for_dependency": 132
+  },
+  "E6": {
+    "historical_member_references": "15 planned, 12 successful, 3 unavailable; references, not ensemble outcomes.",
+    "planned": 21,
+    "scientific_failure": 3,
+    "successful": 12,
+    "unavailable_dependency": 6
+  },
+  "incremental_results_note": "The E5 direct Extra Trees clean record is an alias of the E4 rep-3 direct Extra Trees control. Three validated records correspond to two unique prediction arrays.",
+  "incremental_validated_records_since_prior_git_snapshot": [
+    "e4/rep_2/eval/treatment/random_forest/K_tenth_generated_chow_liu",
+    "e4/rep_3/eval/direct/extra_trees/control",
+    "e5/rep_3/eval/direct/extra_trees/clean"
+  ],
+  "limitations": "No bootstrap. Global calibration-q replay, complete cross-experiment validation, and final delivery remain pending. Historical E1 pipelines/prediction arrays omitted from compact migration and seven auxiliary tuning-history discrepancies remain documented. Timing is hardware/resource-policy dependent.",
+  "liveness_note": "The status observer active list is not an OS process inventory and is not used to assert process liveness.",
+  "observation_source": "runtime_20261025/status.json",
+  "observed_ist": "2026-10-28 14:18:05 IST",
+  "observed_utc": "2026-10-28T08:48:05.215618+00:00",
+  "portable_engineering_qualification": {
+    "expected": 596,
+    "fingerprint": "2fd590500002516fe9a1adef2afecafe5379a29281e1d74a3329dfa03871f057",
+    "passed": 596,
+    "prior_587_receipt_retained": true,
+    "status": "passed"
+  },
+  "status_observer_active_entries": 0,
+  "status_source_sha256": "61a3d906902ce823f089bda373d13bc54d783e5c35ee7740b995b3b732fa5635",
   "task_counts": {
-    "validated_terminal": 5711,
-    "waiting_for_dependency": 559
+    "validated_terminal": 5714,
+    "waiting_for_dependency": 556
   }
 }

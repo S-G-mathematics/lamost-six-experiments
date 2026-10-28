@@ -85,6 +85,8 @@ test_files=(
   "$R/tests/test_e4_rf4_6g_admission.py" \
   "$R/tests/test_e4_et_dependency_priority.py" \
   "$R/tests/test_public_registry_process_privacy.py" \
-  "$R/tests/test_archive_digest_coalescing.py"
+  "$R/tests/test_archive_digest_coalescing.py" \
+  "$R/tests/test_nonfit_disk_drain.py" \
+  "$R/tests/test_loop_snapshot_refresh.py"
 )
 exec "$python_bin" -m pytest "${pytest_args[@]}" "${test_files[@]}"

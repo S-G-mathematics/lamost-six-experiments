@@ -1,0 +1,39 @@
+{
+  "admission_reservation_gib": 6,
+  "candidate_only": true,
+  "cpu_reservation_units": 4,
+  "deployment_status": "not_deployed",
+  "evidence_path": "reports/engineering_audits/RF4_E4_6GIB_PROSPECTIVE_ADMISSION_EVIDENCE_20261028.json",
+  "evidence_sha256": "28716b215c993cd5a8830fbfd423ba4254cb547427c048c9abc1641644a16dd5",
+  "fit_n_jobs": 4,
+  "native_threads": 1,
+  "phase_timeout_seconds": 600,
+  "policy_id": "rf4-e4-rep2-treatment-rf4-6gib-v1",
+  "prediction_n_jobs": 1,
+  "qualification_note": "Candidate policy used only to validate the reviewed admission gate and portable suite. It is not a release qualification or worst-case memory bound; root must issue the final post-suite qualification before deployment.",
+  "resource_profile_id": "rf4-e4-rep2-treatment-fit-6gib-admission-20261028",
+  "schema": "lamost-e4-rf4-treatment-6gib-policy/1",
+  "scope": {
+    "experiments": [
+      4
+    ],
+    "kind": "fit",
+    "max_training_rows": 125955,
+    "methods": [
+      "random_forest"
+    ],
+    "never_attempted": true,
+    "rep": 2,
+    "reuse_pipeline": false,
+    "route": "treatment"
+  },
+  "source_sha256": {
+    "parallel_rf/phase_worker.py": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3",
+    "parallel_rf/science.py": "e36c8040c7dca254fc7e16a53ffe860872df31a77868a7bc6480162f32d253c6",
+    "parallel_rf/worker.py": "5741d1f60b513a6da0023e508b8d17d28e8f6e4355f30c08d5cfb81f1f233ab9"
+  },
+  "status": "qualified",
+  "termination_grace_seconds": 30,
+  "trial_timeout_seconds": 600,
+  "worker_memory_limit_gib": 10
+}

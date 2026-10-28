@@ -2,7 +2,7 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research snapshot — 28 October 2026, 12:58 IST (07:27 UTC).** This repository is a saved research record, not a claim that all six experiments have passed final validation. E4 and E5 still have pending evaluations. Existing E1 failures are preserved, E2 has incomplete primary coverage, and E6 has no successful primary ensemble test evaluations.
+**Interim research snapshot - 28 October 2026, 14:18 IST (08:48 UTC).** This repository is a saved research record, not a claim that all six experiments have passed final validation. E4 and E5 still have pending evaluations. Existing E1 failures are preserved, E2 has incomplete primary coverage, and E6 has no successful primary ensemble test evaluations.
 
 ## Experiment status and navigation
 
@@ -11,8 +11,8 @@ Code, recorded results, figures and scientific provenance for seven-class classi
 | E1 | Frozen classification benchmark | 765 terminal: 674 successful, 81 failed, 10 unsupported | [E1 report and ledger](experiments/E1/README.md) |
 | E2 | Generator fidelity versus classification | 108/150 primary evaluations; 120/120 separate classical references | [E2 report and provenance](experiments/E2/README.md) |
 | E3 | Direct Bayes, synthetic-only and real-only learning | 69 terminal: 64 successful, 3 failed, 2 unavailable | [E3 results](experiments/E3/README.md) |
-| E4 | Imbalance and target-class restoration | 1,551 successful, 71 failed, 3 unavailable, **148 pending** / 1,773 | [E4 interim results](experiments/E4/README.md) |
-| E5 | Fitting-data corruption | 699 successful, 50 failed, 78 unavailable, **133 pending** / 960 | [E5 interim results](experiments/E5/README.md) |
+| E4 | Imbalance and target-class restoration | 1,553 successful, 71 failed, 3 unavailable, **146 waiting** / 1,773 | [E4 interim results](experiments/E4/README.md) |
+| E5 | Fitting-data corruption | 700 successful, 50 failed, 78 unavailable, **132 waiting** / 960 | [E5 interim results](experiments/E5/README.md) |
 | E6 | Generative posterior ensembles | 12 member-reference successes, 3 primary failures, 6 unavailable / 21; primary ensemble successes: **0** | [E6 availability and findings](experiments/E6/README.md) |
 
 At the 07:22 UTC status snapshot, 281 E4/E5 scientific evaluation cases remained waiting (148 E4, 133 E5); no science workers were active because storage-forecast admission was in backoff. This is a point-in-time status, not a liveness claim.
@@ -27,7 +27,7 @@ Counts refer to scientific evaluation cases, not controller dependency tasks. La
 - [Engineering tests](code/tests/), [frozen manifests and configurations](provenance/manifests/).
 - [Experiment navigation](experiments/), [reports, CSV tables and figures](reports/).
 - [Per-repetition metrics](reports/per_repetition_metrics.csv), [per-class metrics](reports/per_class_metrics.csv), [coverage ledger](reports/experiment_outcome_coverage.csv), [resource failures](reports/resource_failure_ledger.csv).
-- [File-level source/export hashes](file_manifest.csv), [snapshot hashes](snapshot_manifest.json), [explicit exclusion inventory](exclusion_inventory.csv).
+- [File-level source/export hashes](file_manifest.csv), [snapshot hashes](snapshot_manifest.json), [explicit exclusion inventory](exclusion_inventory.csv).\n- [Incremental validated E4/E5 results](reports/E4_INCREMENTAL_RESULTS_20261028T084431Z.md) record three post-snapshot validated ledger entries and link the two unique outcome arrays.
 
 Large scientific result arrays and role-membership arrays are delivered separately through [GitHub Releases](https://github.com/S-G-mathematics/lamost-six-experiments/releases), with member manifests, ZIP CRC verification and SHA-256 checksums. The [verified array delivery](docs/RESULT_ARRAYS.md) contains 19 ZIPs (7.25 GB), with remote SHA-256 and byte-size verification. Fitted-model files and FITS files are excluded. Raw/generated training datasets are not part of this code-and-results repository.
 

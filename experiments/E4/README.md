@@ -1,17 +1,15 @@
 # E4 snapshot
 
-1773 planned: 1538 successful, 71 scientific failures, 3 unavailable, 161 waiting at the 03:01 UTC observation.
+At the 08:48 UTC observer snapshot, E4 had 1,773 planned cells: 1553 successful, 71 scientific failures, 3 unavailable, and 146 waiting.
 
-This is an interim export. See the linked tables/reports and metadata/current_execution_snapshot.json. Fitted models and raw datasets are excluded.
+The timestamped incremental results supplement at reports/E4_INCREMENTAL_RESULTS_20261028T084431Z.md adds the two newly validated E4 records since the prior Git snapshot. It lists each repetition and its saved per-class metrics; it does not recalculate the full E4 paired tables or figures. The E4 rep-3 Extra Trees control is also reused as the E5 rep-3 clean alias.
 
 ## Reports and tables
 
-- [Matched control/treatment results](../../reports/E4_CONTROL_TREATMENT_PAIRED.csv)
-- [Class histograms](../../reports/E4_class_histograms.csv)
-- [Restoration effect figure](../../reports/E4_restoration_effect_heatmaps.png)
-- [Frozen manifest](../../provenance/manifests/E4_MANIFEST.json)
+- Matched control/treatment results: reports/E4_CONTROL_TREATMENT_PAIRED.csv
+- Class histograms: reports/E4_class_histograms.csv
+- Restoration effect figure: reports/E4_restoration_effect_heatmaps.png
+- Incremental overall and per-class rows: reports/E4_INCREMENTAL_RESULTS_20261028T084431Z.csv
+- Frozen manifest: provenance/manifests/E4_MANIFEST.json
 
-[All reports and figures](../../reports/) · [Current observation](../../metadata/current_execution_snapshot.json) · [Repository overview](../../README.md)
-
-
-At the 07:27 UTC status snapshot: 1551 successful, 71 scientific failures, 3 unavailable, 148 waiting of 1773 planned.
+All reports and figures are in reports/. Current observation: metadata/current_execution_snapshot.json.

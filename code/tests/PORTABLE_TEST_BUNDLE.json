@@ -18,18 +18,25 @@
     "total_nodeids": 376,
     "unique_nodeids": 376
   },
+  "candidate_refresh_reason": "controller run-loop refresh regression added to 595 qualified nonfit drain candidate",
   "collection_status": {
-    "added_nodeids": 8,
-    "base_nodeids_sha256": "55a44a85fde6602de7d0a94a9cbf808558f330e848649c729dd36f7bf7241229",
-    "collection_log_sha256": "9787237d2d0aba71dc932a16c033ad166e4e56b2dc98598be2b712702b4db46a",
+    "added_nodeids": 1,
+    "address_space_limit_bytes_per_process": 1073741824,
+    "baseline_node_count": 595,
+    "candidate_nodeids_sha256": "0bc214e1201777d76f009e27a339bf702a3bd1aa8a958ee9437ac2da12af019e",
+    "candidate_unique_node_count": 596,
+    "collection_elapsed_seconds": 1.52,
+    "collection_log_path": "/tmp/lamost_nonfit_disk_drain_596_candidate_20261028/collect_only.log",
+    "collection_log_sha256": "dc2666af7e61ed7f5f896ed7ea4681eb457cb694a39dfef60be54208faeb8b7c",
     "executed_test_bodies": false,
-    "expected_total_nodeids": 587,
-    "nodeids_path": "../PORTABLE_COLLECTED_NODEIDS_587.txt",
-    "nodeids_sha256": "9ca8563544b21b893f99076faac14c7274afeee2605825f4ff66428f513c8177",
-    "preserved_base_nodeids": 579,
-    "status": "collect_only_passed",
-    "total_nodeids": 587,
-    "unique_nodeids": 587
+    "expected_test_count": 596,
+    "native_threads": 1,
+    "nice": 19,
+    "nodeids_path": "PORTABLE_COLLECTED_NODEIDS_596.txt",
+    "preserved_baseline_nodeids": 595,
+    "removed_baseline_nodeids": 0,
+    "resource_gate_complete": true,
+    "status": "collect_only_passed"
   },
   "companion_dependencies": [
     "reason_text_curation.py",
@@ -186,6 +193,16 @@
         "commit_batch_child.py": "2236b6febb6abaf52f67a9e8371bbbc0f7f020e332fad6f7918a8fc819560ac4",
         "run_batch.py": "94c9627ca01ae9e42c6aa3a058daf77ec6d12c043109876db86c18e7e607fde1"
       }
+    },
+    {
+      "baseline_controller_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba",
+      "controller_sha256": "b2a16a7c48708eddfa9bb0807c08b1d08e5ce87ce3d6cec95a1b61077fd15c61",
+      "frozen_source_key_count": 16,
+      "id": "nonfit_disk_drain_20261028_v1",
+      "policy_evidence_sha256": "e6629218af590eebc0f1c76b0cbf9d5021ed62210e5e29df9f78fdd43bdb37c0",
+      "portable_test_member": "runtime_20261025/tests/test_nonfit_disk_drain.py",
+      "portable_test_sha256": "b131c8a8c4398a8e983ce1f1756611f4591e505f08334c5c0576579c1781fa80",
+      "status": "candidate_unqualified"
     }
   ],
   "readme": "runtime_20261025/tests/README.md",
@@ -269,11 +286,11 @@
     }
   ],
   "runner": "runtime_20261025/tests/run_portable_tests.sh",
-  "runner_sha256": "fcfdbfbfff65a74ac8e0195e414ace8c9aeac2f69d3f6604f7ef140aae8e551b",
+  "runner_sha256": "5a512c70b83d33bc08702b8da29b70b48a3cf5a67d1d0ff691c2d7b472aefd75",
   "runtime_staging_present": false,
   "schema": "archive-native-installed-portable-tests/1",
   "scope": "RF4 prospective adapter/admission, E6 availability narrative, and E6 terminal-resume idempotence candidate; no test collection or scientific fits performed.",
-  "scope_current_amendment": "Candidate-only archive read-pass coalescing optimization; existing RF4 admission scope and all scientific limits unchanged.",
+  "scope_current_amendment": "Nonfit E4/E5 disk-drain storage fallback; ordinary fit/generation storage forecast, 20 GiB floor, RAM/CPU/time limits, scientific definitions, and task plan remain unchanged.",
   "source_directory": "runtime_20261025/source",
   "sources": [
     {
@@ -362,11 +379,11 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/cohorts.py"
     },
     {
-      "bundle_sha256": "8569d4b73d24d8103c88c91ab9b28b9a10752f9d41c0a4a1572d83bfe1958369",
+      "bundle_sha256": "daf6d2f0627e4064ec479a1d1dbc3ae221f0a16e9ecf816cda48f519da9b30f9",
       "candidate_refresh_reason": "reviewed archive digest coalescing; frozen scientific source inventory unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/cold_auto_compaction.py",
-      "source_sha256": "8569d4b73d24d8103c88c91ab9b28b9a10752f9d41c0a4a1572d83bfe1958369",
+      "source_sha256": "daf6d2f0627e4064ec479a1d1dbc3ae221f0a16e9ecf816cda48f519da9b30f9",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/cold_auto_compaction.py"
     },
     {
@@ -408,11 +425,11 @@
       "source_sha256": "6b9f012d55f0f2b80ab818477d2bd7cd9deca2bbba5a4288786c93c39a4842f1"
     },
     {
-      "bundle_sha256": "54012c17681ed508cfc7e472e7cb150573fefb1427003d3a8601cbd9db76b8fb",
+      "bundle_sha256": "afe7bb36f166535f1cd23fdb8d996b135975a9a2deed7efe5aa757267242d7bb",
       "candidate_refresh_reason": "reviewed archive digest coalescing; frozen scientific source inventory unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/commit_batch_child.py",
-      "source_sha256": "54012c17681ed508cfc7e472e7cb150573fefb1427003d3a8601cbd9db76b8fb",
+      "source_sha256": "afe7bb36f166535f1cd23fdb8d996b135975a9a2deed7efe5aa757267242d7bb",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/commit_batch_child.py"
     },
     {
@@ -423,11 +440,11 @@
       "upstream_stage_member": "staging/raw_io_cron_cleanup_20261027/source/complete_delivery.py"
     },
     {
-      "bundle_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba",
-      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
+      "bundle_sha256": "db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae",
+      "candidate_refresh_reason": "reviewed run-loop task snapshot refresh after stale registry/task object became inconsistent",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/controller.py",
-      "source_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba",
+      "source_sha256": "db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/controller.py"
     },
     {
@@ -573,11 +590,11 @@
       "source_sha256": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca"
     },
     {
-      "bundle_sha256": "9caa97d8a034c9221654970835437b8ac1bda5e03dbe4a4476ef216eb49f1147",
+      "bundle_sha256": "17df44a7add93599de3bba92709e756b0feed652075622d5e096b52d6763eed0",
       "candidate_refresh_reason": "reviewed archive digest coalescing; frozen scientific source inventory unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/run_batch.py",
-      "source_sha256": "9caa97d8a034c9221654970835437b8ac1bda5e03dbe4a4476ef216eb49f1147",
+      "source_sha256": "17df44a7add93599de3bba92709e756b0feed652075622d5e096b52d6763eed0",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/run_batch.py"
     },
     {
@@ -797,25 +814,25 @@
       "upstream_stage_member": "e4_generated_rf_profile_stage_20261027/tests/fixtures/v2_append_proof/validation.json"
     },
     {
-      "bundle_sha256": "ffa4cf0ebc49381947d8c92b893ce739e885508cfcb045e51d5aff0999a941e7",
+      "bundle_sha256": "bb37c66395b4d153279555b0e39ba99aa7eb3b08db948f97d1cf239e3ec392c5",
       "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
       "runtime_member": "runtime_20261025/manifests/freeze.json",
-      "source_sha256": "ffa4cf0ebc49381947d8c92b893ce739e885508cfcb045e51d5aff0999a941e7"
+      "source_sha256": "bb37c66395b4d153279555b0e39ba99aa7eb3b08db948f97d1cf239e3ec392c5"
     },
     {
-      "bundle_sha256": "ca1ddc139e5cf6eefe94c17dfd26b455779f316a14bacfc6254d23e1738d1fa5",
+      "bundle_sha256": "db6030f293a09de42abdd87fecd77ab850fb010bba85c4f4f5f689eac7077e01",
       "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
       "runtime_member": "runtime_20261025/manifests/RF4_EXECUTION_POLICY_20261028.json",
-      "source_sha256": "ca1ddc139e5cf6eefe94c17dfd26b455779f316a14bacfc6254d23e1738d1fa5"
+      "source_sha256": "db6030f293a09de42abdd87fecd77ab850fb010bba85c4f4f5f689eac7077e01"
     },
     {
-      "bundle_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7",
+      "bundle_sha256": "53d10b4254997b7c4a5c778c4f7dc9ca51cb8566535aa2b5213e23a68bdb0438",
       "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
       "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_EXECUTION_QUALIFICATION_20261028.json",
-      "source_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7"
+      "source_sha256": "53d10b4254997b7c4a5c778c4f7dc9ca51cb8566535aa2b5213e23a68bdb0438"
     },
     {
       "bundle_sha256": "108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2",
@@ -829,6 +846,30 @@
       "runtime_member": "runtime_20261025/tests/run_guarded_tests.py",
       "scope": "Guarded subprocess helper imported by portable test fixtures.",
       "source_sha256": "9e102435d2bce80c8f071338d2d1d0f1f5fb9bfa8542c59f828f19568308a89c"
+    },
+    {
+      "kind": "engineering_test_fixture",
+      "runtime_member": "runtime_20261025/tests/evidence/controller_baseline_9caa7afd.py",
+      "scope": "Exact live controller baseline used solely for storage_allow AST equivalence fixture.",
+      "source_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba"
+    },
+    {
+      "kind": "staged_policy_review_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/NONFIT_DISK_DRAIN_POLICY_20261028.json",
+      "scope": "Nonfit storage-drain design and test evidence; candidate only.",
+      "source_sha256": "b9c7e071dc8e954e7b556d397900c98dd4dd4a7d1192534ccc6d8b48f0de442c"
+    },
+    {
+      "kind": "staged_policy_review_note",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/NONFIT_DISK_DRAIN_POLICY_20261028.md",
+      "scope": "Nonfit storage-drain design note; candidate only.",
+      "source_sha256": "858786b0339f14f1967f649b4c404586166d7df3a022b6cb705679119f729970"
+    },
+    {
+      "kind": "preserved_qualification_history",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_EXECUTION_QUALIFICATION_20261028_PRE_NONFIT.json",
+      "scope": "Original RF4 execution qualification prior to the candidate controller amendment.",
+      "source_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7"
     }
   ],
   "staged_integration_note": "The RF6 policy and freeze field are activated only in this isolated candidate; no live profile publication.",
@@ -999,9 +1040,11 @@
     "test_guard_runner_exit_identity.py": 6,
     "test_history_manifest_packaging.py": 1,
     "test_label_rate_gate.py": 7,
+    "test_loop_snapshot_refresh.py": 1,
     "test_member_comparison_status_count.py": 3,
     "test_native_e6_replay_tiny.py": 2,
     "test_native_fit_scope.py": 5,
+    "test_nonfit_disk_drain.py": 8,
     "test_pending_reclaim_guard.py": 11,
     "test_postcommit_receipt.py": 8,
     "test_public_registry_process_privacy.py": 3,
@@ -1016,7 +1059,7 @@
     "test_verified_zombie_reap.py": 10,
     "test_weighted_mean_gate.py": 2
   },
-  "test_count_plan_total": 587,
+  "test_count_plan_total": 596,
   "test_directory": "runtime_20261025/tests",
   "test_summary_note": "Candidate preserves all 579 qualified test identities and adds seven archive digest pass-coalescing fixtures; collect-only and a fresh guarded qualification are pending.",
   "tests": [
@@ -1564,6 +1607,21 @@
       "portable_sha256": "74859265e3356ee17de0795e12daae9c348a55ddeec8df54eb12da59bbd9e6e3",
       "scope": "Seven bounded synthetic fixtures verify coalesced whole/prefix hashing, cache identity, ZIP prefix integrity and rollback. No runtime archive or model payload opened.",
       "test_member": "runtime_20261025/tests/test_archive_digest_coalescing.py"
+    },
+    {
+      "adaptation": "Only the baseline-controller fixture path is made portable; assertions are unchanged.",
+      "group": "nonfit_disk_drain",
+      "original_sha256": "7f4a16d560a78e85f8e58cdd07222c939badd76c860990dc0501828e23a97abf",
+      "portable_sha256": "b131c8a8c4398a8e983ce1f1756611f4591e505f08334c5c0576579c1781fa80",
+      "scope": "Eight focused controller admission fixtures for E4/E5 nonfit disk drain.",
+      "test_member": "runtime_20261025/tests/test_nonfit_disk_drain.py"
+    },
+    {
+      "group": "nonfit_disk_drain_loop_refresh",
+      "original_sha256": "612a9027c29314a007fbc64d96b5fbd4d9d1e4f22837aa5a1277e25310b73e5b",
+      "portable_sha256": "612a9027c29314a007fbc64d96b5fbd4d9d1e4f22837aa5a1277e25310b73e5b",
+      "scope": "Regression for reloading controller task state before running-worker reconciliation and terminal export; no worker retry or scientific changes.",
+      "test_member": "runtime_20261025/tests/test_loop_snapshot_refresh.py"
     }
   ]
 }

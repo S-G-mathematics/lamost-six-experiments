@@ -912,7 +912,7 @@ def order_ready_for_admission(running,ready):
 def light_fit_blocked(task,heavy_fit_waiting):
  return bool(heavy_fit_waiting and task.get('kind')=='fit' and worker_resource_class(task)=='light')
 
-def admit(db,t,idle_hint=None):
+def admit(db,t,idle_hint=None,storage_drain_evidence=None):
  overlap_evidence=_archive_fit_launch_gate(db,t,idle_hint)
  if overlap_evidence is False:return False
  aid=uuid.uuid4().hex;attempt=R/'attempts'/t['key']/aid;attempt.mkdir(parents=True,exist_ok=True)
@@ -994,6 +994,7 @@ def admit(db,t,idle_hint=None):
       and evidence.get('resource_audit',{}).get('v2_sha256')==admission_evidence.KNN_RBF_V2_AUDIT_SHA256):
    profile_id=evidence['profile_id'];profile_evidence=evidence
  resource_profile=dict(ADAPTIVE_POLICY);resource_profile.update({'admission_profile_id':profile_id,'admission_reservation_bytes':reservation})
+ if storage_drain_evidence is not None:resource_profile['storage_drain_policy']=dict(storage_drain_evidence)
  if profile_id in (RF4_PROFILE_ID,RF4_E4_6G_PROFILE_ID):
   resource_profile.update({'execution_policy':RF4_EXECUTION_POLICY,'resource_profile':RF4_RESOURCE_PROFILE,'cpu_reservation_units':RF4_CPU_UNITS,'fit_n_jobs':4,'prediction_n_jobs':1,'native_threads':1})
  if profile_evidence:resource_profile['admission_profile_evidence']=dict(profile_evidence)
@@ -1508,6 +1509,175 @@ def cpu_idle_cores():
   else:LAST_IDLE_CORES=0.0
  CPU_PREVIOUS=point
  return LAST_IDLE_CORES
+STORAGE_DRAIN_POLICY_ID='nonfit-e4e5-eval-only-20261028-v1'
+STORAGE_DRAIN_FLOOR_BYTES=20*GIB
+STORAGE_DRAIN_OUTPUT_RESERVE_BYTES=2*GIB
+_STORAGE_DRAIN_HASH_CACHE={}
+_STORAGE_DRAIN_HASH_CACHE_MAX=256
+
+def _storage_drain_artifact_file(runtime,key,filename):
+ # Resolve only canonical project-owned artifact paths and reject symlinks at
+ # every component. The task's artifact_dir is checked by the caller.
+ if not isinstance(key,str) or not key or key.startswith('/') or '\\' in key:return None
+ if filename not in {'pipeline.joblib','fit_result.json','validation.json','evaluation.json'}:return None
+ parts=key.split('/')
+ if any(x in ('','.','..') for x in parts):return None
+ root=pathlib.Path(runtime)/'artifacts'
+ try:
+  root_st=root.lstat()
+  if stat.S_ISLNK(root_st.st_mode) or not stat.S_ISDIR(root_st.st_mode):return None
+  cur=root
+  for part in parts:
+   if any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-' for c in part):return None
+   cur=cur/part
+   st=cur.lstat()
+   if stat.S_ISLNK(st.st_mode) or not stat.S_ISDIR(st.st_mode):return None
+  p=cur/filename;st=p.lstat()
+  if stat.S_ISLNK(st.st_mode) or not stat.S_ISREG(st.st_mode) or st.st_size<=0:return None
+  resolved=p.resolve(strict=True)
+  if not resolved.is_relative_to(root.resolve(strict=True)):return None
+  return p,st
+ except (OSError,ValueError,RuntimeError):return None
+
+def _storage_drain_small_json(path,maximum=4*1024*1024):
+ try:
+  st=path.lstat()
+  if stat.S_ISLNK(st.st_mode) or not stat.S_ISREG(st.st_mode) or st.st_size<=0 or st.st_size>maximum:return None
+  with path.open('r',encoding='utf-8') as f:
+   value=json.load(f)
+  return value if isinstance(value,dict) else None
+ except (OSError,ValueError,TypeError):return None
+
+def _storage_drain_stream_sha256(path,observed_stat):
+ # Hash one selected physical artifact in bounded chunks; cache by inode and
+ # full stat identity so repeat scheduler polls do not reread the same model.
+ key=str(path); sig=(observed_stat.st_dev,observed_stat.st_ino,observed_stat.st_size,observed_stat.st_mtime_ns,observed_stat.st_ctime_ns)
+ cached=_STORAGE_DRAIN_HASH_CACHE.get(key)
+ if cached is not None and cached[0]==sig:return cached[1]
+ h=hashlib.sha256()
+ try:
+  fd=os.open(path,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0))
+  with os.fdopen(fd,'rb',closefd=True) as f:
+   st=os.fstat(f.fileno())
+   current=(st.st_dev,st.st_ino,st.st_size,st.st_mtime_ns,st.st_ctime_ns)
+   if current!=sig or not stat.S_ISREG(st.st_mode):return None
+   while True:
+    block=f.read(4*1024*1024)
+    if not block:break
+    h.update(block)
+  after=path.lstat()
+  if stat.S_ISLNK(after.st_mode) or (after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns)!=sig:return None
+ except OSError:return None
+ digest=h.hexdigest()
+ if len(_STORAGE_DRAIN_HASH_CACHE)>=_STORAGE_DRAIN_HASH_CACHE_MAX:_STORAGE_DRAIN_HASH_CACHE.clear()
+ _STORAGE_DRAIN_HASH_CACHE[key]=(sig,digest)
+ return digest
+
+def _storage_drain_valid_hash(value):
+ return isinstance(value,str) and len(value)==64 and all(c in '0123456789abcdef' for c in value)
+
+def _storage_drain_task_evidence(task,tasks,runtime,require_ready=True):
+ # Only frozen E4/E5 RF/ExtraTrees evaluations with exactly one validated fit
+ # dependency, or an E5 clean alias to its same-repetition E4 control eval.
+ status=task.get('status')
+ if require_ready and status not in ('planned','waiting_for_dependency'):return None
+ if require_ready and task.get('attempts'):return None
+ if not require_ready and status!='running':return None
+ exp=task.get('experiment');rep=task.get('rep')
+ try:exp=int(exp);rep=int(rep)
+ except (TypeError,ValueError):return None
+ if rep not in (1,2,3):return None
+ method=task.get('method')
+ if method not in ('random_forest','extra_trees'):return None
+ key=task.get('key')
+ if task.get('artifact_dir')!=str(pathlib.Path(runtime)/'artifacts'/str(key)):return None
+ if task.get('kind')=='eval':
+  route=task.get('route');condition=task.get('condition')
+  if exp==4 and route not in ('direct','treatment'):return None
+  if exp==5 and route not in ('direct','synthetic'):return None
+  if exp not in (4,5) or not isinstance(condition,str) or not condition:return None
+  if key!=f'e{exp}/rep_{rep}/eval/{route}/{method}/{condition}':return None
+  fit_key=task.get('fit_key');deps=task.get('dependencies',[])
+  if not isinstance(fit_key,str) or deps!=[fit_key]:return None
+  fit=tasks.get(fit_key)
+  if not isinstance(fit,dict) or fit.get('key')!=fit_key:return None
+  if (fit.get('kind')!='fit' or fit.get('experiment')!=exp or fit.get('rep')!=rep
+      or fit.get('method')!=method or fit.get('route')!=route or fit.get('condition')!=condition
+      or fit.get('status')!='validated_terminal' or fit.get('outcome')!='successful'
+      or fit.get('validation_state')!='validated'):return None
+  if fit.get('artifact_dir')!=str(pathlib.Path(runtime)/'artifacts'/fit_key):return None
+  result=fit.get('result')
+  if not isinstance(result,dict):return None
+  expected=result.get('artifact_sha256');inner=result.get('result')
+  if not isinstance(inner,dict) or not _storage_drain_valid_hash(expected) or inner.get('pipeline_sha256')!=expected:return None
+  fit_result_file=_storage_drain_artifact_file(runtime,fit_key,'fit_result.json')
+  validation_file=_storage_drain_artifact_file(runtime,fit_key,'validation.json')
+  model_file=_storage_drain_artifact_file(runtime,fit_key,'pipeline.joblib')
+  if not fit_result_file or not validation_file or not model_file:return None
+  fr=_storage_drain_small_json(fit_result_file[0]);val=_storage_drain_small_json(validation_file[0])
+  if not isinstance(fr,dict) or fr.get('artifact_sha256')!=expected:return None
+  fr_inner=fr.get('result')
+  if not isinstance(fr_inner,dict) or fr_inner.get('pipeline_sha256')!=expected:return None
+  if not isinstance(val,dict) or val.get('status')!='validated' or val.get('task_key')!=fit_key:return None
+  if not isinstance(val.get('files'),dict) or val['files'].get('pipeline.joblib')!=expected:return None
+  actual=_storage_drain_stream_sha256(model_file[0],model_file[1])
+  if actual!=expected:return None
+  return {'storage_drain_policy_id':STORAGE_DRAIN_POLICY_ID,'drain_task_key':key,'drain_kind':'evaluation',
+          'fit_key':fit_key,'pipeline_sha256':expected,'fit_validation_manifest_sha256':sha(validation_file[0]),
+          'physical_pipeline_bytes':model_file[1].st_size,'no_model_fit_or_serialization':True}
+ if task.get('kind')=='alias':
+  if exp!=5 or task.get('route')!='direct' or task.get('condition')!='clean':return None
+  if key!=f'e5/rep_{rep}/eval/direct/{method}/clean':return None
+  source_key=f'e4/rep_{rep}/eval/direct/{method}/control'
+  if task.get('source_key')!=source_key or task.get('dependencies')!=[source_key]:return None
+  source=tasks.get(source_key)
+  if not isinstance(source,dict) or (source.get('kind') not in ('eval','alias') or source.get('experiment')!=4
+      or source.get('rep')!=rep or source.get('method')!=method or source.get('route')!='direct'
+      or source.get('condition')!='control' or source.get('status')!='validated_terminal'
+      or source.get('outcome')!='successful' or source.get('validation_state')!='validated'):return None
+  src_file=_storage_drain_artifact_file(runtime,source_key,'evaluation.json')
+  src_val_file=_storage_drain_artifact_file(runtime,source_key,'validation.json')
+  if not src_file or not src_val_file:return None
+  val=_storage_drain_small_json(src_val_file[0])
+  if not isinstance(val,dict) or val.get('status')!='validated' or val.get('task_key')!=source_key:return None
+  if not isinstance(val.get('files'),dict):return None
+  expected=val['files'].get('evaluation.json')
+  if not _storage_drain_valid_hash(expected) or sha(src_file[0])!=expected:return None
+  return {'storage_drain_policy_id':STORAGE_DRAIN_POLICY_ID,'drain_task_key':key,'drain_kind':'clean_evaluation_alias',
+          'source_evaluation_key':source_key,'source_evaluation_sha256':expected,
+          'source_validation_manifest_sha256':sha(src_val_file[0]),'no_model_fit_or_serialization':True}
+ return None
+
+def storage_drain_candidate(tasks,ready,running,free_bytes,runtime,archive_mode='inactive',admission_hold=False):
+ # A storage forecast may be bypassed only for bounded E4/E5 evaluation sinks.
+ # Preserve the 20 GiB hard floor and reserve 2 GiB for every active plus new
+ # drain task. No archive overlap or operator admission hold may be bypassed.
+ if admission_hold or archive_mode!='inactive':return None
+ try:free=int(free_bytes)
+ except (TypeError,ValueError):return None
+ if free<STORAGE_DRAIN_FLOOR_BYTES:return None
+ active_evidence=[]
+ for t in running:
+  evidence=_storage_drain_task_evidence(t,tasks,runtime,require_ready=False)
+  if evidence is None:return None
+  active_evidence.append(evidence)
+ required=STORAGE_DRAIN_FLOOR_BYTES+STORAGE_DRAIN_OUTPUT_RESERVE_BYTES*(len(active_evidence)+1)
+ if free<required:return None
+ # Preserve the established ready ordering and inspect candidates one at a
+ # time. Hash at most the selected candidate's model per scheduler pass.
+ for selected in order_ready_for_admission(running,ready):
+  proof=_storage_drain_task_evidence(selected,tasks,runtime,require_ready=True)
+  if proof is None:continue
+  proof=dict(proof)
+  proof.update({'free_bytes_at_admission_check':free,'hard_free_floor_bytes':STORAGE_DRAIN_FLOOR_BYTES,
+                'reserved_output_bytes_per_active_or_new_task':STORAGE_DRAIN_OUTPUT_RESERVE_BYTES,
+                'active_drain_task_count':len(active_evidence),
+                'reserved_output_total_bytes':STORAGE_DRAIN_OUTPUT_RESERVE_BYTES*(len(active_evidence)+1),
+                'required_free_bytes':required,'archive_overlap_mode':'inactive','operator_admission_hold_absent':True,
+                'normal_future_space_forecast_gate_passed':False})
+  return selected,proof
+ return None
+
 def storage_allow():
  global STORAGE_ESTIMATE
  free=shutil.disk_usage(R).free
@@ -1539,6 +1709,10 @@ def run():
  event(db,'controller_started',{'pid':os.getpid(),'tasks':len(tasks),'plan_sha256':frozen['plan_sha256']})
  last_export=last_report=last_source=0
  while not STOP:
+  # Refresh the registry snapshot before reaping/checking workers. The storage
+  # drain path may admit a worker through a local snapshot; the next loop must
+  # observe it for liveness checks and progress exports.
+  tasks=load(db)
   if REAPER_ENABLED:archive_fit_admission.reap_recorded_zombies(tasks,R,os.getpid())
   check_running(db,tasks)
   if time.monotonic()-last_source>60:
@@ -1565,6 +1739,28 @@ def run():
     tasks=load(db);guard=emergency_interrupt_one(db,tasks)
   elif ready and not storage:
    atomic(R/'STORAGE_HOLD.json',{'observed_utc':now(),'free_bytes':free,'minimum_free_bytes':20*1024**3,'reason':'storage backoff; unique artifacts preserved'})
+   # Drain only already-fitted E4/E5 RF/ET evaluation sinks and E5 clean aliases.
+   # This path never changes the ordinary fit/generation forecast admission.
+   if not admission_hold_active():
+    drain_archive=archive_fit_overlap_context()
+    if drain_archive.get('mode')=='inactive':
+     fresh_tasks=load(db);fresh_ready=ready_tasks(db,fresh_tasks)
+     fresh_running=[x for x in fresh_tasks.values() if x.get('status')=='running']
+     drain=storage_drain_candidate(fresh_tasks,fresh_ready,fresh_running,shutil.disk_usage(R).free,R,
+                                   drain_archive.get('mode'),admission_hold_active())
+     if drain is not None:
+      drain_task,drain_proof=drain
+      candidate=admission_candidate(db,fresh_running,[drain_task],idle,archive_context=drain_archive)
+      if candidate is not None:
+       # Recheck disk, dependencies, physical input, archive mode and operator hold
+       # immediately before launch; actual RAM/CPU checks remain in admission_candidate.
+       latest=load(db);latest_ready=ready_tasks(db,latest)
+       latest_running=[x for x in latest.values() if x.get('status')=='running']
+       latest_archive=archive_fit_overlap_context();latest_free=shutil.disk_usage(R).free
+       latest_drain=storage_drain_candidate(latest,latest_ready,latest_running,latest_free,R,
+                                            latest_archive.get('mode'),admission_hold_active())
+       if latest_drain is not None and latest_drain[0].get('key')==candidate.get('key'):
+        admit(db,candidate,idle,storage_drain_evidence=latest_drain[1])
   if time.monotonic()-last_export>10:
    export(db,tasks);human_checkpoint(tasks);maybe_report(db,tasks);last_export=time.monotonic()
   remaining=[t for t in tasks.values() if t['status']!='validated_terminal']

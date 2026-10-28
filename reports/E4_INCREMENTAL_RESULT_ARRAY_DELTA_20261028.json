@@ -1,0 +1,106 @@
+{
+  "archive": {
+    "crc_test": "passed",
+    "members": [
+      {
+        "crc32": "a0266bfe",
+        "path": "runtime_20261025/artifacts/e4/rep_2/eval/treatment/random_forest/K_tenth_generated_chow_liu/test_outcomes.npz",
+        "sha256": "961c23f49bdf3b28ebecfde93d55b7929ec14dbf303e969351df84ff9c6e34a6",
+        "size_bytes": 1577428
+      },
+      {
+        "crc32": "7edb7998",
+        "path": "runtime_20261025/artifacts/e4/rep_3/eval/direct/extra_trees/control/test_outcomes.npz",
+        "sha256": "9e20efcd02de0b0eafb6954766f34e7c0825308f20777dabf10b65df558c00db",
+        "size_bytes": 1566022
+      }
+    ],
+    "public_release_uploaded": false,
+    "sha256": "49d94bba6fc13f4d4f56b10332e0410701e5a3e3d247ec1db37df772388c54a5",
+    "size_bytes": 3144012,
+    "staged_path": "github_delta_results_20261028/e4_three_validated_cells_20261028T084431Z/e4_three_validated_outcomes_delta.zip",
+    "unique_outcome_arrays": 2
+  },
+  "cells": [
+    {
+      "eval_result_sha256": "ecfc07ca96a0f9fdb76417e329ab640a5f498a8cb8d130459f7521fc37665f0f",
+      "evaluation_sha256": "b56bdda601d44e14602fbcf21de450cd89b9be642a5b6d620b99ce6c94b12b80",
+      "kind": "eval",
+      "metrics": {
+        "balanced_accuracy": 0.7227278031687236,
+        "calibration_n": 10000,
+        "mean_set_size": 1.799406,
+        "overall_coverage": 0.897186,
+        "test_n": 500000
+      },
+      "outcome": "successful",
+      "outcome_array_bytes": 1577428,
+      "outcome_array_sha256": "961c23f49bdf3b28ebecfde93d55b7929ec14dbf303e969351df84ff9c6e34a6",
+      "source_task_key": "e4/rep_2/eval/treatment/random_forest/K_tenth_generated_chow_liu",
+      "task_key": "e4/rep_2/eval/treatment/random_forest/K_tenth_generated_chow_liu",
+      "validation_sha256": "53af6147ef883d109561743ef2012b2f4b73ce36f5d23ec350a6b7a2540d35dc",
+      "validation_state": "validated"
+    },
+    {
+      "eval_result_sha256": "b324969a5df4ad8fae0a254d333b857cac17ca0b6adbc30657387c8ab13a4a79",
+      "evaluation_sha256": "b2da54e2bf6b8a4355edadeb9627a3ba13b036ad193d28087665c4bc2edc80e4",
+      "kind": "eval",
+      "metrics": {
+        "balanced_accuracy": 0.7680931385135665,
+        "calibration_n": 10000,
+        "mean_set_size": 1.5923,
+        "overall_coverage": 0.90626,
+        "test_n": 500000
+      },
+      "outcome": "successful",
+      "outcome_array_bytes": 1566022,
+      "outcome_array_sha256": "9e20efcd02de0b0eafb6954766f34e7c0825308f20777dabf10b65df558c00db",
+      "source_task_key": "e4/rep_3/eval/direct/extra_trees/control",
+      "task_key": "e4/rep_3/eval/direct/extra_trees/control",
+      "validation_sha256": "865b671fec348c094146539e3d41287c30ccf8bb0c98c8f385433105d69a129d",
+      "validation_state": "validated"
+    },
+    {
+      "eval_result_sha256": null,
+      "evaluation_sha256": "2be2c9d0e6e511e8ed14b93b4c156d6fa585fb085f904f4232049f7a3ac9a7d7",
+      "kind": "alias",
+      "metrics": {
+        "balanced_accuracy": 0.7680931385135665,
+        "calibration_n": 10000,
+        "mean_set_size": 1.5923,
+        "overall_coverage": 0.90626,
+        "test_n": 500000
+      },
+      "outcome": "successful",
+      "outcome_array_bytes": null,
+      "outcome_array_sha256": null,
+      "source_task_key": null,
+      "task_key": "e5/rep_3/eval/direct/extra_trees/clean",
+      "validation_sha256": "409e6ccb283963222ad007bb3fd62cdd3b783379d14fbd28787d89365361835d",
+      "validation_state": "validated"
+    }
+  ],
+  "new_validated_records_since_snapshot": 3,
+  "observed_utc": "2026-10-28T08:44:31.946790+00:00",
+  "prior_git_snapshot_commit": "d72600154e4b631e1ce2c80978b44a4dd5ace990",
+  "prior_snapshot_observed_utc": "2026-10-28T07:28:21.258888+00:00",
+  "schema": "lamost-e4-incremental-outcomes/1",
+  "source_status_path": "runtime_20261025/status.json",
+  "source_status_sha256": "8b8c7d030805444e034ce40b1faa91a3ec143e85a6241e2a39d884238c6dd12e",
+  "unique_array_sources": {
+    "961c23f49bdf3b28ebecfde93d55b7929ec14dbf303e969351df84ff9c6e34a6": {
+      "migration_path": "runtime_20261025/artifacts/e4/rep_2/eval/treatment/random_forest/K_tenth_generated_chow_liu/test_outcomes.npz",
+      "size_bytes": 1577428,
+      "task_keys": [
+        "e4/rep_2/eval/treatment/random_forest/K_tenth_generated_chow_liu"
+      ]
+    },
+    "9e20efcd02de0b0eafb6954766f34e7c0825308f20777dabf10b65df558c00db": {
+      "migration_path": "runtime_20261025/artifacts/e4/rep_3/eval/direct/extra_trees/control/test_outcomes.npz",
+      "size_bytes": 1566022,
+      "task_keys": [
+        "e4/rep_3/eval/direct/extra_trees/control"
+      ]
+    }
+  }
+}

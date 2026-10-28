@@ -817,14 +817,6 @@
           "name": "run_batch.py"
         }
       ]
-    },
-    {
-      "id": "raw-wide8-20261028",
-      "portable_fingerprint_sha256": "11b029595c9f0deea36ef2719e94d8aad9268c18581c29ff997caa4620da1469",
-      "portable_pass_sha256": "70196e3c696a54e4245ed9a356700021e97464ae145017cba0b1888d9ae89500",
-      "receipt": "reports/engineering_audits/portable_publication_history/RAW_WIDE8_555_QUALIFIED_20261028T023058Z/PUBLICATION.json",
-      "receipt_sha256": "57d2d8a58fce118e15ac6b65c3d825b94b87924095c2d83e42e58eab838a6e0c",
-      "scope": "prospective raw archive batches only, default2GiB profile preserved, no scientific policy change"
     }
   ],
   "operational_controller_history": [
@@ -1003,20 +995,11 @@
     }
   ],
   "operational_qualification_sha256": "1a94dd1a136fe678f658831270ca40414bb8039eda126477b80d396342f953e7",
-  "operational_repair_history": [
-    {
-      "bundle_fingerprint_sha256": "b3200c0ac73e311b23048f769b5a1ac0074cd918d35c22c621f4bd8864384a60",
-      "receipt": "reports/engineering_audits/WRAPPER_CONTROLLER_PIN_REPAIR_20261028.json",
-      "sha256": "f048657f479268ccc5ac1f078088dffb844cf420f1d56642055239b3ad817ec1"
-    }
-  ],
   "operational_source_sha256": {
-    "batch_plan.py": "c6a6420c73be21a5cedfa4a9c681332c9eaa4986fbcd5094e4bfdf05b85901f9",
-    "cold_auto_compaction.py": "823047d84af303b341e4e1ca8b1c0adb6678daeb032b4be67bad402ac7e7b48b",
+    "cold_auto_compaction.py": "d36f1dd8f37f6130ad16815cb331c1d90c53103e0112acc2e324e1062c17e80a",
     "cold_model_storage.py": "90876f61a5e98b03621f134b2f07478da37cb9c65c864f92f75beb588739847b",
-    "commit_batch_child.py": "97cde6810e37b6c703e648b194e36a569be975ef844575d6bffd429076f436c8",
-    "finalize_project.py": "b05bb69680153e039432b57b85f5a5574df0ddec003ed04bffd98ef6fc15bd80",
-    "run_batch.py": "c1639d78b33855ef102f147324f4377563376e23c0342cfe952335d338b8a104"
+    "commit_batch_child.py": "974dadb20d39f535a5f28b401b23c5dc516447611201399c0b0d5de1982d81a0",
+    "run_batch.py": "803793bb3b32d82ab8fdda4f8ee1333035eb59f97970d3d7b2416df9cb1a28fc"
   },
   "plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
   "protocol_version": "LAMOST-later-v1-20261025",
@@ -1133,8 +1116,10 @@
       "reason": "user-authorized peak safe concurrency: keep one heavy fit progressing while packing admissible light work before an additional heavy fit"
     }
   ],
-  "rf4_execution_policy_sha256": "ae3178ed119d8ffe50a9ae4d61e76b2373c931a8a6c22042ab93c9c2da87cd92",
-  "rf4_execution_qualification_sha256": "113c4273faf24e16a8747acac6bca59462df4db802a17ffa817b4de7f3f40ca1",
+  "rf4_e4_treatment_6g_admission_sha256": "108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2",
+  "rf4_e4_treatment_6g_candidate_note": "Portable-test candidate only; 6 GiB admission estimate pending root publication decision.",
+  "rf4_execution_policy_sha256": "db6030f293a09de42abdd87fecd77ab850fb010bba85c4f4f5f689eac7077e01",
+  "rf4_execution_qualification_sha256": "53d10b4254997b7c4a5c778c4f7dc9ca51cb8566535aa2b5213e23a68bdb0438",
   "source_amendment_history": [
     {
       "amended_source_sha256": {
@@ -1275,16 +1260,46 @@
       "scientific_attempts_requeued": 0,
       "scope": "Owned exited worker reaping and byte-preserving archive verification digest reuse; RF4 science/source/caps unchanged; archive overlap disabled",
       "worker_reaper_source_sha256": "5bd52c1ae4b41cbb4fce77da4a5def4ce95d32244789aecbcd2fe02d2575ef9a"
+    },
+    {
+      "amended_controller_sha256": "b2a16a7c48708eddfa9bb0807c08b1d08e5ce87ce3d6cec95a1b61077fd15c61",
+      "monitored_source_key_count": 16,
+      "new_attempts_started": 0,
+      "observed_utc": "2026-10-28T07:22:52.784418+00:00",
+      "previous_controller_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba",
+      "reason": "Add a storage-forecast-only drain for already-fitted E4/E5 RF/ExtraTrees evaluations and exact clean aliases; ordinary fit/generation gate and 20 GiB floor unchanged.",
+      "scientific_change": false
+    },
+    {
+      "candidate_rf4_policy_sha256": "246016e53ba81f957b31f9bfe6955e82b3056de99b36061b8401eb8fe2b88c7d",
+      "candidate_rf4_qualification_sha256": "7fd459c1d868d5dd6069301abca8407910154bc641defd7a184034b5acc7ea2d",
+      "frozen_source_key_count": 16,
+      "new_scientific_attempts": 0,
+      "observed_utc": "2026-10-28T07:31:49.625573+00:00",
+      "previous_rf4_qualification_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7",
+      "reason": "Candidate RF4 qualification metadata rebound to the staged nonfit storage-drain controller; original RF4 qualification retained as a separate history artifact.",
+      "scientific_change": false
+    },
+    {
+      "amended_controller_sha256": "db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae",
+      "frozen_utc_preserved": true,
+      "new_attempts_started": 0,
+      "observed_utc": "2026-10-28T08:01:33.786883+00:00",
+      "portable_suite_expected_cases": 596,
+      "previous_controller_sha256": "b2a16a7c48708eddfa9bb0807c08b1d08e5ce87ce3d6cec95a1b61077fd15c61",
+      "reason": "Reload current task records before running-worker reconciliation so a completed worker result is collected without retry.",
+      "scientific_change": false,
+      "test_sha256": "612a9027c29314a007fbc64d96b5fbd4d9d1e4f22837aa5a1277e25310b73e5b"
     }
   ],
-  "source_amendment_prepared_utc": "2026-10-27T18:50:19.016654+00:00",
-  "source_amendment_status": "qualified_prospective_execution_amendment_bound_by_activation_receipt",
-  "source_amendment_version": "owned-zombie-reaping-and-history-bound-storage-digest-cache-20261028",
+  "source_amendment_prepared_utc": "2026-10-28T08:01:33.786887+00:00",
+  "source_amendment_status": "candidate_only_not_deployed",
+  "source_amendment_version": "nonfit-e4e5-eval-disk-drain-20261028-v2-loop-refresh",
   "source_sha256": {
     "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
-    "archive_fit_admission.py": "5bd52c1ae4b41cbb4fce77da4a5def4ce95d32244789aecbcd2fe02d2575ef9a",
+    "archive_fit_admission.py": "ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030",
     "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d",
-    "controller.py": "d34bf3db889ee7c642cf28d079cbeb32f27fb772584163f497e78499a994d5ac",
+    "controller.py": "db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae",
     "e6_phase_supervisor.py": "5babe2da661c4162283ab945b17db4d88350bf863335744b5619285d69a37d05",
     "ensemble.py": "5b4444bc83576affe80946762dc1cceb76feb6cdcd33305fdcc6339c3c390476",
     "ensemble_maintenance_patch.py": "0d1d0eefc1d41dcc6609b2b409f2570dd1970f44c7367c5e5eab7955b4154a8e",
@@ -1299,5 +1314,5 @@
     "worker.py": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18"
   },
   "test_information_history": "E1/E2 fixed test results already observed; later plans frozen before new test evaluations",
-  "worker_reaper_source_sha256": "5bd52c1ae4b41cbb4fce77da4a5def4ce95d32244789aecbcd2fe02d2575ef9a"
+  "worker_reaper_source_sha256": "ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030"
 }
