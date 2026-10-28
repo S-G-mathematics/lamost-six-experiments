@@ -290,21 +290,21 @@ class ColdStoreTests(unittest.TestCase):
  def test_archive_mutation_during_final_hash_refuses_cache_seed_and_rolls_back(self):
   with tempfile.TemporaryDirectory(dir=HERE) as td:
    root,rt,s,key,src,alias,obj,digest,records,item=setup_store(td)
-   real_hash=cold.sha256_file;mutated=[False]
-   def hash_then_mutate(path):
-    result=real_hash(path)
-    if pathlib.Path(path)==s.archive and not mutated[0]:
+   real_hash=cold.sha256_file_and_prefixes;mutated=[False]
+   def hash_then_mutate(path,prefix_bytes,chunk=8<<20):
+    result=real_hash(path,prefix_bytes,chunk)
+    appending=any(json.loads(j.read_text()).get("state")=="appending" for j in s.journals.glob("*/journal.json"))
+    if pathlib.Path(path)==s.archive and appending and not mutated[0]:
      mutated[0]=True
      with open(s.archive,"ab") as f:f.write(b"race")
     return result
-   with patch.object(cold,"sha256_file",side_effect=hash_then_mutate):
+   with patch.object(cold,"sha256_file_and_prefixes",side_effect=hash_then_mutate):
     with self.assertRaises(AmbiguousState):s.commit_models([item],records)
    self.assertTrue(mutated[0]);self.assertIsNone(s._archive_identity_cache)
    self.assertTrue(src.is_file());self.assertTrue(alias.is_file())
    tx=next((rt/"journals"/"cold_store").glob("*/journal.json")).parent.name
    self.assertEqual(s.recover(tx,records),"rolled_back")
    self.assertTrue(src.is_file());self.assertTrue(alias.is_file())
-
 
 
  def _legacy_history_fixture(self,td):

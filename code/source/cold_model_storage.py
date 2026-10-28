@@ -25,11 +25,31 @@ _LEGACY_HISTORY_ENTRY_COUNT=54
 
 
 def _sha_bytes(data):return hashlib.sha256(data).hexdigest()
+def _archive_stat_identity(st):return (st.st_dev,st.st_ino,st.st_size,st.st_mtime_ns,st.st_ctime_ns)
 def sha256_file(path,chunk=8<<20):
     h=hashlib.sha256()
     with open(path,"rb") as f:
         for b in iter(lambda:f.read(chunk),b""):h.update(b)
     return h.hexdigest()
+def sha256_file_and_prefixes(path,prefix_bytes,chunk=8<<20):
+    """Hash a complete file and selected leading prefixes in one bounded-memory pass."""
+    lengths=tuple(dict.fromkeys(prefix_bytes if isinstance(prefix_bytes,(tuple,list,set)) else (prefix_bytes,)))
+    if not lengths or any(not isinstance(n,int) or n<0 for n in lengths):raise ValueError("invalid prefix lengths")
+    full=hashlib.sha256();prefixes={n:hashlib.sha256() for n in lengths};remaining={n:n for n in lengths};total=0
+    with open(path,"rb") as f:
+        while True:
+            b=f.read(chunk)
+            if not b:break
+            full.update(b)
+            for n,h in prefixes.items():
+                if remaining[n]:
+                    take=b[:remaining[n]];h.update(take);remaining[n]-=len(take)
+            total+=len(b)
+    if any(remaining.values()):raise AmbiguousState("requested archive prefix exceeds file size")
+    return full.hexdigest(),{n:h.hexdigest() for n,h in prefixes.items()},total
+def sha256_file_and_prefix(path,prefix_bytes,chunk=8<<20):
+    whole,prefixes,total=sha256_file_and_prefixes(path,prefix_bytes,chunk)
+    return whole,prefixes[prefix_bytes],total
 def _stream_hash(stream):
     h=hashlib.sha256();n=0;crc=0
     while True:
@@ -329,22 +349,57 @@ class ColdModelStore:
         return resolved
     def _records(self):
         with zipfile.ZipFile(self.archive,"r",allowZip64=True) as z:return _zip_records_all(z)
+    @staticmethod
+    def _stat_identity(st):return _archive_stat_identity(st)
+    def _check_reviewed_baseline(self,manifest,reviewed_sha256):
+        """Bind the explicit reviewed digest, manifest, ZIP index and prefix in one fresh read."""
+        expected=reviewed_sha256.lower() if isinstance(reviewed_sha256,str) else ""
+        if len(expected)!=64 or any(c not in "0123456789abcdef" for c in expected):
+            raise UnsafePlan("explicit 64-hex reviewed baseline SHA required")
+        actual,st,records=self._check_archive_manifest(manifest)
+        if actual!=expected:raise AmbiguousState("archive does not match explicit reviewed baseline")
+        return actual,st,records
     def _check_archive_manifest(self,manifest):
         if not self.archive.is_file() or self.archive.is_symlink():raise AmbiguousState("cold ZIP missing or not regular")
-        before=self.archive.stat();identity=(before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns,before.st_ctime_ns)
-        cached=self._archive_identity_cache
-        if cached and cached["identity"]==identity:
-            actual=cached["sha256"];records=cached["zip_records"]
+        before=self.archive.stat();identity=_archive_stat_identity(before)
+        cached=getattr(self,"_archive_identity_cache",None)
+        cached_prefix_valid=(isinstance(cached,dict)
+            and isinstance(cached.get("prefix_bytes"),int) and cached.get("prefix_bytes")>=0
+            and isinstance(cached.get("zip_start_dir"),int) and cached.get("zip_start_dir")==cached.get("prefix_bytes")
+            and isinstance(cached.get("prefix_sha256"),str) and len(cached.get("prefix_sha256"))==64
+            and all(c in "0123456789abcdef" for c in cached.get("prefix_sha256")))
+        if cached and cached.get("identity")==identity and cached_prefix_valid:
+            actual=cached["sha256"];records=cached["zip_records"];prefix_sha=cached["prefix_sha256"];start=cached["zip_start_dir"]
         else:
-            actual=sha256_file(self.archive)
-            with zipfile.ZipFile(self.archive,"r",allowZip64=True) as z:records=_zip_records_all(z)
-            self._archive_identity_cache={"identity":identity,"sha256":actual,"zip_records":records}
-        after=self.archive.stat();after_identity=(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns)
+            with zipfile.ZipFile(self.archive,"r",allowZip64=True) as z:
+                records=_zip_records_all(z);start=z.start_dir
+            actual,prefix_sha,total=sha256_file_and_prefix(self.archive,start)
+            if total!=before.st_size:raise AmbiguousState("cold ZIP size changed while hashing")
+            self._archive_identity_cache={"identity":identity,"sha256":actual,"zip_records":records,
+                "prefix_bytes":start,"prefix_sha256":prefix_sha,"zip_start_dir":start}
+        after=self.archive.stat();after_identity=_archive_stat_identity(after)
         if after_identity!=identity:raise AmbiguousState("cold ZIP changed while hashing/indexing")
         st=after
         if manifest.get("archive_sha256")!=actual or manifest.get("archive_bytes")!=st.st_size or manifest.get("zip_records")!=records:
             raise AmbiguousState("cold ZIP differs from committed member manifest")
         return actual,st,records
+    def _verified_prefix_digest(self,expected_sha256,prefix_bytes):
+        """Return a prefix SHA bound to the current whole-file identity; fail closed on drift."""
+        if not self.archive.is_file() or self.archive.is_symlink():raise AmbiguousState("cold ZIP missing or not regular")
+        before=self.archive.stat();identity=_archive_stat_identity(before);cached=getattr(self,"_archive_identity_cache",None)
+        cached_prefix_valid=(isinstance(cached,dict)
+            and isinstance(cached.get("prefix_bytes"),int) and cached.get("prefix_bytes")>=0
+            and isinstance(cached.get("zip_start_dir"),int) and cached.get("zip_start_dir")==cached.get("prefix_bytes")
+            and isinstance(cached.get("prefix_sha256"),str) and len(cached.get("prefix_sha256"))==64
+            and all(c in "0123456789abcdef" for c in cached.get("prefix_sha256")))
+        if (cached and cached.get("identity")==identity and cached.get("sha256")==expected_sha256
+                and cached_prefix_valid and cached.get("prefix_bytes")==prefix_bytes):
+            return cached["prefix_sha256"]
+        actual,prefix_sha,total=sha256_file_and_prefix(self.archive,prefix_bytes)
+        after=self.archive.stat()
+        if _archive_stat_identity(after)!=identity or total!=before.st_size:raise AmbiguousState("cold ZIP changed while verifying prefix")
+        if actual!=expected_sha256:raise AmbiguousState("archive changed after cold-store prepare")
+        return prefix_sha
     def _member_entry(self,manifest,logical):
         matches=[]
         for row in manifest.get("members",[]):
@@ -701,7 +756,7 @@ class ColdModelStore:
                         raise AmbiguousState("raw source changed during ZIP append")
             fd=os.open(self.archive,os.O_RDONLY);os.fsync(fd);os.close(fd);_fsync_dir(self.archive.parent)
             with zipfile.ZipFile(self.archive,"r",allowZip64=True) as z:
-                records=_zip_records_all(z);by={r["member"]:r for r in records}
+                records=_zip_records_all(z);by={r["member"]:r for r in records};final_zip_start=z.start_dir
                 if records[:len(j["old_zip_records"])]!=j["old_zip_records"]:
                     raise AmbiguousState("old ZIP records changed")
                 for item in j["items"]:
@@ -710,16 +765,18 @@ class ColdModelStore:
                     item["header_offset"]=rec["header_offset"]
                     if "storage_encoding" not in item:item["crc32"]=rec["crc32"]
                     self._verify_transaction_item(item,rec,z)
-            if sha256_file_prefix(self.archive,j["central_directory_offset"])!=j["prefix_sha256"]:
-                raise AmbiguousState("preexisting archive payload prefix changed during append")
             j["member_records_after"]=records
-            before_hash=self.archive.stat();before_identity=(before_hash.st_dev,before_hash.st_ino,before_hash.st_size,before_hash.st_mtime_ns,before_hash.st_ctime_ns)
-            final_sha=sha256_file(self.archive)
-            final_st=self.archive.stat();final_identity=(final_st.st_dev,final_st.st_ino,final_st.st_size,final_st.st_mtime_ns,final_st.st_ctime_ns)
-            if before_identity!=final_identity:
+            before_hash=self.archive.stat();before_identity=_archive_stat_identity(before_hash)
+            final_sha,prefix_hashes,final_size=sha256_file_and_prefixes(self.archive,(j["central_directory_offset"],final_zip_start))
+            final_st=self.archive.stat();final_identity=_archive_stat_identity(final_st)
+            if before_identity!=final_identity or final_size!=final_st.st_size:
+                self._archive_identity_cache=None
                 raise AmbiguousState("cold ZIP changed while computing final digest")
+            if prefix_hashes[j["central_directory_offset"]]!=j["prefix_sha256"]:
+                raise AmbiguousState("preexisting archive payload prefix changed during append")
             j["archive_sha256_after"]=final_sha
-            self._archive_identity_cache={"identity":final_identity,"sha256":j["archive_sha256_after"],"zip_records":records}
+            self._archive_identity_cache={"identity":final_identity,"sha256":j["archive_sha256_after"],"zip_records":records,
+                "prefix_bytes":final_zip_start,"prefix_sha256":prefix_hashes[final_zip_start],"zip_start_dir":final_zip_start}
             j["archive_bytes_after"]=final_st.st_size;j["state"]="archive_committed"
             j["archive_committed_utc"]=_safety.now_utc();_atomic_json(jp,j)
         return j
@@ -776,12 +833,16 @@ class ColdModelStore:
             for x in normalized:required|=set(x["consumer_tasks"])|{x["task_key"]}|set(x.get("alias_owner_task_keys",[]))
             self.archive.parent.mkdir(parents=True,exist_ok=True);self.journals.mkdir(parents=True,exist_ok=True)
             if not self.archive.is_file() or self.archive.is_symlink():raise UnsafePlan("cold archive must be pre-created as regular ZIP")
-            oldsize=self.archive.stat().st_size
+            old_stat=self.archive.stat();old_identity=_archive_stat_identity(old_stat);oldsize=old_stat.st_size
             with zipfile.ZipFile(self.archive,"r",allowZip64=True) as z:oldrec=_zip_records_all(z);start=z.start_dir
             current=_manifest_load(self.manifest)
             if current.get("archive_sha256") is None:
-                oldsha=sha256_file(self.archive)
+                oldsha,old_prefix_sha,total=sha256_file_and_prefix(self.archive,start)
+                after_identity=_archive_stat_identity(self.archive.stat())
+                if after_identity!=old_identity or total!=oldsize:raise AmbiguousState("cold ZIP changed while establishing empty baseline")
                 if oldrec:raise AmbiguousState("nonempty cold archive lacks committed manifest")
+                self._archive_identity_cache={"identity":old_identity,"sha256":oldsha,"zip_records":oldrec,
+                    "prefix_bytes":start,"prefix_sha256":old_prefix_sha,"zip_start_dir":start}
             else:oldsha,_,_=self._check_archive_manifest(current)
             required|=self._validate_existing_members(current,registry_records)
             private_receipt=_safety.verify_no_matching_processes(self.root,required,registry_records)
@@ -795,7 +856,7 @@ class ColdModelStore:
             jp=d/"journal.json";_atomic_json(jp,j)
             _atomic_json(d/"private_process_inventory.json",{"observed_utc":private_receipt.get("observed_utc"),"task_count":private_receipt.get("task_count"),"matching_processes":private_receipt.get("matching_processes"),"complete":private_receipt.get("complete"),"checked_task_process_identities":private_receipt.get("checked_task_process_identities",[]),"private_operational_evidence":True})
             tail=self._backup_tail(j)
-            j["tail_sha256"]=sha256_file(tail);j["prefix_sha256"]=sha256_file_prefix(self.archive,start);j["state"]="prepared";_atomic_json(jp,j)
+            j["tail_sha256"]=sha256_file(tail);j["prefix_sha256"]=self._verified_prefix_digest(oldsha,start);j["state"]="prepared";_atomic_json(jp,j)
             try:
                 j=self._append_locked(j,fault_after_bytes);self._write_manifest(j);self._unlink_aliases(j,fail_after_unlinks)
             except BaseException as e:

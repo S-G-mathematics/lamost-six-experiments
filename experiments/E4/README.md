@@ -12,3 +12,6 @@ This is an interim export. See the linked tables/reports and metadata/current_ex
 - [Frozen manifest](../../provenance/manifests/E4_MANIFEST.json)
 
 [All reports and figures](../../reports/) · [Current observation](../../metadata/current_execution_snapshot.json) · [Repository overview](../../README.md)
+
+
+At the 07:27 UTC status snapshot: 1551 successful, 71 scientific failures, 3 unavailable, 148 waiting of 1773 planned.

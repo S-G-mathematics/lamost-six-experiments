@@ -7,9 +7,9 @@ from unittest import mock
 
 SRC=pathlib.Path(__file__).resolve().parents[1]/"source"/"controller.py"
 stub=types.ModuleType("admission_evidence")
-sys.modules.setdefault("admission_evidence",stub)
-spec=importlib.util.spec_from_file_location("staged_controller",SRC)
-c=importlib.util.module_from_spec(spec);spec.loader.exec_module(c)
+with mock.patch.dict(sys.modules,{"admission_evidence":stub}):
+    spec=importlib.util.spec_from_file_location("staged_controller",SRC)
+    c=importlib.util.module_from_spec(spec);spec.loader.exec_module(c)
 G=c.GIB
 
 def task(key,kind="fit",method="logistic",experiment=4,status="waiting_for_dependency",**extra):
@@ -26,6 +26,7 @@ class ArfLaneSchedulingTests(unittest.TestCase):
              mock.patch.object(c,"worker_resource_class",side_effect=resource_class), \
              mock.patch.object(c,"bracketed_worker_memory",return_value=(available,list(credits),peaks)), \
              mock.patch.object(c.os,"cpu_count",return_value=total_cpus), \
+             mock.patch.object(c.archive_fit_admission,"inspect_runtime",return_value={"mode":"inactive"}), \
              mock.patch.object(c,"atomic"):
             return c.admission_candidate(None,running,ready,idle,available)
     def fixture_workers(self):

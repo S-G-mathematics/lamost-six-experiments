@@ -19,10 +19,17 @@
     "unique_nodeids": 376
   },
   "collection_status": {
+    "added_nodeids": 8,
+    "base_nodeids_sha256": "55a44a85fde6602de7d0a94a9cbf808558f330e848649c729dd36f7bf7241229",
+    "collection_log_sha256": "9787237d2d0aba71dc932a16c033ad166e4e56b2dc98598be2b712702b4db46a",
     "executed_test_bodies": false,
-    "planned_total_nodeids": 579,
-    "preserved_base_nodeids": 568,
-    "status": "collection_pending"
+    "expected_total_nodeids": 587,
+    "nodeids_path": "../PORTABLE_COLLECTED_NODEIDS_587.txt",
+    "nodeids_sha256": "9ca8563544b21b893f99076faac14c7274afeee2605825f4ff66428f513c8177",
+    "preserved_base_nodeids": 579,
+    "status": "collect_only_passed",
+    "total_nodeids": 587,
+    "unique_nodeids": 587
   },
   "companion_dependencies": [
     "reason_text_curation.py",
@@ -164,6 +171,21 @@
       },
       "status": "awaiting cohort peer review",
       "test_files": 37
+    },
+    {
+      "cold_verifier_history_sha256_unchanged": "594eebc2140060a48219394d48fb3fd15ee6b357cdc91c776f7c96bd1013b33f",
+      "collection_status": "pending",
+      "new_tests": 7,
+      "observed_utc": "2026-10-28T05:08:23.037103+00:00",
+      "preserved_base_tests": 579,
+      "scientific_inputs_or_attempts_changed": false,
+      "scope": "Candidate adds seven synthetic tests for archive digest pass coalescing and cascades core/child/run/wrapper source pins.",
+      "source_hashes": {
+        "cold_auto_compaction.py": "54d855c92f3ed9bab01c2f45b731afdc3da64d680f9e2e03c77dc23db9ad56c2",
+        "cold_model_storage.py": "13697e3ad439d5dd61c3fc8265eed1f7984a8f89c869769b11e8a77f524bce4f",
+        "commit_batch_child.py": "2236b6febb6abaf52f67a9e8371bbbc0f7f020e332fad6f7918a8fc819560ac4",
+        "run_batch.py": "94c9627ca01ae9e42c6aa3a058daf77ec6d12c043109876db86c18e7e607fde1"
+      }
     }
   ],
   "readme": "runtime_20261025/tests/README.md",
@@ -247,11 +269,11 @@
     }
   ],
   "runner": "runtime_20261025/tests/run_portable_tests.sh",
-  "runner_sha256": "4a7b836823a5e9dfa9e36b75b442e09684b09aee3e98693cf60f0f9966940858",
+  "runner_sha256": "fcfdbfbfff65a74ac8e0195e414ace8c9aeac2f69d3f6604f7ef140aae8e551b",
   "runtime_staging_present": false,
   "schema": "archive-native-installed-portable-tests/1",
   "scope": "RF4 prospective adapter/admission, E6 availability narrative, and E6 terminal-resume idempotence candidate; no test collection or scientific fits performed.",
-  "scope_current_amendment": "Candidate-only 6 GiB admission estimate for never-attempted E4 rep2 treatment RF fits; RF4 execution policy and hard limits unchanged.",
+  "scope_current_amendment": "Candidate-only archive read-pass coalescing optimization; existing RF4 admission scope and all scientific limits unchanged.",
   "source_directory": "runtime_20261025/source",
   "sources": [
     {
@@ -340,11 +362,11 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/cohorts.py"
     },
     {
-      "bundle_sha256": "be39fca0259c93cd5754a7702b5e76e300cb51e29e1a12c23590a1baeea8f5df",
-      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
+      "bundle_sha256": "8569d4b73d24d8103c88c91ab9b28b9a10752f9d41c0a4a1572d83bfe1958369",
+      "candidate_refresh_reason": "reviewed archive digest coalescing; frozen scientific source inventory unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/cold_auto_compaction.py",
-      "source_sha256": "be39fca0259c93cd5754a7702b5e76e300cb51e29e1a12c23590a1baeea8f5df",
+      "source_sha256": "8569d4b73d24d8103c88c91ab9b28b9a10752f9d41c0a4a1572d83bfe1958369",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/cold_auto_compaction.py"
     },
     {
@@ -366,10 +388,11 @@
       "source_sha256": "4d937e725ba8002728150728749650fcf848756571abf2935eb6cd7c3e44b0e1"
     },
     {
-      "bundle_sha256": "90876f61a5e98b03621f134b2f07478da37cb9c65c864f92f75beb588739847b",
+      "bundle_sha256": "3bf3a9c1cb39c02f09361ad4d13fea5d7b4bd2ddcedb1b2c5d0e60b5c745ad21",
+      "candidate_refresh_reason": "reviewed archive digest coalescing; frozen scientific source inventory unchanged",
       "kind": "restored_live_core",
       "runtime_member": "runtime_20261025/source/cold_model_storage.py",
-      "source_sha256": "90876f61a5e98b03621f134b2f07478da37cb9c65c864f92f75beb588739847b",
+      "source_sha256": "3bf3a9c1cb39c02f09361ad4d13fea5d7b4bd2ddcedb1b2c5d0e60b5c745ad21",
       "upstream_stage_member": "installed_live_baseline_plus_controller_pin_cascade"
     },
     {
@@ -385,11 +408,11 @@
       "source_sha256": "6b9f012d55f0f2b80ab818477d2bd7cd9deca2bbba5a4288786c93c39a4842f1"
     },
     {
-      "bundle_sha256": "11ef512ffd27531c4e8b30376f447f78cc47b08e6ca7ebf3f6621d82e992655f",
-      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
+      "bundle_sha256": "54012c17681ed508cfc7e472e7cb150573fefb1427003d3a8601cbd9db76b8fb",
+      "candidate_refresh_reason": "reviewed archive digest coalescing; frozen scientific source inventory unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/commit_batch_child.py",
-      "source_sha256": "11ef512ffd27531c4e8b30376f447f78cc47b08e6ca7ebf3f6621d82e992655f",
+      "source_sha256": "54012c17681ed508cfc7e472e7cb150573fefb1427003d3a8601cbd9db76b8fb",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/commit_batch_child.py"
     },
     {
@@ -483,10 +506,10 @@
       "upstream_stage_member": "calibration_replay_finalization_gate_20261026/source/final_review.py"
     },
     {
-      "bundle_sha256": "a0bd9287b2ccedf7ca56a361210eb1ac66092905599bd5b29246170bf023b619",
+      "bundle_sha256": "85f58c6904acc9d50c4c6be37132c836546ba0923bd81630313669ee85419e32",
       "kind": "installed_port",
       "runtime_member": "runtime_20261025/source/finalization_safety.py",
-      "source_sha256": "a0bd9287b2ccedf7ca56a361210eb1ac66092905599bd5b29246170bf023b619"
+      "source_sha256": "85f58c6904acc9d50c4c6be37132c836546ba0923bd81630313669ee85419e32"
     },
     {
       "bundle_sha256": "3d3039b8f30d88998f38792eee826d4a75fee3c9aa811007d13651626831d63b",
@@ -550,11 +573,11 @@
       "source_sha256": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca"
     },
     {
-      "bundle_sha256": "ed72d28839152684fc2b0c2f5d7a8a75eeeb34a7866563c8cf8b6fefa0a255a4",
-      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
+      "bundle_sha256": "9caa97d8a034c9221654970835437b8ac1bda5e03dbe4a4476ef216eb49f1147",
+      "candidate_refresh_reason": "reviewed archive digest coalescing; frozen scientific source inventory unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/run_batch.py",
-      "source_sha256": "ed72d28839152684fc2b0c2f5d7a8a75eeeb34a7866563c8cf8b6fefa0a255a4",
+      "source_sha256": "9caa97d8a034c9221654970835437b8ac1bda5e03dbe4a4476ef216eb49f1147",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/run_batch.py"
     },
     {
@@ -921,6 +944,7 @@
   "test_count_plan": {
     "test_admission_hysteresis.py": 5,
     "test_admission_profile.py": 15,
+    "test_archive_digest_coalescing.py": 7,
     "test_archive_fit_launch_gate_legacy.py": 3,
     "test_archive_io_profile.py": 5,
     "test_archive_transaction_cooldown.py": 7,
@@ -971,7 +995,7 @@
     "test_feature_order_provenance.py": 4,
     "test_final_review_codec_identity.py": 17,
     "test_final_review_coverage.py": 4,
-    "test_finalization_safety.py": 6,
+    "test_finalization_safety.py": 7,
     "test_guard_runner_exit_identity.py": 6,
     "test_history_manifest_packaging.py": 1,
     "test_label_rate_gate.py": 7,
@@ -992,9 +1016,9 @@
     "test_verified_zombie_reap.py": 10,
     "test_weighted_mean_gate.py": 2
   },
-  "test_count_plan_total": 579,
+  "test_count_plan_total": 587,
   "test_directory": "runtime_20261025/tests",
-  "test_summary_note": "Successor preserves the prior 568-case qualified bundle and adds reaper, ET-priority, and privacy coverage; collect-only required before qualification.",
+  "test_summary_note": "Candidate preserves all 579 qualified test identities and adds seven archive digest pass-coalescing fixtures; collect-only and a fresh guarded qualification are pending.",
   "tests": [
     {
       "adaptation": "Imports staged controller in an isolated module with a scoped mock; arithmetic fixtures only, no queue or project data access.",
@@ -1035,9 +1059,10 @@
       "upstream_stage_member": "e6_protocol_correction_v2_20261027/storage/test_archive_transaction_cooldown.py"
     },
     {
+      "adaptation": "Portable fixture isolates its synthetic runtime/archive context; all original scheduling/resource assertions retained.",
       "group": "arf_dependency_lane_scheduling",
       "original_sha256": "cd87d343abf53ef8ec23ea6147b95d10fe9ee844f1b6d4c7c91d0464aa9aef8e",
-      "portable_sha256": "cd87d343abf53ef8ec23ea6147b95d10fe9ee844f1b6d4c7c91d0464aa9aef8e",
+      "portable_sha256": "6e832a09f593cf98c6d5de50e7c599bfcd4a995522344c57ac018dee72bb0020",
       "scope": "Nine focused controller admission-order fixture tests; mocked tasks/resources only, no live queue changes or model fitting.",
       "test_member": "runtime_20261025/tests/test_arf_lane_scheduling.py",
       "upstream_stage_member": "dependency_lane_stage_20261027/tests/test_arf_lane_scheduling.py"
@@ -1193,10 +1218,10 @@
       "upstream_stage_member": "cold_finalizer_integration_20261026/tests/test_cold_finalizer_adapter.py"
     },
     {
-      "adaptation": "Restored exact installed baseline bytes; digest-cache optimization fixtures deferred.",
+      "adaptation": "Updated fixture contract for current archive manifest stat-identity verification; scientific/mutation assertions retained.",
       "group": "cold_core",
       "original_sha256": "ad462f64c9bcc5fab398217a1e9d3380de12c3db324183d16fd81f490bc7b28b",
-      "portable_sha256": "4abea56782b3b5cbd44d965824b5105b99aec79cef9ffce799e973381a8e8d0a",
+      "portable_sha256": "19e2f0b39d89228539948b74ec5cd3442305452cd94cdd178ea11749a8cbf04c",
       "scope": "Retains all prior cold model storage cases and adds digest-cache race/tamper verification fixtures.",
       "test_member": "runtime_20261025/tests/test_cold_model_storage.py",
       "upstream_portable_sha256": "ad462f64c9bcc5fab398217a1e9d3380de12c3db324183d16fd81f490bc7b28b",
@@ -1217,10 +1242,10 @@
       "upstream_stage_member": "cold_combined_validation_20261026/tests/report_access/test_cold_report_access.py"
     },
     {
-      "adaptation": "Runtime-relative source imports; tiny mocked process/filesystem fixtures, no scientific models or data",
+      "adaptation": "Portable fixture isolates its synthetic runtime/archive context; all original scheduling/resource assertions retained.",
       "group": "controller_handover",
       "original_sha256": "fb6bf6f6682d2a4b67dac04b567469b3955bb4f364dfe9ec497132fcb627b23f",
-      "portable_sha256": "fb6bf6f6682d2a4b67dac04b567469b3955bb4f364dfe9ec497132fcb627b23f",
+      "portable_sha256": "dd5b849aa905ff451eab31a8ad5717e8e66960120abc823055e9669d632d5f90",
       "test_member": "runtime_20261025/tests/test_combined_resource_handover.py",
       "upstream_stage_member": "staging/combined_resource_control_amendment_20261026/tests/test_combined_resource_handover.py"
     },
@@ -1372,7 +1397,7 @@
       "adaptation": "Uses relocated sibling runtime/source; no EC2 absolute paths.",
       "group": "final_current_finalization_safety",
       "original_sha256": "4eb7d34f258bae6c93df3c988775b0a654e10b4f656c377d8220cea45c01b18e",
-      "portable_sha256": "4eb7d34f258bae6c93df3c988775b0a654e10b4f656c377d8220cea45c01b18e",
+      "portable_sha256": "c33898bd73772abb8e9ddb826a6e667f6bf535f5c75403df50eb885888de20ab",
       "test_member": "runtime_20261025/tests/test_finalization_safety.py",
       "upstream_stage_member": "live runtime_20261025/tests/test_finalization_safety.py"
     },
@@ -1424,10 +1449,10 @@
       "upstream_stage_member": "combined_resource_control_amendment_v2_20261026/tests/test_pending_reclaim_guard.py"
     },
     {
-      "adaptation": "Restored exact installed baseline bytes; digest-cache optimization fixtures deferred.",
+      "adaptation": "Updated fixture contract for current archive manifest stat-identity verification; scientific/mutation assertions retained.",
       "group": "completed_storage_postcommit",
       "original_sha256": "bce2f3bb80a5e68fbf6451ff9cc4f7142f69ad6f6ae2708f208b8c401cd335d1",
-      "portable_sha256": "f3d0550503fbdb18e59201ce1b17201674fa45c2d54f33afb1d00d2d45e9c2e4",
+      "portable_sha256": "e75a03b64ce32552e6ecd8c14547d8aa49a7a7d95681443dd1b6c944c230f996",
       "test_member": "runtime_20261025/tests/test_postcommit_receipt.py",
       "upstream_stage_member": "installed_live_baseline/test_postcommit_receipt.py"
     },
@@ -1457,10 +1482,10 @@
       "upstream_stage_member": "reporting_gaps_stage_20261027/tests/test_reporting_gaps.py"
     },
     {
-      "adaptation": "Portable staged fixture paths; assertions retained.",
+      "adaptation": "Portable fixture isolates its synthetic runtime/archive context; all original scheduling/resource assertions retained.",
       "group": "rf4_and_e6_reporting_candidate",
       "original_sha256": "e1badc8f1635c1ef6a937326ec6df4263860bc755046fb16eba0ed0a862ce525",
-      "portable_sha256": "e1badc8f1635c1ef6a937326ec6df4263860bc755046fb16eba0ed0a862ce525",
+      "portable_sha256": "165fb911f2a660e7a64f881e3f69634fe3147013c0535b7a78698e902a883bf2",
       "scope": "RF4 prospective controller-policy fixtures; no queue access or scientific work.",
       "test_member": "runtime_20261025/tests/test_rf4_controller_policy.py",
       "upstream_stage_member": "staging/parallel_rf4_20261028/tests/test_rf4_controller_policy.py"
@@ -1532,6 +1557,13 @@
       "portable_sha256": "250d5c2afca33a76c26962157def6a7e7b43e534698a7b640bbe0bad8995e874",
       "scope": "Finalizer public registry/process privacy and private receipt regressions. Path references now resolve to this exact portable candidate source.",
       "test_member": "runtime_20261025/tests/test_public_registry_process_privacy.py"
+    },
+    {
+      "group": "archive_digest_pass_coalescing",
+      "original_sha256": "74859265e3356ee17de0795e12daae9c348a55ddeec8df54eb12da59bbd9e6e3",
+      "portable_sha256": "74859265e3356ee17de0795e12daae9c348a55ddeec8df54eb12da59bbd9e6e3",
+      "scope": "Seven bounded synthetic fixtures verify coalesced whole/prefix hashing, cache identity, ZIP prefix integrity and rollback. No runtime archive or model payload opened.",
+      "test_member": "runtime_20261025/tests/test_archive_digest_coalescing.py"
     }
   ]
 }

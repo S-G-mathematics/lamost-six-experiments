@@ -18,12 +18,12 @@ class Store:
  def open_verified(self,*a,**k): raise AssertionError('unexpected logical read')
  def artifact_stat(self,*a,**k): raise AssertionError('unexpected rehashing stat')
  def sha256(self,*a,**k): raise AssertionError('unexpected artifact SHA read')
+ def _check_archive_manifest(self,m):
+  return cold.ColdModelStore._check_archive_manifest(self,m)
  def _member_entry(self,m,logical):
   return cold.ColdModelStore._member_entry(self,m,logical)
  def _has_completed_logical_verification(self,row):
   return cold.ColdModelStore._has_completed_logical_verification(self,row)
- def _check_archive_manifest(self,manifest):
-  return cold.ColdModelStore._check_archive_manifest(self,manifest)
 
 def setup_case(root,alias_extra=False):
  store=Store(root); tx='a'*32; path='runtime_20261025/artifacts/e4/rep_1/fit/random_forest/pipeline.joblib'; alias=path
@@ -46,10 +46,12 @@ class MetadataReceiptTests(unittest.TestCase):
   with tempfile.TemporaryDirectory(prefix='postcommit-fixture-') as td:
    store,tx,baseline,item=setup_case(Path(td),True)
    plan=[{'source_relpath':item['logical_path'],'recorded_artifact_sha256':item['sha256'],'bytes':item['bytes'],'aliases':item['aliases']}]
-   real_sha=cold.sha256_file; hashed=[]
-   def tracked_sha(path,*a,**k):
-    hashed.append(Path(path)); return real_sha(path,*a,**k)
-   with mock.patch.object(cold,'sha256_file',side_effect=tracked_sha), mock.patch.object(cold,'_stream_hash',side_effect=AssertionError('member payload streamed')), mock.patch.object(store,'open_verified',side_effect=AssertionError('logical payload opened')), mock.patch.object(store,'artifact_stat',side_effect=AssertionError('artifact stat rehashed')):
+   real_sha=cold.sha256_file_and_prefix; real_file_sha=cold.sha256_file; hashed=[]
+   def tracked_sha(path,prefix_bytes,*a,**k):
+    hashed.append(Path(path)); return real_sha(path,prefix_bytes,*a,**k)
+   def tracked_file_sha(path,*a,**k):
+    hashed.append(Path(path)); return real_file_sha(path,*a,**k)
+   with mock.patch.object(cold,'sha256_file_and_prefix',side_effect=tracked_sha), mock.patch.object(cold,'sha256_file',side_effect=tracked_file_sha), mock.patch.object(cold,'_stream_hash',side_effect=AssertionError('member payload streamed')), mock.patch.object(store,'open_verified',side_effect=AssertionError('logical payload opened')), mock.patch.object(store,'artifact_stat',side_effect=AssertionError('artifact stat rehashed')):
     ev=child._bind_completed_core_payload_evidence(store.root,store,tx,plan,baseline)
     child._verify_completed_alias_metadata(store.root,store,[item],tx,ev)
    self.assertEqual(hashed.count(store.archive),1)
@@ -90,7 +92,7 @@ class MetadataReceiptTests(unittest.TestCase):
    with open(store.archive,'r+b') as f:
     f.seek(data_offset); old=f.read(1); f.seek(data_offset); f.write(bytes([old[0]^1])); f.flush()
    with zipfile.ZipFile(store.archive) as z: self.assertEqual(cold._zip_records_all(z),before)
-   with self.assertRaisesRegex(RuntimeError,'cold ZIP differs from committed member manifest'):
+   with self.assertRaisesRegex(RuntimeError,'cold ZIP differs from committed member manifest|fresh post-commit archive SHA'):
     child._bind_completed_core_payload_evidence(store.root,store,tx,[{'source_relpath':item['logical_path'],'recorded_artifact_sha256':item['sha256'],'bytes':item['bytes'],'aliases':item['aliases']}],baseline)
  def test_candidate_identity_mismatches_are_rejected(self):
   with tempfile.TemporaryDirectory(prefix='postcommit-fixture-') as td:

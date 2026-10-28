@@ -6,6 +6,7 @@ import sys
 import tempfile
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 BASE = Path(__file__).resolve().parents[1]
 if (BASE / "controller" / "source" / "controller.py").is_file():
@@ -45,6 +46,8 @@ class RF4ControllerAdmissionTests(unittest.TestCase):
         self.old_defs = ctl.DEFINITIONS
         ctl.R = self.root
         ctl.DEFINITIONS = {}
+        self.archive_context_patch=patch.object(ctl.archive_fit_admission,"inspect_runtime",return_value={"mode":"inactive"})
+        self.archive_context_patch.start();self.addCleanup(self.archive_context_patch.stop)
         for name in BASE_NAMES + ctl.RF4_SOURCE_NAMES:
             p = self.root / "source" / name
             p.parent.mkdir(parents=True, exist_ok=True)

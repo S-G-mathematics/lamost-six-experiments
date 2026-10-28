@@ -1,7 +1,9 @@
 import hashlib,json,pathlib,tempfile,unittest,subprocess
+import unittest.mock
 from finalization_safety import (begin_finalization_attempt,clear_finalization_latch,finish_finalization_attempt,
     portable_bundle_snapshot,portable_receipt_matches,PortableBundleError)
 HERE=pathlib.Path(__file__).resolve().parents[1]
+import finalization_safety as fs
 
 def write_bundle(root,mutations=None):
  runtime=root/'runtime_20261025';src=runtime/'source';tests=runtime/'tests';src.mkdir(parents=True,exist_ok=True);tests.mkdir(parents=True,exist_ok=True)
@@ -101,3 +103,39 @@ class FinalizationSafetyTests(unittest.TestCase):
      self.assertEqual(sum(x['status']=='failed' for x in rows),0)
      rows[-1]['next_retry_epoch']=0;(runtime/'logs/operational/finalization_retry_latch.json').write_text(json.dumps(latch))
     else:self.assertEqual(outcome['status'],'FINALIZATION_REVIEW_REQUIRED')
+
+
+class PortableProcessExitRaceTests(unittest.TestCase):
+ def _run_case(self,wait_result,summary):
+  class FakeProcess:
+   pid=424242
+   returncode=None
+   def __init__(self):
+    pass
+   def poll(self):return self.returncode
+   def wait(self,timeout=None):
+    if wait_result=='timeout':raise subprocess.TimeoutExpired(cmd=['fixture'],timeout=timeout)
+    self.returncode=wait_result;return wait_result
+  with tempfile.TemporaryDirectory(dir=HERE/'tests') as td:
+   root=pathlib.Path(td);runtime,_,_=write_bundle(root)
+   python=root/'venv/bin/python';python.parent.mkdir(parents=True);python.write_text('fixture interpreter')
+   snap=portable_bundle_snapshot(root,runtime)
+   identity={'pid':424242,'ticks':100,'uid':1000,'pgrp':424242,'rss':0,'cmd':['pytest']}
+   observations=iter([identity,None,None])
+   proc=FakeProcess()
+   def fake_popen(*args,**kwargs):
+    kwargs['stdout'].write(summary.encode());kwargs['stdout'].flush();return proc
+   with unittest.mock.patch.object(fs.subprocess,'Popen',side_effect=fake_popen), unittest.mock.patch.object(fs,'_proc',side_effect=lambda pid: next(observations,None)), unittest.mock.patch.object(fs,'_tree_rss',return_value=0):
+    if wait_result=='timeout' or wait_result!=0 or summary.startswith('3 passed'):
+     with self.assertRaises(fs.PortableTestFailure) as caught:
+      fs.run_portable_test_bundle(root,runtime,snap)
+     if wait_result=='timeout':self.assertEqual(caught.exception.resource_kind,'operational')
+     if summary.startswith('3 passed'):self.assertIn('expected 4 passed',str(caught.exception))
+    else:
+     result=fs.run_portable_test_bundle(root,runtime,snap)
+     self.assertEqual(result['status'],'passed')
+ def test_proc_disappearance_waits_only_for_actual_exit_and_checks_counts(self):
+  with self.subTest('reaped-zero-and-complete-count'):self._run_case(0,'4 passed in 0.01s\n')
+  with self.subTest('still-live-identity-unknown'):self._run_case('timeout','4 passed in 0.01s\n')
+  with self.subTest('nonzero-exit'):self._run_case(1,'4 passed in 0.01s\n')
+  with self.subTest('zero-exit-incomplete-count'):self._run_case(0,'3 passed in 0.01s\n')

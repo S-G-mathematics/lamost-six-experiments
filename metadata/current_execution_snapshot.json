@@ -1,5 +1,5 @@
 {
-  "observed_utc": "2026-10-28T04:09:30.304923Z",
+  "observed_utc": "2026-10-28T07:28:21.258888+00:00",
   "host": "i-095641a281a4038b9",
   "controller_sha256": "d34bf3db889ee7c642cf28d079cbeb32f27fb772584163f497e78499a994d5ac",
   "E1_frozen": "765:674 successful,81 failed,10 unsupported",
@@ -7,8 +7,8 @@
   "E2_primary": "108/150;42 unavailable",
   "E2_classical": "120/120",
   "E3": "69 terminal:64 successful,3 failure,2 unavailable",
-  "E4": "1546 successful, 71 failure, 3 unavailable, 153 pending /1773",
-  "E5": "697 successful,50 failure,78 unavailable,135 pending /960",
+  "E4": "1551 successful,71 scientific failures,3 unavailable,148 waiting /1773",
+  "E5": "699 successful,50 scientific failures,78 unavailable,133 waiting /960",
   "E6": "12 successful,3 failure,6 unavailable /21; primary ensemble success 0",
   "limitations": "31 E2 reconstruction accuracy differences;210 low precision flags;4 complete strata. No bootstrap. Calibration-q replay and final validation pending.",
   "workers_actual_verified_at_observation": [],
@@ -20,5 +20,36 @@
   "E2_detail": "Primary 108/150 evaluated, 42 unavailable; classical references 120/120; 228 evaluated cells, 1596 class reports, zero integrity errors, 210 low-precision flags, 31 reconstruction accuracy differences, four complete primary correlation strata.",
   "E6_historical_member_references": "15 planned: 12 successful, 3 unavailable; references, not primary ensemble evaluations.",
   "E6_primary_v2": "6 planned: 0 successful, 3 scientific failures, 3 unavailable; no ensemble benefit result.",
-  "observed_ist": "2026-10-28T09:39:30.304923+05:30"
+  "observed_ist": "2026-10-28T12:58:21+00:00",
+  "active_science_workers": 0,
+  "storage_forecast": "admission backoff; 281 scientific evaluation cases remain waiting (148 E4, 133 E5)",
+  "experiment_counts": {
+    "E3": {
+      "scientific_failure": 3,
+      "successful": 64,
+      "unavailable_dependency": 2
+    },
+    "E4": {
+      "scientific_failure": 71,
+      "successful": 1551,
+      "unavailable_dependency": 3,
+      "waiting_for_dependency": 148
+    },
+    "E5": {
+      "scientific_failure": 50,
+      "successful": 699,
+      "unavailable_dependency": 78,
+      "waiting_for_dependency": 133
+    },
+    "E6": {
+      "scientific_failure": 3,
+      "successful": 12,
+      "unavailable_dependency": 6
+    }
+  },
+  "scientific_waiting_cases": 281,
+  "task_counts": {
+    "validated_terminal": 5711,
+    "waiting_for_dependency": 559
+  }
 }

@@ -203,9 +203,14 @@ def run_portable_test_bundle(root,runtime,snapshot=None):
         while p.poll() is None:
             item=_proc(pid)
             if not item:
-                # Re-poll to distinguish normal completion racing the /proc snapshot.
-                if p.poll() is not None:break
-                failure="portable test process identity disappeared";resource_kind="operational";break
+                # Confirm a normal exit through the owned Popen handle when /proc vanishes.
+                try:
+                    missing_exit=p.wait(timeout=0.15)
+                except subprocess.TimeoutExpired:
+                    missing_exit=p.poll()
+                if missing_exit is None:
+                    failure="portable test process identity disappeared";resource_kind="operational"
+                break
             if not _owned(p,pid,ticks,uid,snapshot["runner_path"]):
                 if p.poll() is not None:break
                 failure="portable test process identity changed";resource_kind="operational";break

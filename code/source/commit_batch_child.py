@@ -4,7 +4,7 @@ ROOT=Path('/home/ubuntu/lamost_e1_migration_20261023'); R=ROOT/'runtime_20261025
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import cold_model_storage as cold
 from batch_plan import build_candidates, select_batch, public_candidate_summary, require_reviewed_baseline, validate_operation_directory, verify_alias_resolution, MAX_INITIAL_BYTES, MAX_INITIAL_GROUPS, MAX_LATER_BYTES, MAX_LATER_GROUPS, RAW_WIDE_MAX_BYTES, RAW_WIDE_MAX_GROUPS, RAW_WIDE_PROFILE, RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES
-PINS={'cold_model_storage.py': '90876f61a5e98b03621f134b2f07478da37cb9c65c864f92f75beb588739847b', 'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c', 'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca', 'cold_storage_safety.py': '6b9f012d55f0f2b80ab818477d2bd7cd9deca2bbba5a4288786c93c39a4842f1', 'controller.py': '9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba', 'batch_plan.py': 'c6a6420c73be21a5cedfa4a9c681332c9eaa4986fbcd5094e4bfdf05b85901f9', 'archive_fit_admission.py': 'ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030'}
+PINS={'cold_model_storage.py': '3bf3a9c1cb39c02f09361ad4d13fea5d7b4bd2ddcedb1b2c5d0e60b5c745ad21', 'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c', 'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca', 'cold_storage_safety.py': '6b9f012d55f0f2b80ab818477d2bd7cd9deca2bbba5a4288786c93c39a4842f1', 'controller.py': '9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba', 'batch_plan.py': 'c6a6420c73be21a5cedfa4a9c681332c9eaa4986fbcd5094e4bfdf05b85901f9', 'archive_fit_admission.py': 'ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030'}
 def now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def sha(p): return cold.sha256_file(p)
 def snapshot():
@@ -135,7 +135,8 @@ def _bind_completed_core_payload_evidence(root,store,tx,batch,baseline):
         raise RuntimeError('committed archive inode/size differs from transaction receipt')
     m=cold._manifest_load(store.manifest)
     cache_identity=(st0.st_dev,st0.st_ino,st0.st_size,st0.st_mtime_ns,st0.st_ctime_ns)
-    digest_cache_hit=bool(store._archive_identity_cache and store._archive_identity_cache.get('identity')==cache_identity)
+    cache=getattr(store,'_archive_identity_cache',None)
+    digest_cache_hit=bool(cache and cache.get('identity')==cache_identity)
     actual_sha,checked_stat,checked_records=store._check_archive_manifest(m)
     if actual_sha!=j.get('archive_sha256_after'):
         raise RuntimeError('post-commit archive SHA differs from core transaction receipt')
@@ -339,8 +340,7 @@ def main():
     if archive.is_symlink() or not archive.is_file() or not store.manifest.is_file():
         raise RuntimeError('existing regular archive and committed manifest are required; never initialize or adopt')
     manifest=cold._manifest_load(store.manifest)
-    require_reviewed_baseline(archive,manifest,baseline,sha)
-    store._check_archive_manifest(manifest)
+    store._check_reviewed_baseline(manifest,baseline)
     rec=snapshot()
     raw_items=build_candidates(ROOT,R,rec,{x['logical_path'] for x in manifest.get('members',[])},cold._safety,cold,packing=policy['packing'])
     items,candidate_filter=filter_candidate_publication_aliases(raw_items,rec,store)
