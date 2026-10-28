@@ -20,8 +20,8 @@
   },
   "collection_status": {
     "executed_test_bodies": false,
-    "planned_total_nodeids": 555,
-    "preserved_base_nodeids": 552,
+    "planned_total_nodeids": 579,
+    "preserved_base_nodeids": 568,
     "status": "collection_pending"
   },
   "companion_dependencies": [
@@ -237,14 +237,21 @@
       "expected_source_sha256": "5cd4a7c73df658aea359ecb917cd21e9b32122492c588dd7cf129b56616f2abb",
       "fixture_member": "runtime_20261025/tests/evidence/E4_GENERATED_RF_ADMISSION_REVIEW_20261027_V2_RECEIPTS.json",
       "sha256": "5cd4a7c73df658aea359ecb917cd21e9b32122492c588dd7cf129b56616f2abb"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/RF4_E4_6GIB_PROSPECTIVE_ADMISSION_EVIDENCE_20261028.json",
+      "bytes": 62400,
+      "expected_source_sha256": "28716b215c993cd5a8830fbfd423ba4254cb547427c048c9abc1641644a16dd5",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/RF4_E4_6GIB_PROSPECTIVE_ADMISSION_EVIDENCE_20261028.json",
+      "sha256": "28716b215c993cd5a8830fbfd423ba4254cb547427c048c9abc1641644a16dd5"
     }
   ],
   "runner": "runtime_20261025/tests/run_portable_tests.sh",
-  "runner_sha256": "b70d6460c045a75e7a02078801e1ec532b64a528862a995e79101403bf32c6bc",
+  "runner_sha256": "4a7b836823a5e9dfa9e36b75b442e09684b09aee3e98693cf60f0f9966940858",
   "runtime_staging_present": false,
   "schema": "archive-native-installed-portable-tests/1",
   "scope": "RF4 prospective adapter/admission, E6 availability narrative, and E6 terminal-resume idempotence candidate; no test collection or scientific fits performed.",
-  "scope_current_amendment": "Reaper enabled by separate freeze binding; archive overlap remains absent/disabled. Digest cache reuses verified identities with54 exact historical proof bindings; fresh final SHA and full payload/prefix checks retained.",
+  "scope_current_amendment": "Candidate-only 6 GiB admission estimate for never-attempted E4 rep2 treatment RF fits; RF4 execution policy and hard limits unchanged.",
   "source_directory": "runtime_20261025/source",
   "sources": [
     {
@@ -273,10 +280,11 @@
       "upstream_stage_member": "e4_generated_rf_profile_stage_20261027/source/admission_evidence.py"
     },
     {
-      "bundle_sha256": "5bd52c1ae4b41cbb4fce77da4a5def4ce95d32244789aecbcd2fe02d2575ef9a",
+      "bundle_sha256": "ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030",
+      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "qualified_candidate_source_or_exact_historical_verifier_evidence",
       "runtime_member": "runtime_20261025/source/archive_fit_admission.py",
-      "source_sha256": "5bd52c1ae4b41cbb4fce77da4a5def4ce95d32244789aecbcd2fe02d2575ef9a"
+      "source_sha256": "ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030"
     },
     {
       "bundle_sha256": "bf34d0d7c7262cc684b92067226eacfce3262d1dfa92cc3861528dc5029d50d6",
@@ -332,10 +340,11 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/cohorts.py"
     },
     {
-      "bundle_sha256": "823047d84af303b341e4e1ca8b1c0adb6678daeb032b4be67bad402ac7e7b48b",
+      "bundle_sha256": "be39fca0259c93cd5754a7702b5e76e300cb51e29e1a12c23590a1baeea8f5df",
+      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/cold_auto_compaction.py",
-      "source_sha256": "823047d84af303b341e4e1ca8b1c0adb6678daeb032b4be67bad402ac7e7b48b",
+      "source_sha256": "be39fca0259c93cd5754a7702b5e76e300cb51e29e1a12c23590a1baeea8f5df",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/cold_auto_compaction.py"
     },
     {
@@ -376,10 +385,11 @@
       "source_sha256": "6b9f012d55f0f2b80ab818477d2bd7cd9deca2bbba5a4288786c93c39a4842f1"
     },
     {
-      "bundle_sha256": "97cde6810e37b6c703e648b194e36a569be975ef844575d6bffd429076f436c8",
+      "bundle_sha256": "11ef512ffd27531c4e8b30376f447f78cc47b08e6ca7ebf3f6621d82e992655f",
+      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/commit_batch_child.py",
-      "source_sha256": "97cde6810e37b6c703e648b194e36a569be975ef844575d6bffd429076f436c8",
+      "source_sha256": "11ef512ffd27531c4e8b30376f447f78cc47b08e6ca7ebf3f6621d82e992655f",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/commit_batch_child.py"
     },
     {
@@ -390,10 +400,11 @@
       "upstream_stage_member": "staging/raw_io_cron_cleanup_20261027/source/complete_delivery.py"
     },
     {
-      "bundle_sha256": "d34bf3db889ee7c642cf28d079cbeb32f27fb772584163f497e78499a994d5ac",
+      "bundle_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba",
+      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/controller.py",
-      "source_sha256": "d34bf3db889ee7c642cf28d079cbeb32f27fb772584163f497e78499a994d5ac",
+      "source_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/controller.py"
     },
     {
@@ -478,10 +489,11 @@
       "source_sha256": "a0bd9287b2ccedf7ca56a361210eb1ac66092905599bd5b29246170bf023b619"
     },
     {
-      "bundle_sha256": "b05bb69680153e039432b57b85f5a5574df0ddec003ed04bffd98ef6fc15bd80",
+      "bundle_sha256": "3d3039b8f30d88998f38792eee826d4a75fee3c9aa811007d13651626831d63b",
+      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "e6_v2_native_gate_finalizer",
       "runtime_member": "runtime_20261025/source/finalize_project.py",
-      "source_sha256": "b05bb69680153e039432b57b85f5a5574df0ddec003ed04bffd98ef6fc15bd80",
+      "source_sha256": "3d3039b8f30d88998f38792eee826d4a75fee3c9aa811007d13651626831d63b",
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/e6_v2_reporting_20261027_revised/candidate/finalize_project.py"
     },
     {
@@ -538,10 +550,11 @@
       "source_sha256": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca"
     },
     {
-      "bundle_sha256": "c1639d78b33855ef102f147324f4377563376e23c0342cfe952335d338b8a104",
+      "bundle_sha256": "ed72d28839152684fc2b0c2f5d7a8a75eeeb34a7866563c8cf8b6fefa0a255a4",
+      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/run_batch.py",
-      "source_sha256": "c1639d78b33855ef102f147324f4377563376e23c0342cfe952335d338b8a104",
+      "source_sha256": "ed72d28839152684fc2b0c2f5d7a8a75eeeb34a7866563c8cf8b6fefa0a255a4",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/run_batch.py"
     },
     {
@@ -759,9 +772,43 @@
       "runtime_member": "runtime_20261025/tests/fixtures/v2_append_proof/validation.json",
       "source_sha256": "586a3f6df5a7b897c1dd7516e305a8e5e8681bacd3ffb07e503e067d4efe5113",
       "upstream_stage_member": "e4_generated_rf_profile_stage_20261027/tests/fixtures/v2_append_proof/validation.json"
+    },
+    {
+      "bundle_sha256": "ffa4cf0ebc49381947d8c92b893ce739e885508cfcb045e51d5aff0999a941e7",
+      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
+      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
+      "runtime_member": "runtime_20261025/manifests/freeze.json",
+      "source_sha256": "ffa4cf0ebc49381947d8c92b893ce739e885508cfcb045e51d5aff0999a941e7"
+    },
+    {
+      "bundle_sha256": "ca1ddc139e5cf6eefe94c17dfd26b455779f316a14bacfc6254d23e1738d1fa5",
+      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
+      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
+      "runtime_member": "runtime_20261025/manifests/RF4_EXECUTION_POLICY_20261028.json",
+      "source_sha256": "ca1ddc139e5cf6eefe94c17dfd26b455779f316a14bacfc6254d23e1738d1fa5"
+    },
+    {
+      "bundle_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7",
+      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
+      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_EXECUTION_QUALIFICATION_20261028.json",
+      "source_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7"
+    },
+    {
+      "bundle_sha256": "108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2",
+      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
+      "runtime_member": "runtime_20261025/manifests/RF4_E4_TREATMENT_6GIB_ADMISSION_20261028.json",
+      "source_sha256": "108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2"
+    },
+    {
+      "bundle_sha256": "9e102435d2bce80c8f071338d2d1d0f1f5fb9bfa8542c59f828f19568308a89c",
+      "kind": "engineering_test_helper",
+      "runtime_member": "runtime_20261025/tests/run_guarded_tests.py",
+      "scope": "Guarded subprocess helper imported by portable test fixtures.",
+      "source_sha256": "9e102435d2bce80c8f071338d2d1d0f1f5fb9bfa8542c59f828f19568308a89c"
     }
   ],
-  "staged_integration_note": "Prospective 426-case candidate retains all 419 baseline collected IDs and adds seven unique cleanup/disclosure test IDs. Candidate has been collected only; no test bodies executed.",
+  "staged_integration_note": "The RF6 policy and freeze field are activated only in this isolated candidate; no live profile publication.",
   "superseded_collection_history": [
     {
       "collection_status": {
@@ -906,6 +953,8 @@
     "test_condition_findings_finalizer.py": 7,
     "test_delivery_cron_codec.py": 2,
     "test_dependency_packing_dispatch.py": 8,
+    "test_e4_et_dependency_priority.py": 6,
+    "test_e4_rf4_6g_admission.py": 13,
     "test_e6_artifact_resolution.py": 4,
     "test_e6_orphan_supervision.py": 9,
     "test_e6_overlay_controller.py": 5,
@@ -931,6 +980,7 @@
     "test_native_fit_scope.py": 5,
     "test_pending_reclaim_guard.py": 11,
     "test_postcommit_receipt.py": 8,
+    "test_public_registry_process_privacy.py": 3,
     "test_raw_wide_profile.py": 2,
     "test_reporting_completion.py": 9,
     "test_reporting_environment_policy.py": 3,
@@ -939,12 +989,12 @@
     "test_rf4_fit_jobs.py": 4,
     "test_startup_identity.py": 8,
     "test_supervisor_e6_pairs.py": 2,
-    "test_verified_zombie_reap.py": 8,
+    "test_verified_zombie_reap.py": 10,
     "test_weighted_mean_gate.py": 2
   },
-  "test_count_plan_total": 555,
+  "test_count_plan_total": 579,
   "test_directory": "runtime_20261025/tests",
-  "test_summary_note": "531 provisional planned node IDs (prior 527 plus four new restart regressions); actual count pending root-owned collection.",
+  "test_summary_note": "Successor preserves the prior 568-case qualified bundle and adds reaper, ET-priority, and privacy coverage; collect-only required before qualification.",
   "tests": [
     {
       "adaptation": "Imports staged controller in an isolated module with a scoped mock; arithmetic fixtures only, no queue or project data access.",
@@ -1192,8 +1242,8 @@
       "adaptation": "Added AST-extracted E6_V2 constant and _is_e6_v2_ensemble dependency; all assertions/node IDs retained.",
       "group": "final_current_dependency_packing_dispatch",
       "original_sha256": "afc28891acc44a70415494e1c8b2f6fe1690633262d614a2a382d60f04bb66ed",
-      "portable_sha256": "523631ff3e423a9633fb1de006a83e56b0cd0d98ca4db2abfd159c2c698a42d5",
-      "scope": "Policy identifier expectation updated to the deployed ARF ready-lane policy; operational metadata only.",
+      "portable_sha256": "23a6086ba15e75468293b1df6ecdbb6b0869ef851fa914eb4841807bb2152a51",
+      "scope": "Policy identifier expectation updated to the deployed ARF ready-lane policy; operational metadata only. Candidate fixture imports the actual E4 ExtraTrees priority predicate and asserts the current reviewed policy ID.",
       "test_member": "runtime_20261025/tests/test_dependency_packing_dispatch.py",
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/e6_portable_dispatch_fixture_update_20261027/test_dependency_packing_dispatch.py"
     },
@@ -1441,8 +1491,9 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/e6_protocol_correction_v2_20261027/validation/tests/test_supervisor_e6_pairs.py"
     },
     {
-      "portable_sha256": "e3b55e4b69b47abf78ce51709ea169aacfaf9ce9b76187ad2dadad030d7c5df9",
-      "scope": "Fixture-only reaper/native input proof/cache transfer; no study fits or archive payload reads",
+      "original_sha256": "2199debd3bf3df87d7f8ff2dcbc2fc5c0a77af27097222b572ea94965898f3a6",
+      "portable_sha256": "2199debd3bf3df87d7f8ff2dcbc2fc5c0a77af27097222b572ea94965898f3a6",
+      "scope": "Verified zombie reaper identity handling, including exited child with unavailable cwd; prior coverage retained.",
       "test_member": "runtime_20261025/tests/test_verified_zombie_reap.py"
     },
     {
@@ -1460,6 +1511,27 @@
     {
       "portable_sha256": "063d28d88d6f243e348c8f2339ccce2d65c8b8034dc42ff6241f4bd0df7eb40d",
       "test_member": "runtime_20261025/tests/test_history_manifest_packaging.py"
+    },
+    {
+      "group": "rf4_e4_treatment_6gib_admission",
+      "original_sha256": "f57dc4a2463eef10aa58bfe63b24c3f23a7d5a6f1b87bed1c1ab32e41dff684b",
+      "portable_sha256": "f57dc4a2463eef10aa58bfe63b24c3f23a7d5a6f1b87bed1c1ab32e41dff684b",
+      "scope": "Thirteen focused fixtures for the E4 rep2 treatment RF4 admission estimate, policy binding, promotion and header-only metadata validation; no model fitting.",
+      "test_member": "runtime_20261025/tests/test_e4_rf4_6g_admission.py"
+    },
+    {
+      "group": "rf4_e4_6g_final_rollup",
+      "original_sha256": "9ceaddb7863f195500f22dcdb9b51ada0b606d3b78fa639a3b3acb187e170bc0",
+      "portable_sha256": "9ceaddb7863f195500f22dcdb9b51ada0b606d3b78fa639a3b3acb187e170bc0",
+      "scope": "ET priority preserves dependency unlock path without changing fit limits.",
+      "test_member": "runtime_20261025/tests/test_e4_et_dependency_priority.py"
+    },
+    {
+      "group": "rf4_e4_6g_final_rollup",
+      "original_sha256": "250d5c2afca33a76c26962157def6a7e7b43e534698a7b640bbe0bad8995e874",
+      "portable_sha256": "250d5c2afca33a76c26962157def6a7e7b43e534698a7b640bbe0bad8995e874",
+      "scope": "Finalizer public registry/process privacy and private receipt regressions. Path references now resolve to this exact portable candidate source.",
+      "test_member": "runtime_20261025/tests/test_public_registry_process_privacy.py"
     }
   ]
 }

@@ -1283,12 +1283,14 @@ Content-identical artifacts are stored once. {('Previously cold-stored selected 
 """).encode()
 def public_registry(runtime):
  reg=load(runtime/'registry.json');
+ from reason_text_curation import _PRIVATE_PROCESS_FIELDS
+ private_process_fields=set(_PRIVATE_PROCESS_FIELDS)|{'hold_nonce','nonce','phase_supervision'}
  def scrub(x):
   if isinstance(x,dict):
    o={}
    for k,v in x.items():
-    kl=k.lower()
-    if 'pid' in kl or kl in {'request_path','result_path','worker_log_path','stdout','stderr','phase_supervision'}:continue
+    kl=str(k).strip().lower().replace('-','_')
+    if 'pid' in kl or kl in private_process_fields:continue
     if kl=='artifact_dir' and x.get('key'):o[k]='runtime_20261025/artifacts/'+x['key'];continue
     if kl=='attempts' and isinstance(v,list):o[k]=[{kk:scrub(vv) for kk,vv in a.items() if kk in {'attempt_id','started_utc','finished_utc','observed_utc','reason','status','outcome','validation_state','resource_profile','peak_tree_rss_bytes','attempt_number'}} for a in v if isinstance(a,dict)];continue
     o[k]=scrub(v)

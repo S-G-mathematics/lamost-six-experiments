@@ -46,6 +46,22 @@ class ReapTests(unittest.TestCase):
             self.assertEqual(result,[{'key':task['key'],'attempt_id':'attempt-1','pid':77}])
             self.assertEqual(calls,[(77,1)])
         finally:t.cleanup()
+    def test_terminal_recorded_zombie_reaps_without_cwd_or_cmdline(self):
+        t,r=self.proc();calls=[]
+        try:
+            task=self._record(r)
+            (r/'77'/'cwd').unlink(); (r/'77'/'cmdline').unlink()
+            result=m.reap_recorded_zombies({task['key']:task},r/'runtime',41,proc_root=r,uid=1000,waitpid=lambda p,f:(calls.append((p,f)) or (p,0)))
+            self.assertEqual(result,[{'key':task['key'],'attempt_id':'attempt-1','pid':77}])
+            self.assertEqual(calls,[(77,1)])
+        finally:t.cleanup()
+    def test_active_process_identity_still_requires_cwd_and_cmdline(self):
+        t,r=self.proc(state='S');
+        try:
+            (r/'77'/'cwd').unlink(); (r/'77'/'cmdline').unlink()
+            with self.assertRaises(FileNotFoundError):m._proc_record(77,r)
+        finally:t.cleanup()
+
     def test_terminal_record_wrong_process_identity_is_untouched(self):
         t,r=self.proc(state='Z',ppid=88);calls=[]
         try:

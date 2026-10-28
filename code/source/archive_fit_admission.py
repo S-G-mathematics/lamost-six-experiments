@@ -464,11 +464,19 @@ def reap_recorded_zombies(tasks, runtime, parent_pid, *, proc_root='/proc', uid=
             cfg = json.loads(request.read_text(encoding='utf-8'))
             definition = cfg.get('task')
             if cfg.get('attempt_id') != aid or not isinstance(definition, dict) or definition.get('key') != task.get('key'): continue
-            record = _proc_record(pid, proc_root)
-            status = (pathlib.Path(proc_root)/str(int(pid))/'status').read_text(encoding='utf-8').splitlines()
+            # A zombie has no usable cwd or command line in /proc. For the
+            # reaper path, validate only the kernel identity fields needed to
+            # authorize waitpid; active-process admission keeps _proc_record's
+            # strict cwd/argv checks unchanged.
+            proc = pathlib.Path(proc_root) / str(int(pid))
+            raw = (proc / 'stat').read_text(encoding='utf-8')
+            fields = raw[raw.rfind(')') + 2:].split()
+            if len(fields) <= 19: continue
+            state, actual_parent, actual_ticks = fields[0], int(fields[1]), str(fields[19])
+            if state not in {'Z', 'X', 'x'} or actual_parent != int(parent_pid) or actual_ticks != str(ticks): continue
+            status = (proc / 'status').read_text(encoding='utf-8').splitlines()
             actual_uid = int(next(line.split()[1] for line in status if line.startswith('Uid:')))
-            if record.get('uid') != int(uid) or actual_uid != int(uid): continue
-            if record.get('ppid') != int(parent_pid) or record.get('start_ticks') != str(ticks): continue
+            if actual_uid != int(uid): continue
             if not reap_zombie_child(pid, ticks, parent_pid, proc_root=proc_root, waitpid=waitpid): continue
             reaped.append({'key': task.get('key'), 'attempt_id': aid, 'pid': int(pid)})
         except (OSError, ValueError, TypeError, KeyError, StopIteration, json.JSONDecodeError):

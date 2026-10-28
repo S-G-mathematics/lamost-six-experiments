@@ -8,7 +8,7 @@ TREE=ast.parse(SOURCE.read_text())
 NODES={n.name:n for n in TREE.body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef))}
 NS={"GIB":1024**3,"worker_resource_class":lambda t:t["_class"],"worker_reservation_bytes":lambda t:t.get("_reservation",10*1024**3)}
 e6_constant=next(n for n in TREE.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=="E6_V2" for t in n.targets))
-needed=[e6_constant,NODES["_is_e6_v2_ensemble"],NODES["_dispatch_stage_priority"],NODES["order_ready_for_admission"]]
+needed=[e6_constant,NODES["_is_e6_v2_ensemble"],NODES["_is_e4_et_control_fit"],NODES["_dispatch_stage_priority"],NODES["order_ready_for_admission"]]
 exec(compile(ast.Module(body=needed,type_ignores=[]),str(SOURCE),"exec"),NS)
 
 def task(key,exp,kind,method,cls="heavy",reservation=None):
@@ -90,6 +90,6 @@ class DependencyPackingDispatchTests(unittest.TestCase):
   rev=next(n.value for n in TREE.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=="ADAPTIVE_REVISION" for t in n.targets))
   self.assertEqual(ast.literal_eval(rev),"adaptive-concurrency-20261025-v1.1")
   pid=next(n.value for n in TREE.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=="DISPATCH_POLICY_ID" for t in n.targets))
-  self.assertEqual(ast.literal_eval(pid),"cross-exp-stage-and-arf6-ready-lane-20261027-v1")
+  self.assertEqual(ast.literal_eval(pid),"cross-exp-stage-arf6-e4-et-control-critical-path-20261028-v1")
 
 if __name__=="__main__":unittest.main(verbosity=2)

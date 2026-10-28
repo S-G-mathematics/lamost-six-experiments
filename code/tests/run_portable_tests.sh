@@ -59,7 +59,7 @@ test_files=(
   "$R/tests/test_candidate_provenance_filter.py" \
   "$R/tests/test_archive_io_profile.py" \
   "$R/tests/test_cold_cron_profiles.py" \
-  "$R/tests/test_candidate_finalizer_publication_disclosure.py"
+  "$R/tests/test_candidate_finalizer_publication_disclosure.py" \
   "$R/tests/test_e6_orphan_supervision.py" \
   "$R/tests/test_e6_overlay_controller.py" \
   "$R/tests/test_e6_v2_protocol.py" \
@@ -77,10 +77,13 @@ test_files=(
   "$R/tests/test_rf4_controller_policy.py" \
   "$R/tests/test_rf4_fit_jobs.py" \
   "$R/tests/test_member_comparison_status_count.py" \
-  "$R/tests/test_e6_terminal_resume_idempotence.py" 
-  "$R/tests/test_verified_zombie_reap.py"
-  "$R/tests/test_native_fit_scope.py"
-  "$R/tests/test_child_cache_adoption.py"
-  "$R/tests/test_archive_fit_launch_gate_legacy.py"
+  "$R/tests/test_e6_terminal_resume_idempotence.py" \
+  "$R/tests/test_verified_zombie_reap.py" \
+  "$R/tests/test_native_fit_scope.py" \
+  "$R/tests/test_child_cache_adoption.py" \
+  "$R/tests/test_archive_fit_launch_gate_legacy.py" \
+  "$R/tests/test_e4_rf4_6g_admission.py" \
+  "$R/tests/test_e4_et_dependency_priority.py" \
+  "$R/tests/test_public_registry_process_privacy.py"
 )
 exec "$python_bin" -m pytest "${pytest_args[@]}" "${test_files[@]}"

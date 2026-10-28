@@ -1,5 +1,5 @@
 from __future__ import annotations
-import argparse,collections,datetime,fcntl,hashlib,json,os,pathlib,signal,sqlite3,subprocess,sys,time,uuid,shutil,importlib.util,stat
+import argparse,collections,datetime,fcntl,hashlib,json,os,pathlib,signal,sqlite3,subprocess,sys,time,uuid,shutil,importlib.util,stat,zipfile,struct,ast
 try:
  import admission_evidence
 except ModuleNotFoundError:
@@ -17,7 +17,7 @@ DEFINITIONS={}
 STORAGE_ESTIMATE=(0.0,0)
 CPU_PREVIOUS=None
 LAST_IDLE_CORES=0.0
-DISPATCH_POLICY_ID='cross-exp-stage-and-arf6-ready-lane-20261027-v1'
+DISPATCH_POLICY_ID='cross-exp-stage-arf6-e4-et-control-critical-path-20261028-v1'
 ADAPTIVE_REVISION='adaptive-concurrency-20261025-v1.1'
 E4_RF_80K_PROFILE_VERSION='e4-direct-rf-80k-admission-4gib-20261026'
 E4_RF_80K_REPS={1,2,3}
@@ -36,6 +36,11 @@ E6_OVERLAY_SHA256=None
 E6_OVERLAY_DOC=None
 RF4_POLICY_REL='manifests/RF4_EXECUTION_POLICY_20261028.json'
 RF4_POLICY_FIELD='rf4_execution_policy_sha256'
+RF4_E4_6G_POLICY_FIELD='rf4_e4_treatment_6g_admission_sha256'
+RF4_E4_6G_POLICY_REL='manifests/RF4_E4_TREATMENT_6GIB_ADMISSION_20261028.json'
+RF4_E4_6G_PROFILE_ID='rf4-e4-rep2-treatment-fit-6gib-admission-20261028'
+RF4_E4_6G_EVIDENCE_REL='reports/engineering_audits/RF4_E4_6GIB_PROSPECTIVE_ADMISSION_EVIDENCE_20261028.json'
+RF4_E4_6G_EVIDENCE_SHA='28716b215c993cd5a8830fbfd423ba4254cb547427c048c9abc1641644a16dd5'
 RF4_EXECUTION_POLICY='rf4-fit_n_jobs4-v1'
 RF4_RESOURCE_PROFILE='rf-fit_n_jobs4'
 RF4_PROFILE_ID=RF4_RESOURCE_PROFILE
@@ -45,6 +50,7 @@ ARCHIVE_FIT_POLICY_FIELD=archive_fit_admission.POLICY_FIELD
 ARCHIVE_FIT_OVERLAP_PROFILE='archive-native-fit-overlap-1.5gib-cpu1-v1'
 RF4_POLICY_CACHE_SIGNATURE=None
 RF4_POLICY_CACHE_VALUE=None
+RF4_ENGINE_HASH_CACHE=None
 def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def atomic(p,obj):
  p=pathlib.Path(p);p.parent.mkdir(parents=True,exist_ok=True);t=p.with_suffix(p.suffix+'.tmp');t.write_text(json.dumps(obj,indent=2,sort_keys=True,default=str)+'\n');os.replace(t,p)
@@ -86,7 +92,7 @@ def source_hashes():
  if freeze_path.is_file():
   try: freeze_doc=json.loads(freeze_path.read_text())
   except (OSError,ValueError,AttributeError): freeze_doc={}
-  if isinstance(freeze_doc,dict) and RF4_POLICY_FIELD in freeze_doc:names.extend(RF4_SOURCE_NAMES)
+  if isinstance(freeze_doc,dict) and (RF4_POLICY_FIELD in freeze_doc or RF4_E4_6G_POLICY_FIELD in freeze_doc):names.extend(RF4_SOURCE_NAMES)
   if isinstance(freeze_doc,dict) and (ARCHIVE_FIT_POLICY_FIELD in freeze_doc or archive_fit_admission.WORKER_REAPER_FIELD in freeze_doc):names.append('archive_fit_admission.py')
  return {n:sha(R/'source'/n) for n in names}
 def _rf4_manifest_and_freeze(frozen=None):
@@ -209,10 +215,177 @@ def _rf4_policy():
  RF4_POLICY_CACHE_SIGNATURE=signature
  RF4_POLICY_CACHE_VALUE=policy
  return policy
+
+def _rf4_e4_6g_policy(frozen=None):
+ frozen=frozen if isinstance(frozen,dict) else {}
+ digest=frozen.get(RF4_E4_6G_POLICY_FIELD)
+ if digest is None:return None
+ if not isinstance(digest,str) or len(digest)!=64 or any(c not in '0123456789abcdef' for c in digest):
+  raise RuntimeError('declared E4 RF 6 GiB policy SHA is malformed')
+ p=R/RF4_E4_6G_POLICY_REL
+ if p.is_symlink() or not p.is_file() or sha(p)!=digest:raise RuntimeError('declared E4 RF 6 GiB policy hash/path mismatch')
+ try:doc=json.loads(p.read_bytes())
+ except (OSError,ValueError,TypeError) as exc:raise RuntimeError('declared E4 RF 6 GiB policy malformed') from exc
+ scope={'experiments':[4],'kind':'fit','methods':['random_forest'],'never_attempted':True,'reuse_pipeline':False,'route':'treatment','rep':2,'max_training_rows':125955}
+ limits={'fit_n_jobs':4,'prediction_n_jobs':1,'native_threads':1,'admission_reservation_gib':6,'worker_memory_limit_gib':10,'trial_timeout_seconds':600,'phase_timeout_seconds':600,'termination_grace_seconds':30,'cpu_reservation_units':4}
+ if not isinstance(doc,dict) or doc.get('schema')!='lamost-e4-rf4-treatment-6gib-policy/1' or doc.get('status')!='qualified' or doc.get('scope')!=scope or any(doc.get(k)!=v for k,v in limits.items()):
+  raise RuntimeError('declared E4 RF 6 GiB policy scope/limits unsupported')
+ if doc.get('evidence_path')!=RF4_E4_6G_EVIDENCE_REL or doc.get('evidence_sha256')!=RF4_E4_6G_EVIDENCE_SHA:
+  raise RuntimeError('declared E4 RF 6 GiB evidence binding mismatch')
+ try:evidence=json.loads((R/RF4_E4_6G_EVIDENCE_REL).read_bytes())
+ except (OSError,ValueError,TypeError) as exc:raise RuntimeError('E4 RF 6 GiB public evidence unreadable') from exc
+ if sha(R/RF4_E4_6G_EVIDENCE_REL)!=RF4_E4_6G_EVIDENCE_SHA or evidence.get('schema_version')!='lamost-rf4-e4-prospective-admission-evidence/1':
+  raise RuntimeError('E4 RF 6 GiB evidence hash/schema mismatch')
+ obs=evidence.get('observed',{});fits=obs.get('fits') if isinstance(obs,dict) else None
+ if not isinstance(fits,list) or len(fits)!=10:raise RuntimeError('E4 RF 6 GiB evidence does not contain ten observations')
+ seen=set()
+ for fit in fits:
+  if not isinstance(fit,dict):raise RuntimeError('E4 RF 6 GiB observation malformed')
+  key=fit.get('key');fr=fit.get('fit_result',{})
+  if (not isinstance(key,str) or key in seen or not key.startswith('e4/rep_2/fit/treatment/random_forest/')
+      or not isinstance(fr,dict) or not 80000<=int(fr.get('training_rows',0))<=125955
+      or fit.get('final_fit_phase_count')!=1 or int(fit.get('max_phase_tree_rss_kib',10**20))>6*1024*1024):
+   raise RuntimeError('E4 RF 6 GiB observation scope/measurement mismatch')
+  seen.add(key)
+ evidence_sources={x.get('path'):x.get('sha256') for x in evidence.get('inputs',{}).get('source_files',[]) if isinstance(x,dict)}
+ policy_sources=doc.get('source_sha256')
+ if not isinstance(policy_sources,dict) or set(policy_sources)!=set(RF4_SOURCE_NAMES):raise RuntimeError('E4 RF 6 GiB adapter source map invalid')
+ for name in RF4_SOURCE_NAMES:
+  expected=evidence_sources.get('source/'+name)
+  current=sha(R/'source'/name)
+  if expected!=current or policy_sources.get(name)!=current or _rf4_policy_freeze_doc().get('source_sha256',{}).get(name)!=current:
+   raise RuntimeError('E4 RF 6 GiB source evidence mismatch')
+ return {'policy_sha256':digest,'document':doc,'evidence_sha256':RF4_E4_6G_EVIDENCE_SHA}
+def _safe_profile_json(path):
+ path=pathlib.Path(path)
+ try:
+  if path.is_symlink() or not path.is_file():return None
+  return json.loads(path.read_bytes())
+ except (OSError,ValueError,TypeError):return None
+def load_registry_record_for_profile(key):
+ try:
+  db=sqlite3.connect(f'file:{R / "registry.sqlite"}?mode=ro',uri=True,timeout=1)
+  try:row=db.execute('SELECT record FROM tasks WHERE key=?',(key,)).fetchone()
+  finally:db.close()
+  return json.loads(row[0]) if row else None
+ except (OSError,sqlite3.Error,ValueError,TypeError):return None
+def _e4_treatment_rf4_6g_eligible(task):
+ if not isinstance(task,dict) or task.get('attempts') or task.get('reuse_pipeline'):return None
+ try:rep=int(task.get('rep'));exp=int(task.get('experiment'))
+ except (TypeError,ValueError):return None
+ if (exp,rep,task.get('kind'),task.get('method'),task.get('route'))!=(4,2,'fit','random_forest','treatment'):return None
+ if task.get('status') not in ('planned','waiting_dependency','waiting_for_dependency'):return None
+ definition=DEFINITIONS.get(task.get('key'))
+ if not isinstance(definition,dict) or any(definition.get(k)!=task.get(k) for k in ('key','experiment','rep','kind','method','route','condition','train_key')):return None
+ policy=_rf4_e4_6g_policy(_rf4_policy_freeze_doc())
+ if policy is None:return None
+ train_key=task.get('train_key')
+ if not isinstance(train_key,str) or train_key not in task.get('dependencies',[]):return None
+ dep=load_registry_record_for_profile(train_key)
+ if not isinstance(dep,dict) or dep.get('status') not in ('successful','validated_terminal') or dep.get('validation_state') not in ('validated','validated_terminal'):return None
+ result=dep.get('result') if isinstance(dep.get('result'),dict) else {}
+ if result.get('status')!='successful' or result.get('key')!=train_key:return None
+ artifact=result.get('artifact_path') or dep.get('artifact_dir')
+ if not isinstance(artifact,str) or dep.get('key')!=train_key or dep.get('kind') not in ('e4_treatment','e4_append') or dep.get('experiment')!=4 or dep.get('rep')!=2:return None
+ artifact_path=pathlib.Path(artifact)
+ try:artifact_path=artifact_path.relative_to(R) if artifact_path.is_absolute() else artifact_path
+ except ValueError:return None
+ if '..' in artifact_path.parts:return None
+ probe=R
+ for component in artifact_path.parts:
+  probe=probe/component
+  if probe.is_symlink():return None
+ meta_path=R/artifact_path/'metadata.json';val_path=R/artifact_path/'validation.json'
+ meta=_safe_profile_json(meta_path);val=_safe_profile_json(val_path)
+ if not isinstance(meta,dict) or not isinstance(val,dict):return None
+ counts=meta.get('counts_after')
+ if not isinstance(counts,list) or len(counts)!=7 or any(isinstance(x,bool) or not isinstance(x,int) or x<0 for x in counts):return None
+ rows=sum(counts)
+ if not 80000<=rows<=125955:return None
+ if meta.get('kind') not in ('e4_treatment','e4_append') or meta.get('task_key')!=train_key:return None
+ depmeta=dep.get('result',{}).get('metadata',{})
+ if not isinstance(depmeta,dict) or meta.get('parent')!=depmeta.get('parent'):return None
+ parent=pathlib.Path(meta['parent'])
+ try:
+  if parent.resolve()!= (R/'artifacts'/str(dep.get('cohort_key',''))).resolve() or parent.is_symlink():return None
+ except (OSError,RuntimeError):return None
+ if val.get('status')!='validated' or val.get('task_key')!=train_key:return None
+ dep_validation=dep.get('result',{}).get('validation',{})
+ if not isinstance(dep_validation,dict) or dep_validation.get('status')!='validated' or dep_validation.get('task_key')!=train_key:return None
+ dep_files=dep_validation.get('files')
+ files=val.get('files');data_sha=files.get('data.npz') if isinstance(files,dict) else None
+ if not isinstance(dep_files,dict) or dep_files.get('data.npz')!=data_sha:return None
+ if not isinstance(data_sha,str) or len(data_sha)!=64 or any(c not in '0123456789abcdef' for c in data_sha):return None
+ data_path=R/artifact_path/'data.npz'
+ if not _e4_rf_npz_headers_match(data_path,rows):return None
+ key=task.get('key');task_sha=task.get('task_sha256')
+ if not isinstance(task_sha,str) or len(task_sha)!=64:
+  task_sha=_rf4_task_hash(definition)
+ candidates=[R/'artifacts'/key/'pipeline.joblib',R/'artifacts'/key/'fit_result.json']
+ if task_sha:candidates.append(R/'artifacts'/key/'checkpoints'/task_sha/'pipeline.joblib')
+ for candidate in candidates:
+  if candidate.exists() or candidate.is_symlink():return None
+ return {'profile_id':RF4_E4_6G_PROFILE_ID,'reservation_gib':6,'cpu_reservation_units':RF4_CPU_UNITS,
+         'execution_policy':RF4_EXECUTION_POLICY,'resource_profile':RF4_RESOURCE_PROFILE,
+         'policy_sha256':policy['policy_sha256'],'evidence_sha256':policy['evidence_sha256'],
+         'train_key':train_key,'train_rows':rows,'train_metadata_sha256':sha(meta_path),'train_validation_sha256':sha(val_path)}
+def _rf4_task_hash(definition):
+ global RF4_ENGINE_HASH_CACHE
+ if not isinstance(definition,dict):return None
+ files=[R/'source'/'parallel_rf'/'science.py',R/'source'/'parallel_rf'/'phase_worker.py']
+ try:
+  sig=tuple((p.stat().st_dev,p.stat().st_ino,p.stat().st_size,p.stat().st_mtime_ns,p.stat().st_ctime_ns) for p in files)
+  if RF4_ENGINE_HASH_CACHE and RF4_ENGINE_HASH_CACHE[0]==sig:engine=RF4_ENGINE_HASH_CACHE[1]
+  else:
+   engine=hashlib.sha256((sha(files[0])+sha(files[1])).encode()).hexdigest()
+   RF4_ENGINE_HASH_CACHE=(sig,engine)
+  excluded={'attempt_id','worker_pid','started_at','observed_at','observed_utc','artifact_dir','controller_pid','status','attempts','attempt_number','queue_state','controller_state'}
+  identity={k:v for k,v in definition.items() if k not in excluded}
+  identity['engine_code_sha256']=engine
+  return hashlib.sha256(json.dumps(identity,sort_keys=True,default=str).encode()).hexdigest()
+ except (OSError,TypeError,ValueError):return None
+def _e4_rf_npz_headers_match(path,rows):
+ path=pathlib.Path(path)
+ try:
+  if path.is_symlink() or not path.is_file():return False
+  before=path.stat()
+  expected={'X.npy':(rows,6),'y.npy':(rows,),'ids.npy':(rows,)}
+  with zipfile.ZipFile(path,'r') as archive:
+   if set(archive.namelist())!=set(expected):return False
+   for name,shape in expected.items():
+    with archive.open(name,'r') as stream:
+     prefix=stream.read(8)
+     if len(prefix)<8 or prefix[:6]!=(bytes([0x93])+b'NUMPY'):return False
+     major,minor=prefix[6],prefix[7]
+     if major==1:
+      header_len=struct.unpack('<H',stream.read(2))[0]
+     elif major in (2,3):
+      header_len=struct.unpack('<I',stream.read(4))[0]
+     else:return False
+     if header_len<=0 or header_len>65536:return False
+     header=ast.literal_eval(stream.read(header_len).decode('latin1').strip())
+     if tuple(header.get('shape',()))!=shape or header.get('fortran_order') not in (True,False):return False
+  after=path.stat()
+  return (before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns,before.st_ctime_ns)==(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns)
+ except (OSError,ValueError,KeyError,TypeError,zipfile.BadZipFile,struct.error,SyntaxError):
+  return False
+def _rf4_policy_freeze_doc():
+ p=R/'manifests/freeze.json'
+ return _safe_profile_json(p) or {}
+def _has_recorded_e4_treatment_rf6_profile(task):
+ profiles=[task.get('admission_resource_policy')]
+ if task.get('attempts'):profiles.append(task['attempts'][-1].get('resource_profile'))
+ 
+ for x in profiles:
+  if isinstance(x,dict) and x.get('admission_profile_id')==RF4_E4_6G_PROFILE_ID:
+   try:
+    if int(x.get('admission_reservation_bytes')) in (6*GIB,10*GIB):return True
+   except (TypeError,ValueError):pass
+ return False
 def _has_recorded_rf4_profile(task):
  profiles=[task.get('admission_resource_policy')]
  if task.get('attempts'):profiles.append(task['attempts'][-1].get('resource_profile'))
- return any(isinstance(x,dict) and x.get('execution_policy')==RF4_EXECUTION_POLICY and x.get('resource_profile')==RF4_RESOURCE_PROFILE for x in profiles)
+ return any(isinstance(x,dict) and x.get('execution_policy')==RF4_EXECUTION_POLICY and x.get('resource_profile')==RF4_RESOURCE_PROFILE and x.get('admission_profile_id')!=RF4_E4_6G_PROFILE_ID for x in profiles)
 def _rf4_fit_eligible(task):
  policy=_rf4_policy()
  if policy is None or not isinstance(task,dict):return None
@@ -692,6 +865,23 @@ def _eligible_waiting_arf6_fit(ready):
   if worker_reservation_bytes(task)==6*GIB:return task
  return None
 
+def _is_e4_et_control_fit(task):
+ # One-time dependency lane for the three E5 ExtraTrees clean baselines.
+ # Match only the frozen E4 direct control keys; never promote attempted work.
+ try:
+  rep=int(task.get('rep'))
+  if rep not in (1,2,3):return False
+  if (int(task.get('experiment',0) or 0)!=4 or task.get('kind')!='fit'
+      or task.get('method')!='extra_trees' or task.get('route')!='direct'
+      or task.get('condition')!='control'
+      or task.get('key')!=f"e4/rep_{rep}/fit/direct/extra_trees/control"
+      or task.get('attempts') or task.get('admission_reservation_bytes') is not None):
+   return False
+  status=task.get('status')
+  return status is None or status in ('planned','waiting_for_dependency')
+ except (TypeError,ValueError):
+  return False
+
 def order_ready_for_admission(running,ready):
  # Keep light work ahead of heavy work while a heavy lane is occupied.
  heavy_lane=any(worker_resource_class(t)=='heavy' for t in running)
@@ -708,8 +898,14 @@ def order_ready_for_admission(running,ready):
  for index,t in enumerate(ready):
   light_first=0 if heavy_lane and worker_resource_class(t)=='light' else 1
   stage=_dispatch_stage_priority(t)
-  # Only within the fit stage, promote the first gate-eligible 6 GiB ARF fit.
-  packing=0 if preferred_arf_key is not None and t.get('key')==preferred_arf_key else 1
+  # Preserve the existing ARF6 lane; otherwise, advance only the three
+  # untouched E4 ExtraTrees controls that unlock E5 fit dependencies.
+  if preferred_arf_key is not None and t.get('key')==preferred_arf_key:
+   packing=0
+  elif _is_e4_et_control_fit(t):
+   packing=1
+  else:
+   packing=2
   decorated.append(((light_first,stage,packing,index),t))
  return [t for _,t in sorted(decorated,key=lambda x:x[0])]
 
@@ -724,14 +920,25 @@ def admit(db,t,idle_hint=None):
  reservation=worker_reservation_bytes(t)
  profile_id=t.get('admission_profile_id') if t.get('admission_reservation_bytes') is not None and not t.get('adaptive_promoted_heavy') else None
  profile_evidence=t.get('admission_profile_evidence') if profile_id and not t.get('adaptive_promoted_heavy') else None
+ rf6_evidence=_e4_treatment_rf4_6g_eligible(t) if not t.get('attempts') else None
  rf4_evidence=_rf4_fit_eligible(t) if not t.get('attempts') else None
- if rf4_evidence is not None:
+ if rf6_evidence is not None:
+  if reservation!=6*GIB:raise RuntimeError('qualified E4 treatment RF4 task lacks 6 GiB reservation')
+  profile_id=RF4_E4_6G_PROFILE_ID;profile_evidence=rf6_evidence
+ elif rf4_evidence is not None:
   if reservation!=10*GIB:raise RuntimeError('qualified RF4 task lacks required 10 GiB reservation')
   profile_id=RF4_PROFILE_ID;profile_evidence=rf4_evidence
  elif _has_recorded_rf4_profile(t):
   if reservation!=10*GIB or profile_id not in (None,RF4_PROFILE_ID):
    raise RuntimeError('recorded RF4 operational resume profile is inconsistent')
   profile_id=RF4_PROFILE_ID
+  profile_evidence=t.get('admission_profile_evidence')
+  if not profile_evidence and t.get('attempts'):
+   profile_evidence=t['attempts'][-1].get('resource_profile',{}).get('admission_profile_evidence')
+ elif _has_recorded_e4_treatment_rf6_profile(t):
+  if reservation not in (6*GIB,10*GIB) or (reservation==10*GIB and not t.get('adaptive_promoted_heavy')) or profile_id not in (None,RF4_E4_6G_PROFILE_ID):
+   raise RuntimeError('recorded E4 RF6 operational resume profile is inconsistent')
+  profile_id=RF4_E4_6G_PROFILE_ID
   profile_evidence=t.get('admission_profile_evidence')
   if not profile_evidence and t.get('attempts'):
    profile_evidence=t['attempts'][-1].get('resource_profile',{}).get('admission_profile_evidence')
@@ -787,7 +994,7 @@ def admit(db,t,idle_hint=None):
       and evidence.get('resource_audit',{}).get('v2_sha256')==admission_evidence.KNN_RBF_V2_AUDIT_SHA256):
    profile_id=evidence['profile_id'];profile_evidence=evidence
  resource_profile=dict(ADAPTIVE_POLICY);resource_profile.update({'admission_profile_id':profile_id,'admission_reservation_bytes':reservation})
- if profile_id==RF4_PROFILE_ID:
+ if profile_id in (RF4_PROFILE_ID,RF4_E4_6G_PROFILE_ID):
   resource_profile.update({'execution_policy':RF4_EXECUTION_POLICY,'resource_profile':RF4_RESOURCE_PROFILE,'cpu_reservation_units':RF4_CPU_UNITS,'fit_n_jobs':4,'prediction_n_jobs':1,'native_threads':1})
  if profile_evidence:resource_profile['admission_profile_evidence']=dict(profile_evidence)
  if overlap_evidence:resource_profile['archive_native_fit_overlap_admission']=overlap_evidence
@@ -806,7 +1013,7 @@ def admit(db,t,idle_hint=None):
   definition['effective_dependencies']=eff
   definition['member_evaluation_dependency_observations']={k:{'status':allstates[k]['status'],'outcome':allstates[k].get('outcome'),'reason':allstates[k].get('reason')} for k in definition.get('member_evaluations',{}).values()}
  cfg={'task':definition,'attempt_id':aid,'result_path':str(result),'dispatch_policy_id':DISPATCH_POLICY_ID}
- if profile_id==RF4_PROFILE_ID:cfg.update({'execution_policy':RF4_EXECUTION_POLICY,'resource_profile':RF4_RESOURCE_PROFILE})
+ if profile_id in (RF4_PROFILE_ID,RF4_E4_6G_PROFILE_ID):cfg.update({'execution_policy':RF4_EXECUTION_POLICY,'resource_profile':RF4_RESOURCE_PROFILE})
  worker_script=worker_script_for_task(definition,cfg.get('execution_policy'),cfg.get('resource_profile'))
  if definition.get('e6_protocol_version')==E6_V2 and int(definition.get('experiment',0) or 0)==6:
   definition['_controller_request_sha256']=_e6_request_digest(cfg)
@@ -1034,10 +1241,15 @@ def worker_reservation_bytes(t):
  # A recorded RF4 attempt always carries the full hard-limit reservation;
  # malformed historical metadata must not lower its memory commitment.
  if _has_recorded_rf4_profile(t):return 10*GIB
+ if _has_recorded_e4_treatment_rf6_profile(t):return 6*GIB
  recorded=t.get('admission_reservation_bytes')
  if recorded is not None:
   try:return min(10*GIB,max(0,int(recorded)))
   except (TypeError,ValueError):return 10*GIB
+ # Narrow E4 treatment RF4 estimate; historical attempts remain at recorded reservations.
+ if not t.get('attempts'):
+  rf6=_e4_treatment_rf4_6g_eligible(t)
+  if rf6 is not None and rf6.get('reservation_gib')==6:return 6*GIB
  # RF4 is prospective only and needs a freeze-bound qualified policy.
  if not t.get('attempts'):
   rf4=_rf4_fit_eligible(t)
@@ -1082,7 +1294,7 @@ def cpu_admission_slots(active_workers,total_cpus,idle_cores,reserve_cores=2):
  ceiling=min(max(0,int(total_cpus)-int(reserve_cores)),int(active_workers)+extra)
  return max(0,ceiling-int(active_workers))
 def worker_cpu_reservation_units(t):
- if _has_recorded_rf4_profile(t):
+ if _has_recorded_rf4_profile(t) or _has_recorded_e4_treatment_rf6_profile(t):
   profiles=[t.get('admission_resource_policy')]
   if t.get('attempts'):profiles.append(t['attempts'][-1].get('resource_profile'))
   for profile in profiles:
@@ -1095,7 +1307,7 @@ def worker_cpu_reservation_units(t):
 def candidate_cpu_reservation_units(t):
  # Operational retries retain the execution profile already recorded on the task.
  if worker_cpu_reservation_units(t)==RF4_CPU_UNITS:return RF4_CPU_UNITS
- return RF4_CPU_UNITS if _rf4_fit_eligible(t) is not None else 1
+ return RF4_CPU_UNITS if (_rf4_fit_eligible(t) is not None or _e4_treatment_rf4_6g_eligible(t) is not None) else 1
 def cpu_admission_units(running,total_cpus,idle_cores,reserve_cores=2):
  occupied=sum(worker_cpu_reservation_units(t) for t in running)
  extra=max(0,int(idle_cores)-int(reserve_cores))
