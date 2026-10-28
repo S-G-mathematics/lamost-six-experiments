@@ -2,16 +2,16 @@ from pathlib import Path
 import sys,os,json,hashlib,datetime,time,sqlite3,subprocess,signal,fcntl,traceback,argparse,shutil
 ROOT=Path('/home/ubuntu/lamost_e1_migration_20261023');R=ROOT/'runtime_20261025';D=Path(__file__).resolve().parent.parent;H=R/'ADMISSION_HOLD.json'
 sys.path.insert(0,str(Path(__file__).resolve().parent));import controller as c
-from batch_plan import MAX_INITIAL_BYTES,MAX_INITIAL_GROUPS,MAX_LATER_BYTES,MAX_LATER_GROUPS,RAW_WIDE_MAX_BYTES,RAW_WIDE_MAX_GROUPS,RAW_WIDE_PROFILE,RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES,resource_admission_ready
+from batch_plan import MAX_INITIAL_BYTES,MAX_INITIAL_GROUPS,MAX_LATER_BYTES,MAX_LATER_GROUPS,RAW_WIDE_MAX_BYTES,RAW_WIDE_MAX_GROUPS,RAW_WIDE_PROFILE,RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES,RAW_MIXED_SMALL_MAX_BYTES,RAW_MIXED_SMALL_MAX_GROUPS,RAW_MIXED_SMALL_PROFILE,RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES,RAW_ARCHIVE_IO_PROFILES,resource_admission_ready
 CHILD_WALL_SECONDS=180
 FOLLOWUP_CHILD_WALL_SECONDS=600
 ARCHIVE_IO_PROFILE='bounded-1800'
 RAW_WIDE_PROFILE='bounded-1800-wide8gib'
-ARCHIVE_IO_PROFILES=(ARCHIVE_IO_PROFILE,RAW_WIDE_PROFILE)
+ARCHIVE_IO_PROFILES=(ARCHIVE_IO_PROFILE,RAW_WIDE_PROFILE,RAW_MIXED_SMALL_PROFILE)
 ARCHIVE_IO_WALL_SECONDS=1800
 CODEC_FOLLOWUP_MAX_BYTES=1<<30
 CODEC_FOLLOWUP_MAX_GROUPS=1
-SOURCE_PINS={'commit_batch_child.py': 'afe7bb36f166535f1cd23fdb8d996b135975a9a2deed7efe5aa757267242d7bb', 'controller.py': 'db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae', 'batch_plan.py': 'c6a6420c73be21a5cedfa4a9c681332c9eaa4986fbcd5094e4bfdf05b85901f9', 'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9', 'cold_model_storage.py': '3bf3a9c1cb39c02f09361ad4d13fea5d7b4bd2ddcedb1b2c5d0e60b5c745ad21', 'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c', 'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca', 'cold_storage_safety.py': '6b9f012d55f0f2b80ab818477d2bd7cd9deca2bbba5a4288786c93c39a4842f1', 'archive_fit_admission.py': 'ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030'}
+SOURCE_PINS={'commit_batch_child.py': '794eca7115991c18fd8a853f4ae5f6cd938fad79a29e49efb4834e15003be802', 'controller.py': 'db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae', 'batch_plan.py': 'a46eea100f5046eaf6166f01b0ee8ecf21999d928fb4c38dc54f217a65f82c7b', 'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9', 'cold_model_storage.py': 'f6f139ec8968cab5ec87936d056fe0bfc25e3669a5e1f52989c26ed96616ad93', 'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c', 'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca', 'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273', 'archive_fit_admission.py': 'ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030', 'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1'}
 BATCH_POLICIES={"initial":{"max_bytes":MAX_INITIAL_BYTES,"max_groups":MAX_INITIAL_GROUPS,"wall_seconds":CHILD_WALL_SECONDS,"packing":"smallest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup":{"max_bytes":MAX_LATER_BYTES,"max_groups":MAX_LATER_GROUPS,"wall_seconds":FOLLOWUP_CHILD_WALL_SECONDS,"packing":"largest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup-codec":{"max_bytes":CODEC_FOLLOWUP_MAX_BYTES,"max_groups":CODEC_FOLLOWUP_MAX_GROUPS,"wall_seconds":FOLLOWUP_CHILD_WALL_SECONDS,"packing":"largest_first","storage_codec_policy":"reversible-xz-v1","transient_disk_reserve_bytes":0}}
 def resolve_batch_policy(batch_policy,storage_codec_policy,archive_io_profile=None):
  if batch_policy not in BATCH_POLICIES:raise ValueError('unknown batch policy')
@@ -24,6 +24,8 @@ def resolve_batch_policy(batch_policy,storage_codec_policy,archive_io_profile=No
  result=dict(base);result['wall_seconds']=ARCHIVE_IO_WALL_SECONDS;result['archive_io_profile']=archive_io_profile
  if archive_io_profile==RAW_WIDE_PROFILE:
   result.update({'max_bytes':RAW_WIDE_MAX_BYTES,'max_groups':RAW_WIDE_MAX_GROUPS,'transient_disk_reserve_bytes':RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES})
+ elif archive_io_profile==RAW_MIXED_SMALL_PROFILE:
+  result.update({'max_bytes':RAW_MIXED_SMALL_MAX_BYTES,'max_groups':RAW_MIXED_SMALL_MAX_GROUPS,'transient_disk_reserve_bytes':RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES})
  return result
 
 def transient_disk_headroom_ok(free_bytes, policy):
@@ -117,12 +119,12 @@ def main():
    if not unresolved and admission_ready(unresolved,avail,commitments,int(1.5*1024**3)):break
    atomic(op/'supervisor_state.json',{'status':'waiting_for_resource_headroom','admission':admission});time.sleep(10)
   else:raise RuntimeError('resource admission unavailable within one hour; no archive mutation')
-  disk_free=shutil.disk_usage(R).free if a.archive_io_profile==RAW_WIDE_PROFILE else None
+  disk_free=shutil.disk_usage(R).free if a.archive_io_profile in RAW_ARCHIVE_IO_PROFILES else None
   disk_required=policy['max_bytes']+policy['transient_disk_reserve_bytes']
   if disk_free is not None and disk_free<disk_required:
-   raise RuntimeError(f'wide profile transient disk headroom insufficient: free={disk_free} required={disk_required}')
+   raise RuntimeError(f'raw archive profile transient disk headroom insufficient: free={disk_free} required={disk_required}')
   admission['transient_disk_free_bytes']=disk_free
-  admission['transient_disk_required_bytes']=disk_required if a.archive_io_profile==RAW_WIDE_PROFILE else None
+  admission['transient_disk_required_bytes']=disk_required if a.archive_io_profile in RAW_ARCHIVE_IO_PROFILES else None
   atomic(op/'private_admission.json',admission)
   env=os.environ.copy()
   for n in ['OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS']:env[n]='1'

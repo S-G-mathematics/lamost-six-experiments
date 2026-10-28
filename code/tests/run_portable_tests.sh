@@ -87,6 +87,12 @@ test_files=(
   "$R/tests/test_public_registry_process_privacy.py" \
   "$R/tests/test_archive_digest_coalescing.py" \
   "$R/tests/test_nonfit_disk_drain.py" \
-  "$R/tests/test_loop_snapshot_refresh.py"
+  "$R/tests/test_loop_snapshot_refresh.py" \
+  "$R/tests/test_metadata_only_contract.py" \
+  "$R/tests/test_mixed_family_scope.py" \
+  "$R/tests/test_batch_inode_inventory.py" \
+  "$R/tests/test_batch_inode_inventory_fixture.py" \
+  "$R/tests/core_3bf/test_3bf_cold_model_storage.py" \
+  "$R/tests/test_mixed_small_profile.py"
 )
 exec "$python_bin" -m pytest "${pytest_args[@]}" "${test_files[@]}"

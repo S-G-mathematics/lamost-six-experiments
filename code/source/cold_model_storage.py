@@ -6,7 +6,7 @@ from pathlib import Path, PurePosixPath
 import cold_codec_storage as _codec_storage
 
 SAFETY_PATH=Path(__file__).resolve().with_name("cold_storage_safety.py")
-SAFETY_SHA256="6b9f012d55f0f2b80ab818477d2bd7cd9deca2bbba5a4288786c93c39a4842f1"
+SAFETY_SHA256="7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273"
 if not SAFETY_PATH.is_file() or hashlib.sha256(SAFETY_PATH.read_bytes()).hexdigest()!=SAFETY_SHA256:
     raise RuntimeError("pinned self-contained cold storage safety helper missing or changed")
 _spec=importlib.util.spec_from_file_location("cold_store_safety",SAFETY_PATH)
@@ -22,6 +22,7 @@ _LEGACY_CORE_SHA256="ba909e9f55f5f8020f165a5ac42f4159eed4c8c4b69b64f95f7313fd824
 _LEGACY_HISTORY_SHA256="594eebc2140060a48219394d48fb3fd15ee6b357cdc91c776f7c96bd1013b33f"
 _LEGACY_PASS_SHA256="c101e8486ffcf6e54f9eadd11a5c0ffebddcb378a6b6886ff8505f1a0d1e8d51"
 _LEGACY_HISTORY_ENTRY_COUNT=54
+_ARCHIVABLE_FIT_METHODS=frozenset(("arf", "cart", "chow_liu", "copula", "gaussian_nb", "gmm", "hist_gb", "kde", "knn", "lda", "linear_svm", "logistic", "qda", "random_forest", "rbf_svm", "shared_diagonal"))
 
 
 def _sha_bytes(data):return hashlib.sha256(data).hexdigest()
@@ -216,6 +217,18 @@ class ColdModelStore:
         checkpoint_selection=safe_file(checkpoint_prefix+"/selection.json")
         if sha256_file(checkpoint_selection)!=selection_expected:raise AmbiguousState("checkpoint selected configuration SHA differs")
         return {"owner_kind":kind,"attempt_id":attempt_id,"task_sha256":task_sha,"publication_sha256":sha256_file(fitpub_path),"attempt_publication_sha256":sha256_file(attempt_pub),"fit_result_sha256":sha256_file(fitresult_path),"selection_sha256":selection_expected}
+    def _consumer_contract(self,key,closure,records,claimed):
+        pending=[k for k in closure if records[k].get("status")!="validated_terminal"]
+        if not pending and claimed is None:
+            return None
+        if pending and not isinstance(claimed,dict): raise UnsafePlan("nonterminal consumers require an explicit metadata-only contract")
+        if claimed is None: return None
+        import metadata_only_contract as contract_module
+        if sha256_file(Path(contract_module.__file__))!="1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1": raise UnsafePlan("metadata-only contract module pin mismatch")
+        try: expected=contract_module.build_contract(self.root,key,records,closure)
+        except Exception as exc: raise AmbiguousState("metadata-only consumer contract no longer validates") from exc
+        if claimed!=expected: raise AmbiguousState("metadata-only consumer contract changed")
+        return expected
     def _validate_alias_owner_records(self,aliases,owner_rows,digest,records):
         if not isinstance(aliases,list) or not isinstance(owner_rows,list):raise AmbiguousState("stored model lacks alias ownership evidence")
         owner_by_path={};required=set()
@@ -223,7 +236,7 @@ class ColdModelStore:
             alias_path=_safe_rel(owner_row.get("alias_path"));owner_key=owner_row.get("task_key")
             if alias_path in owner_by_path:raise AmbiguousState("duplicate stored alias owner path")
             owner=records.get(owner_key)
-            if not owner or not _successful(owner) or owner.get("kind")!="fit" or owner.get("method")!="random_forest" or int(owner.get("experiment",0)) not in (3,4,5,6):raise UnsafePlan("stored alias owner is not a validated runtime RF fit")
+            if not owner or not _successful(owner) or owner.get("kind")!="fit" or owner.get("method") not in _ARCHIVABLE_FIT_METHODS or int(owner.get("experiment",0)) not in (3,4,5,6):raise UnsafePlan("stored alias owner is not a validated runtime RF fit")
             if _pipeline_hash(owner)!=digest:raise AmbiguousState("stored alias owner pipeline SHA changed")
             expected_dir=(self.root/"runtime_20261025"/"artifacts"/owner_key).resolve(strict=False)
             if Path(str(owner.get("artifact_dir", ""))).resolve(strict=False)!=expected_dir:raise AmbiguousState("alias owner artifact_dir does not match its canonical path")
@@ -231,11 +244,13 @@ class ColdModelStore:
             if owner_row.get("task_sha256") and owner_task_sha!=owner_row["task_sha256"]:raise AmbiguousState("stored alias owner task identity changed")
             closure=sorted(_consumer_closure(owner_key,records))
             if closure!=sorted(owner_row.get("consumer_tasks") or []):raise AmbiguousState("stored alias owner consumer closure changed")
-            if any(records[x].get("status")!="validated_terminal" for x in closure):raise UnsafePlan("stored alias owner has a nonterminal consumer")
+            contract=self._consumer_contract(owner_key,closure,records,owner_row.get("metadata_only_consumer_contract"))
+            metadata_tasks={x["task_key"] for x in (contract or {}).get("pending_metadata_fit_tasks",[]) if records[x["task_key"]].get("status")!="validated_terminal"}
+            metadata_tasks|={x["task_key"] for x in (contract or {}).get("pending_own_fit_evaluations",[]) if records[x["task_key"]].get("status")!="validated_terminal"}
             expected_evidence=self._alias_publication_evidence(owner,alias_path,digest)
             for field,value in expected_evidence.items():
                 if owner_row.get(field)!=value:raise AmbiguousState("stored alias publication evidence changed: "+field)
-            owner_by_path[alias_path]=owner_row;required|={owner_key}|set(closure)
+            owner_by_path[alias_path]=owner_row;required|={owner_key}|(set(closure)-metadata_tasks)
         if set(owner_by_path)!=set(aliases):raise AmbiguousState("stored aliases and their owner records differ")
         return required
     def _validate_existing_members(self,manifest,records,verify_payload=True):
@@ -245,17 +260,19 @@ class ColdModelStore:
             task=records.get(key)
             if not task or not _successful(task):raise UnsafePlan("stored-model producer is no longer validated successful: "+str(key))
             logical=_safe_rel(row.get("logical_path"));expected=f"runtime_20261025/artifacts/{key}/pipeline.joblib"
-            if logical!=expected or row.get("method")!="random_forest" or int(row.get("experiment",0)) not in (3,4,5,6):raise AmbiguousState("stored cold member outside approved runtime RF scope")
+            if logical!=expected or row.get("method") not in _ARCHIVABLE_FIT_METHODS or row.get("method")!=task.get("method") or int(row.get("experiment",0)) not in (3,4,5,6):raise AmbiguousState("stored cold member outside approved runtime RF scope")
             if _pipeline_hash(task)!=row.get("sha256"):raise AmbiguousState("stored-model producer validation SHA changed: "+str(key))
             if _safe_rel(row.get("archive_member"))!=_archive_member_for(logical,row["sha256"]):raise AmbiguousState("stored model member name does not bind logical identity and content SHA")
             recorded_task_sha=(task.get("result") or {}).get("task_sha256")
             if row.get("task_sha256") and recorded_task_sha!=row.get("task_sha256"):raise AmbiguousState("stored-model producer task identity changed: "+str(key))
             closure=sorted(_consumer_closure(key,records))
             if closure!=sorted(row.get("consumer_tasks") or []):raise AmbiguousState("stored-model consumer closure changed: "+str(key))
-            if any(records[x].get("status")!="validated_terminal" for x in closure):raise UnsafePlan("stored-model consumer became nonterminal: "+str(key))
+            contract=self._consumer_contract(key,closure,records,row.get("metadata_only_consumer_contract"))
+            metadata_tasks={x["task_key"] for x in (contract or {}).get("pending_metadata_fit_tasks",[]) if records[x["task_key"]].get("status")!="validated_terminal"}
+            metadata_tasks|={x["task_key"] for x in (contract or {}).get("pending_own_fit_evaluations",[]) if records[x["task_key"]].get("status")!="validated_terminal"}
             required|=self._validate_alias_owner_records(row.get("aliases"),row.get("alias_owners"),row["sha256"],records)
             if verify_payload:self._verified_member_metadata(logical,row)
-            required|={key}|set(closure)
+            required|={key}|(set(closure)-metadata_tasks)
         return required
     @contextmanager
     def append_guard(self,expected_archive_sha256=None,registry_records=None):
@@ -602,12 +619,27 @@ class ColdModelStore:
             return {"logical_path":logical,"canonical_logical_path":entry["canonical_logical_path"],"requested_logical_path":logical,"resolved_from_alias":entry["resolved_from_alias"],"size":int(entry["bytes"]),"mtime_ns":int(entry["source_mtime_ns"]),"sha256":entry["sha256"],"logical_crc32":int(entry["crc32"]),"backing":"cold_zip","archive_path":str(self.archive),"archive_sha256":archive_sha,"archive_size_bytes":ast.st_size,"archive_mtime_ns":ast.st_mtime_ns,"archive_ctime_ns":ast.st_ctime_ns,"archive_member":entry["archive_member"],"member_crc32":physical_crc,"member_header_offset":int(info.header_offset),"member_size":physical_size,"member_sha256":physical_sha,"storage_format":entry.get("storage_encoding",{}).get("codec_version","raw-v1"),"payload_crc32":physical_crc,"payload_size":physical_size,"payload_sha256":physical_sha,"cache_identity":cache,**({"storage_encoding":entry["storage_encoding"]} if "storage_encoding" in entry else {})}
     def _normalize(self,items,records):
         _verify_records(records);out=[];used=set()
+        # Capture all requested inode aliases with one root walk. Per-item
+        # validation below still checks task, publication, SHA, closure, and
+        # every alias owner independently.
+        source_paths=[]
+        for item in items:
+            key=str(item["producer_task"]);expected=f"runtime_20261025/artifacts/{key}/pipeline.joblib"
+            src_rel=_safe_rel(str(item["source_relpath"]))
+            if src_rel!=expected or _safe_rel(str(item["source_path"]))!=expected:
+                raise UnsafePlan("RF pipeline logical path must be canonical task path")
+            source=self._physical_path(src_rel)
+            if source.is_symlink() or not source.is_file():raise UnsafePlan("candidate source must be a regular pipeline file")
+            source_paths.append(source)
+        inode_inventory=_safety.inode_paths_within_root_many(self.root,source_paths) if source_paths else {}
         for item in items:
             if "storage_encoding" in item:
                 raise UnsafePlan("staged reader supports encoded rows, but raw commit_models writer does not accept encoded items")
             key=str(item["producer_task"]);t=records.get(key)
             if not t or not _successful(t):raise UnsafePlan("RF producer is not validated successful")
-            if t.get("kind")!="fit" or t.get("method")!="random_forest" or int(t.get("experiment",0)) not in (3,4,5,6):raise UnsafePlan("cold store scope is runtime RF fits only")
+            if item.get("method") is not None and item.get("method")!=t.get("method"):
+                raise AmbiguousState("candidate method differs from validated task record")
+            if t.get("kind")!="fit" or t.get("method") not in _ARCHIVABLE_FIT_METHODS or int(t.get("experiment",0)) not in (3,4,5,6):raise UnsafePlan("cold store scope is unsupported or out-of-scope validated fit")
             expected=f"runtime_20261025/artifacts/{key}/pipeline.joblib"
             expected_dir=(self.root/"runtime_20261025"/"artifacts"/key).resolve(strict=False)
             if Path(str(t.get("artifact_dir", ""))).resolve(strict=False)!=expected_dir:raise UnsafePlan("producer artifact_dir does not match canonical task path")
@@ -617,12 +649,17 @@ class ColdModelStore:
             if src.is_symlink() or not src.is_file():raise UnsafePlan("candidate source must be a regular pipeline file")
             actual=sha256_file(src)
             if actual!=recorded or item.get("source_sha256")!=actual or item.get("recorded_artifact_sha256")!=actual:raise UnsafePlan("source/validation pipeline SHA mismatch")
-            aliases,nlink=_safety.inode_paths_within_root(self.root,src)
+            inode=(src.stat().st_dev,src.stat().st_ino);snapshot=inode_inventory.get(inode)
+            if snapshot is None:raise AmbiguousState("source inode was not present in batch inventory")
+            aliases=snapshot["paths"];nlink=snapshot["link_count"]
             alias_rels=sorted(p.relative_to(self.root).as_posix() for p in aliases)
+            source_st=src.stat(follow_symlinks=False)
+            if snapshot["source_identity"]!=(source_st.st_dev,source_st.st_ino,source_st.st_size,source_st.st_mtime_ns,source_st.st_ctime_ns,source_st.st_nlink):
+                raise AmbiguousState("source identity changed after batch inode inventory")
             if set(item.get("aliases",[]))!=set(alias_rels):raise UnsafePlan("hardlink alias inventory incomplete or changed")
             closure=sorted(_consumer_closure(key,records))
             if set(item.get("consumer_tasks",[]))!=set(closure):raise UnsafePlan("declared consumer closure differs from effective graph")
-            if any(records[k].get("status")!="validated_terminal" for k in closure):raise UnsafePlan("producer has a nonterminal transitive consumer")
+            metadata_contract=self._consumer_contract(key,closure,records,item.get("metadata_only_consumer_contract"))
             alias_owners=[];owner_required=set()
             for alias_rel in alias_rels:
                 matched=[]
@@ -635,19 +672,21 @@ class ColdModelStore:
                         if task_sha and alias_rel==f"runtime_20261025/artifacts/{candidate_key}/checkpoints/{task_sha}/pipeline.joblib":matched.append(candidate)
                 if len(matched)!=1:raise UnsafePlan("hardlink alias is not an exact canonical/publication-bound task pipeline: "+alias_rel)
                 owner=matched[0];owner_key=owner["key"]
-                if not _successful(owner) or owner.get("kind")!="fit" or owner.get("method")!="random_forest" or int(owner.get("experiment",0)) not in (3,4,5,6):
+                if not _successful(owner) or owner.get("kind")!="fit" or owner.get("method") not in _ARCHIVABLE_FIT_METHODS or int(owner.get("experiment",0)) not in (3,4,5,6):
                     raise UnsafePlan("hardlink alias owner is not a validated runtime RF fit: "+alias_rel)
                 if _pipeline_hash(owner)!=actual:raise UnsafePlan("hardlink alias owner records a different pipeline SHA: "+alias_rel)
                 owner_closure=sorted(_consumer_closure(owner_key,records))
-                if any(records[k].get("status")!="validated_terminal" for k in owner_closure):
-                    raise UnsafePlan("hardlink alias owner has a nonterminal consumer: "+alias_rel)
+                owner_contract=self._consumer_contract(owner_key,owner_closure,records,
+                    item.get("metadata_only_consumer_contract") if owner_key==key else None)
                 receipt=self._alias_publication_evidence(owner,alias_rel,actual)
-                alias_owners.append({"alias_path":alias_rel,"task_key":owner_key,"task_sha256":(owner.get("result") or {}).get("task_sha256"),"consumer_tasks":owner_closure,**receipt})
-                owner_required|={owner_key}|set(owner_closure)
+                alias_owners.append({"alias_path":alias_rel,"task_key":owner_key,"task_sha256":(owner.get("result") or {}).get("task_sha256"),"consumer_tasks":owner_closure,**({"metadata_only_consumer_contract":owner_contract} if owner_contract else {}),**receipt})
+                contract_tasks={x["task_key"] for x in (owner_contract or {}).get("pending_metadata_fit_tasks",[])}
+                contract_tasks|={x["task_key"] for x in (owner_contract or {}).get("pending_own_fit_evaluations",[])}
+                owner_required|={owner_key}|(set(owner_closure)-contract_tasks)
             owner_required=self._validate_alias_owner_records(alias_rels,alias_owners,actual,records)
             if key in used:raise UnsafePlan("duplicate producer in batch")
             used.add(key)
-            out.append({"task_key":key,"task_sha256":t.get("result",{}).get("task_sha256"),"experiment":int(t["experiment"]),"method":"random_forest","logical_path":expected,"source_relpath":expected,"archive_member":_archive_member_for(expected,actual),"sha256":actual,"bytes":src.stat().st_size,"source_mtime_ns":src.stat().st_mtime_ns,"crc32":None,"header_offset":None,"consumer_tasks":closure,"aliases":alias_rels,"alias_owners":alias_owners,"alias_owner_task_keys":sorted(owner_required),"device":src.stat().st_dev,"inode":src.stat().st_ino,"link_count":nlink,"removed_aliases":[],"unlink_intents":[]})
+            out.append({"task_key":key,"task_sha256":t.get("result",{}).get("task_sha256"),"experiment":int(t["experiment"]),"method":t["method"],"logical_path":expected,"source_relpath":expected,"archive_member":_archive_member_for(expected,actual),"sha256":actual,"bytes":src.stat().st_size,"source_mtime_ns":src.stat().st_mtime_ns,"crc32":None,"header_offset":None,"consumer_tasks":closure,**({"metadata_only_consumer_contract":metadata_contract} if metadata_contract else {}),"aliases":alias_rels,"alias_owners":alias_owners,"alias_owner_task_keys":sorted(owner_required),"device":src.stat().st_dev,"inode":src.stat().st_ino,"source_ctime_ns":src.stat().st_ctime_ns,"link_count":nlink,"removed_aliases":[],"unlink_intents":[]})
         return out
     def _journal_dir(self,tx):return self.journals/tx
     def _backup_tail(self,j):
@@ -683,6 +722,21 @@ class ColdModelStore:
             with z.open(item["archive_member"]) as f:h,n,crc=_stream_hash(f)
             if (h,n,crc)!=(item["sha256"],item["bytes"],item["crc32"]) or crc!=rec["crc32"]:
                 raise AmbiguousState("transaction raw payload SHA/size/CRC mismatch")
+    def _verify_live_alias_snapshot(self,items):
+        for item in items:
+            # Low-level append callers may supply synthetic raw rows; only
+            # normalized commit transactions carry an alias snapshot.
+            if "aliases" not in item:continue
+            expected=len(item["aliases"])
+            for rel in item["aliases"]:
+                p=self._physical_path(rel)
+                if p.is_symlink() or not p.is_file():raise AmbiguousState("alias changed before archive commit: "+rel)
+                st=p.stat(follow_symlinks=False)
+                if (st.st_dev,st.st_ino)!=(item["device"],item["inode"]):raise AmbiguousState("alias inode changed before archive commit: "+rel)
+                if st.st_nlink!=expected:raise AmbiguousState("hardlink count changed before archive commit: "+rel)
+                # Legacy journal/test rows predate source_ctime_ns. Preserve their inode, alias, and link-count checks; new normalized commits also bind ctime to catch write-and-restore mutations.
+                if "source_ctime_ns" in item and st.st_ctime_ns!=item["source_ctime_ns"]:raise AmbiguousState("source inode metadata changed before archive commit: "+rel)
+
     def _append_locked(self,j,fault_after_bytes=None):
         st=self.archive.stat();identity=(st.st_dev,st.st_ino,st.st_size,st.st_mtime_ns,st.st_ctime_ns)
         cached=self._archive_identity_cache
@@ -774,6 +828,7 @@ class ColdModelStore:
                 raise AmbiguousState("cold ZIP changed while computing final digest")
             if prefix_hashes[j["central_directory_offset"]]!=j["prefix_sha256"]:
                 raise AmbiguousState("preexisting archive payload prefix changed during append")
+            self._verify_live_alias_snapshot(j["items"])
             j["archive_sha256_after"]=final_sha
             self._archive_identity_cache={"identity":final_identity,"sha256":j["archive_sha256_after"],"zip_records":records,
                 "prefix_bytes":final_zip_start,"prefix_sha256":prefix_hashes[final_zip_start],"zip_start_dir":final_zip_start}
@@ -790,6 +845,7 @@ class ColdModelStore:
         all_members=list(previous.get("members",[]));existing={x["logical_path"]:x for x in all_members}
         for x in j["items"]:
             row={k:x[k] for k in ("task_key","task_sha256","experiment","method","logical_path","source_relpath","archive_member","sha256","bytes","source_mtime_ns","crc32","header_offset","consumer_tasks","aliases","alias_owners")}
+            if "metadata_only_consumer_contract" in x:row["metadata_only_consumer_contract"]=x["metadata_only_consumer_contract"]
             if "storage_encoding" in x:row["storage_encoding"]=x["storage_encoding"]
             row.update({"backing":"cold_zip","transaction_id":j["transaction_id"]})
             if row["logical_path"] in existing and existing[row["logical_path"]]!=row:raise AmbiguousState("logical artifact already bound to conflicting ZIP member")
@@ -830,7 +886,11 @@ class ColdModelStore:
             self._assert_no_pending_transactions()
             normalized=self._normalize(items,registry_records)
             required=set()
-            for x in normalized:required|=set(x["consumer_tasks"])|{x["task_key"]}|set(x.get("alias_owner_task_keys",[]))
+            for x in normalized:
+                contract=x.get("metadata_only_consumer_contract") or {}
+                metadata_tasks={v["task_key"] for v in contract.get("pending_metadata_fit_tasks",[]) if registry_records[v["task_key"]].get("status")!="validated_terminal"}
+                metadata_tasks|={v["task_key"] for v in contract.get("pending_own_fit_evaluations",[]) if registry_records[v["task_key"]].get("status")!="validated_terminal"}
+                required|=(set(x["consumer_tasks"])-metadata_tasks)|{x["task_key"]}|set(x.get("alias_owner_task_keys",[]))
             self.archive.parent.mkdir(parents=True,exist_ok=True);self.journals.mkdir(parents=True,exist_ok=True)
             if not self.archive.is_file() or self.archive.is_symlink():raise UnsafePlan("cold archive must be pre-created as regular ZIP")
             old_stat=self.archive.stat();old_identity=_archive_stat_identity(old_stat);oldsize=old_stat.st_size
@@ -875,7 +935,7 @@ class ColdModelStore:
                 t=registry_records.get(item["task_key"])
                 if not t or not _successful(t) or _pipeline_hash(t)!=item["sha256"]:raise UnsafePlan("producer evidence changed during recovery")
                 if sorted(_consumer_closure(item["task_key"],registry_records))!=item["consumer_tasks"]:raise AmbiguousState("consumer closure changed during recovery")
-                if any(registry_records[x].get("status")!="validated_terminal" for x in item["consumer_tasks"]):raise UnsafePlan("consumer became nonterminal")
+                self._consumer_contract(item["task_key"],item["consumer_tasks"],registry_records,item.get("metadata_only_consumer_contract"))
                 required|=self._validate_alias_owner_records(item.get("aliases"),item.get("alias_owners"),item["sha256"],registry_records)
             current_manifest=_manifest_load(self.manifest)
             precommit=j["state"] in ("creating_backup","prepared","appending")

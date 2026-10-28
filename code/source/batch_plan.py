@@ -14,6 +14,12 @@ RAW_WIDE_MAX_BYTES = 8 << 30
 RAW_WIDE_MAX_GROUPS = 64
 RAW_WIDE_PROFILE = "bounded-1800-wide8gib"
 RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES = 6 << 30
+RAW_MIXED_SMALL_MAX_BYTES = 4 << 30
+RAW_MIXED_SMALL_MAX_GROUPS = 2048
+RAW_MIXED_SMALL_PROFILE = "bounded-1800-mixedsmall4gib2048"
+RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES = 6 << 30
+RAW_ARCHIVE_IO_PROFILES = (RAW_WIDE_PROFILE, RAW_MIXED_SMALL_PROFILE)
+ARCHIVABLE_FIT_METHODS = frozenset(("arf", "cart", "chow_liu", "copula", "gaussian_nb", "gmm", "hist_gb", "kde", "knn", "lda", "linear_svm", "logistic", "qda", "random_forest", "rbf_svm", "shared_diagonal"))
 
 
 def _terminal_success(task: dict[str, Any]) -> bool:
@@ -72,13 +78,25 @@ def build_candidates(root: Path, runtime: Path, records: dict[str, dict[str, Any
         owner_keys = sorted(set(owners))
         owner_rows = [records[k] for k in owner_keys]
         if any(not _terminal_success(t) or t.get("kind") != "fit" or
-               t.get("method") != "random_forest" or int(t.get("experiment", 0)) not in (3, 4, 5, 6)
+               t.get("method") not in ARCHIVABLE_FIT_METHODS or int(t.get("experiment", 0)) not in (3, 4, 5, 6)
                for t in owner_rows):
             continue
         closures = {k: sorted(cold._consumer_closure(k, records)) for k in owner_keys}
+        metadata_contract = None
         if any(any(records.get(c, {}).get("status") != "validated_terminal" for c in closure)
                for closure in closures.values()):
-            continue
+            # Only the single qualified E3 rep2 producer may use this opt-in.
+            import metadata_only_contract as contract_module
+            import hashlib
+            module_path=Path(contract_module.__file__)
+            if hashlib.sha256(module_path.read_bytes()).hexdigest()!="1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1":
+                continue
+            if len(owner_keys) != 1:
+                continue
+            try:
+                metadata_contract = contract_module.build_contract(root, owner_keys[0], records, closures[owner_keys[0]])
+            except Exception:
+                continue
         # Canonical paths determine a producer. Attempt/checkpoint-only orphan groups fail closed.
         canonical = [k for k in owner_keys if f"runtime_20261025/artifacts/{k}/pipeline.joblib" in aliases]
         if not canonical:
@@ -94,6 +112,7 @@ def build_candidates(root: Path, runtime: Path, records: dict[str, dict[str, Any
             continue
         out.append({
             "producer_task": producer,
+            "method": row.get("method"),
             "source_relpath": logical,
             "source_path": logical,
             "archive_member": logical,
@@ -101,6 +120,7 @@ def build_candidates(root: Path, runtime: Path, records: dict[str, dict[str, Any
             "recorded_artifact_sha256": digest,
             "aliases": aliases,
             "consumer_tasks": closures[producer],
+            **({"metadata_only_consumer_contract": metadata_contract} if metadata_contract else {}),
             "bytes": int(group["bytes"]),
             "inode_identity": [int(x) for x in group["identity"]],
         })

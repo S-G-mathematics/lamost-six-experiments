@@ -29,17 +29,22 @@ MAX_BATCH_WALL=600
 MAX_WRAPPER_WALL=660
 ARCHIVE_IO_PROFILE='bounded-1800'
 RAW_WIDE_PROFILE='bounded-1800-wide8gib'
-ARCHIVE_IO_PROFILES=(ARCHIVE_IO_PROFILE,RAW_WIDE_PROFILE)
+RAW_MIXED_SMALL_PROFILE='bounded-1800-mixedsmall4gib2048'
+ARCHIVE_IO_PROFILES=(ARCHIVE_IO_PROFILE,RAW_WIDE_PROFILE,RAW_MIXED_SMALL_PROFILE)
 RAW_WIDE_MAX_BYTES=8*GIB
 RAW_WIDE_MAX_GROUPS=64
 RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES=6*GIB
+RAW_MIXED_SMALL_MAX_BYTES=4*GIB
+RAW_MIXED_SMALL_MAX_GROUPS=2048
+RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES=6*GIB
+RAW_ARCHIVE_IO_PROFILES=(RAW_WIDE_PROFILE,RAW_MIXED_SMALL_PROFILE)
 ARCHIVE_IO_WALL_SECONDS=1800
 ARCHIVE_IO_WRAPPER_WALL_SECONDS=1860
 WRAPPER_RSS_LIMIT=1536*1024**2
 WRAPPER_AS_LIMIT=1536*1024**2
 TERM_GRACE=30
 EXPECTED_INSTANCE='i-095641a281a4038b9'
-PINS={'controller.py': 'db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae', 'cold_model_storage.py': '3bf3a9c1cb39c02f09361ad4d13fea5d7b4bd2ddcedb1b2c5d0e60b5c745ad21', 'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c', 'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca', 'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9', 'run_batch.py': '17df44a7add93599de3bba92709e756b0feed652075622d5e096b52d6763eed0', 'commit_batch_child.py': 'afe7bb36f166535f1cd23fdb8d996b135975a9a2deed7efe5aa757267242d7bb', 'batch_plan.py': 'c6a6420c73be21a5cedfa4a9c681332c9eaa4986fbcd5094e4bfdf05b85901f9', 'cold_storage_safety.py': '6b9f012d55f0f2b80ab818477d2bd7cd9deca2bbba5a4288786c93c39a4842f1', 'archive_fit_admission.py': 'ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030'}
+PINS={'controller.py': 'db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae', 'cold_model_storage.py': 'f6f139ec8968cab5ec87936d056fe0bfc25e3669a5e1f52989c26ed96616ad93', 'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c', 'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca', 'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9', 'run_batch.py': '0aeb49baad292c8667470a55037f8d76d1f370d2e241ff6c4cdb0b480bad5365', 'commit_batch_child.py': '794eca7115991c18fd8a853f4ae5f6cd938fad79a29e49efb4834e15003be802', 'batch_plan.py': 'a46eea100f5046eaf6166f01b0ee8ecf21999d928fb4c38dc54f217a65f82c7b', 'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273', 'archive_fit_admission.py': 'ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030', 'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1'}
 PRIVATE=R/'logs/private/cold_auto_compaction'
 PUBLIC=R/'reports/engineering_audits/cold_auto_compaction'
 JOURNALS=R/'journals/cold_model_store'
@@ -372,11 +377,15 @@ def batch_config(storage_codec_policy,archive_io_profile=None):
  if archive_io_profile not in (None,*ARCHIVE_IO_PROFILES):raise ValueError('unknown archive I/O profile')
  if archive_io_profile and storage_codec_policy is not None:raise ValueError('bounded archive I/O profiles are raw-only')
  wide=archive_io_profile==RAW_WIDE_PROFILE
- config={'batch_policy':'storage-followup-codec' if storage_codec_policy else 'storage-followup','max_bytes':CODEC_BATCH_MAX_BYTES if storage_codec_policy else (RAW_WIDE_MAX_BYTES if wide else 2*GIB),'max_groups':CODEC_BATCH_MAX_GROUPS if storage_codec_policy else (RAW_WIDE_MAX_GROUPS if wide else 16),'wall_seconds':ARCHIVE_IO_WALL_SECONDS if archive_io_profile else MAX_BATCH_WALL,'packing':'largest_first','storage_codec_policy':storage_codec_policy,'transient_disk_reserve_bytes':RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES if wide else 0}
+ mixed_small=archive_io_profile==RAW_MIXED_SMALL_PROFILE
+ raw_max_bytes=RAW_WIDE_MAX_BYTES if wide else (RAW_MIXED_SMALL_MAX_BYTES if mixed_small else 2*GIB)
+ raw_max_groups=RAW_WIDE_MAX_GROUPS if wide else (RAW_MIXED_SMALL_MAX_GROUPS if mixed_small else 16)
+ raw_disk_reserve=RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES if wide else (RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES if mixed_small else 0)
+ config={'batch_policy':'storage-followup-codec' if storage_codec_policy else 'storage-followup','max_bytes':CODEC_BATCH_MAX_BYTES if storage_codec_policy else raw_max_bytes,'max_groups':CODEC_BATCH_MAX_GROUPS if storage_codec_policy else raw_max_groups,'wall_seconds':ARCHIVE_IO_WALL_SECONDS if archive_io_profile else MAX_BATCH_WALL,'packing':'largest_first','storage_codec_policy':storage_codec_policy,'transient_disk_reserve_bytes':raw_disk_reserve}
  if archive_io_profile:config['archive_io_profile']=archive_io_profile
  return config
 def wide_overlap_policy_allowed(profile, freeze):
- if profile!=RAW_WIDE_PROFILE:return True
+ if profile not in RAW_ARCHIVE_IO_PROFILES:return True
  return not (freeze.get('archive_native_fit_overlap_sha256') or freeze.get('archive_native_fit_overlap_qualification_sha256'))
 
 def run_once(preflight_only=False,storage_codec_policy=None,archive_io_profile=None):

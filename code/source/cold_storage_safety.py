@@ -105,6 +105,52 @@ def verify_no_matching_processes(root,task_keys,records,proc_root=pathlib.Path('
  if found:raise UnsafePlan(f'{len(found)} process(es) still reference selected task artifacts/request paths')
  return {'observed_utc':now_utc(),'task_count':len(task_keys),'matching_processes':0,'complete':True,'checked_task_process_identities':checked}
 
+def inode_paths_within_root_many(root,sources):
+ """One fail-closed metadata walk for several source inodes.
+
+ The result retains the legacy per-inode contract: every regular-file alias
+ below root is enumerated without following symlinks, and the observed path
+ count must equal the inode link count. Source identity is checked again after
+ the walk so a concurrent replacement or metadata change fails closed.
+ """
+ root=pathlib.Path(root).resolve();wanted={}
+ for source in sources:
+  raw=pathlib.Path(source)
+  if raw.is_symlink():raise UnsafePlan(f"not a regular source: {raw}")
+  p=raw.resolve(strict=True)
+  try:p.relative_to(root)
+  except ValueError as e:raise UnsafePlan(f"source escapes inventory root: {p}") from e
+  st=p.stat(follow_symlinks=False)
+  if not stat.S_ISREG(st.st_mode):raise UnsafePlan(f"not a regular source: {p}")
+  ident=(st.st_dev,st.st_ino)
+  snap=(st.st_dev,st.st_ino,st.st_size,st.st_mtime_ns,st.st_ctime_ns,st.st_nlink)
+  if ident in wanted and wanted[ident][1]!=snap:raise AmbiguousState(f"source inode metadata changed during inventory setup: {p}")
+  wanted[ident]=(p,snap,set())
+ stack=[root]
+ while stack:
+  d=stack.pop()
+  try:entries=list(os.scandir(d))
+  except OSError as e:raise AmbiguousState(f"hardlink scan failed at {d}: {e}") from e
+  for ent in entries:
+   q=pathlib.Path(ent.path)
+   try:
+    if ent.is_symlink():continue
+    if ent.is_dir(follow_symlinks=False):stack.append(q);continue
+    x=ent.stat(follow_symlinks=False)
+    if stat.S_ISREG(x.st_mode):
+     row=wanted.get((x.st_dev,x.st_ino))
+     if row is not None:row[2].add(q.resolve())
+   except OSError as e:raise AmbiguousState(f"hardlink scan entry unreadable: {q}: {e}") from e
+ result={}
+ for ident,(source,snap,found) in wanted.items():
+  now=source.stat(follow_symlinks=False)
+  current=(now.st_dev,now.st_ino,now.st_size,now.st_mtime_ns,now.st_ctime_ns,now.st_nlink)
+  if current!=snap:raise AmbiguousState(f"source inode changed during hardlink inventory: {source}")
+  paths=sorted(found)
+  if len(paths)!=now.st_nlink:raise UnsafePlan(f"hardlink count incomplete in migration root: found={len(paths)} nlink={now.st_nlink}")
+  result[ident]={"paths":paths,"link_count":now.st_nlink,"source_identity":current}
+ return result
+
 def inode_paths_within_root(root,source,exclude=()):
  root=pathlib.Path(root).resolve();source=pathlib.Path(source).resolve(strict=True);st=source.stat(follow_symlinks=False)
  if not stat.S_ISREG(st.st_mode):raise UnsafePlan(f'not a regular source: {source}')

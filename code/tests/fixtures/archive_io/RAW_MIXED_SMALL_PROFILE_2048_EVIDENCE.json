@@ -1,0 +1,49 @@
+{
+  "bounded_fixture": {
+    "aliases_per_group": 3,
+    "fixture_claim": "fixture asserts 2048 regular inode groups with three aliases each and bounded inventory/journal memory; no production model payloads",
+    "fixture_member": "runtime_20261025/tests/test_batch_inode_inventory_fixture.py",
+    "groups": 2048,
+    "max_encoded_journal_bytes": 16777216,
+    "max_traced_memory_bytes": 268435456
+  },
+  "eligibility_guards": [
+    "validated publication provenance",
+    "consumer contract",
+    "source alias inventory and identity checks",
+    "no active fitting overlap",
+    "archive and prefix integrity checks",
+    "6GiB transient disk reserve"
+  ],
+  "metadata_walk": {
+    "helper": "cold_storage_safety.inode_paths_within_root_many",
+    "inventory_dirs": 59048,
+    "inventory_entries": 331655,
+    "mean_wall_seconds": 1.4796666666666667,
+    "measurement_interpretation": "three real-tree per-source scans measured about 1.48s each; the batch inventory helper performs one full-root traversal for all selected sources, so 1.48s is an equivalent-traversal estimate for the shared walk, not a separately timed production 2048-group batch",
+    "measurement_source": "runtime_20261025/tests/fixtures/archive_io/metadata_inode_walk_benchmark.json",
+    "measurement_source_sha256": "9cb6e709e0b6fc2f82d037b3ccd55c204f96e5693f1c133e95533dc7cea0d500",
+    "shared_single_inventory_walk_per_batch": true,
+    "source_payloads_opened": false,
+    "wall_seconds": [
+      1.471,
+      1.466,
+      1.502
+    ]
+  },
+  "policy": {
+    "child_wall_seconds": 1800,
+    "helper_address_space_bytes": 939524096,
+    "helper_process_tree_rss_bytes": 1073741824,
+    "max_bytes": 4294967296,
+    "max_groups": 2048,
+    "reject_declared_fit_overlap": true,
+    "selection": "explicit --archive-io-profile bounded-1800-mixedsmall4gib2048",
+    "storage_codec_policy": null,
+    "transient_disk_reserve_bytes": 6442450944,
+    "wrapper_wall_seconds": 1860
+  },
+  "profile": "bounded-1800-mixedsmall4gib2048",
+  "schema": "raw-mixed-small-archive-profile-evidence/1",
+  "scope": "optional RAW archive profile for the reviewed mixed-family small-model candidate set; all existing profiles remain unchanged"
+}

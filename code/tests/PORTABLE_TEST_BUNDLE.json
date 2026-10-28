@@ -18,7 +18,7 @@
     "total_nodeids": 376,
     "unique_nodeids": 376
   },
-  "candidate_refresh_reason": "controller run-loop refresh regression added to 595 qualified nonfit drain candidate",
+  "candidate_refresh_reason": "R3 596 baseline + retained 637 archive-contract IDs + reviewed inode inventory + prospective 2048-group RAW profile",
   "collection_status": {
     "added_nodeids": 1,
     "address_space_limit_bytes_per_process": 1073741824,
@@ -203,6 +203,24 @@
       "portable_test_member": "runtime_20261025/tests/test_nonfit_disk_drain.py",
       "portable_test_sha256": "b131c8a8c4398a8e983ce1f1756611f4591e505f08334c5c0576579c1781fa80",
       "status": "candidate_unqualified"
+    },
+    {
+      "new_profile": {
+        "child_seconds": 1800,
+        "max_bytes": 4294967296,
+        "max_groups": 2048,
+        "name": "bounded-1800-mixedsmall4gib2048",
+        "transient_reserve_bytes": 6442450944,
+        "wrapper_seconds": 1860
+      },
+      "observed_utc": "2026-10-28T08:41:29.585806+00:00",
+      "preserved_baselines": {
+        "historical_637_nodeids": true,
+        "r3_596_nodeids": true,
+        "r3_pass_sha256": "35be5f47062b920e18d87edc217edc81dbaba228e47d9d1a79f046fa1d330482"
+      },
+      "scientific_inputs_or_results_changed": false,
+      "scope": "Combine verified-digest storage cache reuse, bounded batch inode inventory, E3 metadata-only consumer lifecycle proof, mixed-family source scope, and prospective RAW 2048-group profile."
     }
   ],
   "readme": "runtime_20261025/tests/README.md",
@@ -286,11 +304,11 @@
     }
   ],
   "runner": "runtime_20261025/tests/run_portable_tests.sh",
-  "runner_sha256": "5a512c70b83d33bc08702b8da29b70b48a3cf5a67d1d0ff691c2d7b472aefd75",
+  "runner_sha256": "8f22268e28eed2978746884cefeeeb2036aae086d38fe62cfb3e76ea269ef107",
   "runtime_staging_present": false,
   "schema": "archive-native-installed-portable-tests/1",
   "scope": "RF4 prospective adapter/admission, E6 availability narrative, and E6 terminal-resume idempotence candidate; no test collection or scientific fits performed.",
-  "scope_current_amendment": "Nonfit E4/E5 disk-drain storage fallback; ordinary fit/generation storage forecast, 20 GiB floor, RAM/CPU/time limits, scientific definitions, and task plan remain unchanged.",
+  "scope_current_amendment": "archive_digest_cache_metadata_contract_batch_inode_inventory_raw_mixed_small_2048_20261028",
   "source_directory": "runtime_20261025/source",
   "sources": [
     {
@@ -339,10 +357,11 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/e6_protocol_correction_v2_20261027/validation/audit_artifacts.py"
     },
     {
-      "bundle_sha256": "c6a6420c73be21a5cedfa4a9c681332c9eaa4986fbcd5094e4bfdf05b85901f9",
+      "bundle_sha256": "a46eea100f5046eaf6166f01b0ee8ecf21999d928fb4c38dc54f217a65f82c7b",
+      "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "installed_port",
       "runtime_member": "runtime_20261025/source/batch_plan.py",
-      "source_sha256": "c6a6420c73be21a5cedfa4a9c681332c9eaa4986fbcd5094e4bfdf05b85901f9"
+      "source_sha256": "a46eea100f5046eaf6166f01b0ee8ecf21999d928fb4c38dc54f217a65f82c7b"
     },
     {
       "bundle_sha256": "a651a82c16246aea082de9fbdaba7a69b0991474dc9660b21f5dabcd54d75c29",
@@ -379,11 +398,11 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/cohorts.py"
     },
     {
-      "bundle_sha256": "daf6d2f0627e4064ec479a1d1dbc3ae221f0a16e9ecf816cda48f519da9b30f9",
-      "candidate_refresh_reason": "reviewed archive digest coalescing; frozen scientific source inventory unchanged",
+      "bundle_sha256": "423efd0f09b77ff4a42553fc78ac47abb531a7d35bc02c02e8d2aac874ee7492",
+      "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/cold_auto_compaction.py",
-      "source_sha256": "daf6d2f0627e4064ec479a1d1dbc3ae221f0a16e9ecf816cda48f519da9b30f9",
+      "source_sha256": "423efd0f09b77ff4a42553fc78ac47abb531a7d35bc02c02e8d2aac874ee7492",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/cold_auto_compaction.py"
     },
     {
@@ -405,11 +424,11 @@
       "source_sha256": "4d937e725ba8002728150728749650fcf848756571abf2935eb6cd7c3e44b0e1"
     },
     {
-      "bundle_sha256": "3bf3a9c1cb39c02f09361ad4d13fea5d7b4bd2ddcedb1b2c5d0e60b5c745ad21",
-      "candidate_refresh_reason": "reviewed archive digest coalescing; frozen scientific source inventory unchanged",
+      "bundle_sha256": "f6f139ec8968cab5ec87936d056fe0bfc25e3669a5e1f52989c26ed96616ad93",
+      "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "restored_live_core",
       "runtime_member": "runtime_20261025/source/cold_model_storage.py",
-      "source_sha256": "3bf3a9c1cb39c02f09361ad4d13fea5d7b4bd2ddcedb1b2c5d0e60b5c745ad21",
+      "source_sha256": "f6f139ec8968cab5ec87936d056fe0bfc25e3669a5e1f52989c26ed96616ad93",
       "upstream_stage_member": "installed_live_baseline_plus_controller_pin_cascade"
     },
     {
@@ -419,17 +438,18 @@
       "source_sha256": "1017ee3c1c255eb33f81bd1334f7f0429a883dfea8ec23866f9507c95e977631"
     },
     {
-      "bundle_sha256": "6b9f012d55f0f2b80ab818477d2bd7cd9deca2bbba5a4288786c93c39a4842f1",
+      "bundle_sha256": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
+      "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "installed_port",
       "runtime_member": "runtime_20261025/source/cold_storage_safety.py",
-      "source_sha256": "6b9f012d55f0f2b80ab818477d2bd7cd9deca2bbba5a4288786c93c39a4842f1"
+      "source_sha256": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273"
     },
     {
-      "bundle_sha256": "afe7bb36f166535f1cd23fdb8d996b135975a9a2deed7efe5aa757267242d7bb",
-      "candidate_refresh_reason": "reviewed archive digest coalescing; frozen scientific source inventory unchanged",
+      "bundle_sha256": "794eca7115991c18fd8a853f4ae5f6cd938fad79a29e49efb4834e15003be802",
+      "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/commit_batch_child.py",
-      "source_sha256": "afe7bb36f166535f1cd23fdb8d996b135975a9a2deed7efe5aa757267242d7bb",
+      "source_sha256": "794eca7115991c18fd8a853f4ae5f6cd938fad79a29e49efb4834e15003be802",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/commit_batch_child.py"
     },
     {
@@ -590,11 +610,11 @@
       "source_sha256": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca"
     },
     {
-      "bundle_sha256": "17df44a7add93599de3bba92709e756b0feed652075622d5e096b52d6763eed0",
-      "candidate_refresh_reason": "reviewed archive digest coalescing; frozen scientific source inventory unchanged",
+      "bundle_sha256": "0aeb49baad292c8667470a55037f8d76d1f370d2e241ff6c4cdb0b480bad5365",
+      "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/run_batch.py",
-      "source_sha256": "17df44a7add93599de3bba92709e756b0feed652075622d5e096b52d6763eed0",
+      "source_sha256": "0aeb49baad292c8667470a55037f8d76d1f370d2e241ff6c4cdb0b480bad5365",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/run_batch.py"
     },
     {
@@ -848,31 +868,59 @@
       "source_sha256": "9e102435d2bce80c8f071338d2d1d0f1f5fb9bfa8542c59f828f19568308a89c"
     },
     {
+      "bundle_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba",
       "kind": "engineering_test_fixture",
       "runtime_member": "runtime_20261025/tests/evidence/controller_baseline_9caa7afd.py",
       "scope": "Exact live controller baseline used solely for storage_allow AST equivalence fixture.",
       "source_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba"
     },
     {
+      "bundle_sha256": "b9c7e071dc8e954e7b556d397900c98dd4dd4a7d1192534ccc6d8b48f0de442c",
       "kind": "staged_policy_review_evidence",
       "runtime_member": "runtime_20261025/reports/engineering_audits/NONFIT_DISK_DRAIN_POLICY_20261028.json",
       "scope": "Nonfit storage-drain design and test evidence; candidate only.",
       "source_sha256": "b9c7e071dc8e954e7b556d397900c98dd4dd4a7d1192534ccc6d8b48f0de442c"
     },
     {
+      "bundle_sha256": "858786b0339f14f1967f649b4c404586166d7df3a022b6cb705679119f729970",
       "kind": "staged_policy_review_note",
       "runtime_member": "runtime_20261025/reports/engineering_audits/NONFIT_DISK_DRAIN_POLICY_20261028.md",
       "scope": "Nonfit storage-drain design note; candidate only.",
       "source_sha256": "858786b0339f14f1967f649b4c404586166d7df3a022b6cb705679119f729970"
     },
     {
+      "bundle_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7",
       "kind": "preserved_qualification_history",
       "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_EXECUTION_QUALIFICATION_20261028_PRE_NONFIT.json",
       "scope": "Original RF4 execution qualification prior to the candidate controller amendment.",
       "source_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7"
+    },
+    {
+      "bundle_sha256": "1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1",
+      "kind": "staged_archive_optimization_or_policy_evidence",
+      "runtime_member": "runtime_20261025/source/metadata_only_contract.py",
+      "source_sha256": "1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1"
+    },
+    {
+      "bundle_sha256": "9cb6e709e0b6fc2f82d037b3ccd55c204f96e5693f1c133e95533dc7cea0d500",
+      "kind": "staged_archive_optimization_or_policy_evidence",
+      "runtime_member": "runtime_20261025/tests/fixtures/archive_io/metadata_inode_walk_benchmark.json",
+      "source_sha256": "9cb6e709e0b6fc2f82d037b3ccd55c204f96e5693f1c133e95533dc7cea0d500"
+    },
+    {
+      "bundle_sha256": "1450fea0826cea0508e2fd2386881632116a27b85731dcc9c668caaf4b922d69",
+      "kind": "staged_archive_optimization_or_policy_evidence",
+      "runtime_member": "runtime_20261025/tests/fixtures/archive_io/RAW_MIXED_SMALL_PROFILE_2048_EVIDENCE.json",
+      "source_sha256": "1450fea0826cea0508e2fd2386881632116a27b85731dcc9c668caaf4b922d69"
+    },
+    {
+      "bundle_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "kind": "exact_frozen_task_plan_for_metadata_only_consumer_contract",
+      "runtime_member": "runtime_20261025/manifests/tasks.json",
+      "source_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb"
     }
   ],
-  "staged_integration_note": "The RF6 policy and freeze field are activated only in this isolated candidate; no live profile publication.",
+  "staged_integration_note": "Staged only. Historical candidate passes are retained. This bundle is separately content-addressed and must qualify before publication.",
   "superseded_collection_history": [
     {
       "collection_status": {
@@ -983,6 +1031,7 @@
     }
   ],
   "test_count_plan": {
+    "core_3bf/test_3bf_cold_model_storage.py": 28,
     "test_admission_hysteresis.py": 5,
     "test_admission_profile.py": 15,
     "test_archive_digest_coalescing.py": 7,
@@ -992,6 +1041,8 @@
     "test_arf_lane_scheduling.py": 9,
     "test_arf_profiles.py": 12,
     "test_auditor_extracted_cold.py": 14,
+    "test_batch_inode_inventory.py": 7,
+    "test_batch_inode_inventory_fixture.py": 1,
     "test_batch_policy.py": 16,
     "test_build_condition_findings.py": 5,
     "test_calibration_replay.py": 18,
@@ -1042,6 +1093,9 @@
     "test_label_rate_gate.py": 7,
     "test_loop_snapshot_refresh.py": 1,
     "test_member_comparison_status_count.py": 3,
+    "test_metadata_only_contract.py": 11,
+    "test_mixed_family_scope.py": 4,
+    "test_mixed_small_profile.py": 6,
     "test_native_e6_replay_tiny.py": 2,
     "test_native_fit_scope.py": 5,
     "test_nonfit_disk_drain.py": 8,
@@ -1059,9 +1113,9 @@
     "test_verified_zombie_reap.py": 10,
     "test_weighted_mean_gate.py": 2
   },
-  "test_count_plan_total": 596,
+  "test_count_plan_total": 653,
   "test_directory": "runtime_20261025/tests",
-  "test_summary_note": "Candidate preserves all 579 qualified test identities and adds seven archive digest pass-coalescing fixtures; collect-only and a fresh guarded qualification are pending.",
+  "test_summary_note": "Preserves all 596 R3 baseline IDs and all 637 historical combined archive-contract IDs; adds 16 inventory/lifecycle/profile IDs with 2048-group bounded fixtures.",
   "tests": [
     {
       "adaptation": "Imports staged controller in an isolated module with a scoped mock; arithmetic fixtures only, no queue or project data access.",
@@ -1203,7 +1257,7 @@
       "test_member": "runtime_20261025/tests/test_codec_finalizer_contract.py"
     },
     {
-      "portable_sha256": "e9ea6d459d484cd43c329af5f140ae52a745afa9d5736e98f9ed7482e525b7cd",
+      "portable_sha256": "2354b3f4f5c9e48099f4fb2964604effb9428ee131c70cd047524eeb29228fdd",
       "scope": "Prospective encoded storage scheduler policy, fixture-only; no actual compaction",
       "test_member": "runtime_20261025/tests/test_codec_policy.py"
     },
@@ -1264,8 +1318,8 @@
       "adaptation": "Updated fixture contract for current archive manifest stat-identity verification; scientific/mutation assertions retained.",
       "group": "cold_core",
       "original_sha256": "ad462f64c9bcc5fab398217a1e9d3380de12c3db324183d16fd81f490bc7b28b",
-      "portable_sha256": "19e2f0b39d89228539948b74ec5cd3442305452cd94cdd178ea11749a8cbf04c",
-      "scope": "Retains all prior cold model storage cases and adds digest-cache race/tamper verification fixtures.",
+      "portable_sha256": "85ca4fe34bbd3c862f83edf29a5846ca315ddc50f6e4cc8bf54ce033014c11e4",
+      "scope": "preserves prior cold-store assertions with updated validated-family rejection fixture",
       "test_member": "runtime_20261025/tests/test_cold_model_storage.py",
       "upstream_portable_sha256": "ad462f64c9bcc5fab398217a1e9d3380de12c3db324183d16fd81f490bc7b28b",
       "upstream_stage_member": "installed_live_baseline/test_cold_model_storage.py"
@@ -1622,6 +1676,48 @@
       "portable_sha256": "612a9027c29314a007fbc64d96b5fbd4d9d1e4f22837aa5a1277e25310b73e5b",
       "scope": "Regression for reloading controller task state before running-worker reconciliation and terminal export; no worker retry or scientific changes.",
       "test_member": "runtime_20261025/tests/test_loop_snapshot_refresh.py"
+    },
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "0665a7cfcc0c11527520d71e15956f0f8f741301e38ca57048b297100b1d29b6",
+      "portable_sha256": "0665a7cfcc0c11527520d71e15956f0f8f741301e38ca57048b297100b1d29b6",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/test_metadata_only_contract.py"
+    },
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "96cc2f2cc0bf4b30f4a2c3c410c0e0357092b44b4024b9d3e3101d122e64ba8e",
+      "portable_sha256": "96cc2f2cc0bf4b30f4a2c3c410c0e0357092b44b4024b9d3e3101d122e64ba8e",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/test_mixed_family_scope.py"
+    },
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "bb8faa859fc1c752aafc5af47dce405eb002e0e1fa922437416eb722a702e877",
+      "portable_sha256": "bb8faa859fc1c752aafc5af47dce405eb002e0e1fa922437416eb722a702e877",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/test_batch_inode_inventory.py"
+    },
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "9e55f1e11e45f3b2cee97122204d7e052cb8078ac4937a77eb1485aaa6d0dc7f",
+      "portable_sha256": "9e55f1e11e45f3b2cee97122204d7e052cb8078ac4937a77eb1485aaa6d0dc7f",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/test_batch_inode_inventory_fixture.py"
+    },
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "c94561e7902e8f0670c0a3a25a185f8dcb6dc5f7b71deea26065b46343df6b57",
+      "portable_sha256": "c94561e7902e8f0670c0a3a25a185f8dcb6dc5f7b71deea26065b46343df6b57",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/core_3bf/test_3bf_cold_model_storage.py"
+    },
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "87b3dd5b77aa6a2d6b7bff76624236096e808cabb3b88f9063417e24ffa01718",
+      "portable_sha256": "15e9585af71ac581963fc4102206cc9052ad944bea9832f6cbd1dcfae35019bc",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/test_mixed_small_profile.py"
     }
   ]
 }

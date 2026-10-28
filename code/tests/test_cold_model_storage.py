@@ -6,12 +6,12 @@ from cold_model_storage import ColdModelStore, UnsafePlan, AmbiguousState
 
 HERE=pathlib.Path(__file__).resolve().parent
 def sha(p):return hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
-def setup_store(tmp,rep="rep_1"):
+def setup_store(tmp,rep="rep_1",method="random_forest"):
     root=pathlib.Path(tmp)/"migration";runtime=root/"runtime_20261025";runtime.mkdir(parents=True)
     archive=runtime/"packages"/"cold.zip";archive.parent.mkdir()
     store=ColdModelStore(root,runtime,archive,runtime/"manifests"/"cold_store.json",runtime/"journals"/"cold_store")
     store.initialize_empty_archive()
-    key=f"e3/{rep}/fit/real/random_forest";out=runtime/"artifacts"/key;out.mkdir(parents=True)
+    key=f"e3/{rep}/fit/real/{method}";out=runtime/"artifacts"/key;out.mkdir(parents=True)
     source=out/"pipeline.joblib";obj={"fixture":"joblib-stream","array":np.arange(7,dtype=np.int16),"params":{"n_estimators":1}}
     joblib.dump(obj,source,compress=0);digest=sha(source)
     attempt_id="fixture_attempt_01";task_sha=hashlib.sha256(("task-sha-"+rep).encode()).hexdigest()
@@ -25,9 +25,9 @@ def setup_store(tmp,rep="rep_1"):
     fit_result_bytes=json.dumps(fit_result,sort_keys=True).encode();(out/"fit_result.json").write_bytes(fit_result_bytes);(attempt_dir/"attempt.json").write_bytes(fit_result_bytes)
     publication={"attempt_id":attempt_id,"pipeline_sha256":digest,"published_path":str(source),"stage":"validated_publication","task_sha256":task_sha}
     publication_bytes=json.dumps(publication,sort_keys=True).encode();(out/"fit_publication.json").write_bytes(publication_bytes);(attempt_dir/"fit_publication.json").write_bytes(publication_bytes)
-    fit={"key":key,"experiment":3,"kind":"fit","method":"random_forest","status":"validated_terminal","outcome":"successful","validation_state":"validated","artifact_dir":str(out),"dependencies":[],"result":{"attempt_id":attempt_id,"task_sha256":task_sha,"result":{"pipeline_sha256":digest},"validation":{"status":"validated","task_key":key,"files":{"pipeline.joblib":digest,"selection.json":selection_sha}}}}
+    fit={"key":key,"experiment":3,"kind":"fit","method":method,"status":"validated_terminal","outcome":"successful","validation_state":"validated","artifact_dir":str(out),"dependencies":[],"result":{"attempt_id":attempt_id,"task_sha256":task_sha,"result":{"pipeline_sha256":digest},"validation":{"status":"validated","task_key":key,"files":{"pipeline.joblib":digest,"selection.json":selection_sha}}}}
     consumer_key=f"e3/{rep}/eval/direct/random_forest/gmm"
-    consumer={"key":consumer_key,"experiment":3,"kind":"eval","method":"random_forest","status":"validated_terminal","outcome":"successful","validation_state":"validated","dependencies":[key],"artifact_dir":str(runtime/"artifacts"/consumer_key),"result":{}}
+    consumer={"key":consumer_key,"experiment":3,"kind":"eval","method":method,"status":"validated_terminal","outcome":"successful","validation_state":"validated","dependencies":[key],"artifact_dir":str(runtime/"artifacts"/consumer_key),"result":{}}
     records={key:fit,consumer_key:consumer}
     item={"producer_task":key,"source_path":source.relative_to(root).as_posix(),"source_relpath":source.relative_to(root).as_posix(),"archive_member":source.relative_to(root).as_posix(),"source_sha256":digest,"recorded_artifact_sha256":digest,"consumer_tasks":[consumer_key],"aliases":[source.relative_to(root).as_posix(),alias.relative_to(root).as_posix(),checkpoint_alias.relative_to(root).as_posix()]}
     return root,runtime,store,key,source,alias,obj,digest,records,item
@@ -96,7 +96,7 @@ class ColdStoreTests(unittest.TestCase):
    root,rt,s,key,src,alias,obj,digest,records,item=setup_store(td)
    records[key]["experiment"]=1
    with self.assertRaises(UnsafePlan):s.commit_models([item],records)
-   records[key]["experiment"]=3;records[key]["method"]="logistic"
+   records[key]["experiment"]=3;records[key]["method"]="unsupported_method"
    with self.assertRaises(UnsafePlan):s.commit_models([item],records)
    self.assertTrue(src.exists())
  def test_physical_read_without_expected_or_manifest_hash_refuses(self):
