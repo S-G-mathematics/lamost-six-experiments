@@ -3,6 +3,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 STAGE=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(STAGE/"source"))
+import cold_finalizer_adapter as locator_adapter
 SOURCE=STAGE/"source"/"finalize_project.py"
 spec=importlib.util.spec_from_file_location("history_manifest_finalizer",SOURCE)
 module=importlib.util.module_from_spec(spec)
@@ -27,6 +29,7 @@ def test_full_collection_includes_portable_history_manifest():
         fake_hist=types.ModuleType("archive_scientific_histories")
         fake_hist.collect_scientific_attempt_entries=lambda *a,**k: ([],b"{}")
         with patch.dict(sys.modules,{"archive_scientific_histories":fake_hist}), \
+             patch.object(locator_adapter,"e1_locator_archive_entries",lambda *a,**k:([],b"{}")), \
              patch.object(module,"_add_public_provenance",lambda *a,**k: None), \
              patch.object(module,"_e3_incident_expected",lambda *a,**k: {
                  module.E3_RESTORE_MANIFEST:"unused",

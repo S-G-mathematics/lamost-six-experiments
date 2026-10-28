@@ -15,7 +15,7 @@ class InsufficientSpace(RuntimeError):
  def __init__(self,need,free):super().__init__(f'insufficient full-archive space: need {need} bytes, have {free}');self.need=need;self.free=free
 @dataclass(frozen=True)
 class Entry:
- source:Path|bytes; member:str; category:str='project'
+ source:object; member:str; category:str='project'
 def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def stamp():return datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
 def load(p):return json.loads(Path(p).read_text(encoding='utf-8'))
@@ -929,6 +929,14 @@ def curated_tree_entries(base, member_prefix, category, archive_root, allow_e1_s
  return out
 
 
+E1_ARCHIVED_PAYLOAD_LOCATOR='e1_recovery_20261024/ARCHIVED_PAYLOAD_LOCATORS_20261028.json'
+E1_ARCHIVED_PAYLOAD_LOCATOR_SHA256='2cf76877a14c8f3e8e3b243c346545a1b6d6fd17d913560f3ef6970c81b83783'
+E1_ARCHIVED_PAYLOAD_RECEIPT_SHA256='931e73b91998dab23b8773312e91accdf4e53bdba8a26bd029eb4e25a518b446'
+E1_ARCHIVED_PAYLOAD_ARCHIVE_NAME='LAMOST_E1_WRAPUP_20261024T080232_571618+0000.zip'
+E1_ARCHIVED_PAYLOAD_ARCHIVE_SHA256='bd4834a15d491844203ff7baf07b3b21dcdf972de97af68a744d8d2c042e7d34'
+E1_ARCHIVED_PAYLOAD_ARCHIVE_STAT5=(66305,2441647,4976984354,1792829285346854837,1792829285346854837)
+E1_ARCHIVED_PAYLOAD_COUNTS={'.joblib':24,'.npz':24}
+E1_ARCHIVED_PAYLOAD_FILE_COUNT=48
 E3_RESTORE_MANIFEST='runtime_20261025/manifests/incidents/e3_original_npz_container_restoration_20261025.json'
 E3_RESTORE_MANIFEST_SHA256='97d89b0c744c870abfe6c6a487a907c597c9d47dbf034066e15b827dae1e1c81'
 SERIALIZATION_INCIDENT='runtime_20261025/manifests/incidents/serialization_validation_20261025/incident.json'
@@ -1062,6 +1070,15 @@ def collect_full(root,runtime,readme,public,review_proof=None,expected_source_sh
  out.extend(curated_tree_entries(root/'project','project','verified_frozen_project',root,allow_e1_supervisor=True,expected_source_sha256=expected_source_sha256))
  out.extend(curated_tree_entries(root/'e1_wrapup_20261024','e1_wrapup_20261024','frozen_E1_final_tables_report',root,expected_source_sha256=expected_source_sha256))
  out.extend(curated_tree_entries(root/'e1_recovery_20261024','e1_recovery_20261024','stopped_early_E1_recovery_supplement',root,expected_source_sha256=expected_source_sha256))
+ from cold_finalizer_adapter import e1_locator_archive_entries
+ e1_payload_entries,e1_payload_provenance=e1_locator_archive_entries(
+  __import__(__name__),root,root/E1_ARCHIVED_PAYLOAD_LOCATOR,
+  E1_ARCHIVED_PAYLOAD_LOCATOR_SHA256,E1_ARCHIVED_PAYLOAD_ARCHIVE_SHA256,
+  E1_ARCHIVED_PAYLOAD_ARCHIVE_STAT5,E1_ARCHIVED_PAYLOAD_RECEIPT_SHA256,
+  E1_ARCHIVED_PAYLOAD_ARCHIVE_NAME,expected_file_count=E1_ARCHIVED_PAYLOAD_FILE_COUNT,
+  expected_extension_counts=E1_ARCHIVED_PAYLOAD_COUNTS)
+ out.extend(e1_payload_entries)
+ out.append(Entry(e1_payload_provenance,'runtime_20261025/manifests/e1_recovery_archived_payload_provenance.json','E1_recovery_archived_payload_provenance'))
  for p in iterfiles(root/'e2_20261024',skip_logs=True):out.append(archive_json_entry(p,'e2_20261024/'+p.relative_to(root/'e2_20261024').as_posix(),'E2_original_reconstructed_diagnostics',root,expected_source_sha256) if p.suffix.lower()=='.json' else ent(p,'e2_20261024/'+p.relative_to(root/'e2_20261024').as_posix(),'E2_original_reconstructed_diagnostics',root))
  for n in ('freeze.json','startup_audit.json','authorization_and_decisions.json','tasks.json','plan_summary.json','plan_amendments.json','E3_MANIFEST.json','E4_MANIFEST.json','E5_MANIFEST.json','E6_MANIFEST.json','COLD_VERIFIER_HISTORY_20261028.json'): 
   p=runtime/'manifests'/n

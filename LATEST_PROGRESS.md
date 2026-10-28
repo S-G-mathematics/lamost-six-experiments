@@ -1,6 +1,6 @@
 # Latest project progress snapshot
 
-Status snapshot observed at **2026-10-28T17:30:46.034919+00:00 UTC** from the EC2 runtime status file. The public projection omits process identities and commands. Two running tasks were recorded at this observation. A separate live-process check at 2026-10-28T17:28:29Z had verified three RF4 model workers; that earlier process observation is not treated as current liveness.
+Read-only registry snapshot observed at 2026-10-28T18:38:37.029396+00:00 UTC on the existing EC2. This is a database snapshot, not a live-process inventory. Existing figures remain tied to the validated 2026-10-28T17:00:39.712874Z analysis snapshot.
 
 | Experiment | Planned | Successful | Scientific failures | Unsupported / unavailable | Waiting |
 |---|---:|---:|---:|---:|---:|
@@ -9,12 +9,14 @@ Status snapshot observed at **2026-10-28T17:30:46.034919+00:00 UTC** from the EC
 | E2 primary | 150 | 108 evaluated | - | 42 unavailable | - |
 | E2 classical references | 120 | 120 evaluated | - | 0 | - |
 | E3 | 69 | 64 | 3 | 2 | 0 |
-| E4 | 1,773 | 1,592 | 71 | 3 | 107 |
+| E4 | 1,773 | 1599 | 71 | 3 | 100 |
 | E5 | 960 | 700 | 50 | 78 | 132 |
-| E6 | 21 | 12 member-reference successes | 3 | 6 | 0 |
+| E6 | 21 | 12 successful aliases | 3 equal-weight ensemble failures | 6 unavailable | 0 |
 
-The 730-check native qualification concerns controller and admission tooling; it does not mean the scientific project is complete. The E4 repetition-3 random-forest treatment gate adds a 6 GiB admission reservation only. Worker RSS remains capped at 10 GiB and trial timeout remains 600 seconds. Qualification fingerprint: `954cd3dff7872266c8e1e15632c94a2d7cacaf74037687dda3af6bf0d1b97204`.
+E6 consists of 15 member-reference aliases (12 successful and 3 unavailable) and six primary ensembles (zero successful test evaluations; three equal-weight failures and three learned-weight unavailable). Alias success is not ensemble success.
 
-The delivered tables and figures remain bound to the earlier registry snapshot at **2026-10-28T17:00:39.712874Z**: 2,823 planned E3-E6 cases; 2,366 successful, 127 failed, 89 unavailable, and 241 waiting. The status snapshot above has 239 waiting cases. Figures were not relabeled to imply newer results. The report is interim; E6 calibration replay, full final report validation, and final archive validation remain pending.
+The 741-case portable qualification passed at 2026-10-28T18:10:15Z; receipt: provenance/PORTABLE_TEST_PASS_741.json. This qualifies operational code/tests, not scientific completion. The final publisher code, focused tests and operating instructions are included. Final publication remains gated on all planned cases and validated final archives.
 
-E1 and E2 remain frozen. E2 retains 31 reconstruction accuracy differences, 210 low-precision class-report flags, and four complete five-family correlation strata. Historical E1 model and prediction artifacts remain omitted; seven auxiliary tuning-history discrepancies remain disclosed. No bootstrap or unsupported significance claims are used. Fitted models, FITS files, credentials, and private operational receipts are excluded from this repository.
+E1 and E2 remain frozen. E2 retains 31 reconstruction accuracy differences, 210 low-precision class-report flags and four complete five-family correlation strata. Historical E1 models and per-test-row predictions remain omitted; seven auxiliary tuning-history discrepancies remain disclosed. Recovery is a separate stopped supplement.
+
+No bootstrap, bootstrap intervals or unsupported significance claims are included. E1's 180-second/6-GiB limits differ from later experiments' 600-second/10-GiB policy. Timing depends on hardware and shared-host load. Fitted models, FITS, credentials, private process receipts, baseline/raw datasets and cache/archive payloads are excluded from Git delivery.

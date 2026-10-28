@@ -2,7 +2,7 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research snapshot - live status observed 2026-10-28T17:30:46.034919+00:00 UTC.** This repository is a saved research record, not a claim that all six experiments have passed final validation. The tables and figures in `reports/INTERIM_REFRESH_20261028T170039Z/` are bound to the earlier registry snapshot 2026-10-28T17:00:39.712874+00:00; later case counts below are status-only and do not update those figures.
+**Interim research snapshot - registry observed 2026-10-28T18:38:37.029396+00:00 UTC.** This saved research record does not claim all six experiments have passed final validation. Existing tables and figures remain bound to the validated 2026-10-28T17:00:39.712874+00:00 snapshot; newer counts are status-only.
 
 ## Experiment status and navigation
 
@@ -11,11 +11,11 @@ Code, recorded results, figures and scientific provenance for seven-class classi
 | E1 | Frozen classification benchmark | 765 terminal: 674 successful, 81 failed, 10 unsupported | [E1 report and ledger](experiments/E1/README.md) |
 | E2 | Generator fidelity versus classification | 108/150 primary evaluations; 120/120 separate classical references | [E2 report and provenance](experiments/E2/README.md) |
 | E3 | Direct Bayes, synthetic-only and real-only learning | 69 terminal: 64 successful, 3 failed, 2 unavailable | [E3 results](experiments/E3/README.md) |
-| E4 | Imbalance and target-class restoration | 1592 successful, 71 failed, 3 unavailable, **107 waiting** / 1,773 | [E4 interim results](experiments/E4/README.md) |
-| E5 | Fitting-data corruption | 700 successful, 50 failed, 78 unavailable, **132 waiting** / 960 | [E5 interim results](experiments/E5/README.md) |
-| E6 | Generative posterior ensembles | 12 member-reference successes, 3 primary failures, 6 unavailable / 21; primary ensemble successes: **0** | [E6 availability and findings](experiments/E6/README.md) |
+| E4 | Imbalance and target-class restoration | 1599 successful, 71 failed, 3 unavailable, **100 waiting** / 1,773 |
+| E5 | Fitting-data corruption | 700 successful, 50 failed, 78 unavailable, **132 waiting** / 960 |
+| E6 | Generative posterior ensembles | 12 successful member-reference aliases, 3 unavailable aliases; 3 equal-weight failures and 3 learned-weight unavailable; **0/6** successful primary ensembles |
 
-At the latest status snapshot, 2026-10-28T17:30:46.034919+00:00, E4/E5 had 239 waiting scientific cases and the runtime recorded two running tasks. A separate live-process check at 17:28:29Z had verified three RF4 workers, but that is not current liveness. The report figures remain bound to the earlier 17:00:39 registry snapshot with 241 waiting cases.
+At the registry snapshot 2026-10-28T18:38:37.029396+00:00, E4/E5 have 232 waiting scientific cases (100 E4; 132 E5). This is a task-ledger snapshot, not a process-liveness claim. E1 recovery remains separate: 24 successes, 10 failures, 2 user-stopped and 55 not attempted.
 
 The stopped E1 recovery supplement is separate: 24 successes, 10 failures, 2 user-stopped partial cells and 55 not attempted. These outcomes never replace frozen E1.
 
@@ -50,3 +50,7 @@ This export preserves available source and evidence; it is not self-contained fo
 Final calibration replay, cross-experiment validation and final project delivery remain pending. Historical reports with “final” in their filenames refer to their documented component or observation, not completion of the entire project.
 
 See [export provenance and sanitization](docs/EXPORT_PROVENANCE.md) for source-versus-export hash differences.
+
+## Current status note
+
+Read-only registry snapshot 2026-10-28T18:38:37.029396+00:00 UTC: E3 64 successful, 3 failures, 2 unavailable; E4 1599 successful, 71 failed, 3 unavailable, 100 waiting; E5 700 successful, 50 failed, 78 unavailable, 132 waiting. E6 has 12 successful aliases, 3 unavailable aliases/ensemble cases and 3 equal-weight ensemble failures; none of six primary ensembles has successful test evaluation. E1 remains frozen at 674 successful, 81 failed (55 resource failures; 26 supervisor-terminal manifests remained started) and 10 unsupported. E2 remains 108/150 primary and 120/120 classical-reference evaluations. No bootstrap or significance claims are made. Final calibration/report/archive validation remains pending.

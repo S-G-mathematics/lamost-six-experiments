@@ -1,4 +1,5 @@
 import hashlib, importlib, json, os, pathlib, shutil, subprocess, sys, tempfile, unittest, zipfile
+from unittest import mock
 RUNTIME=pathlib.Path(__file__).resolve().parents[1]
 HERE=RUNTIME
 SOURCE=RUNTIME/'source'
@@ -171,7 +172,8 @@ class ColdFinalizerIntegrationTests(unittest.TestCase):
    for rel in f.PUBLIC_RESOURCE_REVIEW_SHA256:
     src=fixture_root/rel;dst=root/rel;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
    public=json.dumps({'tasks':list(records.values()),'observed_utc':'fixture'})
-   entries=f.collect_full(root,rt,b'# readme',public,{'candidate_id':'fixture','decision':'pass'}, {},cold_store=s,registry_records=records,review_manifest=review)
+   with mock.patch.object(a,'e1_locator_archive_entries',lambda *args,**kwargs:([],b'{}')):
+    entries=f.collect_full(root,rt,b'# readme',public,{'candidate_id':'fixture','decision':'pass'}, {},cold_store=s,registry_records=records,review_manifest=review)
    logical=item['source_relpath']
    found=[e for e in entries if e.member==logical]
    self.assertEqual(len(found),1);self.assertTrue(a._cold_source(found[0].source))
@@ -196,7 +198,8 @@ class ColdFinalizerIntegrationTests(unittest.TestCase):
    for d in ('source','tests','cache','artifacts','reports','manifests'): (rt/d).mkdir(parents=True,exist_ok=True)
    (rt/'reports'/'small.txt').write_text('ordinary package')
    full=root/'packages'/'LAMOST_ALL_EXPERIMENTS_fixture.zip';ev={'e1_archive':{'path':'preserved-e1.zip','sha256':'a'*64}}
-   result=f.write_full_archive(root,rt,full,ev,{'candidate_id':'fixture','decision':'pass'},{},{},{'snapshot':{'inputs':{'cold_archived_artifact_members':[]}}},public=b'{"tasks":[]}')
+   with mock.patch.object(a,'e1_locator_archive_entries',lambda *args,**kwargs:([],b'{}')):
+    result=f.write_full_archive(root,rt,full,ev,{'candidate_id':'fixture','decision':'pass'},{},{},{'snapshot':{'inputs':{'cold_archived_artifact_members':[]}}},public=b'{"tasks":[]}')
    self.assertTrue(result['zip_crc_passed'])
    with zipfile.ZipFile(full) as z:
     self.assertIsNone(z.testzip());readme=z.read('README_ARCHIVE.md').decode()

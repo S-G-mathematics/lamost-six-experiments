@@ -8,13 +8,181 @@ class ColdFinalizerError(RuntimeError): pass
 def _cold_source(source):
     return not isinstance(source,(Path,str,bytes,bytearray)) and all(callable(getattr(source,n,None)) for n in ('open','stat','sha256')) and hasattr(source,'logical_path')
 
+def _external_zip_member_source(source):
+    return bool(getattr(source,'_lamost_external_zip_member_source',False)) and all(callable(getattr(source,n,None)) for n in ('open','stat','sha256'))
+
+def _stat5(path):
+    st=Path(path).stat()
+    return (int(st.st_dev),int(st.st_ino),int(st.st_size),int(st.st_mtime_ns),int(st.st_ctime_ns))
+
+class LocatorArchiveMemberSource:
+    _lamost_external_zip_member_source=True
+    def __init__(self,archive_path,member,row,expected_stat):
+        self.archive_path=Path(archive_path)
+        self.member=str(member)
+        self.expected_stat=tuple(int(x) for x in expected_stat)
+        self.expected_size=int(row['bytes'])
+        self.expected_sha256=str(row['sha256'])
+        raw_crc=str(row['crc32'])
+        self.expected_crc32=int(raw_crc,16) if isinstance(row['crc32'],str) else int(row['crc32'])
+        self._verified=False
+
+    def _assert_source_identity(self):
+        if self.archive_path.is_symlink() or not self.archive_path.is_file() or _stat5(self.archive_path)!=self.expected_stat:
+            raise ColdFinalizerError('immutable E1 source archive stat identity changed')
+        if self.archive_path.stat().st_size!=self.expected_stat[2]:
+            raise ColdFinalizerError('immutable E1 source archive size changed')
+
+    def stat(self):
+        self._assert_source_identity()
+        return {'size':self.expected_size,'sha256':self.expected_sha256,'crc32':self.expected_crc32,
+                'archive_stat5':list(self.expected_stat),'source_member':self.member}
+
+    @contextmanager
+    def open(self):
+        self._assert_source_identity()
+        try:
+            with zipfile.ZipFile(self.archive_path,'r',allowZip64=True) as z:
+                matches=[i for i in z.infolist() if i.filename==self.member]
+                if len(matches)!=1:
+                    raise ColdFinalizerError('E1 locator member is missing or duplicated: '+self.member)
+                info=matches[0]
+                if int(info.file_size)!=self.expected_size or int(info.CRC)!=self.expected_crc32:
+                    raise ColdFinalizerError('E1 locator member size/CRC differs from frozen source archive: '+self.member)
+                with z.open(info,'r') as stream:
+                    yield stream
+        except (zipfile.BadZipFile,RuntimeError,EOFError) as exc:
+            raise ColdFinalizerError('E1 nested ZIP member failed CRC/stream validation: '+self.member) from exc
+        self._assert_source_identity()
+
+    def sha256(self):
+        if self._verified:
+            self._assert_source_identity()
+            return self.expected_sha256
+        h=hashlib.sha256();crc=0;count=0
+        with self.open() as f:
+            for chunk in iter(lambda:f.read(4*1024*1024),b''):
+                h.update(chunk);crc=zipfile.crc32(chunk,crc);count+=len(chunk)
+        if count!=self.expected_size or (crc&0xffffffff)!=self.expected_crc32 or h.hexdigest()!=self.expected_sha256:
+            raise ColdFinalizerError('E1 locator member bytes differ from pinned size/CRC/SHA: '+self.member)
+        self._verified=True
+        return h.hexdigest()
+
+def e1_locator_archive_entries(finalizer,root,locator_path,expected_locator_sha256,expected_archive_sha256,
+                               expected_archive_stat,expected_receipt_sha256,expected_archive_name,
+                               expected_file_count=48,expected_extension_counts=None):
+    root=Path(root).resolve();locator_path=Path(locator_path)
+    recovery_dir=root/'e1_recovery_20261024';packages=root/'packages'
+    if recovery_dir.is_symlink() or recovery_dir.resolve().parent!=root:
+        raise ColdFinalizerError('frozen E1 recovery directory is symlinked or outside migration root')
+    if packages.is_symlink() or packages.resolve().parent!=root:
+        raise ColdFinalizerError('ROOT/packages is symlinked or outside migration root')
+    if locator_path.is_symlink() or not locator_path.is_file() or locator_path.resolve().parent!=recovery_dir.resolve():
+        raise ColdFinalizerError('E1 archived-payload locator is missing, symlinked, or outside its frozen recovery directory')
+    locator_raw=locator_path.read_bytes();locator_sha=hashlib.sha256(locator_raw).hexdigest()
+    if locator_sha!=expected_locator_sha256:
+        raise ColdFinalizerError('E1 archived-payload locator SHA differs from frozen pin')
+    locator=json.loads(locator_raw)
+    if locator.get('schema')!='retained-recovery-payload-locators/1':
+        raise ColdFinalizerError('unsupported E1 archived-payload locator schema')
+    archive_path=Path(locator.get('archive_path',''))
+    if (not archive_path.is_absolute() or archive_path.is_symlink() or archive_path.name!=expected_archive_name
+        or any(x in ('..','.') for x in archive_path.parts)):
+        raise ColdFinalizerError('E1 source archive locator path is not the pinned archive')
+    if archive_path!=archive_path.resolve():
+        raise ColdFinalizerError('E1 source archive path is not canonical')
+    archive_path=archive_path.resolve()
+    if archive_path.parent!=(root/'packages').resolve() or not archive_path.is_file():
+        raise ColdFinalizerError('E1 source archive must be a regular file directly under ROOT/packages')
+    if locator.get('archive_sha256')!=expected_archive_sha256:
+        raise ColdFinalizerError('E1 locator archive SHA differs from frozen pin')
+    receipt_path=root/'packages'/(archive_path.stem+'.receipt.json')
+    if receipt_path.is_symlink() or not receipt_path.is_file():
+        raise ColdFinalizerError('E1 frozen archive receipt is missing or symlinked')
+    receipt_raw=receipt_path.read_bytes()
+    if hashlib.sha256(receipt_raw).hexdigest()!=expected_receipt_sha256:
+        raise ColdFinalizerError('E1 frozen archive receipt SHA differs from pin')
+    receipt=json.loads(receipt_raw)
+    if (receipt.get('archive_sha256')!=expected_archive_sha256
+        or Path(receipt.get('archive','')).resolve()!=archive_path or receipt.get('zip_crc_passed') is not True):
+        raise ColdFinalizerError('E1 source archive receipt differs from locator/frozen identity')
+    stat5=_stat5(archive_path)
+    if tuple(int(x) for x in expected_archive_stat)!=stat5:
+        raise ColdFinalizerError('E1 source archive five-stat identity differs from frozen pin')
+    if int(receipt.get('archive_bytes',-1))!=stat5[2]:
+        raise ColdFinalizerError('E1 source archive byte count differs from frozen receipt')
+    archive_sha=finalizer.sha_file(archive_path)
+    if archive_sha!=expected_archive_sha256 or _stat5(archive_path)!=stat5:
+        raise ColdFinalizerError('E1 source archive full SHA/stat verification failed')
+    files=locator.get('files')
+    if not isinstance(files,list) or len(files)!=int(expected_file_count):
+        raise ColdFinalizerError('E1 locator file count differs from pinned count')
+    ext_counts={}
+    source_members=set();destinations=set();entries=[];manifest_rows=[]
+    with zipfile.ZipFile(archive_path,'r',allowZip64=True) as z:
+        infos=z.infolist();by_name={}
+        for info in infos:by_name.setdefault(info.filename,[]).append(info)
+        for row in files:
+            if not isinstance(row,dict):raise ColdFinalizerError('malformed E1 locator row')
+            source_member=row.get('archive_member')
+            member_path=PurePosixPath(source_member or '')
+            if (not source_member or member_path.is_absolute() or any(x in ('','.','..') for x in member_path.parts)
+                or member_path.as_posix()!=source_member or '\\' in source_member or ':' in member_path.parts[0]):
+                raise ColdFinalizerError('unsafe E1 nested archive member path')
+            if source_member in source_members:raise ColdFinalizerError('duplicate E1 nested archive member locator')
+            source_members.add(source_member)
+            matches=by_name.get(source_member,[])
+            if len(matches)!=1:raise ColdFinalizerError('E1 nested archive member missing/duplicated: '+source_member)
+            info=matches[0]
+            unix_mode=(int(info.external_attr)>>16)&0xffff
+            if unix_mode & 0o170000 == 0o120000:
+                raise ColdFinalizerError('E1 locator refers to a symbolic-link ZIP member: '+source_member)
+            size=int(row.get('bytes',-1));raw_crc=str(row.get('crc32',''))
+            crc=int(raw_crc,16) if isinstance(row.get('crc32'),str) else int(row.get('crc32',-1))
+            digest=row.get('sha256')
+            if size<0 or not isinstance(digest,str) or len(digest)!=64 or info.file_size!=size or info.CRC!=crc:
+                raise ColdFinalizerError('E1 locator member size/CRC/SHA metadata malformed or mismatched: '+source_member)
+            ext=member_path.suffix.lower();ext_counts[ext]=ext_counts.get(ext,0)+1
+            local_value=row.get('local_path')
+            if not isinstance(local_value,str) or '\\' in local_value:raise ColdFinalizerError('E1 locator row has no safe logical recovery path')
+            local_path=Path(local_value)
+            if not local_path.is_absolute():raise ColdFinalizerError('E1 recovery logical path must be absolute in the frozen locator')
+            try:local_rel=local_path.relative_to(root)
+            except ValueError as exc:raise ColdFinalizerError('E1 recovery logical path escapes migration root') from exc
+            if (not local_rel.parts or local_rel.parts[0]!='e1_recovery_20261024'
+                or any(x in ('','.','..') for x in local_rel.parts)):
+                raise ColdFinalizerError('E1 recovery logical path is outside the frozen recovery tree')
+            target=root.joinpath(*local_rel.parts)
+            parent=root
+            for part in local_rel.parts[:-1]:
+                parent=parent/part
+                if parent.is_symlink():raise ColdFinalizerError('E1 recovery output path has a symlinked ancestor')
+            if target.exists() or target.is_symlink():
+                raise ColdFinalizerError('E1 recovery payload path already exists; refusing duplicate archive entry')
+            dest=local_rel.as_posix()
+            if dest in destinations:raise ColdFinalizerError('duplicate E1 output member path: '+dest)
+            destinations.add(dest)
+            src=LocatorArchiveMemberSource(archive_path,source_member,row,stat5)
+            entries.append(finalizer.Entry(src,dest,'E1_archived_recovery_payload'))
+            manifest_rows.append({'source_archive_member':source_member,'archive_member':dest,'bytes':size,'sha256':digest,'crc32':crc})
+    if expected_extension_counts is not None and ext_counts!=expected_extension_counts:
+        raise ColdFinalizerError('E1 locator extension counts differ from frozen expected profile')
+    provenance={'schema_version':'lamost-e1-archived-payload-provenance/1','source_archive_member':archive_path.relative_to(root).as_posix(),
+       'source_archive_sha256':archive_sha,'source_archive_stat5':list(stat5),'locator_member':locator_path.relative_to(root).as_posix(),
+       'locator_sha256':locator_sha,'receipt_member':receipt_path.relative_to(root).as_posix(),
+       'receipt_sha256':hashlib.sha256(receipt_raw).hexdigest(),'payload_count':len(entries),'payloads':manifest_rows,
+       'curation_note':'Exact locator-listed E1 recovery payloads streamed as individual members; source ZIP retained unchanged on EC2.'}
+    payload=(json.dumps(provenance,indent=2,sort_keys=True,ensure_ascii=False)+'\n').encode()
+    return entries,payload
+
 def _source_size(source):
     if isinstance(source,bytes): return len(source)
-    if _cold_source(source): return int(source.stat()['size'])
+    if _external_zip_member_source(source) or _cold_source(source): return int(source.stat()['size'])
     return Path(source).stat().st_size
 
 def _source_sha(source):
     if isinstance(source,bytes): return hashlib.sha256(source).hexdigest()
+    if _external_zip_member_source(source): return source.sha256()
     if _cold_source(source): return source.stat()['sha256']
     h=hashlib.sha256()
     with Path(source).open('rb') as f:
@@ -23,6 +191,7 @@ def _source_sha(source):
 
 def _source_stream(source):
     if isinstance(source,bytes): return io.BytesIO(source)
+    if _external_zip_member_source(source): return source.open()
     if _cold_source(source): raise ColdFinalizerError('cold member source must be deduplicated against its existing ZIP member, not appended as a second payload')
     return Path(source).open('rb')
 
@@ -195,6 +364,8 @@ def _dedup(finalizer,entries,expected_source_sha256,existing):
         if _cold_source(src):
             logical=src.logical_path
             source_path=str((src.store.root/logical).resolve())
+        elif _external_zip_member_source(src):
+            source_path=None
         else:source_path=None if isinstance(src,bytes) else str(Path(src).resolve())
         expected=(expected_source_sha256 or {}).get(source_path) if source_path else None
         if expected and h!=expected:raise finalizer.EvidenceError('reviewed source changed before full-archive append: '+source_path)

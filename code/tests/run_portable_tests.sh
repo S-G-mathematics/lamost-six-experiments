@@ -103,6 +103,7 @@ test_files=(
   "$R/tests/test_et17_archive_scope.py"
   "$R/tests/test_durable_baseline_digest_cache.py"
   "$R/tests/test_native_fit_mixedsmall_profile.py"
-  "$R/tests/test_native_fit_controller_harness.py"
+  "$R/tests/test_native_fit_controller_harness.py" \
+  "$R/tests/test_e1_recovery_locator_archive_stream.py"
 )
 exec "$python_bin" -m pytest "${pytest_args[@]}" "${test_files[@]}"
