@@ -16,6 +16,6 @@ The E4 RF restoration row is one repetition of the K tenth-share generated Chow-
 
 Portable engineering qualification: 596/596 passed on EC2. The earlier 587/587 receipt remains in the repository. This engineering result does not add scientific evaluations.
 
-The outcome-array delta is staged at github_delta_results_20261028/e4_three_validated_cells_20261028T084431Z/e4_three_validated_outcomes_delta.zip; SHA-256 49d94bba6fc13f4d4f56b10332e0410701e5a3e3d247ec1db37df772388c54a5, size 3144012 bytes; ZIP CRC passed. Its public release upload has not yet been recorded. No model or FITS files are included.
+The outcome-array delta is staged at github_delta_results_20261028/e4_three_validated_cells_20261028T084431Z/e4_three_validated_outcomes_delta.zip; SHA-256 49d94bba6fc13f4d4f56b10332e0410701e5a3e3d247ec1db37df772388c54a5, size 3144012 bytes; ZIP CRC passed. It is uploaded to the existing results-2026-10-28 release with a manifest and checksum sidecar; remote bytes were downloaded and matched. Verification receipt: metadata/E4_DELTA_RELEASE_UPLOAD_VERIFICATION_20261028.json. No model or FITS files are included.
 
 Input evaluation, validation and result JSONs are copied under provenance/artifacts and bound by the incremental CSVs and array manifest.
