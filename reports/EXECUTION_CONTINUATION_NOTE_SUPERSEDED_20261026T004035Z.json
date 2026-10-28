@@ -1,0 +1,93 @@
+{
+  "observed_utc": "2026-10-26T00:22:43.826734+00:00",
+  "observed_ist": "2026-10-26T05:52:43.826734+05:30",
+  "project_complete": false,
+  "scientific_outcome_counts": {
+    "3": {
+      "successful": 64,
+      "unavailable_dependency": 2,
+      "scientific_failure": 3
+    },
+    "4": {
+      "waiting_for_dependency": 606,
+      "unavailable_dependency": 3,
+      "successful": 1121,
+      "scientific_failure": 42,
+      "running": 1
+    },
+    "5": {
+      "waiting_for_dependency": 612,
+      "unavailable_dependency": 23,
+      "successful": 298,
+      "scientific_failure": 27
+    },
+    "6": {
+      "unavailable_dependency": 9,
+      "successful": 12
+    }
+  },
+  "actual_process_identity_verified_workers": [
+    {
+      "key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu",
+      "kind": "fit"
+    },
+    {
+      "key": "e4/rep_3/fit/direct/random_forest/GALAXY_half",
+      "kind": "fit"
+    },
+    {
+      "key": "e4/rep_3/eval/direct/random_forest/GALAXY_tenth",
+      "kind": "eval"
+    }
+  ],
+  "operationally_invalid_current_tasks": 0,
+  "latest_evaluation_audit": {
+    "generated_utc": "2026-10-25T22:48:49.518682+00:00",
+    "audited_entries": 1474,
+    "physical_outcome_entries": 1359,
+    "alias_entries": 115,
+    "issue_count": 0,
+    "blocking_review_issue_count": 0,
+    "diagnostic_limitations_count": 18,
+    "validated_supersession_count": 9
+  },
+  "milestones": [
+    "All168 current E4 append datasets pass the corrected independent validator; no scientific input changes.",
+    "46 focused deployed checks pass for append validation, reason-text curation, archive collection, candidate source/provenance binding and generated documentation.",
+    "Real metadata collection verifies11 scientific provenance sources/12 archive views and mutation guards without materializing or changing frozen source manifests.",
+    "Real report curation removes exactly2 private process-receipt cells while retaining every other CSV cell/header and raw source file unchanged.",
+    "Current source inventory binds39 Python modules and17 engineering tests for future candidate review.",
+    "Laptop delivery watcher PID identity was reverified; no final package exists yet.",
+    "Reviewed bounded80k generator-fit/E4directRF-evaluation4GiB provisional admission profile applied; hard10GiB and600s unchanged. Live first-use RF evaluations verified and completed.",
+    "All27E5directKDE corruption evaluations reached ordinary scientific600s timeout; no retries or resource-relaxed campaign.",
+    "Storage planning identifies future final-archive space risk; ZIP-backed model storage remains staged, with root-discovered multi-item provenance/recovery defects undergoing correction before any live use."
+  ],
+  "current_source_sha256": {
+    "controller.py": "2fed649f9a9d2c0e36fbf41c334e4071f619e2a33a350762ff52b195f97dca99",
+    "admission_evidence.py": "c9ebed047dc0dd10b744b09c5a88a970431577a5c4eb4a61d507007ce63dbb2b",
+    "science.py": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+    "worker.py": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+    "audit_artifacts.py": "dd954630a5f74e5634cca908e4e8d1a4c9ae13088f1c2cbaa30eed8a9dbfaffb",
+    "finalize_project.py": "f1c27f68b9083cc5a3de59e313830a6bd41b4a151a6505d5e0c6e29beb469cec",
+    "final_review.py": "66e31d53f7ddebdc305b05a49c4b37b1dccf4d4bd4479ff61309ac57f3c2bc4f",
+    "reporting.py": "135a66e16a8962d3fa9ac31cca560dd0f850ba5ff41ada3fb1d073d86bd06deb",
+    "reason_text_curation.py": "4054ca02f61a34a04c8165d8f90f5b5bb8915e83baf261ebe368659a991a900e"
+  },
+  "remaining_required": [
+    "Continue all pending E4/E5 cells under existing controller without ordinary terminal retries.",
+    "Full selected-model/artifact audit at final safe headroom; evaluation-only audit and72-fit subset do not prove all selected models.",
+    "Final E4/E5 and cross-experiment report/tables/figures, actual candidate-bound root scientific/visual review.",
+    "Verified full EC2 archive and compact reports ZIP; laptop delivery verification; exact owned worker/watcher shutdown."
+  ],
+  "key_receipts": [
+    "engineering_audits/REPORT_VALIDATION_ARCHIVE_BUNDLE_APPLIED_20261026.json",
+    "engineering_audits/PUBLIC_PROVENANCE_REAL_INPUT_COLLECTION_CHECK_20261026.json",
+    "engineering_audits/E4_APPEND_SCHEMA_CORRECTED_REAUDIT_20261026.json",
+    "engineering_audits/BOUNDED_80K_RESOURCE_ADMISSION_PROFILE_APPLIED_20261026.json",
+    "engineering_audits/BOUNDED_80K_RESOURCE_PROFILE_FIRST_USE_20261026.json",
+    "engineering_audits/STORAGE_PLANNING_AUDIT_20261026.json",
+    "engineering_audits/ARCHIVE_OMISSION_WORDING_CLARIFIED_20261026.json"
+  ],
+  "no_overall_archive_created_or_completion_claimed": true,
+  "source_change_boundary": "Scientific engines, cohorts, evaluation and task plan unchanged; reviewed operational controller/admission evidence applied with11 watched sources. Original experiment freeze time preserved."
+}

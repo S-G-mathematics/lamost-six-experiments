@@ -1,0 +1,129 @@
+{
+  "budget": 100000,
+  "error": "TrialTimeout: trial exceeded 600s timeout",
+  "experiment": 1,
+  "method": "rbf_svm",
+  "repetition": 4,
+  "roles": {
+    "budget": 100000,
+    "requested_budget": 100000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          574,
+          2270,
+          3826,
+          2190,
+          871,
+          142,
+          127
+        ],
+        "ids_sha256": "fb6241e090b595e82fc5e6ead902debba563d2ab3cd82feeddf3610af14575a2",
+        "n": 10000
+      },
+      "fit": {
+        "counts": [
+          4512,
+          17850,
+          31171,
+          17127,
+          6905,
+          1228,
+          1207
+        ],
+        "ids_sha256": "f55106071c80475c6233ee89d53bdf933e1351783fbec880b62136eded077b3c",
+        "n": 80000
+      },
+      "tune": {
+        "counts": [
+          564,
+          2231,
+          3896,
+          2141,
+          863,
+          154,
+          151
+        ],
+        "ids_sha256": "68f2c8b127577ea7dbb9b8148ae462a2d333fff9ce52ab1e046704d7325a6b8b",
+        "n": 10000
+      }
+    },
+    "status": "ok"
+  },
+  "seed": 271831,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 591, in run_e1\n    test_pred, test_scores, fallback_test = _predict_chunks(model, test_model_X, self.prediction_chunk, diagnostics=True)\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_basic.py\", line 157, in score_matrix\n    result = self.estimator.decision_function(x)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/svm/_base.py\", line 795, in decision_function\n    dec = self._decision_function(X)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/svm/_base.py\", line 550, in _decision_function\n    dec_func = self._dense_decision_function(X)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/svm/_base.py\", line 566, in _dense_decision_function\n    return libsvm.decision_function(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 600s timeout\n",
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "C": 122.66923145682333,
+        "cache_size_mb": 512,
+        "gamma": 0.584551318123724
+      },
+      "peak_rss_kib": 1637676,
+      "seconds": 105.95375740801683,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.8031683077498634
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "C": 0.04760271196890927,
+        "cache_size_mb": 512,
+        "gamma": 0.3625571818244354
+      },
+      "peak_rss_kib": 1637676,
+      "seconds": 135.47111042495817,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5857574508849596
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "C": 287.26205292851415,
+        "cache_size_mb": 512,
+        "gamma": 0.05402829652208408
+      },
+      "peak_rss_kib": 1637676,
+      "seconds": 109.07747051300248,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.7853194284175183
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "C": 488.7049374695776,
+        "cache_size_mb": 512,
+        "gamma": 0.001400348385961635
+      },
+      "peak_rss_kib": 1637676,
+      "seconds": 123.62112430302659,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.7272715694735213
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "C": 0.010960677462627404,
+        "cache_size_mb": 512,
+        "gamma": 0.01256822019832744
+      },
+      "peak_rss_kib": 1637676,
+      "seconds": 177.55715358501766,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.30866355465214373
+    }
+  ]
+}

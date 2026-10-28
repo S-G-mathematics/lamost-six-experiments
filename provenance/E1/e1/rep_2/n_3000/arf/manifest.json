@@ -1,0 +1,139 @@
+{
+  "budget": 3000,
+  "error": "TrialTimeout: trial exceeded 180s timeout",
+  "experiment": 1,
+  "method": "arf",
+  "repetition": 2,
+  "roles": {
+    "budget": 3000,
+    "requested_budget": 3000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          16,
+          55,
+          113,
+          71,
+          37,
+          6,
+          2
+        ],
+        "ids_sha256": "80d967cea53cbc1d1caca98e26d8aea42450f591b87c1b77cc4bc26057bcc970",
+        "n": 300
+      },
+      "fit": {
+        "counts": [
+          136,
+          535,
+          934,
+          513,
+          208,
+          37,
+          37
+        ],
+        "ids_sha256": "30ecb6b8faee10e1911ae165e530ed4cea37b0bd06d25ffe57eb8092f04efc6f",
+        "n": 2400
+      },
+      "tune": {
+        "counts": [
+          17,
+          67,
+          116,
+          64,
+          26,
+          5,
+          5
+        ],
+        "ids_sha256": "0e14ae9e40d97747732e9a530c30bf83159abbd2a85de637b08f6ba8955efb03",
+        "n": 300
+      }
+    },
+    "status": "ok"
+  },
+  "seed": 271829,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 591, in run_e1\n    test_pred, test_scores, fallback_test = _predict_chunks(model, test_model_X, self.prediction_chunk, diagnostics=True)\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 188, in score_matrix\n    joint = self.class_logpdf(X) + np.log(self.priors_)\n            ^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 185, in class_logpdf\n    return np.column_stack([self._one_class_logpdf(x, c) for c in CLASS_IDS])\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 169, in _one_class_logpdf\n    vals = truncnorm.logpdf(x[rows], a=a, b=b, loc=mean, scale=sd)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/stats/_distn_infrastructure.py\", line 2125, in logpdf\n    goodargs = argsreduce(cond, *((x,)+args+(scale,)))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/stats/_distn_infrastructure.py\", line 658, in argsreduce\n    return [arg.ravel() for arg in newargs]\n            ^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 1177560,
+      "seconds": 69.9940666429975,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6377783941974589
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 20,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 1212108,
+      "seconds": 58.710332096001366,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6138548211952741
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 1178068,
+      "seconds": 25.308682035996753,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6389924863706122
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 1178068,
+      "seconds": 0.0010787089995574206,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.6389924863706122
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 5,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 1180184,
+      "seconds": 31.324363943997014,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6415948119914658
+    }
+  ]
+}

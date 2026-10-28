@@ -1,0 +1,72 @@
+{
+  "artifact_sha256": "12cf63da2078970ff2b1a0e8d1d063c94ae7acd0baba1bee5926c51e96ebc089",
+  "attempt_id": "1793060255_c78fee71",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-27T00:17:37.308402+00:00",
+  "reason": null,
+  "result": {
+    "class_counts": [
+      4519,
+      17848,
+      31159,
+      17127,
+      6913,
+      1230,
+      1204
+    ],
+    "fit_seconds": 0.0651222619926557,
+    "params": {
+      "n_neighbors": 5,
+      "weights": "distance"
+    },
+    "phase_supervision": {
+      "exit_code": 0,
+      "finished_at": "2026-10-27T00:17:37.293639+00:00",
+      "peak_tree_rss_kib": 208396,
+      "phase": "final_fit",
+      "reason": null,
+      "seconds": 1.8675354300066829
+    },
+    "pipeline_sha256": "12cf63da2078970ff2b1a0e8d1d063c94ae7acd0baba1bee5926c51e96ebc089",
+    "seed": 1686700249,
+    "source_sha256": "c372050cd3882887ee639a6c24bbe1a7e8c4086c877994b70ef7ff6b9efa61be",
+    "status": "success",
+    "training_X_sha256": "93f88844f3eca8767dcea392c47c2a379ae7b760752f2ce159217e0dc14a3774",
+    "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+    "training_rows": 80000,
+    "training_y_sha256": "71fd297436fc709f59f5b77266de4237b9cacbad1a21e2d1ae3427acbd74c50d"
+  },
+  "started_at": "2026-10-27T00:17:35.424529+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e5/rep_1/fit/direct/knn/missingness_10",
+    "condition": "missingness_10",
+    "dependencies": [
+      "e5/rep_1/corruption/missingness_10",
+      "e4/rep_1/fit/direct/knn/control"
+    ],
+    "experiment": 5,
+    "generator": null,
+    "key": "e5/rep_1/fit/direct/knn/missingness_10",
+    "kind": "fit",
+    "mechanism": "missingness",
+    "method": "knn",
+    "optimizer_seed": 1956367315,
+    "rate": 0.1,
+    "ratio": null,
+    "rep": 1,
+    "route": "direct",
+    "scientific_case": false,
+    "seed": 1686700249,
+    "selection_key": "e4/rep_1/fit/direct/knn/control",
+    "selection_mode": "fixed",
+    "selection_policy": "frozen_clean_selected_params_no_retuning",
+    "selection_source": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_1/fit/direct/knn/control",
+    "target_class": null,
+    "train_key": "e5/rep_1/corruption/missingness_10",
+    "train_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e5/rep_1/corruption/missingness_10/data.npz",
+    "treatment": null,
+    "trials": 0
+  },
+  "task_sha256": "4b420255cdd5caedb9345bc74c3d6742770d4ae61a6dab32dfeefcf987ff4cf4"
+}

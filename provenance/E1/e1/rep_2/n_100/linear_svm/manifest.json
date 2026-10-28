@@ -1,0 +1,250 @@
+{
+  "best_tuning_balanced_accuracy": 0.5714285714285714,
+  "budget": 100,
+  "calibration_n": 10,
+  "calibration_prediction_seconds": 0.0008157150004990399,
+  "conformal_alpha": 0.1,
+  "conformal_nonconformity_threshold": 0.6894170045852661,
+  "duplicate_trials": 0,
+  "experiment": 1,
+  "failed_trials": 0,
+  "final_fit_seconds": 0.001623638003366068,
+  "fit_seconds_total": 0.03170766599214403,
+  "invalid_support_fallback_count": {
+    "calibration": 0,
+    "test": 0,
+    "tuning": 0
+  },
+  "mean_prediction_set_size": 2.323988,
+  "memory_limit_exceeded": false,
+  "method": "linear_svm",
+  "peak_rss_kib": 1195964,
+  "repetition": 2,
+  "resource_profile": "native8gib8cores",
+  "roles": {
+    "budget": 100,
+    "requested_budget": 100,
+    "roles": {
+      "calibration": {
+        "counts": [
+          0,
+          2,
+          5,
+          3,
+          0,
+          0,
+          0
+        ],
+        "ids_sha256": "d6e809ff02cbd1890d0f132b872bb99576432e72e1a57691fffdab5a295c0161",
+        "n": 10
+      },
+      "fit": {
+        "counts": [
+          5,
+          17,
+          30,
+          17,
+          7,
+          2,
+          2
+        ],
+        "ids_sha256": "6f0a1ae547ede7631b679e25ef307dd5076b7758412e1697ec59b88c0159b956",
+        "n": 80
+      },
+      "tune": {
+        "counts": [
+          1,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1
+        ],
+        "ids_sha256": "abd61f3cfe01d363b3ea59b0017e061d0ed892eb9080fde2087a682ad31ad76f",
+        "n": 10
+      }
+    },
+    "status": "ok"
+  },
+  "score_kind": "margin",
+  "seed": 271829,
+  "selected_params": {
+    "C": 8.377126346156013
+  },
+  "selected_tuning_prediction_seconds": 0.0006695549964206293,
+  "status": "complete",
+  "successful_trials": 10,
+  "test_coverage": 0.911852,
+  "test_metrics": {
+    "balanced_accuracy": 0.5624953549580914,
+    "per_class": {
+      "0": {
+        "coverage": 0.6784840642393732,
+        "n": 28207,
+        "recall": 0.01953415818768391,
+        "set_size": 2.7197858687559826
+      },
+      "1": {
+        "coverage": 0.8552385050515917,
+        "n": 111549,
+        "recall": 0.25825422011851296,
+        "set_size": 2.1837219517880033
+      },
+      "2": {
+        "coverage": 0.9369257460809576,
+        "n": 194818,
+        "recall": 0.708384235542917,
+        "set_size": 2.356014331324621
+      },
+      "3": {
+        "coverage": 0.9513717574942064,
+        "n": 107016,
+        "recall": 0.6837201913732526,
+        "set_size": 2.2114450175674665
+      },
+      "4": {
+        "coverage": 0.9814128975510393,
+        "n": 43202,
+        "recall": 0.7795240961066617,
+        "set_size": 2.466992268876441
+      },
+      "5": {
+        "coverage": 0.978515625,
+        "n": 7680,
+        "recall": 0.9404947916666667,
+        "set_size": 1.9678385416666666
+      },
+      "6": {
+        "coverage": 0.9472635494155154,
+        "n": 7528,
+        "recall": 0.5475557917109458,
+        "set_size": 3.2331296493092454
+      }
+    }
+  },
+  "test_prediction_seconds": 0.028066771003068425,
+  "trial_budget": 10,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "C": 8.377126346156013
+      },
+      "peak_rss_kib": 1175860,
+      "seconds": 0.003710723001859151,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5714285714285714
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "C": 6.224560297347768
+      },
+      "peak_rss_kib": 1175860,
+      "seconds": 0.0028508710020105354,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "C": 0.8926943063711499
+      },
+      "peak_rss_kib": 1175860,
+      "seconds": 0.0023469849984394386,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.42857142857142855
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "C": 0.001049508408172689
+      },
+      "peak_rss_kib": 1175860,
+      "seconds": 0.00307646000146633,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.14285714285714285
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "C": 826.3812187787914
+      },
+      "peak_rss_kib": 1175860,
+      "seconds": 0.0035029399950872175,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.42857142857142855
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 5,
+      "params": {
+        "C": 0.001399141531099854
+      },
+      "peak_rss_kib": 1175860,
+      "seconds": 0.0031899799942038953,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.14285714285714285
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 6,
+      "params": {
+        "C": 0.5718472683850936
+      },
+      "peak_rss_kib": 1175860,
+      "seconds": 0.0028371110020088963,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.42857142857142855
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 7,
+      "params": {
+        "C": 431.42463135400897
+      },
+      "peak_rss_kib": 1175860,
+      "seconds": 0.0035375020015635528,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.42857142857142855
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 8,
+      "params": {
+        "C": 0.04835426524132042
+      },
+      "peak_rss_kib": 1175860,
+      "seconds": 0.003156359998683911,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.42857142857142855
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 9,
+      "params": {
+        "C": 27.357262681530557
+      },
+      "peak_rss_kib": 1175860,
+      "seconds": 0.0034987339968211018,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5714285714285714
+    }
+  ]
+}

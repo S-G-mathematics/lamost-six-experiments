@@ -1,0 +1,93 @@
+{
+  "observed_utc": "2026-10-27T19:57:34.752460+00:00",
+  "planned_primary": 6,
+  "primary": [
+    {
+      "attempt_count": 1,
+      "implementation_defect_retry_count": 1,
+      "outcome": null,
+      "phases": [],
+      "status": "planned",
+      "task_key": "e6/rep_2/ensemble/learned"
+    },
+    {
+      "attempt_count": 1,
+      "implementation_defect_retry_count": 1,
+      "outcome": null,
+      "phases": [],
+      "status": "planned",
+      "task_key": "e6/rep_3/ensemble/equal"
+    },
+    {
+      "attempt_count": 1,
+      "implementation_defect_retry_count": 1,
+      "outcome": null,
+      "phases": [],
+      "status": "planned",
+      "task_key": "e6/rep_3/ensemble/learned"
+    },
+    {
+      "attempt_count": 2,
+      "implementation_defect_retry_count": 1,
+      "outcome": "scientific_failure",
+      "phases": [],
+      "status": "validated_terminal",
+      "task_key": "e6/rep_1/ensemble/equal"
+    },
+    {
+      "attempt_count": 2,
+      "implementation_defect_retry_count": 1,
+      "outcome": "unavailable_dependency",
+      "phases": [],
+      "status": "validated_terminal",
+      "task_key": "e6/rep_1/ensemble/learned"
+    },
+    {
+      "attempt_count": 2,
+      "implementation_defect_retry_count": 1,
+      "outcome": null,
+      "phases": [
+        {
+          "actual_live_child_identity_verified": false,
+          "output_sha256": "e277ffdc1ae2d3e505c92ba81056737326de3422f445a64b64e61c6c383966b8",
+          "phase_status_not_used_as_liveness": true,
+          "result": {
+            "chunk_size": 50000,
+            "n": 10000,
+            "status": "success"
+          },
+          "seconds": 50.138254574965686,
+          "stage": "cal",
+          "status": "successful"
+        },
+        {
+          "actual_live_child_identity_verified": true,
+          "output_sha256": null,
+          "phase_helper_argv_verified": false,
+          "phase_status_not_used_as_liveness": true,
+          "result": null,
+          "seconds": null,
+          "stage": "test",
+          "status": "running"
+        },
+        {
+          "actual_live_child_identity_verified": false,
+          "output_sha256": "43df9aba9e9240212f4ea37292338c9db1b657008fd8e1be7a0c163e9b6f894a",
+          "phase_status_not_used_as_liveness": true,
+          "result": {
+            "chunk_size": 50000,
+            "n": 10000,
+            "status": "success"
+          },
+          "seconds": 50.25970026594587,
+          "stage": "tune",
+          "status": "successful"
+        }
+      ],
+      "status": "running",
+      "task_key": "e6/rep_2/ensemble/equal",
+      "worker_actual_identity_verified": true
+    }
+  ],
+  "source_ensemble_sha256": "5b4444bc83576affe80946762dc1cceb76feb6cdcd33305fdcc6339c3c390476"
+}

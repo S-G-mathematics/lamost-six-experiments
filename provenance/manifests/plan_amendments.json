@@ -1,0 +1,238 @@
+{
+  "amendments": [
+    {
+      "reason": "pre-execution audit correction: valid E2 reconstruction gates with disclosed accuracy mismatch remain reusable reconstructed provenance when role, selected-parameter, fit/tune/calibration-count, and pipeline checksum gates pass",
+      "replacement_plan_sha256": "f86e26a7dd07b247ba4356fe81c01254a771a0c4573eae60ac439556dddfdf60",
+      "scientific_jobs_started": false,
+      "supersedes_plan_sha256": "2d1133fc94074050d036bd288f34a32a82252bf80014b1b8edc27dc86a9f4fea"
+    },
+    {
+      "reason": "pre-execution audit correction: valid E2 reconstruction gates with disclosed accuracy mismatch remain reusable reconstructed provenance when role, selected-parameter, fit/tune/calibration-count, and pipeline checksum gates pass",
+      "replacement_plan_sha256": "0c131c80d56c9fa8674eec49b757dcf6a521e4ed9acb7cc670c1d3013a88fa48",
+      "scientific_jobs_started": false,
+      "supersedes_plan_sha256": "f86e26a7dd07b247ba4356fe81c01254a771a0c4573eae60ac439556dddfdf60"
+    },
+    {
+      "reason": "pre-execution task-contract corrections: retain validated E2 reconstructed provenance despite disclosed test-score mismatch when exact role/parameter/seed/preprocessing/model hashes pass; use integer class IDs and ROS treatment label; share E4 treatment data once per cohort/generator with separate 10-trial treatment tuning; pair E5 refit seeds to clean configurations; align E6 task/search seeds",
+      "replacement_plan_sha256": "6d7aa7a83ed790126c8f1492d3a4472a356e7ac75b3860a8eb70dbbfef57464a",
+      "scientific_jobs_started": false,
+      "supersedes_plan_sha256": "0c131c80d56c9fa8674eec49b757dcf6a521e4ed9acb7cc670c1d3013a88fa48"
+    },
+    {
+      "E3_to_E5_fit_predict_source_changed": false,
+      "E6_prior_ensemble_attempts": 0,
+      "E6_weight_posterior_conformal_math_changed": false,
+      "amendment_id": "e6_declared_member_gate_20261025",
+      "observed_utc": "2026-10-25T15:17:37.077048+00:00",
+      "original_frozen_utc_preserved": "2026-10-25T04:46:31.018995+00:00",
+      "plan_file_sha256_before_after": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "reason": "Enforce five declared individual-member evaluation references before E6 posterior computation; unavailable member does not receive an implicit same-policy retry through the ensemble. Pending references wait.",
+      "resource_limits_or_search_domains_changed": false,
+      "scientific_cell_counts_unchanged": true,
+      "scientific_workers_interrupted": 0,
+      "scope": "E6 ensemble dependency/preflight only; existing member_evaluations metadata is enforced.",
+      "source_after_sha256": {
+        "controller.py": "589ab53f5f53fb3c6ae1a28a1b87ad55b26508042cd9e988940171d575caffb7",
+        "ensemble.py": "60a89134f546bfb257e2baf5be76af453bec1f2c7fc138c31d7d629227f1ec7c"
+      },
+      "source_before_sha256": {
+        "controller.py": "038bf37104ab1d2c3f86aeb0164dfab5fd0baf5c682aea94624e9e4f9c9a6225",
+        "ensemble.py": "265628d4919a10ca9ef4f6a21afd2e329df5dd11e18f37f910fe0214e7de7177"
+      },
+      "validation": "Six staged dependency/preflight/cache tests passed; direct source diff reviewed before deployment."
+    },
+    {
+      "amendment_id": "adaptive_concurrency_user_authorized_20261025",
+      "native_threads_unchanged": 1,
+      "observed_utc": "2026-10-25T16:56:04.059139+00:00",
+      "original_frozen_utc_preserved": "2026-10-25T04:46:31.018995+00:00",
+      "per_worker_limits_unchanged": true,
+      "plan_file_sha256_before_after": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "preexisting_worker_processes_signaled": 0,
+      "reason": "explicit user authorization removes fixed two-worker cap; adaptive CPU/RAM/storage scheduling with lower CPU priority for new workers",
+      "scope": "operational scheduling and resource provenance only; no E1/E2 fits, no scientific retry, task/model/score math unchanged",
+      "source_after_sha256": {
+        "controller.py": "0f2b40502eb6538e66a3d39bf339d7a16338a6bb9a3a727efd1a9c6f40f2e9ca"
+      },
+      "source_before_sha256": {
+        "controller.py": "589ab53f5f53fb3c6ae1a28a1b87ad55b26508042cd9e988940171d575caffb7"
+      },
+      "validation": "root reviewed diff; 11 focused engineering tests passed; compilation passed",
+      "worker_nice_new_admissions": 10
+    },
+    {
+      "affected_cohort_helpers_to_regenerate": 42,
+      "amendment_id": "e4_untreated_cohort_weight_schema_repair_20261025",
+      "dependent_unavailability_records_reset": 225,
+      "invalid_fit_attempt_tasks_to_supersede": 27,
+      "invalid_terminal_fit_failures_superseded": 25,
+      "live_E3_RF_interrupted": false,
+      "observed_utc": "2026-10-25T17:06:48.425859+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "reason": "Untreated cohorts must not carry original-proportion sample weights; weighting is restricted to explicit weighted treatments. Generator rejections from this invalid input are not scientific model failures.",
+      "science_and_phase_worker_engine_sha256_unchanged": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+      "scope": "E4 producer schema and invalid attempt supersession only",
+      "source_after_sha256": {
+        "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d"
+      },
+      "source_before_sha256": {
+        "cohorts.py": "f60c0b9dab4c4c4627cc67fe50aeed29ac75277b17efdc45cdabe1e4edb60b9d"
+      },
+      "task_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "unaffected_weighted_ros_smote_helpers_retained": true,
+      "validation": "root reviewed exact producer-only diff; seven staged engineering tests passed; no model fitting in tests"
+    },
+    {
+      "amendment_id": "adaptive_light_queue_packing_20261025",
+      "observed_utc": "2026-10-25T17:12:32.165349+00:00",
+      "original_freeze_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "plan_file_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scientific_workers_interrupted": 0,
+      "scope": "operational ready-task ordering only, no scientific task or engine change",
+      "source_after_sha256": {
+        "controller.py": "f1b5c1c12a52d95f0d76e63ee988c6e5c9092f8242922d64ab07ed79097ab243"
+      },
+      "source_before_sha256": {
+        "controller.py": "0f2b40502eb6538e66a3d39bf339d7a16338a6bb9a3a727efd1a9c6f40f2e9ca"
+      },
+      "tests": "13 focused controller tests passed including light packing and first-heavy-lane fairness"
+    },
+    {
+      "amendment_id": "heavy_lane_fairness_20261025",
+      "observed_utc": "2026-10-25T18:06:04.279323+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "reason": "Ensure one dependency-ready heavy fitting lane can start; drain only new light-fit admissions if that lane needs headroom, without stopping running tasks. Preserve light packing alongside any active heavy RAM task.",
+      "resource_policy_and_revision_unchanged": true,
+      "scientific_execution_engine_unchanged": true,
+      "scientific_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scientific_workers_signaled": 0,
+      "source_after_sha256": "4b9ec658dd48bce7345d8f2da6fa88fc33375836e04184014f7dbfc433120ebb",
+      "source_before_sha256": "f1b5c1c12a52d95f0d76e63ee988c6e5c9092f8242922d64ab07ed79097ab243",
+      "tests": "17 pure admission/guard/packing/fairness tests passed; exact minimal diff reviewed"
+    },
+    {
+      "amendment_id": "e4_direct_rf_80k_provisional_admission4_20261026",
+      "default_heavy_reservation_gib": 10,
+      "evidence_memo": "reports/engineering_audits/E4_DIRECT_RF_ADMISSION_EVIDENCE_20261026.md",
+      "evidence_memo_sha256": "1877f63a72d5941b5e108ee725d3b1bd91713482a6c996f94bebf0aa35753122",
+      "global_resource_policy_and_revision_unchanged": true,
+      "new_profile_reservation_gib": 4,
+      "observed_utc": "2026-10-25T19:38:09.018072+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "parent_validation_memory": "not separately measured; do not infer a bound",
+      "profile_id": "e4-direct-rf-80k-admission-4gib-20261026",
+      "scientific_hard_limits_unchanged": {
+        "native_threads": 1,
+        "phase_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "termination_grace_seconds": 30,
+        "trial_seconds": 600,
+        "worker_memory_gib": 10
+      },
+      "scientific_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scientific_workers_signaled": 0,
+      "scope": "operational admission estimate only for never-attempted exact E4directRF80k altered cohorts; existing attempts retain prior reservations",
+      "scope_conditions": {
+        "condition_count": 14,
+        "exact_cohort_train_key_required": true,
+        "experiment": 4,
+        "kind": "fit",
+        "method": "random_forest",
+        "never_attempted_only": true,
+        "repetitions": [
+          1,
+          2,
+          3
+        ],
+        "route": "direct"
+      },
+      "source_after_sha256": "7333a50a74974927d30c93fbc837ebaefac6ddbc6563744884979dd2227d7829",
+      "source_before_sha256": "4b9ec658dd48bce7345d8f2da6fa88fc33375836e04184014f7dbfc433120ebb",
+      "tests": "20 actual-function admission/guard/queue/fairness/profile tests passed"
+    },
+    {
+      "E1_orE2fits_started": 0,
+      "SVM_source_sha256": {
+        "controller.py": "de136ad656ab0f8e48c7c16a90fa0ab2396eae9d4dca71dc2f218f06608ef127",
+        "svm_margin/phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+        "svm_margin/science.py": "c91c97503412f4c5a119ba6cd444c78261315cbd774c8f137768be531172d4c8",
+        "svm_margin/worker.py": "31bb90a980501142d921b44c3059e200f50846af073137cebe391039d76fc5dd"
+      },
+      "affected_invalid_control_evaluations": 3,
+      "affected_invalid_fit_tasks": 42,
+      "auditor_sha256": "76d85b1f84803dee8798a33f4bafa20c1512cba588c1cf08336700b522467d8a",
+      "classification": "implementation_defect_operationally_invalid_not_scientific_failure",
+      "error_signature": "AttributeError: this SVM has margins, not native probabilities",
+      "incident_id": "svm_native_margin_api_repair_20261026",
+      "newSVM_engine_sha256": "9e4ac4f2f275ae38d1577b836720313f30147dd866c1dc6da5c581c93441f20b",
+      "nonSVM_engine_sha256_unchanged": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+      "observed_utc": "2026-10-25T21:31:26.140938+00:00",
+      "ordinary_terminal_tasks_requeued": 0,
+      "original_freeze_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "requeued_keys": [
+        "e4/rep_1/fit/direct/linear_svm/A_half",
+        "e4/rep_1/fit/direct/linear_svm/A_tenth",
+        "e4/rep_1/fit/direct/linear_svm/F_half",
+        "e4/rep_1/fit/direct/linear_svm/F_tenth",
+        "e4/rep_1/fit/direct/linear_svm/GALAXY_half",
+        "e4/rep_1/fit/direct/linear_svm/GALAXY_tenth",
+        "e4/rep_1/fit/direct/linear_svm/G_half",
+        "e4/rep_1/fit/direct/linear_svm/G_tenth",
+        "e4/rep_1/fit/direct/linear_svm/K_half",
+        "e4/rep_1/fit/direct/linear_svm/K_tenth",
+        "e4/rep_1/fit/direct/linear_svm/M_half",
+        "e4/rep_1/fit/direct/linear_svm/M_tenth",
+        "e4/rep_1/fit/direct/linear_svm/QSO_half",
+        "e4/rep_1/fit/direct/linear_svm/QSO_tenth",
+        "e4/rep_2/fit/direct/linear_svm/A_half",
+        "e4/rep_2/fit/direct/linear_svm/A_tenth",
+        "e4/rep_1/eval/direct/linear_svm/control",
+        "e4/rep_2/fit/direct/linear_svm/F_half",
+        "e4/rep_2/fit/direct/linear_svm/F_tenth",
+        "e4/rep_2/fit/direct/linear_svm/GALAXY_half",
+        "e4/rep_2/fit/direct/linear_svm/GALAXY_tenth",
+        "e4/rep_2/fit/direct/linear_svm/G_half",
+        "e4/rep_2/fit/direct/linear_svm/G_tenth",
+        "e4/rep_2/fit/direct/linear_svm/K_half",
+        "e4/rep_2/fit/direct/linear_svm/K_tenth",
+        "e4/rep_2/fit/direct/linear_svm/M_half",
+        "e4/rep_2/fit/direct/linear_svm/M_tenth",
+        "e4/rep_2/fit/direct/linear_svm/QSO_half",
+        "e4/rep_2/fit/direct/linear_svm/QSO_tenth",
+        "e4/rep_3/fit/direct/linear_svm/A_half",
+        "e4/rep_2/eval/direct/linear_svm/control",
+        "e4/rep_3/fit/direct/linear_svm/A_tenth",
+        "e4/rep_3/fit/direct/linear_svm/F_half",
+        "e4/rep_3/fit/direct/linear_svm/F_tenth",
+        "e4/rep_3/fit/direct/linear_svm/GALAXY_half",
+        "e4/rep_3/fit/direct/linear_svm/GALAXY_tenth",
+        "e4/rep_3/fit/direct/linear_svm/G_half",
+        "e4/rep_3/fit/direct/linear_svm/G_tenth",
+        "e4/rep_3/fit/direct/linear_svm/K_half",
+        "e4/rep_3/fit/direct/linear_svm/K_tenth",
+        "e4/rep_3/fit/direct/linear_svm/M_half",
+        "e4/rep_3/fit/direct/linear_svm/M_tenth",
+        "e4/rep_3/fit/direct/linear_svm/QSO_half",
+        "e4/rep_3/fit/direct/linear_svm/QSO_tenth",
+        "e4/rep_3/eval/direct/linear_svm/control"
+      ],
+      "resource_limits_unchanged": {
+        "native_threads": 1,
+        "phase_seconds": 600,
+        "prediction_chunks": 50000,
+        "termination_grace_seconds": 30,
+        "trial_seconds": 600,
+        "worker_memory_gib": 10
+      },
+      "scientific_method_definition": "frozenE1ClassifierModelscore_matrix;argmaxclassscore;negative-marginconformalnonconformity;no softmaxprobabilitysubstitution",
+      "scientific_workers_signaled": 0,
+      "valid_control_models_preserved_sha256": {
+        "e4/rep_1/fit/direct/linear_svm/control": "1ea6ea2c1d10c4aaa5f6306e0408d6658d731f42762154778ec078749767c8be",
+        "e4/rep_2/fit/direct/linear_svm/control": "35e5b83b8c1b4db6828925c317f328aba63855d260e927a52010bb0fc48d8696",
+        "e4/rep_3/fit/direct/linear_svm/control": "591371a444d9ef6581cc31be628b62976c845e0b1c1a08f616ac96f4ff9769b1"
+      },
+      "validation": "6score/worker/routing/aliasfixtures;9independentauditorfixtures;20controllerguardtests;2actualstagedsubprocessengineeringchecks;noengineeringmodelfits"
+    }
+  ]
+}

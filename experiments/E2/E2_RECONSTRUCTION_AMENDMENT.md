@@ -1,0 +1,11 @@
+# E2 selected-fit reconstruction amendment (2026-10-24)
+
+The user explicitly authorized retraining missing E2 models on 2026-10-24 ("aur jo missing ho na usse train krlena wapas"). This supersedes the E2 handoff preference to use only preserved original pipelines for the missing-artifact cells. It does not alter the frozen E1 ledger or the prior decision to stop E1 recovery.
+
+Scope: 89 primary-generator cells that were scientifically successful in frozen E1 but whose selected pipeline artifacts were omitted from the compact transfer. Each E2 reconstruction uses its original saved fit-role IDs, the original selected parameters from complete.json, the original seed formula, fitting-only median imputation and standard scaling, and the frozen model implementation. No hyperparameter search or new E1 cell is run. Reconstructed pipelines and hashes live only under e2_20261024/reconstruction.
+
+For each reconstructed fit, the selected model's tuning score is recorded against E1's best trial tuning score as a diagnostic. That comparison is not an exact reproduction gate, since the final fit and best trial may have different seeds. The paired E2 classification score is measured from the reconstructed model on the fixed 500,000-row test cohort. The reproduction gate separately flags whether that value equals the recorded frozen E1 balanced accuracy to absolute tolerance 1e-10. If it differs, E2 pairs fidelity with the newly measured score and records the discrepancy; it does not overwrite E1.
+
+All 89 reconstructed models have class-conditional SDMetrics fidelity measured on the frozen calibration-role reference, with generated diagnostic samples matched by class. The 19 original saved fits retain distinct provenance. The 42 primary cells that failed in E1 lack a valid selected classification outcome; they are not silently treated as missing artifacts or added to the primary comparison. Full five-generator Spearman statistics are reported only for budget/repetition strata with five valid paired outcomes. No bootstrap or TSTR is performed.
+
+The work runs on the existing EC2 alongside unrelated Harbor processes with two bounded test-gate workers; no E1 recovery worker was restarted.

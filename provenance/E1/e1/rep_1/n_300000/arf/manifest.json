@@ -1,0 +1,139 @@
+{
+  "budget": 300000,
+  "error": "RuntimeError: all hyperparameter trials failed",
+  "experiment": 1,
+  "method": "arf",
+  "repetition": 1,
+  "roles": {
+    "budget": 300000,
+    "requested_budget": 300000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          1612,
+          6764,
+          11806,
+          6441,
+          2501,
+          423,
+          453
+        ],
+        "ids_sha256": "e306658e47ab71309d9e924ecc9c777be7bdec719f0620cf6cfec13554e999a5",
+        "n": 30000
+      },
+      "fit": {
+        "counts": [
+          13555,
+          53544,
+          93479,
+          51382,
+          20739,
+          3689,
+          3612
+        ],
+        "ids_sha256": "ec0e1fe3abde3c45188c183d932640ad1f26edca3a2d71979a5b0956590a0785",
+        "n": 240000
+      },
+      "tune": {
+        "counts": [
+          1694,
+          6692,
+          11684,
+          6423,
+          2593,
+          462,
+          452
+        ],
+        "ids_sha256": "f167dcb13de5e001cd21c4485f63aac1e0fa6cfb2120f111bc2d24712bde3a4b",
+        "n": 30000
+      }
+    },
+    "status": "ok"
+  },
+  "seed": 271828,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 538, in run_e1\n    if best is None: raise RuntimeError(\"all hyperparameter trials failed\")\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: all hyperparameter trials failed\n",
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 132, in __init__\n    clf_1.fit(x, y)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 0,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 5501212,
+      "seconds": 180.10203678600374,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 132, in __init__\n    clf_1.fit(x, y)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 1,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 20,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 5544992,
+      "seconds": 180.03843582299305,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "UnsupportedARFError: class 0 has a singular FORDE continuous marginal",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 116, in fit\n    raise UnsupportedARFError(f\"class {c} has a singular FORDE continuous marginal\")\nbenchmark.models_arf.UnsupportedARFError: class 0 has a singular FORDE continuous marginal\n",
+      "number": 2,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 5,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 5544992,
+      "seconds": 107.03353063100076,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 132, in __init__\n    clf_1.fit(x, y)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 3,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 100,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 5544992,
+      "seconds": 180.35362848899968,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 81, in __init__\n    clf_0.fit(x, y)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 4,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 20,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 5544992,
+      "seconds": 180.0795081249962,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    }
+  ]
+}

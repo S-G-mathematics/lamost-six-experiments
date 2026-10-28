@@ -1,0 +1,1 @@
+These preserved agent drafts used an IST timestamp with a Z filename suffix and contained typography artifacts. Root-reviewed UTC-named replacements also clarify planned scientific cases, the failed frozen E1 origin of the 42 unavailable E2 cells, and retained provenance limitations. Scientific input files and counts were not changed.

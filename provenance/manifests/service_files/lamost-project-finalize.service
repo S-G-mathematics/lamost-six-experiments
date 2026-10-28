@@ -1,0 +1,13 @@
+[Unit]
+Description=LAMOST terminal project report and verified archives
+StartLimitIntervalSec=3600
+StartLimitBurst=3
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025
+Environment=OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
+ExecStart=/home/ubuntu/lamost_e1_migration_20261023/venv/bin/python -u /home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/finalize_project.py
+TimeoutStartSec=infinity
+StandardOutput=append:/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/logs/finalization.log
+StandardError=inherit

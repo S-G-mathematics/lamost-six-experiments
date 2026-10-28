@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "240534c976d8d2ba0a7d1e3ccfffcfb6a85b5e9e0acd5523b19ed81a6f0f331a",
+  "attempt_id": "1792988793_25f08aeb",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-26T04:26:57.202574+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7539548674827803,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        12960,
+        11215,
+        2844,
+        469,
+        223,
+        89,
+        407
+      ],
+      [
+        2612,
+        59882,
+        46278,
+        1760,
+        438,
+        72,
+        507
+      ],
+      [
+        531,
+        22029,
+        155333,
+        15330,
+        1271,
+        80,
+        244
+      ],
+      [
+        171,
+        954,
+        22233,
+        80458,
+        3041,
+        70,
+        89
+      ],
+      [
+        43,
+        119,
+        1306,
+        3087,
+        38620,
+        12,
+        15
+      ],
+      [
+        74,
+        69,
+        94,
+        75,
+        17,
+        7237,
+        114
+      ],
+      [
+        209,
+        245,
+        144,
+        80,
+        13,
+        92,
+        6745
+      ]
+    ],
+    "coverage": 0.898212,
+    "fit_key": "e4/rep_2/fit/treatment/random_forest/A_half_smote",
+    "per_class": {
+      "0": {
+        "coverage": 0.6563264437905485,
+        "n": 28207,
+        "recall": 0.4594604176268302,
+        "set_size": 1.6941893856135002
+      },
+      "1": {
+        "coverage": 0.8321724085379519,
+        "n": 111549,
+        "recall": 0.5368223829886417,
+        "set_size": 1.6483339160368986
+      },
+      "2": {
+        "coverage": 0.9572472769456621,
+        "n": 194818,
+        "recall": 0.7973236559250172,
+        "set_size": 1.6681056165241406
+      },
+      "3": {
+        "coverage": 0.8955763624130971,
+        "n": 107016,
+        "recall": 0.7518315018315018,
+        "set_size": 1.4325147641474172
+      },
+      "4": {
+        "coverage": 0.950650432850331,
+        "n": 43202,
+        "recall": 0.8939400953659553,
+        "set_size": 1.219943521133281
+      },
+      "5": {
+        "coverage": 0.9544270833333334,
+        "n": 7680,
+        "recall": 0.9423177083333333,
+        "set_size": 1.1061197916666667
+      },
+      "6": {
+        "coverage": 0.9345111583421891,
+        "n": 7528,
+        "recall": 0.8959883103081828,
+        "set_size": 1.2476089266737513
+      }
+    },
+    "pipeline_sha256": "320723a2f19e771f8024dc0af3e82b56716848af75ab1237ad85d8673412a376",
+    "score_kind": "probability",
+    "set_size": 1.561056,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.8049999999999999
+  },
+  "started_at": "2026-10-26T04:26:33.866974+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_2/eval/treatment/random_forest/A_half_smote",
+    "condition": "A_half_smote",
+    "dependencies": [
+      "e4/rep_2/fit/treatment/random_forest/A_half_smote"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_2/fit/treatment/random_forest/A_half_smote",
+    "generator": null,
+    "key": "e4/rep_2/eval/treatment/random_forest/A_half_smote",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 2,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 0,
+    "target_label": "A",
+    "treatment": "smote"
+  },
+  "task_sha256": "20be83393e70f00483bceeb8f8d074be75798f03f213bb11370ceccd40fd0914"
+}

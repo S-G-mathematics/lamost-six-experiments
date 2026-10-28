@@ -1,0 +1,106 @@
+{
+  "observed_utc": "2026-10-25T22:51:19.790962+00:00",
+  "observed_ist": "2026-10-26T04:21:19.791746+05:30",
+  "project_complete": false,
+  "scientific_outcome_counts": {
+    "3": {
+      "successful": 64,
+      "unavailable_dependency": 2,
+      "scientific_failure": 3
+    },
+    "4": {
+      "waiting_for_dependency": 628,
+      "unavailable_dependency": 3,
+      "successful": 1100,
+      "scientific_failure": 42
+    },
+    "5": {
+      "waiting_for_dependency": 631,
+      "unavailable_dependency": 23,
+      "successful": 298,
+      "running": 8
+    },
+    "6": {
+      "unavailable_dependency": 9,
+      "successful": 12
+    }
+  },
+  "actual_process_identity_verified_workers": [
+    {
+      "key": "e5/rep_1/eval/direct/kde/feature_noise_05",
+      "kind": "eval"
+    },
+    {
+      "key": "e5/rep_1/eval/direct/kde/feature_noise_10",
+      "kind": "eval"
+    },
+    {
+      "key": "e5/rep_1/eval/direct/kde/feature_noise_20",
+      "kind": "eval"
+    },
+    {
+      "key": "e5/rep_1/eval/direct/kde/label_noise_05",
+      "kind": "eval"
+    },
+    {
+      "key": "e5/rep_1/eval/direct/kde/label_noise_10",
+      "kind": "eval"
+    },
+    {
+      "key": "e5/rep_1/eval/direct/kde/label_noise_20",
+      "kind": "eval"
+    },
+    {
+      "key": "e5/rep_1/eval/direct/kde/missingness_05",
+      "kind": "eval"
+    },
+    {
+      "key": "e5/rep_1/eval/direct/kde/missingness_10",
+      "kind": "eval"
+    },
+    {
+      "key": "e4/rep_1/fit/direct/random_forest/QSO_tenth",
+      "kind": "fit"
+    }
+  ],
+  "operationally_invalid_current_tasks": 0,
+  "latest_evaluation_audit": {
+    "generated_utc": "2026-10-25T22:48:49.518682+00:00",
+    "audited_entries": 1474,
+    "physical_outcome_entries": 1359,
+    "alias_entries": 115,
+    "issue_count": 0,
+    "blocking_review_issue_count": 0,
+    "diagnostic_limitations_count": 18,
+    "validated_supersession_count": 9
+  },
+  "milestones": [
+    "All168 current E4 append datasets pass the corrected independent validator; no scientific input changes.",
+    "46 focused deployed checks pass for append validation, reason-text curation, archive collection, candidate source/provenance binding and generated documentation.",
+    "Real metadata collection verifies11 scientific provenance sources/12 archive views and mutation guards without materializing or changing frozen source manifests.",
+    "Real report curation removes exactly2 private process-receipt cells while retaining every other CSV cell/header and raw source file unchanged.",
+    "Current source inventory binds39 Python modules and17 engineering tests for future candidate review.",
+    "Laptop delivery watcher PID identity was reverified; no final package exists yet."
+  ],
+  "current_source_sha256": {
+    "controller.py": "de136ad656ab0f8e48c7c16a90fa0ab2396eae9d4dca71dc2f218f06608ef127",
+    "audit_artifacts.py": "dd954630a5f74e5634cca908e4e8d1a4c9ae13088f1c2cbaa30eed8a9dbfaffb",
+    "finalize_project.py": "e7dc2d56b1a237a238531e696c1dea69151d7e26d88ca6eaa6cc7e8c12adc849",
+    "final_review.py": "66e31d53f7ddebdc305b05a49c4b37b1dccf4d4bd4479ff61309ac57f3c2bc4f",
+    "reporting.py": "135a66e16a8962d3fa9ac31cca560dd0f850ba5ff41ada3fb1d073d86bd06deb",
+    "reason_text_curation.py": "4054ca02f61a34a04c8165d8f90f5b5bb8915e83baf261ebe368659a991a900e"
+  },
+  "ten_frozen_scientific_sources_unchanged": true,
+  "remaining_required": [
+    "Continue all pending E4/E5 cells under existing controller without ordinary terminal retries.",
+    "Full selected-model/artifact audit at final safe headroom; evaluation-only audit and72-fit subset do not prove all selected models.",
+    "Final E4/E5 and cross-experiment report/tables/figures, actual candidate-bound root scientific/visual review.",
+    "Verified full EC2 archive and compact reports ZIP; laptop delivery verification; exact owned worker/watcher shutdown."
+  ],
+  "key_receipts": [
+    "engineering_audits/REPORT_VALIDATION_ARCHIVE_BUNDLE_APPLIED_20261026.json",
+    "engineering_audits/PUBLIC_PROVENANCE_REAL_INPUT_COLLECTION_CHECK_20261026.json",
+    "engineering_audits/E4_APPEND_SCHEMA_CORRECTED_REAUDIT_20261026.json"
+  ],
+  "no_overall_archive_created_or_completion_claimed": true
+}

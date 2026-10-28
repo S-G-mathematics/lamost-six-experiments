@@ -1,0 +1,80 @@
+{
+  "active_E6_processes_observed": 0,
+  "liveness_basis": "actual procfs PID/start-tick verification and argv process inventory, not heartbeat files",
+  "observed_utc": "2026-10-27T21:25:13.518836+00:00",
+  "outcomes": {
+    "scientific_failure": 3,
+    "successful": 12,
+    "unavailable_dependency": 6
+  },
+  "primary": {
+    "planned": 6,
+    "scientific_failure": 3,
+    "successful": 0,
+    "unavailable_dependency": 3
+  },
+  "primary_artifact_evidence": [
+    {
+      "attempt_count": 2,
+      "implementation_defect_retry_count": 1,
+      "key": "e6/rep_1/ensemble/equal",
+      "outcome": "scientific_failure",
+      "reason": "prediction_timeout during test",
+      "result_sha256": "644c757902da62c35ba60e782800ab8205536144adbe728688778f8a47fbbe36",
+      "valid_ensemble_test_result": false
+    },
+    {
+      "attempt_count": 2,
+      "implementation_defect_retry_count": 1,
+      "key": "e6/rep_1/ensemble/learned",
+      "outcome": "unavailable_dependency",
+      "reason": "required shared E6 test posterior phase previously terminated under the fixed timeout/RSS policy",
+      "result_sha256": "54469f5fa06c6ce698375352c7e85bbef5500ef50c6a67cb249ba18d6db45665",
+      "valid_ensemble_test_result": false
+    },
+    {
+      "attempt_count": 2,
+      "implementation_defect_retry_count": 1,
+      "key": "e6/rep_2/ensemble/equal",
+      "outcome": "scientific_failure",
+      "reason": "prediction_timeout during test",
+      "result_sha256": "71425bddaa67b159044dc356ffb249ecea0169d488e6f8540713d4ebde5f5f92",
+      "valid_ensemble_test_result": false
+    },
+    {
+      "attempt_count": 2,
+      "implementation_defect_retry_count": 1,
+      "key": "e6/rep_2/ensemble/learned",
+      "outcome": "unavailable_dependency",
+      "reason": "required shared E6 test posterior phase previously terminated under the fixed timeout/RSS policy",
+      "result_sha256": "708fa3365fd843b5e6d883b1f92c3c65df0da21da6dcf25f75beee4027a21054",
+      "valid_ensemble_test_result": false
+    },
+    {
+      "attempt_count": 2,
+      "implementation_defect_retry_count": 1,
+      "key": "e6/rep_3/ensemble/equal",
+      "outcome": "scientific_failure",
+      "reason": "prediction_timeout during test",
+      "result_sha256": "37ee8fee7efd7395b22aa90f0749dedeb087b8ca9ea83fd99a295df0d21e88fe",
+      "valid_ensemble_test_result": false
+    },
+    {
+      "attempt_count": 2,
+      "implementation_defect_retry_count": 1,
+      "key": "e6/rep_3/ensemble/learned",
+      "outcome": "unavailable_dependency",
+      "reason": "required shared E6 test posterior phase previously terminated under the fixed timeout/RSS policy",
+      "result_sha256": "327118c2f16eab4fd09fff4f56f3d1d218f1eeb5ef5520deb3aa3fae317ce0ec",
+      "valid_ensemble_test_result": false
+    }
+  ],
+  "reference_aliases": {
+    "planned": 15,
+    "successful": 12,
+    "unavailable_dependency": 3
+  },
+  "schema": "lamost-E6-terminal-observed-process-evidence/2",
+  "source_freeze_sha256": "9994b586264f7b36c6355e051fac5ad2f17a3e4738dc2d4f7e036b9f08e96a00",
+  "status": "all21_ledger_entries_terminal_no_actual_E6_worker_or_phase_process"
+}

@@ -1,0 +1,283 @@
+{
+  "best_tuning_balanced_accuracy": 0.756643876793705,
+  "budget": 100000,
+  "calibration_n": 10000,
+  "calibration_prediction_seconds": 1.002773159998469,
+  "conformal_alpha": 0.1,
+  "conformal_nonconformity_threshold": 0.7862845659255981,
+  "duplicate_trials": 1,
+  "experiment": 1,
+  "failed_trials": 3,
+  "final_fit_seconds": 100.66001368800062,
+  "fit_seconds_total": 1067.4114109849907,
+  "invalid_support_fallback_count": {
+    "calibration": 0,
+    "test": 0,
+    "tuning": 0
+  },
+  "mean_prediction_set_size": 1.567964,
+  "memory_limit_exceeded": false,
+  "method": "random_forest",
+  "peak_rss_kib": 2785432,
+  "repetition": 1,
+  "resource_profile": "native8gib8cores",
+  "roles": {
+    "budget": 100000,
+    "requested_budget": 100000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          514,
+          2229,
+          3978,
+          2167,
+          829,
+          134,
+          149
+        ],
+        "ids_sha256": "65286b9bf037dca80b459a56918ccbb2d554d74764b74eeaf0a0e37dbd85e163",
+        "n": 10000
+      },
+      "fit": {
+        "counts": [
+          4519,
+          17848,
+          31159,
+          17127,
+          6913,
+          1230,
+          1204
+        ],
+        "ids_sha256": "cb6ce617a013b9940d6d90870e54c081c670883125b422cdf515f4a9e33e2ac4",
+        "n": 80000
+      },
+      "tune": {
+        "counts": [
+          565,
+          2231,
+          3894,
+          2141,
+          864,
+          154,
+          151
+        ],
+        "ids_sha256": "16365dbeb96e1c1df0aaa2202b2b87ff6aeea8213358de4be54acf12d3cf86ac",
+        "n": 10000
+      }
+    },
+    "status": "ok"
+  },
+  "score_kind": "probability",
+  "seed": 271828,
+  "selected_params": {
+    "max_depth": 20,
+    "max_features": "sqrt",
+    "min_samples_leaf": 1,
+    "n_estimators": 500
+  },
+  "selected_tuning_prediction_seconds": 1.03407569299452,
+  "status": "complete",
+  "successful_trials": 6,
+  "test_coverage": 0.897058,
+  "test_metrics": {
+    "balanced_accuracy": 0.7535451483416725,
+    "per_class": {
+      "0": {
+        "coverage": 0.6715708866593398,
+        "n": 28207,
+        "recall": 0.48158258588293684,
+        "set_size": 1.757826071542525
+      },
+      "1": {
+        "coverage": 0.8207514186590646,
+        "n": 111549,
+        "recall": 0.45446395754332175,
+        "set_size": 1.6660749984311827
+      },
+      "2": {
+        "coverage": 0.9621082240860701,
+        "n": 194818,
+        "recall": 0.8438901949511852,
+        "set_size": 1.6740752907842191
+      },
+      "3": {
+        "coverage": 0.8886334753681693,
+        "n": 107016,
+        "recall": 0.7368617776781042,
+        "set_size": 1.4352900500859684
+      },
+      "4": {
+        "coverage": 0.9502106383963705,
+        "n": 43202,
+        "recall": 0.8938475070598584,
+        "set_size": 1.1995740937919541
+      },
+      "5": {
+        "coverage": 0.9645833333333333,
+        "n": 7680,
+        "recall": 0.957421875,
+        "set_size": 1.058203125
+      },
+      "6": {
+        "coverage": 0.9350425079702445,
+        "n": 7528,
+        "recall": 0.9067481402763018,
+        "set_size": 1.1769394261424018
+      }
+    }
+  },
+  "test_prediction_seconds": 39.751299929004745,
+  "trial_budget": 10,
+  "trials": [
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_basic.py\", line 141, in fit\n    self.estimator.fit(x, y)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 0,
+      "params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "peak_rss_kib": 2250668,
+      "seconds": 180.37299785698997,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "max_depth": 20,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "peak_rss_kib": 2639312,
+      "seconds": 101.55653378699208,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.756643876793705
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "max_depth": 10,
+        "max_features": "sqrt",
+        "min_samples_leaf": 5,
+        "n_estimators": 200
+      },
+      "peak_rss_kib": 2639708,
+      "seconds": 25.361492515003192,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6857108674028
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_basic.py\", line 141, in fit\n    self.estimator.fit(x, y)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 3,
+      "params": {
+        "max_depth": 10,
+        "max_features": 1.0,
+        "min_samples_leaf": 5,
+        "n_estimators": 500
+      },
+      "peak_rss_kib": 2639708,
+      "seconds": 180.2375505270029,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 5,
+        "n_estimators": 200
+      },
+      "peak_rss_kib": 2639708,
+      "seconds": 97.99499033000029,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.7497780790958662
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 5,
+      "params": {
+        "max_depth": 20,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "peak_rss_kib": 2639708,
+      "seconds": 0.0026382729993201792,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.756643876793705
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 6,
+      "params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 20,
+        "n_estimators": 500
+      },
+      "peak_rss_kib": 2639708,
+      "seconds": 86.13051966601051,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.7127617548559296
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 7,
+      "params": {
+        "max_depth": 20,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "peak_rss_kib": 2639708,
+      "seconds": 38.65721621499688,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.7540435183675163
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_basic.py\", line 141, in fit\n    self.estimator.fit(x, y)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 8,
+      "params": {
+        "max_depth": 20,
+        "max_features": 1.0,
+        "min_samples_leaf": 20,
+        "n_estimators": 500
+      },
+      "peak_rss_kib": 2639708,
+      "seconds": 180.21702021999226,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 9,
+      "params": {
+        "max_depth": 10,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "peak_rss_kib": 2639708,
+      "seconds": 176.88045159500325,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.7003585223234218
+    }
+  ]
+}

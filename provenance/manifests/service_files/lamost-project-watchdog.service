@@ -1,0 +1,6 @@
+[Unit]
+Description=LAMOST process-identity recovery watchdog
+
+[Service]
+Type=oneshot
+ExecStart=/home/ubuntu/lamost_e1_migration_20261023/venv/bin/python /home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/controller.py watchdog

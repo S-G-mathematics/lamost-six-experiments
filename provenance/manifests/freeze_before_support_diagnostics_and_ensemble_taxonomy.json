@@ -1,0 +1,60 @@
+{
+  "airbag_method": "ownership lock, atomic checkpoints, actual-process supervision, bounded recovery, five-minute watchdog",
+  "airbag_skill_available": false,
+  "amendments": [
+    {
+      "affected_keys": [
+        "e3/rep_1/fit/gmm",
+        "e3/rep_2/fit/gmm",
+        "e3/rep_1/fit/copula",
+        "e3/rep_3/fit/gmm",
+        "e3/rep_2/fit/copula",
+        "e3/rep_3/fit/copula",
+        "e3/rep_1/fit/chow_liu",
+        "e3/rep_2/fit/chow_liu",
+        "e3/rep_3/fit/chow_liu"
+      ],
+      "models_refitted": 0,
+      "observed_utc": "2026-10-25T04:48:47.882251+00:00",
+      "reason": "Worker validator needed frozen project import path to reopen already fitted pipelines",
+      "repair_validation": "All9 existingpipeline/selection pairs validated with new validator; no classifierfit",
+      "scientific_change": false
+    },
+    {
+      "observed_utc": "2026-10-25T04:50:00.610092+00:00",
+      "reason": "Pass immutable frozen task definition to workers; operational metadata cannot alter checkpoint identity. Evaluate validated selected fits incrementally using fixed non-adaptive scheduler priority.",
+      "scientific_selection_changed": false,
+      "workers_refitted": 0
+    },
+    {
+      "active_jobs_interrupted": 0,
+      "new_scientific_retries": 0,
+      "observed_utc": "2026-10-25T05:00:24.895521+00:00",
+      "reason": "Persist exact optimizer sampler state for recovery; hardlink immutable validated artifacts; reject missing generator class counts; reserve archive storage and measure CPU headroom; distinguish outer-supervisor defect from scientific phase limits",
+      "scientific_domains_metrics_roles_limits_changed": false,
+      "validation": "20 focusedtests pass; sampler restored nextproposal exactlymatches uninterruptedstudy; allactiveworkers finishedsuccessfully beforeamendment"
+    }
+  ],
+  "bootstrap": false,
+  "frozen_utc": "2026-10-25T04:46:31.018995+00:00",
+  "plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+  "protocol_version": "LAMOST-later-v1-20261025",
+  "resource_policy": {
+    "max_workers": 2,
+    "native_threads": 1,
+    "phase_seconds": 600,
+    "prediction_chunk_rows": 50000,
+    "termination_grace_seconds": 30,
+    "trial_seconds": 600,
+    "worker_memory_gib": 10
+  },
+  "source_sha256": {
+    "cohorts.py": "f60c0b9dab4c4c4627cc67fe50aeed29ac75277b17efdc45cdabe1e4edb60b9d",
+    "controller.py": "cd0bf70495b551b62ec1ab8ca5bfabbdcc853a3a37386f1b54dc606ddaca441a",
+    "ensemble.py": "a236d5e7c8a8ed33259c498d1fea3a901f7fd603542a2e140ac7c86146596e7c",
+    "phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+    "science.py": "b27f03366bc3fde6b55682c950d12d30c8d9bc194c8a544e286e9c78522bd7ce",
+    "worker.py": "4ad8a8d68fa876b2b17308bf54600aac865c894f4202d6aeb1e0e9fa1ec21327"
+  },
+  "test_information_history": "E1/E2 fixed test results already observed; later plans frozen before new test evaluations"
+}

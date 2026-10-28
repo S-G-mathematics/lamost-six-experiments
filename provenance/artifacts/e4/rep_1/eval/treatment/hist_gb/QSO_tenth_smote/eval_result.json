@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "e3bb4f56a95ca0af52fe8dfe40e27e7b6cb6f23f01f8acfe7a1ccaf829283fd3",
+  "attempt_id": "1792956578_fb6158d0",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-25T19:30:29.416977+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7391946235093452,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        15195,
+        8062,
+        3874,
+        527,
+        160,
+        96,
+        293
+      ],
+      [
+        2948,
+        52767,
+        53244,
+        1778,
+        297,
+        81,
+        434
+      ],
+      [
+        608,
+        16632,
+        160532,
+        15821,
+        894,
+        96,
+        235
+      ],
+      [
+        159,
+        701,
+        22284,
+        80805,
+        2916,
+        75,
+        76
+      ],
+      [
+        57,
+        70,
+        1339,
+        3123,
+        38590,
+        13,
+        10
+      ],
+      [
+        16,
+        51,
+        95,
+        48,
+        16,
+        7399,
+        55
+      ],
+      [
+        665,
+        736,
+        350,
+        115,
+        13,
+        177,
+        5472
+      ]
+    ],
+    "coverage": 0.898906,
+    "fit_key": "e4/rep_1/fit/treatment/hist_gb/QSO_tenth_smote",
+    "per_class": {
+      "0": {
+        "coverage": 0.6833055624490375,
+        "n": 28207,
+        "recall": 0.5386960683518276,
+        "set_size": 1.606374304250718
+      },
+      "1": {
+        "coverage": 0.8378380801262225,
+        "n": 111549,
+        "recall": 0.4730387542694242,
+        "set_size": 1.6745735058135887
+      },
+      "2": {
+        "coverage": 0.9614460676118223,
+        "n": 194818,
+        "recall": 0.8240101017359792,
+        "set_size": 1.7023375663439724
+      },
+      "3": {
+        "coverage": 0.890932197054646,
+        "n": 107016,
+        "recall": 0.7550740076250281,
+        "set_size": 1.3938569933467893
+      },
+      "4": {
+        "coverage": 0.9418082496180732,
+        "n": 43202,
+        "recall": 0.8932456830702282,
+        "set_size": 1.1529095875190964
+      },
+      "5": {
+        "coverage": 0.9686197916666667,
+        "n": 7680,
+        "recall": 0.9634114583333333,
+        "set_size": 1.0407552083333333
+      },
+      "6": {
+        "coverage": 0.7891870350690755,
+        "n": 7528,
+        "recall": 0.7268862911795961,
+        "set_size": 1.3752656748140277
+      }
+    },
+    "pipeline_sha256": "9ceb8b4cf0f7af13b5338ad6ad054aa847e67676b9f6b81202f9ef490df480ff",
+    "score_kind": "probability",
+    "set_size": 1.562146,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.8012435214389808
+  },
+  "started_at": "2026-10-25T19:29:38.142632+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_1/eval/treatment/hist_gb/QSO_tenth_smote",
+    "condition": "QSO_tenth_smote",
+    "dependencies": [
+      "e4/rep_1/fit/treatment/hist_gb/QSO_tenth_smote"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_1/fit/treatment/hist_gb/QSO_tenth_smote",
+    "generator": null,
+    "key": "e4/rep_1/eval/treatment/hist_gb/QSO_tenth_smote",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "hist_gb",
+    "rate": null,
+    "ratio": 0.1,
+    "rep": 1,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 6,
+    "target_label": "QSO",
+    "treatment": "smote"
+  },
+  "task_sha256": "2395250e7271c9edebad68e578d36b13e854549424059ab3a5787cfdb411e3d3"
+}

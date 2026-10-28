@@ -1,0 +1,79 @@
+{
+  "airbag_method": "ownership lock, atomic checkpoints, actual-process supervision, bounded recovery, five-minute watchdog",
+  "airbag_skill_available": false,
+  "amendments": [
+    {
+      "affected_keys": [
+        "e3/rep_1/fit/gmm",
+        "e3/rep_2/fit/gmm",
+        "e3/rep_1/fit/copula",
+        "e3/rep_3/fit/gmm",
+        "e3/rep_2/fit/copula",
+        "e3/rep_3/fit/copula",
+        "e3/rep_1/fit/chow_liu",
+        "e3/rep_2/fit/chow_liu",
+        "e3/rep_3/fit/chow_liu"
+      ],
+      "models_refitted": 0,
+      "observed_utc": "2026-10-25T04:48:47.882251+00:00",
+      "reason": "Worker validator needed frozen project import path to reopen already fitted pipelines",
+      "repair_validation": "All9 existingpipeline/selection pairs validated with new validator; no classifierfit",
+      "scientific_change": false
+    },
+    {
+      "observed_utc": "2026-10-25T04:50:00.610092+00:00",
+      "reason": "Pass immutable frozen task definition to workers; operational metadata cannot alter checkpoint identity. Evaluate validated selected fits incrementally using fixed non-adaptive scheduler priority.",
+      "scientific_selection_changed": false,
+      "workers_refitted": 0
+    },
+    {
+      "active_jobs_interrupted": 0,
+      "new_scientific_retries": 0,
+      "observed_utc": "2026-10-25T05:00:24.895521+00:00",
+      "reason": "Persist exact optimizer sampler state for recovery; hardlink immutable validated artifacts; reject missing generator class counts; reserve archive storage and measure CPU headroom; distinguish outer-supervisor defect from scientific phase limits",
+      "scientific_domains_metrics_roles_limits_changed": false,
+      "validation": "20 focusedtests pass; sampler restored nextproposal exactlymatches uninterruptedstudy; allactiveworkers finishedsuccessfully beforeamendment"
+    },
+    {
+      "affected_existing_evaluations": 9,
+      "changed_files": [
+        "controller.py",
+        "worker.py",
+        "science.py",
+        "ensemble.py",
+        "ensemble_maintenance_patch.py"
+      ],
+      "classifier_refits": 0,
+      "observed_utc": "2026-10-25T05:27:43.446963+00:00",
+      "prior_valid_predictions_preserved": true,
+      "reason": "Retain invalid-support fallback counts/masks and exact earlier prediction gate; classify E6 phase resource limits as scientific terminal and cache shared terminal prediction dependency",
+      "require_earlier_predictions_sets_threshold_metrics_identical": true,
+      "scientific_domains_metrics_roles_limits_changed": false,
+      "validation": "24 focusedtests pass; support-instrumentation temporaryfixture verifies unchanged scores/conformal; E6 resourcefailurecache fixtures pass",
+      "workers_interrupted": 0
+    }
+  ],
+  "bootstrap": false,
+  "frozen_utc": "2026-10-25T04:46:31.018995+00:00",
+  "plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+  "protocol_version": "LAMOST-later-v1-20261025",
+  "resource_policy": {
+    "max_workers": 2,
+    "native_threads": 1,
+    "phase_seconds": 600,
+    "prediction_chunk_rows": 50000,
+    "termination_grace_seconds": 30,
+    "trial_seconds": 600,
+    "worker_memory_gib": 10
+  },
+  "source_sha256": {
+    "cohorts.py": "f60c0b9dab4c4c4627cc67fe50aeed29ac75277b17efdc45cdabe1e4edb60b9d",
+    "controller.py": "ab4192ec096d72d09d7c5dbd7625fc08fda603adf1a2e6d4320b6a670acdaeff",
+    "ensemble.py": "265628d4919a10ca9ef4f6a21afd2e329df5dd11e18f37f910fe0214e7de7177",
+    "ensemble_maintenance_patch.py": "0d1d0eefc1d41dcc6609b2b409f2570dd1970f44c7367c5e5eab7955b4154a8e",
+    "phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+    "science.py": "845a4477c55a6d9dfb9ce14ae2f34e68db25fac3501715ac7aaf895b7dfd5a00",
+    "worker.py": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18"
+  },
+  "test_information_history": "E1/E2 fixed test results already observed; later plans frozen before new test evaluations"
+}

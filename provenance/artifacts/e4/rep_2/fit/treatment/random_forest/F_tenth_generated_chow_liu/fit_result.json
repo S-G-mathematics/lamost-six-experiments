@@ -1,0 +1,74 @@
+{
+  "artifact_sha256": "1c1938f484f480a33c5c6bc3643818d7616279d6a321c886b97531c68737153c",
+  "attempt_id": "1793105946_0c0387ff",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-27T13:23:02.903196+00:00",
+  "reason": null,
+  "result": {
+    "class_counts": [
+      5676,
+      22470,
+      39227,
+      21547,
+      8702,
+      1548,
+      1515
+    ],
+    "fit_seconds": 126.17353817995172,
+    "params": {
+      "max_depth": null,
+      "max_features": "sqrt",
+      "min_samples_leaf": 1,
+      "n_estimators": 500
+    },
+    "phase_supervision": {
+      "exit_code": 0,
+      "finished_at": "2026-10-27T13:23:02.526061+00:00",
+      "peak_tree_rss_kib": 3379928,
+      "phase": "final_fit",
+      "reason": null,
+      "seconds": 143.0192280440824
+    },
+    "pipeline_sha256": "1c1938f484f480a33c5c6bc3643818d7616279d6a321c886b97531c68737153c",
+    "seed": 302493694,
+    "source_sha256": "a2bc563d76076aecf4ef1418eba7f4044e759dd5e6067f6c888b14e9e23006b1",
+    "status": "success",
+    "training_X_sha256": "d45fff6d7bfc04063d6bdc0b983c584fa7535579f45357661758d1cdfc6aa468",
+    "training_ids_sha256": "d09fe7822bc31aceee497456246842400a7ec6c27f5a9b390785bc3716ee1e75",
+    "training_rows": 100685,
+    "training_y_sha256": "d945639f1d1231ea50202c83d0c1badcb2406712ed124a903150cac4e6610c6d"
+  },
+  "started_at": "2026-10-27T12:59:06.555416+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_chow_liu",
+    "clean_control_key": "e3/rep_2/fit/real/random_forest",
+    "condition": "F_tenth_generated_chow_liu",
+    "dependencies": [
+      "e4/rep_2/append/F_tenth/chow_liu"
+    ],
+    "experiment": 4,
+    "generator": "chow_liu",
+    "key": "e4/rep_2/fit/treatment/random_forest/F_tenth_generated_chow_liu",
+    "kind": "fit",
+    "mechanism": null,
+    "method": "random_forest",
+    "optimizer_seed": 333908602,
+    "rate": null,
+    "ratio": null,
+    "rep": 2,
+    "route": "treatment",
+    "scientific_case": false,
+    "seed": 302493694,
+    "selection_key": null,
+    "selection_mode": "tune",
+    "selection_policy": "tune_each_treatment_on_same_frozen_tuning_role_with_equal_10_trial_budget",
+    "selection_source": null,
+    "target_class": null,
+    "train_key": "e4/rep_2/append/F_tenth/chow_liu",
+    "train_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_2/append/F_tenth/chow_liu/data.npz",
+    "treatment": "generated_chow_liu",
+    "trials": 10
+  },
+  "task_sha256": "16933727d619878ec7a85e4369d622b6c4349e350a7d59da6b709ba04b21bdac"
+}

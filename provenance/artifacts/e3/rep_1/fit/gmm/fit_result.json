@@ -1,0 +1,101 @@
+{
+  "artifact_sha256": "40e09287b8fad6c1377465a922185f96983b434dc96447f8579b2c21fff7cdf2",
+  "attempt_id": "1792903732_90aa5fa5",
+  "engine_code_sha256": "7ea971ea1dfbde6e60b29d30305e8c11cf398e7f49f7a8023b7f06f5ef632851",
+  "finished_at": "2026-10-25T04:48:53.733691+00:00",
+  "reason": null,
+  "result": {
+    "class_counts": [
+      4519,
+      17848,
+      31159,
+      17127,
+      6913,
+      1230,
+      1204
+    ],
+    "params": {
+      "covariance_type": "full",
+      "n_components": 8,
+      "reg_covar": 5.316600191266397e-06
+    },
+    "phase_supervision": {
+      "exit_code": 0,
+      "finished_at": "2026-10-25T04:48:53.732733+00:00",
+      "peak_tree_rss_kib": 172800,
+      "phase": "final_fit",
+      "reason": null,
+      "seconds": 1.0641693400102668
+    },
+    "reused": true,
+    "seed": 272728,
+    "source": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_1/gmm/pipeline.joblib",
+    "source_sha256": "79db73160ed25cd1ab8f3849d968bc8ed4e1895a1ce500261e8c18156dc8f513",
+    "status": "success",
+    "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91"
+  },
+  "started_at": "2026-10-25T04:48:52.667306+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e3/rep_1/fit/gmm",
+    "condition": null,
+    "dependencies": [],
+    "experiment": 3,
+    "generator": null,
+    "key": "e3/rep_1/fit/gmm",
+    "kind": "fit",
+    "mechanism": null,
+    "method": "gmm",
+    "observed_utc": "2026-10-25T04:47:09.351604+00:00",
+    "optimizer_seed": 1726917092,
+    "rate": null,
+    "ratio": null,
+    "rep": 1,
+    "reuse_pipeline": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_1/gmm/pipeline.joblib",
+    "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+    "route": "generator",
+    "scientific_case": false,
+    "seed": 272728,
+    "selection_key": null,
+    "selection_mode": "tune",
+    "selection_source": null,
+    "source_metadata": {
+      "fit_seed": 272728,
+      "gate": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_1/gmm/test_reproduction_gate.json",
+      "gate_sha256": "a42d08bea332cf05ea2e2d2ea6dace467b52005c4058ffeccb81fc7cc2da3d82",
+      "gate_status": "reproduced_original_test_balanced_accuracy",
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_1/gmm/pipeline.joblib",
+      "preprocessing_note": "actual imputer medians and scaler mean/scale match recomputation on the exact cached 80k fitting rows (absolute tolerance 1e-12); 10k tuning and 10k calibration counts validated; no test rows in preprocessing",
+      "provenance": "E2 reconstructed fit; exact matching role-membership hash, selected parameters and reconstructed pipeline hash validated; not the omitted original E1 pipeline",
+      "reconstruction": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_1/gmm/reconstruction.json",
+      "reconstruction_sha256": "1f17b74968f63c8eabdb479fb34bcac498e9de397ab1e5660cf743f845967ed9",
+      "selected_params_match": true,
+      "source_role_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334"
+    },
+    "source_sha256": "79db73160ed25cd1ab8f3849d968bc8ed4e1895a1ce500261e8c18156dc8f513",
+    "started_epoch": 1792903627.2249577,
+    "superseded_operational_attempts": [
+      {
+        "attempt_id": "c0fda3f667644ecea64c4e88bc1aafd5",
+        "reason": "ModuleNotFoundError: No module named 'benchmark'",
+        "superseded_utc": "2026-10-25T04:48:47.882251+00:00"
+      }
+    ],
+    "target_class": null,
+    "train_key": null,
+    "training_counts": [
+      4519,
+      17848,
+      31159,
+      17127,
+      6913,
+      1230,
+      1204
+    ],
+    "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+    "training_rows": 80000,
+    "treatment": null,
+    "trials": 10
+  },
+  "task_sha256": "b61458fb2061060250edc76b6e9520bd84f6c839fce50ddf292be2dcffd47138"
+}

@@ -1,0 +1,833 @@
+{
+  "amendment": {
+    "affected_cohort_helpers_to_regenerate": 42,
+    "amendment_id": "e4_untreated_cohort_weight_schema_repair_20261025",
+    "dependent_unavailability_records_reset": 225,
+    "invalid_fit_attempt_tasks_to_supersede": 27,
+    "invalid_terminal_fit_failures_superseded": 25,
+    "live_E3_RF_interrupted": false,
+    "observed_utc": "2026-10-25T17:06:48.425859+00:00",
+    "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+    "reason": "Untreated cohorts must not carry original-proportion sample weights; weighting is restricted to explicit weighted treatments. Generator rejections from this invalid input are not scientific model failures.",
+    "science_and_phase_worker_engine_sha256_unchanged": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+    "scope": "E4 producer schema and invalid attempt supersession only",
+    "source_after_sha256": {
+      "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d"
+    },
+    "source_before_sha256": {
+      "cohorts.py": "f60c0b9dab4c4c4627cc67fe50aeed29ac75277b17efdc45cdabe1e4edb60b9d"
+    },
+    "task_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+    "unaffected_weighted_ros_smote_helpers_retained": true,
+    "validation": "root reviewed exact producer-only diff; seven staged engineering tests passed; no model fitting in tests"
+  },
+  "bootstrap": false,
+  "cohort_container_supersessions": [
+    {
+      "original_container_sha256": "6bd7f0e76fe2124fe13de4336bdaff25929a344444420ad8114c04ef07dd2a15",
+      "original_validation_sha256": "42070b8ae400e833cb8a33aaf8494ccd9d1623774d658fa53aabc3892585735e",
+      "original_weight_max": 1.999557522123894,
+      "original_weight_min": 0.9707971586424624,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/A_half/data.npz",
+      "shared_array_sha256": {
+        "X": "0d073c936e331d7416d67b15ca6296a2c3057834f2b3b6be2c180244f127bc59",
+        "ids": "12ec1c57ed09f1539b371438351a3d75acd99ed59ee78dd1dc16833cb207df48",
+        "y": "eed4c9daa4712eaf9fa4307bf37aca685355cf96d4d3d6a2efb5e4599762b8a9"
+      },
+      "task_key": "e4/rep_1/cohort/A_half"
+    },
+    {
+      "original_container_sha256": "f36defb048d9f2a4f9ca838462a6f758a673f7a05702c9172b6256d22555e51e",
+      "original_validation_sha256": "83b725a601c364a9b1d7f298a42a0fa706ccb1c575e610f112a4cae1ffcc8093",
+      "original_weight_max": 9.99778761061947,
+      "original_weight_min": 0.9487785657998422,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/A_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "e9882e3466a03a1468c59835a09565f4c59ec5eacf2b7dabfe761539a160b9ca",
+        "ids": "39f148f0ad45c92d9584f3596930e67530a13db23ed51bc418e1c0fa5dd4e7b4",
+        "y": "cbcd9dc5fedac3343d4d428522ae79b4b519b344ae343c447d56c96b073cb726"
+      },
+      "task_key": "e4/rep_1/cohort/A_tenth"
+    },
+    {
+      "original_container_sha256": "819af699c2a6f0c796a9c87301807228fedd7633bb2f9d9cae8e940f510fc01a",
+      "original_validation_sha256": "7276dd477f819709ea344358c2ba07820dad974a2736fd2b479e60a4c8457171",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.8742004264392325,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/F_half/data.npz",
+      "shared_array_sha256": {
+        "X": "4716167e88fcae7a4a85d3a190364b9a379c4977f1d255969315f7fdb5aea49d",
+        "ids": "3456baa5daae3076ca986d21f321b7800eed09a3b55c820fcdcc362966d0160a",
+        "y": "ce45b3c7ee6a53c4cc738346987c64f2becb680f973391a22c3a7d6fd6cdf638"
+      },
+      "task_key": "e4/rep_1/cohort/F_half"
+    },
+    {
+      "original_container_sha256": "22da768427cc39ac7907afbcbc2bfe890c168cd866d8bba49cb5d837972d19cc",
+      "original_validation_sha256": "6ef39ed5e349dc2ee5a86a47e900754b491bfef2fd321b58ccb137f57f3a6494",
+      "original_weight_max": 9.998879551820728,
+      "original_weight_min": 0.7945736434108527,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/F_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "30b26a5be5f678c1237c689fd373106d9fcc7b0a92868d5048f05491c0941aaa",
+        "ids": "6b023d406a9a42782b545c770d7ba363f4e20d65e297e305d2b8ed0e4eae78fa",
+        "y": "ff2415b6535117bcd2ca112f57a74219b30ff37cf2fed1a6bade187927d52b65"
+      },
+      "task_key": "e4/rep_1/cohort/F_tenth"
+    },
+    {
+      "original_container_sha256": "4ff9e6451c0310562925f8f6023d85d8aec89ea16f5d659141abf92816f879f7",
+      "original_validation_sha256": "2c439253264ea0e5c099e5603bc7f67964053fbeb2a227d719f6a5edc4fd83eb",
+      "original_weight_max": 2.0000000000000004,
+      "original_weight_min": 0.9917627677100497,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/GALAXY_half/data.npz",
+      "shared_array_sha256": {
+        "X": "0dc961c8849a46a9a18562830089b3cddb7ff6e79c8922896f34abc2028b5127",
+        "ids": "f3388ba1ffa4055a464c5162704799587d22ecb5b0faa94c04bfa1d8301f6cac",
+        "y": "027395da1280ad958e2569605d43df761bc6c3bce31f4b1a50b315b17796a823"
+      },
+      "task_key": "e4/rep_1/cohort/GALAXY_half"
+    },
+    {
+      "original_container_sha256": "0e05826e9ae238c381dcaed2b96061f072c7a96986b4e32d12b2f55fd0024157",
+      "original_validation_sha256": "f2f2f9e26c42fc5bac29bc31d4b366ef29945d3a6f1497bf971ff93db7e6befa",
+      "original_weight_max": 10.0,
+      "original_weight_min": 0.986076986076986,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/GALAXY_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "986b8fe15a9bf456e1ca439394575ae99758d1050a89c8a0ac128e3d9a1d7f86",
+        "ids": "3fa03e828a0af8e236a86323ecc474aa996b050d45cf91c27aab8ee4b9126bf5",
+        "y": "6080a9e93cf86ad56876ca4e231af2ba59942ed211c9cbfe90d480005340ce66"
+      },
+      "task_key": "e4/rep_1/cohort/GALAXY_tenth"
+    },
+    {
+      "original_container_sha256": "1477d842742665848f0f4dba1f975387582c2884939a7d3b01cb706044d0fe55",
+      "original_validation_sha256": "27ed94df960480c3a2de4ae304778d93843c22165e0b656ba3a2f681b05193b7",
+      "original_weight_max": 1.9999358151476254,
+      "original_weight_min": 0.7580942794833084,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/G_half/data.npz",
+      "shared_array_sha256": {
+        "X": "233a223610bbfc7e39bcbafc833918ca3be26585776956b2616655497712e89a",
+        "ids": "a7c232e08ff7b6d4ca77a688e3a5a89edcd290631e2dd9edc63fed21b47edc90",
+        "y": "9c1b3b7709398c92a550d60686bdde95f46b48a8ba39c092a4207a3c2de8f6f5"
+      },
+      "task_key": "e4/rep_1/cohort/G_half"
+    },
+    {
+      "original_container_sha256": "719635e5f26fa19b810232d84996c35fe2f0280c9a1ded241999f2eeaea276dc",
+      "original_validation_sha256": "7379b9ff319e83495931df67cb3240b8c03188de451701a26542418b489e1d27",
+      "original_weight_max": 9.999679075738126,
+      "original_weight_min": 0.6352263143098117,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/G_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "e04f6ff948bd9815a06d2480f990cd31300e403dd955b45cf98ed13f182c7f68",
+        "ids": "ed88f568558a7040800d501c8aadf1e05c91ba4c4c55cd54917409f95f055203",
+        "y": "b91d52be3a0cac1a0e950bf570d05d32d755938ccb940ea0f3ef6cf8b5a9189a"
+      },
+      "task_key": "e4/rep_1/cohort/G_tenth"
+    },
+    {
+      "original_container_sha256": "bd15f352567dae04ef5712bdaa53269999034d1461628ea63c1edbe98b046dd9",
+      "original_validation_sha256": "480a58e0f4f81222ea1ec1f73fee729da4c8edef3fa03466fc3fe1eecad07da7",
+      "original_weight_max": 1.9998832321345164,
+      "original_weight_min": 0.8798283261802574,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/K_half/data.npz",
+      "shared_array_sha256": {
+        "X": "eeee7f5bf492d82bbcdb06b4eb1762e4634e129627a04c90d4c8496fcd8d7f89",
+        "ids": "6d6263e5f2f4853d1d090041bd158c7961b678f7a0c956a2a5616eb615853dc4",
+        "y": "2d07d28a2008fa32f96b9a0ce2bf891654935b1f42781a1092ba654f497db255"
+      },
+      "task_key": "e4/rep_1/cohort/K_half"
+    },
+    {
+      "original_container_sha256": "63feeaa77ad922127da3a13e121ab671c42eeb625574ee16bd7a4208eb2ef26a",
+      "original_validation_sha256": "100fbc24ee8cb37614b14c4e512e6181e56b6ebbc57be205886ffcabb9e5ff16",
+      "original_weight_max": 9.998248686514884,
+      "original_weight_min": 0.8030901486988847,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/K_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "6bb657bddc8887f1ac45fa9ea513dd69823d53868f9f9dd4f5d469140c6da827",
+        "ids": "32feeed5c6fc67c5cab823d2e3cece80882c1928c1279d175050678a134de0bc",
+        "y": "0e60f2098fdfa3f5172a7efce749282045d8ffedf99710efd82552eef304037c"
+      },
+      "task_key": "e4/rep_1/cohort/K_tenth"
+    },
+    {
+      "original_container_sha256": "a61328ae0d7571870cb77ffb4f2b551534a39a97796de403f06bb65f1ebb7389",
+      "original_validation_sha256": "d313f00934ef29f9ebcf5e988130b1bcd81ec6c33aa5f5866217c72cdedf7b59",
+      "original_weight_max": 1.9997107318484235,
+      "original_weight_min": 0.9547855482780478,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/M_half/data.npz",
+      "shared_array_sha256": {
+        "X": "fcd8d58adf50872f1899bacdc814ea6cc33636b483949a970fb61fd69c8e86cf",
+        "ids": "77d20370acf5d4136736ef220f3f1ca5beaeac752839260914bbae153de2e3b1",
+        "y": "8e32d3d4744c9fc441d7f47239113fabcb32e670243d825a3ebe58d0a4d4943e"
+      },
+      "task_key": "e4/rep_1/cohort/M_half"
+    },
+    {
+      "original_container_sha256": "b82701f5695101c8f9292ba48f2c9bec129e51c3a8df8f3eeb9bec8c32d2f6c5",
+      "original_validation_sha256": "5e96b5d5ef3306e5316b09340e69a5473404d070e62151416cfa9f88463c919a",
+      "original_weight_max": 10.004341534008685,
+      "original_weight_min": 0.9213483146067415,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/M_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "4bf8f60df7753f31b4414f3383f85e6af2d9ca20d166f2a6060bf39d3d926d93",
+        "ids": "a40fd5061747cdb70e81175dc02f7b2a2b3670a1bec3f045462a7aa087541c19",
+        "y": "b26378323e31f23078b615defa662cbad74c7352d5193177bdd52873073f5fe3"
+      },
+      "task_key": "e4/rep_1/cohort/M_tenth"
+    },
+    {
+      "original_container_sha256": "10cb55db0e32a95fc34800838ce6c6726750afdee55f1a03834c0cedaff106e3",
+      "original_validation_sha256": "028d517f3f1e89db43365bafa43b5f24a59f8baebc2a53e05b3ba11cb881462c",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.9923144488361879,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/QSO_half/data.npz",
+      "shared_array_sha256": {
+        "X": "c6f617b5ec99572a3dd96284a89df53d5fd2ca65491bc8d3afd6c82e606d8ae6",
+        "ids": "bd1905e8d8694bcf6fc6cb17d5d72080def073521631c09aa6a51b5f72075046",
+        "y": "7466f9a8cd066ef050c6c36ed59571327efd76dfd17e69d4af9924f27fd47a30"
+      },
+      "task_key": "e4/rep_1/cohort/QSO_half"
+    },
+    {
+      "original_container_sha256": "07d75034e39b4edf427322373eb793d486f9ac1d42928ac661f0fd48c66a6a42",
+      "original_validation_sha256": "b8f18b86b74df6855e0bd8237dc5561f187f4894e47f4ccf18ea56783df7a4b4",
+      "original_weight_max": 10.033333333333333,
+      "original_weight_min": 0.9863672814755412,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_1/cohort/QSO_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "ee0aebb27fa1f9ed460da61404cd5ee6381d8b54710653b0fc11bdb644acc03b",
+        "ids": "94b6d84f9e3badb815be50c56fb8a277739102208628fd12b436c7dc2192849b",
+        "y": "918a062fb4f2fa7452ad8871acac6e9ddf93fd7e27b818844d33d9f5dee1de6d"
+      },
+      "task_key": "e4/rep_1/cohort/QSO_tenth"
+    },
+    {
+      "original_container_sha256": "cf65157d0bc22b5b8905bb1775c00e4d4521c9f44fddeb93b5a8cbdd7726d5a3",
+      "original_validation_sha256": "e7fc21c8a63f5259e37158d596e856c6194357cd101e580545f1d50860c5ecd6",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.9707971586424624,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/A_half/data.npz",
+      "shared_array_sha256": {
+        "X": "76e66c9ed787f9926001d0a052681056e7d3fa02bf2521b81e3917e9a79a7b03",
+        "ids": "b97221f60c9996d77718736320ff138193fb042418a243981737661c8dcdae38",
+        "y": "348f097e0b6635c5f4f345a7dbb7c6c05cf6a9eff5067589dbae4458a5b38324"
+      },
+      "task_key": "e4/rep_2/cohort/A_half"
+    },
+    {
+      "original_container_sha256": "b12f511986ddf4dbc4d00b3f529606effe10c7a31f5014ff45e431a30c1adfe9",
+      "original_validation_sha256": "20c2a8c80207efa424ccc9e491eeddd3d7dd54db2c679b597770a48fa478230b",
+      "original_weight_max": 9.999999999999998,
+      "original_weight_min": 0.948778565799842,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/A_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "4b24972e5b12dab480276849bd91e290ba8e267df93a927c8793dfbfea576222",
+        "ids": "ad8c15fefe7939450bae219fcec6cbfe1c33c0fb9d308392c31f124a2a9ebbc0",
+        "y": "20849d19013245b753250bb28d74c44668d0dc66bfd2be9dbaead213a7a5fe02"
+      },
+      "task_key": "e4/rep_2/cohort/A_tenth"
+    },
+    {
+      "original_container_sha256": "9623c85858ebadb6e673f252b5b36198b2b27ceff3b218f13a663e7ad2d49c4a",
+      "original_validation_sha256": "3268ab8a6171db5ece728712e2c626a82f71f2ee9f242295144d4f7e1b034b4a",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.8742004264392325,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/F_half/data.npz",
+      "shared_array_sha256": {
+        "X": "330dd92c85c6423206cada126856cac2b31535b91c96e25f4e23da1fbd640429",
+        "ids": "6a4d65ffad333a22f4da97ec82e168bc62ef6ad0406dab4f43b66ec814780251",
+        "y": "eeac7073254ac185f9a9d8a4076e54418b93d29e092a348a6a4edc39e1f001a3"
+      },
+      "task_key": "e4/rep_2/cohort/F_half"
+    },
+    {
+      "original_container_sha256": "809f59cde5032d99832aefbb3f121e49ce16b3dacf8e6bafcb7eb123bfec8bd1",
+      "original_validation_sha256": "b2d8907363a4474313bbb3b8a6fd4107ed3935280d78d8a44c5db87d1265c556",
+      "original_weight_max": 10.002240896358543,
+      "original_weight_min": 0.7945299931050331,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/F_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "139137f825b5f5f455baf955c276391c8accb89f9cd7463577518e18ff88d47e",
+        "ids": "2c80634646a4480947f8c638c83fb5720d78c73eced8da02836068c2cc989288",
+        "y": "1799c6b3f0161eff53ced8ab68730f882e33f1044cdc7a28f47829f96507e0d4"
+      },
+      "task_key": "e4/rep_2/cohort/F_tenth"
+    },
+    {
+      "original_container_sha256": "6c5d7bd8ec1d13d146aa493286ed761ac46be0fa25caf1909ec7b8e377a8982d",
+      "original_validation_sha256": "3e230ac46bcae942642173b1a4ff4b74620757bbf2b0313e0570447f1712c753",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.9917627677100495,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/GALAXY_half/data.npz",
+      "shared_array_sha256": {
+        "X": "3284cef7eed29e7050b5cd6bd8edd8af1b106892e2daf11d807d3635d48aaef8",
+        "ids": "ae8ba265c309f2886660ae0a2299811354586eb56b645b244d919eb46ded0b4e",
+        "y": "e795812a21c38a26e3047ae46bc68c6a68309edf4ebe55905e32fa74cd142304"
+      },
+      "task_key": "e4/rep_2/cohort/GALAXY_half"
+    },
+    {
+      "original_container_sha256": "165158f7b0ee037629ae53203d4df226d3046b732b71c8b0febaaa40b1119363",
+      "original_validation_sha256": "8257c90e1b9970f4066ff89eee0a4ecb77f54cc574e434a701a6e01dbdf2c337",
+      "original_weight_max": 10.0,
+      "original_weight_min": 0.986076986076986,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/GALAXY_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "44556ed7758aa897d994b381bf909877a8f71f04491009c34555ec095a3e9105",
+        "ids": "cf3670430a9521acd03975834b9f1d1a3e1bbed1eee7f04873a007f9fcac525d",
+        "y": "2d36fc7910f34a9c4c05afc3e8e4811ea3469831c42c73487481e411fd0d0684"
+      },
+      "task_key": "e4/rep_2/cohort/GALAXY_tenth"
+    },
+    {
+      "original_container_sha256": "acc3b9e91e04726ed5cb739ee130844bbe4cabf413e4b0cdd27839b377d0ea2a",
+      "original_validation_sha256": "00b696930dfb49dc4070efcda7f881c968498e9cb04634c594c0b41d5f45b74e",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.7578558225508318,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/G_half/data.npz",
+      "shared_array_sha256": {
+        "X": "eef2d97ebca639a8065d92188466474f1f53bece0e1851b79b9b3885a7347c2a",
+        "ids": "ee0d47112ce394273d8281a1c7e7fc2abe8c85d18830f47f5bd406e830776b62",
+        "y": "2705d9759a4b17be70147abc48016923f86c797f5e58976547ffe3f6e3c6ca56"
+      },
+      "task_key": "e4/rep_2/cohort/G_half"
+    },
+    {
+      "original_container_sha256": "213777a8fc4c19213239d4b3caf55c65e2fe5e964da5db4c380660acec590095",
+      "original_validation_sha256": "a490da1a0d5e091c141dd64533441a10ff52d32abdd9322469642a701d26caf8",
+      "original_weight_max": 9.999358357394932,
+      "original_weight_min": 0.6350210970464135,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/G_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "8b029c1b0080d61e79b029ac7234d0ac95f9819e951fdb913e3ed0ae945460f9",
+        "ids": "20e5179cf00137cab533a4a2b193af058ac9394f4679015b27a3be401dfae878",
+        "y": "c597d398259609ba8a64255251d15fd1c1ca7825dbbf13bd5a841ea5be03bc3f"
+      },
+      "task_key": "e4/rep_2/cohort/G_tenth"
+    },
+    {
+      "original_container_sha256": "13f685682ca40b40c274c9ebb246f6bd319774850987ab76280a09c4a4a17962",
+      "original_validation_sha256": "0c24ece5c3c9a037b41a47721bf06463f31c9775a3d38d41a736739ac2959d02",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.8801169590643274,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/K_half/data.npz",
+      "shared_array_sha256": {
+        "X": "4615bddb3946bbb310741f890667543214afe001adbe45c2272b8688b6cbade7",
+        "ids": "2a2182550c0e1c1616f1725cb0e68fcb5d2499719c99da7894cccc6461d47855",
+        "y": "85f5a812a894e7d3725d414d0ff8a6df0375a96f3ccbf6927cae0fa6a6d8e178"
+      },
+      "task_key": "e4/rep_2/cohort/K_half"
+    },
+    {
+      "original_container_sha256": "199bfd76518b5fdbf7ba86402bfd04b33fb80fb35e664ee538ed78dd7a9f424a",
+      "original_validation_sha256": "b7f98e7e46e4eaefc512149cf7e0818be8558acb27fc32f0d149accf63acd429",
+      "original_weight_max": 10.0,
+      "original_weight_min": 0.8028720626631853,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/K_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "d344828aa3ddb93a05027dc12e0ec730b712adb22761f41297666b32cbc5cd68",
+        "ids": "e446d37bb42f80f66a19ed946c5e395513fd750335adf337f4c75ccdf508b7e4",
+        "y": "87d38f57ed76848f17ea3aba2c91b6879ab71887cf91de4c77bff1d794fabeee"
+      },
+      "task_key": "e4/rep_2/cohort/K_tenth"
+    },
+    {
+      "original_container_sha256": "27788aa94b3c59926913c80ed4e918252c0313cf60d9d1e4b5b4bcecc5db291a",
+      "original_validation_sha256": "1cb50b5ee3ec5fe05c59222fdb8fd3fa9da2b779eaa91810a2f9afc11e63c219",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.9547977795400476,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/M_half/data.npz",
+      "shared_array_sha256": {
+        "X": "9e3a13b99a45564cb34dc76da9383d494cda6f46fac9eb6398dd65d383a94b0d",
+        "ids": "12c2ca5e5569a040a2df40ed91816f7ea91feaa86df857a4b78676a7f37ef80a",
+        "y": "26c934a4514558883d2c7dcd1db20075caf3f6a6ae6c2124e47c644640164f30"
+      },
+      "task_key": "e4/rep_2/cohort/M_half"
+    },
+    {
+      "original_container_sha256": "93a059a03ac00f946066afe4d7f19d1fdc581e4097b25ba6a6af7f7fba060ece",
+      "original_validation_sha256": "d9cc611f1a71079a4f19fba389e7d481685cfd0ee011403da21725fb41845388",
+      "original_weight_max": 10.005788712011578,
+      "original_weight_min": 0.9213483146067415,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/M_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "2ca244035279c813a6e14d5e4c6624f6d37365f139f84257c843da9cf29bb0da",
+        "ids": "d1c277fdd62c176a761e370dce49acb5e4319b68d8e4b9056334f7fa4c0a8345",
+        "y": "3c5ff4bba151f1a1f2f464c995d3174d28bb36d4605161e7021ab606bbf091c8"
+      },
+      "task_key": "e4/rep_2/cohort/M_tenth"
+    },
+    {
+      "original_container_sha256": "7725d8a311964ae87b09eafe7eed767886da17dff0ced3eedbc29e53a839c741",
+      "original_validation_sha256": "a393304effcc9e9140d3aa7cf83ec2ad5fb3be3034fc8347d0456a9e282d3731",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.9922992299229922,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/QSO_half/data.npz",
+      "shared_array_sha256": {
+        "X": "a09645cc5bddc61c30720f08792898d4cba52e223ec88febc3c53763b9b6b3c7",
+        "ids": "3834357168188693c967e1e6c070ca0b15563356fb586bc5cc6954b4cab351d0",
+        "y": "6192b3c70d98df113898b69bca977b5659f6e4caf95b3f2c7b3282a686c1aac7"
+      },
+      "task_key": "e4/rep_2/cohort/QSO_half"
+    },
+    {
+      "original_container_sha256": "e45be29abce1e96bf736a8b164408c057dadc266b1a00b5eeff50baf7b75f9a3",
+      "original_validation_sha256": "784b82ae78c57839ada20e86c6ac57902a4f56505015e396a18a6d78eb1ee1fa",
+      "original_weight_max": 10.033333333333333,
+      "original_weight_min": 0.9863672814755412,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_2/cohort/QSO_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "ed3aede31c8407656125d628dcfef6298fa2b6281ef3aa97bffe68f2729b5ebe",
+        "ids": "15944ac774166208ddcf8d6f08161b29272a0fe0e38aed54a88e5a5f78d321f0",
+        "y": "033775c9283fd1a1f01652ccc8298bb2b3334cb15f03959d6b908d74a7f6b8c7"
+      },
+      "task_key": "e4/rep_2/cohort/QSO_tenth"
+    },
+    {
+      "original_container_sha256": "7dfb59dfb7a5be9b0508505ea26ad7917bafbc0186572d6abd75008982a9eb46",
+      "original_validation_sha256": "3c28961a7a0c39c9c4fe70fddc3efc0a0bbca4aa5165d76095404831f3b7e7f1",
+      "original_weight_max": 1.999557522123894,
+      "original_weight_min": 0.9707509881422925,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/A_half/data.npz",
+      "shared_array_sha256": {
+        "X": "d9f817abf6a526325b1aa4ca41b430f6c2de9ee09c2e46c1c2a88b0ae127faf3",
+        "ids": "ae0c3cb237bf109ca2960b4c02f868681ad9ef74d170c07a4d3982db8f254d48",
+        "y": "9c2fc8afbe7b5653d5534e62e327f5b6e2813e644a098cdc4f8ef4e9895864e7"
+      },
+      "task_key": "e4/rep_3/cohort/A_half"
+    },
+    {
+      "original_container_sha256": "968c4a898aaa69639a5dc81b3a26e394364d11f0e935b8f9c3d94523859bfa03",
+      "original_validation_sha256": "91e8d6412192e315377b805b7dc1af87f09140838f539c43659a9ceb7288b19b",
+      "original_weight_max": 9.99778761061947,
+      "original_weight_min": 0.9486977111286503,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/A_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "ea5e45a88a1a2b9addd8aeebfe7946896972f784bcf2a42ecd588b0f24a21d01",
+        "ids": "184027ebd8bfe10909e03cc37515f14a1df6c8a54d191123507ff00aafef827a",
+        "y": "780dbcdb4a5a1c6bf4b01e86c5f97f255befdfc9c642292f01df75204e9ad379"
+      },
+      "task_key": "e4/rep_3/cohort/A_tenth"
+    },
+    {
+      "original_container_sha256": "bc02188e035cf7262bbe6b2430d2d0899f7fb1c715ec408996b0c33ea0bd7827",
+      "original_validation_sha256": "85676f870c132d175dadeed24a678c4cb60069a7aef88143aa19c894252c62ab",
+      "original_weight_max": 1.9999999999999996,
+      "original_weight_min": 0.874181818181818,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/F_half/data.npz",
+      "shared_array_sha256": {
+        "X": "f795b57906e03998747d62a3c2a80a29f27c04215eae6b76530f48ca7a36d82f",
+        "ids": "8715d1261277e4c481c0e013dd33f70945f982e8388c7da4d52151ce56d8a31e",
+        "y": "6aedde4bbe812d8c35b33c7929097251b2d1df369542ceb420b55862ac24ce91"
+      },
+      "task_key": "e4/rep_3/cohort/F_half"
+    },
+    {
+      "original_container_sha256": "46ae512cd59b30e11c6c15dc4ec83f9d615599c8b611aa1aa06960f7cdda6cc7",
+      "original_validation_sha256": "00ce6c18d9289f90dff26c2684038cb8bc7eb3255ac679c65c6f6af5896281a5",
+      "original_weight_max": 9.997759103641457,
+      "original_weight_min": 0.7944481163251819,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/F_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "4ddf35e6ea2e527d9976260b15985478b60261820bc95967e86b8d6c78aa62a4",
+        "ids": "ee7fa7550c1b658e75bbe2ffa58829d32a138616f016a0ab8425eafe386176c8",
+        "y": "0bb734c5264eaf56620d850373bf04ba21f09d03ba5c03e8d40722a3a7b84b61"
+      },
+      "task_key": "e4/rep_3/cohort/F_tenth"
+    },
+    {
+      "original_container_sha256": "aea117e6efdfb3712b185f60fd52fe8aaf34311a147d805751aef0aa9cd5931b",
+      "original_validation_sha256": "df42b7338ab6f35c9a15750d2203d7cc0134644923272e605669581ec38c0287",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.992234585071859,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/GALAXY_half/data.npz",
+      "shared_array_sha256": {
+        "X": "d1b43a102ff3d81d4852e50c30dc617442ee25322b94c62b6a79eab2f9b10471",
+        "ids": "cbb6932e704a87e7d62b1f48555bac65964d957a807f6d660b573ce2032159ed",
+        "y": "0e80f3fff90c109bc0386de0e8a15aff0d0470e1585ace4c2a8182727dcf08b8"
+      },
+      "task_key": "e4/rep_3/cohort/GALAXY_half"
+    },
+    {
+      "original_container_sha256": "d576470451557c27e86b28fe7e326dcb0edded3db3d7f667e3f0427a94357867",
+      "original_validation_sha256": "a62aec3e258dc1e70ae95d4dfd586586a9caf182258ea2c517bec169fd2504fd",
+      "original_weight_max": 9.983739837398375,
+      "original_weight_min": 0.986035348025311,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/GALAXY_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "70bf904d01fc0ac0c84af7e069a167df09e9dfb6ee58a7aa52f5637f1cb19019",
+        "ids": "3e53df16bfdcfe2d3af6bf9f707cec46a5f715c88dab43d945a558735af7c7fe",
+        "y": "6564abc208d1e12c336f5efb14e04a99db20b987bbcb7fbb48aa6c91799cb0e5"
+      },
+      "task_key": "e4/rep_3/cohort/GALAXY_tenth"
+    },
+    {
+      "original_container_sha256": "ff95f92b281730eaa4676e01101a4b2d81fe8164d314e69f17f3e61bc78fada2",
+      "original_validation_sha256": "8d242c53032004a606dd1aac7c055a94916c14dc9bcda333d5df097424ae036d",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.7580246913580247,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/G_half/data.npz",
+      "shared_array_sha256": {
+        "X": "f6b14833ea18c09624c480c027022df9772a856e4f79ac22cfcc1761cc84a7fa",
+        "ids": "8f1f86688047b83f7e057ac67f572d8db4e623075e347ad8b4b0441c0a4b4e58",
+        "y": "75e07199cd476737ae137ceaba0ab4e78dfee8a1b43da968855efa67041c7879"
+      },
+      "task_key": "e4/rep_3/cohort/G_half"
+    },
+    {
+      "original_container_sha256": "d48872df146bb461708f33e8d0ef5035148a95ab0fbad98ef8e48b25d06ff6ef",
+      "original_validation_sha256": "8ed684888c988f1b26688a97a0ce28387d6971893e81ec6cbc763ffbe108d631",
+      "original_weight_max": 9.998716714789863,
+      "original_weight_min": 0.6351370344342938,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/G_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "85fda6ccbbdac21e93276f9cac8ce3b82d0dd2652f518a2c3fbaaf7de57c24f9",
+        "ids": "9ee8553d9e33e01bd3a4d72ebbffd7da857896065acc2cebb51f8a5b5a8d56f8",
+        "y": "5102e9dac42ba89b9b7760adb8434f1f1a8f04e31d7bb161a53b1ddc3d4ce36a"
+      },
+      "task_key": "e4/rep_3/cohort/G_tenth"
+    },
+    {
+      "original_container_sha256": "9faf1940faa3701124fb7b752ce39de0b3e61c72a354cf6de73eabec6464fce4",
+      "original_validation_sha256": "78380380ef568f423997c15f1cad014b7435a26d610d9840c70fa02c6e8145e1",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.8799414348462665,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/K_half/data.npz",
+      "shared_array_sha256": {
+        "X": "af1c5e0925ea0fa1c848f284b2cd1c71a13d41a1ab87da37a176a70a56ac4e91",
+        "ids": "a2537720247c168418303049c944e9ba717dc822254db25d6e71ce24441a8b18",
+        "y": "980f8945ff93661e3cc56140a53524d4e1e19813b1f936cdbe3e6804332baaf9"
+      },
+      "task_key": "e4/rep_3/cohort/K_half"
+    },
+    {
+      "original_container_sha256": "d3e9613da3311874c6e96e954be6a6d2d5f05eb13ed91d68f78f06a4782c2063",
+      "original_validation_sha256": "cf98e32aede4f441bfffe3ebe936b1b0b8facbcf69f3355a0483400844083703",
+      "original_weight_max": 10.001168224299066,
+      "original_weight_min": 0.802939211756847,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/K_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "aa545c0037fb0665f5b7262ab699aa2848e4896fc0fa895a48cf82917187409a",
+        "ids": "96ce7f41d0fd5f57550a10f7c1d035a3d498a8d3516945759a7d8b22bc497d74",
+        "y": "e62c6d8a5802f1db00f1667f355f474357c7bc22425ea999294e130161d4baa3"
+      },
+      "task_key": "e4/rep_3/cohort/K_tenth"
+    },
+    {
+      "original_container_sha256": "3fdebc932598632c371285da288898aee9d20a0ba9d6b829cadb3675714ab819",
+      "original_validation_sha256": "1ea6b8dc97f6df09d736ae5cbc1663e357b88439914dc6bc8b961a829df6a920",
+      "original_weight_max": 1.9997108991037873,
+      "original_weight_min": 0.95472597299444,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/M_half/data.npz",
+      "shared_array_sha256": {
+        "X": "207947326a880882e905e755852544eebe3b0dd118c22bb30934498f7c627d18",
+        "ids": "c4d53827fb33d149a906111a1f26b70cf9eaad12c7b74b82149011c9fba6827d",
+        "y": "43a80fa23b2191bbb92d77d45a678c5b97976b9b0db8703c3710d3e8e5a0baf9"
+      },
+      "task_key": "e4/rep_3/cohort/M_half"
+    },
+    {
+      "original_container_sha256": "f2a5274baffb870fcfd38c2e20bb39d0519131edb9b087b86cde66e7471400e2",
+      "original_validation_sha256": "a01b84b71287dd72f2cdeefe23bdec422ead8c67b702fbeefd967b84c8dfdb20",
+      "original_weight_max": 9.995664739884393,
+      "original_weight_min": 0.9212303075768943,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/M_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "75ba5691879c785e4d6b2b066d2329245a98d2ebe806c648ef22d51fb4f34833",
+        "ids": "f5fd3d49d88fe00f20102ce21c62943f87609bee6a6718e0e013d55588bc882c",
+        "y": "1317a2833966b76bc7954034180c448627527f262d4e048732d622ac989977e1"
+      },
+      "task_key": "e4/rep_3/cohort/M_tenth"
+    },
+    {
+      "original_container_sha256": "e0d5f13e9865fc08f131e53b1ace0be0e2028611154740bd6e02d04da13440b5",
+      "original_validation_sha256": "4afe4914319397e82ee2cba15e3e15754f7f7c0c93e642091794c53dd2544297",
+      "original_weight_max": 2.0,
+      "original_weight_min": 0.9923959827833573,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/QSO_half/data.npz",
+      "shared_array_sha256": {
+        "X": "0a67818f1359fac2efa3b7028d61bb10bf5366ee90bd77d8b023678ce398b361",
+        "ids": "29905316d0b5ac9c9bddea632e0cc269177d83e4d62ebe3551ec8b8ad31ec192",
+        "y": "cd42416e1e490c58338292c2086e825b58472af58ea9fc4ed67d20c65668b4f3"
+      },
+      "task_key": "e4/rep_3/cohort/QSO_half"
+    },
+    {
+      "original_container_sha256": "90be88b1972c8f4f6b29faf177294e31e5b7394673685a412dde3a2b737e4c53",
+      "original_validation_sha256": "311e198d303e72dcf5c2fbe89cf734512b1717f4aa5ed3f1e5029901cda7e54c",
+      "original_weight_max": 10.016666666666666,
+      "original_weight_min": 0.9863453815261045,
+      "retained_container": "artifacts/_superseded_e4_weighted_cohort_containers/e4/rep_3/cohort/QSO_tenth/data.npz",
+      "shared_array_sha256": {
+        "X": "ae21817cd4c0e5e22cde8035c0cd61591baac1c745938ff305b27a4d0bb87107",
+        "ids": "ff27cc0092afb8110d1b07483695eed3fcd92a64a889d6fd4681124a28ea98e8",
+        "y": "2452de4d0cc0bd609c11567811d7e7b0c7f440fb15a75dc1bb5346f9c2bdc3d1"
+      },
+      "task_key": "e4/rep_3/cohort/QSO_tenth"
+    }
+  ],
+  "dependent_unavailability_reset_keys": [
+    "e4/rep_1/append/A_half/gmm",
+    "e4/rep_1/append/A_tenth/gmm",
+    "e4/rep_1/append/F_half/gmm",
+    "e4/rep_1/append/F_tenth/gmm",
+    "e4/rep_1/append/GALAXY_half/gmm",
+    "e4/rep_1/append/GALAXY_tenth/gmm",
+    "e4/rep_1/append/G_half/gmm",
+    "e4/rep_1/append/G_tenth/gmm",
+    "e4/rep_1/append/K_half/gmm",
+    "e4/rep_1/append/K_tenth/gmm",
+    "e4/rep_1/append/M_half/gmm",
+    "e4/rep_1/append/M_tenth/gmm",
+    "e4/rep_1/append/QSO_half/gmm",
+    "e4/rep_1/append/QSO_tenth/gmm",
+    "e4/rep_1/eval/direct/gmm/A_half",
+    "e4/rep_1/eval/direct/gmm/A_tenth",
+    "e4/rep_1/eval/direct/gmm/F_half",
+    "e4/rep_1/eval/direct/gmm/F_tenth",
+    "e4/rep_1/eval/direct/gmm/GALAXY_half",
+    "e4/rep_1/eval/direct/gmm/GALAXY_tenth",
+    "e4/rep_1/eval/direct/gmm/G_half",
+    "e4/rep_1/eval/direct/gmm/G_tenth",
+    "e4/rep_1/eval/direct/gmm/K_half",
+    "e4/rep_1/eval/direct/gmm/K_tenth",
+    "e4/rep_1/eval/direct/gmm/M_half",
+    "e4/rep_1/eval/direct/gmm/M_tenth",
+    "e4/rep_1/eval/direct/gmm/QSO_half",
+    "e4/rep_1/eval/direct/gmm/QSO_tenth",
+    "e4/rep_1/eval/treatment/hist_gb/A_half_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/A_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/F_half_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/F_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/GALAXY_half_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/GALAXY_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/G_half_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/G_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/K_half_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/K_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/M_half_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/M_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/QSO_half_generated_gmm",
+    "e4/rep_1/eval/treatment/hist_gb/QSO_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/A_half_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/A_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/F_half_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/F_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/GALAXY_half_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/GALAXY_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/G_half_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/G_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/K_half_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/K_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/M_half_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/M_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/QSO_half_generated_gmm",
+    "e4/rep_1/eval/treatment/logistic/QSO_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/A_half_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/A_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/F_half_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/F_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/GALAXY_half_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/GALAXY_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/G_half_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/G_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/K_half_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/K_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/M_half_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/M_tenth_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/QSO_half_generated_gmm",
+    "e4/rep_1/eval/treatment/random_forest/QSO_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/A_half_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/A_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/F_half_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/F_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/GALAXY_half_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/GALAXY_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/G_half_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/G_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/K_half_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/K_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/M_half_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/M_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/QSO_half_generated_gmm",
+    "e4/rep_1/fit/treatment/hist_gb/QSO_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/A_half_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/A_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/F_half_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/F_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/GALAXY_half_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/GALAXY_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/G_half_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/G_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/K_half_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/K_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/M_half_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/M_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/QSO_half_generated_gmm",
+    "e4/rep_1/fit/treatment/logistic/QSO_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/A_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/F_half_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/F_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/G_half_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/G_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/K_half_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/K_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/M_half_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/M_tenth_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm",
+    "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_gmm",
+    "e4/rep_1/generate/A_half/gmm",
+    "e4/rep_1/generate/A_tenth/gmm",
+    "e4/rep_1/generate/F_half/gmm",
+    "e4/rep_1/generate/F_tenth/gmm",
+    "e4/rep_1/generate/GALAXY_half/gmm",
+    "e4/rep_1/generate/GALAXY_tenth/gmm",
+    "e4/rep_1/generate/G_half/gmm",
+    "e4/rep_1/generate/G_tenth/gmm",
+    "e4/rep_1/generate/K_half/gmm",
+    "e4/rep_1/generate/K_tenth/gmm",
+    "e4/rep_1/generate/M_half/gmm",
+    "e4/rep_1/generate/M_tenth/gmm",
+    "e4/rep_1/generate/QSO_half/gmm",
+    "e4/rep_1/generate/QSO_tenth/gmm",
+    "e4/rep_2/append/A_half/gmm",
+    "e4/rep_2/append/A_tenth/gmm",
+    "e4/rep_2/append/F_half/gmm",
+    "e4/rep_2/append/F_tenth/gmm",
+    "e4/rep_2/append/GALAXY_half/gmm",
+    "e4/rep_2/append/GALAXY_tenth/gmm",
+    "e4/rep_2/append/G_half/gmm",
+    "e4/rep_2/append/G_tenth/gmm",
+    "e4/rep_2/append/K_half/gmm",
+    "e4/rep_2/append/M_half/gmm",
+    "e4/rep_2/append/M_tenth/gmm",
+    "e4/rep_2/eval/direct/gmm/A_half",
+    "e4/rep_2/eval/direct/gmm/A_tenth",
+    "e4/rep_2/eval/direct/gmm/F_half",
+    "e4/rep_2/eval/direct/gmm/F_tenth",
+    "e4/rep_2/eval/direct/gmm/GALAXY_half",
+    "e4/rep_2/eval/direct/gmm/GALAXY_tenth",
+    "e4/rep_2/eval/direct/gmm/G_half",
+    "e4/rep_2/eval/direct/gmm/G_tenth",
+    "e4/rep_2/eval/direct/gmm/K_half",
+    "e4/rep_2/eval/direct/gmm/M_half",
+    "e4/rep_2/eval/direct/gmm/M_tenth",
+    "e4/rep_2/eval/treatment/hist_gb/A_half_generated_gmm",
+    "e4/rep_2/eval/treatment/hist_gb/A_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/hist_gb/F_half_generated_gmm",
+    "e4/rep_2/eval/treatment/hist_gb/F_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/hist_gb/GALAXY_half_generated_gmm",
+    "e4/rep_2/eval/treatment/hist_gb/GALAXY_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/hist_gb/G_half_generated_gmm",
+    "e4/rep_2/eval/treatment/hist_gb/G_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/hist_gb/K_half_generated_gmm",
+    "e4/rep_2/eval/treatment/hist_gb/M_half_generated_gmm",
+    "e4/rep_2/eval/treatment/hist_gb/M_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/logistic/A_half_generated_gmm",
+    "e4/rep_2/eval/treatment/logistic/A_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/logistic/F_half_generated_gmm",
+    "e4/rep_2/eval/treatment/logistic/F_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/logistic/GALAXY_half_generated_gmm",
+    "e4/rep_2/eval/treatment/logistic/GALAXY_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/logistic/G_half_generated_gmm",
+    "e4/rep_2/eval/treatment/logistic/G_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/logistic/K_half_generated_gmm",
+    "e4/rep_2/eval/treatment/logistic/M_half_generated_gmm",
+    "e4/rep_2/eval/treatment/logistic/M_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/random_forest/A_half_generated_gmm",
+    "e4/rep_2/eval/treatment/random_forest/A_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/random_forest/F_half_generated_gmm",
+    "e4/rep_2/eval/treatment/random_forest/F_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/random_forest/GALAXY_half_generated_gmm",
+    "e4/rep_2/eval/treatment/random_forest/GALAXY_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/random_forest/G_half_generated_gmm",
+    "e4/rep_2/eval/treatment/random_forest/G_tenth_generated_gmm",
+    "e4/rep_2/eval/treatment/random_forest/K_half_generated_gmm",
+    "e4/rep_2/eval/treatment/random_forest/M_half_generated_gmm",
+    "e4/rep_2/eval/treatment/random_forest/M_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/hist_gb/A_half_generated_gmm",
+    "e4/rep_2/fit/treatment/hist_gb/A_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/hist_gb/F_half_generated_gmm",
+    "e4/rep_2/fit/treatment/hist_gb/F_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/hist_gb/GALAXY_half_generated_gmm",
+    "e4/rep_2/fit/treatment/hist_gb/GALAXY_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/hist_gb/G_half_generated_gmm",
+    "e4/rep_2/fit/treatment/hist_gb/G_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/hist_gb/K_half_generated_gmm",
+    "e4/rep_2/fit/treatment/hist_gb/M_half_generated_gmm",
+    "e4/rep_2/fit/treatment/hist_gb/M_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/logistic/A_half_generated_gmm",
+    "e4/rep_2/fit/treatment/logistic/A_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/logistic/F_half_generated_gmm",
+    "e4/rep_2/fit/treatment/logistic/F_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/logistic/GALAXY_half_generated_gmm",
+    "e4/rep_2/fit/treatment/logistic/GALAXY_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/logistic/G_half_generated_gmm",
+    "e4/rep_2/fit/treatment/logistic/G_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/logistic/K_half_generated_gmm",
+    "e4/rep_2/fit/treatment/logistic/M_half_generated_gmm",
+    "e4/rep_2/fit/treatment/logistic/M_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/random_forest/A_half_generated_gmm",
+    "e4/rep_2/fit/treatment/random_forest/A_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/random_forest/F_half_generated_gmm",
+    "e4/rep_2/fit/treatment/random_forest/F_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/random_forest/GALAXY_half_generated_gmm",
+    "e4/rep_2/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm",
+    "e4/rep_2/fit/treatment/random_forest/G_tenth_generated_gmm",
+    "e4/rep_2/fit/treatment/random_forest/K_half_generated_gmm",
+    "e4/rep_2/fit/treatment/random_forest/M_half_generated_gmm",
+    "e4/rep_2/fit/treatment/random_forest/M_tenth_generated_gmm",
+    "e4/rep_2/generate/A_half/gmm",
+    "e4/rep_2/generate/A_tenth/gmm",
+    "e4/rep_2/generate/F_half/gmm",
+    "e4/rep_2/generate/F_tenth/gmm",
+    "e4/rep_2/generate/GALAXY_half/gmm",
+    "e4/rep_2/generate/GALAXY_tenth/gmm",
+    "e4/rep_2/generate/G_half/gmm",
+    "e4/rep_2/generate/G_tenth/gmm",
+    "e4/rep_2/generate/K_half/gmm",
+    "e4/rep_2/generate/M_half/gmm",
+    "e4/rep_2/generate/M_tenth/gmm"
+  ],
+  "invalid_fit_keys": [
+    "e4/rep_1/fit/direct/gmm/A_half",
+    "e4/rep_1/fit/direct/gmm/A_tenth",
+    "e4/rep_1/fit/direct/gmm/F_half",
+    "e4/rep_1/fit/direct/gmm/F_tenth",
+    "e4/rep_1/fit/direct/gmm/GALAXY_half",
+    "e4/rep_1/fit/direct/gmm/GALAXY_tenth",
+    "e4/rep_1/fit/direct/gmm/G_half",
+    "e4/rep_1/fit/direct/gmm/G_tenth",
+    "e4/rep_1/fit/direct/gmm/K_half",
+    "e4/rep_1/fit/direct/gmm/K_tenth",
+    "e4/rep_1/fit/direct/gmm/M_half",
+    "e4/rep_1/fit/direct/gmm/M_tenth",
+    "e4/rep_1/fit/direct/gmm/QSO_half",
+    "e4/rep_1/fit/direct/gmm/QSO_tenth",
+    "e4/rep_2/fit/direct/gmm/A_half",
+    "e4/rep_2/fit/direct/gmm/A_tenth",
+    "e4/rep_2/fit/direct/gmm/F_half",
+    "e4/rep_2/fit/direct/gmm/F_tenth",
+    "e4/rep_2/fit/direct/gmm/GALAXY_half",
+    "e4/rep_2/fit/direct/gmm/GALAXY_tenth",
+    "e4/rep_2/fit/direct/gmm/G_half",
+    "e4/rep_2/fit/direct/gmm/G_tenth",
+    "e4/rep_2/fit/direct/gmm/K_half",
+    "e4/rep_2/fit/direct/gmm/K_tenth",
+    "e4/rep_2/fit/direct/gmm/M_half",
+    "e4/rep_2/fit/direct/gmm/M_tenth",
+    "e4/rep_2/fit/direct/gmm/QSO_half"
+  ],
+  "observed_utc": "2026-10-25T17:06:48.425859+00:00",
+  "post_regeneration_array_equality_audit_required": true,
+  "raw_private_evidence_retained_on_EC2": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/logs/operational/e4_weight_schema_incident_20261025",
+  "scientific_trial_history_rows": 262
+}

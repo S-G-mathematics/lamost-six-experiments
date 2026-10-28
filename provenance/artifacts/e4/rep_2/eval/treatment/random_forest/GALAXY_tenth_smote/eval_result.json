@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "1d7d30f8ae3eaa527f7f80b466b27580a2fd61562c07d2903f8d8f8b28ebbe79",
+  "attempt_id": "1792993531_790bde6e",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-26T05:46:31.785922+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7561742166152208,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        14024,
+        9671,
+        3280,
+        523,
+        219,
+        88,
+        402
+      ],
+      [
+        2580,
+        56820,
+        48998,
+        2124,
+        437,
+        66,
+        524
+      ],
+      [
+        420,
+        19517,
+        157205,
+        16048,
+        1279,
+        79,
+        270
+      ],
+      [
+        162,
+        756,
+        22423,
+        80071,
+        3438,
+        66,
+        100
+      ],
+      [
+        38,
+        69,
+        1156,
+        3032,
+        38879,
+        14,
+        14
+      ],
+      [
+        55,
+        51,
+        97,
+        95,
+        20,
+        7066,
+        296
+      ],
+      [
+        207,
+        185,
+        129,
+        87,
+        14,
+        44,
+        6862
+      ]
+    ],
+    "coverage": 0.8989,
+    "fit_key": "e4/rep_2/fit/treatment/random_forest/GALAXY_tenth_smote",
+    "per_class": {
+      "0": {
+        "coverage": 0.6987981706668558,
+        "n": 28207,
+        "recall": 0.4971815506789095,
+        "set_size": 1.733505867337895
+      },
+      "1": {
+        "coverage": 0.8208141713507069,
+        "n": 111549,
+        "recall": 0.50937256273028,
+        "set_size": 1.6625518830289827
+      },
+      "2": {
+        "coverage": 0.9595263271360962,
+        "n": 194818,
+        "recall": 0.8069326242954963,
+        "set_size": 1.667320268147707
+      },
+      "3": {
+        "coverage": 0.8945204455408537,
+        "n": 107016,
+        "recall": 0.7482152201539957,
+        "set_size": 1.444569036405771
+      },
+      "4": {
+        "coverage": 0.9550483773899356,
+        "n": 43202,
+        "recall": 0.8999351881857321,
+        "set_size": 1.2188556085366418
+      },
+      "5": {
+        "coverage": 0.9368489583333334,
+        "n": 7680,
+        "recall": 0.9200520833333333,
+        "set_size": 1.1364583333333333
+      },
+      "6": {
+        "coverage": 0.9380977683315622,
+        "n": 7528,
+        "recall": 0.9115302869287991,
+        "set_size": 1.1858395324123272
+      }
+    },
+    "pipeline_sha256": "9dfd6a082b44666f5ca0cd982d15d2c4b36344e36928149c3bce7c8380c0964b",
+    "score_kind": "probability",
+    "set_size": 1.568162,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.794
+  },
+  "started_at": "2026-10-26T05:45:31.930796+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_2/eval/treatment/random_forest/GALAXY_tenth_smote",
+    "condition": "GALAXY_tenth_smote",
+    "dependencies": [
+      "e4/rep_2/fit/treatment/random_forest/GALAXY_tenth_smote"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_2/fit/treatment/random_forest/GALAXY_tenth_smote",
+    "generator": null,
+    "key": "e4/rep_2/eval/treatment/random_forest/GALAXY_tenth_smote",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.1,
+    "rep": 2,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 5,
+    "target_label": "GALAXY",
+    "treatment": "smote"
+  },
+  "task_sha256": "e2e97da1da20f6a2da658236076c16709932c95e384b54d6f99a00b2ea148acf"
+}

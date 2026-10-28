@@ -1,0 +1,72 @@
+{
+  "artifact_sha256": "6ced73c3e8f5dc4aa2505b38d11d886fa67cf2fe71c90f1e31b4943e955e6388",
+  "attempt_id": "1793060554_e739a0a6",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-27T00:22:36.620666+00:00",
+  "reason": null,
+  "result": {
+    "class_counts": [
+      6153,
+      16317,
+      26608,
+      15808,
+      8024,
+      3533,
+      3557
+    ],
+    "fit_seconds": 0.05853047803975642,
+    "params": {
+      "n_neighbors": 50,
+      "weights": "distance"
+    },
+    "phase_supervision": {
+      "exit_code": 0,
+      "finished_at": "2026-10-27T00:22:36.605382+00:00",
+      "peak_tree_rss_kib": 208172,
+      "phase": "final_fit",
+      "reason": null,
+      "seconds": 1.8255526409484446
+    },
+    "pipeline_sha256": "6ced73c3e8f5dc4aa2505b38d11d886fa67cf2fe71c90f1e31b4943e955e6388",
+    "seed": 2125960530,
+    "source_sha256": "8025a189da36ce5414f8dff65be5cf21ecdeffe950d4a6d8ebf8273c60cf67c2",
+    "status": "success",
+    "training_X_sha256": "5732c589ee808ea66e32dfb9219ec4e8cee8bf9095f8f2190bf69d37820b4b05",
+    "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+    "training_rows": 80000,
+    "training_y_sha256": "f733d34d31488d914b44c68b0b3c11bbe3f5f00199a8d8a4fb118d69563987eb"
+  },
+  "started_at": "2026-10-27T00:22:34.778430+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e5/rep_2/fit/direct/knn/label_noise_20",
+    "condition": "label_noise_20",
+    "dependencies": [
+      "e5/rep_2/corruption/label_noise_20",
+      "e4/rep_2/fit/direct/knn/control"
+    ],
+    "experiment": 5,
+    "generator": null,
+    "key": "e5/rep_2/fit/direct/knn/label_noise_20",
+    "kind": "fit",
+    "mechanism": "label_noise",
+    "method": "knn",
+    "optimizer_seed": 802518694,
+    "rate": 0.2,
+    "ratio": null,
+    "rep": 2,
+    "route": "direct",
+    "scientific_case": false,
+    "seed": 2125960530,
+    "selection_key": "e4/rep_2/fit/direct/knn/control",
+    "selection_mode": "fixed",
+    "selection_policy": "frozen_clean_selected_params_no_retuning",
+    "selection_source": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_2/fit/direct/knn/control",
+    "target_class": null,
+    "train_key": "e5/rep_2/corruption/label_noise_20",
+    "train_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e5/rep_2/corruption/label_noise_20/data.npz",
+    "treatment": null,
+    "trials": 0
+  },
+  "task_sha256": "77d4e8a801d6b993825fa540b93e638f25ef458e2c598a19ca50ac9ef3926da0"
+}

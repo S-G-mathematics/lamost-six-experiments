@@ -1,0 +1,75 @@
+{
+  "artifact_sha256": "f6409e1e04072e2fe76d18117e594e435748f4df3975d72c2edcc28946af7407",
+  "attempt_id": "1792951711_bbf2f407",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-25T18:10:32.317311+00:00",
+  "reason": null,
+  "result": {
+    "class_counts": [
+      4654,
+      18382,
+      32091,
+      17640,
+      7120,
+      1267,
+      1240
+    ],
+    "fit_seconds": 12.695203989977017,
+    "params": {
+      "l2_regularization": 6.560293437204493,
+      "learning_rate": 0.1623957875913377,
+      "max_iter": 300,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 50
+    },
+    "phase_supervision": {
+      "exit_code": 0,
+      "finished_at": "2026-10-25T18:10:32.303546+00:00",
+      "peak_tree_rss_kib": 243132,
+      "phase": "final_fit",
+      "reason": null,
+      "seconds": 14.8192337929504
+    },
+    "pipeline_sha256": "f6409e1e04072e2fe76d18117e594e435748f4df3975d72c2edcc28946af7407",
+    "seed": 1066130619,
+    "source_sha256": "25d0618d6fbfb26657d66c0b560dc660b1c0167f81597681b8b8937fca2119da",
+    "status": "success",
+    "training_X_sha256": "e1492ff6b7d500c79999bb6dba49601f7fb7bab48feff476d33a7fc7e7781e0c",
+    "training_ids_sha256": "217aacec59ebb6962d5775a4c50adfe81f7f1a125c5961ee711b860b44be0378",
+    "training_rows": 82394,
+    "training_y_sha256": "37e6ef0e1c616a6b24fa81cd247d88ee474aa69f2c548f0e418f2c2e155fdf35"
+  },
+  "started_at": "2026-10-25T18:08:31.159000+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_1/fit/treatment/hist_gb/A_half_generated_gmm",
+    "clean_control_key": "e3/rep_1/fit/real/hist_gb",
+    "condition": "A_half_generated_gmm",
+    "dependencies": [
+      "e4/rep_1/append/A_half/gmm"
+    ],
+    "experiment": 4,
+    "generator": "gmm",
+    "key": "e4/rep_1/fit/treatment/hist_gb/A_half_generated_gmm",
+    "kind": "fit",
+    "mechanism": null,
+    "method": "hist_gb",
+    "optimizer_seed": 1011664636,
+    "rate": null,
+    "ratio": null,
+    "rep": 1,
+    "route": "treatment",
+    "scientific_case": false,
+    "seed": 1066130619,
+    "selection_key": null,
+    "selection_mode": "tune",
+    "selection_policy": "tune_each_treatment_on_same_frozen_tuning_role_with_equal_10_trial_budget",
+    "selection_source": null,
+    "target_class": null,
+    "train_key": "e4/rep_1/append/A_half/gmm",
+    "train_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_1/append/A_half/gmm/data.npz",
+    "treatment": "generated_gmm",
+    "trials": 10
+  },
+  "task_sha256": "c599d72aba663654e505b31aeed357daaaf0dcb6103a0f442c5f41d93d5f410f"
+}

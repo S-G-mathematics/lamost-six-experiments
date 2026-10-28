@@ -1,0 +1,127 @@
+{
+  "E1_frozen": {
+    "failed": 81,
+    "planned": 765,
+    "successful": 674,
+    "unsupported": 10
+  },
+  "E1_stopped_recovery": {
+    "failed": 10,
+    "not_attempted": 55,
+    "successful": 24,
+    "user_stopped": 2
+  },
+  "E2_finalized_reporting_incomplete_coverage": {
+    "complete_five_family_correlations": 4,
+    "low_precision_class_reports": 210,
+    "primary_evaluated": 108,
+    "primary_planned": 150,
+    "reconstruction_accuracy_differences": 31,
+    "references_evaluated": 120,
+    "references_planned": 120,
+    "strata": 30
+  },
+  "E6_effective_amendment_receipt": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/E6_V2_EFFECTIVE_AMENDMENT_RECEIPT_20261028.json",
+  "E6_effective_amendment_receipt_sha256": "f20a442eed028171586ed5ad518fd95054c5051289408da5b331f95d2345e972",
+  "E6_feature_fix_effective_receipt": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/E6_FEATURE_ORDER_FIX_EFFECTIVE_RECEIPT_20261028.json",
+  "E6_feature_fix_effective_receipt_sha256": "d6ac763609c4b817e469007780d07f12e218defe50b85ce43df877f7cfd75455",
+  "E6_latest_defect_receipt": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/reports/engineering_audits/E6_FEATURE_SCHEMA_OPERATIONAL_INVALID_ATTEMPTS_20261028.json",
+  "E6_latest_defect_receipt_sha256": "34bc9ff77982aef9c09ee86bf08f786aabdc16c994da222dedf16701840a7c05",
+  "E6_primary_latest_actual_progress": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/reports/E6_LATEST_ACTUAL_PHASE_PROGRESS_20261028.json",
+  "actual_observation": {
+    "available_ram_gib": 27.32,
+    "controller_actual_verified": true,
+    "controller_sha256": "b9465eb5ae73991abe7551dee7b8f131feefecc3dd3656917d019b76457aa7ca",
+    "dag_tasks": 6270,
+    "disk_free_gib": 39.69,
+    "holds": [
+      "STORAGE_HOLD.json"
+    ],
+    "instance_dmi": "i-095641a281a4038b9",
+    "observed_ist": "2026-10-28T01:27:35.370247+05:30",
+    "observed_utc": "2026-10-27T19:57:35.370247+00:00",
+    "registry_running_unverified_at_observation": [],
+    "scientific_outcomes": {
+      "3": {
+        "scientific_failure": 3,
+        "successful": 64,
+        "unavailable_dependency": 2
+      },
+      "4": {
+        "scientific_failure": 71,
+        "successful": 1517,
+        "unavailable_dependency": 3,
+        "waiting_for_dependency": 182
+      },
+      "5": {
+        "scientific_failure": 50,
+        "successful": 652,
+        "unavailable_dependency": 30,
+        "waiting_for_dependency": 228
+      },
+      "6": {
+        "planned": 3,
+        "running": 1,
+        "scientific_failure": 1,
+        "successful": 12,
+        "unavailable_dependency": 4
+      }
+    },
+    "storage_admission_observation": {
+      "estimate_refresh_interval_seconds": 300,
+      "free_bytes_now": 42615255040,
+      "headroom_bytes": 1501574817,
+      "hold_marker_present": true,
+      "minimum_free_bytes_from_controller": 41113680223,
+      "note": "Storage marker is historical evidence, not a scheduling lock; controller uses free bytes and its current conservative input estimate.",
+      "observation_age_seconds": 1.11,
+      "observed_utc": "2026-10-27T19:57:34.261029+00:00",
+      "status": "allowed_by_current_recorded_estimate"
+    },
+    "workers_actual_verified": [
+      {
+        "admission_profile_id": "e4-direct-arf-80k-tuned-admission-6gib-20261026",
+        "elapsed_s": 658.1,
+        "key": "e4/rep_3/fit/direct/arf/QSO_half",
+        "kind": "fit",
+        "reservation_gib": 6.0
+      },
+      {
+        "admission_profile_id": "adaptive-concurrency-20261025-v1.1-default",
+        "elapsed_s": 152.3,
+        "key": "e6/rep_2/ensemble/equal",
+        "kind": "ensemble",
+        "reservation_gib": 10.0
+      }
+    ]
+  },
+  "current_source_freeze_sha256": "0dddaafa343e751459d92978e8c23277978af3058c9cb7e0ce5f3dcbaf97e8fd",
+  "do_not": [
+    "Run more E1/E2 fitting",
+    "Retry stopped E1 recovery",
+    "Bootstrap",
+    "Use broken original staged deployer to repeat successful cutover",
+    "Claim all experiments complete before final validation and verified delivery"
+  ],
+  "engineering_venv_storage_reclamation_receipt": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/reports/engineering_audits/REDUNDANT_ENGINEERING_VENVS_VERIFIED_REPLACEMENT_20261028.json",
+  "live_harbor_or_AWS_changes": false,
+  "next_actions": [
+    "Observe actual E6-v2 worker/phase, do not call it running from a planned record",
+    "Keep E4/E5 scientific queue active under sole controller",
+    "Monitor raw1800 archive transactions and source pins; preserve unique artifacts",
+    "Validate all terminal artifacts and fresh-native calibration evidence through qualified finalizer",
+    "Review numerical report and scientific figures then full CRC/SHA archive+small laptop ZIP and exact-owned cleanup"
+  ],
+  "observed_utc": "2026-10-27T19:57:34.752460+00:00",
+  "optional_RF_resource_extensions": "staged_unqualified_not_deployed",
+  "portable_bundle": "908e78202071352c0a9798b714f1704b2e7e19fd9bb2252e477f9deebeed7465",
+  "portable_pass_sha256": "c101e8486ffcf6e54f9eadd11a5c0ffebddcb378a6b6886ff8505f1a0d1e8d51",
+  "portable_test_count": 509,
+  "previous_note_history": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/reports/history/LATEST_EXECUTION_CONTINUATION_NOTE_BEFORE_E6_V2_LIVE_20261028.json",
+  "raw_watcher_current": "restored_exact_bounded1800_with360s_cooldown_after_readonly_preflight",
+  "raw_watcher_restoration_receipt": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/reports/engineering_audits/RAW1800_WATCHER_RESTORED_AFTER_E6_FEATURE_FIX_20261028.json",
+  "schema": "lamost-current-execution-continuation/3",
+  "scientific_fit_cap": "No fixed 2 cap; measured adaptive memory/CPU headroom with14 CPU maximum, OS/Harbor reserves, nested1thread,10GiB hard later workers,600s scientific phases unchanged",
+  "status": "E6_feature_fix_active_E4_E5_E6_scientific_queue_running",
+  "storage_watcher_receipt": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/reports/engineering_audits/RAW1800_WATCHER_RESTORED_AFTER_E6_V2_QUALIFICATION_20261028.json"
+}

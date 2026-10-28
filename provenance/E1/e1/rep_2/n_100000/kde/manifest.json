@@ -1,0 +1,119 @@
+{
+  "budget": 100000,
+  "error": "TrialTimeout: trial exceeded 180s timeout",
+  "experiment": 1,
+  "method": "kde",
+  "repetition": 2,
+  "roles": {
+    "budget": 100000,
+    "requested_budget": 100000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          597,
+          2246,
+          3971,
+          2064,
+          845,
+          143,
+          134
+        ],
+        "ids_sha256": "a4ab469036e79bedd5ae67eb4d27ff82b2fb11a6e62eec7f43a10013e584a2b6",
+        "n": 10000
+      },
+      "fit": {
+        "counts": [
+          4510,
+          17854,
+          31168,
+          17120,
+          6914,
+          1230,
+          1204
+        ],
+        "ids_sha256": "8a882323afbc0b53b7c06c3afa758b62a0ee4d6555f4cd66780565521a368b32",
+        "n": 80000
+      },
+      "tune": {
+        "counts": [
+          564,
+          2232,
+          3895,
+          2140,
+          864,
+          154,
+          151
+        ],
+        "ids_sha256": "56acdee1a36d508933a0c8c4fc83a766de6fc33a050c536fc10eecda51d0e591",
+        "n": 10000
+      }
+    },
+    "status": "ok"
+  },
+  "seed": 271829,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 591, in run_e1\n    test_pred, test_scores, fallback_test = _predict_chunks(model, test_model_X, self.prediction_chunk, diagnostics=True)\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 148, in score_matrix\n    lp = self.class_logpdf(X)\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 144, in class_logpdf\n    out[:, c] = model.score_samples(X) if self.method == \"gmm\" else model.logpdf(X)\n                                                                    ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 211, in logpdf\n    part = logsumexp(-0.5 * d2 / (self.bandwidth * self.bandwidth), axis=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/special/_logsumexp.py\", line 128, in logsumexp\n    out, sgn = _logsumexp(a, b, axis=axis, return_sign=return_sign, xp=xp)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/special/_logsumexp.py\", line 213, in _logsumexp\n    a = xpx.at(a, i_max).set(-xp.inf, copy=True if b is None else None)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/_lib/array_api_extra/_lib/_at.py\", line 370, in set\n    return self._op(_AtOp.SET, None, None, y, copy=copy, xp=xp)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/_lib/array_api_extra/_lib/_at.py\", line 336, in _op\n    x = xp.asarray(x, copy=True)\n        ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/_lib/array_api_compat/numpy/_aliases.py\", line 94, in asarray\n    return np.array(obj, copy=copy, dtype=dtype, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "bandwidth": 0.48501326145352985
+      },
+      "peak_rss_kib": 1152832,
+      "seconds": 8.110641399995075,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5007529911171269
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "bandwidth": 0.6065423375340955
+      },
+      "peak_rss_kib": 1152832,
+      "seconds": 7.887601488997461,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.46390341839062466
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "bandwidth": 0.2815363397350204
+      },
+      "peak_rss_kib": 1152832,
+      "seconds": 7.793661334988428,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5521952544141838
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "bandwidth": 0.05830801692875374
+      },
+      "peak_rss_kib": 1167652,
+      "seconds": 18.834258311995654,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6711148563837651
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "bandwidth": 0.05648425790437482
+      },
+      "peak_rss_kib": 1167780,
+      "seconds": 18.760767797008157,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6714244689628763
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "budget": 300,
+  "error": "RuntimeError: all hyperparameter trials failed",
+  "experiment": 1,
+  "method": "arf",
+  "repetition": 4,
+  "roles": {
+    "budget": 300,
+    "requested_budget": 300,
+    "roles": {
+      "calibration": {
+        "counts": [
+          3,
+          5,
+          8,
+          7,
+          5,
+          1,
+          1
+        ],
+        "ids_sha256": "b93ae0ab99d25f6c19246bb6330d8a6a91d92cd00a46987114ec1dad12694db1",
+        "n": 30
+      },
+      "fit": {
+        "counts": [
+          14,
+          53,
+          93,
+          51,
+          21,
+          4,
+          4
+        ],
+        "ids_sha256": "4d358e62b60b298309bf418e407729a6489a7e1f55cac8e8ec9d0617eac4f2d0",
+        "n": 240
+      },
+      "tune": {
+        "counts": [
+          2,
+          6,
+          11,
+          6,
+          3,
+          1,
+          1
+        ],
+        "ids_sha256": "dcf42f899320d0304a0db8f78192185008a0cc93af5ac3b648da256abb8254cf",
+        "n": 30
+      }
+    },
+    "status": "ok"
+  },
+  "seed": 271831,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 538, in run_e1\n    if best is None: raise RuntimeError(\"all hyperparameter trials failed\")\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: all hyperparameter trials failed\n",
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": "ValueError: unsupported: ARF requires at least five observations per class",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 493, in run_e1\n    params = mod.suggest_parameters(tr, method, len(fit_idx), int(counts.min()))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 235, in suggest_parameters\n    raise ValueError(\"unsupported: ARF requires at least five observations per class\")\nValueError: unsupported: ARF requires at least five observations per class\n",
+      "number": 0,
+      "params": {},
+      "peak_rss_kib": 1177156,
+      "seconds": 0.0008747430038056336,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "ValueError: unsupported: ARF requires at least five observations per class",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 493, in run_e1\n    params = mod.suggest_parameters(tr, method, len(fit_idx), int(counts.min()))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 235, in suggest_parameters\n    raise ValueError(\"unsupported: ARF requires at least five observations per class\")\nValueError: unsupported: ARF requires at least five observations per class\n",
+      "number": 1,
+      "params": {},
+      "peak_rss_kib": 1177156,
+      "seconds": 0.00041477199556538835,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "ValueError: unsupported: ARF requires at least five observations per class",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 493, in run_e1\n    params = mod.suggest_parameters(tr, method, len(fit_idx), int(counts.min()))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 235, in suggest_parameters\n    raise ValueError(\"unsupported: ARF requires at least five observations per class\")\nValueError: unsupported: ARF requires at least five observations per class\n",
+      "number": 2,
+      "params": {},
+      "peak_rss_kib": 1177156,
+      "seconds": 0.00043116800225107,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "ValueError: unsupported: ARF requires at least five observations per class",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 493, in run_e1\n    params = mod.suggest_parameters(tr, method, len(fit_idx), int(counts.min()))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 235, in suggest_parameters\n    raise ValueError(\"unsupported: ARF requires at least five observations per class\")\nValueError: unsupported: ARF requires at least five observations per class\n",
+      "number": 3,
+      "params": {},
+      "peak_rss_kib": 1177156,
+      "seconds": 0.0004325100017013028,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "ValueError: unsupported: ARF requires at least five observations per class",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 493, in run_e1\n    params = mod.suggest_parameters(tr, method, len(fit_idx), int(counts.min()))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 235, in suggest_parameters\n    raise ValueError(\"unsupported: ARF requires at least five observations per class\")\nValueError: unsupported: ARF requires at least five observations per class\n",
+      "number": 4,
+      "params": {},
+      "peak_rss_kib": 1177156,
+      "seconds": 0.000450505998742301,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    }
+  ]
+}

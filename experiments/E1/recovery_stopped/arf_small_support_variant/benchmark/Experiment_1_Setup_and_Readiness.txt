@@ -1,0 +1,140 @@
+Experiment 1: Learning Curves and Setup Readiness
+=================================================
+
+Purpose
+-------
+Experiment 1 asks which non-neural classifiers perform best as the amount of
+real fitting data grows, and whether the relative rankings of generative and
+discriminative methods change across the observed budgets. The comparison is
+hypothesis-neutral: no method is presumed to win, and an unsupported or failed
+method remains a valid recorded outcome.
+
+Data and predictors
+-------------------
+The frozen LAMOST DR10 v2 baseline contains 2,330,835 source representatives,
+with labels A, F, G, K, M, GALAXY, and QSO. The six numerical predictors are
+Pan-STARRS g, r, i, z, and y magnitudes, plus Gaia G magnitude. The existing
+500,000-source test cohort stays fixed. The remaining 1,830,835 sources form
+the development pool.
+
+Identifiers, counterpart identifiers, spectral labels, signal-to-noise values,
+and audit fields are excluded from model predictors. Correlated photometric
+bands are retained. There is no correlation-based feature deletion and no
+global outlier deletion or learned outlier filter.
+
+Design and paired data allocation
+---------------------------------
+The planned design has nine development budgets, five repetitions, and all
+seventeen methods: 9 x 5 x 17 = 765 planned method-budget-repetition cells.
+The budgets are 100, 300, 1,000, 3,000, 10,000, 30,000, 100,000, 300,000, and
+1,000,000 development sources.
+
+Each budget is split into 80 percent fitting, 10 percent tuning, and 10 percent
+conformal calibration. Thus the 100,000-source budget has 80,000 fitting,
+10,000 tuning, and 10,000 calibration rows. Within each repetition, roles and
+budgets are nested where feasible; each method at a given budget uses the same
+source memberships. Sampling is without replacement within a repetition.
+Different repetitions may overlap. Fit and tuning quotas remain approximately
+natural-proportion, with one example per class reserved where feasible at small
+budgets. Calibration is a population-representative random role and receives
+no forced class quotas. Any departures are saved in role manifests.
+
+Preprocessing is learned from the fitting role only. The current E1 runner fits
+median imputation and standardization on fitting rows and applies those frozen
+transforms to tuning, calibration, and test rows. No preprocessing, feature
+selection, or score mapping is learned from calibration or test data.
+
+Methods and tuning
+------------------
+The seventeen methods are four classical class-conditional Gaussian models
+(Gaussian Naive Bayes, shared-diagonal Gaussian, shrinkage LDA, and regularized
+QDA); five flexible class-conditional density models (GMM, Gaussian copula,
+ARF/FORDE, KDE, and continuous Chow-Liu); and eight discriminative classifiers
+(regularized logistic regression, linear SVM, RBF SVM, kNN, CART, random forest,
+Extra Trees, and histogram gradient boosting).
+
+Each cell receives ten adaptive tuning trials, or five for the four expensive
+methods: RBF SVM, KDE, kNN, and ARF. ARF is included in the five-trial group due
+to its observed implementation cost during development checks. At most 6,750
+tuning attempts are planned across the 765 cells before failures and duplicate
+proposals are accounted for: thirteen methods x ten trials plus four methods x
+five trials, repeated over 45 budget-repetition pairs. The sequential seeded
+search starts with three random trials. Duplicate proposals are cached, and
+failed trials are recorded without unlimited replacements.
+
+ARF's declared minimum-leaf search values are 5, 20, and 100, constrained by
+the smallest fitting-class count; settings without sufficient class support
+are unsupported. Five is the lower bound of this benchmark search domain, not
+a minimum imposed by the underlying ARF library API.
+
+Tuning selects configurations by balanced accuracy on the tuning role. Exact
+ties use a frozen, method-specific simpler-first complexity order, then lower
+measured computational cost, then deterministic trial order. Calibration
+coverage and set size never break a tuning tie. Test results do not select
+configurations or method representatives.
+
+Outcomes and uncertainty
+------------------------
+The primary outcome is balanced accuracy, the mean of the seven class recalls.
+The secondary predictive outcome is mean conformal prediction-set size at a
+nominal 90 percent overall coverage target. Overall and class-wise achieved
+coverage are validity diagnostics; they are reported alongside set size.
+
+For probability-output models, the conformal score is LAC, 1 minus the
+probability assigned to the candidate label. For SVMs, the declared score is
+the negative native one-versus-rest margin; no tuning-label probability map is
+applied. A single calibration threshold uses the finite-sample order statistic
+at k = ceil((m + 1) x 0.90), with an infinite threshold if k exceeds the number
+of calibration rows. Prediction sets include every label whose score is at
+most that threshold. No threshold is adjusted on test data.
+
+Report all run-level points, mean curves, observed variability, and paired
+method differences within the same repetition and budget. Use 95 percent
+paired bootstrap intervals with 1,000 replicates. Balanced-accuracy bootstrap
+resampling is stratified by true class; set size and overall coverage use
+population-row resampling with matched indices across methods. These intervals
+are conditional on the fitted pipelines and fixed calibration thresholds;
+they do not represent unobserved training, tuning, or calibration variation.
+The 0.2 percentage-point practical-improvement reporting convention was
+frozen before final test evaluation, separately from statistical uncertainty.
+
+Resource reporting and visible failures
+----------------------------------------
+Record fitting and prediction times, peak memory, trial counts, selected
+settings, invalid-support fallback counts, and failure reasons. Unsupported
+small-budget fits, insufficient class support, convergence failures, invalid
+densities, timeouts, and resource-limit failures remain visible; no method is
+silently replaced by another family.
+
+Frozen operational limits, following the 10,000-row development pilot,
+are a 180-second soft phase timeout and a 6 GiB RSS stop. Separately,
+RLIMIT_AS is set to process-startup virtual memory plus 6 GiB headroom; the
+host-level cgroup limit is 8 GiB. One additional hard wall-clock watchdog
+bounds each complete method cell: trials x (180 + 30) + 4 x 180 + 180 seconds,
+giving 1,950 seconds for five-trial cells and 3,000 seconds for ten-trial
+cells. The phase timeout, RSS stop, address-space ceiling, host limit, and
+whole-cell watchdog are separate controls. An external phase watchdog kills
+a stalled child after 210 seconds (180 seconds plus 30 seconds grace).
+Prediction uses 50,000-row outer batches; exact KDE also uses bounded internal
+batches. A development-only ARF inference probe scored 50,000 rows in 16.50
+seconds, with finite scores and no test rows accessed.
+
+Readiness status
+----------------
+The development-only pilot is complete: its final subset comprised 28 cells,
+with 26 completing and two ARF cells unsupported at budgets 100 and 300.
+At budget 10,000, one ARF trial reached 180 seconds; another completed in
+43.36 seconds. These development checks are not test-set performance results.
+The release test suite passed 32 tests plus 16 subtests.
+
+The user has authorized execution. The main configuration, source hashes,
+dependency versions, trial counts, score rules, resource limits, and 0.2-point
+reporting convention were frozen before test evaluation. The full 765-cell E1
+run has now been launched, in ascending budget order and one method cell at a
+time. Results are incomplete until its planned cells finish or receive explicit
+failure statuses. Experiments 2 through 6 remain on hold.
+
+Freeze record: benchmark/results/master_run_config.json.
+Execution logs, trial histories, predictions, conformal memberships and status
+records are checkpointed by method, budget and repetition. No final E1 winner
+or learning-curve crossover is claimed in this readiness note.

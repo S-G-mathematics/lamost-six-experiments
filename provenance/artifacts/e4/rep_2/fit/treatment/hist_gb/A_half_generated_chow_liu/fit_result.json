@@ -1,0 +1,75 @@
+{
+  "artifact_sha256": "c7a83aae22babd7d6af3bead561bd254a00ee436d0e1e7fbf6d4f4b2baf650bb",
+  "attempt_id": "1792956971_23f2135f",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-25T19:38:06.785442+00:00",
+  "reason": null,
+  "result": {
+    "class_counts": [
+      4645,
+      18387,
+      32099,
+      17631,
+      7121,
+      1267,
+      1240
+    ],
+    "fit_seconds": 12.2950657249894,
+    "params": {
+      "l2_regularization": 9.103667979075205,
+      "learning_rate": 0.11359312869105956,
+      "max_iter": 300,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 10
+    },
+    "phase_supervision": {
+      "exit_code": 0,
+      "finished_at": "2026-10-25T19:38:06.772172+00:00",
+      "peak_tree_rss_kib": 256912,
+      "phase": "final_fit",
+      "reason": null,
+      "seconds": 14.253467942005955
+    },
+    "pipeline_sha256": "c7a83aae22babd7d6af3bead561bd254a00ee436d0e1e7fbf6d4f4b2baf650bb",
+    "seed": 1151283562,
+    "source_sha256": "e26f907cf1b8b1a525427faf7b433fbdb53f155fa2d1147852e80128288424f3",
+    "status": "success",
+    "training_X_sha256": "443489f3587dc1b937446d704ba44e57098393fd79a76622c20dc0d1093e68df",
+    "training_ids_sha256": "575d37081229319868c799c82dc0ce9fe9531b8012d55f49816ef7334221c066",
+    "training_rows": 82390,
+    "training_y_sha256": "3a66a43ffb2375f151e03fe536ec5252ed9e54e30b26db7dafe1e705e20f319f"
+  },
+  "started_at": "2026-10-25T19:36:11.318050+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_2/fit/treatment/hist_gb/A_half_generated_chow_liu",
+    "clean_control_key": "e3/rep_2/fit/real/hist_gb",
+    "condition": "A_half_generated_chow_liu",
+    "dependencies": [
+      "e4/rep_2/append/A_half/chow_liu"
+    ],
+    "experiment": 4,
+    "generator": "chow_liu",
+    "key": "e4/rep_2/fit/treatment/hist_gb/A_half_generated_chow_liu",
+    "kind": "fit",
+    "mechanism": null,
+    "method": "hist_gb",
+    "optimizer_seed": 568235043,
+    "rate": null,
+    "ratio": null,
+    "rep": 2,
+    "route": "treatment",
+    "scientific_case": false,
+    "seed": 1151283562,
+    "selection_key": null,
+    "selection_mode": "tune",
+    "selection_policy": "tune_each_treatment_on_same_frozen_tuning_role_with_equal_10_trial_budget",
+    "selection_source": null,
+    "target_class": null,
+    "train_key": "e4/rep_2/append/A_half/chow_liu",
+    "train_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_2/append/A_half/chow_liu/data.npz",
+    "treatment": "generated_chow_liu",
+    "trials": 10
+  },
+  "task_sha256": "beb3686c533f88f3bd6f61a871c20b049f3e43bfdf2ddb68fe746b36edeabbb9"
+}

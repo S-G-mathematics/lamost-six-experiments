@@ -1,0 +1,139 @@
+{
+  "budget": 1000000,
+  "error": "RuntimeError: all hyperparameter trials failed",
+  "experiment": 1,
+  "method": "arf",
+  "repetition": 3,
+  "roles": {
+    "budget": 1000000,
+    "requested_budget": 1000000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          5516,
+          22353,
+          39064,
+          21411,
+          8536,
+          1557,
+          1563
+        ],
+        "ids_sha256": "cc1debfd587fa14d86b9863c4100b9c27b73c44f9c0cf9e28c8090283329b6c4",
+        "n": 100000
+      },
+      "fit": {
+        "counts": [
+          45190,
+          178458,
+          311661,
+          171221,
+          69172,
+          12278,
+          12020
+        ],
+        "ids_sha256": "3b415286669dbad8a061889e9a93adb5635775733d2cfdc44e5e25e792cd5a16",
+        "n": 800000
+      },
+      "tune": {
+        "counts": [
+          5649,
+          22307,
+          38956,
+          21402,
+          8647,
+          1536,
+          1503
+        ],
+        "ids_sha256": "96a4db72e18163f2244631771192db23a14a7c3eae59259459bd06c4f8c3dbe4",
+        "n": 100000
+      }
+    },
+    "status": "ok"
+  },
+  "seed": 271830,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 538, in run_e1\n    if best is None: raise RuntimeError(\"all hyperparameter trials failed\")\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: all hyperparameter trials failed\n",
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/arfpy/arf.py\", line 132, in __init__\n    clf_1.fit(x, y)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 0,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 6110296,
+      "seconds": 180.35189999302384,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/arfpy/arf.py\", line 132, in __init__\n    clf_1.fit(x, y)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 1,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 6110296,
+      "seconds": 180.1801449499908,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/arfpy/arf.py\", line 132, in __init__\n    clf_1.fit(x, y)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 2,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 100,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 6155408,
+      "seconds": 180.13448072003666,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/arfpy/arf.py\", line 132, in __init__\n    clf_1.fit(x, y)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 3,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 100,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 6155408,
+      "seconds": 180.33767743699718,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/arfpy/arf.py\", line 132, in __init__\n    clf_1.fit(x, y)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 4,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 20,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 6155408,
+      "seconds": 180.35190088901436,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    }
+  ]
+}

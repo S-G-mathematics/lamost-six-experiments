@@ -1,0 +1,214 @@
+{
+  "best_tuning_balanced_accuracy": 0.6827050765441516,
+  "budget": 10000,
+  "calibration_n": 1000,
+  "calibration_prediction_seconds": 0.7943398130009882,
+  "conformal_alpha": 0.1,
+  "conformal_nonconformity_threshold": 0.954646609723568,
+  "duplicate_trials": 1,
+  "experiment": 1,
+  "failed_trials": 1,
+  "final_fit_seconds": 44.8303630579976,
+  "fit_seconds_total": 374.25529149400245,
+  "invalid_support_fallback_count": {
+    "calibration": 0,
+    "test": 0,
+    "tuning": 0
+  },
+  "mean_prediction_set_size": 2.115592,
+  "memory_limit_exceeded": false,
+  "method": "arf",
+  "peak_rss_kib": 1216292,
+  "repetition": 1,
+  "resource_profile": "native8gib8cores",
+  "roles": {
+    "budget": 10000,
+    "requested_budget": 10000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          46,
+          222,
+          410,
+          219,
+          77,
+          11,
+          15
+        ],
+        "ids_sha256": "10d32bd58b08747f7a9354e6cdaf4620d0e6387bbdafc1d66e73ab1f8939501a",
+        "n": 1000
+      },
+      "fit": {
+        "counts": [
+          452,
+          1785,
+          3115,
+          1713,
+          691,
+          123,
+          121
+        ],
+        "ids_sha256": "d55b3c3d977d6a01f45dd48535ca48dc3ae986ab00770d8e76cf58e515ba1528",
+        "n": 8000
+      },
+      "tune": {
+        "counts": [
+          57,
+          223,
+          388,
+          214,
+          87,
+          16,
+          15
+        ],
+        "ids_sha256": "e639044fcddb1516022187970247fe4c45f55fece5fc71510d47a781a1ef8c95",
+        "n": 1000
+      }
+    },
+    "status": "ok"
+  },
+  "score_kind": "probability",
+  "seed": 271828,
+  "selected_params": {
+    "density_dist": "truncnorm",
+    "finite_bounds": "no",
+    "max_depth": 10,
+    "min_samples_leaf": 20,
+    "num_trees": 100
+  },
+  "selected_tuning_prediction_seconds": 0.8533392149984138,
+  "status": "complete",
+  "successful_trials": 3,
+  "test_coverage": 0.884606,
+  "test_metrics": {
+    "balanced_accuracy": 0.6521767918620239,
+    "per_class": {
+      "0": {
+        "coverage": 0.4532562839011593,
+        "n": 28207,
+        "recall": 0.19094550997979226,
+        "set_size": 2.497252455064346
+      },
+      "1": {
+        "coverage": 0.8001685358004106,
+        "n": 111549,
+        "recall": 0.4223704381034344,
+        "set_size": 2.152130453881254
+      },
+      "2": {
+        "coverage": 0.9555123243232145,
+        "n": 194818,
+        "recall": 0.6392222484575347,
+        "set_size": 2.1855526696711802
+      },
+      "3": {
+        "coverage": 0.918731778425656,
+        "n": 107016,
+        "recall": 0.6132540928459296,
+        "set_size": 2.1625831651341856
+      },
+      "4": {
+        "coverage": 0.961089764362761,
+        "n": 43202,
+        "recall": 0.8680153696588121,
+        "set_size": 1.6264987732049443
+      },
+      "5": {
+        "coverage": 0.947265625,
+        "n": 7680,
+        "recall": 0.9276041666666667,
+        "set_size": 1.2037760416666667
+      },
+      "6": {
+        "coverage": 0.9290648246546227,
+        "n": 7528,
+        "recall": 0.9038257173219979,
+        "set_size": 1.4026301806588735
+      }
+    }
+  },
+  "test_prediction_seconds": 173.92110399800004,
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 130, in fit\n    group = group.set_index(\"variable\").reindex(_FEATURES)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/frame.py\", line 5378, in reindex\n    return super().reindex(\n           ^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/generic.py\", line 5610, in reindex\n    return self._reindex_axes(\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/generic.py\", line 5633, in _reindex_axes\n    new_index, indexer = ax.reindex(\n                         ^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/indexes/base.py\", line 4403, in reindex\n    target = ensure_index(target)\n             ^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/indexes/base.py\", line 7647, in ensure_index\n    return Index(index_like, copy=copy, tupleize_cols=False)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/indexes/base.py\", line 565, in __new__\n    arr = sanitize_array(data, None, dtype=dtype, copy=copy)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/construction.py\", line 654, in sanitize_array\n    subarr = maybe_convert_platform(data)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/dtypes/cast.py\", line 138, in maybe_convert_platform\n    arr = lib.maybe_convert_objects(arr)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 0,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 1478160,
+      "seconds": 180.02514029000304,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 20,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 1478160,
+      "seconds": 44.076772776003054,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6827050765441516
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 100,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 1563700,
+      "seconds": 98.44773774100031,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5550953025658775
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 20,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 1563700,
+      "seconds": 51.704633553999884,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6597702304971415
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 20,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 1563700,
+      "seconds": 0.001007132996164728,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.6827050765441516
+    }
+  ]
+}

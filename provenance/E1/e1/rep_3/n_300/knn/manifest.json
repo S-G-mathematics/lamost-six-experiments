@@ -1,0 +1,196 @@
+{
+  "best_tuning_balanced_accuracy": 0.4610389610389611,
+  "budget": 300,
+  "calibration_n": 30,
+  "calibration_prediction_seconds": 0.001079841997125186,
+  "conformal_alpha": 0.1,
+  "conformal_nonconformity_threshold": 1.0,
+  "duplicate_trials": 1,
+  "experiment": 1,
+  "failed_trials": 0,
+  "final_fit_seconds": 0.0014198620046954602,
+  "fit_seconds_total": 0.014019189999089576,
+  "invalid_support_fallback_count": {
+    "calibration": 0,
+    "test": 0,
+    "tuning": 0
+  },
+  "mean_prediction_set_size": 7.0,
+  "memory_limit_exceeded": false,
+  "method": "knn",
+  "peak_rss_kib": 1198752,
+  "repetition": 3,
+  "resource_profile": "native8gib8cores",
+  "roles": {
+    "budget": 300,
+    "requested_budget": 300,
+    "roles": {
+      "calibration": {
+        "counts": [
+          2,
+          4,
+          13,
+          7,
+          4,
+          0,
+          0
+        ],
+        "ids_sha256": "b0737a1209b167637e6f236fccc36a0a69573f6f346fa1c16b6f483b9ce25e88",
+        "n": 30
+      },
+      "fit": {
+        "counts": [
+          14,
+          53,
+          93,
+          51,
+          21,
+          4,
+          4
+        ],
+        "ids_sha256": "824b356658b470a4f7f9daf7f0363810668d0817bfc1a0c2d51d083e3a8a2194",
+        "n": 240
+      },
+      "tune": {
+        "counts": [
+          2,
+          6,
+          11,
+          6,
+          3,
+          1,
+          1
+        ],
+        "ids_sha256": "dd0610a62f170537607efeb654d57572dd8990d53edecc71c4f97954db50c3ef",
+        "n": 30
+      }
+    },
+    "status": "ok"
+  },
+  "score_kind": "probability",
+  "seed": 271830,
+  "selected_params": {
+    "n_neighbors": 3,
+    "weights": "uniform"
+  },
+  "selected_tuning_prediction_seconds": 0.0010016340020229109,
+  "status": "complete",
+  "successful_trials": 4,
+  "test_coverage": 1.0,
+  "test_metrics": {
+    "balanced_accuracy": 0.5252135647323845,
+    "per_class": {
+      "0": {
+        "coverage": 1.0,
+        "n": 28207,
+        "recall": 0.16116566809657176,
+        "set_size": 7.0
+      },
+      "1": {
+        "coverage": 1.0,
+        "n": 111549,
+        "recall": 0.31863127414858045,
+        "set_size": 7.0
+      },
+      "2": {
+        "coverage": 1.0,
+        "n": 194818,
+        "recall": 0.5534704185444876,
+        "set_size": 7.0
+      },
+      "3": {
+        "coverage": 1.0,
+        "n": 107016,
+        "recall": 0.4928421918217837,
+        "set_size": 7.0
+      },
+      "4": {
+        "coverage": 1.0,
+        "n": 43202,
+        "recall": 0.5494190083792417,
+        "set_size": 7.0
+      },
+      "5": {
+        "coverage": 1.0,
+        "n": 7680,
+        "recall": 0.821875,
+        "set_size": 7.0
+      },
+      "6": {
+        "coverage": 1.0,
+        "n": 7528,
+        "recall": 0.7790913921360255,
+        "set_size": 7.0
+      }
+    }
+  },
+  "test_prediction_seconds": 0.4882119620015146,
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "n_neighbors": 15,
+        "weights": "uniform"
+      },
+      "peak_rss_kib": 1178948,
+      "seconds": 0.0037818089986103587,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.3203463203463203
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "n_neighbors": 3,
+        "weights": "uniform"
+      },
+      "peak_rss_kib": 1178948,
+      "seconds": 0.0027922730005229823,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.4610389610389611
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "n_neighbors": 3,
+        "weights": "uniform"
+      },
+      "peak_rss_kib": 1178948,
+      "seconds": 0.00023972000053618103,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.4610389610389611
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "n_neighbors": 3,
+        "weights": "distance"
+      },
+      "peak_rss_kib": 1178948,
+      "seconds": 0.0034902499974123202,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.3528138528138528
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "n_neighbors": 100,
+        "weights": "uniform"
+      },
+      "peak_rss_kib": 1178948,
+      "seconds": 0.003715138002007734,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.12987012987012986
+    }
+  ]
+}

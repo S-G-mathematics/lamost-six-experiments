@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "1418452afb5eabeb0c7931f19f05d737f4d1243ed8b6e308815ee962d91068bf",
+  "attempt_id": "1792951026_15ebb81f",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-25T17:57:09.600512+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.6515780994334531,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        2095,
+        20023,
+        4782,
+        510,
+        243,
+        85,
+        469
+      ],
+      [
+        627,
+        43697,
+        64629,
+        1453,
+        501,
+        68,
+        574
+      ],
+      [
+        622,
+        14036,
+        164068,
+        12047,
+        3619,
+        83,
+        343
+      ],
+      [
+        180,
+        997,
+        27092,
+        76999,
+        1563,
+        62,
+        123
+      ],
+      [
+        190,
+        83,
+        1845,
+        6408,
+        34648,
+        11,
+        17
+      ],
+      [
+        91,
+        30,
+        56,
+        190,
+        73,
+        7084,
+        156
+      ],
+      [
+        428,
+        284,
+        66,
+        547,
+        61,
+        52,
+        6090
+      ]
+    ],
+    "coverage": 0.902512,
+    "fit_key": "e4/rep_3/fit/treatment/logistic/GALAXY_half_smote",
+    "per_class": {
+      "0": {
+        "coverage": 0.5311092991101499,
+        "n": 28207,
+        "recall": 0.0742723437444606,
+        "set_size": 2.141099727018116
+      },
+      "1": {
+        "coverage": 0.9010300406099562,
+        "n": 111549,
+        "recall": 0.39172919524155303,
+        "set_size": 1.9592286797730145
+      },
+      "2": {
+        "coverage": 0.9582944081142399,
+        "n": 194818,
+        "recall": 0.842160375324662,
+        "set_size": 1.8852159451385395
+      },
+      "3": {
+        "coverage": 0.902537938252224,
+        "n": 107016,
+        "recall": 0.7195092322643343,
+        "set_size": 1.5567204903939598
+      },
+      "4": {
+        "coverage": 0.897458450997639,
+        "n": 43202,
+        "recall": 0.8019999074116939,
+        "set_size": 1.3370908754224342
+      },
+      "5": {
+        "coverage": 0.943359375,
+        "n": 7680,
+        "recall": 0.9223958333333333,
+        "set_size": 1.0899739583333334
+      },
+      "6": {
+        "coverage": 0.8594580233793836,
+        "n": 7528,
+        "recall": 0.8089798087141339,
+        "set_size": 1.2399043570669501
+      }
+    },
+    "pipeline_sha256": "e490d8bf2bf092d7c03e4a61da5f851b6a2df4450a04a8b006ea1752d46d633c",
+    "score_kind": "probability",
+    "set_size": 1.776564,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.790608611217996
+  },
+  "started_at": "2026-10-25T17:57:06.175543+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_3/eval/treatment/logistic/GALAXY_half_smote",
+    "condition": "GALAXY_half_smote",
+    "dependencies": [
+      "e4/rep_3/fit/treatment/logistic/GALAXY_half_smote"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_3/fit/treatment/logistic/GALAXY_half_smote",
+    "generator": null,
+    "key": "e4/rep_3/eval/treatment/logistic/GALAXY_half_smote",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "logistic",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 3,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 5,
+    "target_label": "GALAXY",
+    "treatment": "smote"
+  },
+  "task_sha256": "ef8f5f0dbc02bf05a80490b70408fd8f0bcfaa64af41ff44af75ea6b813f5a4b"
+}

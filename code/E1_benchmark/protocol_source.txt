@@ -1,0 +1,188 @@
+Six LAMOST Experiments
+Final experimental setup and execution protocol
+Shivansh Gupta  |  22 October 2026  |  Protocol version 1
+We will study when learned class-conditional distributions help classification, whether measured synthetic fidelity predicts classification performance, and how generative methods behave under limited support, corruption and ensembling. The scientific choices below incorporate the decisions made during the setup discussion. Implementation defaults fill the remaining operational details and are identified explicitly.
+Execution status: protocol preparation only. No model fitting, tuning, runtime pilot, synthetic sampling or benchmark evaluation is authorized to start until Shivansh says “continue.” Document rendering and verification do not constitute experiment execution.
+Experiment map
+The 100,000-row allocations for Experiments 4–6 and three repetitions for Experiments 5–6 are implementation defaults for manageable compute. Experiment 3’s budget and repetitions, and Experiment 4’s three repetitions, were explicitly agreed. Experiment 2’s six exact budgets are specified on its protocol page.
+Three prediction routes
+Direct Bayes uses fitted class densities and fitting-data priors. Synthetic-only training fits a discriminative learner on rows sampled from those densities. Real-only training fits the same learner on the original real fitting rows. Experiment 3 excludes augmentation. Targeted real-plus-generated restoration in Experiment 4 is a separately agreed intervention.
+The two predictive criteria are balanced accuracy and mean split-conformal prediction-set size at nominal 90 percent overall coverage. Achieved coverage, including class-wise coverage, is a validity diagnostic. Experiment 2 adds the fidelity score and association analysis required by its research question.
+Shared data and information boundaries
+Frozen baseline
+Use the prepared LAMOST DR10 v2 baseline: 2,330,835 source representatives, six numerical predictors, and seven labels A, F, G, K, M, GALAXY and QSO. Predictors are the five Pan-STARRS magnitude bands and Gaia G. Verify the release manifest and checksums before execution. The cleaning report supplies provenance; this protocol does not repeat that audit or claim independently verified survey labels.
+Exclude identifiers, counterpart identifiers, spectral labels, signal-to-noise values and audit flags from the predictor matrix. Preserve correlated photometric bands, valid extremes and source uncertainty flags. Apply no global learned outlier filter. Reuse structural cleaning across experiments, and fit learned transformations separately inside the relevant fitting subset.
+Real data allocation
+Keep the existing 500,000-source test set fixed. Sample development rows from all 1,830,835 non-test sources. Within each repetition, sample without replacement; overlap between repetitions is allowed. Source and counterpart groups must not cross the test boundary. Preserve the same source IDs and memberships across methods within each condition.
+Allocate every real development budget as 80 percent fitting, 10 percent tuning and 10 percent conformal calibration. A 100,000-row budget therefore has 80,000 fitting, 10,000 tuning and 10,000 calibration rows. Generated rows and repeated copies never count as extra independent real observations. Do not refit on the full development budget after tuning.
+Sampling and preprocessing
+Use saved class-specific permutations and role manifests to obtain nested fitting and tuning samples for Experiment 1. Minimum support is a disclosed small-budget constraint: reserve one fitting and one tuning example per class where feasible, then allocate remaining rows approximately proportionally. Record all departures from natural proportions. This does not guarantee that complex density estimators can fit with so few examples.
+For conformal calibration, use a random population-representative role allocation without forced per-class quotas. Construct fitting and tuning quotas from the remaining pool and document any induced difference between calibration and test distributions. Preserve calibration memberships across budgets where feasible. If the selection scheme or residual survey dependence prevents exchangeability, label the conformal result empirical and qualify its theoretical guarantee.
+Use fitting-only standardization for scale-sensitive methods and fitting-only imputation when required. Tree methods may retain native units. Reuse the generator’s real-fitting coordinate transform for synthetic and real downstream routes. Never learn scaling, imputation, score mappings or feature selection from calibration or test observations.
+Reuse policy
+A cached fit may be reused only when source IDs, labels, feature values, preprocessing, parameters and seeds match exactly. Reuse the first three matching Experiment 1 repetitions at 100,000 rows for Experiments 3 and 6. Changed imbalance or corruption conditions require new affected fits. Record logical pipeline cost separately from compute saved through reuse.
+Methods and model selection
+Valid generative predictions
+For each class c, fit a density p_hat(x given c) from that class’s fitting observations. The direct posterior is proportional to pi_hat(c) times p_hat(x given c), normalized across seven classes. Use empirical fitting priors unless an explicit prior adjustment is part of Experiment 4. Evaluate in log space. Densities must be normalized and comparable, with all marginal terms and transformation Jacobians included. Sampling capability alone is insufficient.
+Use genuine continuous density scoring for the copula and Chow–Liu implementations. An ARF implementation must provide its density-estimation component, not just generated rows. Flag singular fits, invalid support or unavailable density scores. Do not silently replace a family or treat an arbitrary reconstruction score as a likelihood.
+Adaptive tuning
+Select hyperparameters by tuning balanced accuracy. Use ten adaptive trials per method, budget and repetition, reduced to five for methods designated expensive. All methods retain their agreed data repetitions. RBF SVM, KDE and kNN are the initial expensive candidates; the runtime pilot may add families under a documented resource rule, before final test inspection.
+Implementation default: a seeded sequential optimizer uses three initial random trials, then adaptive proposals; a five-trial search still includes those initial trials. Evaluate all candidate configurations on identical fitting and tuning memberships. Cache duplicate proposals. Report attempted, successful and failed trial counts; do not replace failures with unlimited extra trials.
+For exact balanced-accuracy ties, select the simpler configuration using a frozen per-family complexity order, then lower measured computational cost. Resolve any remaining tie by deterministic trial order. Conformal coverage and set size never break a tuning tie. No test outcome selects a family representative.
+Parameters and numerical choices
+The search-space appendix gives operational defaults. The runtime pilot may adjust constructor compatibility, convergence limits, memory headroom and demonstrably infeasible ranges. Record any amendment with its reason and freeze it before final test evaluation. Domain or numerical failures remain visible even when a parameter setting appears attractive on tuning data.
+The three representative downstream learners in Experiments 3–4 are logistic regression, random forest and histogram gradient boosting. Train the same learner family on both real and generated data. Use equal tuning-trial allocations and identical search domains for those paired routes; fit each candidate only on the route’s permitted rows.
+Experiment 1 Learning curves
+Research question: which non-neural classifiers perform best at each real-data budget, and where do generative and discriminative rankings change? Compare all seventeen methods on the common predictors and fixed real test cohort.
+Procedure
+Run five paired repetitions with fresh nested development samples from the full non-test pool. Save source IDs, role assignments and seeds. Tune each method using its declared trial count. Select one configuration without accessing conformal calibration labels. Retain its fitting allocation and evaluate its single-label predictions and split-conformal sets on the test cohort.
+Preserve approximately natural proportions subject to the declared fitting and tuning minimum-support rule. Do not balance classes, inject corruption, add generated rows or remove valid unusual objects. At tiny budgets, methods requiring more within-class observations may be unsupported; report that outcome rather than borrowing more real data.
+Outcomes and comparisons
+Primary: balanced accuracy, the mean of the seven class recalls. Secondary predictive criterion: average conformal set cardinality at nominal 90 percent overall coverage. Report actual coverage and class-wise coverage as validity diagnostics. Record training time, prediction time, peak memory and failures as resource diagnostics, not additional predictive rankings.
+Show all run-level points and mean learning curves with observed variability. Compare methods using paired differences within the same repetition and budget. Family representatives must be selected on tuning performance. A crossover is a sign change in a paired performance difference between measured budgets; report the containing interval, uncertainty and any multiple crossings. Do not interpolate an exact crossover or infer that no crossing exists beyond observed budgets.
+Output: the seventeen-method learning curves, paired comparisons, selected configurations, preprocessing manifests, prediction files, uncertainty summaries and resource logs. Results may show no reliable winner or an unsupported method at some budgets. Those are valid outcomes.
+Experiment 2 Fidelity and classification
+Research question: does a better statistical fit of a class-conditional generator correspond to better direct Bayes classification? Reuse fitted models from Experiment 1, without treating predictive utility as the definition of fidelity. The five flexible families are primary; the four classical generative models supply reference points.
+Budgets and reused models
+Use six development budgets: 3,000, 10,000, 30,000, 100,000, 300,000 and 1,000,000 rows, with five paired repetitions. These six exact points are implementation defaults chosen from Experiment 1’s grid. Reuse its selected fits and completed trial configurations when valid sampling is available. No extra model fitting is required solely to create a fidelity ranking.
+Fidelity score
+For each class, generate a diagnostic sample and compute SDMetrics Quality Report against held-out real observations of that class. Use only the six features. Do not include IDs or the constant target column. The score summarizes marginal column shapes and pairwise trends. Average the seven class scores equally; identify this as our class-balanced aggregation of SDMetrics reports, not an unmodified library-wide score.
+Implementation default: use the calibration role as the non-adaptive real fidelity reference after model selection and conformal score policy are frozen. Never select, retune or recalibrate models based on fidelity results from this role. This reuse saves real-data budget but does not create an independent replication. For each class and repetition, set both diagnostic sample sizes to min(2,000, available held-out class rows), using the same real sample and generated sample count across models.
+A class with fewer than two valid rows, zero variance preventing a required property, or an undefined report receives an explicit unavailable status. Do not silently average over six classes instead of seven. Flag class samples below twenty as low precision. Store the report’s two property scores and evaluated column pairs. Pin the SDMetrics version and metadata; newer versions can filter weak pairwise relationships, changing which patterns enter the score.
+Association analysis
+Use Spearman rank correlation, as agreed, between class-balanced fidelity and direct-classification balanced accuracy. Estimate correlations separately within each budget and repetition across the five primary families. Five families give a small, descriptive comparison; do not claim a precise universal relationship. Use the four classical references as a separately labeled sensitivity analysis.
+For within-family analysis, compare valid saved tuning-trial configurations at fixed budget, reporting selection and repeated-data dependence. Do not pool budgets into one correlation that could merely reflect more data improving both scores. Plot points and rank reversals even when correlation is undefined because of ties or insufficient valid models.
+Bootstrap saved test predictions and real/synthetic diagnostic samples jointly across methods without retraining. The resulting intervals are conditional on fitted models and do not turn five model families into independent draws from a population of algorithms. Output the fidelity-versus-accuracy plots, class reports, per-budget correlations, uncertainty limitations and missing-score reasons. TSTR belongs to Experiment 3, not the fidelity aggregate.
+Experiment 3 Three uses of each generator
+Research question: for the same learned distribution and real-data access, how do direct Bayes, synthetic-only learning and real-only learning compare? Run this experiment separately for GMM, Gaussian copula, ARF, KDE and Chow–Liu.
+Fixed size and three repetitions
+Use one development budget of 100,000 real sources and three paired repetitions. Each repetition has 80,000 real fitting rows, 10,000 real tuning rows and 10,000 real conformal calibration rows. Reuse matching Experiment 1 fits, then freeze each generator. There is no sample-size sweep and no real-plus-synthetic augmentation in this experiment.
+Generated data and fairness
+The synthetic volume is exactly five times the real fitting count, rather than five times the total development budget. Allocate the 400,000 labels in approximately the empirical real-fitting proportions using deterministic rounding. All three synthetic-only learners receive the same generated dataset within a generator and repetition. Record sampling seeds.
+Fit generators only on real fitting rows. Use real tuning data to select downstream settings and the untouched real calibration role for conformal thresholds. Synthetic-only describes the learner’s fitting rows; the pipeline still uses real data to learn its generator, tune and calibrate. Do not claim that it has never seen real information.
+Use identical hyperparameter domains and trial counts for each synthetic-versus-real learner comparison. The real-only reference is shared across all five generators and is trained once per learner and repetition. Reuse direct-Bayes scores where the fitted density and priors match. Report each route’s effective fitting count and full real-data access.
+Outcomes
+Evaluate balanced accuracy and mean split-conformal set size at the 90 percent overall target on the fixed 500,000-source real test set. Compare synthetic-only with the matched real-only learner, and each with direct Bayes. Use the same test bootstrap indices to preserve pairing.
+Show a separate comparison for every generator and downstream learner. Retain generators that fail or harm performance. Output route tables, paired differences, uncertainty summaries, class coverage diagnostics and separate generator-fit, sampling, learner-fit and inference costs. The extra generated rows are draws from one estimated distribution, not extra independent evidence about reality.
+Experiment 4 Class imbalance and restoration
+Research question: how does reducing support for each class affect classification, and can generated restoration help relative to ordinary imbalance treatments? Use a fixed real fitting count, an unchanged test cohort and three paired repetitions. Operational default: 100,000 development rows, retaining the common 80,000 fitting, 10,000 tuning and 10,000 calibration allocation.
+Seven separate class studies
+For each of A, F, G, K, M, GALAXY and QSO, run three conditions: unchanged proportions, half the target class’s original share, and one-tenth its original share. Let the unmodified fitting proportion be p0(c), estimated from the unmodified fitting cohort for that repetition. Set the target share to r times p0(c), with r equal to 1, 0.5 or 0.1. Redistribute the remaining allocation proportionally across the other six classes.
+Before allocating conditions, reserve tuning and calibration IDs. Draw each 80,000-row condition without replacement from the remaining fitting-eligible non-test pool, using nested target-class subsets and shared other-class permutations. Never borrow reserved IDs. Unique real usage is counted per condition; their union may be larger. Share the unchanged control across class studies, giving one control and fourteen altered conditions per repetition. A reduced class need not become the smallest class.
+Matched interventions
+Compare all seventeen direct classifiers on each altered real cohort. For logistic regression, random forest and histogram gradient boosting, additionally compare untreated fitting, class weighting toward the original class proportions, random oversampling, SMOTE and generated target-class restoration from each of the five generators. Generators must learn from the altered cohort; they cannot access the discarded target-class observations.
+Restore the reduced class to its original fitting proportion, not to equal shares across all seven classes. If the altered cohort has N rows and target count n, adding a target-class rows requires a = (p0(c) times N minus n) divided by (1 minus p0(c)), rounded deterministically. Random oversampling, SMOTE and generated restoration use the same added count and final label histogram. The unique real count remains N; restored table size can increase. Log both.
+Use an explicit multiclass target-count dictionary for SMOTE, with neighbors set to min(5, n minus 1). If fewer than two target examples remain, mark SMOTE unsupported. Weighted fitting uses per-class weights proportional to original share divided by altered share, normalized to mean one. It changes effective weight, not row count. Keep empirical-prior direct Bayes as the main direct reference; do not silently replace its priors.
+Evaluation and interpretation
+Keep tuning, calibration and test data at their unmodified population composition. Primary balanced accuracy and conformal set size remain the two ranking criteria. Show target-class recall and coverage as diagnostics explaining the all-class result. Use paired differences from each condition’s untreated reference and its unchanged baseline.
+Treatment tuning uses clean tuning balanced accuracy with the same learner trial budget across treatments. Record unequal computation and final row counts. Class weighting and added-row methods have different mechanisms; interpret those differences rather than claiming identical effective sample sizes. No fixed-majority arm or factorial crossing with corruption is included.
+Experiment 5 Corrupted fitting data
+Research question: do generative and discriminative pipelines suppress, preserve or amplify controlled corruption? Use separate feature-noise, missing-value and label-noise sweeps. The agreed nonzero rates are 5, 10 and 20 percent of fitting rows for each corruption type. Include a shared zero-corruption control.
+Common setup
+Operational default: 100,000 real development rows and three paired repetitions. Apply corruption only to the 80,000 fitting rows. Tuning, calibration and test observations receive no injected corruption. This is a clean-holdout assumption; their original survey-label uncertainty remains. Reuse the same base fitting sources, masks and perturbation seeds across methods. Nest masks as the corrupted fraction increases.
+Compare all seventeen direct methods and the three prediction routes for each flexible generator using the three representative learners. Synthetic-only training uses five-times synthetic volume as in Experiment 3. There is no unrestricted augmentation arm. Each generator sees only its corrupted fitting observations; original hidden values and labels are available solely to the audit, never the learner.
+Exact corruption mechanisms
+Feature noise implementation default: select the stated fraction of rows uniformly without replacement, select one of the six features uniformly per affected row, and add independent zero-mean Gaussian noise with standard deviation equal to that feature’s robust fitting scale. Define scale as IQR divided by 1.349 on the permitted fitting observations; if zero, use their standard deviation, then a declared numerical floor. Save changed cells and perturbations. This fixes amplitude while varying affected-row prevalence.
+Missingness implementation default: select the stated fraction of rows, select one feature uniformly for each, and replace that value with missing. This is a controlled missing-completely-at-random mechanism. Fit a feature-wise median imputer on the incomplete fitting data only, and apply it unchanged to all roles. Use the same imputed fitting matrix for methods that require complete inputs. Add no missingness-indicator feature, preserving six predictors.
+Label-noise default: independently select the stated fraction of fitting rows and replace each selected label uniformly among the other six classes. Every selected row changes class. Record the full transition table and realized class-specific rates. This mechanism is stated as an implementation default because the discussion approved the rates without separately resolving a different transition law.
+Fitting and evaluation
+Primary robustness analysis freezes hyperparameters selected on the matching uncorrupted fitting/tuning split. Refit those configurations on each corrupted cohort. This default isolates degradation and saves repeated tuning. Retuning is an extension only if explicitly added before test inspection; do not mix it with the frozen-configuration results.
+Fit preprocessing using each corrupted fitting matrix, without hidden access to unperturbed values for scaling or imputation. Do not rerun cleaning to delete the injected perturbations. Recompute conformal thresholds on the clean calibration role after each corrupted model fit. Evaluate balanced-accuracy change and prediction-set-size change against the paired clean reference, with achieved coverage and failure diagnostics. These results describe the specified mechanisms, not all possible measurement errors.
+Experiment 6 Generative ensembles
+Research question: does combining the five flexible generative classifiers improve classification or prediction-set efficiency over their individual members? The agreed comparisons are equal weights and learned nonnegative weights summing to one. Learn weights using tuning balanced accuracy.
+Members and fixed data access
+Operational default: 100,000 development rows and three paired repetitions, reusing matching clean fits from Experiment 1. Members are GMM, Gaussian copula, ARF, KDE and Chow–Liu. Every member uses the same real fitting sources and common label ordering. Each supplies a normalized vector of seven class posterior probabilities.
+Average posteriors rather than mixing raw class densities. These are different constructions and must not be substituted silently. For member m and class c, the ensemble probability is the sum over m of w(m) times P_hat_m(c given x). Predict the class with the largest ensemble probability, using a fixed label order to resolve exact ties.
+Equal and learned weights
+Equal weights assign 0.2 to each of the five members. Learned weights satisfy w(m) greater than or equal to zero and sum(w) equal to one. Use one global vector per repetition, not a separate weight vector chosen for each test class. Optimize only on saved tuning posteriors, with no extra real data or model fits.
+Implementation default: evaluate the equal-weight vector, all five single-member vertices, then 1,000 seeded Dirichlet(1,1,1,1,1) candidates. Refine the best ten candidates using pairwise weight transfers of 0.10, 0.05 and 0.01, bounded by the simplex and a total 2,000-candidate cap. Compute candidate scores in batches. This is a bounded search for a discontinuous objective, not a claim of a globally optimal solution.
+Select the vector with best tuning balanced accuracy. For exact ties, choose the vector closest to equal weights in Euclidean distance, then deterministic candidate order. Record all candidates, selected weights and tuning score. Freeze weights before conformal calibration. If a required member fails, mark the full five-member ensemble unavailable; label any partial-member analysis as a separate sensitivity result.
+Evaluation
+Construct a separate split-conformal threshold for each selected ensemble using the untouched real calibration role. Compare equal weights and learned weights with every individual member and the tuning-selected best member. Classical generative and discriminative results at the matching budget are contextual references, not ensemble ingredients.
+Use balanced accuracy and mean prediction-set size at the 90 percent overall target, with paired test bootstrap intervals and across-run variation. Show whether a gain comes with wider sets, coverage shortfalls, unstable weights or extra inference cost. The weight search itself can overfit a small tuning set, so retain any held-out degradation.
+Report member-fit cost, saved-fit reuse, weight-search cost, ensemble prediction time and peak memory. There is no stacking model, class-specific gating or neural meta-learner in the finalized primary experiment.
+Conformal evaluation and uncertainty
+Prediction set construction
+The default nonconformity score is 1 minus the probability assigned to a candidate class. Fit model and tuning choices first. With m calibration observations and alpha equal to 0.10, set k to ceiling((m + 1) times 0.90), and take the kth smallest calibration score. If k exceeds m, use infinity. Include every label with score no greater than this threshold. Retain empty sets if they arise and count their size as zero.
+For SVMs without native class probabilities, the default score is the negative one-versus-rest class margin. Split-conformal validity does not require a probability interpretation. Label this score policy explicitly because score choice affects efficiency. A probability-based SVM extension must learn its mapping solely within the fitting allocation and account for its additional fitting and compute. Do not fit it on conformal calibration labels.
+Return a fixed score and threshold rule for every model. Any alternate score such as adaptive cumulative probability must be declared before calibration and evaluated separately. The nominal 90 percent guarantee is marginal under exchangeability, not class-conditional or object-specific. Report overall and per-class coverage rather than treating nominal coverage as a measured result.
+The two predictive criteria
+Balanced accuracy equals the mean of the seven true-class recalls. Mean set size equals the average number of labels in each conformal prediction set. Smaller sets are preferable when coverage is valid. Report achieved coverage next to size; do not use unrestricted coverage divided by size as the ranking score. Do not adjust thresholds to hit exactly 90 percent on the test set.
+Paired uncertainty without retraining
+Report each repetition’s values, their mean and sample standard deviation. Five repetitions apply to Experiments 1–2; three apply to Experiments 3–6. Overlapping development samples and the common test cohort induce dependence. Do not bootstrap only three or five run means and present that interval as full training uncertainty.
+Default interval level is 95 percent with 1,000 bootstrap replicates, separate from the 90 percent conformal target. Bootstrap saved test predictions using matched resampled object IDs across methods, conditions and repeated fits. For balanced accuracy, stratify by true class and preserve class counts. For mean set size and overall coverage, resample the population test rows; use compact outcome counts when equivalent to row resampling. If known residual groups matter, resample groups.
+Bootstrap intervals condition on fitted pipelines and fixed calibration thresholds, excluding unobserved training, tuning and calibration variability. State this limit in figures. For Experiment 2, share real-reference resampling indices across models, resample synthetic diagnostics independently per model unless explicitly coupled, and preserve pairing of test predictions. Mark undefined correlations rather than dropping failures.
+The practical-improvement threshold was deferred. Keep 0.2 percentage points as a provisional reporting convention; settle it in the implementation record before final test inspection. Report all estimated differences and intervals irrespective of that convention. Statistical uncertainty and practical importance are separate judgments.
+Initial hyperparameter domains
+These are implementation defaults, not claims about optimal settings. Continuous positive ranges use log sampling where indicated. Candidate domains may be narrowed after resource measurements, with every amendment recorded before test inspection. Five or ten trials sample these domains; they do not exhaust a grid.
+Constrain settings to available class counts. Unsupported bins, mixture counts or neighbor counts are logged. Do not coerce an invalid configuration into another one without recording the transformation. Fit stopping criteria, solver choice and API-specific constructors are recorded in the run configuration.
+Execution record and deliverables
+Execution begins only after continue
+After the explicit instruction to continue, load the clean-baseline package, verify checksums and schema, and reconcile source and split manifests. No experiment is running in the background.
+Run a development-only compatibility and runtime pilot, checking density normalization, score interfaces, memory and timing. Execute models and tuning trials sequentially, with within-model parallelism where safe. Recheck the inspected session limits of 8 GiB RAM and CPU quota equivalent to eight cores.
+Batch prediction and reuse matching results. Exact large RBF SVM and KDE may remain infeasible. Log memory exhaustion, timeout, nonconvergence and invalid densities; any approximate replacement requires a separately labeled amendment.
+Verification before final test evaluation
+Check source and counterpart separation; role counts; identical paired memberships; no forbidden predictor columns; training-only learned preprocessing; no calibration use in selection; valid density and posterior normalization; deterministic seed behavior; exact corruption masks; resampling counts; and matching source budgets across comparisons. Use small generated fixtures for implementation checks only, never as claimed LAMOST results.
+Freeze software versions, search spaces, score rules, resource limits and analysis code in a timestamped configuration before opening final test outcomes. Development failures may change implementation details under the declared pilot process. Test performance must never trigger another round of model, score or ensemble selection.
+Artifacts produced by the eventual run
+Save a run registry with experiment, method, budget, condition, repetition, seeds, checksums, configuration and status. Retain split and fitting manifests, generated counts, preprocessing, selected parameters, feasible checkpoints, test predictions, conformal memberships, fidelity reports and ensemble weights.
+Produce learning curves for Experiment 1, fidelity plots for Experiment 2, route comparisons for Experiment 3, seven class-wise imbalance panels for Experiment 4, separate corruption curves for Experiment 5 and ensemble comparisons for Experiment 6. Include paired uncertainty, runtime, memory and failure records. Report negative results and unavailable settings without inventing scores.
+Sources and provenance
+Project sources: Six_Experiment_Statements.docx; Experiment_1_Setup.docx; evaluator(1).md; the prepared LAMOST clean-baseline release and cleaning report. The decisions in the setup discussion supersede the earlier statement draft, including removal of augmentation from Experiment 3 and the reduced predictive metric suite.
+Romano, Sesia and Candès (2020). Classification with Valid and Adaptive Coverage. NeurIPS 33. https://arxiv.org/abs/2006.02544
+SDMetrics official documentation. Quality Report and column/pair methodology. https://docs.sdv.dev/sdmetrics/data-metrics/quality
+imbalanced-learn official documentation. SMOTE and multiclass target dictionaries. https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html
+Bouthillier et al. (2021). Accounting for Variance in Machine Learning Benchmarks. MLSys 3. https://arxiv.org/abs/2103.03098
+
+[TABLE 1]
+Study | Question | Development budget and repetitions
+1 | Which classifiers work best as real data grows? | Nine budgets; five repetitions
+2 | Does measured fidelity predict direct classification? | Six budgets; five repetitions; reuse fits
+3 | Direct Bayes versus synthetic only versus real only | 100,000 rows; three repetitions
+4 | Effect of reducing each class and restoring support | 100,000 rows; three repetitions
+5 | Robustness to fitting data corruption | 100,000 rows; three repetitions
+6 | Equal versus learned generative ensemble weights | 100,000 rows; three repetitions
+
+[TABLE 2]
+Family | Methods
+Classical generative 4 | Gaussian Naive Bayes with class-specific variances; shared-diagonal Gaussian classifier; shrinkage full-covariance LDA; regularized QDA
+Flexible generative 5 | Class-conditional GMM; Gaussian copula; Adversarial Random Forest density; multivariate KDE; continuous-variable Chow–Liu density tree
+Discriminative 8 | Regularized logistic regression; linear SVM; RBF SVM; kNN; CART; random forest; Extra Trees; histogram gradient boosting
+
+[TABLE 3]
+Development rows | Fitting rows | Tuning rows | Calibration rows
+100 | 80 | 10 | 10
+300 | 240 | 30 | 30
+1,000 | 800 | 100 | 100
+3,000 | 2,400 | 300 | 300
+10,000 | 8,000 | 1,000 | 1,000
+30,000 | 24,000 | 3,000 | 3,000
+100,000 | 80,000 | 10,000 | 10,000
+300,000 | 240,000 | 30,000 | 30,000
+1,000,000 | 800,000 | 100,000 | 100,000
+
+[TABLE 4]
+Route | Fitting data | Predictions compared
+Direct Bayes | Generator fitted on the 80,000 real fitting rows | One direct classifier per generator
+Synthetic only | 400,000 generated rows from the frozen generator | Logistic regression, random forest, histogram gradient boosting
+Real only | The same 80,000 original real fitting rows | The same three discriminative learners
+
+[TABLE 5]
+Method | Initial domain
+Gaussian Naive Bayes | Variance smoothing 1e-10 to 1e-2 log
+Shared diagonal Gaussian | Diagonal variance floor 1e-8 to 1e-2 log; empirical priors
+Shrinkage LDA | Covariance shrinkage auto or 0.01, 0.1, 0.5, 0.9
+Regularized QDA | Identity shrinkage 0.01 to 0.99; covariance floor 1e-8 to 1e-2 log
+GMM | Components 1, 2, 4, 8, 16; diagonal or full covariance; regularization 1e-6 to 1e-2 log
+Gaussian copula | Empirical or smoothed marginal CDF; correlation shrinkage 0, 0.05, 0.2, 0.5; tail clipping fixed from fitting count
+ARF density | 100 or 300 trees; minimum leaf support 5, 20, 100; depth unrestricted or 10; documented density settings
+Multivariate KDE | Gaussian kernel; standardized bandwidth 0.05 to 2 log
+Continuous Chow–Liu | Pairwise mutual information with fitting-only discretization 8, 16 or 32 bins; normalized smoothed conditional histogram densities
+Logistic regression | L2 regularization; inverse strength C 1e-3 to 1e3 log; unweighted outside declared imbalance arms
+Linear SVM | C 1e-3 to 1e3 log; one-versus-rest margins
+RBF SVM | C 1e-2 to 1e3 log; gamma 1e-3 to 1 log; bounded kernel cache
+kNN | Neighbors 3, 5, 15, 50, 100; uniform or distance weights; Euclidean distance
+CART | Depth 3, 6, 12, unrestricted; minimum leaf 1, 5, 20, 100
+Random forest | 200 or 500 trees; depth 10, 20, unrestricted; leaf 1, 5, 20; feature fraction sqrt or 1
+Extra Trees | 200 or 500 trees; depth 10, 20, unrestricted; leaf 1, 5, 20; feature fraction sqrt or 1
+Histogram gradient boosting | 100 or 300 iterations; learning rate 0.03 to 0.3 log; leaf count 15, 31, 63; minimum leaf 10, 20, 50; L2 0 to 10

@@ -1,0 +1,190 @@
+{
+  "schema_version": "lamost-project-completion-requirements-evidence/1",
+  "created_local": "2026-10-27 Asia/Kolkata",
+  "scope": "Read-only requirement-to-evidence map; not live status.",
+  "input_files": {
+    "readiness_review": {
+      "path": "reports/engineering_audits/FINAL_REPORT_READINESS_REVIEW_20261027T1540.md",
+      "sha256": "459a499f30db7c25a8422d85526dc76dda8f55668e7c59a3a70c099a5f08586c"
+    },
+    "finalizer": {
+      "path": "source/finalize_project.py",
+      "sha256": "4e4e517d0036e347c6593460bd4962e67797354e523dc2c523944cbbe2637946"
+    },
+    "reporting": {
+      "path": "source/reporting.py",
+      "sha256": "d7f8d302fad59310f4c101b27a23575a66012b612f376df79fb277b02915cf19"
+    },
+    "freeze": {
+      "path": "manifests/freeze.json",
+      "sha256": "d68beaa0cea5970dedda316770d09f4e4a7240869d27423181f529092d12594a"
+    },
+    "quantile_requirements": {
+      "path": "manifests/FINAL_SCIENTIFIC_VALIDATION_REQUIREMENTS_20261026.json",
+      "sha256": "9dbb4f58a7d0de4c0b908765abb8f708837325f2c770931eed0ba783fdf3952d"
+    }
+  },
+  "requirements": [
+    {
+      "id": "G01",
+      "requirement": "Existing EC2 only; preserve Harbor; no provisioning/security changes",
+      "status": "Weak / fresh proof still needed",
+      "evidence": "Latest saved handoff names w7-ec2 and instance i-095641a281a4038b9. This mapping did not inspect current processes, locks, resource headroom or Harbor; refresh before decisions and cleanup.",
+      "locator": "reports/LAMOST_SUPERVISOR_HANDOFF_20261027T163155Z.md"
+    },
+    {
+      "id": "G02",
+      "requirement": "At most two fit workers, nested thread caps, experiment-specific RAM/timeouts, no retries of terminal scientific failures",
+      "status": "Pending final audit",
+      "evidence": "Use exact task policy and attempt evidence. E1 limits remain distinct from E3-E6. Engineering tests do not establish science completion.",
+      "locator": "manifests/freeze.json; plan amendments; resource and attempt ledgers"
+    },
+    {
+      "id": "G03",
+      "requirement": "Frozen DR10 baseline, six predictors, seven labels, source identities, fixed 500k test; no identifier/label/audit leakage",
+      "status": "Required; independent final proof pending",
+      "evidence": "Final template states boundary; final artifact and role-integrity audit must bind dataset/membership hashes.",
+      "locator": "source/finalize_project.py:422; frozen project manifests"
+    },
+    {
+      "id": "G04",
+      "requirement": "Role boundaries and preprocessing learned only from permitted fitting data",
+      "status": "Pending project-level validation",
+      "evidence": "Final q validation requires role/model/vector hashes; rerun exact role checks for all final artifacts.",
+      "locator": "manifests/tasks.json; manifests/FINAL_SCIENTIFIC_VALIDATION_REQUIREMENTS_20261026.json"
+    },
+    {
+      "id": "E1",
+      "requirement": "765 frozen outcomes: 674 success, 81 fail (55 resource + 26 supervisor-terminal), 10 unsupported; preserve ledger and caveats",
+      "status": "Proven frozen; no new E1 work",
+      "evidence": "Finalizer gates source hashes, archive receipt and ledger equality. Preserve seven tuning-history discrepancies and historical-model/prediction omissions.",
+      "locator": "reports/E1_E2_FINALIZATION.md; project/benchmark/results/e1_report_validated_no_bootstrap.json"
+    },
+    {
+      "id": "E1R",
+      "requirement": "Separate stopped recovery: 24 success, 10 failure, 2 user-stopped, 55 not attempted; no pending",
+      "status": "Proven as stopped supplement",
+      "evidence": "Never merge into E1 or classify stopped/not-attempted as scientific failure.",
+      "locator": "e1_recovery_20261024/RECOVERY_CUTOFF.json"
+    },
+    {
+      "id": "E2",
+      "requirement": "Primary 108/150, separate classical 120/120, 42 unavailable, 31 reconstruction differences, 210 low-precision flags, 4/30 complete primary strata",
+      "status": "Proven, transparently incomplete",
+      "evidence": "Retain original/reconstructed flags and measured scores. Do not claim complete primary coverage or general fidelity-performance relation.",
+      "locator": "e2_20261024/E2_CURRENT_REPORT.md; E2_RECONSTRUCTION_AMENDMENT.md"
+    },
+    {
+      "id": "E3",
+      "requirement": "69 planned outcomes, route/repetition/class metrics, matched comparisons, costs and failures",
+      "status": "Prior reviewed group; regenerate from final registry",
+      "evidence": "Readiness snapshot: 64 success, 3 direct KDE eval timeouts, 2 synthetic RF dependencies unavailable. Include RF rep1 missing fit_publication provenance note without invalidating scores.",
+      "locator": "reports/E3_FINAL_DESCRIPTIVE_REPORT.md; E3_FINAL_CELL_LEDGER_69.csv; E3_RF_REP1_PUBLICATION_LIMITATION.md"
+    },
+    {
+      "id": "E4",
+      "requirement": "1,773 outcomes (765 direct, 1,008 treatments); 15 conditions x3 reps; histograms, restoration arithmetic, controls, class/conformal metrics",
+      "status": "Pending terminal grid and final snapshot",
+      "evidence": "Reports are historical. Regenerate from terminal registry; retain failures/unavailability and matched-rep counts. Independent cohort-design audit pending.",
+      "locator": "manifests/tasks.json; reports/E4_class_histograms.csv; E4_CONTROL_TREATMENT_PAIRED.csv"
+    },
+    {
+      "id": "E5",
+      "requirement": "960 outcomes (510 direct, 450 synthetic); clean control plus feature/missing/label sweeps at 5/10/20% x3; exact masks/transitions",
+      "status": "Pending terminal grid and final snapshot",
+      "evidence": "Regenerate after terminalization; include failed/unavailable rows and per-class denominators. Independent cohort-design audit pending.",
+      "locator": "manifests/tasks.json; reports/E5_corruption_realization_summary.csv; label_transition_counts.csv; E5_CLEAN_CORRUPTED_PAIRED.csv"
+    },
+    {
+      "id": "E6",
+      "requirement": "21 outcomes; compatible 5-member ensembles only with all member refs; tuning-only weights; member/tuning-best comparisons",
+      "status": "Primary ensemble unavailability proven; no scores",
+      "evidence": "15 selected pipelines exist; 12 member refs, 3 KDE eval refs unavailable, 6 ensembles unavailable before attempt. No inference, search, tuning-best comparison or ensemble benefit claim. Dependency audit pending.",
+      "locator": "reports/E6_FINAL_CELL_LEDGER_21.csv; E6_ARTIFACT_AND_EVALUATION_AVAILABILITY.csv; E6_FINAL_DESCRIPTIVE_REPORT.md"
+    },
+    {
+      "id": "C01",
+      "requirement": "All 2,823 later scientific cases terminal; no waiting/running/invalid state; no duplicate workers",
+      "status": "Not proven; report snapshot stale",
+      "evidence": "Readiness review says report_result and descriptive report are historical at 2026-10-25 19:16:37Z (848/2823 then). Finalizer rejects unresolved states; fresh DB/registry export required.",
+      "locator": "source/finalize_project.py:463-512; runtime/registry.sqlite"
+    },
+    {
+      "id": "C02",
+      "requirement": "All-case ledgers, success denominators, per-rep/class results, exact-key paired contrasts, SD and missing reasons",
+      "status": "Validation tooling exists; final generation pending",
+      "evidence": "Finalizer requires outcome, repetition, class, matched, dataset, E4/E5, selection, fallback, E6, resource and cutoff tables. Zero-n strata must remain.",
+      "locator": "source/reporting.py; source/finalize_project.py:463-512"
+    },
+    {
+      "id": "C03",
+      "requirement": "Calibration-only q replay, alpha .1 finite-sample rule and exact roles/hashes; no fit/tune/test score",
+      "status": "Explicit blocking pending gate",
+      "evidence": "k=ceil((n_cal+1)*.9), kth partition value, infinity if k>n; probabilities use 1-p_true and SVM uses native negative margin; replay all valid physical/alias keys under 600s supervision without overwriting thresholds.",
+      "locator": "manifests/FINAL_SCIENTIFIC_VALIDATION_REQUIREMENTS_20261026.json"
+    },
+    {
+      "id": "C04",
+      "requirement": "Independent artifact/provenance audit distinguishes reuse, reconstructions and omitted historical files",
+      "status": "Pending final audit",
+      "evidence": "Do not claim historical E1 models were all lost or restored. Keep E2 reconstructions, E3/E6 reuse, aliases and later fits separate.",
+      "locator": "reports/FINAL_REPORT_READINESS_REVIEW_20261027T1540.md"
+    },
+    {
+      "id": "C05",
+      "requirement": "Final report, all denominators, condition findings and readable figures with denominator/visual review",
+      "status": "Pending final E4/E5 regeneration",
+      "evidence": "E1/E2/E3/E6 prior figures have review evidence. E4/E5 output is stale and needs final regeneration/review; no bootstrap/significance/universal claims.",
+      "locator": "reports/FIGURE_VISUAL_QA_20261025.json; E6_FINAL_DESCRIPTIVE_RECEIPT_20261025.json"
+    },
+    {
+      "id": "C06",
+      "requirement": "Timing/costs use observed phase durations; hardware/load limitations and archive-maintenance overlap disclosed without causal claims",
+      "status": "Partial; explicit overlap note needed if absent",
+      "evidence": "Archive maintenance overlapped existing fits to avoid pausing science; earlier RAW1800 succeeded and codec1540 was interrupted/recovered. This shows shared-load timing, not that I/O caused a timeout.",
+      "locator": "reports/LAMOST_SUPERVISOR_HANDOFF_20261027T163155Z.md; storage-maintenance evidence"
+    },
+    {
+      "id": "D01",
+      "requirement": "Full EC2 archive with available artifacts, dataset/reconstruction instructions, ledgers, provenance, omissions and restorer",
+      "status": "Pending",
+      "evidence": "Finalizer appends existing cold archive; preflights unique additions and free space; validates CRC/member manifest. Exclude credentials, Harbor, private operations and omitted E1 historical models/predictions.",
+      "locator": "source/finalize_project.py:845-1000; packages/"
+    },
+    {
+      "id": "D02",
+      "requirement": "Small report/table/figure ZIP with main report, configs/manifests, checksums and full archive locator",
+      "status": "Pending",
+      "evidence": "Small collector exists; include reviewed main figures only, exclude engineering previews/private logs, bind full archive path/size/SHA.",
+      "locator": "source/finalize_project.py:1001-1065"
+    },
+    {
+      "id": "D03",
+      "requirement": "ZIP CRC/member SHA/size and overall SHA/size; verify laptop transfer or record pending",
+      "status": "Pending",
+      "evidence": "complete_delivery validates review proof, receipts, members, CRC and cross-linked archive identity; local delivery checks exact destination bytes/SHA.",
+      "locator": "source/complete_delivery.py:20-80,152-180"
+    },
+    {
+      "id": "D04",
+      "requirement": "Stop only project-owned workers/watchers after validated delivery",
+      "status": "Pending",
+      "evidence": "Delivery code removes only tagged project cron/systemd and requires no project workers. Fresh inventory required; preserve Harbor.",
+      "locator": "source/complete_delivery.py:100-180"
+    }
+  ],
+  "global_pending": [
+    "E4/E5 terminal outcomes and regenerated report/figures",
+    "calibration quantile replay and independent artifact audit",
+    "final report proof/review",
+    "full and compact verified archives",
+    "laptop transfer verification or exact pending state",
+    "project-owned worker/watcher cleanup"
+  ],
+  "timing_disclosure": "Archive maintenance overlapped existing fits; no timeout is attributed to I/O without evidence.",
+  "output_markdown": {
+    "path": "reports/PROJECT_COMPLETION_REQUIREMENTS_EVIDENCE_20261027.md",
+    "bytes": 10609,
+    "sha256": "bfd0f50e75b75eaff901b30d2f0a2efa5997b8f4ccb26b517da1db598969e481"
+  }
+}

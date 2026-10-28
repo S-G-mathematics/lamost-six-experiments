@@ -1,0 +1,74 @@
+{
+  "artifact_sha256": "0f582827ad3e438a6e87dfc88353810adfe8d2df17e86f7d955e2078995cc76f",
+  "attempt_id": "1792979946_29d2e93d",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-26T02:11:43.008077+00:00",
+  "reason": null,
+  "result": {
+    "class_counts": [
+      4554,
+      17987,
+      31402,
+      17261,
+      6967,
+      1240,
+      1214
+    ],
+    "fit_seconds": 79.29936021601316,
+    "params": {
+      "max_depth": null,
+      "max_features": 1.0,
+      "min_samples_leaf": 1,
+      "n_estimators": 200
+    },
+    "phase_supervision": {
+      "exit_code": 0,
+      "finished_at": "2026-10-26T02:11:42.866851+00:00",
+      "peak_tree_rss_kib": 1246592,
+      "phase": "final_fit",
+      "reason": null,
+      "seconds": 86.23977222689427
+    },
+    "pipeline_sha256": "0f582827ad3e438a6e87dfc88353810adfe8d2df17e86f7d955e2078995cc76f",
+    "seed": 1672331054,
+    "source_sha256": "f015b6f98cd17239948b26ed05f0707dd7c22435a15beae3f2c2c02b676c67e3",
+    "status": "success",
+    "training_X_sha256": "bbb763286202142963cbeea31851ca2a428978642eceffcc8483e59186f7bc5f",
+    "training_ids_sha256": "2d86a9f3b7f86d7f22dd11fce2ace20cedfd3d03026a2c7abe3fac45ae0083a7",
+    "training_rows": 80625,
+    "training_y_sha256": "300ccda88799ba09a8c4847eaeb413492ae324f3e9b0bfd3478e2891f5a4e705"
+  },
+  "started_at": "2026-10-26T01:59:06.807351+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde",
+    "clean_control_key": "e3/rep_1/fit/real/random_forest",
+    "condition": "GALAXY_half_generated_kde",
+    "dependencies": [
+      "e4/rep_1/append/GALAXY_half/kde"
+    ],
+    "experiment": 4,
+    "generator": "kde",
+    "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde",
+    "kind": "fit",
+    "mechanism": null,
+    "method": "random_forest",
+    "optimizer_seed": 426321103,
+    "rate": null,
+    "ratio": null,
+    "rep": 1,
+    "route": "treatment",
+    "scientific_case": false,
+    "seed": 1672331054,
+    "selection_key": null,
+    "selection_mode": "tune",
+    "selection_policy": "tune_each_treatment_on_same_frozen_tuning_role_with_equal_10_trial_budget",
+    "selection_source": null,
+    "target_class": null,
+    "train_key": "e4/rep_1/append/GALAXY_half/kde",
+    "train_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_1/append/GALAXY_half/kde/data.npz",
+    "treatment": "generated_kde",
+    "trials": 10
+  },
+  "task_sha256": "3ca7899555629124f47babb83e30244dc794594b3cb0301c5240491dbd57fb99"
+}

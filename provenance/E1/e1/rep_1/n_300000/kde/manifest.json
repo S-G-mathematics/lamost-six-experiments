@@ -1,0 +1,119 @@
+{
+  "budget": 300000,
+  "error": "TrialTimeout: trial exceeded 180s timeout",
+  "experiment": 1,
+  "method": "kde",
+  "repetition": 1,
+  "roles": {
+    "budget": 300000,
+    "requested_budget": 300000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          1612,
+          6764,
+          11806,
+          6441,
+          2501,
+          423,
+          453
+        ],
+        "ids_sha256": "e306658e47ab71309d9e924ecc9c777be7bdec719f0620cf6cfec13554e999a5",
+        "n": 30000
+      },
+      "fit": {
+        "counts": [
+          13555,
+          53544,
+          93479,
+          51382,
+          20739,
+          3689,
+          3612
+        ],
+        "ids_sha256": "ec0e1fe3abde3c45188c183d932640ad1f26edca3a2d71979a5b0956590a0785",
+        "n": 240000
+      },
+      "tune": {
+        "counts": [
+          1694,
+          6692,
+          11684,
+          6423,
+          2593,
+          462,
+          452
+        ],
+        "ids_sha256": "f167dcb13de5e001cd21c4485f63aac1e0fa6cfb2120f111bc2d24712bde3a4b",
+        "n": 30000
+      }
+    },
+    "status": "ok"
+  },
+  "seed": 271828,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 591, in run_e1\n    test_pred, test_scores, fallback_test = _predict_chunks(model, test_model_X, self.prediction_chunk, diagnostics=True)\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 148, in score_matrix\n    lp = self.class_logpdf(X)\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 144, in class_logpdf\n    out[:, c] = model.score_samples(X) if self.method == \"gmm\" else model.logpdf(X)\n                                                                    ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 211, in logpdf\n    part = logsumexp(-0.5 * d2 / (self.bandwidth * self.bandwidth), axis=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/special/_logsumexp.py\", line 121, in logsumexp\n    b_exp_a = xp.exp(a) if b is None else b * xp.exp(a)\n              ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "bandwidth": 0.14522575757187195
+      },
+      "peak_rss_kib": 1182464,
+      "seconds": 127.82107767999696,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6240083144573946
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "bandwidth": 1.7160714615229171
+      },
+      "peak_rss_kib": 1200016,
+      "seconds": 92.08775456099829,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.2314967790369292
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "bandwidth": 0.24467644286334728
+      },
+      "peak_rss_kib": 1200044,
+      "seconds": 92.07149970100727,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5729573990934202
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 506, in run_e1\n    pred, _, fallback_tune = _predict_chunks(model, Xtune, self.prediction_chunk, diagnostics=True)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 148, in score_matrix\n    lp = self.class_logpdf(X)\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 144, in class_logpdf\n    out[:, c] = model.score_samples(X) if self.method == \"gmm\" else model.logpdf(X)\n                                                                    ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 211, in logpdf\n    part = logsumexp(-0.5 * d2 / (self.bandwidth * self.bandwidth), axis=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/special/_logsumexp.py\", line 128, in logsumexp\n    out, sgn = _logsumexp(a, b, axis=axis, return_sign=return_sign, xp=xp)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/special/_logsumexp.py\", line 214, in _logsumexp\n    i_max_dt = xp.astype(i_max, a.dtype)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/_lib/array_api_compat/numpy/_aliases.py\", line 97, in astype\n    def astype(\n    \n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 3,
+      "params": {
+        "bandwidth": 0.055597063007872295
+      },
+      "peak_rss_kib": 1200208,
+      "seconds": 180.00413951301016,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 506, in run_e1\n    pred, _, fallback_tune = _predict_chunks(model, Xtune, self.prediction_chunk, diagnostics=True)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 148, in score_matrix\n    lp = self.class_logpdf(X)\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 144, in class_logpdf\n    out[:, c] = model.score_samples(X) if self.method == \"gmm\" else model.logpdf(X)\n                                                                    ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 211, in logpdf\n    part = logsumexp(-0.5 * d2 / (self.bandwidth * self.bandwidth), axis=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/special/_logsumexp.py\", line 128, in logsumexp\n    out, sgn = _logsumexp(a, b, axis=axis, return_sign=return_sign, xp=xp)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/special/_logsumexp.py\", line 221, in _logsumexp\n    exp = b * xp.exp(a - a_max) if b is not None else xp.exp(a - a_max)\n                                                      ^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 4,
+      "params": {
+        "bandwidth": 0.05190902786113767
+      },
+      "peak_rss_kib": 1200428,
+      "seconds": 180.0052800100093,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    }
+  ]
+}

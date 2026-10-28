@@ -1,0 +1,214 @@
+{
+  "best_tuning_balanced_accuracy": 0.635547208251044,
+  "budget": 30000,
+  "calibration_n": 3000,
+  "calibration_prediction_seconds": 2.0729825949965743,
+  "conformal_alpha": 0.1,
+  "conformal_nonconformity_threshold": 0.9651112630963326,
+  "duplicate_trials": 0,
+  "experiment": 1,
+  "failed_trials": 4,
+  "final_fit_seconds": 86.43442335100553,
+  "fit_seconds_total": 811.6020603299985,
+  "invalid_support_fallback_count": {
+    "calibration": 0,
+    "test": 0,
+    "tuning": 0
+  },
+  "mean_prediction_set_size": 2.61036,
+  "memory_limit_exceeded": false,
+  "method": "arf",
+  "peak_rss_kib": 2253244,
+  "repetition": 5,
+  "resource_profile": "native8gib8cores",
+  "roles": {
+    "budget": 30000,
+    "requested_budget": 30000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          143,
+          703,
+          1139,
+          630,
+          307,
+          43,
+          35
+        ],
+        "ids_sha256": "59c1294f463f4ff8c3c6fa5c4b020cbc4e1b039ff9ff76bdf5e59a13a57a9cbe",
+        "n": 3000
+      },
+      "fit": {
+        "counts": [
+          1354,
+          5354,
+          9352,
+          5136,
+          2074,
+          369,
+          361
+        ],
+        "ids_sha256": "d58b955588885499bfd64ee9c0fc8a667bd6d6225d8ef5f1fdabc36ab0c6a145",
+        "n": 24000
+      },
+      "tune": {
+        "counts": [
+          169,
+          669,
+          1168,
+          642,
+          259,
+          47,
+          46
+        ],
+        "ids_sha256": "ef77bbd3e172f6b74c2fc5d1eca0b22a1ce1b0c460b1a4ab153f8c7f9f466547",
+        "n": 3000
+      }
+    },
+    "status": "ok"
+  },
+  "score_kind": "probability",
+  "seed": 271832,
+  "selected_params": {
+    "density_dist": "truncnorm",
+    "finite_bounds": "no",
+    "max_depth": 10,
+    "min_samples_leaf": 5,
+    "num_trees": 100
+  },
+  "selected_tuning_prediction_seconds": 1.9588008360005915,
+  "status": "complete",
+  "successful_trials": 1,
+  "test_coverage": 0.90095,
+  "test_metrics": {
+    "balanced_accuracy": 0.639127566927735,
+    "per_class": {
+      "0": {
+        "coverage": 0.6907150707271245,
+        "n": 28207,
+        "recall": 0.28351118516680257,
+        "set_size": 2.747403126883398
+      },
+      "1": {
+        "coverage": 0.7930236936234301,
+        "n": 111549,
+        "recall": 0.3033913347497512,
+        "set_size": 2.6227935705385077
+      },
+      "2": {
+        "coverage": 0.9370489379831433,
+        "n": 194818,
+        "recall": 0.4750382408196368,
+        "set_size": 2.756906446016282
+      },
+      "3": {
+        "coverage": 0.9629588098975854,
+        "n": 107016,
+        "recall": 0.6921862151453988,
+        "set_size": 2.717668386035733
+      },
+      "4": {
+        "coverage": 0.980787926484885,
+        "n": 43202,
+        "recall": 0.8725059025045137,
+        "set_size": 1.9734734503032267
+      },
+      "5": {
+        "coverage": 0.967578125,
+        "n": 7680,
+        "recall": 0.9462239583333333,
+        "set_size": 1.2108072916666666
+      },
+      "6": {
+        "coverage": 0.946068012752391,
+        "n": 7528,
+        "recall": 0.9010361317747078,
+        "set_size": 1.677470775770457
+      }
+    }
+  },
+  "test_prediction_seconds": 164.85262395899917,
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 1413760,
+      "seconds": 91.42764549300773,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.635547208251044
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 120, in __init__\n    x_synth = [grpd.get_group(ind).apply(lambda x: x.sample(n=grpd.get_group(ind)['cnt'].iloc[0], replace = True).values) for ind in grpd.indices]\n                                                                                                                                     ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/groupby.py\", line 906, in indices\n    return self._grouper.indices\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"properties.pyx\", line 36, in pandas._libs.properties.CachedProperty.__get__\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/ops.py\", line 656, in indices\n    codes_list = [ping.codes for ping in self.groupings]\n                  ^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/grouper.py\", line 691, in codes\n    return self._codes_and_uniques[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"properties.pyx\", line 36, in pandas._libs.properties.CachedProperty.__get__\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/grouper.py\", line 835, in _codes_and_uniques\n    codes, uniques = algorithms.factorize(  # type: ignore[assignment]\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/algorithms.py\", line 795, in factorize\n    codes, uniques = factorize_array(\n                     ^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/algorithms.py\", line 595, in factorize_array\n    uniques, codes = table.factorize(\n                     ^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 1,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 100,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 1918692,
+      "seconds": 180.038492822001,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 120, in __init__\n    x_synth = [grpd.get_group(ind).apply(lambda x: x.sample(n=grpd.get_group(ind)['cnt'].iloc[0], replace = True).values) for ind in grpd.indices]\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/groupby.py\", line 1118, in get_group\n    return self._selected_obj.iloc[indexer]\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/indexing.py\", line 1176, in __getitem__\n    @final\n    \n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 2,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 2227872,
+      "seconds": 180.02241188498738,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 132, in __init__\n    clf_1.fit(x, y)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 3,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 20,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 2227872,
+      "seconds": 180.0612689749978,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 107, in fit\n    model.forde(dist=\"truncnorm\", oob=False, alpha=0)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 218, in forde\n    bnds_2 =pd.concat([bnds_2,pd.merge(left=vv, right=zz, on=['leaf'])])\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/reshape/merge.py\", line 184, in merge\n    return op.get_result(copy=copy)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/reshape/merge.py\", line 888, in get_result\n    result = self._reindex_and_concat(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/reshape/merge.py\", line 837, in _reindex_and_concat\n    left = self.left[:]\n           ~~~~~~~~~^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/frame.py\", line 4085, in __getitem__\n    return self._getitem_slice(key)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/generic.py\", line 4359, in _getitem_slice\n    return self._slice(slobj)\n           ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/generic.py\", line 4369, in _slice\n    new_mgr = self._mgr.get_slice(slobj, axis=axis)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"internals.pyx\", line 871, in pandas._libs.internals.BlockManager.get_slice\n  File \"internals.pyx\", line 856, in pandas._libs.internals.BlockManager._slice_mgr_rows\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/internals/managers.py\", line 913, in __init__\n    def __init__(\n    \n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 4,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 20,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 2253244,
+      "seconds": 180.0522411550046,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    }
+  ]
+}

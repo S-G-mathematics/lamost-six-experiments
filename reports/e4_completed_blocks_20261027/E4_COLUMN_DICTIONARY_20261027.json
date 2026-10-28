@@ -1,0 +1,91 @@
+{
+  "created_utc": "2026-10-26T22:24:00+00:00",
+  "key_definitions": {
+    "balanced_accuracy": "Saved balanced accuracy, independently recomputed from the 7x7 confusion matrix.",
+    "calibration_fallback_count": "Recorded calibration fallback count.",
+    "calibration_n": "Calibration row count.",
+    "condition": "E4 altered cohort/treatment condition recorded in registry.",
+    "coverage": "Saved overall test coverage.",
+    "evaluation_sha256": "SHA-256 of the actual canonical artifacts/<task_key>/evaluation.json bytes read by the analyzer.",
+    "mean_set_size": "Saved mean conformal set size.",
+    "method": "Classifier/generator family recorded for the evaluation.",
+    "ratio": "Target share ratio for altered cohort, typically 0.5 or 0.1; null for controls.",
+    "registry_task_row_sha256": "SHA-256 of the exact serialized tasks.record string for this task_key in the SQLite read-only snapshot; the record includes its nested result.validation metadata.",
+    "rep": "Paired repetition index 1-3.",
+    "route": "direct or treatment.",
+    "score_kind": "Recorded conformal score convention; numeric thresholds from different score kinds are not compared.",
+    "target_class": "Zero-based target class index; null for unchanged controls.",
+    "target_coverage": "Saved coverage for the altered condition target class; null for unchanged-control metric rows.",
+    "target_recall": "Saved recall for the altered condition target class; null for unchanged-control metric rows.",
+    "target_set_size": "Saved mean prediction-set size for the altered condition target class; null for unchanged-control metric rows.",
+    "task_key": "Registry scientific-evaluation cell key.",
+    "test_fallback_count": "Recorded test-inference fallback count.",
+    "test_n": "Test evaluation row count.",
+    "treatment": "E4 treatment name; null for direct evaluations.",
+    "validation_sha256": "The expected SHA-256 value stored at tasks.record.result.validation.files[\"evaluation.json\"]. The analyzer compared this expected digest to the actual evaluation.json digest; it is the evaluation-file digest, not the hash of a validation.json/receipt object."
+  },
+  "note": "The pre-existing EVIDENCE_MANIFEST.json remains unchanged; these two dictionary files are additive and are not retroactively represented in its output list.",
+  "receipt_locator": {
+    "actual_file": "runtime_20261025/artifacts/<task_key>/evaluation.json",
+    "embedded_validation_pointer": "record.result.validation",
+    "expected_evaluation_hash_pointer": "record.result.validation.files[\"evaluation.json\"]",
+    "record_column": "record",
+    "registry": "runtime_20261025/registry.sqlite",
+    "row_selector": "tasks.key = <task_key>",
+    "separate_validation_receipt_file_hash": "not exported or claimed; registry_task_row_sha256 binds the serialized row containing the embedded validation receipt",
+    "table": "tasks"
+  },
+  "schema": "lamost-e4-column-dictionary/1",
+  "scope": "Clarifies columns in the E4 bounded descriptive outputs; it does not modify or reissue metric tables.",
+  "source_bindings": {
+    "E4_EVALUATION_INPUT_HASHES.csv": {
+      "bytes": 309579,
+      "sha256": "2176184de0d4d35732d3b156d4e950c81c147bc9c838cd79a95b7de25387a91a"
+    },
+    "E4_VALIDATED_EVALUATION_METRICS.csv": {
+      "bytes": 525641,
+      "sha256": "6d7fa83765478b390e5fa679c7e3fe4b339a1ace2f46d132ee8d64ff234a5fcb"
+    },
+    "EVIDENCE_MANIFEST.json": {
+      "bytes": 4799,
+      "sha256": "754dd505a215dd6bfcbc3a11ac9526c778857ce2e01ab5521e30c797acf7142b"
+    },
+    "analyze_completed_blocks.py": {
+      "bytes": 23791,
+      "sha256": "83f2266991df5900bcbaa917fc2a0fdb7095b4eb151b8e6c6ad48531e9d04b3b"
+    }
+  },
+  "table_columns": {
+    "E4_EVALUATION_INPUT_HASHES.csv": [
+      "task_key",
+      "registry_task_row_sha256",
+      "evaluation_sha256",
+      "validation_sha256"
+    ],
+    "E4_VALIDATED_EVALUATION_METRICS.csv": [
+      "task_key",
+      "rep",
+      "method",
+      "route",
+      "condition",
+      "target_class",
+      "ratio",
+      "treatment",
+      "score_kind",
+      "balanced_accuracy",
+      "coverage",
+      "mean_set_size",
+      "test_n",
+      "calibration_n",
+      "calibration_fallback_count",
+      "test_fallback_count",
+      "target_recall",
+      "target_coverage",
+      "target_set_size",
+      "evaluation_sha256",
+      "registry_task_row_sha256",
+      "validation_sha256",
+      "target_class_label"
+    ]
+  }
+}

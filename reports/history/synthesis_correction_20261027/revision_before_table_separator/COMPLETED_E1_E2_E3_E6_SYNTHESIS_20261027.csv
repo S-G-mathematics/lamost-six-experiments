@@ -1,0 +1,44 @@
+experiment,group,planned,successful,failed,unsupported,unavailable,user_stopped,not_attempted,pending,actual_successful_repetitions,balanced_accuracy_mean,coverage_mean,mean_set_size_mean,paired_n,notes
+E1,budget_100,85,80,0,5,0,0,0,0,see E1 method-budget table,,,,,Frozen ledger; categories cross-checked against validated report.
+E1,budget_300,85,80,0,5,0,0,0,0,see E1 method-budget table,,,,,Frozen ledger; categories cross-checked against validated report.
+E1,budget_1000,85,84,1,0,0,0,0,0,see E1 method-budget table,,,,,Frozen ledger; categories cross-checked against validated report.
+E1,budget_3000,85,82,3,0,0,0,0,0,see E1 method-budget table,,,,,Frozen ledger; categories cross-checked against validated report.
+E1,budget_10000,85,82,3,0,0,0,0,0,see E1 method-budget table,,,,,Frozen ledger; categories cross-checked against validated report.
+E1,budget_30000,85,74,11,0,0,0,0,0,see E1 method-budget table,,,,,Frozen ledger; categories cross-checked against validated report.
+E1,budget_100000,85,67,18,0,0,0,0,0,see E1 method-budget table,,,,,Frozen ledger; categories cross-checked against validated report.
+E1,budget_300000,85,65,20,0,0,0,0,0,see E1 method-budget table,,,,,Frozen ledger; categories cross-checked against validated report.
+E1,budget_1000000,85,60,25,0,0,0,0,0,see E1 method-budget table,,,,,Frozen ledger; categories cross-checked against validated report.
+E1,frozen_total,765,674,81,10,0,0,0,0,cell-specific,,,,,81 failures = 55 resource + 26 supervisor-terminal; 10 unsupported separate.
+E1 recovery,stopped_supplement,91,24,10,0,0,2,55,0,separate,,,,,Recovery is terminal at user stop; do not merge into frozen E1.
+E2,primary_five_generator,150,108,0,0,42,0,0,0,varies,,,,4 complete strata,42 unavailable due failed frozen E1 dependencies.
+E2,classical_reference,120,120,0,0,0,0,0,0,separate,,,,,Reference analysis separate from primary five-family grid.
+E3,direct_gmm,3,3,0,0,0,0,0,0,3/3,0.805554422524,0.899596666667,1.486998,,
+E3,direct_copula,3,3,0,0,0,0,0,0,3/3,0.579192520472,0.897578666667,2.371102,,
+E3,direct_arf,3,3,0,0,0,0,0,0,3/3,0.646093115827,0.896926,2.27841266667,,
+E3,direct_kde,3,0,3,0,0,0,0,0,0/3,,,,,
+E3,direct_chow_liu,3,3,0,0,0,0,0,0,3/3,0.61182401467,0.898708666667,2.53866933333,,
+E3,synthetic_gmm_logistic,3,3,0,0,0,0,0,0,3/3,0.643587235068,0.899696,1.85575066667,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_gmm_random_forest,3,2,0,0,1,0,0,0,2/3,0.772207805775,0.897302,1.530816,2,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_gmm_hist_gb,3,3,0,0,0,0,0,0,3/3,0.770600805781,0.898261333333,1.526658,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_copula_logistic,3,3,0,0,0,0,0,0,3/3,0.565319525029,0.898740666667,2.26267066667,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_copula_random_forest,3,3,0,0,0,0,0,0,3/3,0.588789783222,0.898079333333,2.31346266667,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_copula_hist_gb,3,3,0,0,0,0,0,0,3/3,0.590860191112,0.897288,2.304406,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_arf_logistic,3,3,0,0,0,0,0,0,3/3,0.541469619947,0.899551333333,2.48641466667,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_arf_random_forest,3,3,0,0,0,0,0,0,3/3,0.649736945189,0.896602,2.14853666667,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_arf_hist_gb,3,3,0,0,0,0,0,0,3/3,0.642805415506,0.896578,2.170914,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_kde_logistic,3,3,0,0,0,0,0,0,3/3,0.605638471449,0.899114,2.10975066667,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_kde_random_forest,3,2,0,0,1,0,0,0,2/3,0.679102552959,0.895558,1.866283,2,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_kde_hist_gb,3,3,0,0,0,0,0,0,3/3,0.683501885079,0.894734,1.86798133333,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_chow_liu_logistic,3,3,0,0,0,0,0,0,3/3,0.486734683935,0.898448,2.516338,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_chow_liu_random_forest,3,3,0,0,0,0,0,0,3/3,0.623971898631,0.900541333333,2.26158666667,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,synthetic_chow_liu_hist_gb,3,3,0,0,0,0,0,0,3/3,0.631414455571,0.897742666667,2.18761866667,3,Matched differences are reported in E3_FINAL_ROUTE_REPETITIONS.csv.
+E3,real_logistic,3,3,0,0,0,0,0,0,3/3,0.651228283766,0.899250666667,1.77042933333,,Shared real-only baseline.
+E3,real_random_forest,3,3,0,0,0,0,0,0,3/3,0.761516467388,0.900630666667,1.56450733333,,Shared real-only baseline.
+E3,real_hist_gb,3,3,0,0,0,0,0,0,3/3,0.755705523972,0.897814666667,1.56102533333,,Shared real-only baseline.
+E6,member_gmm,3,3,0,0,0,0,0,0,3/3,0.8055544225236763,0.8995966666666666,1.486998,3,"Reused E3 direct member result, not ensemble."
+E6,member_copula,3,3,0,0,0,0,0,0,3/3,0.5791925204720965,0.8975786666666666,2.371102,3,"Reused E3 direct member result, not ensemble."
+E6,member_arf,3,3,0,0,0,0,0,0,3/3,0.6460931158270768,0.896926,2.2784126666666666,3,"Reused E3 direct member result, not ensemble."
+E6,member_kde,3,0,0,0,3,0,0,0,0/3,,,,,"Reused E3 direct member result, not ensemble."
+E6,member_chow_liu,3,3,0,0,0,0,0,0,3/3,0.6118240146701591,0.8987086666666667,2.5386693333333334,3,"Reused E3 direct member result, not ensemble."
+E6,ensemble_equal,3,0,0,0,3,0,0,0,0/3,,,,,Unavailable before attempt because KDE direct member references timed out; no weight search.
+E6,ensemble_learned,3,0,0,0,3,0,0,0,0/3,,,,,Unavailable before attempt because KDE direct member references timed out; no weight search.

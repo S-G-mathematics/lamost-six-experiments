@@ -1,0 +1,119 @@
+{
+  "budget": 1000000,
+  "error": "RuntimeError: all hyperparameter trials failed",
+  "experiment": 1,
+  "method": "kde",
+  "repetition": 1,
+  "roles": {
+    "budget": 1000000,
+    "requested_budget": 1000000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          5530,
+          22307,
+          39199,
+          21297,
+          8627,
+          1518,
+          1522
+        ],
+        "ids_sha256": "b25a14fc3812c620ea927f9014126e97695b4f72051134d3ca3c62ba73f7dac3",
+        "n": 100000
+      },
+      "fit": {
+        "counts": [
+          45183,
+          178479,
+          311598,
+          171274,
+          69130,
+          12297,
+          12039
+        ],
+        "ids_sha256": "0dafa5b0de93b69140bc144d7685e147d4f5cc580b27de28c365185ac4aee05e",
+        "n": 800000
+      },
+      "tune": {
+        "counts": [
+          5648,
+          22309,
+          38949,
+          21409,
+          8642,
+          1538,
+          1505
+        ],
+        "ids_sha256": "326bcbc1a1e0df4c7e8e05b0538aef891afb0362e0dcb5b4e066115321551a07",
+        "n": 100000
+      }
+    },
+    "status": "ok"
+  },
+  "seed": 271828,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 538, in run_e1\n    if best is None: raise RuntimeError(\"all hyperparameter trials failed\")\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: all hyperparameter trials failed\n",
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 506, in run_e1\n    pred, _, fallback_tune = _predict_chunks(model, Xtune, self.prediction_chunk, diagnostics=True)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 148, in score_matrix\n    lp = self.class_logpdf(X)\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 144, in class_logpdf\n    out[:, c] = model.score_samples(X) if self.method == \"gmm\" else model.logpdf(X)\n                                                                    ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 211, in logpdf\n    part = logsumexp(-0.5 * d2 / (self.bandwidth * self.bandwidth), axis=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/scipy/special/_logsumexp.py\", line 128, in logsumexp\n    out, sgn = _logsumexp(a, b, axis=axis, return_sign=return_sign, xp=xp)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/scipy/special/_logsumexp.py\", line 221, in _logsumexp\n    exp = b * xp.exp(a - a_max) if b is not None else xp.exp(a - a_max)\n                                                      ^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 0,
+      "params": {
+        "bandwidth": 0.3525616135474695
+      },
+      "peak_rss_kib": 1280312,
+      "seconds": 180.00674633600283,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 506, in run_e1\n    pred, _, fallback_tune = _predict_chunks(model, Xtune, self.prediction_chunk, diagnostics=True)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 148, in score_matrix\n    lp = self.class_logpdf(X)\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 144, in class_logpdf\n    out[:, c] = model.score_samples(X) if self.method == \"gmm\" else model.logpdf(X)\n                                                                    ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 211, in logpdf\n    part = logsumexp(-0.5 * d2 / (self.bandwidth * self.bandwidth), axis=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/scipy/special/_logsumexp.py\", line 128, in logsumexp\n    out, sgn = _logsumexp(a, b, axis=axis, return_sign=return_sign, xp=xp)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/scipy/special/_logsumexp.py\", line 218, in _logsumexp\n    m = xp.sum(b_i_max, axis=axis, keepdims=True, dtype=a.dtype)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py\", line 2466, in sum\n    return _wrapreduction(\n           ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py\", line 86, in _wrapreduction\n    return ufunc.reduce(obj, axis, dtype, out, **passkwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 1,
+      "params": {
+        "bandwidth": 0.10437123465979102
+      },
+      "peak_rss_kib": 1304536,
+      "seconds": 180.00693812198006,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 506, in run_e1\n    pred, _, fallback_tune = _predict_chunks(model, Xtune, self.prediction_chunk, diagnostics=True)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 148, in score_matrix\n    lp = self.class_logpdf(X)\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 144, in class_logpdf\n    out[:, c] = model.score_samples(X) if self.method == \"gmm\" else model.logpdf(X)\n                                                                    ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 211, in logpdf\n    part = logsumexp(-0.5 * d2 / (self.bandwidth * self.bandwidth), axis=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/scipy/special/_logsumexp.py\", line 128, in logsumexp\n    out, sgn = _logsumexp(a, b, axis=axis, return_sign=return_sign, xp=xp)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/scipy/special/_logsumexp.py\", line 221, in _logsumexp\n    exp = b * xp.exp(a - a_max) if b is not None else xp.exp(a - a_max)\n                                                      ^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 2,
+      "params": {
+        "bandwidth": 0.438417699271062
+      },
+      "peak_rss_kib": 1304868,
+      "seconds": 180.00298020004993,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 506, in run_e1\n    pred, _, fallback_tune = _predict_chunks(model, Xtune, self.prediction_chunk, diagnostics=True)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 148, in score_matrix\n    lp = self.class_logpdf(X)\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 144, in class_logpdf\n    out[:, c] = model.score_samples(X) if self.method == \"gmm\" else model.logpdf(X)\n                                                                    ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 211, in logpdf\n    part = logsumexp(-0.5 * d2 / (self.bandwidth * self.bandwidth), axis=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/scipy/special/_logsumexp.py\", line 15, in logsumexp\n    @xp_capabilities()\n    \n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 3,
+      "params": {
+        "bandwidth": 1.0090701713428127
+      },
+      "peak_rss_kib": 1304868,
+      "seconds": 180.00434111902723,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 506, in run_e1\n    pred, _, fallback_tune = _predict_chunks(model, Xtune, self.prediction_chunk, diagnostics=True)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 148, in score_matrix\n    lp = self.class_logpdf(X)\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 144, in class_logpdf\n    out[:, c] = model.score_samples(X) if self.method == \"gmm\" else model.logpdf(X)\n                                                                    ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_flexible.py\", line 211, in logpdf\n    part = logsumexp(-0.5 * d2 / (self.bandwidth * self.bandwidth), axis=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/scipy/special/_logsumexp.py\", line 121, in logsumexp\n    b_exp_a = xp.exp(a) if b is None else b * xp.exp(a)\n              ^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 4,
+      "params": {
+        "bandwidth": 0.12660361036338277
+      },
+      "peak_rss_kib": 1304868,
+      "seconds": 180.01757175900275,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    }
+  ]
+}

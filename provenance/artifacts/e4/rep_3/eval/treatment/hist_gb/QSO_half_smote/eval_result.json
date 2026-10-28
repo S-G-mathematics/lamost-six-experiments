@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "0599c9b751fc9dc8d86e2b96c74d903822adc7e313ebebf393b76b9897408846",
+  "attempt_id": "1792960793_be2f1400",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-25T20:40:32.726619+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.754298582196393,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        14587,
+        8600,
+        3804,
+        544,
+        154,
+        87,
+        431
+      ],
+      [
+        2788,
+        53108,
+        52808,
+        1903,
+        323,
+        71,
+        548
+      ],
+      [
+        496,
+        16800,
+        159803,
+        16382,
+        942,
+        98,
+        297
+      ],
+      [
+        142,
+        753,
+        21796,
+        81208,
+        2927,
+        66,
+        124
+      ],
+      [
+        44,
+        64,
+        1230,
+        3096,
+        38739,
+        13,
+        16
+      ],
+      [
+        28,
+        47,
+        96,
+        66,
+        17,
+        7246,
+        180
+      ],
+      [
+        209,
+        344,
+        192,
+        120,
+        11,
+        121,
+        6531
+      ]
+    ],
+    "coverage": 0.897984,
+    "fit_key": "e4/rep_3/fit/treatment/hist_gb/QSO_half_smote",
+    "per_class": {
+      "0": {
+        "coverage": 0.6701527989506151,
+        "n": 28207,
+        "recall": 0.5171411351792108,
+        "set_size": 1.6186053107384692
+      },
+      "1": {
+        "coverage": 0.8337591551694771,
+        "n": 111549,
+        "recall": 0.47609570681942465,
+        "set_size": 1.668226519287488
+      },
+      "2": {
+        "coverage": 0.9589616975844121,
+        "n": 194818,
+        "recall": 0.8202681477070907,
+        "set_size": 1.685511605703785
+      },
+      "3": {
+        "coverage": 0.891698437616805,
+        "n": 107016,
+        "recall": 0.7588397996561261,
+        "set_size": 1.3936233834193017
+      },
+      "4": {
+        "coverage": 0.9437988981991574,
+        "n": 43202,
+        "recall": 0.8966945974723393,
+        "set_size": 1.1564742373038286
+      },
+      "5": {
+        "coverage": 0.9520833333333333,
+        "n": 7680,
+        "recall": 0.9434895833333333,
+        "set_size": 1.048828125
+      },
+      "6": {
+        "coverage": 0.8965196599362381,
+        "n": 7528,
+        "recall": 0.8675611052072264,
+        "set_size": 1.160201912858661
+      }
+    },
+    "pipeline_sha256": "f933c4489a08779a44c7d436874fa6a35e91e30eb70b7ce12baa9b768734be26",
+    "score_kind": "probability",
+    "set_size": 1.552008,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.7978798511879899
+  },
+  "started_at": "2026-10-25T20:39:53.213375+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_3/eval/treatment/hist_gb/QSO_half_smote",
+    "condition": "QSO_half_smote",
+    "dependencies": [
+      "e4/rep_3/fit/treatment/hist_gb/QSO_half_smote"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_3/fit/treatment/hist_gb/QSO_half_smote",
+    "generator": null,
+    "key": "e4/rep_3/eval/treatment/hist_gb/QSO_half_smote",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "hist_gb",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 3,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 6,
+    "target_label": "QSO",
+    "treatment": "smote"
+  },
+  "task_sha256": "fd4073e3efc918fe79e26c9f4e6b3d8ddea6c72804cb25519da6aaeba93f8a37"
+}

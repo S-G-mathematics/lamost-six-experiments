@@ -1,0 +1,119 @@
+{
+  "budget": 30000,
+  "error": "TrialTimeout: trial exceeded 180s timeout",
+  "experiment": 1,
+  "method": "kde",
+  "repetition": 2,
+  "roles": {
+    "budget": 30000,
+    "requested_budget": 30000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          182,
+          661,
+          1188,
+          638,
+          257,
+          39,
+          35
+        ],
+        "ids_sha256": "3ec80642bdc5b04c40afc3e4c58cb06be5da5d586aa922264370d548589f3937",
+        "n": 3000
+      },
+      "fit": {
+        "counts": [
+          1353,
+          5356,
+          9350,
+          5136,
+          2074,
+          369,
+          362
+        ],
+        "ids_sha256": "ee1a048dc11552b6a3a1e126e87284f1e1d450a0364b8922e06a271b09a8492c",
+        "n": 24000
+      },
+      "tune": {
+        "counts": [
+          169,
+          669,
+          1168,
+          642,
+          259,
+          47,
+          46
+        ],
+        "ids_sha256": "e5b75b3aa1e3ca5ebc414259012cac2eea374c24249705cea38873681cb14bbd",
+        "n": 3000
+      }
+    },
+    "status": "ok"
+  },
+  "seed": 271829,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 591, in run_e1\n    test_pred, test_scores, fallback_test = _predict_chunks(model, test_model_X, self.prediction_chunk, diagnostics=True)\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 148, in score_matrix\n    lp = self.class_logpdf(X)\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 144, in class_logpdf\n    out[:, c] = model.score_samples(X) if self.method == \"gmm\" else model.logpdf(X)\n                                                                    ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_flexible.py\", line 211, in logpdf\n    part = logsumexp(-0.5 * d2 / (self.bandwidth * self.bandwidth), axis=1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/special/_logsumexp.py\", line 121, in logsumexp\n    b_exp_a = xp.exp(a) if b is None else b * xp.exp(a)\n              ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "bandwidth": 0.36382919052393126
+      },
+      "peak_rss_kib": 1152892,
+      "seconds": 0.6437463569964166,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5328479450940965
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "bandwidth": 0.3287395182567318
+      },
+      "peak_rss_kib": 1152892,
+      "seconds": 0.5999180709986831,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.541677104131688
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "bandwidth": 0.36313837938161525
+      },
+      "peak_rss_kib": 1152892,
+      "seconds": 0.57074124400242,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5330614834242268
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "bandwidth": 0.05335027467994711
+      },
+      "peak_rss_kib": 1152892,
+      "seconds": 1.6795356180009549,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6526800499207704
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "bandwidth": 0.05072351664806486
+      },
+      "peak_rss_kib": 1152892,
+      "seconds": 1.6982329099992057,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6512054960230087
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "artifact_sha256": "4f47e62f482f6beebd1ac9dd60cf0b381ae8a5ce677e892cc4b676fdf0fe26b5",
+  "attempt_id": "1792903738_8793fe78",
+  "engine_code_sha256": "7ea971ea1dfbde6e60b29d30305e8c11cf398e7f49f7a8023b7f06f5ef632851",
+  "finished_at": "2026-10-25T04:48:59.954093+00:00",
+  "reason": null,
+  "result": {
+    "class_counts": [
+      4519,
+      17848,
+      31159,
+      17127,
+      6913,
+      1230,
+      1204
+    ],
+    "params": {
+      "marginal": "histogram_tail",
+      "shrinkage": 0.0
+    },
+    "phase_supervision": {
+      "exit_code": 0,
+      "finished_at": "2026-10-25T04:48:59.953405+00:00",
+      "peak_tree_rss_kib": 176372,
+      "phase": "final_fit",
+      "reason": null,
+      "seconds": 1.044057963998057
+    },
+    "reused": true,
+    "seed": 272728,
+    "source": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_1/copula/pipeline.joblib",
+    "source_sha256": "226c851defb67ad2c3b5c3221dff507147c7cf09178020cb4afbab2be2482b90",
+    "status": "success",
+    "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91"
+  },
+  "started_at": "2026-10-25T04:48:58.908222+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e3/rep_1/fit/copula",
+    "condition": null,
+    "dependencies": [],
+    "experiment": 3,
+    "generator": null,
+    "key": "e3/rep_1/fit/copula",
+    "kind": "fit",
+    "mechanism": null,
+    "method": "copula",
+    "observed_utc": "2026-10-25T04:47:11.383783+00:00",
+    "optimizer_seed": 2026867752,
+    "rate": null,
+    "ratio": null,
+    "rep": 1,
+    "reuse_pipeline": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_1/copula/pipeline.joblib",
+    "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+    "route": "generator",
+    "scientific_case": false,
+    "seed": 272728,
+    "selection_key": null,
+    "selection_mode": "tune",
+    "selection_source": null,
+    "source_metadata": {
+      "fit_seed": 272728,
+      "gate": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_1/copula/test_reproduction_gate.json",
+      "gate_sha256": "5139d8963d38c04ad3558a80d6ae7ec441fcbece08aba28d5b12c9ba8b487eda",
+      "gate_status": "classification_not_reproduced",
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_1/copula/pipeline.joblib",
+      "preprocessing_note": "actual imputer medians and scaler mean/scale match recomputation on the exact cached 80k fitting rows (absolute tolerance 1e-12); 10k tuning and 10k calibration counts validated; no test rows in preprocessing",
+      "provenance": "E2 reconstructed fit; exact matching role-membership hash, selected parameters and reconstructed pipeline hash validated; not the omitted original E1 pipeline",
+      "reconstruction": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_1/copula/reconstruction.json",
+      "reconstruction_sha256": "a787b2bf02acf73f18c5142ae700c7cfe020c79dd5f2fec5d96923f079cd0909",
+      "selected_params_match": true,
+      "source_role_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334"
+    },
+    "source_sha256": "226c851defb67ad2c3b5c3221dff507147c7cf09178020cb4afbab2be2482b90",
+    "started_epoch": 1792903629.3667047,
+    "superseded_operational_attempts": [
+      {
+        "attempt_id": "f709fa38391c4fefbc49c2a67c9b077c",
+        "reason": "ModuleNotFoundError: No module named 'benchmark'",
+        "superseded_utc": "2026-10-25T04:48:47.882251+00:00"
+      }
+    ],
+    "target_class": null,
+    "train_key": null,
+    "training_counts": [
+      4519,
+      17848,
+      31159,
+      17127,
+      6913,
+      1230,
+      1204
+    ],
+    "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+    "training_rows": 80000,
+    "treatment": null,
+    "trials": 10
+  },
+  "task_sha256": "25ee4dc485f12e520235c6709aa92439f67cedd348e7beed1c10d8d2577d6bf1"
+}

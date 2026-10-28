@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "d76101c5bc7700e0a1b8afa570de75483c7036ff5be325bb2457ef324902fe55",
+  "attempt_id": "1792977847_7e6bf575",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-26T01:24:31.017096+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7538118945279201,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        14801,
+        9525,
+        2777,
+        500,
+        209,
+        96,
+        299
+      ],
+      [
+        3115,
+        58966,
+        46812,
+        1784,
+        462,
+        71,
+        339
+      ],
+      [
+        556,
+        21226,
+        155740,
+        15675,
+        1363,
+        83,
+        175
+      ],
+      [
+        187,
+        967,
+        22106,
+        80635,
+        2993,
+        64,
+        64
+      ],
+      [
+        48,
+        102,
+        1378,
+        3203,
+        38448,
+        12,
+        11
+      ],
+      [
+        91,
+        74,
+        108,
+        56,
+        15,
+        7250,
+        86
+      ],
+      [
+        351,
+        420,
+        212,
+        128,
+        15,
+        105,
+        6297
+      ]
+    ],
+    "coverage": 0.902716,
+    "fit_key": "e4/rep_3/fit/direct/random_forest/QSO_half",
+    "per_class": {
+      "0": {
+        "coverage": 0.7244655581947743,
+        "n": 28207,
+        "recall": 0.5247279044208885,
+        "set_size": 1.716985145531251
+      },
+      "1": {
+        "coverage": 0.8350142090023218,
+        "n": 111549,
+        "recall": 0.5286107450537432,
+        "set_size": 1.67897515889878
+      },
+      "2": {
+        "coverage": 0.957360202855999,
+        "n": 194818,
+        "recall": 0.7994127852662485,
+        "set_size": 1.683771520085413
+      },
+      "3": {
+        "coverage": 0.8971555655229124,
+        "n": 107016,
+        "recall": 0.7534854601181131,
+        "set_size": 1.4420367047918068
+      },
+      "4": {
+        "coverage": 0.9520855515948335,
+        "n": 43202,
+        "recall": 0.8899587982037869,
+        "set_size": 1.2322114716911254
+      },
+      "5": {
+        "coverage": 0.9528645833333333,
+        "n": 7680,
+        "recall": 0.9440104166666666,
+        "set_size": 1.1102864583333334
+      },
+      "6": {
+        "coverage": 0.9042242295430393,
+        "n": 7528,
+        "recall": 0.8364771519659936,
+        "set_size": 1.4191020191285866
+      }
+    },
+    "pipeline_sha256": "fb8f3b36a363d79076784beab5a62369d2848503f6f191a4816daf1025d8b175",
+    "score_kind": "probability",
+    "set_size": 1.581026,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.81
+  },
+  "started_at": "2026-10-26T01:24:07.341624+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_3/eval/direct/random_forest/QSO_half",
+    "condition": "QSO_half",
+    "dependencies": [
+      "e4/rep_3/fit/direct/random_forest/QSO_half"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_3/fit/direct/random_forest/QSO_half",
+    "generator": null,
+    "key": "e4/rep_3/eval/direct/random_forest/QSO_half",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 3,
+    "route": "direct",
+    "scientific_case": true,
+    "target_class": 6,
+    "target_label": "QSO",
+    "treatment": null
+  },
+  "task_sha256": "5940a22e4069783b9126388be7819e0351392e55f2d7d392eaa380fed622f76b"
+}

@@ -1,0 +1,46 @@
+{
+  "audit_type": "focused engineering test audit for deployed E6 member dependency gate",
+  "command": "venv/bin/python -m pytest -q tests/test_e6_member_gate.py tests/test_ensemble.py tests/test_ensemble_maintenance_patch.py tests/test_controller_cpu_measurement.py tests/test_controller_ram_admission.py",
+  "coverage": [
+    "all five declared member references successful",
+    "pending member reference blocks E6 readiness",
+    "terminal failed/unavailable member reference makes E6 ensemble unavailable",
+    "defensive preflight runs before project/model/posterior access",
+    "E3-E5 dependency behavior unchanged",
+    "frozen task and source identity checks",
+    "E6 cached terminal phase does not rerun",
+    "existing posterior-weight, finite conformal-order-statistic, E6 phase-cache, CPU admission and RAM admission fixtures"
+  ],
+  "deployment_amendment_id": "e6_declared_member_gate_20261025",
+  "execution_boundary": {
+    "actual_scientific_queue_or_registry_mutations": 0,
+    "classifier_fits": 0,
+    "live_workers_interrupted": 0,
+    "new_scientific_data_observations": 0,
+    "production_model_loads": 0,
+    "production_predictions": 0
+  },
+  "failed": 0,
+  "notes": "Tiny deterministic fixture matrices and fake posterior estimators only. No project dataset, fitted scientific model, test cohort or results were accessed.",
+  "observed_utc": "2026-10-25T15:21:41Z",
+  "passed": 22,
+  "result": "passed",
+  "source_and_fixture_sha256": {
+    "manifests/freeze.json": "88bd8400f1b5bb1d959fca5e986031f9b5e550b760801780b390bb2bcf5779bf",
+    "manifests/plan_amendments.json": "fbad117639f06f9091e95b687bbe530e07053b25de080fada70be5627d3a4816",
+    "manifests/tasks.json": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+    "source/controller.py": "589ab53f5f53fb3c6ae1a28a1b87ad55b26508042cd9e988940171d575caffb7",
+    "source/ensemble.py": "60a89134f546bfb257e2baf5be76af453bec1f2c7fc138c31d7d629227f1ec7c",
+    "tests/test_controller_cpu_measurement.py": "7d67e85632ea2f0def29c01919a1515f4bb05bf7c174fe471ecb298a4d65321e",
+    "tests/test_controller_ram_admission.py": "67fdfb88206153278447d1e5402265f7a07ee27fdfadfd4c13188f12ac6ce6de",
+    "tests/test_e6_member_gate.py": "e14fe4508735b3219995e5c2d3e8c711cdf3ec4ed9032241b64ae03d1caeb0c6",
+    "tests/test_ensemble.py": "12b27eaecf29274f9693267f35ba31fee3fdaeeb6f149deaa6757eea92baa309",
+    "tests/test_ensemble_maintenance_patch.py": "7b4062c82796a7f8a463e46923482b417b1a531aae95be99c7cb3753fbcebf01"
+  },
+  "unchanged_identity": {
+    "controller_sha256": "589ab53f5f53fb3c6ae1a28a1b87ad55b26508042cd9e988940171d575caffb7",
+    "ensemble_sha256": "60a89134f546bfb257e2baf5be76af453bec1f2c7fc138c31d7d629227f1ec7c",
+    "freeze_utc": "2026-10-25T04:46:31.018995+00:00",
+    "tasks_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb"
+  }
+}

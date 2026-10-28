@@ -1,0 +1,174 @@
+LAMOST DR10 v2 — DATASET CLEANING AND READINESS REPORT
+Frozen baseline v1 | 22 October 2026 | No classifier experiments performed
+
+RESULT: 2,330,835 source representatives, 7 labels, 6 numeric predictors.
+Independent artifact validation: PASSED; 10 ingestion/preprocessing contract tests pass.
+The baseline is structurally clean and ready for controlled experiments under
+the declared protocol. It is not a claim of perfectly correct astrophysical labels.
+
+1. DATASET AND TARGET
+Full LAMOST DR10 v2 Low Resolution General Catalog: 11,441,011 observations,
+36 original columns. Broad classes: STAR 11,100,139; GALAXY 261,381; QSO 79,491.
+Seven-way target is our aggregation: A,F,G,K stellar subclass prefixes; M,
+dM,gM,sdM prefixes -> M; broad GALAXY/QSO remain unchanged. Other stellar
+categories are outside this task. Labels come from the survey spectral pipeline.
+
+Predictors in fixed order:
+  1. mag_ps_g
+  2. mag_ps_r
+  3. mag_ps_i
+  4. mag_ps_z
+  5. mag_ps_y
+  6. gaia_g_mean_mag
+Five PanSTARRS magnitudes plus Gaia mean G. Native FITS precision is retained;
+the six measurements are float32 in the source and scaling uses float64.
+IDs, spectral class/subclass, redshift/error, SNR, quality masks, sky position,
+observation/date/plate fields and audit flags are excluded from model inputs.
+
+2. COMPLETE CLEANING LEDGER
+  incomplete_or_invalid_photometry: 8,066,531 observations
+  retained: 2,330,835 observations
+  repeat_observation_same_uid: 939,614 observations
+  zero_photometry_missing_counterpart: 56,872 observations
+  outside_seven_class_taxonomy: 47,144 observations
+  shared_counterpart_other_uid: 15 observations
+These mutually exclusive reasons sum to all 11,441,011 original observations.
+Outside-taxonomy objects and repeated spectra are not intrinsically bad data;
+their exclusions implement this particular seven-class, one-source benchmark.
+
+Eligible complete-feature observations: 3,270,464
+Unique eligible UIDs before counterpart linkage: 2,330,850
+Linked entities after counterpart deduplication: 2,330,835
+Within each UID, retain the eligible observation with the highest finite,
+nonnegative i-band SNR; numeric observation ID ascending breaks ties.
+If no valid SNR exists, use the same observation-ID tie-break. No SNR floor.
+Selection uses a spectrum quality field, never a classifier score.
+UIDs sharing a positive exact Gaia or PanSTARRS counterpart ID in eligible
+observations are joined transitively. There are 15 two-UID linked components;
+largest component size is 2. Select one representative per component.
+Exact six-feature-vector duplicates remaining: 0.
+No extra same-vector removals or contradictory-vector quarantines were needed.
+Distinct native feature columns are nonconstant; no exact duplicate columns.
+
+3. MISSING VALUES — IMPORTANT FULL-CATALOG DISCOVERY
+In the actual FITS, PanSTARRS missing bands use -999; Gaia missing G uses -9999.
+The audit also counted 99, 99.99 and other common placeholders rather than
+assuming documentation examples applied. PanSTARRS=99 occurred zero times.
+  mag_ps_g: -999=6,650,411; -9999=0; zero=57,756; nonfinite=0
+  mag_ps_r: -999=8,064,549; -9999=0; zero=57,756; nonfinite=0
+  mag_ps_i: -999=5,386,412; -9999=0; zero=57,756; nonfinite=0
+  mag_ps_z: -999=6,099,237; -9999=0; zero=57,756; nonfinite=0
+  mag_ps_y: -999=6,067,404; -9999=0; zero=57,756; nonfinite=0
+  gaia_g_mean_mag: -999=0; -9999=256,383; zero=0; nonfinite=0
+A further 57,756 raw observations have all five PanSTARRS bands=0
+with ps_id=0. The official SQL service returns null for those counterpart IDs
+and bands. That specific combination is missing photometry, not a bright source.
+Of those rows, 56,872 fall inside the seven-class taxonomy; the others are
+counted first as outside taxonomy. The observed rule removes the placeholders
+and reconciles the complete-case UID count exactly with the official SQL query.
+Other zeros are not blindly deleted. All retained feature values are finite
+and pass the fixed broad magnitude bounds [-30,50]. No imputation is performed.
+
+4. FINAL CLASS COUNTS AND FIXED SPLITS
+  0=A: total 131,492 (5.641%); development 56,414; test 28,207; reserve 46,871
+  1=F: total 520,004 (22.310%); development 223,098; test 111,549; reserve 185,357
+  2=G: total 908,176 (38.964%); development 389,635; test 194,818; reserve 323,723
+  3=K: total 498,872 (21.403%); development 214,031; test 107,016; reserve 177,825
+  4=M: total 201,395 (8.640%); development 86,405; test 43,202; reserve 71,788
+  5=GALAXY: total 35,801 (1.536%); development 15,360; test 7,680; reserve 12,761
+  6=QSO: total 35,095 (1.506%); development 15,057; test 7,528; reserve 12,510
+Total development 1,000,000; fixed test 500,000; reserve 830,835.
+Reference development is 800,000 fit + 200,000 tune; seed 20261022 and
+documented stage offsets determine the frozen memberships. Natural class
+proportions are retained. Minimum test support is 7,528 QSO sources.
+No sample ID, UID, linked entity, positive Gaia ID or positive PanSTARRS ID
+crosses development/test/reserve. Checks include counterparts from all eligible
+observations, not just the selected spectrum. Spatial/plate dependence remains.
+The test cohort stays fixed across models and repetitions. Future paired
+development samples can use non-test rows, capped at 1m; transformations must
+be re-fitted inside each run. A conformal calibration split has not been allocated.
+
+5. STANDARDIZATION, CORRELATION AND OUTLIERS
+Saved standard and robust scalers were fitted on 800,000 reference-fit rows only.
+The 1.5m-row standardized snapshot contains reference fit/tune/test and uses
+that one fit-only scaler unchanged. The untouched native dataset is also included.
+Fit mean error <= 7.16e-16; fit population-SD error <= 2.22e-16.
+For each smaller sample, new repetition, or CV fold: fit fresh preprocessing
+on its own fit rows. Never fit on all development rows, tune rows or test rows.
+Optional winsorization learns fit-only quantiles and is disabled by default.
+
+Largest fit Pearson |r|: 0.996562 (PanSTARRS z/y).
+Fit correlation matrix rank: 6/6; condition number: 2770.40.
+Strong correlations are expected between distinct astronomical bands and are
+retained. Standardization does not remove correlation. Pearson and Spearman
+matrices and a feature profile are included. Covariance regularization and
+any PCA/whitening or feature-selection choice belong inside model development;
+globally discarding correlated bands would alter the research problem.
+
+No valid outlier rows were removed. Magnitude-tail diagnostic: any of six bands
+more than 8 training robust sigmas from its training median, using 1.4826*MAD
+and an IQR fallback. This rule flagged zero rows. It is marginal, not a joint
+anomaly detector; zero flags do not prove every photometric match is correct.
+Additional train-referenced color diagnostics flagged 170,551 rows in the full cohort.
+Colors are adjacent PanSTARRS differences plus PanSTARRS r minus Gaia G;
+threshold is 8 training robust sigmas. Flags are metadata, not extra predictors.
+Among reference-fit GALAXY objects, 12,004/12,288 (97.69%) are flagged.
+This demonstrates strong class dependence of a global color cut; it is not
+evidence that those galaxies are erroneous. Rare stellar colors, morphology,
+different passbands/apertures, variability and mismatches can contribute.
+A blanket cut would destroy class support. Controlled training-only filtering
+can be studied later; never trim evaluation rows using a learned outlier rule.
+
+6. REMAINING UNCERTAINTY / GAPS TO CARRY INTO EXPERIMENTS
+- 132,733 selected sources have conflicting seven-way labels
+  across eligible repeat observations. Highest-SNR selection provides the main
+  target and the disagreement flag remains visible; disagreement is not proof
+  that the chosen target is wrong.
+- 136,015 selected sources show label disagreement when
+  all raw seven-label observations are considered, including feature-incomplete
+  spectra. These flags are excluded from X. They were not silently deleted.
+- A stricter consensus membership flag identifies 2,194,818 rows.
+  It is provided for sensitivity work, not silently substituted as a new
+  500k test benchmark. Filtering consensus cases can remove difficult objects.
+- 258 retained UIDs have multiple Gaia/PanSTARRS counterpart IDs
+  across eligible observations. Linkage reduces split leakage but does not
+  independently verify crossmatch correctness or resolve every blended source.
+- 3,254 retained representatives lack a valid nonnegative i-band SNR.
+- 741,623 retained rows have nonzero fibermask. Bit patterns and the
+  official fibermask=-1 caveat mean nonzero is not automatically a deletion rule.
+- Complete-case filtering excludes many observations and can select differently
+  by class, brightness and sky coverage. This benchmark describes the complete-
+  photometry cohort, not the entire survey population. No global balancing.
+- Labels remain spectral pipeline outputs; independent high-quality label
+  verification and photometric/crossmatch uncertainties are not supplied here.
+- Source separation does not eliminate survey selection, sky or observing-
+  plate dependence. No claim of fully independent physical sampling is made.
+- Models, tuning, density regularization, calibration allocation and repeated
+  sampling remain the next research stage. No classifier, tuning trial or
+  test prediction metric has been run during cleaning.
+
+7. PROVENANCE AND REPRODUCIBILITY
+Original source: LAMOST DR10 v2 LRS General Catalog. Public academic mirror:
+https://users.flatironinstitute.org/~apricewhelan/data/surveys/LAMOST/dr10_v2.0_LRS_catalogue.fits
+Raw bytes: 3,455,202,240; SHA256: 0e7c6e14c3129210312cdc51deb9838b4a5c2b2fc381dc782424b5ccdc566989
+The mirror matches all raw class/subclass-derived counts, unique UID counts,
+complete-case aggregate counts after missing-value normalization, exact IDs
+and targets in a 10,000-row official SQL pilot. Largest Gaia-G difference in
+that pilot is 9.54e-7 mag from FITS float32 versus SQL decimal representation;
+PanSTARRS differences are <=5.01e-11 mag. Sampled zero placeholders were
+checked against official null values. No official checksum was obtained:
+bytewise identity with the official compressed archive is not authenticated.
+The delivery includes native and reference-standardized Parquet, split IDs,
+audit metadata/flags, candidate cohort, full exclusion ledger, source-link
+membership, scaler objects/JSON, pinned requirements and reproducible source,
+cleaning, validation and preprocessing tests. Stable files have SHA256 entries.
+The 3.46GB raw FITS and temporary database are reproducible downloads/workfiles
+and are excluded from the delivery. See README.txt for loading and rebuilding.
+
+Primary documentation:
+https://www.lamost.org/dr10/v2.0/catalogue
+https://www.lamost.org/dr10/v2.0/doc/lr-data-production-description
+https://www.lamost.org/dr10/v2.0/doc/caveats
+https://www.lamost.org/dr10/v2.0/sql
+https://nadc.china-vo.org/res/r100989/
+https://nadc.china-vo.org/res/r100991/

@@ -1,0 +1,186 @@
+{
+  "artifact_sha256": "46df7e6a234f12f85d051f95ac3d75559420004e7fdd3aded956b20a284251a6",
+  "attempt_id": "1792968018_7618e24f",
+  "engine_code_sha256": "9e4ac4f2f275ae38d1577b836720313f30147dd866c1dc6da5c581c93441f20b",
+  "finished_at": "2026-10-25T22:40:22.533510+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.5631712048957146,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "calibration_score_kind": "margin",
+    "confusion_matrix": [
+      [
+        2,
+        4747,
+        21582,
+        774,
+        552,
+        91,
+        459
+      ],
+      [
+        8,
+        6642,
+        100496,
+        2614,
+        985,
+        72,
+        732
+      ],
+      [
+        11,
+        1244,
+        177551,
+        8087,
+        7296,
+        89,
+        540
+      ],
+      [
+        3,
+        71,
+        60777,
+        43060,
+        2760,
+        67,
+        278
+      ],
+      [
+        12,
+        10,
+        3580,
+        8181,
+        31386,
+        13,
+        20
+      ],
+      [
+        0,
+        31,
+        88,
+        47,
+        12,
+        7315,
+        187
+      ],
+      [
+        0,
+        566,
+        107,
+        66,
+        19,
+        71,
+        6699
+      ]
+    ],
+    "coverage": 0.900688,
+    "fit_key": "e5/rep_2/fit/direct/linear_svm/missingness_05",
+    "nonconformity_rule": "negative_margin",
+    "per_class": {
+      "0": {
+        "coverage": 0.07689580600560145,
+        "n": 28207,
+        "recall": 7.090438543623924e-05,
+        "set_size": 2.1877902648278797
+      },
+      "1": {
+        "coverage": 0.897991017400425,
+        "n": 111549,
+        "recall": 0.0595433396982492,
+        "set_size": 2.145729679333746
+      },
+      "2": {
+        "coverage": 0.9928292046936115,
+        "n": 194818,
+        "recall": 0.9113685593733638,
+        "set_size": 2.3116036505867013
+      },
+      "3": {
+        "coverage": 0.9199652388427899,
+        "n": 107016,
+        "recall": 0.40236973910443297,
+        "set_size": 2.3825409284592958
+      },
+      "4": {
+        "coverage": 0.9612517938984306,
+        "n": 43202,
+        "recall": 0.7264941437896394,
+        "set_size": 2.6964492384611822
+      },
+      "5": {
+        "coverage": 0.9739583333333334,
+        "n": 7680,
+        "recall": 0.9524739583333334,
+        "set_size": 1.60859375
+      },
+      "6": {
+        "coverage": 0.9464665249734325,
+        "n": 7528,
+        "recall": 0.8898777895855473,
+        "set_size": 3.0658873538788525
+      }
+    },
+    "pipeline_sha256": "5f502ebd205ce99065c80388bcd29ad2ca0d50f5005fc594a3b2233b854b1a4f",
+    "prediction_rule": "argmax_class_score",
+    "score_kind": "margin",
+    "set_size": 2.316606,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.6227550813955788
+  },
+  "started_at": "2026-10-25T22:40:18.895782+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e5/rep_2/eval/direct/linear_svm/missingness_05",
+    "condition": "missingness_05",
+    "dependencies": [
+      "e5/rep_2/fit/direct/linear_svm/missingness_05"
+    ],
+    "experiment": 5,
+    "fit_key": "e5/rep_2/fit/direct/linear_svm/missingness_05",
+    "generator": null,
+    "key": "e5/rep_2/eval/direct/linear_svm/missingness_05",
+    "kind": "eval",
+    "mechanism": "missingness",
+    "method": "linear_svm",
+    "rate": 0.05,
+    "ratio": null,
+    "rep": 2,
+    "route": "direct",
+    "scientific_case": true,
+    "target_class": null,
+    "treatment": null
+  },
+  "task_sha256": "00be6a124b50fffeadf71bbe942d5a7caa06b593d8a37991e754cd2ccd45db35"
+}

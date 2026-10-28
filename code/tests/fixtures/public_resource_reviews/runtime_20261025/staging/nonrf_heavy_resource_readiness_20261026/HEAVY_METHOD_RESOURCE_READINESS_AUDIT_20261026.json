@@ -1,0 +1,297 @@
+{
+  "audit_name": "E4/E5 heavy-method resource readiness",
+  "observed_utc": "2026-10-26T06:32:24Z",
+  "scope": {
+    "read_only": true,
+    "no_fits": true,
+    "no_inference": true,
+    "no_model_loads": true,
+    "no_source_or_queue_changes": true,
+    "resource_evidence_only": true,
+    "registry_task_count": 6270,
+    "registry_snapshot_utc": "2026-10-26T06:31:23.672591Z",
+    "sqlite_data_version": 2
+  },
+  "source_sha256": {
+    "runtime/source/controller.py": "fbb72d82ddafd54a4668bb6a5de05cec23a7ffad0648fe5f1a393661f8607c52",
+    "runtime/source/admission_evidence.py": "71378006fa123c5b440a0919c6a3c7b93a5ec69a57a32919c3c9f06ca2f055dc",
+    "runtime/source/science.py": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+    "project/benchmark/models_basic.py": "5c0079097f90339c452e48cba178f8f22bc5012882097fad23715f425e4ec8b2",
+    "project/benchmark/models_arf.py": "082d789fb6a645d3c336ff725462a5f2d53cf82ce138289c8281e99dd8f6c8cb",
+    "manifests/tasks.json": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+    "manifests/freeze.json": "3d6e1f61809a6c11e6f39d8802989b9bcb3ee5fb640cd27720884e0514477f04"
+  },
+  "policy": {
+    "host_os_harbor_reserve_gib": 6,
+    "commitment_growth_margin_gib": 2,
+    "initial_admission_floor_gib": 8,
+    "worker_hard_rss_limit_gib": 10,
+    "trial_timeout_seconds": 600,
+    "phase_timeout_seconds": 600,
+    "native_threads_policy": 1,
+    "worker_count_ceiling": "CPU-derived",
+    "policy_change_recommendation": "none"
+  },
+  "pending_ready_fit_coverage": {
+    "E4_direct_ARF": {
+      "planned": 42,
+      "dependency_ready": 42
+    },
+    "E4_KNN": {
+      "planned": 45,
+      "dependency_ready": 45
+    },
+    "E4_ExtraTrees": {
+      "planned": 45,
+      "dependency_ready": 45
+    },
+    "E4_RBF_SVM": {
+      "planned": 45,
+      "dependency_ready": 45
+    },
+    "E5_direct_ARF": {
+      "planned": 27,
+      "dependency_ready": 27
+    },
+    "E5_KNN": {
+      "planned": 27,
+      "dependency_ready": 0
+    },
+    "E5_ExtraTrees": {
+      "planned": 27,
+      "dependency_ready": 0
+    },
+    "E5_RBF_SVM": {
+      "planned": 27,
+      "dependency_ready": 0
+    },
+    "E4_RF_treatment": {
+      "planned": 336,
+      "dependency_ready": 239,
+      "validated_successes": 55,
+      "running": 1,
+      "planned_remaining": 1,
+      "waiting_for_dependency": 279
+    }
+  },
+  "arf_evidence": {
+    "source_family": "Three validated E3 ARF/FORDE fits; same benchmark.models_arf path is used by E4 and E5. science.py passes n_jobs=1.",
+    "fits": [
+      {
+        "rep": 1,
+        "rows": 80000,
+        "selected_params": {
+          "num_trees": 100,
+          "min_samples_leaf": 100,
+          "max_depth": null,
+          "density_dist": "truncnorm",
+          "finite_bounds": "no"
+        },
+        "final_peak_rss_kib": 1233280,
+        "final_seconds": 571.5228462590603,
+        "pipeline_sha256": "eeddb9797ce8255a226b0537372ac64f7928b66a5f36a23c2715bbf2992ade16"
+      },
+      {
+        "rep": 2,
+        "rows": 80000,
+        "selected_params": {
+          "num_trees": 300,
+          "min_samples_leaf": 5,
+          "max_depth": 10,
+          "density_dist": "truncnorm",
+          "finite_bounds": "no"
+        },
+        "final_peak_rss_kib": 3630416,
+        "final_seconds": 525.5561625679256,
+        "pipeline_sha256": "1f46428c57121a022561ae76b13c177e488ebc7ccc282ac1fcdcbecfaab95192"
+      },
+      {
+        "rep": 3,
+        "rows": 80000,
+        "selected_params": {
+          "num_trees": 300,
+          "min_samples_leaf": 100,
+          "max_depth": 10,
+          "density_dist": "truncnorm",
+          "finite_bounds": "no"
+        },
+        "final_peak_rss_kib": 3245952,
+        "final_seconds": 524.8733455369947,
+        "pipeline_sha256": "85adaa279e435547a6ce771614e14d3e9efe92127a0c018c2d2d4a1904b5bf7a"
+      }
+    ],
+    "tuning": {
+      "planned_trial_slots": 15,
+      "executed_phase_receipts": 13,
+      "duplicate_cached": 2,
+      "success": 5,
+      "timeout": 6,
+      "other_nonzero_exit": 2,
+      "max_peak_rss_kib": 3697924,
+      "max_seconds": 600.2928558939602
+    },
+    "E4_altered_cohorts": {
+      "metadata_count": 42,
+      "rows_each": 80000,
+      "min_class_support_range": [
+        120,
+        1896
+      ],
+      "ARF_min_leaf_domain": [
+        5,
+        20,
+        100
+      ],
+      "ready_tuned_fit_tasks": 42,
+      "trials_per_task": 5
+    },
+    "E5_direct_ARF": {
+      "ready_fixed_refits": 27,
+      "trials_per_task": 0,
+      "selection_source": "matching E3 repetition ARF selected parameters",
+      "corruption_inputs": 27,
+      "input_shape_each": [
+        80000,
+        6
+      ]
+    },
+    "assessment": "Three matching 80,000-row phase-supervised E3 fits and 13 executed tuning phases support a provisional 6 GiB admission estimate for prospective E4 ARF tuned fits and E5 ARF fixed refits. E4 cohort class support preserves the same leaf search values. This is an admission estimate only; keep the 10 GiB hard limit and 600-second limits."
+  },
+  "random_forest_evidence": {
+    "E4_direct_80k": {
+      "successful_fits": 42,
+      "rows_each": 80000,
+      "six_features": true,
+      "final_max_rss_kib": 3760904,
+      "final_max_seconds": 247.26859141595196,
+      "trial_receipts": 340,
+      "trial_max_rss_kib": 2100980,
+      "trial_max_seconds": 236.88765960000455
+    },
+    "E4_weighted_treatment_80k": {
+      "successful_fits": 1,
+      "rows": 80000,
+      "sample_weight_shape": [
+        80000
+      ],
+      "final_rss_kib": 1127528,
+      "final_seconds": 83.96650374901947,
+      "trial_receipts": 8,
+      "trial_max_rss_kib": 1820804,
+      "trial_max_seconds": 181.2574332819786,
+      "selected_params": {
+        "n_estimators": 200,
+        "max_depth": 20,
+        "min_samples_leaf": 1,
+        "max_features": 1.0
+      }
+    },
+    "E4_treatment_successes": {
+      "total": 55,
+      "weighted": 1,
+      "nonweighted": 54,
+      "nonweighted_rows_min": 80611,
+      "nonweighted_rows_max": 84310,
+      "final_max_rss_kib": 3907392,
+      "final_max_seconds": 226.46106894302648,
+      "trial_max_rss_kib": 2116188,
+      "trial_max_seconds": 215.55222988897003
+    },
+    "new_max_row_success": {
+      "key": "e4/rep_1/fit/treatment/random_forest/A_tenth_generated_copula",
+      "status": "validated_terminal",
+      "outcome": "successful",
+      "rows": 84310,
+      "X_shape": [
+        84310,
+        6
+      ],
+      "sample_weight": false,
+      "final_peak_rss_kib": 2538164,
+      "final_seconds": 226.46106894302648,
+      "trial_max_peak_rss_kib": 1790228,
+      "trial_max_seconds": 215.55222988897003,
+      "trial_phase_receipts": 8,
+      "selected_params": {
+        "n_estimators": 500,
+        "max_depth": 20,
+        "min_samples_leaf": 1,
+        "max_features": 1.0
+      },
+      "admission_at_time_of_attempt": "10 GiB default",
+      "retroactive_reclassification": false
+    },
+    "successful_nonweighted_rows_above_82394": [
+      "e4/rep_1/fit/treatment/random_forest/A_tenth_generated_copula"
+    ],
+    "no_success_above_84310": true,
+    "earlier_ready_input_inventory": {
+      "observed_utc": "2026-10-26T00:29:03.782837+00:00",
+      "dependency_ready_count": 293,
+      "row_range": [
+        80000,
+        125955
+      ],
+      "maximum_row_tasks": [
+        "E4 rep2 G_tenth ROS",
+        "E4 rep2 G_tenth SMOTE",
+        "E4 rep2 G_tenth generated copula",
+        "E4 rep2 G_tenth generated KDE",
+        "E4 rep2 G_tenth generated Chow-Liu",
+        "E4 rep2 G_tenth generated GMM"
+      ]
+    },
+    "E3_synthetic_400k_reference": {
+      "successful_fit_records": 13,
+      "final_phase_receipts": 12,
+      "rows_each": 400000,
+      "final_max_rss_kib": 8701944,
+      "final_max_seconds": 576.539273762959,
+      "trial_max_rss_kib": 6370300,
+      "trial_max_seconds": 600.5309644450317,
+      "interpretation": "Larger synthetic RF route; not an exact E4 treatment size match."
+    },
+    "assessment": "42 successful E4 direct RF fits provide exact 80,000x6 model-phase evidence; the weighted route has one successful 80,000x6 fit with an 80,000-vector sample weight. This supports a provisional 4 GiB admission estimate for future weighted 80,000-row E4 RF fits, retaining the 10 GiB hard limit and dynamic promotion. The 54 completed nonweighted treatment fits span 80,611 to 84,310 rows; one successful A_tenth generated-copula fit at the new maximum had 2,538,164 KiB final-phase RSS and 1,790,228 KiB maximum trial-phase RSS. This supports extending the provisional 5 GiB envelope through 84,310 rows only. No successful E4 treatment RF fit above 84,310 rows exists; planned inputs reach 125,955. The 400,000-row E3 synthetic RF results are not exact E4 treatment shape matches and include final peaks above 8 GiB, so do not lower reservations above the 84,310 observed envelope."
+  },
+  "other_heavy_methods": {
+    "E4_KNN": "45 ready; no completed same-method phase receipts",
+    "E4_ExtraTrees": "45 ready; no completed same-method phase receipts",
+    "E4_RBF_SVM": "45 ready; no completed same-method phase receipts",
+    "E5_KNN_ExtraTrees_RBF_SVM": "27 planned each, zero dependency-ready; missing matching E3 fit dependencies",
+    "recommendation": "Keep default 10 GiB admission for methods/scopes without comparable phase RSS evidence. Parameter-only imported E1 selections do not establish phase memory."
+  },
+  "prospective_recommendations_only": [
+    {
+      "scope": "E4 direct ARF tuned fits and E5 ARF fixed refits, 80,000 rows x 6",
+      "admission_reservation_gib": 6,
+      "basis": "3 exact E3 fits, 13 executed trials, same selected model family/domain",
+      "hard_worker_limit_gib": 10,
+      "timeout_seconds": 600
+    },
+    {
+      "scope": "E4 weighted RF fits exactly 80,000 rows x 6 with 80,000 sample weights",
+      "admission_reservation_gib": 4,
+      "basis": "42 successful E4 direct RF fits and 1 completed weighted fit",
+      "hard_worker_limit_gib": 10,
+      "dynamic_promotion_to_10_gib": true
+    },
+    {
+      "scope": "E4 nonweighted RF treatments, 80,611-84,310 rows x 6; same RF search domain; non-ARF restoration routes",
+      "admission_reservation_gib": 5,
+      "basis": "54 successful fits including the observed 84,310-row maximum",
+      "hard_worker_limit_gib": 10,
+      "dynamic_promotion_to_10_gib": true
+    },
+    {
+      "scope": "E4 RF treatment inputs above 84,310 through planned 125,955 rows; ARF-restored RF; 400,000-row E5 synthetic RF",
+      "admission_reservation_gib": 10,
+      "basis": "no exact completed E4 treatment fit evidence above 84,310; large synthetic RF analog has peaks above 8 GiB"
+    },
+    {
+      "scope": "E4/E5 KNN, ExtraTrees, RBF-SVM",
+      "admission_reservation_gib": 10,
+      "basis": "no matching successful phase-level memory receipts"
+    }
+  ],
+  "limits": "Prospective admission estimates only, not changes to scientific plan or hard cap. Per-phase RSS does not establish simultaneous host peak; retain the 6 GiB host/Harbor reserve and 2 GiB growth margin."
+}

@@ -1,0 +1,46 @@
+{
+  "airbag_method": "ownership lock, atomic checkpoints, actual-process supervision, bounded recovery, five-minute watchdog",
+  "airbag_skill_available": false,
+  "amendments": [
+    {
+      "affected_keys": [
+        "e3/rep_1/fit/gmm",
+        "e3/rep_2/fit/gmm",
+        "e3/rep_1/fit/copula",
+        "e3/rep_3/fit/gmm",
+        "e3/rep_2/fit/copula",
+        "e3/rep_3/fit/copula",
+        "e3/rep_1/fit/chow_liu",
+        "e3/rep_2/fit/chow_liu",
+        "e3/rep_3/fit/chow_liu"
+      ],
+      "models_refitted": 0,
+      "observed_utc": "2026-10-25T04:48:47.882251+00:00",
+      "reason": "Worker validator needed frozen project import path to reopen already fitted pipelines",
+      "repair_validation": "All9 existingpipeline/selection pairs validated with new validator; no classifierfit",
+      "scientific_change": false
+    }
+  ],
+  "bootstrap": false,
+  "frozen_utc": "2026-10-25T04:46:31.018995+00:00",
+  "plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+  "protocol_version": "LAMOST-later-v1-20261025",
+  "resource_policy": {
+    "max_workers": 2,
+    "native_threads": 1,
+    "phase_seconds": 600,
+    "prediction_chunk_rows": 50000,
+    "termination_grace_seconds": 30,
+    "trial_seconds": 600,
+    "worker_memory_gib": 10
+  },
+  "source_sha256": {
+    "cohorts.py": "f60c0b9dab4c4c4627cc67fe50aeed29ac75277b17efdc45cdabe1e4edb60b9d",
+    "controller.py": "8fe0c0cf2eaec2892ce672141b0a750e86874979a74c0acb3b777f1939dd58fd",
+    "ensemble.py": "a236d5e7c8a8ed33259c498d1fea3a901f7fd603542a2e140ac7c86146596e7c",
+    "phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+    "science.py": "0bcdd10b401fa7483464e4e41789d4d8fde6c3339f3af4613b9f36d4c4d7e7ad",
+    "worker.py": "4ad8a8d68fa876b2b17308bf54600aac865c894f4202d6aeb1e0e9fa1ec21327"
+  },
+  "test_information_history": "E1/E2 fixed test results already observed; later plans frozen before new test evaluations"
+}

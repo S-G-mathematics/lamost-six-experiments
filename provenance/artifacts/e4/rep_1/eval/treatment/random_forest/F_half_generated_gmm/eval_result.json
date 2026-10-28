@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "96e3cdb3db9749497ef1e4395b477598098ba2f59b3bbbb62400e18c98cd1edb",
+  "attempt_id": "1793003980_7c91c371",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-26T08:40:07.790541+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7607791788404645,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        14331,
+        9417,
+        3266,
+        497,
+        207,
+        90,
+        399
+      ],
+      [
+        2619,
+        56142,
+        49952,
+        1882,
+        399,
+        73,
+        482
+      ],
+      [
+        361,
+        19307,
+        158637,
+        14926,
+        1241,
+        85,
+        261
+      ],
+      [
+        123,
+        837,
+        22766,
+        79862,
+        3262,
+        70,
+        96
+      ],
+      [
+        34,
+        61,
+        1235,
+        3073,
+        38772,
+        12,
+        15
+      ],
+      [
+        26,
+        57,
+        76,
+        44,
+        16,
+        7344,
+        117
+      ],
+      [
+        209,
+        239,
+        119,
+        72,
+        14,
+        101,
+        6774
+      ]
+    ],
+    "coverage": 0.901758,
+    "fit_key": "e4/rep_1/fit/treatment/random_forest/F_half_generated_gmm",
+    "per_class": {
+      "0": {
+        "coverage": 0.7114191512745063,
+        "n": 28207,
+        "recall": 0.5080653738433722,
+        "set_size": 1.747474031268834
+      },
+      "1": {
+        "coverage": 0.8208500300316453,
+        "n": 111549,
+        "recall": 0.5032945163112175,
+        "set_size": 1.6807322342647626
+      },
+      "2": {
+        "coverage": 0.9628063115317886,
+        "n": 194818,
+        "recall": 0.8142830744592389,
+        "set_size": 1.687836852857539
+      },
+      "3": {
+        "coverage": 0.8966696568737385,
+        "n": 107016,
+        "recall": 0.7462622411602003,
+        "set_size": 1.4541470434327577
+      },
+      "4": {
+        "coverage": 0.9553261423082264,
+        "n": 43202,
+        "recall": 0.897458450997639,
+        "set_size": 1.217605666404333
+      },
+      "5": {
+        "coverage": 0.9654947916666666,
+        "n": 7680,
+        "recall": 0.95625,
+        "set_size": 1.0704427083333334
+      },
+      "6": {
+        "coverage": 0.9338469713071201,
+        "n": 7528,
+        "recall": 0.8998405951115834,
+        "set_size": 1.2041710945802337
+      }
+    },
+    "pipeline_sha256": "45a26b1047d9878c090216180db9e01534adbe3dcbb4054e168af2301ae51020",
+    "score_kind": "probability",
+    "set_size": 1.582204,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.8
+  },
+  "started_at": "2026-10-26T08:39:40.260158+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_1/eval/treatment/random_forest/F_half_generated_gmm",
+    "condition": "F_half_generated_gmm",
+    "dependencies": [
+      "e4/rep_1/fit/treatment/random_forest/F_half_generated_gmm"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_1/fit/treatment/random_forest/F_half_generated_gmm",
+    "generator": "gmm",
+    "key": "e4/rep_1/eval/treatment/random_forest/F_half_generated_gmm",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 1,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 1,
+    "target_label": "F",
+    "treatment": "generated_gmm"
+  },
+  "task_sha256": "143dedad076e59a969fa3c5d270fcfdf6c530358ccf6891f03500d131d8ff7df"
+}

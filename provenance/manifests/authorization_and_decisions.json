@@ -1,0 +1,150 @@
+{
+  "E2": "Finalize existing 108/150 primary +120/120 reference; no resource-relaxed fill campaign; reconstructed fits accepted with own measured BA and 31 mismatchflags;210lowprecisionflags retained",
+  "E3_E4_E5_E6": "Authorized implementation and execution under prospectively recorded policies; necessary newfits belong laterexperiment",
+  "authorization": "User authorized complete six-experiment project and instructed implementation on 2026-10-25; supersedes older E3-E6 dormant instructions in archived handoffs",
+  "bootstrap": false,
+  "class_order": [
+    "A",
+    "F",
+    "G",
+    "K",
+    "M",
+    "GALAXY",
+    "QSO"
+  ],
+  "downstream_preprocessing": "Native-unit synthetic output; downstream transformations learned only from own permitted real/synthetic/restored/corrupted training source",
+  "failure_policy": "Scientific terminal failures not retried; only validated operational interruptions recover automatically up to2; defects preserve invalidattempt and supersession",
+  "features": [
+    "mag_ps_g",
+    "mag_ps_r",
+    "mag_ps_i",
+    "mag_ps_z",
+    "mag_ps_y",
+    "gaia_g_mean_mag"
+  ],
+  "frozen_E1": "No more fits; 765 terminal, 674 success, 81 failures, 10 unsupported; recovery remains early-stopped",
+  "instance": "i-095641a281a4038b9",
+  "latest_concurrency_authorization": "concurrency_user_authorization_20261025.json",
+  "recorded_utc": "2026-10-25T04:37:37.289377+00:00",
+  "resource_policy": {
+    "admission_pause_below_gib": 8,
+    "alias_reservation_gib": 0.25,
+    "bounded_helper_reservation_gib": 1,
+    "commitment_growth_margin_gib": 2,
+    "cpu_reserve_cores": 2,
+    "emergency_backoff_seconds": 60,
+    "host_os_harbor_reserve_gib": 6,
+    "max_operational_recoveries": 2,
+    "nested_threads": 1,
+    "phase_timeout_seconds": 600,
+    "prediction_chunk_rows": 50000,
+    "queue_packing": "retain one heavy fitting lane and prefer admissible light work before additional heavy fits",
+    "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+    "retry_cooldown_seconds": [
+      60,
+      120,
+      300
+    ],
+    "termination_grace_seconds": 30,
+    "trial_timeout_seconds": 600,
+    "worker_admission_reservation_gib_by_class": {
+      "heavy": 10,
+      "light": 2
+    },
+    "worker_count_ceiling": "cpu-derived",
+    "worker_memory_limit_gib": 10,
+    "worker_nice": 10
+  },
+  "resource_policy_effective_from_utc": "2026-10-25T17:12:32.165349+00:00",
+  "resource_policy_history": [
+    {
+      "effective_from_utc": "2026-10-25T04:46:31.018995+00:00",
+      "effective_until_utc": "2026-10-25T16:56:04.059139+00:00",
+      "policy": {
+        "max_workers": 2,
+        "native_threads": 1,
+        "phase_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "termination_grace_seconds": 30,
+        "trial_seconds": 600,
+        "worker_memory_gib": 10
+      },
+      "reason": "initial prospective two-worker policy"
+    },
+    {
+      "effective_from_utc": "2026-10-25T16:56:04.059139+00:00",
+      "effective_until_utc": "2026-10-25T17:12:32.165349+00:00",
+      "policy": {
+        "admission_pause_below_gib": 8,
+        "alias_reservation_gib": 0.25,
+        "bounded_helper_reservation_gib": 1,
+        "commitment_growth_margin_gib": 2,
+        "cpu_reserve_cores": 2,
+        "emergency_backoff_seconds": 60,
+        "host_os_harbor_reserve_gib": 6,
+        "max_operational_recoveries": 2,
+        "nested_threads": 1,
+        "phase_timeout_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+        "retry_cooldown_seconds": [
+          60,
+          120,
+          300
+        ],
+        "termination_grace_seconds": 30,
+        "trial_timeout_seconds": 600,
+        "worker_admission_reservation_gib_by_class": {
+          "heavy": 10,
+          "light": 2
+        },
+        "worker_count_ceiling": "cpu-derived",
+        "worker_memory_limit_gib": 10,
+        "worker_nice": 10
+      },
+      "reason": "explicit user authorization removes fixed two-worker cap; adaptive CPU/RAM/storage scheduling with lower CPU priority for new workers"
+    },
+    {
+      "effective_from_utc": "2026-10-25T17:12:32.165349+00:00",
+      "effective_until_utc": null,
+      "policy": {
+        "admission_pause_below_gib": 8,
+        "alias_reservation_gib": 0.25,
+        "bounded_helper_reservation_gib": 1,
+        "commitment_growth_margin_gib": 2,
+        "cpu_reserve_cores": 2,
+        "emergency_backoff_seconds": 60,
+        "host_os_harbor_reserve_gib": 6,
+        "max_operational_recoveries": 2,
+        "nested_threads": 1,
+        "phase_timeout_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "queue_packing": "retain one heavy fitting lane and prefer admissible light work before additional heavy fits",
+        "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+        "retry_cooldown_seconds": [
+          60,
+          120,
+          300
+        ],
+        "termination_grace_seconds": 30,
+        "trial_timeout_seconds": 600,
+        "worker_admission_reservation_gib_by_class": {
+          "heavy": 10,
+          "light": 2
+        },
+        "worker_count_ceiling": "cpu-derived",
+        "worker_memory_limit_gib": 10,
+        "worker_nice": 10
+      },
+      "reason": "user-authorized peak safe concurrency: keep one heavy fit progressing while packing admissible light work before an additional heavy fit"
+    }
+  ],
+  "role_budget": {
+    "calibration": 10000,
+    "fit": 80000,
+    "test": 500000,
+    "tune": 10000
+  },
+  "test_history": "E1/E2 test outcomes already observed; no entire-project untouched prospective-test claim",
+  "unrelated_Harbor": "untouched"
+}

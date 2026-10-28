@@ -1,0 +1,17 @@
+{
+  "requested_utc": "2026-10-24T08:00:37.619406+00:00",
+  "reason": "User requested E1 recovery stop before E2",
+  "queue_parent_pids": [
+    4081082,
+    4086092
+  ],
+  "worker_pids": [
+    1223932,
+    1225433
+  ],
+  "worker_commands": {
+    "1223932": "/home/ubuntu/lamost_e1_migration_20261023/venv/bin/python -u -m benchmark.experiments --experiment 1 --output /home/ubuntu/lamost_e1_migration_20261023/e1_recovery_20261024/arf_cells/arf/n_100000/rep_4/results --baseline-dir /home/ubuntu/lamost_e1_migration_20261023/project/lamost_baseline --budgets 100000 --repetitions 1 --rep-start 3 --methods arf --seed 271828 --trial-timeout 600 --memory-limit-gib 10 --resource-profile native8gib8cores --prediction-chunk 50000 --resume ",
+    "1225433": "/home/ubuntu/lamost_e1_migration_20261023/venv/bin/python -u -m benchmark.experiments --experiment 1 --output /home/ubuntu/lamost_e1_migration_20261023/e1_recovery_20261024/nonarf_cells/extra_trees/n_300000/rep_1/results --baseline-dir /home/ubuntu/lamost_e1_migration_20261023/project/lamost_baseline --budgets 300000 --repetitions 1 --rep-start 0 --methods extra_trees --seed 271828 --trial-timeout 600 --memory-limit-gib 10 --resource-profile native8gib8cores --prediction-chunk 50000 --resume "
+  },
+  "planned_status_policy": "active=user_stopped, never-started=not_attempted_user_stopped"
+}

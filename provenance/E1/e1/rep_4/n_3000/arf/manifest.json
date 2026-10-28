@@ -1,0 +1,139 @@
+{
+  "budget": 3000,
+  "error": "TrialTimeout: trial exceeded 180s timeout",
+  "experiment": 1,
+  "method": "arf",
+  "repetition": 4,
+  "roles": {
+    "budget": 3000,
+    "requested_budget": 3000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          18,
+          73,
+          108,
+          60,
+          34,
+          3,
+          4
+        ],
+        "ids_sha256": "f49b9b12f23f12e464a2f4714fe176b7b88e8723695249d061a0aa0b02a3362b",
+        "n": 300
+      },
+      "fit": {
+        "counts": [
+          136,
+          535,
+          934,
+          514,
+          207,
+          37,
+          37
+        ],
+        "ids_sha256": "f05a2b8d487faa07b91c70bececd8d660c405cfa4066adace69043296921ef75",
+        "n": 2400
+      },
+      "tune": {
+        "counts": [
+          17,
+          67,
+          116,
+          64,
+          26,
+          5,
+          5
+        ],
+        "ids_sha256": "ed3714802707d3868382728e5acdc752a82a9f37c6ea625875cb4bd6281da501",
+        "n": 300
+      }
+    },
+    "status": "ok"
+  },
+  "seed": 271831,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 591, in run_e1\n    test_pred, test_scores, fallback_test = _predict_chunks(model, test_model_X, self.prediction_chunk, diagnostics=True)\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 179, in _predict_chunks\n    sc = np.asarray(model.score_matrix(x), dtype=np.float32)\n                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 188, in score_matrix\n    joint = self.class_logpdf(X) + np.log(self.priors_)\n            ^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 185, in class_logpdf\n    return np.column_stack([self._one_class_logpdf(x, c) for c in CLASS_IDS])\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 169, in _one_class_logpdf\n    vals = truncnorm.logpdf(x[rows], a=a, b=b, loc=mean, scale=sd)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/stats/_distn_infrastructure.py\", line 2127, in logpdf\n    place(output, cond, self._logpdf(*goodargs) - log(scale))\n                        ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/stats/_continuous_distns.py\", line 10302, in _logpdf\n    return _norm_logpdf(x) - _log_gauss_mass(a, b)\n                             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/stats/_continuous_distns.py\", line 10212, in _log_gauss_mass\n    out[case_central] = mass_case_central(a[case_central], b[case_central])\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/stats/_continuous_distns.py\", line 10203, in mass_case_central\n    return sc.log1p(-_norm_cdf(a) - _norm_cdf(-b))\n                                    ^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/scipy/stats/_continuous_distns.py\", line 371, in _norm_cdf\n    return sc.ndtr(x)\n           ^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 1161232,
+      "seconds": 88.18589674699615,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6209044217869261
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 5,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 1175512,
+      "seconds": 35.46406354800274,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5903651832976747
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 20,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 1175512,
+      "seconds": 28.39679273100046,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5690094902524135
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 1175512,
+      "seconds": 0.0010429969988763332,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.6209044217869261
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 20,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 1192860,
+      "seconds": 51.84657196400076,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5496752395185874
+    }
+  ]
+}

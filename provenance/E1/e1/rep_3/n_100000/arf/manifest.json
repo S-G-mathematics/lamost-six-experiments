@@ -1,0 +1,139 @@
+{
+  "budget": 100000,
+  "error": "RuntimeError: all hyperparameter trials failed",
+  "experiment": 1,
+  "method": "arf",
+  "repetition": 3,
+  "roles": {
+    "budget": 100000,
+    "requested_budget": 100000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          556,
+          2189,
+          3914,
+          2165,
+          871,
+          141,
+          164
+        ],
+        "ids_sha256": "f4ac3d083d1c67857094e3238eaaadeaea62c6821131e38e06da9153fab49b22",
+        "n": 10000
+      },
+      "fit": {
+        "counts": [
+          4519,
+          17846,
+          31166,
+          17122,
+          6917,
+          1228,
+          1202
+        ],
+        "ids_sha256": "e96d36616e000d1437c5e89f3ec927ca64681597a8d1fc9d46bdee3c6810d0cb",
+        "n": 80000
+      },
+      "tune": {
+        "counts": [
+          565,
+          2230,
+          3895,
+          2140,
+          865,
+          154,
+          151
+        ],
+        "ids_sha256": "08ee64fbe6c44ac519b2edd4b715434833d8728d5b3c75b9e40a140cb93172cd",
+        "n": 10000
+      }
+    },
+    "status": "ok"
+  },
+  "seed": 271830,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 538, in run_e1\n    if best is None: raise RuntimeError(\"all hyperparameter trials failed\")\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: all hyperparameter trials failed\n",
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 107, in fit\n    model.forde(dist=\"truncnorm\", oob=False, alpha=0)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 245, in forde\n    res = long.groupby([ 'tree',\"nodeid\", \"variable\"], as_index = False).agg(mean=(\"value\", \"mean\"), sd=(\"value\", \"std\"), min = (\"min\", \"min\"), max = (\"max\", \"max\"))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/generic.py\", line 1432, in aggregate\n    result = op.agg()\n             ^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/apply.py\", line 190, in agg\n    return self.agg_dict_like()\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/apply.py\", line 423, in agg_dict_like\n    return self.agg_or_apply_dict_like(op_name=\"agg\")\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/apply.py\", line 1608, in agg_or_apply_dict_like\n    result_index, result_data = self.compute_dict_like(\n                                ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/apply.py\", line 497, in compute_dict_like\n    getattr(obj._gotitem(key, ndim=1), op_name)(how, **kwargs)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/generic.py\", line 257, in aggregate\n    ret = self._aggregate_multiple_funcs(func, *args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/generic.py\", line 362, in _aggregate_multiple_funcs\n    results[key] = self.aggregate(func, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/generic.py\", line 249, in aggregate\n    return getattr(self, func)(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/groupby.py\", line 2452, in mean\n    result = self._cython_agg_general(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/groupby.py\", line 1998, in _cython_agg_general\n    new_mgr = data.grouped_reduce(array_func)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/internals/base.py\", line 367, in grouped_reduce\n    res = func(arr)\n          ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/groupby.py\", line 1973, in array_func\n    result = self._grouper._cython_operation(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/ops.py\", line 827, in _cython_operation\n    cy_op = WrappedCythonOp(kind=kind, how=how, has_dropped_na=self.has_dropped_na)\n                                                               ^^^^^^^^^^^^^^^^^^^\n  File \"properties.pyx\", line 36, in pandas._libs.properties.CachedProperty.__get__\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/ops.py\", line 741, in has_dropped_na\n    return bool((self.group_info[0] < 0).any())\n                 ^^^^^^^^^^^^^^^\n  File \"properties.pyx\", line 36, in pandas._libs.properties.CachedProperty.__get__\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/ops.py\", line 745, in group_info\n    comp_ids, obs_group_ids = self._get_compressed_codes()\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/ops.py\", line 764, in _get_compressed_codes\n    group_index = get_group_index(self.codes, self.shape, sort=True, xnull=True)\n                                  ^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/ops.py\", line 690, in codes\n    return [ping.codes for ping in self.groupings]\n            ^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/grouper.py\", line 691, in codes\n    return self._codes_and_uniques[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"properties.pyx\", line 36, in pandas._libs.properties.CachedProperty.__get__\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/grouper.py\", line 835, in _codes_and_uniques\n    codes, uniques = algorithms.factorize(  # type: ignore[assignment]\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/algorithms.py\", line 795, in factorize\n    codes, uniques = factorize_array(\n                     ^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/algorithms.py\", line 595, in factorize_array\n    uniques, codes = table.factorize(\n                     ^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 0,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 3030336,
+      "seconds": 180.00914831999398,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 120, in __init__\n    x_synth = [grpd.get_group(ind).apply(lambda x: x.sample(n=grpd.get_group(ind)['cnt'].iloc[0], replace = True).values) for ind in grpd.indices]\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/frame.py\", line 10374, in apply\n    return op.apply().__finalize__(self, method=\"apply\")\n           ^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/apply.py\", line 916, in apply\n    return self.apply_standard()\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/apply.py\", line 1063, in apply_standard\n    results, res_index = self.apply_series_generator()\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/apply.py\", line 1081, in apply_series_generator\n    results[i] = self.func(v, *self.args, **self.kwargs)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 120, in <lambda>\n    x_synth = [grpd.get_group(ind).apply(lambda x: x.sample(n=grpd.get_group(ind)['cnt'].iloc[0], replace = True).values) for ind in grpd.indices]\n                                                              ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/groupby/groupby.py\", line 1118, in get_group\n    return self._selected_obj.iloc[indexer]\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/indexing.py\", line 1191, in __getitem__\n    return self._getitem_axis(maybe_callable, axis=axis)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/indexing.py\", line 1743, in _getitem_axis\n    return self._get_list_axis(key, axis=axis)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/indexing.py\", line 1714, in _get_list_axis\n    return self.obj._take_with_is_copy(key, axis=axis)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/generic.py\", line 4153, in _take_with_is_copy\n    result = self.take(indices=indices, axis=axis)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/generic.py\", line 4133, in take\n    new_data = self._mgr.take(\n               ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/internals/managers.py\", line 893, in take\n    new_labels = self.axes[axis].take(indexer)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/indexes/range.py\", line 1173, in take\n    ind_min = indices.min()\n              ^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/numpy/_core/_methods.py\", line 47, in _amin\n    return umr_minimum(a, axis, None, out, keepdims, initial, where)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 1,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 100,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 3030336,
+      "seconds": 180.01525050199416,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 81, in __init__\n    clf_0.fit(x, y)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 2,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 3085972,
+      "seconds": 180.0752798100002,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "UnsupportedARFError: class 0 has a singular FORDE continuous marginal",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 116, in fit\n    raise UnsupportedARFError(f\"class {c} has a singular FORDE continuous marginal\")\nbenchmark.models_arf.UnsupportedARFError: class 0 has a singular FORDE continuous marginal\n",
+      "number": 3,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 3085972,
+      "seconds": 64.35193433500535,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_arf.py\", line 107, in fit\n    model.forde(dist=\"truncnorm\", oob=False, alpha=0)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/arfpy/arf.py\", line 242, in forde\n    long = pd.merge(right = bnds[['tree', 'nodeid','variable', 'min', 'max', 'f_idx']], left = pd.melt(dt[dt[\"nodeid\"] >= 0], id_vars = [\"tree\", \"nodeid\"]), on = ['tree', 'nodeid', 'variable'], how = 'left')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/reshape/merge.py\", line 184, in merge\n    return op.get_result(copy=copy)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/reshape/merge.py\", line 886, in get_result\n    join_index, left_indexer, right_indexer = self._get_join_info()\n                                              ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/reshape/merge.py\", line 1151, in _get_join_info\n    (left_indexer, right_indexer) = self._get_join_indexers()\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/reshape/merge.py\", line 1125, in _get_join_indexers\n    return get_join_indexers(\n           ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/reshape/merge.py\", line 1740, in get_join_indexers\n    zipped = zip(*mapped)\n             ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/reshape/merge.py\", line 1737, in <genexpr>\n    _factorize_keys(left_keys[n], right_keys[n], sort=sort)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/pandas/core/reshape/merge.py\", line 2562, in _factorize_keys\n    rlab = rizer.factorize(rk)  # type: ignore[arg-type]\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 4,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 5,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 3085972,
+      "seconds": 180.03155333299947,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    }
+  ]
+}

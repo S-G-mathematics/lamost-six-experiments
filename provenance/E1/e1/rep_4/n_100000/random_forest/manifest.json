@@ -1,0 +1,283 @@
+{
+  "best_tuning_balanced_accuracy": 0.7606528933211257,
+  "budget": 100000,
+  "calibration_n": 10000,
+  "calibration_prediction_seconds": 0.4880384040006902,
+  "conformal_alpha": 0.1,
+  "conformal_nonconformity_threshold": 0.7999999970197678,
+  "duplicate_trials": 2,
+  "experiment": 1,
+  "failed_trials": 1,
+  "final_fit_seconds": 40.30510196799878,
+  "fit_seconds_total": 718.6806981959817,
+  "invalid_support_fallback_count": {
+    "calibration": 0,
+    "test": 0,
+    "tuning": 0
+  },
+  "mean_prediction_set_size": 1.588808,
+  "memory_limit_exceeded": false,
+  "method": "random_forest",
+  "peak_rss_kib": 2706416,
+  "repetition": 4,
+  "resource_profile": "native8gib8cores",
+  "roles": {
+    "budget": 100000,
+    "requested_budget": 100000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          574,
+          2270,
+          3826,
+          2190,
+          871,
+          142,
+          127
+        ],
+        "ids_sha256": "fb6241e090b595e82fc5e6ead902debba563d2ab3cd82feeddf3610af14575a2",
+        "n": 10000
+      },
+      "fit": {
+        "counts": [
+          4512,
+          17850,
+          31171,
+          17127,
+          6905,
+          1228,
+          1207
+        ],
+        "ids_sha256": "f55106071c80475c6233ee89d53bdf933e1351783fbec880b62136eded077b3c",
+        "n": 80000
+      },
+      "tune": {
+        "counts": [
+          564,
+          2231,
+          3896,
+          2141,
+          863,
+          154,
+          151
+        ],
+        "ids_sha256": "68f2c8b127577ea7dbb9b8148ae462a2d333fff9ce52ab1e046704d7325a6b8b",
+        "n": 10000
+      }
+    },
+    "status": "ok"
+  },
+  "score_kind": "probability",
+  "seed": 271831,
+  "selected_params": {
+    "max_depth": null,
+    "max_features": "sqrt",
+    "min_samples_leaf": 1,
+    "n_estimators": 200
+  },
+  "selected_tuning_prediction_seconds": 0.481606096989708,
+  "status": "complete",
+  "successful_trials": 7,
+  "test_coverage": 0.902622,
+  "test_metrics": {
+    "balanced_accuracy": 0.7582331976328737,
+    "per_class": {
+      "0": {
+        "coverage": 0.7087602368206474,
+        "n": 28207,
+        "recall": 0.49331726167263446,
+        "set_size": 1.774417697734605
+      },
+      "1": {
+        "coverage": 0.828057624900268,
+        "n": 111549,
+        "recall": 0.5077230634071126,
+        "set_size": 1.6810997857443815
+      },
+      "2": {
+        "coverage": 0.9616616534406471,
+        "n": 194818,
+        "recall": 0.8097763040376146,
+        "set_size": 1.6948433922943464
+      },
+      "3": {
+        "coverage": 0.8955296404275996,
+        "n": 107016,
+        "recall": 0.7423936607610077,
+        "set_size": 1.457576437168274
+      },
+      "4": {
+        "coverage": 0.9560437016804778,
+        "n": 43202,
+        "recall": 0.8968334799314847,
+        "set_size": 1.2323966483033193
+      },
+      "5": {
+        "coverage": 0.9651041666666667,
+        "n": 7680,
+        "recall": 0.9544270833333334,
+        "set_size": 1.0614583333333334
+      },
+      "6": {
+        "coverage": 0.9365037194473964,
+        "n": 7528,
+        "recall": 0.9031615302869288,
+        "set_size": 1.230605738575983
+      }
+    }
+  },
+  "test_prediction_seconds": 17.354860908002593,
+  "trial_budget": 10,
+  "trials": [
+    {
+      "error": "TrialTimeout: trial exceeded 180s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/workspace/scratch/600f57488bc5/benchmark/models_basic.py\", line 141, in fit\n    self.estimator.fit(x, y)\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 486, in fit\n    trees = Parallel(\n            ^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1986, in __call__\n    return output if self.return_generator else list(output)\n                                                ^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/joblib/parallel.py\", line 1914, in _get_sequential_output\n    res = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/ensemble/_forest.py\", line 188, in _parallel_build_trees\n    tree._fit(\n  File \"/workspace/scratch/600f57488bc5/benchmark/.deps/sklearn/tree/_classes.py\", line 475, in _fit\n    builder.build(self.tree_, X, y, sample_weight, missing_values_in_feature_mask)\n  File \"/workspace/scratch/600f57488bc5/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 180s timeout\n",
+      "number": 0,
+      "params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 20,
+        "n_estimators": 500
+      },
+      "peak_rss_kib": 1232844,
+      "seconds": 180.05782215300133,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "max_depth": 10,
+        "max_features": 1.0,
+        "min_samples_leaf": 20,
+        "n_estimators": 200
+      },
+      "peak_rss_kib": 1233888,
+      "seconds": 70.07063982599357,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6775331545545463
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "max_depth": 10,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "peak_rss_kib": 1234016,
+      "seconds": 69.79097983699467,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6824197366190263
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "max_depth": 10,
+        "max_features": 1.0,
+        "min_samples_leaf": 5,
+        "n_estimators": 200
+      },
+      "peak_rss_kib": 1234016,
+      "seconds": 67.62120752398914,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.683102228737206
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "max_depth": 10,
+        "max_features": 1.0,
+        "min_samples_leaf": 5,
+        "n_estimators": 500
+      },
+      "peak_rss_kib": 1234144,
+      "seconds": 170.89569614799984,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6818649671176686
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 5,
+      "params": {
+        "max_depth": 20,
+        "max_features": "sqrt",
+        "min_samples_leaf": 5,
+        "n_estimators": 200
+      },
+      "peak_rss_kib": 1475296,
+      "seconds": 36.96307674300624,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.7325446327209588
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 6,
+      "params": {
+        "max_depth": 20,
+        "max_features": "sqrt",
+        "min_samples_leaf": 5,
+        "n_estimators": 200
+      },
+      "peak_rss_kib": 1475296,
+      "seconds": 0.0010396309953648597,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.7325446327209588
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 7,
+      "params": {
+        "max_depth": 20,
+        "max_features": "sqrt",
+        "min_samples_leaf": 20,
+        "n_estimators": 500
+      },
+      "peak_rss_kib": 1550176,
+      "seconds": 82.44140322800376,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6966811525461972
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 8,
+      "params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "peak_rss_kib": 2299232,
+      "seconds": 40.83785905400873,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.7606528933211257
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 9,
+      "params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "peak_rss_kib": 2299232,
+      "seconds": 0.0009740519890328869,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.7606528933211257
+    }
+  ]
+}

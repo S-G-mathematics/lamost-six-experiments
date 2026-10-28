@@ -1,0 +1,168 @@
+{
+  "alias_and_recovery_provenance": {
+    "e3_source_evaluations_are_scientific_failures": true,
+    "kde_control_alias_sources_are_e3_direct_kde_evaluations": true,
+    "khalf_context_matches_fit_result_seconds_and_supervision": true,
+    "khalf_fit_context": {
+      "evaluation_key": "e4/rep_3/eval/direct/rbf_svm/K_half",
+      "final_evaluation_censored_seconds": "600.2674838639796",
+      "final_evaluation_outcome": "scientific_failure",
+      "final_evaluation_phase": "evaluate",
+      "final_fit_supervision_seconds": "145.61391025502235",
+      "final_selected_fit_outcome": "successful",
+      "fit_key": "e4/rep_3/fit/direct/rbf_svm/K_half",
+      "fit_seconds_recorded": "144.32170403504279",
+      "historical_operationally_invalid_attempts_preserved": "True",
+      "interpretation": "Earlier operationally invalid/interrupted attempt overhead is excluded from these final valid trial/fit phase costs. The final evaluation subsequently timed out; no performance metric or completed inference cost is claimed.",
+      "public_recovery_receipt_sha256": "21a22e1fb71d0dbaa3ce71c372289396661f06da5533d761e56231826907aacc",
+      "trial_slots_recorded": "5",
+      "trial_statuses": "success;success;success;success;success"
+    },
+    "khalf_receipt_record": {
+      "evaluation_elapsed_seconds": 600.2674838639796,
+      "evaluation_finished_utc": "2026-10-27T06:21:30.764555+00:00",
+      "evaluation_key": "e4/rep_3/eval/direct/rbf_svm/K_half",
+      "evaluation_outcome": "scientific_failure",
+      "evaluation_phase": "evaluate",
+      "evaluation_reason_code": "phase_timeout",
+      "fit_attempt_count": 5,
+      "fit_key": "e4/rep_3/fit/direct/rbf_svm/K_half",
+      "fit_outcome": "successful",
+      "invalid_attempt_ordinal_retained": 4,
+      "ordinary_terminal_retry_authorized": false,
+      "policy_phase_seconds": 600,
+      "trial_budget": 5,
+      "valid_fit_attempt_ordinal": 5
+    },
+    "khalf_recovery_receipt_sha256": "21a22e1fb71d0dbaa3ce71c372289396661f06da5533d761e56231826907aacc"
+  },
+  "delivery_integrity": {
+    "all_listed_outputs_match_sha256_size_and_crc32": true,
+    "listed_output_files_count": 25,
+    "receipt_expected_sha256": "11faad23eca68821cef6ad2f5945d65df8bde29a92e29fab2cf871ea4de86cca",
+    "receipt_sidecar_declared_sha256": "11faad23eca68821cef6ad2f5945d65df8bde29a92e29fab2cf871ea4de86cca",
+    "receipt_sidecar_matches": true
+  },
+  "failure_and_timing_checks": {
+    "all_failures_are_evaluate_phase_timeouts": true,
+    "censored_elapsed_seconds_max": 600.3058795480756,
+    "censored_elapsed_seconds_min": 600.0524231890449,
+    "report_distinguishes_phase_timing_from_queue_and_invalid_attempt_overhead": true,
+    "scientific_failure_count": 69,
+    "timeout_elapsed_interpreted_as_completed_inference_cost": false
+  },
+  "independent_metric_checks": {
+    "balanced_accuracy_recomputed_as_unweighted_mean_of_seven_class_recalls": true,
+    "class_support_recall_and_class_order_match_per_class_csv": true,
+    "condition_means_sample_sd_and_n_recomputed": true,
+    "condition_summary_rows": 30,
+    "confusion_matrix_shape": "7x7",
+    "metric_mismatch_count": 0,
+    "non_success_outcomes_have_no_metric_or_eval_hash_values": true,
+    "overall_coverage_and_mean_set_size_recomputed_from_support_weighted_class_diagnostics": true,
+    "rbf_margin_scoring_conventions_checked": "score_kind=margin; nonconformity=negative_margin; prediction=argmax_class_score",
+    "successful_evaluation_metadata_jsons_checked": 18,
+    "successful_repetitions_are_grouped_by_exact_method_condition_and_rep": true,
+    "summary_mismatch_count": 0,
+    "target_class_recall_matches_selected_target_class": true,
+    "test_support_per_matrix_total": 500000
+  },
+  "issues": [],
+  "limitations": [
+    "This review checks saved evaluation JSON confusion matrices and class diagnostics; it does not inspect prediction arrays, NPZ inputs, or model/pipeline bytes.",
+    "The global E4 calibration-q replay remains pending as disclosed by the report.",
+    "Figure visual review remains with the root reviewer."
+  ],
+  "observed_utc": "2026-10-27T06:48:19.983386+00:00",
+  "overall_release_gate": "pass_for_this_block_review; global E4 calibration-q replay remains pending as the report states",
+  "paired_comparisons": {
+    "all_unmatched_and_differences_blank": true,
+    "altered_minus_control_planned_pairs": 84,
+    "matched_class_pairs": 0,
+    "matched_pairs": 0,
+    "no_pairwise_difference_fabricated": true,
+    "paired_summary_rows": 28,
+    "per_class_pair_summary_rows": 196,
+    "per_class_planned_pairs": 588
+  },
+  "plan_and_coverage": {
+    "all_90_registry_record_hashes_match_input_hash_table": true,
+    "all_recorded_selected_fit_metadata_and_pipeline_paths_present": true,
+    "e3_kde_control_source_fit_references": 3,
+    "fit_provenance_issue_count": 0,
+    "methods": {
+      "kde": {
+        "planned": 45,
+        "scientific_failures": 42,
+        "selected_model_references_available": 45,
+        "successful": 0,
+        "unavailable_dependencies": 3,
+        "unsupported": 0
+      },
+      "rbf_svm": {
+        "planned": 45,
+        "scientific_failures": 27,
+        "successful": 18,
+        "successful_control_repetitions": 0,
+        "unavailable": 0,
+        "unsupported": 0
+      }
+    },
+    "plan_grid_exact_including_three_aliases": true,
+    "planned_case_count": 90,
+    "selected_model_reference_count": 90,
+    "unique_e4_direct_fit_keys": 87
+  },
+  "receipt_version_history": {
+    "current_receipt_sha256": "11faad23eca68821cef6ad2f5945d65df8bde29a92e29fab2cf871ea4de86cca",
+    "current_receipt_sidecar_match": true,
+    "current_sidecar_sha256": "11faad23eca68821cef6ad2f5945d65df8bde29a92e29fab2cf871ea4de86cca",
+    "note": "A transient cross-version read initially compared the pre-legend-fix receipt snapshot (SHA-256 92fdf3c5965d76050aeb06112695eff774ae1533b8a819bb4869def533eb54a3) with the current sidecar after the final receipt was regenerated. The current receipt SHA-256 and current sidecar now both equal 11faad23eca68821cef6ad2f5945d65df8bde29a92e29fab2cf871ea4de86cca. The prior receipt and its matching sidecar are preserved in history/20261027T064421Z_prelegendfix_FINAL_BLOCK_RECEIPT.json and its .sha256 file.",
+    "pre_update_receipt_sha256": "92fdf3c5965d76050aeb06112695eff774ae1533b8a819bb4869def533eb54a3",
+    "pre_update_sidecar_sha256": "92fdf3c5965d76050aeb06112695eff774ae1533b8a819bb4869def533eb54a3",
+    "receipt_current_previous_receipt_sha256": "92fdf3c5965d76050aeb06112695eff774ae1533b8a819bb4869def533eb54a3"
+  },
+  "resource_policy_review": {
+    "actual_fit_and_evaluation_worker_rows": 174,
+    "all_actual_worker_rows_keep_hard_memory_limit_gib_10_and_phase_timeout_seconds_600": true,
+    "fit_and_eval_admission_reservations": {
+      "kde": {
+        "eval_rows": 42,
+        "fit_rows": 42,
+        "profile_id": "adaptive-concurrency-20261025-v1.1-default",
+        "reservation_gib": 2
+      },
+      "rbf_svm": {
+        "eval_rows": 45,
+        "fit_rows": 45,
+        "profile_id": "e4e5-direct-rbf-svm-80k-admission-3gib-20261027",
+        "reservation_gib": 3
+      }
+    },
+    "kde_control_aliases": {
+      "count": 3,
+      "worker_reservation": "none; CSV fields blank because aliases do not launch E4 workers"
+    },
+    "policy_mismatch_count": 0,
+    "reservations_are_not_hard_limits": true
+  },
+  "review_status": "pass_scientific_arithmetic_provenance_and_current_integrity",
+  "reviewed_inputs_sha256": {
+    "analysis_source": "7abe183786b8668c911a873eb9dedb5d5b742ce92cb4156ad8b57cb5b83c562a",
+    "block_report_md": "b3520fcbe618240d730aa5709463bd88a30e499e7092360d3f1e84315192428c",
+    "condition_summary_csv": "d3c542587c83f54f436ba2f48286ef879dc86f81585ffbc6e27e05cdf430c33a",
+    "evidence_json": "0109b54feb85d563c6fe9c2e2819904a8a0a4fdf357ad2604193c4695369d360",
+    "final_block_receipt_json": "11faad23eca68821cef6ad2f5945d65df8bde29a92e29fab2cf871ea4de86cca",
+    "input_hashes_csv": "dd272f226f8848efaf502875ca53e95aaf007baae1e69add8f507d17e5efc808",
+    "outcomes_csv": "9f7e90a8a53f417604c96de885b3f3f22b0d45a7abe424972f76eeb3e0777391",
+    "paired_summary_csv": "48f9676cb671723850ea0f097b4a622ef36ea9db65c1bdfe8be3803e4021d690",
+    "per_class_metrics_csv": "224e744b89213abe9bd41997e6723cf599e6e708fec8db73343f760d041c25e2",
+    "per_class_pair_summary_csv": "6d9b7e606af22614e5ed824b041de900e84ea33ea755ef7e8d88b72a01c889b0",
+    "resource_policy_csv": "29f1999027aadb26c7e7d27ec2320e1dd9979b18b67bdc314d4fdf1d2c6b8b66",
+    "root_operational_recovery_receipt": "21a22e1fb71d0dbaa3ce71c372289396661f06da5533d761e56231826907aacc",
+    "successful_metrics_csv": "d0d325a4bec0c8f952658a431a09e02d7e6f9666007467a1c08046d628e399ce",
+    "tasks_manifest": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb"
+  },
+  "schema": "lamost-e4-direct-kernel-independent-root-table-review/1",
+  "scope": "Independent metadata-only arithmetic, provenance, and output-receipt review. No model/pipeline/NPZ loading, fitting, inference, prediction-array inspection, or calibration replay."
+}

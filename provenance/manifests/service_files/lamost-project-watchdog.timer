@@ -1,0 +1,11 @@
+[Unit]
+Description=Five minute LAMOST recovery watchdog
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=5min
+AccuracySec=10s
+Unit=lamost-project-watchdog.service
+
+[Install]
+WantedBy=timers.target

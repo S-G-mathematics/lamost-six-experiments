@@ -1,0 +1,123 @@
+{
+  "analysis_script_sha256": "83f2266991df5900bcbaa917fc2a0fdb7095b4eb151b8e6c6ad48531e9d04b3b",
+  "bootstrap": false,
+  "calibration_n": 10000,
+  "class_order": [
+    "A",
+    "F",
+    "G",
+    "K",
+    "M",
+    "GALAXY",
+    "QSO"
+  ],
+  "complete_three_rep_strata": 570,
+  "confusion_matrix_ba_recomputed": true,
+  "evaluation_hashes_checked_against_registry_validation": true,
+  "fits_or_inference_run": false,
+  "input_sha256": {
+    "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/protocol_source.txt": "cceffb5e2d13a79b04953fc50ed9dfd54a1240a9d2fed30752448e56d6aff29d",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/authorization_and_decisions.json": "6233b4581707501dbb6911bea9b13d75da0d090a239f9f98b0ca595cb4b9e477"
+  },
+  "models_loaded": false,
+  "observed_utc": "2026-10-26T22:22:46.022974+00:00",
+  "outputs": {
+    "ATTEMPT_PREFLIGHT_FAILED.json": {
+      "bytes": 1038,
+      "sha256": "45d98461ac1df3a43c6e3cd348eae31f986fc491e1618432be35005658f7ca94"
+    },
+    "E4_COMPLETED_BLOCKS_REPORT.md": {
+      "bytes": 5512,
+      "sha256": "0cf1614deb75f5b70b27398021f117238ffc59dd1ab2736d229a3c4268f78248"
+    },
+    "E4_COMPLETE_THREE_REP_BLOCKS.csv": {
+      "bytes": 397446,
+      "sha256": "168c7dd4fffa789d0b2edfc1e0927b05064f9b402a37cdd568ca6287b9183083"
+    },
+    "E4_EVALUATION_INPUT_HASHES.csv": {
+      "bytes": 309579,
+      "sha256": "2176184de0d4d35732d3b156d4e950c81c147bc9c838cd79a95b7de25387a91a"
+    },
+    "E4_METHOD_TREATMENT_COVERAGE.csv": {
+      "bytes": 1987,
+      "sha256": "6da0892c8faf12cc5a61cee05e3b2d6e8a67db04c7df1cf796d6e645c97931d6"
+    },
+    "E4_PAIRED_BLOCK_SUMMARY.csv": {
+      "bytes": 511977,
+      "sha256": "21bd9a49d470bd7cdc6466663799a184b1e797f9d2f0e51414c0ffc26c86298f"
+    },
+    "E4_PAIRED_REPETITIONS.csv": {
+      "bytes": 1524534,
+      "sha256": "7c8aea89cf961950adf46a66ee25797c2a94707e384887255761373407ccc49f"
+    },
+    "E4_VALIDATED_EVALUATION_METRICS.csv": {
+      "bytes": 525641,
+      "sha256": "6d7fa83765478b390e5fa679c7e3fe4b339a1ace2f46d132ee8d64ff234a5fcb"
+    },
+    "PRECHECK_BLOCKED.json": {
+      "bytes": 1857,
+      "sha256": "96e5c752b1ac684a84d00853f86f4484dae9626831ef1b577d42983747ddd8f4"
+    },
+    "RESOURCE_GATE.json": {
+      "bytes": 1487,
+      "sha256": "d11d502e526a05a20ac4629e93fd29c47724ca84632c9775766415a3641e36a7"
+    },
+    "analyze_completed_blocks.py": {
+      "bytes": 23791,
+      "sha256": "83f2266991df5900bcbaa917fc2a0fdb7095b4eb151b8e6c6ad48531e9d04b3b"
+    }
+  },
+  "paired_summary_strata": 910,
+  "partial_strata": 171,
+  "planned_evaluation_rows": 1773,
+  "planned_pair_repetition_rows": 2730,
+  "plots_generated": false,
+  "registry_query_scope": "E4 scientific evaluation task rows only; SQLite URI mode=ro, query_only=ON, explicit read transaction",
+  "registry_rows_sha256_concatenation": "01d9c915ea108bfdd8e57145f70eb9c0dd1f5dd01384ee52b08b0d1173757d45",
+  "resource_gate": {
+    "STORAGE_HOLD_is_lock": false,
+    "analysis_reservation_bytes": 536870912,
+    "available_bytes": 27931799552,
+    "controller_policy_sha256": "b0aa426dbcea53ead73014b6c61bfbc5f7b175a6f2bb839e9c69421a7d1a966a",
+    "explicit_admission_hold_found": false,
+    "growth_margin_bytes": 2147483648,
+    "host_reserve_bytes": 6442450944,
+    "implementation": "stdlib reproduction of controller.bracketed_worker_memory/memory_admission_ok; no controller import",
+    "memory_admission_ok": true,
+    "minimum_available_floor_bytes": 8589934592,
+    "observed_utc": "2026-10-26T22:22:44.133462+00:00",
+    "projected_headroom_after_analysis_bytes": 3284838400,
+    "projected_headroom_before_analysis_bytes": 3821709312,
+    "running_reservations": [
+      {
+        "credited_pss_bytes": 1012849664,
+        "observed_peak_pss_bytes": 1012849664,
+        "promoted_to_10gib_for_gate": false,
+        "reservation_bytes": 6442450944,
+        "task_key": "e4/rep_1/fit/direct/arf/K_tenth"
+      },
+      {
+        "credited_pss_bytes": 379311104,
+        "observed_peak_pss_bytes": 379311104,
+        "promoted_to_10gib_for_gate": false,
+        "reservation_bytes": 5368709120,
+        "task_key": "e4/rep_3/fit/treatment/random_forest/A_half_weighted"
+      },
+      {
+        "credited_pss_bytes": 1341294592,
+        "observed_peak_pss_bytes": 1341294592,
+        "promoted_to_10gib_for_gate": false,
+        "reservation_bytes": 6442450944,
+        "task_key": "e4/rep_1/fit/direct/arf/M_tenth"
+      }
+    ],
+    "unspent_commitments_bytes": 15520155648
+  },
+  "schema": "lamost-e4-completed-paired-blocks/1",
+  "scope": "E4 validated saved evaluation JSON paired-block description, no plots",
+  "selected_registry_row_count": 1773,
+  "significance_tests": false,
+  "test_n": 500000,
+  "validated_successful_evaluations": 1278,
+  "zero_match_strata": 169
+}

@@ -1,0 +1,19 @@
+[Unit]
+Description=LAMOST E3-E6 durable project controller
+StartLimitIntervalSec=3600
+StartLimitBurst=3
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025
+Environment=OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+ExecStart=/home/ubuntu/lamost_e1_migration_20261023/venv/bin/python -u /home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/controller.py run
+Restart=on-failure
+RestartSec=30
+KillMode=process
+TimeoutStopSec=45
+StandardOutput=append:/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/logs/controller.log
+StandardError=inherit
+
+[Install]
+WantedBy=default.target

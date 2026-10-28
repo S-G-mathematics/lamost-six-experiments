@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "3585aabe77916f7b1938922e374e102538c33ef65d59de8fb1bf7a3655877fab",
+  "attempt_id": "1792960680_20abca38",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-25T20:38:17.594693+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7445259850703909,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        14467,
+        8300,
+        4255,
+        573,
+        146,
+        87,
+        379
+      ],
+      [
+        3062,
+        51546,
+        54019,
+        1973,
+        355,
+        78,
+        516
+      ],
+      [
+        597,
+        16921,
+        159255,
+        16581,
+        1091,
+        106,
+        267
+      ],
+      [
+        177,
+        806,
+        22240,
+        80467,
+        3144,
+        72,
+        110
+      ],
+      [
+        50,
+        74,
+        1289,
+        3263,
+        38489,
+        14,
+        23
+      ],
+      [
+        27,
+        59,
+        99,
+        99,
+        43,
+        7179,
+        174
+      ],
+      [
+        260,
+        441,
+        219,
+        140,
+        29,
+        103,
+        6336
+      ]
+    ],
+    "coverage": 0.898936,
+    "fit_key": "e4/rep_3/fit/treatment/hist_gb/QSO_half_generated_gmm",
+    "per_class": {
+      "0": {
+        "coverage": 0.6600489240259511,
+        "n": 28207,
+        "recall": 0.5128868720530365,
+        "set_size": 1.6342042755344417
+      },
+      "1": {
+        "coverage": 0.8441940313225578,
+        "n": 111549,
+        "recall": 0.462092891912971,
+        "set_size": 1.7003648620785485
+      },
+      "2": {
+        "coverage": 0.9586126538615528,
+        "n": 194818,
+        "recall": 0.8174552659405189,
+        "set_size": 1.734993686415013
+      },
+      "3": {
+        "coverage": 0.891548927263213,
+        "n": 107016,
+        "recall": 0.7519156014053974,
+        "set_size": 1.4164984675188756
+      },
+      "4": {
+        "coverage": 0.9389611592055923,
+        "n": 43202,
+        "recall": 0.8909078283412805,
+        "set_size": 1.15976112217027
+      },
+      "5": {
+        "coverage": 0.9450520833333333,
+        "n": 7680,
+        "recall": 0.934765625,
+        "set_size": 1.0587239583333334
+      },
+      "6": {
+        "coverage": 0.8890807651434643,
+        "n": 7528,
+        "recall": 0.8416578108395324,
+        "set_size": 1.2229011689691818
+      }
+    },
+    "pipeline_sha256": "be0e03ce99814d8a96e1511ba75713b98d9360c6f781280227c57288897e1a45",
+    "score_kind": "probability",
+    "set_size": 1.585614,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.8095615686198077
+  },
+  "started_at": "2026-10-25T20:38:00.712777+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_3/eval/treatment/hist_gb/QSO_half_generated_gmm",
+    "condition": "QSO_half_generated_gmm",
+    "dependencies": [
+      "e4/rep_3/fit/treatment/hist_gb/QSO_half_generated_gmm"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_3/fit/treatment/hist_gb/QSO_half_generated_gmm",
+    "generator": "gmm",
+    "key": "e4/rep_3/eval/treatment/hist_gb/QSO_half_generated_gmm",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "hist_gb",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 3,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 6,
+    "target_label": "QSO",
+    "treatment": "generated_gmm"
+  },
+  "task_sha256": "6bef46b578c429eca5acc3b4b70e71fdeaebf80e850ff88231edb81996ef0925"
+}

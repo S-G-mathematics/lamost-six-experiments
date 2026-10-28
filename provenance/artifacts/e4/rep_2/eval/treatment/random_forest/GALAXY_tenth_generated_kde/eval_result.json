@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "6f03366dabc1780076f385ff10b2375e6565950a7e9a1792a796785fc94863da",
+  "attempt_id": "1792993474_8ed226e2",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-26T05:45:29.521238+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7567028414069298,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        14727,
+        9446,
+        2856,
+        480,
+        225,
+        85,
+        388
+      ],
+      [
+        2907,
+        59246,
+        46593,
+        1787,
+        429,
+        64,
+        523
+      ],
+      [
+        547,
+        21680,
+        155549,
+        15423,
+        1284,
+        81,
+        254
+      ],
+      [
+        189,
+        926,
+        22076,
+        80568,
+        3087,
+        76,
+        94
+      ],
+      [
+        56,
+        103,
+        1302,
+        3071,
+        38639,
+        16,
+        15
+      ],
+      [
+        103,
+        68,
+        163,
+        103,
+        71,
+        6896,
+        276
+      ],
+      [
+        237,
+        222,
+        147,
+        92,
+        14,
+        40,
+        6776
+      ]
+    ],
+    "coverage": 0.90071,
+    "fit_key": "e4/rep_2/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+    "per_class": {
+      "0": {
+        "coverage": 0.7197858687559826,
+        "n": 28207,
+        "recall": 0.5221044421597476,
+        "set_size": 1.6973446307654128
+      },
+      "1": {
+        "coverage": 0.8300208876816466,
+        "n": 111549,
+        "recall": 0.5311208527194328,
+        "set_size": 1.6600059166823549
+      },
+      "2": {
+        "coverage": 0.9573037399008305,
+        "n": 194818,
+        "recall": 0.7984323830446879,
+        "set_size": 1.6672124752332946
+      },
+      "3": {
+        "coverage": 0.8947166778799431,
+        "n": 107016,
+        "recall": 0.7528593855124467,
+        "set_size": 1.429589967855274
+      },
+      "4": {
+        "coverage": 0.9504652562381372,
+        "n": 43202,
+        "recall": 0.8943798898199158,
+        "set_size": 1.2174667839451878
+      },
+      "5": {
+        "coverage": 0.9263020833333333,
+        "n": 7680,
+        "recall": 0.8979166666666667,
+        "set_size": 1.1579427083333333
+      },
+      "6": {
+        "coverage": 0.9350425079702445,
+        "n": 7528,
+        "recall": 0.900106269925611,
+        "set_size": 1.2440223166843782
+      }
+    },
+    "pipeline_sha256": "58e74421ef9de35ce6d795b3ca00adce080c597fd5f7f6ad319f05ab0835dbf3",
+    "score_kind": "probability",
+    "set_size": 1.563392,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.806
+  },
+  "started_at": "2026-10-26T05:44:34.814399+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_2/eval/treatment/random_forest/GALAXY_tenth_generated_kde",
+    "condition": "GALAXY_tenth_generated_kde",
+    "dependencies": [
+      "e4/rep_2/fit/treatment/random_forest/GALAXY_tenth_generated_kde"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_2/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+    "generator": "kde",
+    "key": "e4/rep_2/eval/treatment/random_forest/GALAXY_tenth_generated_kde",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.1,
+    "rep": 2,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 5,
+    "target_label": "GALAXY",
+    "treatment": "generated_kde"
+  },
+  "task_sha256": "fc33e96d6069ea361ebb8494bbc51551ca3079a04f06f17be79bf0597d5db5a5"
+}

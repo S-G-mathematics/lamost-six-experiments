@@ -1,0 +1,51 @@
+{
+  "at_gap_identification_snapshot": {
+    "independently_replayed_quantiles": 0,
+    "physical_successful_outcomes": 1771,
+    "registry_observed_utc": "2026-10-26T08:06:41.507046+00:00",
+    "success_aliases": 115
+  },
+  "existing_incremental_outcome_audit": {
+    "audited_entries": 1886,
+    "integrity_issues": 0,
+    "newly_added": 412,
+    "report_sha256": "d530b1fd08f3d80594760d575230e956db92933562e3a118dec8a13d33eb8874",
+    "threshold_quantile_recomputed": false
+  },
+  "historical_E1_E2_boundary": "No new E1/E2 fitting or inference. Omitted historical pipelines/predictions and existing validation limits remain disclosed. Later compatible saved pipelines may be read for later-experiment calibration validation only.",
+  "implementation_status": "staged helper/auditor and staged finalizer/review gates are under root review; no real calibration replay has been executed or claimed",
+  "original_resource_audit_sha256_preserved": "b3530fd93a17095fa6d3e8b7071b4df943cceea829ecad4415513ac06bf11c49",
+  "recorded_utc": "2026-10-26T08:49:38.260910+00:00",
+  "required_calibration_replay": {
+    "allowed_input_roles": [
+      "calibration"
+    ],
+    "alpha": 0.1,
+    "audit_process_rss_limit_gib": 10,
+    "calibration_rows_per_repetition": 10000,
+    "classes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "classifier_refitting": false,
+    "complete_claim_requires_all_successful_physical_and_alias_keys": true,
+    "external_phase_process_supervision_required": true,
+    "margin_score": "negative native true-class margin",
+    "original_threshold_files_overwritten": false,
+    "per_scoring_phase_seconds": 600,
+    "probability_score": "1-p_true",
+    "rule": "k=ceil((n_cal+1)*(1-alpha)); q=partition(nonconformity,k-1)[k-1], infinity when k>n_cal",
+    "successful_alias_keys": "derive exact set from final terminal registry; inherit only from validated matching physical source with identical calibration role/content and score contract",
+    "successful_physical_eval_and_ensemble_keys": "derive exact set from final terminal registry; do not freeze the current count",
+    "test_feature_scoring": false,
+    "vector_and_model_role_source_hashes_required": true
+  },
+  "resource_provenance_erratum_required": "reports/engineering_audits/E3_SYNTHETIC_RF_TRIAL_RSS_PROVENANCE_ERRATUM_20261026.md",
+  "schema_version": "lamost-final-scientific-validation-requirements/1",
+  "scope": "Validation of the unchanged E3-E6 procedure; no new scientific arms or model fitting"
+}

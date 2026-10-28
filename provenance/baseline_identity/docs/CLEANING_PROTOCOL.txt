@@ -1,0 +1,98 @@
+LAMOST DR10 v2 seven-class photometric baseline — protocol v1
+
+Prediction task
+Use five PanSTARRS DR2 magnitudes (g,r,i,z,y) and Gaia DR3 mean G magnitude
+as six static predictors. Predict A/F/G/K/M stellar types, GALAXY or QSO.
+The 7-way target is a documented aggregation of the spectral pipeline class
+and subclass fields, not an original seven-category broad-class column.
+The class names and integer mapping are stored in audit/label_mapping.json.
+This is an observational classification benchmark, not independently verified
+astrophysical ground truth.
+
+Fixed structural cleaning (reusable across all experiments)
+1. Read the full DR10 v2 LRS general catalog with all 36 fields. Decode and
+   trim string padding; preserve large identifiers as strings without floats.
+2. Check row count, all broad-class counts, seven-way aggregate counts, and a
+   10,000-row official SQL export against the academic mirror. Record SHA256.
+3. Keep the specified seven target labels only. Require nonempty source UID,
+   positive spectrum observation ID, and all six finite magnitudes in [-30,50].
+   These deliberately broad fixed bounds exclude measured -999/-9999 placeholders
+   without learning percentiles from test data. Inspect per-column sentinel
+   counts. Also exclude the specific all-five-PanSTARRS-magnitudes=0 plus
+   nonpositive/missing ps_id placeholder combination. The official SQL service
+   returns nulls for those rows; the FITS encodes them as zero. The full catalog
+   contains 57,756 such observations. Other zero magnitudes are not
+   automatically treated as missing.
+4. From eligible observations of each UID select highest nonnegative finite
+   i-band SNR; observation ID ascending breaks ties. If all SNR values are
+   invalid use the same deterministic ID tie-break. Do not impose an arbitrary
+   SNR floor. Keep both within-eligible and all-seven-label disagreement flags.
+5. Join UIDs through any shared positive exact Gaia or PanSTARRS counterpart ID
+   in eligible observations. Use transitive connected components and choose one
+   highest-quality representative per component. Record merge group sizes and
+   label disagreement. Shared counterpart links are a conservative safeguard
+   against split leakage, not proof of perfect physical identity; mismatches,
+   blends, false links and spatially correlated sources can remain.
+6. Check exact six-feature vectors among selected components. For this strict
+   no-duplicate-vector benchmark keep one highest-quality representative when
+   all labels agree; quarantine vectors with differing targets. These are not
+   proven erroneous sources: rounded photometry can coincide legitimately, and
+   dropping contradictory vectors can make prediction easier. Preserve the
+   source-candidate cohort and entity IDs for retained-all sensitivity analysis.
+7. Predictors are exactly the six magnitude columns. Exclude IDs, class,
+   subclass, redshift, SNR, quality flags, sky position, observation/date/plate
+   fields and derived audit flags. Keep audit metadata separate.
+8. Freeze source/entity-disjoint stratified memberships: 500,000 test,
+   1,000,000 reference development, remainder reserve. Reference development is
+   800,000 fit + 200,000 tune. Do not rebalance the full dataset or test set.
+   Repetitions may draw paired development cohorts from non-test rows within
+   the agreed 1,000,000 maximum; preserve the same test membership.
+
+Training-only operations (must be fitted again per experiment)
+- Standard scaling: fit mean and population standard deviation on fit rows;
+  transform tune/test with those fixed statistics. Robust median/IQR scaling
+  is also available. The saved reference scalers apply only to the reference
+  800k fit/200k tune/500k test setup.
+- No blanket 3-sigma/IQR row deletion. Rare but valid astronomical objects can
+  be scientifically meaningful. Marginal outlier flags use any band >8 robust
+  sigma from training medians (1.4826*MAD, IQR/1.349 fallback). These are not
+  a multivariate anomaly test. Flagged valid rows remain in the baseline.
+- Additional color-tail diagnostics use training medians/MAD on adjacent
+  PanSTARRS differences and r-GaiaG. These are stored separately as flags.
+  Global cuts are strongly class-dependent (97.69% of reference-fit GALAXY
+  rows are flagged), so these flags do not authorize blanket deletion.
+- Optional winsorization uses train-only quantiles; disabled by default.
+  An experiment that excludes fit outliers must learn the rule on fit only,
+  remove fit rows only, and fit the final scaler on retained fit rows.
+  Evaluate every eligible tune/test row without trimming using test features.
+- Preserve strong correlations. Distinct bands carry astrophysical signal.
+  Audit Pearson/Spearman, exact duplicate columns and constants on fit only.
+  Covariance regularization, feature selection, PCA/whitening and imputation
+  are model/experiment choices to fit/tune within development data if needed.
+- Training class resampling, noise injection and calibration are experiment
+  steps, never changes to the frozen natural-distribution test cohort.
+- The reference 80/20 split does not allocate a conformal calibration set.
+  Set that allocation in the experiment protocol before fitting models.
+
+Limits
+Complete-case selection changes the source population and can differ by class.
+Pipeline label disagreements and nonzero fibermask values are flags, not proof
+of an incorrect label. The known fibermask=-1 caveat prevents naive universal
+flag-based deletion. No claim is made that labels/crossmatches are error-free,
+that astronomical observations are globally independent, or that the catalog
+covers a population without survey selection effects. No classifier is fitted
+in this preparation task, and test prediction scores are not calculated.
+
+Primary documentation
+https://www.lamost.org/dr10/v2.0/doc/lr-data-production-description
+https://www.lamost.org/dr10/v2.0/doc/caveats
+https://www.lamost.org/dr10/v2.0/catalogue
+https://www.lamost.org/dr10/v2.0/sql
+https://nadc.china-vo.org/res/r100989/
+https://nadc.china-vo.org/res/r100991/
+
+Academic mirror used for transfer
+https://users.flatironinstitute.org/~apricewhelan/data/surveys/LAMOST/dr10_v2.0_LRS_catalogue.fits
+Mirror semantics are cross-checked against official counts and pilot rows.
+No official checksum was obtained, so bytewise identity with the official
+compressed archive has not been authenticated.

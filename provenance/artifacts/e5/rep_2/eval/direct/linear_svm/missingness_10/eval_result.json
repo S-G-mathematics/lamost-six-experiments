@@ -1,0 +1,186 @@
+{
+  "artifact_sha256": "b2f408e70edecab63c89b994455c5f6217f3f22d90292ed7187bffb34edc7f01",
+  "attempt_id": "1792968020_236f389c",
+  "engine_code_sha256": "9e4ac4f2f275ae38d1577b836720313f30147dd866c1dc6da5c581c93441f20b",
+  "finished_at": "2026-10-25T22:40:23.722577+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.5559437843688179,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "calibration_score_kind": "margin",
+    "confusion_matrix": [
+      [
+        0,
+        3905,
+        22315,
+        894,
+        526,
+        90,
+        477
+      ],
+      [
+        0,
+        5199,
+        101795,
+        2744,
+        977,
+        72,
+        762
+      ],
+      [
+        0,
+        857,
+        178798,
+        6895,
+        7596,
+        88,
+        584
+      ],
+      [
+        0,
+        59,
+        66335,
+        36793,
+        3433,
+        67,
+        329
+      ],
+      [
+        4,
+        8,
+        4267,
+        7104,
+        31785,
+        13,
+        21
+      ],
+      [
+        0,
+        25,
+        95,
+        43,
+        11,
+        7305,
+        201
+      ],
+      [
+        0,
+        512,
+        127,
+        59,
+        17,
+        64,
+        6749
+      ]
+    ],
+    "coverage": 0.90145,
+    "fit_key": "e5/rep_2/fit/direct/linear_svm/missingness_10",
+    "nonconformity_rule": "negative_margin",
+    "per_class": {
+      "0": {
+        "coverage": 0.05835430921402489,
+        "n": 28207,
+        "recall": 0.0,
+        "set_size": 2.2618498954160313
+      },
+      "1": {
+        "coverage": 0.9081479887762328,
+        "n": 111549,
+        "recall": 0.04660732054971358,
+        "set_size": 2.2306520004661627
+      },
+      "2": {
+        "coverage": 0.9939122668336602,
+        "n": 194818,
+        "recall": 0.9177694052910922,
+        "set_size": 2.3708640885339136
+      },
+      "3": {
+        "coverage": 0.9140782686701054,
+        "n": 107016,
+        "recall": 0.3438084024818719,
+        "set_size": 2.4476059654631084
+      },
+      "4": {
+        "coverage": 0.9650016202953567,
+        "n": 43202,
+        "recall": 0.7357298273228091,
+        "set_size": 2.8286190454145643
+      },
+      "5": {
+        "coverage": 0.9751302083333333,
+        "n": 7680,
+        "recall": 0.951171875,
+        "set_size": 1.8845052083333333
+      },
+      "6": {
+        "coverage": 0.9489904357066951,
+        "n": 7528,
+        "recall": 0.8965196599362381,
+        "set_size": 3.3253188097768334
+      }
+    },
+    "pipeline_sha256": "43c427a70f3d5317a4ca800b111576022748da50dfebf6d6f71ffe7ca321fbbe",
+    "prediction_rule": "argmax_class_score",
+    "score_kind": "margin",
+    "set_size": 2.39631,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.6392179809717686
+  },
+  "started_at": "2026-10-25T22:40:20.078358+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e5/rep_2/eval/direct/linear_svm/missingness_10",
+    "condition": "missingness_10",
+    "dependencies": [
+      "e5/rep_2/fit/direct/linear_svm/missingness_10"
+    ],
+    "experiment": 5,
+    "fit_key": "e5/rep_2/fit/direct/linear_svm/missingness_10",
+    "generator": null,
+    "key": "e5/rep_2/eval/direct/linear_svm/missingness_10",
+    "kind": "eval",
+    "mechanism": "missingness",
+    "method": "linear_svm",
+    "rate": 0.1,
+    "ratio": null,
+    "rep": 2,
+    "route": "direct",
+    "scientific_case": true,
+    "target_class": null,
+    "treatment": null
+  },
+  "task_sha256": "076c25cc3dece5c3a86b76b7dfdb4e2b9a6400e966c442c8a25c20e95bb55fde"
+}

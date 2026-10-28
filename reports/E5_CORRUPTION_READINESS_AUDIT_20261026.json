@@ -1,0 +1,1364 @@
+{
+  "artifact_residue": [
+    {
+      "bytes": 0,
+      "path": "artifacts/e5/rep_2/corruption/label_noise_10/tmpyvvf54l9.tmp"
+    },
+    {
+      "bytes": 0,
+      "path": "artifacts/e5/rep_1/corruption/missingness_20/tmppcg8bixf.tmp"
+    },
+    {
+      "bytes": 0,
+      "path": "artifacts/e5/rep_1/corruption/label_noise_10/tmpoc4ubaya.tmp"
+    }
+  ],
+  "audit_scope": "Read-only E5 corruption producer/protocol and all currently materialized E5 corruption artifacts; no fitting, model loads, queue operations, or source edits. This does not validate the 960 E5 scientific outcomes or E5 fitted/evaluated models.",
+  "authoritative_protocol": {
+    "path": "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/protocol_source.txt",
+    "sections": "Experiment 5; lines 80-86 as found by rg; fitting-only corruption and detailed mechanisms."
+  },
+  "checks": {
+    "all_planned_task_keys_match": true,
+    "artifact_array_and_audit_reproduced_against_fit_roles": true,
+    "full_clean_role_hashes_recorded": true,
+    "seed_and_nested_mask_reproduction": true
+  },
+  "coverage": {
+    "by_mechanism": {
+      "feature_noise": 9,
+      "label_noise": 9,
+      "missingness": 9
+    },
+    "materialized_corruption_artifacts": 27,
+    "planned_corruption_artifacts": 27,
+    "rates": [
+      0.05,
+      0.1,
+      0.2
+    ],
+    "repetitions": [
+      1,
+      2,
+      3
+    ],
+    "validated_terminal_registry": 27
+  },
+  "current_registry_snapshot": {
+    "file_sha256": "f90dfedff19f3d1c54f99d0f9ee2996534491958ea09a16d9be02c743ead2d39",
+    "observed_utc": "2026-10-25T21:49:28.441032+00:00",
+    "planned_registry_e5_entries": 27
+  },
+  "engineering_evidence": {
+    "dedicated_missingness_fixture_in_tests_test_cohorts_py": false,
+    "fixture_source_sha256": "3dff7c5455effaf898330db726997184e6f5cb07201989ffc87971fbce3ee911",
+    "fixture_test_names_reviewed": [
+      "test_label_noise_changes_every_selected_label",
+      "test_nested_affected_masks_and_feature_noise_audit"
+    ],
+    "implementation_review": "science._fit_phase loads corrupted train_key data, fits SimpleImputer(strategy=median) on that training X only, fits StandardScaler on imputed training X, and transforms tuning with the same fitted steps; no missingness indicator is added.",
+    "note": "This scoped audit independently validates all 27 saved corruption realizations and deterministic masks/values against their clean fitting roles. The existing incremental artifact audit contains no E5 corruption records.",
+    "producer_source_sha256": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d",
+    "saved_incremental_artifact_audit_issue_count": 0,
+    "saved_incremental_artifact_audit_record_count": 52,
+    "saved_incremental_artifact_audit_sha256": "22e86b3d6a2539fc023f230bcba82202364c6635d1acd08eefeaa43c6e675f57",
+    "saved_incremental_audit_e5_corruption_records": 0,
+    "science_fit_source_sha256": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+    "test_execution_receipt_included_or_claimed": false
+  },
+  "frozen_plan": {
+    "manifest_experiment5": "Fitting-only feature-noise/missingness/label-noise robustness with frozen clean configurations",
+    "plan_sha256": "6d7aa7a83ed790126c8f1492d3a4472a356e7ac75b3860a8eb70dbbfef57464a",
+    "planned_e5_corruption_tasks": 27
+  },
+  "generated_utc": "2026-10-25T21:50:42.085950+00:00",
+  "issue_count": 0,
+  "issues": [],
+  "nonblocking_observations": [
+    "Three zero-byte leftover temporary files exist in validated corruption artifact directories: artifacts/e5/rep_2/corruption/label_noise_10/tmpyvvf54l9.tmp, artifacts/e5/rep_1/corruption/missingness_20/tmppcg8bixf.tmp, artifacts/e5/rep_1/corruption/label_noise_10/tmpoc4ubaya.tmp. They were not modified; each corresponding data.npz/audit.npz/metadata/validation was independently validated and hash-recorded.",
+    "The project fixture file tests label-noise and nested feature-noise, but has no dedicated missingness fixture; the nine saved missingness artifacts were nevertheless checked against the exact seed, selected cells, and clean fitting arrays here.",
+    "The full planned E5 grid has 960 scientific cases; this is only readiness/provenance verification of 27 shared corruption inputs, not a claim that any E5 model comparison is complete."
+  ],
+  "sources": {
+    "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/protocol_source.txt": "cceffb5e2d13a79b04953fc50ed9dfd54a1240a9d2fed30752448e56d6aff29d",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/E5_MANIFEST.json": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/freeze.json": "6020bfac2fb6930b11197985d66e7d6fa49422210ef6e51595a4f1ae9317b8d6",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/tasks.json": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/reports/INCREMENTAL_ARTIFACT_AUDIT.json": "22e86b3d6a2539fc023f230bcba82202364c6635d1acd08eefeaa43c6e675f57",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/audit_artifacts.py": "76d85b1f84803dee8798a33f4bafa20c1512cba588c1cf08336700b522467d8a",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/tests/test_cohorts.py": "3dff7c5455effaf898330db726997184e6f5cb07201989ffc87971fbce3ee911"
+  },
+  "task_artifacts": [
+    {
+      "affected_rows": 4000,
+      "artifact_files": {
+        "audit.npz": "95b33262d1a37849f8f1697d1400060eaa84b6a8ffd13fa748f951baf230d8fe",
+        "data.npz": "0251bfd109687741f5506d8da0429bcc9deb34a51b0c00aef70a77e4722aa2cd",
+        "metadata.json": "b8505811fb164225f25d90c117e1fbc30127bf64cb141d1cac8a116c55bb2ca1",
+        "validation.json": "a8de090614a44bf0c82a246b8f73db3cd1b4936e889d091d8985a90b11fa12fb"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 4000,
+      "key": "e5/rep_1/corruption/feature_noise_05",
+      "mechanism": "feature_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1731902635,
+      "rate": 0.05,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 1,
+      "required_files_present": true,
+      "role_sha256": "7bd1b5df13a4639dbffc7960d1403494d80655fc1b36f05604eda7a1773563de",
+      "scale_fallbacks": [],
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:13:05.141015+00:00",
+        "recorded_data_sha256": "0251bfd109687741f5506d8da0429bcc9deb34a51b0c00aef70a77e4722aa2cd",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 8000,
+      "artifact_files": {
+        "audit.npz": "755e3231af224c57546501757d4030e8c9aa79fbae342cb84d9f75ad303d1b34",
+        "data.npz": "5fc2e9699efa507244f4437e3e83149faec66050efe2cd3b2e30390b1cc560d1",
+        "metadata.json": "3b933fa62fb828ee3eca5f5fd3cc4afe49d75a3321d6220798ad416eec6f2d8d",
+        "validation.json": "3ff69a6aa36daef81d89a0b67484919e2b20d6102d2be9a9b4bdfdb5e7ae8fa3"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 8000,
+      "key": "e5/rep_1/corruption/feature_noise_10",
+      "mechanism": "feature_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1731902635,
+      "rate": 0.1,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 1,
+      "required_files_present": true,
+      "role_sha256": "7bd1b5df13a4639dbffc7960d1403494d80655fc1b36f05604eda7a1773563de",
+      "scale_fallbacks": [],
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:17:09.177585+00:00",
+        "recorded_data_sha256": "5fc2e9699efa507244f4437e3e83149faec66050efe2cd3b2e30390b1cc560d1",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 16000,
+      "artifact_files": {
+        "audit.npz": "7e3ef7b076c1fb45b2802ca07264ceb058e17f33c8a622611b22f3fbdc7aeba8",
+        "data.npz": "4a01094d63782e41a29a24aed5630533065f422c700232f1d0fd6eeba928e79f",
+        "metadata.json": "bc4f55c6a4032a447792d8ac0d37fd5a67caa4e9f1557bf077f2fdaf4a15ab97",
+        "validation.json": "4fd767ce9a0b40394d545ddc5e39b6da1b070c4ae7b17d2c0a2a75a9d7ef2cd8"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 16000,
+      "key": "e5/rep_1/corruption/feature_noise_20",
+      "mechanism": "feature_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1731902635,
+      "rate": 0.2,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 1,
+      "required_files_present": true,
+      "role_sha256": "7bd1b5df13a4639dbffc7960d1403494d80655fc1b36f05604eda7a1773563de",
+      "scale_fallbacks": [],
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:18:58.349848+00:00",
+        "recorded_data_sha256": "4a01094d63782e41a29a24aed5630533065f422c700232f1d0fd6eeba928e79f",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 4000,
+      "artifact_files": {
+        "audit.npz": "e52caeed31449c5863668b181e3b76bd5d22d1087b01726d361c4efbad290929",
+        "data.npz": "bd84c6f3874cdddeeaff37111a9f5908adbc840e553b05077ebb3cc4d083eb1b",
+        "metadata.json": "c120547ea1ad50f059b990849e0e8fca1012305129a782de6d0ffbc60214d3d3",
+        "validation.json": "5b744bab3b2a8ebffacafd5d731c47c63a5c653026e040be134e0f84f00b0ce9"
+      },
+      "changed_label_count": 4000,
+      "check_count_checked": 13,
+      "expected_affected_rows": 4000,
+      "key": "e5/rep_1/corruption/label_noise_05",
+      "mechanism": "label_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1054388162,
+      "rate": 0.05,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 1,
+      "required_files_present": true,
+      "role_sha256": "7bd1b5df13a4639dbffc7960d1403494d80655fc1b36f05604eda7a1773563de",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:23:25.786282+00:00",
+        "recorded_data_sha256": "bd84c6f3874cdddeeaff37111a9f5908adbc840e553b05077ebb3cc4d083eb1b",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 8000,
+      "artifact_files": {
+        "audit.npz": "64c8407a68c9dc0bc3c8e55c4b36b9124521f71c7fad2025def1fb89a125e70a",
+        "data.npz": "0bebdb64bfac117037b0c2f80e9ca2653d8891fdeb02ee9d91173e29224fd7ae",
+        "metadata.json": "f0b8da833be4344ae645b3f4553545744738a0a7df3f15428dbc132f5992142b",
+        "validation.json": "87f766e9bb8ae5073db5c5a92bf000887e1a60d7a5a593653d2009354bc1f65f"
+      },
+      "changed_label_count": 8000,
+      "check_count_checked": 13,
+      "expected_affected_rows": 8000,
+      "key": "e5/rep_1/corruption/label_noise_10",
+      "mechanism": "label_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1054388162,
+      "rate": 0.1,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 1,
+      "required_files_present": true,
+      "role_sha256": "7bd1b5df13a4639dbffc7960d1403494d80655fc1b36f05604eda7a1773563de",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:24:35.784012+00:00",
+        "recorded_data_sha256": "0bebdb64bfac117037b0c2f80e9ca2653d8891fdeb02ee9d91173e29224fd7ae",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 16000,
+      "artifact_files": {
+        "audit.npz": "92ff80bba8ccbaa621e88ba4a9bc68404503cb3cbc0ade26837d16701329e916",
+        "data.npz": "6063ff1a191d883757edc4e7dddd1b6fc095c1060ecda3ed67fc73abb2ae8e5b",
+        "metadata.json": "a0fcc0acf975fbb7cadb565152a8201a48da2d3fd83513e83b06d63e91b3da3c",
+        "validation.json": "26d49463140aad2433585786df2a450ef36374f6d40dc7735341001b0c161706"
+      },
+      "changed_label_count": 16000,
+      "check_count_checked": 13,
+      "expected_affected_rows": 16000,
+      "key": "e5/rep_1/corruption/label_noise_20",
+      "mechanism": "label_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1054388162,
+      "rate": 0.2,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 1,
+      "required_files_present": true,
+      "role_sha256": "7bd1b5df13a4639dbffc7960d1403494d80655fc1b36f05604eda7a1773563de",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:24:39.471493+00:00",
+        "recorded_data_sha256": "6063ff1a191d883757edc4e7dddd1b6fc095c1060ecda3ed67fc73abb2ae8e5b",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 4000,
+      "artifact_files": {
+        "audit.npz": "3bc487393f8ac561115a7b2c6bd626952b72542adfe38962254f075ae972f25f",
+        "data.npz": "d2f438d138dd787663d61103cfc160cdc4951ee84c9d863ca3448a92b620b26a",
+        "metadata.json": "24f3089c0248b3207b4f7dd78dfed093a997f4da84cd2a6b1b4a7721873dd366",
+        "validation.json": "e36fa5c4fcd3a5f32f3d653176badd2f2f31ee0fadaae3e06f67791ba4ba88c1"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 4000,
+      "key": "e5/rep_1/corruption/missingness_05",
+      "mechanism": "missingness",
+      "missing_cells_expected": 4000,
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 311588244,
+      "rate": 0.05,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 1,
+      "required_files_present": true,
+      "role_sha256": "7bd1b5df13a4639dbffc7960d1403494d80655fc1b36f05604eda7a1773563de",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:24:42.730382+00:00",
+        "recorded_data_sha256": "d2f438d138dd787663d61103cfc160cdc4951ee84c9d863ca3448a92b620b26a",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 8000,
+      "artifact_files": {
+        "audit.npz": "c94cfc89d68bbdb603eb7ccef3255ff0bba91c0d4561be0f7973f391fb0b4d6d",
+        "data.npz": "c372050cd3882887ee639a6c24bbe1a7e8c4086c877994b70ef7ff6b9efa61be",
+        "metadata.json": "b64e7be15cdc4e407f5455f8ce75b59086df9793827b288c6866947a70f54cae",
+        "validation.json": "917f0f209c90733e8322e928de29267c3dbef875017afbac210d44a5d457f749"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 8000,
+      "key": "e5/rep_1/corruption/missingness_10",
+      "mechanism": "missingness",
+      "missing_cells_expected": 8000,
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 311588244,
+      "rate": 0.1,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 1,
+      "required_files_present": true,
+      "role_sha256": "7bd1b5df13a4639dbffc7960d1403494d80655fc1b36f05604eda7a1773563de",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:24:46.275676+00:00",
+        "recorded_data_sha256": "c372050cd3882887ee639a6c24bbe1a7e8c4086c877994b70ef7ff6b9efa61be",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 16000,
+      "artifact_files": {
+        "audit.npz": "66fc76122fdd32d5e9eaa136c7bc5e7982b4cf4c4e4a2ac45bf354ada10a8ff8",
+        "data.npz": "dbbd9595433294f3a95a763d37e7b41011b557ae0c74a01229c01fd51f15edb1",
+        "metadata.json": "ed0c7a9c05749401a928dfefe7d9d5de5022ea31dabb92b78d4e2b4ee1500004",
+        "validation.json": "a254c2563f2b57c27cab530c7f812137d56f5abf7cc2961b4e15e0da3503838e"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 16000,
+      "key": "e5/rep_1/corruption/missingness_20",
+      "mechanism": "missingness",
+      "missing_cells_expected": 16000,
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 311588244,
+      "rate": 0.2,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 1,
+      "required_files_present": true,
+      "role_sha256": "7bd1b5df13a4639dbffc7960d1403494d80655fc1b36f05604eda7a1773563de",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:25:58.056144+00:00",
+        "recorded_data_sha256": "dbbd9595433294f3a95a763d37e7b41011b557ae0c74a01229c01fd51f15edb1",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 4000,
+      "artifact_files": {
+        "audit.npz": "cd19e471ed498bf596264bebb9b738cfc60e011359e5c0ffc43fb520acecabd9",
+        "data.npz": "764c5a6e821766cb26f8809b30cd970ca0d5f4cbfc111af4963a3196ef24f384",
+        "metadata.json": "6865703cbc917e9b2d8e924a1503de6ca3b0a2924e7ea0af7eb6bd94aca1718b",
+        "validation.json": "a7869d50053b4e28f22b0b6c4aa34d9df5b3dc13974af10c221fd6bb88fce35c"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 4000,
+      "key": "e5/rep_2/corruption/feature_noise_05",
+      "mechanism": "feature_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1280017647,
+      "rate": 0.05,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 2,
+      "required_files_present": true,
+      "role_sha256": "336faab22e3bb100ce56bf15ed713385f81fa8e3e6b781d13e5d77987b0239fc",
+      "scale_fallbacks": [],
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:26:01.630118+00:00",
+        "recorded_data_sha256": "764c5a6e821766cb26f8809b30cd970ca0d5f4cbfc111af4963a3196ef24f384",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 8000,
+      "artifact_files": {
+        "audit.npz": "725af7a4ede3e39d486dc6bf800684244a782a4153637057f18b58c373aeef30",
+        "data.npz": "bae3f8d3177f82ce8e2e5ef0c0cd7907ac845e3754e04b322477319192af8494",
+        "metadata.json": "d98d640cfa3885f4640a12d69a8746cc5391ff87c70a51ff5bcf082c95f01c8d",
+        "validation.json": "f314cb66b88db3d998e165b5befc184178008fbe58ea952a581a050c1dd1a3e0"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 8000,
+      "key": "e5/rep_2/corruption/feature_noise_10",
+      "mechanism": "feature_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1280017647,
+      "rate": 0.1,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 2,
+      "required_files_present": true,
+      "role_sha256": "336faab22e3bb100ce56bf15ed713385f81fa8e3e6b781d13e5d77987b0239fc",
+      "scale_fallbacks": [],
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:26:12.300449+00:00",
+        "recorded_data_sha256": "bae3f8d3177f82ce8e2e5ef0c0cd7907ac845e3754e04b322477319192af8494",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 16000,
+      "artifact_files": {
+        "audit.npz": "8204b81b634263c7b51f2f65dc28c7246d868f05414d9b22b34470832e9da77f",
+        "data.npz": "23f6140ad95d0c9e7e205096a1a90a8b652e12d94f5326441df43268b6afc25d",
+        "metadata.json": "3351c56bc9b6db438cd824ec55923674e80caae53367aae2427a66c9cd4f4db2",
+        "validation.json": "b539d2cb6cef79a45a4cfc080a0b12d6ec48fbe8cc9149a4183161ba9a849ee1"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 16000,
+      "key": "e5/rep_2/corruption/feature_noise_20",
+      "mechanism": "feature_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1280017647,
+      "rate": 0.2,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 2,
+      "required_files_present": true,
+      "role_sha256": "336faab22e3bb100ce56bf15ed713385f81fa8e3e6b781d13e5d77987b0239fc",
+      "scale_fallbacks": [],
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:26:25.319187+00:00",
+        "recorded_data_sha256": "23f6140ad95d0c9e7e205096a1a90a8b652e12d94f5326441df43268b6afc25d",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 4000,
+      "artifact_files": {
+        "audit.npz": "61e88144e5ceee0fc1ebbbf6e3c12f8f0c3a9a05696e8bad08b324922d03559e",
+        "data.npz": "1e0e883d108f6a93848681ad75777e0c2689ae97cdbe37495c249361a5b176d5",
+        "metadata.json": "85f4f7f17a1e72465f190a11807e250a8a695a5cf034395e97402207df3ad819",
+        "validation.json": "a9b3f69f8f986e5a389b524084ed268a9bd9f77f5ed8858c7d791719f9113a33"
+      },
+      "changed_label_count": 4000,
+      "check_count_checked": 13,
+      "expected_affected_rows": 4000,
+      "key": "e5/rep_2/corruption/label_noise_05",
+      "mechanism": "label_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 590932071,
+      "rate": 0.05,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 2,
+      "required_files_present": true,
+      "role_sha256": "336faab22e3bb100ce56bf15ed713385f81fa8e3e6b781d13e5d77987b0239fc",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:32:04.214978+00:00",
+        "recorded_data_sha256": "1e0e883d108f6a93848681ad75777e0c2689ae97cdbe37495c249361a5b176d5",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 8000,
+      "artifact_files": {
+        "audit.npz": "1a5fcade329853d356408926af918231e954281f2cec4db6117673f3a625cb43",
+        "data.npz": "d8acc41089d7f55542fb2bd4e28dab7b7593dda457d7e6b51c98505c3e1713a0",
+        "metadata.json": "006f6937134d310c17164552ce0a5b8ba733c649680b28f097fe157182433d50",
+        "validation.json": "ebf5a902ff98616013faed41d0d0912da343a25efb28484f2b02bc2c6a44fc81"
+      },
+      "changed_label_count": 8000,
+      "check_count_checked": 13,
+      "expected_affected_rows": 8000,
+      "key": "e5/rep_2/corruption/label_noise_10",
+      "mechanism": "label_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 590932071,
+      "rate": 0.1,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 2,
+      "required_files_present": true,
+      "role_sha256": "336faab22e3bb100ce56bf15ed713385f81fa8e3e6b781d13e5d77987b0239fc",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:14.464502+00:00",
+        "recorded_data_sha256": "d8acc41089d7f55542fb2bd4e28dab7b7593dda457d7e6b51c98505c3e1713a0",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 16000,
+      "artifact_files": {
+        "audit.npz": "e8c93d1237f0894adfa37b1b0401af688e3444a6817b7575dc78c21d59822859",
+        "data.npz": "8025a189da36ce5414f8dff65be5cf21ecdeffe950d4a6d8ebf8273c60cf67c2",
+        "metadata.json": "21bbac25b437cd5c5b05e2e34c02727056b4f4588d567de32b45971482355fe9",
+        "validation.json": "fbc6ec7045778f6b6484862cefc79315da49a1a9f2985b2c9232bcfed03c80f6"
+      },
+      "changed_label_count": 16000,
+      "check_count_checked": 13,
+      "expected_affected_rows": 16000,
+      "key": "e5/rep_2/corruption/label_noise_20",
+      "mechanism": "label_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 590932071,
+      "rate": 0.2,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 2,
+      "required_files_present": true,
+      "role_sha256": "336faab22e3bb100ce56bf15ed713385f81fa8e3e6b781d13e5d77987b0239fc",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:20.567296+00:00",
+        "recorded_data_sha256": "8025a189da36ce5414f8dff65be5cf21ecdeffe950d4a6d8ebf8273c60cf67c2",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 4000,
+      "artifact_files": {
+        "audit.npz": "444b525cec035c891a60ae83fa388553676dbe8aa6da542ba9fb4c5b811323f0",
+        "data.npz": "ebd2189e6f060c019d185cf93b6d13abe14d0be238898721c2b62087a3c385c6",
+        "metadata.json": "2b1ef59c918dee62aadd52d86557c34b83d141a4988890afa14c8d8f8b7df09f",
+        "validation.json": "ebde0a2b123b9a8ce55756c3bbeeb84b874886f57875fc031d24ce23c42f4638"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 4000,
+      "key": "e5/rep_2/corruption/missingness_05",
+      "mechanism": "missingness",
+      "missing_cells_expected": 4000,
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1840539361,
+      "rate": 0.05,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 2,
+      "required_files_present": true,
+      "role_sha256": "336faab22e3bb100ce56bf15ed713385f81fa8e3e6b781d13e5d77987b0239fc",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:23.494690+00:00",
+        "recorded_data_sha256": "ebd2189e6f060c019d185cf93b6d13abe14d0be238898721c2b62087a3c385c6",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 8000,
+      "artifact_files": {
+        "audit.npz": "3475c706b4ed2cac62de24cb7011891326382ac95cf37a82a561093c0c5c5b39",
+        "data.npz": "a896fcbe962cbda60b1dc1041a04c7d9ca8454b9073ef922a9cf6a6139bbfbfe",
+        "metadata.json": "cefbd05de2db4ad145d1b2b02cf5284cc39cad54e37ab3ce90c9f24e16e5fb4d",
+        "validation.json": "eb8d1270cb38789e36a99881ed1108ecdb0ff5d2a11ce8d9218b5528d5c5a616"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 8000,
+      "key": "e5/rep_2/corruption/missingness_10",
+      "mechanism": "missingness",
+      "missing_cells_expected": 8000,
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1840539361,
+      "rate": 0.1,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 2,
+      "required_files_present": true,
+      "role_sha256": "336faab22e3bb100ce56bf15ed713385f81fa8e3e6b781d13e5d77987b0239fc",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:26.510974+00:00",
+        "recorded_data_sha256": "a896fcbe962cbda60b1dc1041a04c7d9ca8454b9073ef922a9cf6a6139bbfbfe",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 16000,
+      "artifact_files": {
+        "audit.npz": "5a6d175f8c4ef13035150dbb7d85e7a78d4b73f57c603e14a04b68e1ef463542",
+        "data.npz": "e05f477e4c9abfd94ba1857f85b197affc98cb09c47071d42619b84ccaaf9dff",
+        "metadata.json": "2e262a33293210197ec7a45ec009e89a6a4dd6990bd50631cf04fb1f62f5f701",
+        "validation.json": "2b6ad6b63eedb8138edc748b32bf32b750533ccb9ff32f5899b1e12b430d31b8"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 16000,
+      "key": "e5/rep_2/corruption/missingness_20",
+      "mechanism": "missingness",
+      "missing_cells_expected": 16000,
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1840539361,
+      "rate": 0.2,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 2,
+      "required_files_present": true,
+      "role_sha256": "336faab22e3bb100ce56bf15ed713385f81fa8e3e6b781d13e5d77987b0239fc",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:29.940909+00:00",
+        "recorded_data_sha256": "e05f477e4c9abfd94ba1857f85b197affc98cb09c47071d42619b84ccaaf9dff",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 4000,
+      "artifact_files": {
+        "audit.npz": "cece645aabf30ed6f30df82531ba74527216cc97018e8097cba6305a9f843afa",
+        "data.npz": "6601bb8809225c729b003b016cc6150ca83095522fb20b1a9d99025b69def457",
+        "metadata.json": "a29f74abe09603bd4d4ef08da92092d28fab103dfe76efaff4d5632c2b5dd743",
+        "validation.json": "1bc0cc3cd00cab56e6904300548bd6211fe93643d3a9735ec4c71f3b31c03ed0"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 4000,
+      "key": "e5/rep_3/corruption/feature_noise_05",
+      "mechanism": "feature_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1562654266,
+      "rate": 0.05,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 3,
+      "required_files_present": true,
+      "role_sha256": "c149e76882c6c978d1fa1fd2cbe4dd98374c6cdfc716331e73f6f7f9998f46e7",
+      "scale_fallbacks": [],
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:32.973424+00:00",
+        "recorded_data_sha256": "6601bb8809225c729b003b016cc6150ca83095522fb20b1a9d99025b69def457",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 8000,
+      "artifact_files": {
+        "audit.npz": "fa2a83487f7e10488cb288ffa5916f7adc27adcb1f9411c59fa2ded48ae073a7",
+        "data.npz": "f2fe9646bf897ece2b7504fcde228290d60f3c0e26ee5c97c83962f7675a8dcf",
+        "metadata.json": "d67193ef352257197e9cb9b1c8333f28c131cf3985000edaf2edf28389b9fa2c",
+        "validation.json": "adc5870e290729f36994a79716c33078db8cd51215a54c08d2a29e23765ca986"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 8000,
+      "key": "e5/rep_3/corruption/feature_noise_10",
+      "mechanism": "feature_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1562654266,
+      "rate": 0.1,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 3,
+      "required_files_present": true,
+      "role_sha256": "c149e76882c6c978d1fa1fd2cbe4dd98374c6cdfc716331e73f6f7f9998f46e7",
+      "scale_fallbacks": [],
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:36.081251+00:00",
+        "recorded_data_sha256": "f2fe9646bf897ece2b7504fcde228290d60f3c0e26ee5c97c83962f7675a8dcf",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 16000,
+      "artifact_files": {
+        "audit.npz": "a551f3bb0c1113e6019b145487c56c332e936ba87502c9f818046d8a99a29b61",
+        "data.npz": "15753fd2276ecbe851d723ae4b4697141dd7f5b1523003caea223b2adbf86df2",
+        "metadata.json": "1d8da00b18ee97c3f5824b42216fbbc6f848bf4ba3076d342db562c70be28936",
+        "validation.json": "cdc378e1beb0e1e3256868124c0618225cb9b5249ffb64c2c0af0bac25d7de16"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 16000,
+      "key": "e5/rep_3/corruption/feature_noise_20",
+      "mechanism": "feature_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1562654266,
+      "rate": 0.2,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 3,
+      "required_files_present": true,
+      "role_sha256": "c149e76882c6c978d1fa1fd2cbe4dd98374c6cdfc716331e73f6f7f9998f46e7",
+      "scale_fallbacks": [],
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:40.079709+00:00",
+        "recorded_data_sha256": "15753fd2276ecbe851d723ae4b4697141dd7f5b1523003caea223b2adbf86df2",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 4000,
+      "artifact_files": {
+        "audit.npz": "de68cca1b35cb8dea62edefad4817b2edecd3eec47aa1154c2f171ab5a1e1093",
+        "data.npz": "c62ebe23d0f43b12bb3294139c54b59ca4a85f0692bde6fc714038b1314d11d3",
+        "metadata.json": "fcfc184b3b040bbebc3888d65297619a6b14148da01143c373cbcc0ae0ef13cd",
+        "validation.json": "492294210612ea7a2850b35d4e457670329fba401530cb2184244a7569fa2c43"
+      },
+      "changed_label_count": 4000,
+      "check_count_checked": 13,
+      "expected_affected_rows": 4000,
+      "key": "e5/rep_3/corruption/label_noise_05",
+      "mechanism": "label_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 404574013,
+      "rate": 0.05,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 3,
+      "required_files_present": true,
+      "role_sha256": "c149e76882c6c978d1fa1fd2cbe4dd98374c6cdfc716331e73f6f7f9998f46e7",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:43.693792+00:00",
+        "recorded_data_sha256": "c62ebe23d0f43b12bb3294139c54b59ca4a85f0692bde6fc714038b1314d11d3",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 8000,
+      "artifact_files": {
+        "audit.npz": "4c21c445815dbd5adeb2e10a91127e218a52970aec4b47c3f8ac0635a89e02ff",
+        "data.npz": "7c788a8718611b6afc7cbba1aeb8cc4aff8d8b005201e7198255916c44542f68",
+        "metadata.json": "4cc6c9b1db03130ac24a7d19085845d718eadd70ebf0cbeeb62ce3a6a1573323",
+        "validation.json": "53d895ac58a3648b262585d28e0d6722d41f2cb081b82e8c3d69509a4d0d7c33"
+      },
+      "changed_label_count": 8000,
+      "check_count_checked": 13,
+      "expected_affected_rows": 8000,
+      "key": "e5/rep_3/corruption/label_noise_10",
+      "mechanism": "label_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 404574013,
+      "rate": 0.1,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 3,
+      "required_files_present": true,
+      "role_sha256": "c149e76882c6c978d1fa1fd2cbe4dd98374c6cdfc716331e73f6f7f9998f46e7",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:50.563210+00:00",
+        "recorded_data_sha256": "7c788a8718611b6afc7cbba1aeb8cc4aff8d8b005201e7198255916c44542f68",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 16000,
+      "artifact_files": {
+        "audit.npz": "678a6bfaca29ef21fe7ef250a1934ec0e5c0de2223012c3a3284b8f4a484df0b",
+        "data.npz": "cd21543d58df13da5b0695799553eab95f3bc2e915a4f2bafa3f421f2a57f4bc",
+        "metadata.json": "89e7111baaf0a9696e57255bfee07a29a693b00ec32a034de1f889d88a5c4fd8",
+        "validation.json": "631591448dab9acf99e625ac07d76e2fa5f191fe737c2640b6a0bebfe4270d5d"
+      },
+      "changed_label_count": 16000,
+      "check_count_checked": 13,
+      "expected_affected_rows": 16000,
+      "key": "e5/rep_3/corruption/label_noise_20",
+      "mechanism": "label_noise",
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 404574013,
+      "rate": 0.2,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 3,
+      "required_files_present": true,
+      "role_sha256": "c149e76882c6c978d1fa1fd2cbe4dd98374c6cdfc716331e73f6f7f9998f46e7",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:54.841320+00:00",
+        "recorded_data_sha256": "cd21543d58df13da5b0695799553eab95f3bc2e915a4f2bafa3f421f2a57f4bc",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 4000,
+      "artifact_files": {
+        "audit.npz": "9eef9d3df675a91dacddd9fd38e7c2d89cc3a5fa79902d82ed2357e6ea49b429",
+        "data.npz": "737c9160f52ce63f2ee1034a02e278147ee3c208f75435fa6ce22d1423f5ae7c",
+        "metadata.json": "4a04ad34a4af9fb616f6923847afd9bf3960de0733affba87f51dcd3d6e86806",
+        "validation.json": "7d9806aa3a58364fb68a023879049685f139174921ef4ca3b7ae1caa96e63696"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 4000,
+      "key": "e5/rep_3/corruption/missingness_05",
+      "mechanism": "missingness",
+      "missing_cells_expected": 4000,
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1843776989,
+      "rate": 0.05,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 3,
+      "required_files_present": true,
+      "role_sha256": "c149e76882c6c978d1fa1fd2cbe4dd98374c6cdfc716331e73f6f7f9998f46e7",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:36:58.328245+00:00",
+        "recorded_data_sha256": "737c9160f52ce63f2ee1034a02e278147ee3c208f75435fa6ce22d1423f5ae7c",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 8000,
+      "artifact_files": {
+        "audit.npz": "3e288c90ef4d41db6137abe4de82107919b51d3b19e072a99805212263b6f8c1",
+        "data.npz": "65f8cea96f1add27c39f62444e786ec3efb4c5bcd05e02551efb24017e2f9e8c",
+        "metadata.json": "74bc59e0e6ffcbf999ecb203444a05bb01687450728c939d682552958c5dd5a3",
+        "validation.json": "6d4f5336b97b18399f4a4324ed7cf41304d9a3bc0631f6f974bda8729ba1fa71"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 8000,
+      "key": "e5/rep_3/corruption/missingness_10",
+      "mechanism": "missingness",
+      "missing_cells_expected": 8000,
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1843776989,
+      "rate": 0.1,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 3,
+      "required_files_present": true,
+      "role_sha256": "c149e76882c6c978d1fa1fd2cbe4dd98374c6cdfc716331e73f6f7f9998f46e7",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:37:01.405123+00:00",
+        "recorded_data_sha256": "65f8cea96f1add27c39f62444e786ec3efb4c5bcd05e02551efb24017e2f9e8c",
+        "status": "validated"
+      }
+    },
+    {
+      "affected_rows": 16000,
+      "artifact_files": {
+        "audit.npz": "0826dccbefb1a203e24bf6f6401ee8317400e6e23e70efae46754a4ae6c7c073",
+        "data.npz": "abffd9080db28c9287dc7e3cec4e4e80c1294bccd50a8f1d8b57f40359e043de",
+        "metadata.json": "61e112898855ea14207d2fe73856e92fb4b46fb1f840513ca0125db7150752df",
+        "validation.json": "125be659d3c42e9f89ca2d932c4ff0cbe116679f992cbc49581e7ea4bf8402f5"
+      },
+      "check_count_checked": 13,
+      "expected_affected_rows": 16000,
+      "key": "e5/rep_3/corruption/missingness_20",
+      "mechanism": "missingness",
+      "missing_cells_expected": 16000,
+      "output_schema": {
+        "X_dtype": "float64",
+        "X_shape": [
+          80000,
+          6
+        ],
+        "ids_dtype": "int64",
+        "ids_shape": [
+          80000
+        ],
+        "members": [
+          "X",
+          "y",
+          "ids"
+        ],
+        "y_dtype": "int64",
+        "y_shape": [
+          80000
+        ]
+      },
+      "planned_seed": 1843776989,
+      "rate": 0.2,
+      "registry_status": "validated_terminal",
+      "registry_validation_state": "validated",
+      "rep": 3,
+      "required_files_present": true,
+      "role_sha256": "c149e76882c6c978d1fa1fd2cbe4dd98374c6cdfc716331e73f6f7f9998f46e7",
+      "validation_record": {
+        "code_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
+        "observed_utc": "2026-10-25T17:37:04.651904+00:00",
+        "recorded_data_sha256": "abffd9080db28c9287dc7e3cec4e4e80c1294bccd50a8f1d8b57f40359e043de",
+        "status": "validated"
+      }
+    }
+  ]
+}

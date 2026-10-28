@@ -1,0 +1,250 @@
+{
+  "best_tuning_balanced_accuracy": 0.5714285714285714,
+  "budget": 100,
+  "calibration_n": 10,
+  "calibration_prediction_seconds": 0.0013512890000129119,
+  "conformal_alpha": 0.1,
+  "conformal_nonconformity_threshold": 0.9974714566487819,
+  "duplicate_trials": 7,
+  "experiment": 1,
+  "failed_trials": 0,
+  "final_fit_seconds": 0.004905305999272969,
+  "fit_seconds_total": 0.02376483100670157,
+  "invalid_support_fallback_count": {
+    "calibration": 0,
+    "test": 23411,
+    "tuning": 0
+  },
+  "mean_prediction_set_size": 3.313608,
+  "memory_limit_exceeded": false,
+  "method": "chow_liu",
+  "peak_rss_kib": 1192904,
+  "repetition": 4,
+  "resource_profile": "native8gib8cores",
+  "roles": {
+    "budget": 100,
+    "requested_budget": 100,
+    "roles": {
+      "calibration": {
+        "counts": [
+          1,
+          3,
+          3,
+          2,
+          0,
+          0,
+          1
+        ],
+        "ids_sha256": "fe861052016a1925bbb53b32bf0c82beb78b056cbd89bdecd5e99905bdcc6a78",
+        "n": 10
+      },
+      "fit": {
+        "counts": [
+          5,
+          17,
+          30,
+          17,
+          7,
+          2,
+          2
+        ],
+        "ids_sha256": "af094305bc6a41b9ae46017eb8473c0200f60e690788322166dbeb42282336cd",
+        "n": 80
+      },
+      "tune": {
+        "counts": [
+          1,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1
+        ],
+        "ids_sha256": "f16bf021ddfc3e5ab18b6086e8a2c0449b9088ed8e6b69e0da3cf57dae6db027",
+        "n": 10
+      }
+    },
+    "status": "ok"
+  },
+  "score_kind": "probability",
+  "seed": 271831,
+  "selected_params": {
+    "n_bins": 32
+  },
+  "selected_tuning_prediction_seconds": 0.0019714099980774336,
+  "status": "complete",
+  "successful_trials": 3,
+  "test_coverage": 0.853162,
+  "test_metrics": {
+    "balanced_accuracy": 0.43204371201627,
+    "per_class": {
+      "0": {
+        "coverage": 0.4635019675966959,
+        "n": 28207,
+        "recall": 0.2595455028893537,
+        "set_size": 3.471797780692736
+      },
+      "1": {
+        "coverage": 0.8120108651803244,
+        "n": 111549,
+        "recall": 0.14975481626908355,
+        "set_size": 3.4361043129028497
+      },
+      "2": {
+        "coverage": 0.9435216458438132,
+        "n": 194818,
+        "recall": 0.34116457411532813,
+        "set_size": 3.35863729224199
+      },
+      "3": {
+        "coverage": 0.8437056141137774,
+        "n": 107016,
+        "recall": 0.2390763997906855,
+        "set_size": 3.323185318083277
+      },
+      "4": {
+        "coverage": 0.8247303365584927,
+        "n": 43202,
+        "recall": 0.6231887412619787,
+        "set_size": 3.0643488727373733
+      },
+      "5": {
+        "coverage": 0.863671875,
+        "n": 7680,
+        "recall": 0.58984375,
+        "set_size": 2.786848958333333
+      },
+      "6": {
+        "coverage": 0.871413390010627,
+        "n": 7528,
+        "recall": 0.8217321997874601,
+        "set_size": 1.5721307120085015
+      }
+    }
+  },
+  "test_prediction_seconds": 0.662454206001712,
+  "trial_budget": 10,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1173000,
+      "seconds": 0.007728816999588162,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5714285714285714
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "n_bins": 8
+      },
+      "peak_rss_kib": 1173000,
+      "seconds": 0.0057846170020638965,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.2857142857142857
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "n_bins": 16
+      },
+      "peak_rss_kib": 1173000,
+      "seconds": 0.005796104000182822,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.2857142857142857
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1173000,
+      "seconds": 0.0007158350053941831,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.5714285714285714
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1173000,
+      "seconds": 0.0005385190015658736,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.5714285714285714
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 5,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1173000,
+      "seconds": 0.0005337719994713552,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.5714285714285714
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 6,
+      "params": {
+        "n_bins": 8
+      },
+      "peak_rss_kib": 1173000,
+      "seconds": 0.0005175080004846677,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.2857142857142857
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 7,
+      "params": {
+        "n_bins": 16
+      },
+      "peak_rss_kib": 1173000,
+      "seconds": 0.0005364759999793023,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.2857142857142857
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 8,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1173000,
+      "seconds": 0.0007802719992469065,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.5714285714285714
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 9,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1173000,
+      "seconds": 0.000832910998724401,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.5714285714285714
+    }
+  ]
+}

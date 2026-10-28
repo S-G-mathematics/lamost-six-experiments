@@ -1,0 +1,289 @@
+{
+  "E1_frozen": {
+    "resource_failure": 55,
+    "successful": 674,
+    "supervisor_terminal_failure_without_cell_completion": 26,
+    "unsupported": 10
+  },
+  "E1_recovery_separate": {
+    "failed": 10,
+    "not_attempted_user_stopped": 55,
+    "successful": 24,
+    "user_stopped_partial": 2
+  },
+  "E2_classical_reference": {
+    "evaluated": 120,
+    "planned": 120
+  },
+  "E2_primary": {
+    "evaluated": 108,
+    "planned": 150,
+    "provenance": {
+      "E2_reconstructed_fit": 185,
+      "original_saved_fit": 43,
+      "unavailable": 42
+    },
+    "reconstruction_accuracy_differences_retained": 31,
+    "unavailable_missing_model_dependency": 42
+  },
+  "actual_worker_inventory": {
+    "computational_task_state_counts": {
+      "ensemble|validated_terminal": 6,
+      "eval|validated_terminal": 1783,
+      "eval|waiting_for_dependency": 899,
+      "fit|planned": 10,
+      "fit|running": 3,
+      "fit|validated_terminal": 1813,
+      "fit|waiting_for_dependency": 856,
+      "generate|validated_terminal": 291,
+      "generate|waiting_for_dependency": 69
+    },
+    "exported_process_ids_or_command_lines": false,
+    "kernel_proven_running_worker_tasks_by_kind": {
+      "fit": 3
+    },
+    "observed_source": "all SQLite registry task records plus per-task /proc identity proof",
+    "running_registry_worker_rows_without_current_kernel_proof_by_kind": {},
+    "running_workers_without_process_identifiers": [
+      {
+        "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+        "admission_reservation_bytes": 6442450944,
+        "attempt_reference": {
+          "attempt_id": "c0dc45bd1c464bbb9537fbd6f8fb43a0"
+        },
+        "kernel_liveness_proven": true,
+        "kind": "fit",
+        "resource_profile_source": "task_admission_snapshot",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+        "worker_admission_reservation_gib_by_class": {
+          "heavy": 10,
+          "light": 2
+        },
+        "worker_memory_gib": null,
+        "worker_memory_limit_gib": 10
+      },
+      {
+        "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+        "admission_reservation_bytes": 6442450944,
+        "attempt_reference": {
+          "attempt_id": "eaab6f24ab1142949a4d8377f489fb50"
+        },
+        "kernel_liveness_proven": true,
+        "kind": "fit",
+        "resource_profile_source": "task_admission_snapshot",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+        "worker_admission_reservation_gib_by_class": {
+          "heavy": 10,
+          "light": 2
+        },
+        "worker_memory_gib": null,
+        "worker_memory_limit_gib": 10
+      },
+      {
+        "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+        "admission_reservation_bytes": 6442450944,
+        "attempt_reference": {
+          "attempt_id": "3ee2f5079a644859a9c756ddeca9b31a"
+        },
+        "kernel_liveness_proven": true,
+        "kind": "fit",
+        "resource_profile_source": "task_admission_snapshot",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros",
+        "worker_admission_reservation_gib_by_class": {
+          "heavy": 10,
+          "light": 2
+        },
+        "worker_memory_gib": null,
+        "worker_memory_limit_gib": 10
+      }
+    ],
+    "worker_kinds_counted": [
+      "ensemble",
+      "eval",
+      "fit",
+      "generate"
+    ]
+  },
+  "builder_helper_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/case_index_helpers.py",
+  "builder_helper_sha256": "dec3ef1f2afa0d1ad1687a0a1e9e68bcef6f3dcccce55b02905410e4c728a5b7",
+  "builder_script_sha256": "2c0c5451f7b32a6bf2eb42125c4e1470f6968f24ee656cb9b142ef2f9b19de92",
+  "combined_rows": 3949,
+  "counts_by_group": {
+    "E1_frozen": {
+      "scientific_failure": 81,
+      "successful": 674,
+      "unsupported": 10
+    },
+    "E1_recovery_stopped_early_user_request": {
+      "not_attempted_user_stopped": 55,
+      "scientific_failure": 10,
+      "successful": 24,
+      "user_stopped": 2
+    },
+    "E2_classical_reference": {
+      "successful": 120
+    },
+    "E2_primary": {
+      "successful": 108,
+      "unavailable_dependency": 42
+    },
+    "E3_later_experiment": {
+      "scientific_failure": 3,
+      "successful": 64,
+      "unavailable_dependency": 2
+    },
+    "E4_later_experiment": {
+      "pending": 593,
+      "scientific_failure": 42,
+      "successful": 1135,
+      "unavailable_dependency": 3
+    },
+    "E5_later_experiment": {
+      "pending": 315,
+      "scientific_failure": 27,
+      "successful": 595,
+      "unavailable_dependency": 23
+    },
+    "E6_later_experiment": {
+      "successful": 12,
+      "unavailable_dependency": 9
+    }
+  },
+  "experiment_manifests": {
+    "E3": {
+      "budgets": [
+        100000
+      ],
+      "derived_budget": 100000,
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/E3_MANIFEST.json",
+      "sha256": "414af08d33e0a0269fa2cf01ba1d499981eaf312eea1d98a15a2b6734e815182"
+    },
+    "E4": {
+      "budgets": [
+        100000
+      ],
+      "derived_budget": 100000,
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/E4_MANIFEST.json",
+      "sha256": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423"
+    },
+    "E5": {
+      "budgets": [
+        100000
+      ],
+      "derived_budget": 100000,
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/E5_MANIFEST.json",
+      "sha256": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9"
+    },
+    "E6": {
+      "budgets": [
+        100000
+      ],
+      "derived_budget": 100000,
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/E6_MANIFEST.json",
+      "sha256": "7a3fc00128addf19cb2c17e83260aaf6daf2848881b909f62a53b9d195e00a8f"
+    }
+  },
+  "generated_utc": "2026-10-26T02:38:24.287721+00:00",
+  "input_sources": {
+    "e1": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/e1_wrapup_20261024/E1_frozen_cells_765.csv",
+      "sha256": "52d056aa2dc98f3721fb88a611bb4fa76aba74562751afc87b263f478c78b456"
+    },
+    "e2": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/E2_all_generators_270.csv",
+      "sha256": "2c2572015422c28a120fbdb41f56d9900c335cbd13901156c7630ac4ef992210"
+    },
+    "e2a": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/E2_artifact_availability_270.csv",
+      "sha256": "812e4add600f6841e194495689a5e040c8cab44761bdd02073832b057a803c25"
+    },
+    "e2d": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/reports/E2_RECONSTRUCTION_DIFFERENCES_VERIFIED.csv",
+      "sha256": "12c2594b7689b8e3967aede4763a51763554bec26ed9ca8abfe5cedbccbfa006"
+    },
+    "e2m": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/E2_missing_primary_42.csv",
+      "sha256": "e46fd16390cbdae6472f03f585082758a3693548f9b87ea8f1fe9179bdf58053"
+    },
+    "e3_manifest": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/E3_MANIFEST.json",
+      "sha256": "414af08d33e0a0269fa2cf01ba1d499981eaf312eea1d98a15a2b6734e815182"
+    },
+    "e4_manifest": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/E4_MANIFEST.json",
+      "sha256": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423"
+    },
+    "e5_manifest": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/E5_MANIFEST.json",
+      "sha256": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9"
+    },
+    "e6_manifest": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/manifests/E6_MANIFEST.json",
+      "sha256": "7a3fc00128addf19cb2c17e83260aaf6daf2848881b909f62a53b9d195e00a8f"
+    },
+    "master": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/master_index.json",
+      "sha256": "40c7ead847365a3429f4137aea21b4d0dc162168ce9de6987079c4e6991dee1a"
+    },
+    "reason": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/reason_text_curation.py",
+      "sha256": "4054ca02f61a34a04c8165d8f90f5b5bb8915e83baf261ebe368659a991a900e"
+    },
+    "recovery": {
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/e1_wrapup_20261024/E1_recovery_cutoff_91.csv",
+      "sha256": "2adc7f07e884fc95fb038e09b3858c63442ac5434b69152877a86c7620f770ed"
+    }
+  },
+  "later_current_status_counts": {
+    "3": {
+      "scientific_failure": 3,
+      "successful": 64,
+      "unavailable_dependency": 2
+    },
+    "4": {
+      "pending": 593,
+      "scientific_failure": 42,
+      "successful": 1135,
+      "unavailable_dependency": 3
+    },
+    "5": {
+      "pending": 315,
+      "scientific_failure": 27,
+      "successful": 595,
+      "unavailable_dependency": 23
+    },
+    "6": {
+      "successful": 12,
+      "unavailable_dependency": 9
+    }
+  },
+  "main_scientific_case_rows": 3858,
+  "master_all_task_status_mismatches_diagnostic_only": 0,
+  "master_index": {
+    "observed_utc": "2026-10-26T02:34:48.320108+00:00",
+    "source_file_sha256": "40c7ead847365a3429f4137aea21b4d0dc162168ce9de6987079c4e6991dee1a",
+    "source_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/master_index.json",
+    "used_for": "supplemental attempts/resource metadata and mismatch diagnostics; SQLite status remains authoritative"
+  },
+  "master_scientific_case_status_mismatches_diagnostic_only": 0,
+  "output_csv": {
+    "path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/reports/overall_case_index/snapshot_20261026T023822Z/OVERALL_SCIENTIFIC_CASE_INDEX.csv",
+    "row_count": 3949,
+    "sha256": "9353595e32fb9131c3b58a41569a3b1e5b6b49c12fcb1f3f25afda3e728ca0ea"
+  },
+  "planned_later_rows_by_experiment": {
+    "3": 69,
+    "4": 1773,
+    "5": 960,
+    "6": 21
+  },
+  "schema": "lamost-overall-case-index/2",
+  "scope": "companion index; does not alter canonical execution plan/controller/registry",
+  "separate_E1_recovery_supplement_rows": 91,
+  "sqlite": {
+    "canonical_full_task_snapshot_sha256": "24ca285e8f9687900e22e372d2c3765f04ac3fe2ecd468c52dd8170488d161ba",
+    "consistent_transaction_selected_case_count": 2823,
+    "raw_main_db_file_hash_is_not_used_as_snapshot_identity": true,
+    "source_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/registry.sqlite#consistent-read-only-transaction"
+  }
+}

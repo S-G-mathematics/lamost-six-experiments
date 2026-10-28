@@ -1,0 +1,1254 @@
+{
+  "admission_reservation_history": [
+    {
+      "amendment_id": "e4_direct_rf_80k_provisional_admission4_20261026",
+      "default_heavy_reservation_gib": 10,
+      "evidence_memo": "reports/engineering_audits/E4_DIRECT_RF_ADMISSION_EVIDENCE_20261026.md",
+      "evidence_memo_sha256": "1877f63a72d5941b5e108ee725d3b1bd91713482a6c996f94bebf0aa35753122",
+      "global_resource_policy_and_revision_unchanged": true,
+      "new_profile_reservation_gib": 4,
+      "observed_utc": "2026-10-25T19:38:09.018072+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "parent_validation_memory": "not separately measured; do not infer a bound",
+      "profile_id": "e4-direct-rf-80k-admission-4gib-20261026",
+      "scientific_hard_limits_unchanged": {
+        "native_threads": 1,
+        "phase_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "termination_grace_seconds": 30,
+        "trial_seconds": 600,
+        "worker_memory_gib": 10
+      },
+      "scientific_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scientific_workers_signaled": 0,
+      "scope": "operational admission estimate only for never-attempted exact E4directRF80k altered cohorts; existing attempts retain prior reservations",
+      "scope_conditions": {
+        "condition_count": 14,
+        "exact_cohort_train_key_required": true,
+        "experiment": 4,
+        "kind": "fit",
+        "method": "random_forest",
+        "never_attempted_only": true,
+        "repetitions": [
+          1,
+          2,
+          3
+        ],
+        "route": "direct"
+      },
+      "source_after_sha256": "7333a50a74974927d30c93fbc837ebaefac6ddbc6563744884979dd2227d7829",
+      "source_before_sha256": "4b9ec658dd48bce7345d8f2da6fa88fc33375836e04184014f7dbfc433120ebb",
+      "tests": "20 actual-function admission/guard/queue/fairness/profile tests passed"
+    },
+    {
+      "amendment_id": "verified_80k_generators_and_e4_rf_eval_admission4_20261026",
+      "default_heavy_reservation_gib": 10,
+      "default_light_reservation_gib": 2,
+      "evidence_gate_sha256": "c9ebed047dc0dd10b744b09c5a88a970431577a5c4eb4a61d507007ce63dbb2b",
+      "evidence_memo": "reports/engineering_audits/GENERATOR_FIT_AND_E4_RF_RESOURCE_ADMISSION_AUDIT_20261026.json",
+      "evidence_memo_sha256": "fd3c4923561cd1007b481fb66fc7a1783e0dd9ccaf5eab63073181d27c074d75",
+      "limitations": "Admission estimates only, not worst-case memory bounds. Phase-tree RSS evidence does not independently bound outer-parent memory. Existing recorded profiles, guarded promotion to10GiB and all measured CPU/RAM/Harbor reserves are retained.",
+      "new_profile_reservation_gib": 4,
+      "observed_utc": "2026-10-26T00:01:23.681612+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "profile_id": "verified-80k-generator-and-e4-rf-eval-4gib-20261026",
+      "prospective_scope_key_count_before_evidence_gate": 112,
+      "scientific_hard_limits_unchanged": {
+        "native_threads": 1,
+        "phase_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "termination_grace_seconds": 30,
+        "trial_seconds": 600,
+        "worker_memory_gib": 10
+      },
+      "scientific_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scientific_workers_signaled": 0,
+      "scope": "never-attempted verified80k E4/E5 direct GMM, copula and Chow-Liu fitting tasks, plus E4 direct RF evaluations with matching80k published fits; excludes ARF,KDE,synthetic/treatmentRF and all other sizes",
+      "scope_conditions": {
+        "evidence_gate_required": true,
+        "exact_cohort_train_key_required": true,
+        "experiments": [
+          4,
+          5
+        ],
+        "generator_methods": [
+          "gmm",
+          "copula",
+          "chow_liu"
+        ],
+        "kinds": [
+          "fit",
+          "eval"
+        ],
+        "never_attempted_only": true,
+        "repetitions": [
+          1,
+          2,
+          3
+        ],
+        "rf_eval_experiment": 4,
+        "route": "direct",
+        "shape": [
+          80000,
+          6
+        ]
+      },
+      "source_after_sha256": "2fed649f9a9d2c0e36fbf41c334e4071f619e2a33a350762ff52b195f97dca99",
+      "source_before_sha256": "de136ad656ab0f8e48c7c16a90fa0ab2396eae9d4dca71dc2f218f06608ef127",
+      "tests": "...................................                                      [100%]\n35 passed in 6.44s"
+    },
+    {
+      "amendment_id": "verified_80k_direct_generator_fit_admission2_20261026",
+      "default_heavy_reservation_gib": 10,
+      "default_light_reservation_gib": 2,
+      "evidence_gate_sha256": "0303f107b4c9875ec72765971293d0083ac733cd2d8dea36024d878048bc7738",
+      "evidence_memo": "reports/engineering_audits/GENERATOR_FIT_AND_E4_RF_RESOURCE_ADMISSION_AUDIT_20261026.json",
+      "evidence_memo_sha256": "fd3c4923561cd1007b481fb66fc7a1783e0dd9ccaf5eab63073181d27c074d75",
+      "limitations": "Provisional admission estimates, not worst-case bounds. Phase-tree RSS maxima229596/203764/203744KiB exclude outer-parent memory; sampled complete outer-tree GMM max0.403GiB covers20/42 E4tasks only, none for copula/Chow-Liu. Existing recorded profiles, measured-PSS promotion to10GiB, host6GiB/growth2GiB reserves and CPU guards remain unchanged.",
+      "new_profile_reservation_gib": 2,
+      "observed_utc": "2026-10-26T00:37:39.579755+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "profile_id": "verified-80k-e4-e5-gmm-copula-chow-direct-fit-2gib-20261026",
+      "prospective_scope_key_count_before_evidence_gate": 81,
+      "scientific_hard_limits_unchanged": {
+        "native_threads": 1,
+        "phase_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "termination_grace_seconds": 30,
+        "trial_seconds": 600,
+        "worker_memory_gib": 10
+      },
+      "scientific_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scientific_workers_signaled": 0,
+      "scope": "never-attempted verified80k E4/E5 direct GMM, copula and Chow-Liu fitting tasks only; E4 RF4GiB estimates remain unchanged; all ARF,KDE,RF,treatments,synthetic and other sizes excluded",
+      "scope_conditions": {
+        "exact_cohort_and_selected_configuration_evidence_required": true,
+        "experiments": [
+          4,
+          5
+        ],
+        "kind": "fit",
+        "methods": [
+          "gmm",
+          "copula",
+          "chow_liu"
+        ],
+        "never_attempted_only": true,
+        "repetitions": [
+          1,
+          2,
+          3
+        ],
+        "route": "direct",
+        "shape": [
+          80000,
+          6
+        ]
+      },
+      "source_after_sha256": "10cc60c15b38176e91eeef9e2fb7b1b8773ff34701aad89a00e1c6f9ba983d0e",
+      "source_before_sha256": "2fed649f9a9d2c0e36fbf41c334e4071f619e2a33a350762ff52b195f97dca99",
+      "superseded_provisional_estimate_gib_for_this_scope": 4,
+      "tests": "...................................                                      [100%]\n35 passed in 0.31s"
+    },
+    {
+      "amendment_id": "verified_rf_fit_and_nonarf_e5_generation_admission_20261026",
+      "default_heavy_reservation_gib": 10,
+      "default_light_reservation_gib": 2,
+      "evidence": [
+        {
+          "path": "reports/engineering_audits/RF_FIT_ADMISSION_EVIDENCE_20261026.json",
+          "sha256": "e7342209031f85878f69e5135ddcac51dc8646f052c2f1dd721fa38b6501b461"
+        },
+        {
+          "path": "reports/engineering_audits/E5_GENERATION_ADMISSION_EVIDENCE_20261026.json",
+          "sha256": "24f78240246450f59b6a73f9ba888636cbd9f68cd374e1d3de4bae13977da66d"
+        }
+      ],
+      "evidence_gate_sha256": "192a8518ce50b93caf637140de02712dff0e42258ab49b21e0ad2bd64bd5de2b",
+      "existing_generator_fit2_and_e4_direct_rf4_profiles_unchanged": true,
+      "limitations": "Provisional admission estimates only. E4treatment6GiB envelope based on one82394row fitted analogue; E5RF fixed200tree clean matches and nonARFgeneration family analogues remain prospective. Outer-parent/phase peak evidence and hardware-concurrency limits remain disclosed. Existing recorded profiles, measured-PSS promotion to10GiB, host6GiB/growth2GiB reserves, CPU guards and600s limits retained.",
+      "observed_utc": "2026-10-26T01:00:47.080063+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "profiles": [
+        {
+          "id": "e5-direct-rf-fixed-80k-admission-4gib-20261026",
+          "reservation_gib": 4,
+          "scope": "never-attempted E5 direct RF fits, validated80k by6 corruption cohort, fixed matching E3 real-RF config200trees/no-retuning"
+        },
+        {
+          "id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+          "reservation_gib": 6,
+          "scope": "never-attempted E4 nonweighted downstream RF treatment fits on validated80000-82394row by6 restored artifacts; weighted/larger/synthetic400k excluded"
+        },
+        {
+          "id": "e5-nonarf-400k-generation-admission-2gib-20261026",
+          "reservation_gib": 2,
+          "scope": "never-attempted E5 GMM/copula/Chow-Liu/KDE generation with validated matching selectedfit and actual80k labels, frozen400koutput; ARF generation excluded"
+        }
+      ],
+      "prospective_scope_count_before_evidence_gate": 467,
+      "scientific_hard_limits_unchanged": {
+        "native_threads": 1,
+        "phase_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "termination_grace_seconds": 30,
+        "trial_seconds": 600,
+        "worker_memory_gib": 10
+      },
+      "scientific_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scientific_workers_signaled": 0,
+      "source_after_sha256": "c1a897478d14e859f6e027d411864ef93dc4fd4f536479571df7533025968634",
+      "source_before_sha256": "10cc60c15b38176e91eeef9e2fb7b1b8773ff34701aad89a00e1c6f9ba983d0e",
+      "tests": ".............................................                            [100%]\n45 passed in 0.76s"
+    }
+  ],
+  "airbag_method": "ownership lock, atomic checkpoints, actual-process supervision, bounded recovery, five-minute watchdog",
+  "airbag_skill_available": false,
+  "amendments": [
+    {
+      "affected_keys": [
+        "e3/rep_1/fit/gmm",
+        "e3/rep_2/fit/gmm",
+        "e3/rep_1/fit/copula",
+        "e3/rep_3/fit/gmm",
+        "e3/rep_2/fit/copula",
+        "e3/rep_3/fit/copula",
+        "e3/rep_1/fit/chow_liu",
+        "e3/rep_2/fit/chow_liu",
+        "e3/rep_3/fit/chow_liu"
+      ],
+      "models_refitted": 0,
+      "observed_utc": "2026-10-25T04:48:47.882251+00:00",
+      "reason": "Worker validator needed frozen project import path to reopen already fitted pipelines",
+      "repair_validation": "All9 existingpipeline/selection pairs validated with new validator; no classifierfit",
+      "scientific_change": false
+    },
+    {
+      "observed_utc": "2026-10-25T04:50:00.610092+00:00",
+      "reason": "Pass immutable frozen task definition to workers; operational metadata cannot alter checkpoint identity. Evaluate validated selected fits incrementally using fixed non-adaptive scheduler priority.",
+      "scientific_selection_changed": false,
+      "workers_refitted": 0
+    },
+    {
+      "active_jobs_interrupted": 0,
+      "new_scientific_retries": 0,
+      "observed_utc": "2026-10-25T05:00:24.895521+00:00",
+      "reason": "Persist exact optimizer sampler state for recovery; hardlink immutable validated artifacts; reject missing generator class counts; reserve archive storage and measure CPU headroom; distinguish outer-supervisor defect from scientific phase limits",
+      "scientific_domains_metrics_roles_limits_changed": false,
+      "validation": "20 focusedtests pass; sampler restored nextproposal exactlymatches uninterruptedstudy; allactiveworkers finishedsuccessfully beforeamendment"
+    },
+    {
+      "affected_existing_evaluations": 9,
+      "changed_files": [
+        "controller.py",
+        "worker.py",
+        "science.py",
+        "ensemble.py",
+        "ensemble_maintenance_patch.py"
+      ],
+      "classifier_refits": 0,
+      "observed_utc": "2026-10-25T05:27:43.446963+00:00",
+      "prior_valid_predictions_preserved": true,
+      "reason": "Retain invalid-support fallback counts/masks and exact earlier prediction gate; classify E6 phase resource limits as scientific terminal and cache shared terminal prediction dependency",
+      "require_earlier_predictions_sets_threshold_metrics_identical": true,
+      "scientific_domains_metrics_roles_limits_changed": false,
+      "validation": "24 focusedtests pass; support-instrumentation temporaryfixture verifies unchanged scores/conformal; E6 resourcefailurecache fixtures pass",
+      "workers_interrupted": 0
+    },
+    {
+      "affected_model": "e3/rep_1/fit/synthetic/random_forest/copula",
+      "completed_trials_not_repeated": true,
+      "incident": "incidents/serialization_validation_20261025/incident.json",
+      "models_refitted_for_recovery": 0,
+      "observed_utc": "2026-10-25T07:24:59.715292+00:00",
+      "operationally_interrupted_task": "e3/rep_1/fit/synthetic/random_forest/gmm",
+      "pipeline_sha256_unchanged": "0ff121fa7af641e1dc1169bb2426147da03326eb2d2162c8906740840ef58c1e",
+      "reason": "Fix evidenced duplicate in-memory post-save model validation; recover exact existing RF model without refit; preserve and resume interrupted pending optimizer trial",
+      "same_pending_trial_resumed": 1,
+      "scientific_domains_metrics_roles_limits_changed": false,
+      "single_copy_validation_peak_rss_kib": 7583592,
+      "validated_runtime_tests": 24
+    },
+    {
+      "OS_Harbor_reserve_GiB": 6,
+      "fitting_worker_limit": 2,
+      "model_workers_interrupted": 0,
+      "observed_utc": "2026-10-25T09:20:28.261160+00:00",
+      "per_worker_GiB": 10,
+      "reason": "CPU admission waits for a second sample with positive elapsed ticks; first/delta-zero readings provide no measured idle capacity",
+      "scientific_domains_metrics_roles_limits_changed": false,
+      "source_after_sha256": "3914cb7be0e777959ce3b11ca69af1ce19ab7f39329ebffea1061d14c3c07d1c",
+      "source_before_sha256": "ab4192ec096d72d09d7c5dbd7625fc08fda603adf1a2e6d4320b6a670acdaeff",
+      "validation": "Focused /proc counter fixture verifies initial/unchanged/busy samples admit zero and a measured 6-core sample reports 6"
+    },
+    {
+      "OS_Harbor_reserve_GiB": 6,
+      "fitting_worker_limit": 2,
+      "model_workers_interrupted": 0,
+      "observed_utc": "2026-10-25T09:37:39.366467+00:00",
+      "per_worker_cap_GiB": 10,
+      "reason": "RAM admission reserves remaining growth to each existing 10GiB worker cap instead of reserving already charged pages twice; conservative bracketed PSS credit, unknown charge gets zero credit",
+      "scientific_domains_metrics_roles_limits_changed": false,
+      "scientific_retries_added": 0,
+      "source_after_sha256": "038bf37104ab1d2c3f86aeb0164dfab5fd0baf5c682aea94624e9e4f9c9a6225",
+      "source_before_sha256": "3914cb7be0e777959ce3b11ca69af1ce19ab7f39329ebffea1061d14c3c07d1c",
+      "validation": "4 focused controller tests passed; exhaustive budget grid verifies worker/CPU caps and reserve+remaining_growth+new_cap never exceed measured available memory"
+    },
+    {
+      "E3_to_E5_fit_predict_source_changed": false,
+      "E6_prior_ensemble_attempts": 0,
+      "E6_weight_posterior_conformal_math_changed": false,
+      "amendment_id": "e6_declared_member_gate_20261025",
+      "observed_utc": "2026-10-25T15:17:37.077048+00:00",
+      "original_frozen_utc_preserved": "2026-10-25T04:46:31.018995+00:00",
+      "plan_file_sha256_before_after": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "reason": "Enforce five declared individual-member evaluation references before E6 posterior computation; unavailable member does not receive an implicit same-policy retry through the ensemble. Pending references wait.",
+      "resource_limits_or_search_domains_changed": false,
+      "scientific_cell_counts_unchanged": true,
+      "scientific_workers_interrupted": 0,
+      "scope": "E6 ensemble dependency/preflight only; existing member_evaluations metadata is enforced.",
+      "source_after_sha256": {
+        "controller.py": "589ab53f5f53fb3c6ae1a28a1b87ad55b26508042cd9e988940171d575caffb7",
+        "ensemble.py": "60a89134f546bfb257e2baf5be76af453bec1f2c7fc138c31d7d629227f1ec7c"
+      },
+      "source_before_sha256": {
+        "controller.py": "038bf37104ab1d2c3f86aeb0164dfab5fd0baf5c682aea94624e9e4f9c9a6225",
+        "ensemble.py": "265628d4919a10ca9ef4f6a21afd2e329df5dd11e18f37f910fe0214e7de7177"
+      },
+      "validation": "Six staged dependency/preflight/cache tests passed; direct source diff reviewed before deployment."
+    },
+    {
+      "amendment_id": "adaptive_concurrency_user_authorized_20261025",
+      "native_threads_unchanged": 1,
+      "observed_utc": "2026-10-25T16:56:04.059139+00:00",
+      "original_frozen_utc_preserved": "2026-10-25T04:46:31.018995+00:00",
+      "per_worker_limits_unchanged": true,
+      "plan_file_sha256_before_after": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "preexisting_worker_processes_signaled": 0,
+      "reason": "explicit user authorization removes fixed two-worker cap; adaptive CPU/RAM/storage scheduling with lower CPU priority for new workers",
+      "scope": "operational scheduling and resource provenance only; no E1/E2 fits, no scientific retry, task/model/score math unchanged",
+      "source_after_sha256": {
+        "controller.py": "0f2b40502eb6538e66a3d39bf339d7a16338a6bb9a3a727efd1a9c6f40f2e9ca"
+      },
+      "source_before_sha256": {
+        "controller.py": "589ab53f5f53fb3c6ae1a28a1b87ad55b26508042cd9e988940171d575caffb7"
+      },
+      "validation": "root reviewed diff; 11 focused engineering tests passed; compilation passed",
+      "worker_nice_new_admissions": 10
+    },
+    {
+      "affected_cohort_helpers_to_regenerate": 42,
+      "amendment_id": "e4_untreated_cohort_weight_schema_repair_20261025",
+      "dependent_unavailability_records_reset": 225,
+      "invalid_fit_attempt_tasks_to_supersede": 27,
+      "invalid_terminal_fit_failures_superseded": 25,
+      "live_E3_RF_interrupted": false,
+      "observed_utc": "2026-10-25T17:06:48.425859+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "reason": "Untreated cohorts must not carry original-proportion sample weights; weighting is restricted to explicit weighted treatments. Generator rejections from this invalid input are not scientific model failures.",
+      "science_and_phase_worker_engine_sha256_unchanged": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+      "scope": "E4 producer schema and invalid attempt supersession only",
+      "source_after_sha256": {
+        "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d"
+      },
+      "source_before_sha256": {
+        "cohorts.py": "f60c0b9dab4c4c4627cc67fe50aeed29ac75277b17efdc45cdabe1e4edb60b9d"
+      },
+      "task_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "unaffected_weighted_ros_smote_helpers_retained": true,
+      "validation": "root reviewed exact producer-only diff; seven staged engineering tests passed; no model fitting in tests"
+    },
+    {
+      "amendment_id": "adaptive_light_queue_packing_20261025",
+      "observed_utc": "2026-10-25T17:12:32.165349+00:00",
+      "original_freeze_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "plan_file_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scientific_workers_interrupted": 0,
+      "scope": "operational ready-task ordering only, no scientific task or engine change",
+      "source_after_sha256": {
+        "controller.py": "f1b5c1c12a52d95f0d76e63ee988c6e5c9092f8242922d64ab07ed79097ab243"
+      },
+      "source_before_sha256": {
+        "controller.py": "0f2b40502eb6538e66a3d39bf339d7a16338a6bb9a3a727efd1a9c6f40f2e9ca"
+      },
+      "tests": "13 focused controller tests passed including light packing and first-heavy-lane fairness"
+    },
+    {
+      "amendment_id": "heavy_lane_fairness_20261025",
+      "observed_utc": "2026-10-25T18:06:04.279323+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "reason": "Ensure one dependency-ready heavy fitting lane can start; drain only new light-fit admissions if that lane needs headroom, without stopping running tasks. Preserve light packing alongside any active heavy RAM task.",
+      "resource_policy_and_revision_unchanged": true,
+      "scientific_execution_engine_unchanged": true,
+      "scientific_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scientific_workers_signaled": 0,
+      "source_after_sha256": "4b9ec658dd48bce7345d8f2da6fa88fc33375836e04184014f7dbfc433120ebb",
+      "source_before_sha256": "f1b5c1c12a52d95f0d76e63ee988c6e5c9092f8242922d64ab07ed79097ab243",
+      "tests": "17 pure admission/guard/packing/fairness tests passed; exact minimal diff reviewed"
+    },
+    {
+      "amendment_id": "e4_direct_rf_80k_provisional_admission4_20261026",
+      "default_heavy_reservation_gib": 10,
+      "evidence_memo": "reports/engineering_audits/E4_DIRECT_RF_ADMISSION_EVIDENCE_20261026.md",
+      "evidence_memo_sha256": "1877f63a72d5941b5e108ee725d3b1bd91713482a6c996f94bebf0aa35753122",
+      "global_resource_policy_and_revision_unchanged": true,
+      "new_profile_reservation_gib": 4,
+      "observed_utc": "2026-10-25T19:38:09.018072+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "parent_validation_memory": "not separately measured; do not infer a bound",
+      "profile_id": "e4-direct-rf-80k-admission-4gib-20261026",
+      "scientific_hard_limits_unchanged": {
+        "native_threads": 1,
+        "phase_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "termination_grace_seconds": 30,
+        "trial_seconds": 600,
+        "worker_memory_gib": 10
+      },
+      "scientific_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scientific_workers_signaled": 0,
+      "scope": "operational admission estimate only for never-attempted exact E4directRF80k altered cohorts; existing attempts retain prior reservations",
+      "scope_conditions": {
+        "condition_count": 14,
+        "exact_cohort_train_key_required": true,
+        "experiment": 4,
+        "kind": "fit",
+        "method": "random_forest",
+        "never_attempted_only": true,
+        "repetitions": [
+          1,
+          2,
+          3
+        ],
+        "route": "direct"
+      },
+      "source_after_sha256": "7333a50a74974927d30c93fbc837ebaefac6ddbc6563744884979dd2227d7829",
+      "source_before_sha256": "4b9ec658dd48bce7345d8f2da6fa88fc33375836e04184014f7dbfc433120ebb",
+      "tests": "20 actual-function admission/guard/queue/fairness/profile tests passed"
+    },
+    {
+      "E1_orE2fits_started": 0,
+      "SVM_source_sha256": {
+        "controller.py": "de136ad656ab0f8e48c7c16a90fa0ab2396eae9d4dca71dc2f218f06608ef127",
+        "svm_margin/phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+        "svm_margin/science.py": "c91c97503412f4c5a119ba6cd444c78261315cbd774c8f137768be531172d4c8",
+        "svm_margin/worker.py": "31bb90a980501142d921b44c3059e200f50846af073137cebe391039d76fc5dd"
+      },
+      "affected_invalid_control_evaluations": 3,
+      "affected_invalid_fit_tasks": 42,
+      "auditor_sha256": "76d85b1f84803dee8798a33f4bafa20c1512cba588c1cf08336700b522467d8a",
+      "classification": "implementation_defect_operationally_invalid_not_scientific_failure",
+      "error_signature": "AttributeError: this SVM has margins, not native probabilities",
+      "incident_id": "svm_native_margin_api_repair_20261026",
+      "newSVM_engine_sha256": "9e4ac4f2f275ae38d1577b836720313f30147dd866c1dc6da5c581c93441f20b",
+      "nonSVM_engine_sha256_unchanged": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+      "observed_utc": "2026-10-25T21:31:26.140938+00:00",
+      "ordinary_terminal_tasks_requeued": 0,
+      "original_freeze_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "requeued_keys": [
+        "e4/rep_1/fit/direct/linear_svm/A_half",
+        "e4/rep_1/fit/direct/linear_svm/A_tenth",
+        "e4/rep_1/fit/direct/linear_svm/F_half",
+        "e4/rep_1/fit/direct/linear_svm/F_tenth",
+        "e4/rep_1/fit/direct/linear_svm/GALAXY_half",
+        "e4/rep_1/fit/direct/linear_svm/GALAXY_tenth",
+        "e4/rep_1/fit/direct/linear_svm/G_half",
+        "e4/rep_1/fit/direct/linear_svm/G_tenth",
+        "e4/rep_1/fit/direct/linear_svm/K_half",
+        "e4/rep_1/fit/direct/linear_svm/K_tenth",
+        "e4/rep_1/fit/direct/linear_svm/M_half",
+        "e4/rep_1/fit/direct/linear_svm/M_tenth",
+        "e4/rep_1/fit/direct/linear_svm/QSO_half",
+        "e4/rep_1/fit/direct/linear_svm/QSO_tenth",
+        "e4/rep_2/fit/direct/linear_svm/A_half",
+        "e4/rep_2/fit/direct/linear_svm/A_tenth",
+        "e4/rep_1/eval/direct/linear_svm/control",
+        "e4/rep_2/fit/direct/linear_svm/F_half",
+        "e4/rep_2/fit/direct/linear_svm/F_tenth",
+        "e4/rep_2/fit/direct/linear_svm/GALAXY_half",
+        "e4/rep_2/fit/direct/linear_svm/GALAXY_tenth",
+        "e4/rep_2/fit/direct/linear_svm/G_half",
+        "e4/rep_2/fit/direct/linear_svm/G_tenth",
+        "e4/rep_2/fit/direct/linear_svm/K_half",
+        "e4/rep_2/fit/direct/linear_svm/K_tenth",
+        "e4/rep_2/fit/direct/linear_svm/M_half",
+        "e4/rep_2/fit/direct/linear_svm/M_tenth",
+        "e4/rep_2/fit/direct/linear_svm/QSO_half",
+        "e4/rep_2/fit/direct/linear_svm/QSO_tenth",
+        "e4/rep_3/fit/direct/linear_svm/A_half",
+        "e4/rep_2/eval/direct/linear_svm/control",
+        "e4/rep_3/fit/direct/linear_svm/A_tenth",
+        "e4/rep_3/fit/direct/linear_svm/F_half",
+        "e4/rep_3/fit/direct/linear_svm/F_tenth",
+        "e4/rep_3/fit/direct/linear_svm/GALAXY_half",
+        "e4/rep_3/fit/direct/linear_svm/GALAXY_tenth",
+        "e4/rep_3/fit/direct/linear_svm/G_half",
+        "e4/rep_3/fit/direct/linear_svm/G_tenth",
+        "e4/rep_3/fit/direct/linear_svm/K_half",
+        "e4/rep_3/fit/direct/linear_svm/K_tenth",
+        "e4/rep_3/fit/direct/linear_svm/M_half",
+        "e4/rep_3/fit/direct/linear_svm/M_tenth",
+        "e4/rep_3/fit/direct/linear_svm/QSO_half",
+        "e4/rep_3/fit/direct/linear_svm/QSO_tenth",
+        "e4/rep_3/eval/direct/linear_svm/control"
+      ],
+      "resource_limits_unchanged": {
+        "native_threads": 1,
+        "phase_seconds": 600,
+        "prediction_chunks": 50000,
+        "termination_grace_seconds": 30,
+        "trial_seconds": 600,
+        "worker_memory_gib": 10
+      },
+      "scientific_method_definition": "frozenE1ClassifierModelscore_matrix;argmaxclassscore;negative-marginconformalnonconformity;no softmaxprobabilitysubstitution",
+      "scientific_workers_signaled": 0,
+      "valid_control_models_preserved_sha256": {
+        "e4/rep_1/fit/direct/linear_svm/control": "1ea6ea2c1d10c4aaa5f6306e0408d6658d731f42762154778ec078749767c8be",
+        "e4/rep_2/fit/direct/linear_svm/control": "35e5b83b8c1b4db6828925c317f328aba63855d260e927a52010bb0fc48d8696",
+        "e4/rep_3/fit/direct/linear_svm/control": "591371a444d9ef6581cc31be628b62976c845e0b1c1a08f616ac96f4ff9769b1"
+      },
+      "validation": "6score/worker/routing/aliasfixtures;9independentauditorfixtures;20controllerguardtests;2actualstagedsubprocessengineeringchecks;noengineeringmodelfits"
+    }
+  ],
+  "bootstrap": false,
+  "e6_execution_overlay_sha256": "54540cfcff47d32878184f7b9ff0a061753cb3d61cabff290ca6c907d38aadce",
+  "frozen_utc": "2026-10-25T04:46:31.018995+00:00",
+  "operational_amendments": [
+    {
+      "amendment_id": "cross_exp_stage_and_arf6_fit_pack_20261026_v1",
+      "archive_wrapper_source_pins": {
+        "batch_plan.py": "d1a74d154e279947d5cf1138b8d5b90fea25a9d7fda93cfd90d0a238c3d1d870",
+        "cold_auto_compaction.py": "1a2adf34fe2dd887439efc6e70d71d2b54eeb475e39637284c21cc76b287cf92",
+        "commit_batch_child.py": "6c839f8287171239a4624ed769ad8d8924ca24b1dfa19a5e878897fb2bbb3206",
+        "controller.py": "b0aa426dbcea53ead73014b6c61bfbc5f7b175a6f2bb839e9c69421a7d1a966a",
+        "run_batch.py": "a3abd9ab1ba7a9a1317f4f713fbb1505c0209608006f7cf5683a1e50bf9625ab"
+      },
+      "controller_after_sha256": "b0aa426dbcea53ead73014b6c61bfbc5f7b175a6f2bb839e9c69421a7d1a966a",
+      "controller_before_sha256": "44dc08e2f6af9bc6acb237b4b85827612e5c69055d197b5af960008d803b1514",
+      "dispatch_policy_id": "cross-exp-stage-and-arf6-fit-pack-20261026-v1",
+      "observed_utc": "2026-10-26T18:15:30.753409+00:00",
+      "original_frozen_utc_preserved": "2026-10-25T04:46:31.018995+00:00",
+      "plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "rollout_incident": "Initialchecker compiledBOMmarkedunchangedbatch_plan asdecodedtext; correctedto bytescompile andunchangedbytespreserved. Existingfitsnotstopped.",
+      "scientific_model_settings_caps_seed_trials_source_unchanged": true,
+      "scope": "Queueorderingonly: globalstagepriority andfirstevidence-gated6GiBARFfit alongsideRFfit; allresource/scientificgatesunchanged"
+    },
+    {
+      "codec_batch_max_inode_groups": 1,
+      "codec_batch_max_logical_bytes": 1073741824,
+      "codec_policy": "reversible-xz-v1",
+      "frozen_E1_unchanged": true,
+      "full_scientific_calibration_replay_complete": false,
+      "kind": "lossless_completed_RF_storage_and_validation_guard",
+      "model_fit_sources_unchanged": true,
+      "observed_utc": "2026-10-26T21:51:17.816885+00:00",
+      "plan_unchanged": true,
+      "portable_test_count": 329,
+      "scientific_policy_unchanged": true,
+      "source_changes": [
+        {
+          "after": "bf8f6eb2441ecf8f5c82fb043721937c4b8e95ec09ffbc8e8c2af1d20e75a07e",
+          "before": "bb7ba770f0841e675de48f1c901233aa425f40195376f0c8873203c6152f319a",
+          "name": "cold_finalizer_adapter.py"
+        },
+        {
+          "after": "ba909e9f55f5f8020f165a5ac42f4159eed4c8c4b69b64f95f7313fd82430943",
+          "before": "bb5f15da8777159a243492b8bf4f0b4f2af7c3ddf2056409358d13fc52088827",
+          "name": "cold_model_storage.py"
+        },
+        {
+          "after": "e3f3e863231a22fe49c08d7e4774e0b3104a23896f3e1a993ef654c628db639d",
+          "before": null,
+          "name": "extracted_cold_source.py"
+        },
+        {
+          "after": "28897e9d8717449a32d16bf500b2633bc509f1ee506c805db84ed1d0d5289be3",
+          "before": "9a713bf34d7d6115b04ef97d40a69e7d3f86881caf9e2507102011f6c113ccb1",
+          "name": "audit_artifacts.py"
+        },
+        {
+          "after": "63d644f734cd3f8aa29246433bd82e66e99cdcbfbe81ccffc5e975b896eae3e4",
+          "before": null,
+          "name": "restore_archive_aliases_codec_template.py"
+        },
+        {
+          "after": "960ade168d53b9ec5ffa248e9f204449c790b7589d208e70ebb73a9158e74a47",
+          "before": "1a2adf34fe2dd887439efc6e70d71d2b54eeb475e39637284c21cc76b287cf92",
+          "name": "cold_auto_compaction.py"
+        },
+        {
+          "after": "3c23f01cf2a90bf0754e0f69c6245867aa00b3863016eee06982395215aa58ac",
+          "before": "6c839f8287171239a4624ed769ad8d8924ca24b1dfa19a5e878897fb2bbb3206",
+          "name": "commit_batch_child.py"
+        },
+        {
+          "after": "68713b5e25dfbdecced4455ac49ac2d26d2f1fd354300165ffaf34599dd172ac",
+          "before": "b44881bf04dabffc9ca4e6cd7249541d2c9a44f128d11f14d3b4aac19bd855b6",
+          "name": "calibration_replay_supervisor.py"
+        },
+        {
+          "after": "da511bf97d27f941d4f7a9e23fb48ffa0bdb13569db8f5053e57cb3e5c529bff",
+          "before": "12e927ec6daa30e0b0067a3449a1b6dcef1373fbdc5d953c43d6a35aaccb4528",
+          "name": "complete_delivery.py"
+        },
+        {
+          "after": "f6ca238f18fc8cea040b778b84e15b98f96cdfdddb3e2ee459dfe50403cacd14",
+          "before": "16074b11e7325dfa18c1bb5e18dbccc8ff6d8efddfc908214345e1aed67af9f6",
+          "name": "final_review.py"
+        },
+        {
+          "after": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca",
+          "before": null,
+          "name": "reversible_joblib_codec.py"
+        },
+        {
+          "after": "c3566afa412cd547985774b044a80d01d7e4473fecda5afaf79dc425bad93ca5",
+          "before": "a3abd9ab1ba7a9a1317f4f713fbb1505c0209608006f7cf5683a1e50bf9625ab",
+          "name": "run_batch.py"
+        },
+        {
+          "after": "4d937e725ba8002728150728749650fcf848756571abf2935eb6cd7c3e44b0e1",
+          "before": null,
+          "name": "cold_finalizer_codec_contract.py"
+        },
+        {
+          "after": "1017ee3c1c255eb33f81bd1334f7f0429a883dfea8ec23866f9507c95e977631",
+          "before": "6db3f58d827b42c84b2b8d444e2e47f4c17f9555eced88bd5f6db01dc32d4221",
+          "name": "cold_report_access.py"
+        },
+        {
+          "after": "9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c",
+          "before": null,
+          "name": "cold_codec_storage.py"
+        }
+      ],
+      "status": "installed",
+      "storage_child_AS_bytes": 939524096,
+      "storage_child_RSS_bytes": 1073741824,
+      "storage_child_seconds": 600,
+      "test_pass_receipt": "reports/PORTABLE_TEST_PASS_b3377e1bda57b615a06eba269136dd2edd8b8996e7f1ce55d175edbb04b9d696.json"
+    },
+    {
+      "existing_attempts_keep_reservations": true,
+      "fit_reservations_unchanged": true,
+      "global_scientific_calibration_replay_complete": false,
+      "kind": "narrow_provisional_ARF_eval_generation_2GiB_admission",
+      "new_profiles": "validated never-attempted E4 direct ARF eval <=34MB; E4 target generation<=45955; E5 allclass400k generation indirect analogy",
+      "observed_utc": "2026-10-26T23:12:03.595332+00:00",
+      "portable_pass_receipt": "reports/PORTABLE_TEST_PASS_f34ee8f7a68c0d876c72d1d3f8771b72b22771f2b83de6c1a565d42b01951e8e.json",
+      "portable_test_count": 342,
+      "scientific_hard_limits_unchanged": true,
+      "scientific_models_roles_and_plan_unchanged": true,
+      "source_changes": [
+        {
+          "after": "8c532f99c6c18998321141d4c52f7eaa92ea53bc5d78a6ecc11aae9492992504",
+          "before": "755719376672de4a88070cadf05ae30412b3ce44eccc17e021d9fc40107812d9",
+          "name": "admission_evidence.py"
+        },
+        {
+          "after": "bf17eb7983080c35b70a6460c3c9a11a0e855097bce8d0ec0044757e4f5dea7f",
+          "before": "b0aa426dbcea53ead73014b6c61bfbc5f7b175a6f2bb839e9c69421a7d1a966a",
+          "name": "controller.py"
+        },
+        {
+          "after": "ab6a861f3e1691c7860d74165eefa1d1084ab71c10af1813db927bc56c028fca",
+          "before": "960ade168d53b9ec5ffa248e9f204449c790b7589d208e70ebb73a9158e74a47",
+          "name": "cold_auto_compaction.py"
+        },
+        {
+          "after": "df677037a05e7def9a1e66243947282d6de17eee68b69fb13b66c1928d771840",
+          "before": "3c23f01cf2a90bf0754e0f69c6245867aa00b3863016eee06982395215aa58ac",
+          "name": "commit_batch_child.py"
+        },
+        {
+          "after": "898ca77c35b7f5400047c98b9d9ce0ee8abcf61b91672a77818e642a4af065ca",
+          "before": "c3566afa412cd547985774b044a80d01d7e4473fecda5afaf79dc425bad93ca5",
+          "name": "run_batch.py"
+        }
+      ]
+    },
+    {
+      "existing_attempts_keep_reservations": true,
+      "fit_reservations_unchanged": true,
+      "global_scientific_calibration_replay_complete": false,
+      "kind": "narrow_provisional_KNN_RBF_direct_admission",
+      "new_profiles": "never-attempted E4/E5 direct KNN fit/eval2GiB and native-margin RBF fit/eval3GiB, exact80k six-feature validated cohorts/roles/selection provenance; unchanged scientific hard limits",
+      "observed_utc": "2026-10-26T23:59:25.925532+00:00",
+      "portable_pass_receipt": "reports/PORTABLE_TEST_PASS_9f58ea79c665052360d1636af381aa9dee8ea76dce8f499ca4de4bcaabb87755.json",
+      "portable_test_count": 347,
+      "scientific_hard_limits_unchanged": true,
+      "scientific_models_roles_and_plan_unchanged": true,
+      "source_changes": [
+        {
+          "after": "f6fa21b593be8ced9a05ee05acf994d163761067bc3a1456395338cb330a8b19",
+          "before": "8c532f99c6c18998321141d4c52f7eaa92ea53bc5d78a6ecc11aae9492992504",
+          "name": "admission_evidence.py"
+        },
+        {
+          "after": "3306a15b3d246b7b169880a063ce52032488df3e5bf46c2710d78cae2e85c564",
+          "before": "bf17eb7983080c35b70a6460c3c9a11a0e855097bce8d0ec0044757e4f5dea7f",
+          "name": "controller.py"
+        },
+        {
+          "after": "982a75c412dd2041438bc9634013a8a46a0643b16ee205f442666b343a29f1bc",
+          "before": "ab6a861f3e1691c7860d74165eefa1d1084ab71c10af1813db927bc56c028fca",
+          "name": "cold_auto_compaction.py"
+        },
+        {
+          "after": "3210ed29e2415d75e849835d76fd26e98aa5c7fdc10fe8fe38ae7aef52d2de8f",
+          "before": "df677037a05e7def9a1e66243947282d6de17eee68b69fb13b66c1928d771840",
+          "name": "commit_batch_child.py"
+        },
+        {
+          "after": "c7b71251748c781f07ded7aecf77f52ce1e5e649066921f7cedcb942f961b35c",
+          "before": "898ca77c35b7f5400047c98b9d9ce0ee8abcf61b91672a77818e642a4af065ca",
+          "name": "run_batch.py"
+        }
+      ]
+    },
+    {
+      "existing_attempts_keep_reservations": true,
+      "global_scientific_calibration_replay_complete": false,
+      "kind": "narrow_provisional_E4_generated_RF6_fit_admission",
+      "new_profiles": "never-attempted matching E4 generated-restoration random-forest fits: 6GiB provisional admission at verified training_rows<=125934; existing/nonmatching and larger cohorts keep prior profiles. All10trial slots, scientific10GiB/600s limits, promotion and host/growth guards unchanged",
+      "nonmatching_fit_reservations_unchanged": true,
+      "observed_utc": "2026-10-27T02:29:32.431762+00:00",
+      "portable_pass_receipt": "reports/PORTABLE_TEST_PASS_ce11f81fe73268d912453f2c10df46e749db785207aeaf54448602d9cbfdfb9c.json",
+      "portable_test_count": 362,
+      "scientific_hard_limits_unchanged": true,
+      "scientific_models_roles_and_plan_unchanged": true,
+      "source_changes": [
+        {
+          "after": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+          "before": "f6fa21b593be8ced9a05ee05acf994d163761067bc3a1456395338cb330a8b19",
+          "name": "admission_evidence.py"
+        },
+        {
+          "after": "38c1c3a1302088a773c4328ca8d7e08db9179c33bf4a4d030e480a09ac1c059c",
+          "before": "3306a15b3d246b7b169880a063ce52032488df3e5bf46c2710d78cae2e85c564",
+          "name": "controller.py"
+        },
+        {
+          "after": "8c14c88732ce1092a9876f87b53a93710440dec06dea49b38f6caace4050c6c6",
+          "before": "982a75c412dd2041438bc9634013a8a46a0643b16ee205f442666b343a29f1bc",
+          "name": "cold_auto_compaction.py"
+        },
+        {
+          "after": "f07bd950469b89fd4d16ec50fe0bfa4db85cab214f19403675879cc736e944ee",
+          "before": "3210ed29e2415d75e849835d76fd26e98aa5c7fdc10fe8fe38ae7aef52d2de8f",
+          "name": "commit_batch_child.py"
+        },
+        {
+          "after": "46fce639aed9df452ec339af97b02d7171ff4b3b8280587253c281378ad1bd44",
+          "before": "c7b71251748c781f07ded7aecf77f52ce1e5e649066921f7cedcb942f961b35c",
+          "name": "run_batch.py"
+        }
+      ]
+    },
+    {
+      "dispatch_policy": "when no direct E4/E5 ARF fit is active, prioritize a dependency-ready never-attempted existing-6GiB ARF fit and defer other new fits until natural completions free headroom; non-fit sinks and all safety gates remain enabled; no preemption, no worker cap of two",
+      "existing_attempts_keep_reservations": true,
+      "global_scientific_calibration_replay_complete": false,
+      "kind": "dependency_ready_ARF6_lane_priority",
+      "nonmatching_fit_reservations_unchanged": true,
+      "observed_utc": "2026-10-27T04:57:48.060796+00:00",
+      "portable_pass_receipt": "reports/PORTABLE_TEST_PASS_78e8b8938fa925538c3412f4f9cbb5497a1b53e57b667372e0269622ebca765f.json",
+      "portable_test_count": 371,
+      "scientific_hard_limits_unchanged": true,
+      "scientific_models_roles_and_plan_unchanged": true,
+      "source_changes": [
+        {
+          "after": "964e3099ce9b39661519a67943a4db2126632b512ba0e7952c25a71cc10ae903",
+          "before": "38c1c3a1302088a773c4328ca8d7e08db9179c33bf4a4d030e480a09ac1c059c",
+          "name": "controller.py"
+        },
+        {
+          "after": "73a9a0e6e41a581e29725075c8fbf80118368e41463b2a975dfd5a31ef04cee1",
+          "before": "8c14c88732ce1092a9876f87b53a93710440dec06dea49b38f6caace4050c6c6",
+          "name": "cold_auto_compaction.py"
+        },
+        {
+          "after": "4d946f8171b88823de1e823b73263cd6504adddecffbc6da1eabba650a669372",
+          "before": "f07bd950469b89fd4d16ec50fe0bfa4db85cab214f19403675879cc736e944ee",
+          "name": "commit_batch_child.py"
+        },
+        {
+          "after": "c51b6d1b65b4ec9aff28dfe220445ac9996a8a6d617dcff9ca2f2efeb4f841d2",
+          "before": "46fce639aed9df452ec339af97b02d7171ff4b3b8280587253c281378ad1bd44",
+          "name": "run_batch.py"
+        }
+      ]
+    },
+    {
+      "admission_only_safety_buffer_gib": 1,
+      "dispatch_policy": "existing dependency-ready ARF lane remains; new admissions require an additional 1 GiB buffer above the existing 2 GiB growth margin to reduce near-boundary reclaim churn; existing reclaim threshold unchanged; no preemption or fixed worker-count cap",
+      "existing_attempts_keep_reservations": true,
+      "existing_reclaim_margin_gib": 2,
+      "global_scientific_calibration_replay_complete": false,
+      "kind": "new_admission_memory_hysteresis",
+      "new_admission_required_margin_gib": 3,
+      "nonmatching_fit_reservations_unchanged": true,
+      "observed_utc": "2026-10-27T05:41:53.996540+00:00",
+      "portable_pass_receipt": "reports/PORTABLE_TEST_PASS_f14988137fa2d8725361393f84dae71851cb663e66128ba01e837f6e904dc048.json",
+      "portable_test_count": 376,
+      "scientific_hard_limits_unchanged": true,
+      "scientific_models_roles_and_plan_unchanged": true,
+      "source_changes": [
+        {
+          "after": "ea35d3cf151be71152d9c830f366bf204cec2c28ab0e972fb15714a4b00aca6c",
+          "before": "964e3099ce9b39661519a67943a4db2126632b512ba0e7952c25a71cc10ae903",
+          "name": "controller.py"
+        },
+        {
+          "after": "8b9075b1b4960f5353d09837720388fa976268b3b1df7b1151c9527410dbe38a",
+          "before": "73a9a0e6e41a581e29725075c8fbf80118368e41463b2a975dfd5a31ef04cee1",
+          "name": "cold_auto_compaction.py"
+        },
+        {
+          "after": "dc155d4dd0feeb7364c7de091ad503f48fa2d8ef0bfa6ce8b8e114cec34192a9",
+          "before": "4d946f8171b88823de1e823b73263cd6504adddecffbc6da1eabba650a669372",
+          "name": "commit_batch_child.py"
+        },
+        {
+          "after": "c2a0fb9714c11bed843c58776b20a5d1c8c4a23a5424c3dca0bebff4141150bd",
+          "before": "c51b6d1b65b4ec9aff28dfe220445ac9996a8a6d617dcff9ca2f2efeb4f841d2",
+          "name": "run_batch.py"
+        }
+      ]
+    }
+  ],
+  "operational_controller_history": [
+    {
+      "active_worker_checks_continue": true,
+      "amendment_id": "admission_only_hold_for_controlled_artifact_audits_20261026",
+      "checkpoint_exports_continue": true,
+      "emergency_memory_guard_continues": true,
+      "evidence_gate_sha256_unchanged": "192a8518ce50b93caf637140de02712dff0e42258ab49b21e0ad2bd64bd5de2b",
+      "hard_scientific_limits_and_all_admission_profiles_unchanged": true,
+      "observed_utc": "2026-10-26T01:43:16.811291+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "preflight_tests": ".............................................................            [100%]\n61 passed in 11.86s",
+      "scientific_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scientific_workers_signaled": 0,
+      "scope": "ADMISSION_HOLD.json presence pauses only new model launches; checks beforebatch, eachiteration and immediatelybeforeadmit; no scientific task/request/profile changes",
+      "source_after_sha256": "41bab434e6074c2c2d492747bc793699e830187ce9346354a56c83f19f123d50",
+      "source_before_sha256": "c1a897478d14e859f6e027d411864ef93dc4fd4f536479571df7533025968634",
+      "test_expectation_update": "Legacy tests now respect the alreadyapproved2GiB priority/recordedattemptprofile; legacy4GiB evidence and no-profile10GiB cases retained. No sourcebehavior changed for this test correction.",
+      "watchdog_remains_active": true
+    },
+    {
+      "adaptive_heavy_promotion_and_host_reserves_unchanged": true,
+      "admission_hold_gate_retained": true,
+      "after_sha256": {
+        "admission_evidence.py": "49b22a905ed31297921623ef12494de0e154ab1372afe2445fd0854255eda475",
+        "controller.py": "7134d55eaac181ad94fec377bb817109fcb26b5a2cf1b79b829cc47be2f1f736"
+      },
+      "amendment_id": "rf_eval_provisional_admission_20261026",
+      "analogy_only": true,
+      "before_sha256": {
+        "admission_evidence.py": "192a8518ce50b93caf637140de02712dff0e42258ab49b21e0ad2bd64bd5de2b",
+        "controller.py": "41bab434e6074c2c2d492747bc793699e830187ce9346354a56c83f19f123d50"
+      },
+      "frozen_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "no_scientific_retry": true,
+      "observed_utc": "2026-10-26T03:11:43.831741+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "provenance_gate": "Exact saved selected fit and baseline publication/selection records, role/test identities, frozen chunking and resource analogy receipt; no test performance is used for admission.",
+      "root_staged_tests": "............                                                             [100%]\n12 passed in 0.14s",
+      "scientific_hard_rss_gib_unchanged": 10,
+      "scientific_trial_phase_timeout_s_unchanged": 600,
+      "scientific_workers_signaled": 0,
+      "scope": "Never-attempted, exactly validated E5 direct RF evals: provisional4GiB; narrowly verified <=82394-row E4 nonweighted RF treatment evals: provisional6GiB. Eligible inference jobs classified light for packing; model fitting lane retained.",
+      "staging_evidence_sha256": "dfabf345e9ba005df9d9ed782b9571973bb8d08f08336bee58d3497400416892"
+    },
+    {
+      "adaptive_heavy_promotion_and_host_reserves_unchanged": true,
+      "admission_hold_gate_retained": true,
+      "after_sha256": {
+        "admission_evidence.py": "3cb030aec90c861b37b685d3c1c94984fd75e2ef074acd3cf0d351441df7b6f0",
+        "controller.py": "fbb72d82ddafd54a4668bb6a5de05cec23a7ffad0648fe5f1a393661f8607c52"
+      },
+      "amendment_id": "e4_rf_fit_provisional_5gib_admission_20261026",
+      "analogy_only": true,
+      "before_sha256": {
+        "admission_evidence.py": "49b22a905ed31297921623ef12494de0e154ab1372afe2445fd0854255eda475",
+        "controller.py": "7134d55eaac181ad94fec377bb817109fcb26b5a2cf1b79b829cc47be2f1f736"
+      },
+      "frozen_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "no_scientific_retry": true,
+      "observed_utc": "2026-10-26T04:00:48.159795+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "provenance_gate": "Validated input artifact/counts/shapes and source hash, frozen RF search source hash, pinned25-fit resource audit with202 tuning and25 selected-fit phase receipts. Observed maximumphaseRSS3.726GiB; estimate not guarantee. Scientific accuracy or test performance not used.",
+      "root_staged_tests": "......                                                                   [100%]\n6 passed in 0.11s",
+      "scientific_hard_rss_gib_unchanged": 10,
+      "scientific_trial_phase_timeout_s_unchanged": 600,
+      "scientific_workers_signaled": 0,
+      "scope": "Never-attempted nonweighted E4 RF treatment fits already meeting6GiB proof gates and within80611-82394row observed envelope, restricted to ROS/SMOTE/generatedGMM/copula/Chow-Liu: provisional5GiB. Prior6GiB profiles preserved. All fitting remains heavy; other fit/inference profiles unchanged.",
+      "staging_evidence_sha256": "d756b3c989ef5f8e3d7c0c4634630d324ae5375d889c04d5bb94a22d50860433"
+    },
+    {
+      "adaptive_heavy_promotion_and_host_reserves_unchanged": true,
+      "admission_hold_gate_retained": true,
+      "after_sha256": {
+        "admission_evidence.py": "71378006fa123c5b440a0919c6a3c7b93a5ec69a57a32919c3c9f06ca2f055dc",
+        "controller.py": "fbb72d82ddafd54a4668bb6a5de05cec23a7ffad0648fe5f1a393661f8607c52"
+      },
+      "amendment_id": "e4_rf_fit_5gib_observed_generated_kde_scope_20261026",
+      "analogy_only": true,
+      "before_sha256": {
+        "admission_evidence.py": "3cb030aec90c861b37b685d3c1c94984fd75e2ef074acd3cf0d351441df7b6f0",
+        "controller.py": "fbb72d82ddafd54a4668bb6a5de05cec23a7ffad0648fe5f1a393661f8607c52"
+      },
+      "frozen_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "no_scientific_retry": true,
+      "observed_utc": "2026-10-26T04:59:32.441383+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "provenance_gate": "Validated input artifact/counts/shapes and source hash, frozen RF search source hash, pinned25-fit resource audit with202 tuning and25 selected-fit phase receipts. Observed maximumphaseRSS3.726GiB; estimate not guarantee. Scientific accuracy or test performance not used.",
+      "root_staged_tests": ".......                                                                  [100%]\n7 passed in 0.10s",
+      "scientific_hard_rss_gib_unchanged": 10,
+      "scientific_trial_phase_timeout_s_unchanged": 600,
+      "scientific_workers_signaled": 0,
+      "scope": "Extends the existing provisional5GiB RF treatment fit estimate to never-attempted RF fits on KDE-restored data for observed A_half/GALAXY_half/tenth/QSO_half/tenth condition types across paired repetitions1-3, only80611-82394rows and exactprevious6GiB data gates. FiveKDE-restored RF fits are already in the pinned25-fit resource evidence. This is not a KDE algorithm limit change or retry. Priorattempt5/6GiB profiles and other scopes preserved.",
+      "staging_evidence_sha256": "b66a881c0675773662e9b374043362996e2f44a5ea8444c9437adb350fb3967a"
+    },
+    {
+      "admission_floor_gib_unchanged": 8,
+      "amendment_id": "resource_admission_envelopes_and_single_reclaim_grace_20261026",
+      "existing_attempt_reservations_preserved": true,
+      "growth_margin_gib_unchanged": 2,
+      "historical_cascade_liveness_limitation": "Two observed reclaim requests3.2s apart preceded first recovery; exact historical simultaneous PID liveness not retained. Current grace gate requires actual verified process identity.",
+      "host_reserve_gib_unchanged": 6,
+      "native_threads_unchanged": 1,
+      "observed_utc": "2026-10-26T06:58:47.154593+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "raw_resource_proof_sha256": "b3530fd93a17095fa6d3e8b7071b4df943cceea829ecad4415513ac06bf11c49",
+      "root_regression_checks": "75 passed, 3 subtests passed",
+      "scientific_test_results_not_used_for_admission_choices": true,
+      "scientific_workers_signaled": 0,
+      "scope": "Prospective metadata/hash-gated ARF80k fit6GiB, weighted RF80k fit5GiB, nonweighted RF5GiB through84310rows only with extension evidence; preserve existing attempts and old6GiB fallback82394. Defer another noncritical reclaim while an earlier verified parent/orphan phase is within existing30s TERM grace. Under6GiB critical reclaim remains active.",
+      "source_after_sha256": {
+        "admission_evidence.py": "44bdeef607dac4937a25c33b711d0f42375d6094845c83718e61ad0df7235e5b",
+        "controller.py": "13f914122345bd4f24fbed7b5ab0a4439a02ab869248f7b5db9cb1d8bda9889f"
+      },
+      "source_before_sha256": {
+        "admission_evidence.py": "71378006fa123c5b440a0919c6a3c7b93a5ec69a57a32919c3c9f06ca2f055dc",
+        "controller.py": "fbb72d82ddafd54a4668bb6a5de05cec23a7ffad0648fe5f1a393661f8607c52"
+      },
+      "termination_grace_seconds_unchanged": 30,
+      "trial_and_phase_limits_seconds_unchanged": 600,
+      "trial_counts_search_domains_seeds_cohorts_unchanged": true,
+      "weighted_rf_conservative_choice_gib": 5,
+      "weighted_rf_raw_audit_recommendation_gib": 4,
+      "worker_hard_rss_limit_gib_unchanged": 10
+    },
+    {
+      "admission_floor_gib_unchanged": 8,
+      "amendment_id": "recorded_cleanup_state_reclaim_grace_v2_20261026",
+      "existing_attempt_reservations_preserved": true,
+      "growth_margin_gib_unchanged": 2,
+      "historical_cascade_liveness_limitation": "Two observed reclaim requests3.2s apart preceded first recovery; exact historical simultaneous PID liveness not retained. Current grace gate requires actual verified process identity.",
+      "host_reserve_gib_unchanged": 6,
+      "native_threads_unchanged": 1,
+      "new_scientific_resource_policy_introduced": false,
+      "observed_utc": "2026-10-26T07:26:09.647832+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "public_edge_case_audit_sha256": "02ed10deffb4c3d00f21c174209511674628aac9c4aa146385621a869bd9fc0a",
+      "raw_resource_proof_sha256": "b3530fd93a17095fa6d3e8b7071b4df943cceea829ecad4415513ac06bf11c49",
+      "root_regression_checks": "77 passed, 3 subtests passed",
+      "scientific_test_results_not_used_for_admission_choices": true,
+      "scientific_workers_signaled": 0,
+      "scope": "Existing prospective admission profiles preserved. Defer another noncritical reclaim while a registry-running task has a recorded TERM age0\u201330seconds, including a fully exited tree awaiting next controller cleanup pass. This is cleanup-state reservation debt, not a process-liveness assertion. Actual target verification, watchdog liveness checks, grace/criticalfloor and hard limits are unchanged.",
+      "source_after_sha256": {
+        "admission_evidence.py": "44bdeef607dac4937a25c33b711d0f42375d6094845c83718e61ad0df7235e5b",
+        "controller.py": "44dc08e2f6af9bc6acb237b4b85827612e5c69055d197b5af960008d803b1514"
+      },
+      "source_before_sha256": {
+        "admission_evidence.py": "44bdeef607dac4937a25c33b711d0f42375d6094845c83718e61ad0df7235e5b",
+        "controller.py": "13f914122345bd4f24fbed7b5ab0a4439a02ab869248f7b5db9cb1d8bda9889f"
+      },
+      "termination_grace_seconds_unchanged": 30,
+      "trial_and_phase_limits_seconds_unchanged": 600,
+      "trial_counts_search_domains_seeds_cohorts_unchanged": true,
+      "weighted_rf_conservative_choice_gib": 5,
+      "weighted_rf_raw_audit_recommendation_gib": 4,
+      "worker_hard_rss_limit_gib_unchanged": 10
+    },
+    {
+      "after_helper_sha256": "755719376672de4a88070cadf05ae30412b3ce44eccc17e021d9fc40107812d9",
+      "amendment_id": "weighted_mean_metadata_float_precision_20261026",
+      "before_helper_sha256": "44bdeef607dac4937a25c33b711d0f42375d6094845c83718e61ad0df7235e5b",
+      "controller_bytes_unchanged": "44dc08e2f6af9bc6acb237b4b85827612e5c69055d197b5af960008d803b1514",
+      "fixture_tests_passed": 2,
+      "observed_utc": "2026-10-26T16:07:35.927682+00:00",
+      "original_frozen_utc_unchanged": "2026-10-25T04:46:31.018995+00:00",
+      "performance_metrics_rounded_or_modified": false,
+      "plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "read_only_eligibility_newly_eligible_tasks": 3,
+      "scientific_caps_timeouts_seed_trials_domains_unchanged": true,
+      "scientific_workers_signaled": 0,
+      "scope": "Accept finite nonboolean numeric sample_weight_mean within1e-12absolute of1 for the existing never-attempted weighted80kRF5GiB admission profile. All metadata/data bytes, models, algorithm settings, exact input/role/audit gates and prior attempts unchanged.",
+      "weight_arrays_or_metadata_modified": false
+    }
+  ],
+  "plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+  "protocol_version": "LAMOST-later-v1-20261025",
+  "resource_policy": {
+    "admission_pause_below_gib": 8,
+    "alias_reservation_gib": 0.25,
+    "bounded_helper_reservation_gib": 1,
+    "commitment_growth_margin_gib": 2,
+    "cpu_reserve_cores": 2,
+    "emergency_backoff_seconds": 60,
+    "host_os_harbor_reserve_gib": 6,
+    "max_operational_recoveries": 2,
+    "nested_threads": 1,
+    "phase_timeout_seconds": 600,
+    "prediction_chunk_rows": 50000,
+    "queue_packing": "retain one heavy fitting lane and prefer admissible light work before additional heavy fits",
+    "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+    "retry_cooldown_seconds": [
+      60,
+      120,
+      300
+    ],
+    "termination_grace_seconds": 30,
+    "trial_timeout_seconds": 600,
+    "worker_admission_reservation_gib_by_class": {
+      "heavy": 10,
+      "light": 2
+    },
+    "worker_count_ceiling": "cpu-derived",
+    "worker_memory_limit_gib": 10,
+    "worker_nice": 10
+  },
+  "resource_policy_effective_from_utc": "2026-10-25T17:12:32.165349+00:00",
+  "resource_policy_history": [
+    {
+      "effective_from_utc": "2026-10-25T04:46:31.018995+00:00",
+      "effective_until_utc": "2026-10-25T16:56:04.059139+00:00",
+      "policy": {
+        "max_workers": 2,
+        "native_threads": 1,
+        "phase_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "termination_grace_seconds": 30,
+        "trial_seconds": 600,
+        "worker_memory_gib": 10
+      },
+      "reason": "initial prospective two-worker policy"
+    },
+    {
+      "effective_from_utc": "2026-10-25T16:56:04.059139+00:00",
+      "effective_until_utc": "2026-10-25T17:12:32.165349+00:00",
+      "policy": {
+        "admission_pause_below_gib": 8,
+        "alias_reservation_gib": 0.25,
+        "bounded_helper_reservation_gib": 1,
+        "commitment_growth_margin_gib": 2,
+        "cpu_reserve_cores": 2,
+        "emergency_backoff_seconds": 60,
+        "host_os_harbor_reserve_gib": 6,
+        "max_operational_recoveries": 2,
+        "nested_threads": 1,
+        "phase_timeout_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+        "retry_cooldown_seconds": [
+          60,
+          120,
+          300
+        ],
+        "termination_grace_seconds": 30,
+        "trial_timeout_seconds": 600,
+        "worker_admission_reservation_gib_by_class": {
+          "heavy": 10,
+          "light": 2
+        },
+        "worker_count_ceiling": "cpu-derived",
+        "worker_memory_limit_gib": 10,
+        "worker_nice": 10
+      },
+      "reason": "explicit user authorization removes fixed two-worker cap; adaptive CPU/RAM/storage scheduling with lower CPU priority for new workers"
+    },
+    {
+      "effective_from_utc": "2026-10-25T17:12:32.165349+00:00",
+      "effective_until_utc": null,
+      "policy": {
+        "admission_pause_below_gib": 8,
+        "alias_reservation_gib": 0.25,
+        "bounded_helper_reservation_gib": 1,
+        "commitment_growth_margin_gib": 2,
+        "cpu_reserve_cores": 2,
+        "emergency_backoff_seconds": 60,
+        "host_os_harbor_reserve_gib": 6,
+        "max_operational_recoveries": 2,
+        "nested_threads": 1,
+        "phase_timeout_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "queue_packing": "retain one heavy fitting lane and prefer admissible light work before additional heavy fits",
+        "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+        "retry_cooldown_seconds": [
+          60,
+          120,
+          300
+        ],
+        "termination_grace_seconds": 30,
+        "trial_timeout_seconds": 600,
+        "worker_admission_reservation_gib_by_class": {
+          "heavy": 10,
+          "light": 2
+        },
+        "worker_count_ceiling": "cpu-derived",
+        "worker_memory_limit_gib": 10,
+        "worker_nice": 10
+      },
+      "reason": "user-authorized peak safe concurrency: keep one heavy fit progressing while packing admissible light work before an additional heavy fit"
+    }
+  ],
+  "rf4_execution_policy_sha256": "b6a0dac8d7949b3ce0b71df59ac295b224f3d660fd6a653c89866b5a8f002515",
+  "rf4_execution_qualification_sha256": "b5ae14c0fcb3467e603accef392e992190876e8c2caa496bda4a259396462cba",
+  "source_amendment_history": [
+    {
+      "amended_source_sha256": {
+        "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+        "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d",
+        "controller.py": "b9465eb5ae73991abe7551dee7b8f131feefecc3dd3656917d019b76457aa7ca",
+        "e6_phase_supervisor.py": "5babe2da661c4162283ab945b17db4d88350bf863335744b5619285d69a37d05",
+        "ensemble.py": "d5e80585c84612406a0c50e1b9b4dca5d2180d39d7938de08c85c9949b96ee09",
+        "ensemble_maintenance_patch.py": "0d1d0eefc1d41dcc6609b2b409f2570dd1970f44c7367c5e5eab7955b4154a8e",
+        "phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+        "science.py": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+        "svm_margin/phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+        "svm_margin/science.py": "c91c97503412f4c5a119ba6cd444c78261315cbd774c8f137768be531172d4c8",
+        "svm_margin/worker.py": "31bb90a980501142d921b44c3059e200f50846af073137cebe391039d76fc5dd",
+        "worker.py": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18"
+      },
+      "amendment_id": "e6_primary_dependency_protocol_alignment_v2_20261028",
+      "amendment_version": "E6-v2",
+      "effective_utc": null,
+      "original_frozen_utc": "2026-10-25T04:46:31.018995+00:00",
+      "overlay_sha256": "54540cfcff47d32878184f7b9ff0a061753cb3d61cabff290ca6c907d38aadce",
+      "parent_freeze_sha256": "d68beaa0cea5970dedda316770d09f4e4a7240869d27423181f529092d12594a",
+      "prepared_utc": "2026-10-27T18:50:19.016654+00:00",
+      "prior_source_sha256": {
+        "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+        "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d",
+        "controller.py": "ea35d3cf151be71152d9c830f366bf204cec2c28ab0e972fb15714a4b00aca6c",
+        "ensemble.py": "60a89134f546bfb257e2baf5be76af453bec1f2c7fc138c31d7d629227f1ec7c",
+        "ensemble_maintenance_patch.py": "0d1d0eefc1d41dcc6609b2b409f2570dd1970f44c7367c5e5eab7955b4154a8e",
+        "phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+        "science.py": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+        "svm_margin/phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+        "svm_margin/science.py": "c91c97503412f4c5a119ba6cd444c78261315cbd774c8f137768be531172d4c8",
+        "svm_margin/worker.py": "31bb90a980501142d921b44c3059e200f50846af073137cebe391039d76fc5dd",
+        "worker.py": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18"
+      },
+      "scientific_plan_changes": false,
+      "scope": "six zero-attempt E6 unavailable rows; preserve all E3/E4/E5 definitions and historical comparison references",
+      "status": "proposed_not_published",
+      "task_plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb"
+    },
+    {
+      "actual15_compatibility_qualification_sha256": "5f6126f88d12f9a4c4c8b69a86e4890160c2c3b3441e0a344e123582c334c55d",
+      "amendment_id": "E6-v2-legacy-feature-provenance-fix-1",
+      "feature_order_basis": "strict frozen E3 manifest/overlay/cache bindings for legacy unnamed pipelines; reject any present order mismatch",
+      "original_invalid_attempts_preserved": true,
+      "parent_freeze_sha256": "203e51bbc6f05d4a1795644abdd321ca6a196707d18811ab146914247a3b90c5",
+      "portable_pass_sha256": "c101e8486ffcf6e54f9eadd11a5c0ffebddcb378a6b6886ff8505f1a0d1e8d51",
+      "portable_test_count": 509,
+      "prepared_utc": "2026-10-27T19:42:02.847803+00:00",
+      "qualified_bundle_fingerprint_sha256": "908e78202071352c0a9798b714f1704b2e7e19fd9bb2252e477f9deebeed7465",
+      "scope": "only six operationally-invalid E6 attempts; no fit/model/selection/role/scientific-policy change",
+      "source_after_sha256": "5b4444bc83576affe80946762dc1cceb76feb6cdcd33305fdcc6339c3c390476",
+      "source_before_sha256": "d5e80585c84612406a0c50e1b9b4dca5d2180d39d7938de08c85c9949b96ee09"
+    },
+    {
+      "amendment_id": "prospective-rf4-and-exact-E6-availability-prose-20261028",
+      "digest_cache_optimization_deferred": true,
+      "fitting_memberships_seed_search_domains_trial_counts_unchanged": true,
+      "no_retry_or_registry_rewrite": true,
+      "parent_freeze_sha256": "0dddaafa343e751459d92978e8c23277978af3058c9cb7e0ce5f3dcbaf97e8fd",
+      "portable_pass_sha256": "aecfca51fbb3da88a136a83907dce07ac076c6201eab3ceaa4bfeb7ad6f4fded",
+      "portable_test_count": 527,
+      "prepared_utc": "2026-10-27T21:03:57.246798+00:00",
+      "qualification_sha256": "30977334bb41d7e9061d55ee204caf5efcfb344d4eb6dbd71138dce6c15cb331",
+      "qualified_bundle_fingerprint_sha256": "ed3923b8cc808cb1eba6a4d62e3f9b60f2d4c061e599d9efbcd7ab1497f2d459",
+      "reporter_after_sha256": "4b50bb22f0b64f11dab53799055d8c1ef243a1e19aa1d6f010c3af8171cdb668",
+      "reporter_before_sha256": "8c519dbf879b262522647472ea1c2a6dfebb36d3fd6e496ca12d79fb20a6b547",
+      "rf4_policy_sha256": "a5c15011502fce7b51d358ff3926912aca193206ded1126546ed960faec10235",
+      "scientific_limits_unchanged": "10GiB hard,600s phase/trial,30s grace; prospective RF fits4 estimator jobs with native1 and prediction1",
+      "source_after_sha256": {
+        "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+        "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d",
+        "controller.py": "b135767ddbc6d33545c78d7a9407c7a40b8f0c31f4fab4c0f7c9e5fcfed9fe88",
+        "e6_phase_supervisor.py": "5babe2da661c4162283ab945b17db4d88350bf863335744b5619285d69a37d05",
+        "ensemble.py": "5b4444bc83576affe80946762dc1cceb76feb6cdcd33305fdcc6339c3c390476",
+        "ensemble_maintenance_patch.py": "0d1d0eefc1d41dcc6609b2b409f2570dd1970f44c7367c5e5eab7955b4154a8e",
+        "parallel_rf/phase_worker.py": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3",
+        "parallel_rf/science.py": "e36c8040c7dca254fc7e16a53ffe860872df31a77868a7bc6480162f32d253c6",
+        "parallel_rf/worker.py": "5741d1f60b513a6da0023e508b8d17d28e8f6e4355f30c08d5cfb81f1f233ab9",
+        "phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+        "science.py": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+        "svm_margin/phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+        "svm_margin/science.py": "c91c97503412f4c5a119ba6cd444c78261315cbd774c8f137768be531172d4c8",
+        "svm_margin/worker.py": "31bb90a980501142d921b44c3059e200f50846af073137cebe391039d76fc5dd",
+        "worker.py": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18"
+      },
+      "source_before_sha256": {
+        "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+        "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d",
+        "controller.py": "b9465eb5ae73991abe7551dee7b8f131feefecc3dd3656917d019b76457aa7ca",
+        "e6_phase_supervisor.py": "5babe2da661c4162283ab945b17db4d88350bf863335744b5619285d69a37d05",
+        "ensemble.py": "5b4444bc83576affe80946762dc1cceb76feb6cdcd33305fdcc6339c3c390476",
+        "ensemble_maintenance_patch.py": "0d1d0eefc1d41dcc6609b2b409f2570dd1970f44c7367c5e5eab7955b4154a8e",
+        "phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+        "science.py": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+        "svm_margin/phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+        "svm_margin/science.py": "c91c97503412f4c5a119ba6cd444c78261315cbd774c8f137768be531172d4c8",
+        "svm_margin/worker.py": "31bb90a980501142d921b44c3059e200f50846af073137cebe391039d76fc5dd",
+        "worker.py": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18"
+      },
+      "storage_core_unchanged": true,
+      "task_plan_unchanged": true
+    },
+    {
+      "amendment_id": "E6-terminal-report-idempotent-controller-resume-20261028",
+      "controller_after_sha256": "68b081487afd8f7572362d33601b276b245150d9bca587aca5bf3b9cace75c10",
+      "controller_before_sha256": "b135767ddbc6d33545c78d7a9407c7a40b8f0c31f4fab4c0f7c9e5fcfed9fe88",
+      "parent_freeze_sha256": "0607bc7bbdc7ac61d2d5fc3366f8d119f1f132e8e4e1250b35da0bedf2203362",
+      "portable_pass_sha256": "2a746d5a53965e27a75b28fd28a14c7a057bf7069c58728d0549389162197753",
+      "portable_test_count": 531,
+      "prepared_utc": "2026-10-27T21:19:19.739466+00:00",
+      "qualified_bundle_fingerprint_sha256": "d41709ee13be6da6b9c828ff4692d7ef9e9f803b0537188d55dff1c9ee1dc7ce",
+      "rf4_policy_sha256": "b6a0dac8d7949b3ce0b71df59ac295b224f3d660fd6a653c89866b5a8f002515",
+      "rf4_qualification_sha256": "b5ae14c0fcb3467e603accef392e992190876e8c2caa496bda4a259396462cba",
+      "scientific_sources_and_limits_unchanged": true,
+      "scope": "idempotent preservation/validation of prior E6-v1 report supersession on controller restart; current v2 reports and scientific attempts unchanged",
+      "selected_models_and_task_attempts_unchanged": true
+    }
+  ],
+  "source_amendment_prepared_utc": "2026-10-27T18:50:19.016654+00:00",
+  "source_amendment_status": "qualified_prospective_execution_amendment_bound_by_activation_receipt",
+  "source_amendment_version": "E6-terminal-report-idempotent-controller-resume-20261028",
+  "source_sha256": {
+    "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+    "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d",
+    "controller.py": "68b081487afd8f7572362d33601b276b245150d9bca587aca5bf3b9cace75c10",
+    "e6_phase_supervisor.py": "5babe2da661c4162283ab945b17db4d88350bf863335744b5619285d69a37d05",
+    "ensemble.py": "5b4444bc83576affe80946762dc1cceb76feb6cdcd33305fdcc6339c3c390476",
+    "ensemble_maintenance_patch.py": "0d1d0eefc1d41dcc6609b2b409f2570dd1970f44c7367c5e5eab7955b4154a8e",
+    "parallel_rf/phase_worker.py": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3",
+    "parallel_rf/science.py": "e36c8040c7dca254fc7e16a53ffe860872df31a77868a7bc6480162f32d253c6",
+    "parallel_rf/worker.py": "5741d1f60b513a6da0023e508b8d17d28e8f6e4355f30c08d5cfb81f1f233ab9",
+    "phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+    "science.py": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+    "svm_margin/phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+    "svm_margin/science.py": "c91c97503412f4c5a119ba6cd444c78261315cbd774c8f137768be531172d4c8",
+    "svm_margin/worker.py": "31bb90a980501142d921b44c3059e200f50846af073137cebe391039d76fc5dd",
+    "worker.py": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18"
+  },
+  "test_information_history": "E1/E2 fixed test results already observed; later plans frozen before new test evaluations"
+}

@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "412109c342b668f06977cc6a2f1f303133ab617307924e8e642eb76c200a29eb",
+  "attempt_id": "1793117033_6f2061f4",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-27T16:04:56.928171+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7427465338644667,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        12430,
+        10453,
+        4132,
+        492,
+        208,
+        88,
+        404
+      ],
+      [
+        3139,
+        44152,
+        61207,
+        1966,
+        409,
+        74,
+        602
+      ],
+      [
+        265,
+        10761,
+        167060,
+        15162,
+        1207,
+        85,
+        278
+      ],
+      [
+        95,
+        1208,
+        22489,
+        79817,
+        3245,
+        66,
+        96
+      ],
+      [
+        18,
+        147,
+        1102,
+        2926,
+        38985,
+        11,
+        13
+      ],
+      [
+        9,
+        114,
+        69,
+        49,
+        14,
+        7302,
+        123
+      ],
+      [
+        90,
+        338,
+        121,
+        62,
+        12,
+        83,
+        6822
+      ]
+    ],
+    "coverage": 0.897822,
+    "fit_key": "e4/rep_2/fit/treatment/random_forest/F_half_generated_copula",
+    "per_class": {
+      "0": {
+        "coverage": 0.7379019392349416,
+        "n": 28207,
+        "recall": 0.4406707554862268,
+        "set_size": 2.0048924025951007
+      },
+      "1": {
+        "coverage": 0.7541708128266502,
+        "n": 111549,
+        "recall": 0.39580812019829853,
+        "set_size": 1.7681288043819308
+      },
+      "2": {
+        "coverage": 0.9755823383876233,
+        "n": 194818,
+        "recall": 0.8575182991304705,
+        "set_size": 1.649524171277808
+      },
+      "3": {
+        "coverage": 0.9144427001569859,
+        "n": 107016,
+        "recall": 0.7458417432907228,
+        "set_size": 1.5350228003289228
+      },
+      "4": {
+        "coverage": 0.961784176658488,
+        "n": 43202,
+        "recall": 0.902388778297301,
+        "set_size": 1.2785287718161196
+      },
+      "5": {
+        "coverage": 0.9657552083333333,
+        "n": 7680,
+        "recall": 0.95078125,
+        "set_size": 1.0947916666666666
+      },
+      "6": {
+        "coverage": 0.9406216790648246,
+        "n": 7528,
+        "recall": 0.9062167906482466,
+        "set_size": 1.2760361317747078
+      }
+    },
+    "pipeline_sha256": "145363f88f3080ba9d9e6ca733f4f979f8628650e4a31d5e654d55bfc57877d2",
+    "score_kind": "probability",
+    "set_size": 1.625326,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.83
+  },
+  "started_at": "2026-10-27T16:03:53.458088+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_2/eval/treatment/random_forest/F_half_generated_copula",
+    "condition": "F_half_generated_copula",
+    "dependencies": [
+      "e4/rep_2/fit/treatment/random_forest/F_half_generated_copula"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_2/fit/treatment/random_forest/F_half_generated_copula",
+    "generator": "copula",
+    "key": "e4/rep_2/eval/treatment/random_forest/F_half_generated_copula",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 2,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 1,
+    "target_label": "F",
+    "treatment": "generated_copula"
+  },
+  "task_sha256": "8f761a77d2a0cc46a886527afe43fed09ad904406c506cf8106784d37fc79752"
+}

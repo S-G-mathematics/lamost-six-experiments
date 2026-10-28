@@ -1,0 +1,187 @@
+{
+  "artifact_sha256": "9918291d7c87b0961ed319fb8d416724a5561af29f82ce09c90c95720a8250de",
+  "attempt_id": "1792964646_65da3b86",
+  "engine_code_sha256": "9e4ac4f2f275ae38d1577b836720313f30147dd866c1dc6da5c581c93441f20b",
+  "finished_at": "2026-10-25T21:44:10.286175+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.48389501790937406,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "calibration_score_kind": "margin",
+    "confusion_matrix": [
+      [
+        17,
+        11671,
+        15143,
+        618,
+        656,
+        88,
+        14
+      ],
+      [
+        40,
+        19853,
+        88333,
+        1996,
+        1238,
+        76,
+        13
+      ],
+      [
+        71,
+        9603,
+        162665,
+        16528,
+        5836,
+        97,
+        18
+      ],
+      [
+        36,
+        450,
+        32139,
+        72816,
+        1502,
+        69,
+        4
+      ],
+      [
+        57,
+        39,
+        1975,
+        9732,
+        31384,
+        15,
+        0
+      ],
+      [
+        32,
+        92,
+        47,
+        138,
+        20,
+        7351,
+        0
+      ],
+      [
+        410,
+        5872,
+        26,
+        991,
+        53,
+        103,
+        73
+      ]
+    ],
+    "coverage": 0.88907,
+    "fit_key": "e4/rep_1/fit/direct/linear_svm/QSO_tenth",
+    "nonconformity_rule": "negative_margin",
+    "per_class": {
+      "0": {
+        "coverage": 0.21547842734073103,
+        "n": 28207,
+        "recall": 0.0006026872762080335,
+        "set_size": 2.1498918708122097
+      },
+      "1": {
+        "coverage": 0.8563232301499789,
+        "n": 111549,
+        "recall": 0.1779755981676214,
+        "set_size": 1.9483634994486727
+      },
+      "2": {
+        "coverage": 0.983866993809607,
+        "n": 194818,
+        "recall": 0.8349587820427271,
+        "set_size": 2.048804525249207
+      },
+      "3": {
+        "coverage": 0.9250018688794199,
+        "n": 107016,
+        "recall": 0.6804216191971294,
+        "set_size": 2.0738207370860433
+      },
+      "4": {
+        "coverage": 0.9301189759733346,
+        "n": 43202,
+        "recall": 0.7264478496365909,
+        "set_size": 1.713554928012592
+      },
+      "5": {
+        "coverage": 0.9734375,
+        "n": 7680,
+        "recall": 0.9571614583333333,
+        "set_size": 1.2486979166666667
+      },
+      "6": {
+        "coverage": 0.6125132837407014,
+        "n": 7528,
+        "recall": 0.0096971307120085,
+        "set_size": 2.9197662061636556
+      }
+    },
+    "pipeline_sha256": "a70acbe368950bc3948b70bbc246ff94a5c1853fe5b6cd4d2604931b685f4e3d",
+    "prediction_rule": "argmax_class_score",
+    "score_kind": "margin",
+    "set_size": 2.00931,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.5310214074404191
+  },
+  "started_at": "2026-10-25T21:44:06.616214+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_1/eval/direct/linear_svm/QSO_tenth",
+    "condition": "QSO_tenth",
+    "dependencies": [
+      "e4/rep_1/fit/direct/linear_svm/QSO_tenth"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_1/fit/direct/linear_svm/QSO_tenth",
+    "generator": null,
+    "key": "e4/rep_1/eval/direct/linear_svm/QSO_tenth",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "linear_svm",
+    "rate": null,
+    "ratio": 0.1,
+    "rep": 1,
+    "route": "direct",
+    "scientific_case": true,
+    "target_class": 6,
+    "target_label": "QSO",
+    "treatment": null
+  },
+  "task_sha256": "e8ed0ed612160c9e0c0163472ba06b001daaef5ef975e9d40e12e012fbe98c7b"
+}

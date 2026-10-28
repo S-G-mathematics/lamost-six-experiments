@@ -1,0 +1,250 @@
+{
+  "best_tuning_balanced_accuracy": 0.5879164128992505,
+  "budget": 1000000,
+  "calibration_n": 100000,
+  "calibration_prediction_seconds": 0.20720931299729273,
+  "conformal_alpha": 0.1,
+  "conformal_nonconformity_threshold": 0.9525165148079395,
+  "duplicate_trials": 7,
+  "experiment": 1,
+  "failed_trials": 0,
+  "final_fit_seconds": 0.9126103459857404,
+  "fit_seconds_total": 3.233882117900066,
+  "invalid_support_fallback_count": {
+    "calibration": 0,
+    "test": 4,
+    "tuning": 3
+  },
+  "mean_prediction_set_size": 2.771396,
+  "memory_limit_exceeded": false,
+  "method": "chow_liu",
+  "peak_rss_kib": 1279928,
+  "repetition": 3,
+  "resource_profile": "native8gib8cores",
+  "roles": {
+    "budget": 1000000,
+    "requested_budget": 1000000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          5516,
+          22353,
+          39064,
+          21411,
+          8536,
+          1557,
+          1563
+        ],
+        "ids_sha256": "cc1debfd587fa14d86b9863c4100b9c27b73c44f9c0cf9e28c8090283329b6c4",
+        "n": 100000
+      },
+      "fit": {
+        "counts": [
+          45190,
+          178458,
+          311661,
+          171221,
+          69172,
+          12278,
+          12020
+        ],
+        "ids_sha256": "3b415286669dbad8a061889e9a93adb5635775733d2cfdc44e5e25e792cd5a16",
+        "n": 800000
+      },
+      "tune": {
+        "counts": [
+          5649,
+          22307,
+          38956,
+          21402,
+          8647,
+          1536,
+          1503
+        ],
+        "ids_sha256": "96a4db72e18163f2244631771192db23a14a7c3eae59259459bd06c4f8c3dbe4",
+        "n": 100000
+      }
+    },
+    "status": "ok"
+  },
+  "score_kind": "probability",
+  "seed": 271830,
+  "selected_params": {
+    "n_bins": 32
+  },
+  "selected_tuning_prediction_seconds": 0.20794720499543473,
+  "status": "complete",
+  "successful_trials": 3,
+  "test_coverage": 0.90147,
+  "test_metrics": {
+    "balanced_accuracy": 0.5910698074820419,
+    "per_class": {
+      "0": {
+        "coverage": 0.7053213741269898,
+        "n": 28207,
+        "recall": 0.13939802176764632,
+        "set_size": 2.6758606019782323
+      },
+      "1": {
+        "coverage": 0.8831903468430914,
+        "n": 111549,
+        "recall": 0.47160440703188733,
+        "set_size": 2.9436032595540973
+      },
+      "2": {
+        "coverage": 0.9125696804196738,
+        "n": 194818,
+        "recall": 0.434436243057623,
+        "set_size": 2.991145582030408
+      },
+      "3": {
+        "coverage": 0.9164891231217762,
+        "n": 107016,
+        "recall": 0.5507587650444793,
+        "set_size": 2.8388745608133363
+      },
+      "4": {
+        "coverage": 0.9712976251099487,
+        "n": 43202,
+        "recall": 0.7390630063422989,
+        "set_size": 1.6859404657191797
+      },
+      "5": {
+        "coverage": 0.96875,
+        "n": 7680,
+        "recall": 0.9462239583333333,
+        "set_size": 1.203125
+      },
+      "6": {
+        "coverage": 0.9371679064824655,
+        "n": 7528,
+        "recall": 0.8560042507970245,
+        "set_size": 1.760626992561105
+      }
+    }
+  },
+  "test_prediction_seconds": 0.9377485499717295,
+  "trial_budget": 10,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "n_bins": 8
+      },
+      "peak_rss_kib": 1279928,
+      "seconds": 1.035703575995285,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.47075643255334015
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1279928,
+      "seconds": 1.1216760390088893,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5879164128992505
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1279928,
+      "seconds": 0.000272950972430408,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.5879164128992505
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "n_bins": 16
+      },
+      "peak_rss_kib": 1279928,
+      "seconds": 1.0728746309760027,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.5043416012697625
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 4,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1279928,
+      "seconds": 0.0006472099921666086,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.5879164128992505
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 5,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1279928,
+      "seconds": 0.0005537900142371655,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.5879164128992505
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 6,
+      "params": {
+        "n_bins": 8
+      },
+      "peak_rss_kib": 1279928,
+      "seconds": 0.0005036689690314233,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.47075643255334015
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 7,
+      "params": {
+        "n_bins": 16
+      },
+      "peak_rss_kib": 1279928,
+      "seconds": 0.0005071319756098092,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.5043416012697625
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 8,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1279928,
+      "seconds": 0.0005382560193538666,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.5879164128992505
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 9,
+      "params": {
+        "n_bins": 32
+      },
+      "peak_rss_kib": 1279928,
+      "seconds": 0.000604863977059722,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.5879164128992505
+    }
+  ]
+}

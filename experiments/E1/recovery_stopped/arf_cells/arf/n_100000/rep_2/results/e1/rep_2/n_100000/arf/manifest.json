@@ -1,0 +1,214 @@
+{
+  "best_tuning_balanced_accuracy": 0.6363333621585644,
+  "budget": 100000,
+  "calibration_n": 10000,
+  "calibration_prediction_seconds": 9.00791152601596,
+  "conformal_alpha": 0.1,
+  "conformal_nonconformity_threshold": 0.9204328805208206,
+  "duplicate_trials": 1,
+  "experiment": 1,
+  "failed_trials": 2,
+  "final_fit_seconds": 453.57494334998773,
+  "fit_seconds_total": 1891.8338563360157,
+  "invalid_support_fallback_count": {
+    "calibration": 0,
+    "test": 0,
+    "tuning": 0
+  },
+  "mean_prediction_set_size": 2.182892,
+  "memory_limit_exceeded": false,
+  "method": "arf",
+  "peak_rss_kib": 4705664,
+  "repetition": 2,
+  "resource_profile": "native8gib8cores",
+  "roles": {
+    "budget": 100000,
+    "requested_budget": 100000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          597,
+          2246,
+          3971,
+          2064,
+          845,
+          143,
+          134
+        ],
+        "ids_sha256": "a4ab469036e79bedd5ae67eb4d27ff82b2fb11a6e62eec7f43a10013e584a2b6",
+        "n": 10000
+      },
+      "fit": {
+        "counts": [
+          4510,
+          17854,
+          31168,
+          17120,
+          6914,
+          1230,
+          1204
+        ],
+        "ids_sha256": "8a882323afbc0b53b7c06c3afa758b62a0ee4d6555f4cd66780565521a368b32",
+        "n": 80000
+      },
+      "tune": {
+        "counts": [
+          564,
+          2232,
+          3895,
+          2140,
+          864,
+          154,
+          151
+        ],
+        "ids_sha256": "56acdee1a36d508933a0c8c4fc83a766de6fc33a050c536fc10eecda51d0e591",
+        "n": 10000
+      }
+    },
+    "status": "ok"
+  },
+  "score_kind": "probability",
+  "seed": 271829,
+  "selected_params": {
+    "density_dist": "truncnorm",
+    "finite_bounds": "no",
+    "max_depth": 10,
+    "min_samples_leaf": 100,
+    "num_trees": 300
+  },
+  "selected_tuning_prediction_seconds": 9.018323334981687,
+  "status": "complete",
+  "successful_trials": 2,
+  "test_coverage": 0.897616,
+  "test_metrics": {
+    "balanced_accuracy": 0.6342647683199557,
+    "per_class": {
+      "0": {
+        "coverage": 0.507994469457936,
+        "n": 28207,
+        "recall": 0.2271776509377105,
+        "set_size": 2.504201084837097
+      },
+      "1": {
+        "coverage": 0.8667670709732942,
+        "n": 111549,
+        "recall": 0.42329379913759874,
+        "set_size": 2.25752808182951
+      },
+      "2": {
+        "coverage": 0.9533667320268148,
+        "n": 194818,
+        "recall": 0.6563664548450349,
+        "set_size": 2.2638257245223747
+      },
+      "3": {
+        "coverage": 0.9081539209090229,
+        "n": 107016,
+        "recall": 0.5517118935486283,
+        "set_size": 2.1599947671376243
+      },
+      "4": {
+        "coverage": 0.9419471320772187,
+        "n": 43202,
+        "recall": 0.7543400768482941,
+        "set_size": 1.8211425396972363
+      },
+      "5": {
+        "coverage": 0.953515625,
+        "n": 7680,
+        "recall": 0.93828125,
+        "set_size": 1.1622395833333334
+      },
+      "6": {
+        "coverage": 0.9106004250797024,
+        "n": 7528,
+        "recall": 0.888682252922423,
+        "set_size": 1.2213071200850159
+      }
+    }
+  },
+  "test_prediction_seconds": 382.5252997230273,
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 100,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 4513800,
+      "seconds": 555.6493455899763,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6363333621585644
+    },
+    {
+      "error": "TrialTimeout: trial exceeded 600s timeout",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_arf.py\", line 98, in fit\n    model = arf_module.arf(\n            ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/arfpy/arf.py\", line 120, in __init__\n    x_synth = [grpd.get_group(ind).apply(lambda x: x.sample(n=grpd.get_group(ind)['cnt'].iloc[0], replace = True).values) for ind in grpd.indices]\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/pandas/core/frame.py\", line 10374, in apply\n    return op.apply().__finalize__(self, method=\"apply\")\n           ^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/pandas/core/apply.py\", line 916, in apply\n    return self.apply_standard()\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/pandas/core/apply.py\", line 1063, in apply_standard\n    results, res_index = self.apply_series_generator()\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/pandas/core/apply.py\", line 1081, in apply_series_generator\n    results[i] = self.func(v, *self.args, **self.kwargs)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/arfpy/arf.py\", line 120, in <lambda>\n    x_synth = [grpd.get_group(ind).apply(lambda x: x.sample(n=grpd.get_group(ind)['cnt'].iloc[0], replace = True).values) for ind in grpd.indices]\n                                                              ^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/pandas/core/groupby/groupby.py\", line 1118, in get_group\n    return self._selected_obj.iloc[indexer]\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/pandas/core/indexing.py\", line 1191, in __getitem__\n    return self._getitem_axis(maybe_callable, axis=axis)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/pandas/core/indexing.py\", line 1743, in _getitem_axis\n    return self._get_list_axis(key, axis=axis)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/pandas/core/indexing.py\", line 1714, in _get_list_axis\n    return self.obj._take_with_is_copy(key, axis=axis)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/pandas/core/generic.py\", line 4153, in _take_with_is_copy\n    result = self.take(indices=indices, axis=axis)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/pandas/core/generic.py\", line 4133, in take\n    new_data = self._mgr.take(\n               ^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages/pandas/core/internals/managers.py\", line 869, in take\n    def take(\n    \n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 129, in handler\n    def handler(_sig, _frame): raise TrialTimeout(f\"trial exceeded {seconds}s timeout\")\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nbenchmark.engine._timeout.<locals>.TrialTimeout: trial exceeded 600s timeout\n",
+      "number": 1,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 100,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 4513800,
+      "seconds": 600.097131440998,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 100,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 4513800,
+      "seconds": 0.0003954910207539797,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.6363333621585644
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 20,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 4705664,
+      "seconds": 559.6392800449976,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6276300700517614
+    },
+    {
+      "error": "UnsupportedARFError: class 1 has a singular FORDE continuous marginal",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_arf.py\", line 116, in fit\n    raise UnsupportedARFError(f\"class {c} has a singular FORDE continuous marginal\")\nbenchmark.models_arf.UnsupportedARFError: class 1 has a singular FORDE continuous marginal\n",
+      "number": 4,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 5,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 4705664,
+      "seconds": 176.44770376902306,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "admission_reservation_gib": 10,
+  "fit_n_jobs": 4,
+  "native_threads": 1,
+  "phase_timeout_seconds": 600,
+  "policy_id": "rf4-fit_n_jobs4-v1",
+  "prediction_and_serialized_estimator_jobs": 1,
+  "prediction_n_jobs": 1,
+  "prepared_utc": "2026-10-27T21:03:57.245789+00:00",
+  "qualification": {
+    "path": "reports/engineering_audits/RF4_EXECUTION_QUALIFICATION_20261028.json",
+    "sha256": "30977334bb41d7e9061d55ee204caf5efcfb344d4eb6dbd71138dce6c15cb331"
+  },
+  "resource_profile_id": "rf-fit_n_jobs4",
+  "schema": "lamost-later-rf4-execution-policy/1",
+  "scientific_failures_retried": false,
+  "scope": {
+    "experiments": [
+      4,
+      5
+    ],
+    "kind": "fit",
+    "methods": [
+      "random_forest"
+    ],
+    "never_attempted": true,
+    "reuse_pipeline": false
+  },
+  "source_sha256": {
+    "parallel_rf/phase_worker.py": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3",
+    "parallel_rf/science.py": "e36c8040c7dca254fc7e16a53ffe860872df31a77868a7bc6480162f32d253c6",
+    "parallel_rf/worker.py": "5741d1f60b513a6da0023e508b8d17d28e8f6e4355f30c08d5cfb81f1f233ab9"
+  },
+  "status": "qualified",
+  "termination_grace_seconds": 30,
+  "test_information_history": "E1/E2 and earlier later-experiment outcomes already observed; this is a prospective execution-only amendment authorized to use spare CPU; no outcome-based configuration selection.",
+  "timing_comparability": "Record execution group; earlier one-job and later four-job fit durations differ in resource policy; no byte-identity or speedup claim before actual observation",
+  "trial_counts_domains_seeds": "unchanged frozen task plan and method definitions",
+  "trial_timeout_seconds": 600,
+  "worker_memory_limit_gib": 10
+}

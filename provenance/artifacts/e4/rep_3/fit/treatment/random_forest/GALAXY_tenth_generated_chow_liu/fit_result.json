@@ -1,0 +1,74 @@
+{
+  "artifact_sha256": "01eb8184aebf8ad366c8a0f8bb6002c93e21f3131fd8fc9a001e819a8e0f5924",
+  "attempt_id": "1793103452_78c1c379",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-27T12:28:37.575721+00:00",
+  "reason": null,
+  "result": {
+    "class_counts": [
+      4583,
+      18096,
+      31603,
+      17362,
+      7014,
+      1245,
+      1219
+    ],
+    "fit_seconds": 30.666375017957762,
+    "params": {
+      "max_depth": 20,
+      "max_features": "sqrt",
+      "min_samples_leaf": 1,
+      "n_estimators": 200
+    },
+    "phase_supervision": {
+      "exit_code": 0,
+      "finished_at": "2026-10-27T12:28:37.450903+00:00",
+      "peak_tree_rss_kib": 1039424,
+      "phase": "final_fit",
+      "reason": null,
+      "seconds": 36.90131395997014
+    },
+    "pipeline_sha256": "01eb8184aebf8ad366c8a0f8bb6002c93e21f3131fd8fc9a001e819a8e0f5924",
+    "seed": 489175605,
+    "source_sha256": "6ff444de233520d2cca64f89c99dc5adf6e6c9d29735bd316461ea3bde04aee9",
+    "status": "success",
+    "training_X_sha256": "c379e447ad715a10ee42b3fa0c00202a82ae4414dc3c2d2533986e715430dccb",
+    "training_ids_sha256": "6d4c86bb212f07da6bb44e1246f3b87c127c73eafa565e5cc64e8b3b4bd0779c",
+    "training_rows": 81122,
+    "training_y_sha256": "65308bb915f6bac7edbdd460b304c092e837d61311ec0c60ef76d9bb6cf862f4"
+  },
+  "started_at": "2026-10-27T12:17:32.504450+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_3/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+    "clean_control_key": "e3/rep_3/fit/real/random_forest",
+    "condition": "GALAXY_tenth_generated_chow_liu",
+    "dependencies": [
+      "e4/rep_3/append/GALAXY_tenth/chow_liu"
+    ],
+    "experiment": 4,
+    "generator": "chow_liu",
+    "key": "e4/rep_3/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+    "kind": "fit",
+    "mechanism": null,
+    "method": "random_forest",
+    "optimizer_seed": 1395218551,
+    "rate": null,
+    "ratio": null,
+    "rep": 3,
+    "route": "treatment",
+    "scientific_case": false,
+    "seed": 489175605,
+    "selection_key": null,
+    "selection_mode": "tune",
+    "selection_policy": "tune_each_treatment_on_same_frozen_tuning_role_with_equal_10_trial_budget",
+    "selection_source": null,
+    "target_class": null,
+    "train_key": "e4/rep_3/append/GALAXY_tenth/chow_liu",
+    "train_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_3/append/GALAXY_tenth/chow_liu/data.npz",
+    "treatment": "generated_chow_liu",
+    "trials": 10
+  },
+  "task_sha256": "63677bf982cca2ae66e955a4d617b4cbfb96a041a40962d43d3c9c59266664e4"
+}

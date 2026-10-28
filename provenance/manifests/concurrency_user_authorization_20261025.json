@@ -1,0 +1,51 @@
+{
+  "application_status": "applied",
+  "applied_utc": "2026-10-25T16:56:04.059139+00:00",
+  "authorization_quote": "u can aprallise to peak as much as you can no 2 workers cap but compelte all 6 experiemtnsd fasyt",
+  "controller_sha256": "f1b5c1c12a52d95f0d76e63ee988c6e5c9092f8242922d64ab07ed79097ab243",
+  "latest_operational_amendment_utc": "2026-10-25T17:12:32.165349+00:00",
+  "recorded_utc": "2026-10-25T16:37:27.897306+00:00",
+  "resource_policy": {
+    "admission_pause_below_gib": 8,
+    "alias_reservation_gib": 0.25,
+    "bounded_helper_reservation_gib": 1,
+    "commitment_growth_margin_gib": 2,
+    "cpu_reserve_cores": 2,
+    "emergency_backoff_seconds": 60,
+    "host_os_harbor_reserve_gib": 6,
+    "max_operational_recoveries": 2,
+    "nested_threads": 1,
+    "phase_timeout_seconds": 600,
+    "prediction_chunk_rows": 50000,
+    "queue_packing": "retain one heavy fitting lane and prefer admissible light work before additional heavy fits",
+    "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+    "retry_cooldown_seconds": [
+      60,
+      120,
+      300
+    ],
+    "termination_grace_seconds": 30,
+    "trial_timeout_seconds": 600,
+    "worker_admission_reservation_gib_by_class": {
+      "heavy": 10,
+      "light": 2
+    },
+    "worker_count_ceiling": "cpu-derived",
+    "worker_memory_limit_gib": 10,
+    "worker_nice": 10
+  },
+  "scientific_information_history": "earlier E1/E2 and partial E3 test outcomes already observed; change is user-directed operational concurrency, not test-performance-based method selection",
+  "scope": "adaptive CPU/RAM/storage-aware concurrency on the same existing EC2; no additional infrastructure or Harbor actions",
+  "supersedes": "earlier user maximum of two concurrent workers, for remaining authorized E3-E6 work",
+  "unchanged": [
+    "frozen E1 and early-stopped recovery",
+    "E2 no-fitting decision",
+    "all6270 frozen task definitions and original scientific freeze time",
+    "fixed trial counts and domains",
+    "600-second trial and supervised phase limits",
+    "10GiB worker process-tree RSS maximum",
+    "no retry of ordinary terminal failures",
+    "no bootstrap",
+    "native library thread cap1"
+  ]
+}

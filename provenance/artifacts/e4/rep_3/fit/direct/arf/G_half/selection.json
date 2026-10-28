@@ -1,0 +1,70 @@
+{
+  "optimizer_seed": 1385102144,
+  "selected_params": {
+    "density_dist": "truncnorm",
+    "finite_bounds": "no",
+    "max_depth": null,
+    "min_samples_leaf": 100,
+    "num_trees": 100
+  },
+  "selected_score": 0.6630340103774431,
+  "selected_trial": 2,
+  "trials": [
+    {
+      "error": "phase_timeout: {\"exit_code\":-15,\"finished_at\":\"2026-10-27T16:24:04.238791+00:00\",\"peak_tree_rss_kib\":2524660,\"phase\":\"trial_0\",\"reason\":\"timeout\",\"seconds\":600.2951608749572}",
+      "number": 0,
+      "params": {
+        "max_depth": null,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "status": "scientific_failure"
+    },
+    {
+      "number": 1,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 20,
+        "num_trees": 300
+      },
+      "score": 0.6496949111308602,
+      "seconds": 495.03148240898736,
+      "status": "success"
+    },
+    {
+      "number": 2,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 100,
+        "num_trees": 100
+      },
+      "score": 0.6630340103774431,
+      "seconds": 485.3324145700317,
+      "status": "success"
+    },
+    {
+      "error": "phase_timeout: {\"exit_code\":-15,\"finished_at\":\"2026-10-27T16:50:25.043862+00:00\",\"peak_tree_rss_kib\":1994392,\"phase\":\"trial_3\",\"reason\":\"timeout\",\"seconds\":600.2728056409396}",
+      "number": 3,
+      "params": {
+        "max_depth": null,
+        "min_samples_leaf": 100,
+        "num_trees": 300
+      },
+      "status": "scientific_failure"
+    },
+    {
+      "error": "phase_exit_1: {'category': 'scientific_failure', 'exception_type': 'ScientificFitFailure', 'message': 'UnsupportedARFError: class 1 has a singular FORDE continuous marginal', 'phase': 'trial_4', 'traceback': 'Traceback (most recent call last):\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 90, in _train_model\\n    return model.fit(X,y)\\n           ^^^^^^^^^^^^^^\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_arf.py\", line 116, in fit\\n    raise UnsupportedARFError(f\"class {c} has a singular FORDE continuous marginal\")\\nbenchmark.models_arf.UnsupportedARFError: class 1 has a singular FORDE continuous marginal\\n\\nThe above exception was the direct cause of the following exception:\\n\\nTraceback (most recent call last):\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/phase_worker.py\", line 8, in <module>\\n    result=science.worker(cfg)\\n           ^^^^^^^^^^^^^^^^^^^\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 313, in worker\\n    if ph==\"final_fit\" or ph==\"trial\" or ph.startswith(\"trial_\"): return _fit_phase(payload)\\n                                                                         ^^^^^^^^^^^^^^^^^^^\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 161, in _fit_phase\\n    _train_model(model,Xt,y,sw)\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 92, in _train_model\\n    raise ScientificFitFailure(f\"{type(e).__name__}: {e}\") from e\\nscience.ScientificFitFailure: UnsupportedARFError: class 1 has a singular FORDE continuous marginal\\n'}; supervision={\"exit_code\":1,\"finished_at\":\"2026-10-27T16:54:35.921849+00:00\",\"peak_tree_rss_kib\":1122148,\"phase\":\"trial_4\",\"reason\":null,\"seconds\":250.83899629104417}",
+      "number": 4,
+      "params": {
+        "max_depth": null,
+        "min_samples_leaf": 5,
+        "num_trees": 100
+      },
+      "status": "scientific_failure"
+    }
+  ]
+}

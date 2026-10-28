@@ -1,0 +1,1123 @@
+{
+  "audit_finished_utc": "2026-10-27T11:21:10.170818+00:00",
+  "auditor": {
+    "api": "Auditor.evaluation_audit(t, bykey, validset, alias=False)",
+    "full_run_called": false,
+    "global_cache_written": false,
+    "model_deserialization_fit_prediction_generation_or_recalibration": false,
+    "source_sha256": "28897e9d8717449a32d16bf500b2633bc509f1ee506c805db84ed1d0d5289be3",
+    "version": "2.11-cold-zip-verified-artifact-io"
+  },
+  "limitations": [
+    "Saved artifact, role, metric, and integrity checks only; no selected-model internals, calibration-q replay, or score recomputation.",
+    "This does not complete E4 and is not a global artifact audit. Failures and pending cases remain as observed."
+  ],
+  "provenance": {
+    "cold_cli_deferral_note": {
+      "current_metadata_inputs": {
+        "auditcache_sha256": "8e72caf8d0059f56bb47884dbebcd22897513a3e93b3b02e08ff9f8af411d5d6",
+        "canonical_auditcache_entries_for_cold_members": 69,
+        "cold_archive_sha256_from_manifest": "ae73324a88e78d9d6564f62c9553099de4dbf27ba320c29089b46a09dd06a044",
+        "cold_archive_stat_bytes": 25366421589,
+        "cold_archive_stat_ctime_ns": 1793099582403836740,
+        "cold_logical_model_bytes": 29744098298,
+        "cold_manifest_sha256": "03cb0153ff76d868a2f90b3ad5565dc8d5b347353008dba010fadf2e8facb772",
+        "cold_member_count": 129,
+        "cold_semantic_identity_matches_current_manifest": 0,
+        "cold_semantic_identity_nonmatches_or_missing": 129,
+        "observed_utc": "2026-10-27T11:21:04.578487+00:00"
+      },
+      "current_scoped_source_sha256": "28897e9d8717449a32d16bf500b2633bc509f1ee506c805db84ed1d0d5289be3",
+      "earlier_global_cli_observation": {
+        "auditor_source_sha_prefix": "06196d",
+        "cold_logical_model_bytes": 29262270392,
+        "cold_members": 127,
+        "duration_seconds": 295.9,
+        "historical_observation_time": "not captured in this scoped run",
+        "matching_cache_identities": 0,
+        "peak_rss_bytes": 296419328
+      },
+      "interpretation": "Global CLI is deferred because its whole-project cold model pass would decode cold artifacts under the global cold-reader lease; this scoped audit accesses selected raw E4 ARF pipelines only."
+    },
+    "cold_manifest_sha256_at_plan": "03cb0153ff76d868a2f90b3ad5565dc8d5b347353008dba010fadf2e8facb772",
+    "cold_member_count_at_plan": 129,
+    "global_auditcache_sha256_before": "8e72caf8d0059f56bb47884dbebcd22897513a3e93b3b02e08ff9f8af411d5d6",
+    "global_auditcache_unchanged": true,
+    "private_plan_canonical_payload_sha256": "11af76f218acd4cdf15462bc19880b7f65d0973776e7d709bf83ff289abc7520",
+    "private_plan_file_sha256": "2adda8140c253067a54df142ed9c496d8bd10dd397f993f7326d4dc09a96bda3",
+    "selected_model_bytes": 439644047,
+    "selected_model_hashes_before_after": [
+      {
+        "bytes": 8758614,
+        "bytes_after": 8758614,
+        "fit_key": "e4/rep_1/fit/direct/arf/A_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/A_half/pipeline.joblib",
+        "sha256_after": "4c3d1bfca985ba8d0aab071f31fdfcc529e1f894afe7299a82f952916401a70a",
+        "sha256_before": "4c3d1bfca985ba8d0aab071f31fdfcc529e1f894afe7299a82f952916401a70a",
+        "task_key": "e4/rep_1/eval/direct/arf/A_half"
+      },
+      {
+        "bytes": 21818072,
+        "bytes_after": 21818072,
+        "fit_key": "e4/rep_1/fit/direct/arf/F_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/F_half/pipeline.joblib",
+        "sha256_after": "b8b83d9dd86fad56830db84f35636382ec3c66c92a79df09f5330f8d254569e8",
+        "sha256_before": "b8b83d9dd86fad56830db84f35636382ec3c66c92a79df09f5330f8d254569e8",
+        "task_key": "e4/rep_1/eval/direct/arf/F_half"
+      },
+      {
+        "bytes": 21988074,
+        "bytes_after": 21988074,
+        "fit_key": "e4/rep_1/fit/direct/arf/F_tenth",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/F_tenth/pipeline.joblib",
+        "sha256_after": "f337988e3d8c0e446b6952eda65959ffcf2325fe150a1c0f9f4794ca21825b76",
+        "sha256_before": "f337988e3d8c0e446b6952eda65959ffcf2325fe150a1c0f9f4794ca21825b76",
+        "task_key": "e4/rep_1/eval/direct/arf/F_tenth"
+      },
+      {
+        "bytes": 20943767,
+        "bytes_after": 20943767,
+        "fit_key": "e4/rep_1/fit/direct/arf/GALAXY_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/GALAXY_half/pipeline.joblib",
+        "sha256_after": "ff48123e7e3c2035ac69ba21155652b78325ac7fec5641edd71e52f6626e28e8",
+        "sha256_before": "ff48123e7e3c2035ac69ba21155652b78325ac7fec5641edd71e52f6626e28e8",
+        "task_key": "e4/rep_1/eval/direct/arf/GALAXY_half"
+      },
+      {
+        "bytes": 13718524,
+        "bytes_after": 13718524,
+        "fit_key": "e4/rep_1/fit/direct/arf/GALAXY_tenth",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/GALAXY_tenth/pipeline.joblib",
+        "sha256_after": "e69b292aef358498196522f157c996f0b97e3942b7c8a04596c804109805bbb2",
+        "sha256_before": "e69b292aef358498196522f157c996f0b97e3942b7c8a04596c804109805bbb2",
+        "task_key": "e4/rep_1/eval/direct/arf/GALAXY_tenth"
+      },
+      {
+        "bytes": 21025835,
+        "bytes_after": 21025835,
+        "fit_key": "e4/rep_1/fit/direct/arf/G_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/G_half/pipeline.joblib",
+        "sha256_after": "beb39433a8dee3e3363a11d1ccaf267a527fe905a62b93d8976692af3032b95d",
+        "sha256_before": "beb39433a8dee3e3363a11d1ccaf267a527fe905a62b93d8976692af3032b95d",
+        "task_key": "e4/rep_1/eval/direct/arf/G_half"
+      },
+      {
+        "bytes": 21081832,
+        "bytes_after": 21081832,
+        "fit_key": "e4/rep_1/fit/direct/arf/G_tenth",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/G_tenth/pipeline.joblib",
+        "sha256_after": "5a9a4767989c8a8621152c24651cca1eddcc5886d45d7e0cc2786177cd5aee92",
+        "sha256_before": "5a9a4767989c8a8621152c24651cca1eddcc5886d45d7e0cc2786177cd5aee92",
+        "task_key": "e4/rep_1/eval/direct/arf/G_tenth"
+      },
+      {
+        "bytes": 14164810,
+        "bytes_after": 14164810,
+        "fit_key": "e4/rep_1/fit/direct/arf/K_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/K_half/pipeline.joblib",
+        "sha256_after": "9d234e6f94c0dff52a1e16798cb81715f68915b70dcdbdcdbdffc91aefdfe514",
+        "sha256_before": "9d234e6f94c0dff52a1e16798cb81715f68915b70dcdbdcdbdffc91aefdfe514",
+        "task_key": "e4/rep_1/eval/direct/arf/K_half"
+      },
+      {
+        "bytes": 14520767,
+        "bytes_after": 14520767,
+        "fit_key": "e4/rep_1/fit/direct/arf/M_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/M_half/pipeline.joblib",
+        "sha256_after": "130a7a6f301cbc1b9922140acd063105dd756067d7feeffa58a929bbfbe51d11",
+        "sha256_before": "130a7a6f301cbc1b9922140acd063105dd756067d7feeffa58a929bbfbe51d11",
+        "task_key": "e4/rep_1/eval/direct/arf/M_half"
+      },
+      {
+        "bytes": 13796085,
+        "bytes_after": 13796085,
+        "fit_key": "e4/rep_1/fit/direct/arf/M_tenth",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/M_tenth/pipeline.joblib",
+        "sha256_after": "ff642bca9474b5349770046f862bb6f936dd343b5e8846044c09e3f995397c7b",
+        "sha256_before": "ff642bca9474b5349770046f862bb6f936dd343b5e8846044c09e3f995397c7b",
+        "task_key": "e4/rep_1/eval/direct/arf/M_tenth"
+      },
+      {
+        "bytes": 20951113,
+        "bytes_after": 20951113,
+        "fit_key": "e4/rep_1/fit/direct/arf/QSO_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/QSO_half/pipeline.joblib",
+        "sha256_after": "1ec1ca634f5af7f6cd249b891814ee369454144e6d266baee1227559cc7d063d",
+        "sha256_before": "1ec1ca634f5af7f6cd249b891814ee369454144e6d266baee1227559cc7d063d",
+        "task_key": "e4/rep_1/eval/direct/arf/QSO_half"
+      },
+      {
+        "bytes": 13654769,
+        "bytes_after": 13654769,
+        "fit_key": "e4/rep_1/fit/direct/arf/QSO_tenth",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_1/fit/direct/arf/QSO_tenth/pipeline.joblib",
+        "sha256_after": "b0b91d8fba8ff6bcbcc56308563df98d7779c07ae7b93fc86621e7b1301aeb5b",
+        "sha256_before": "b0b91d8fba8ff6bcbcc56308563df98d7779c07ae7b93fc86621e7b1301aeb5b",
+        "task_key": "e4/rep_1/eval/direct/arf/QSO_tenth"
+      },
+      {
+        "bytes": 20958717,
+        "bytes_after": 20958717,
+        "fit_key": "e4/rep_2/fit/direct/arf/A_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/A_half/pipeline.joblib",
+        "sha256_after": "2c9e3fba4cf6fff5f5aaadc0637a6a582bab38f0496051c53bf98f345329a0eb",
+        "sha256_before": "2c9e3fba4cf6fff5f5aaadc0637a6a582bab38f0496051c53bf98f345329a0eb",
+        "task_key": "e4/rep_2/eval/direct/arf/A_half"
+      },
+      {
+        "bytes": 8456270,
+        "bytes_after": 8456270,
+        "fit_key": "e4/rep_2/fit/direct/arf/A_tenth",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/A_tenth/pipeline.joblib",
+        "sha256_after": "05c845d774ad37d27c5b074f77f598780195be424c179a1a38751629b5bb501c",
+        "sha256_before": "05c845d774ad37d27c5b074f77f598780195be424c179a1a38751629b5bb501c",
+        "task_key": "e4/rep_2/eval/direct/arf/A_tenth"
+      },
+      {
+        "bytes": 14539779,
+        "bytes_after": 14539779,
+        "fit_key": "e4/rep_2/fit/direct/arf/F_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/F_half/pipeline.joblib",
+        "sha256_after": "6d2439b831fe65cab52f602f6f7b685af11e6163ef3509d40062ef9c0890f6d2",
+        "sha256_before": "6d2439b831fe65cab52f602f6f7b685af11e6163ef3509d40062ef9c0890f6d2",
+        "task_key": "e4/rep_2/eval/direct/arf/F_half"
+      },
+      {
+        "bytes": 31804395,
+        "bytes_after": 31804395,
+        "fit_key": "e4/rep_2/fit/direct/arf/F_tenth",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/F_tenth/pipeline.joblib",
+        "sha256_after": "541848720f8b4ae02a2588b10a1748f64d10d5bde0db6cf45875985d75b2fa33",
+        "sha256_before": "541848720f8b4ae02a2588b10a1748f64d10d5bde0db6cf45875985d75b2fa33",
+        "task_key": "e4/rep_2/eval/direct/arf/F_tenth"
+      },
+      {
+        "bytes": 13894305,
+        "bytes_after": 13894305,
+        "fit_key": "e4/rep_2/fit/direct/arf/GALAXY_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/GALAXY_half/pipeline.joblib",
+        "sha256_after": "4c054fb66f1b8a0e89400b62e02889f0a980d21feef01e5cc78203f453d5adbc",
+        "sha256_before": "4c054fb66f1b8a0e89400b62e02889f0a980d21feef01e5cc78203f453d5adbc",
+        "task_key": "e4/rep_2/eval/direct/arf/GALAXY_half"
+      },
+      {
+        "bytes": 20921503,
+        "bytes_after": 20921503,
+        "fit_key": "e4/rep_2/fit/direct/arf/GALAXY_tenth",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/GALAXY_tenth/pipeline.joblib",
+        "sha256_after": "64443cef8219ec26f64d0b869cf706b23fdfb3ecb09fe39fad6243b8f9d06c28",
+        "sha256_before": "64443cef8219ec26f64d0b869cf706b23fdfb3ecb09fe39fad6243b8f9d06c28",
+        "task_key": "e4/rep_2/eval/direct/arf/GALAXY_tenth"
+      },
+      {
+        "bytes": 21138281,
+        "bytes_after": 21138281,
+        "fit_key": "e4/rep_2/fit/direct/arf/G_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/G_half/pipeline.joblib",
+        "sha256_after": "2bbd52901957d41964cf9d9277c0e035a4fb136f184cf3a560d96d9deaf0a268",
+        "sha256_before": "2bbd52901957d41964cf9d9277c0e035a4fb136f184cf3a560d96d9deaf0a268",
+        "task_key": "e4/rep_2/eval/direct/arf/G_half"
+      },
+      {
+        "bytes": 8933533,
+        "bytes_after": 8933533,
+        "fit_key": "e4/rep_2/fit/direct/arf/G_tenth",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/G_tenth/pipeline.joblib",
+        "sha256_after": "b1e22b1d497cd551c8c41dba8e07eee3806ba8aec999c87a836f730cbd2ac315",
+        "sha256_before": "b1e22b1d497cd551c8c41dba8e07eee3806ba8aec999c87a836f730cbd2ac315",
+        "task_key": "e4/rep_2/eval/direct/arf/G_tenth"
+      },
+      {
+        "bytes": 8754705,
+        "bytes_after": 8754705,
+        "fit_key": "e4/rep_2/fit/direct/arf/K_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/K_half/pipeline.joblib",
+        "sha256_after": "e08e086024ab4aacea634fa19ffa0cbad20700a133a5e8080332e37f7ab79dbd",
+        "sha256_before": "e08e086024ab4aacea634fa19ffa0cbad20700a133a5e8080332e37f7ab79dbd",
+        "task_key": "e4/rep_2/eval/direct/arf/K_half"
+      },
+      {
+        "bytes": 11074610,
+        "bytes_after": 11074610,
+        "fit_key": "e4/rep_2/fit/direct/arf/K_tenth",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/K_tenth/pipeline.joblib",
+        "sha256_after": "0d30a1373a89f3ada49753a30d8def514c7c0f2694a85055e7872df908e8b0e7",
+        "sha256_before": "0d30a1373a89f3ada49753a30d8def514c7c0f2694a85055e7872df908e8b0e7",
+        "task_key": "e4/rep_2/eval/direct/arf/K_tenth"
+      },
+      {
+        "bytes": 20978071,
+        "bytes_after": 20978071,
+        "fit_key": "e4/rep_2/fit/direct/arf/M_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/M_half/pipeline.joblib",
+        "sha256_after": "d3856db28d362043937d8123952c1a1a021fe9da010dd88d00350ee92dfa2b13",
+        "sha256_before": "d3856db28d362043937d8123952c1a1a021fe9da010dd88d00350ee92dfa2b13",
+        "task_key": "e4/rep_2/eval/direct/arf/M_half"
+      },
+      {
+        "bytes": 30782020,
+        "bytes_after": 30782020,
+        "fit_key": "e4/rep_2/fit/direct/arf/M_tenth",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/M_tenth/pipeline.joblib",
+        "sha256_after": "2deec57a7c62efa9becfe9042caa35970073af10f6b5369051c30af9420ad2e3",
+        "sha256_before": "2deec57a7c62efa9becfe9042caa35970073af10f6b5369051c30af9420ad2e3",
+        "task_key": "e4/rep_2/eval/direct/arf/M_tenth"
+      },
+      {
+        "bytes": 20985596,
+        "bytes_after": 20985596,
+        "fit_key": "e4/rep_2/fit/direct/arf/QSO_half",
+        "relative_path": "runtime_20261025/artifacts/e4/rep_2/fit/direct/arf/QSO_half/pipeline.joblib",
+        "sha256_after": "ece68175a754fa6634a7ae61c484cd7b77a70358ef188f2910f2a16baed33d7a",
+        "sha256_before": "ece68175a754fa6634a7ae61c484cd7b77a70358ef188f2910f2a16baed33d7a",
+        "task_key": "e4/rep_2/eval/direct/arf/QSO_half"
+      }
+    ],
+    "selected_models_raw_regular_non_symlink_not_cold": true,
+    "selected_registry_scope_sha256": "dc9c6cd4b0d2400649ba0444c551800d31d1ce460fc5ec5a4bb8d3fd5f1e6374"
+  },
+  "resource_preflight_summary": {
+    "audit_reservation_bytes": 536870912,
+    "cold_compactor_active": false,
+    "cpu_reserved": 2,
+    "helper_reservation_bytes": 0,
+    "idle_cores": 14.962593516209477,
+    "mem_available_bytes": 29786652672,
+    "remaining_margin_bytes": 14373850112,
+    "unspent_worker_reservations_bytes": 5212255232
+  },
+  "results": {
+    "diagnostic_limitation_count": 0,
+    "issue_count": 0,
+    "outcome_rows": 25,
+    "rows": [
+      {
+        "calibration_n": 10000,
+        "condition": "A_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/A_half",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/A_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "F_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/F_half",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/F_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "F_tenth",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/F_tenth",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/F_tenth",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "GALAXY_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/GALAXY_half",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/GALAXY_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "GALAXY_tenth",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/GALAXY_tenth",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/GALAXY_tenth",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "G_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/G_half",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/G_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "G_tenth",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/G_tenth",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/G_tenth",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "K_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/K_half",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/K_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "M_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/M_half",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/M_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "M_tenth",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/M_tenth",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/M_tenth",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "QSO_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/QSO_half",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/QSO_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "QSO_tenth",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_1/fit/direct/arf/QSO_tenth",
+        "issue_checks": [],
+        "rep": 1,
+        "status": "checked",
+        "task_key": "e4/rep_1/eval/direct/arf/QSO_tenth",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "A_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/A_half",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/A_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "A_tenth",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/A_tenth",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/A_tenth",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "F_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/F_half",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/F_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "F_tenth",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/F_tenth",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/F_tenth",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "GALAXY_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/GALAXY_half",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/GALAXY_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "GALAXY_tenth",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/GALAXY_tenth",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/GALAXY_tenth",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "G_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/G_half",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/G_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "G_tenth",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/G_tenth",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/G_tenth",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "K_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/K_half",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/K_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "K_tenth",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/K_tenth",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/K_tenth",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "M_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/M_half",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/M_half",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "M_tenth",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/M_tenth",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/M_tenth",
+        "test_n": 500000
+      },
+      {
+        "calibration_n": 10000,
+        "condition": "QSO_half",
+        "diagnostic_checks": [],
+        "fit_key": "e4/rep_2/fit/direct/arf/QSO_half",
+        "issue_checks": [],
+        "rep": 2,
+        "status": "checked",
+        "task_key": "e4/rep_2/eval/direct/arf/QSO_half",
+        "test_n": 500000
+      }
+    ],
+    "rows_with_issues": 0
+  },
+  "schema_version": "lamost-e4-arf-saved-outcome-audit/1",
+  "scope": {
+    "alias_keys": [
+      "e4/rep_1/eval/direct/arf/control",
+      "e4/rep_2/eval/direct/arf/control",
+      "e4/rep_3/eval/direct/arf/control"
+    ],
+    "audited_keys": [
+      "e4/rep_1/eval/direct/arf/A_half",
+      "e4/rep_1/eval/direct/arf/F_half",
+      "e4/rep_1/eval/direct/arf/F_tenth",
+      "e4/rep_1/eval/direct/arf/GALAXY_half",
+      "e4/rep_1/eval/direct/arf/GALAXY_tenth",
+      "e4/rep_1/eval/direct/arf/G_half",
+      "e4/rep_1/eval/direct/arf/G_tenth",
+      "e4/rep_1/eval/direct/arf/K_half",
+      "e4/rep_1/eval/direct/arf/M_half",
+      "e4/rep_1/eval/direct/arf/M_tenth",
+      "e4/rep_1/eval/direct/arf/QSO_half",
+      "e4/rep_1/eval/direct/arf/QSO_tenth",
+      "e4/rep_2/eval/direct/arf/A_half",
+      "e4/rep_2/eval/direct/arf/A_tenth",
+      "e4/rep_2/eval/direct/arf/F_half",
+      "e4/rep_2/eval/direct/arf/F_tenth",
+      "e4/rep_2/eval/direct/arf/GALAXY_half",
+      "e4/rep_2/eval/direct/arf/GALAXY_tenth",
+      "e4/rep_2/eval/direct/arf/G_half",
+      "e4/rep_2/eval/direct/arf/G_tenth",
+      "e4/rep_2/eval/direct/arf/K_half",
+      "e4/rep_2/eval/direct/arf/K_tenth",
+      "e4/rep_2/eval/direct/arf/M_half",
+      "e4/rep_2/eval/direct/arf/M_tenth",
+      "e4/rep_2/eval/direct/arf/QSO_half"
+    ],
+    "control_alias_successes": 3,
+    "coverage_rows": [
+      {
+        "condition": "A_half",
+        "fit_key": "e4/rep_1/fit/direct/arf/A_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/A_half"
+      },
+      {
+        "condition": "A_tenth",
+        "fit_key": "e4/rep_1/fit/direct/arf/A_tenth",
+        "kind": "eval",
+        "outcome": "scientific_failure",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/A_tenth"
+      },
+      {
+        "condition": "F_half",
+        "fit_key": "e4/rep_1/fit/direct/arf/F_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/F_half"
+      },
+      {
+        "condition": "F_tenth",
+        "fit_key": "e4/rep_1/fit/direct/arf/F_tenth",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/F_tenth"
+      },
+      {
+        "condition": "GALAXY_half",
+        "fit_key": "e4/rep_1/fit/direct/arf/GALAXY_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/GALAXY_half"
+      },
+      {
+        "condition": "GALAXY_tenth",
+        "fit_key": "e4/rep_1/fit/direct/arf/GALAXY_tenth",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/GALAXY_tenth"
+      },
+      {
+        "condition": "G_half",
+        "fit_key": "e4/rep_1/fit/direct/arf/G_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/G_half"
+      },
+      {
+        "condition": "G_tenth",
+        "fit_key": "e4/rep_1/fit/direct/arf/G_tenth",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/G_tenth"
+      },
+      {
+        "condition": "K_half",
+        "fit_key": "e4/rep_1/fit/direct/arf/K_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/K_half"
+      },
+      {
+        "condition": "K_tenth",
+        "fit_key": "e4/rep_1/fit/direct/arf/K_tenth",
+        "kind": "eval",
+        "outcome": "scientific_failure",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/K_tenth"
+      },
+      {
+        "condition": "M_half",
+        "fit_key": "e4/rep_1/fit/direct/arf/M_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/M_half"
+      },
+      {
+        "condition": "M_tenth",
+        "fit_key": "e4/rep_1/fit/direct/arf/M_tenth",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/M_tenth"
+      },
+      {
+        "condition": "QSO_half",
+        "fit_key": "e4/rep_1/fit/direct/arf/QSO_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/QSO_half"
+      },
+      {
+        "condition": "QSO_tenth",
+        "fit_key": "e4/rep_1/fit/direct/arf/QSO_tenth",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/QSO_tenth"
+      },
+      {
+        "condition": "control",
+        "fit_key": null,
+        "kind": "alias",
+        "outcome": "successful",
+        "rep": 1,
+        "source_key": "e3/rep_1/eval/direct/arf",
+        "status": "validated_terminal",
+        "task_key": "e4/rep_1/eval/direct/arf/control"
+      },
+      {
+        "condition": "A_half",
+        "fit_key": "e4/rep_2/fit/direct/arf/A_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/A_half"
+      },
+      {
+        "condition": "A_tenth",
+        "fit_key": "e4/rep_2/fit/direct/arf/A_tenth",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/A_tenth"
+      },
+      {
+        "condition": "F_half",
+        "fit_key": "e4/rep_2/fit/direct/arf/F_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/F_half"
+      },
+      {
+        "condition": "F_tenth",
+        "fit_key": "e4/rep_2/fit/direct/arf/F_tenth",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/F_tenth"
+      },
+      {
+        "condition": "GALAXY_half",
+        "fit_key": "e4/rep_2/fit/direct/arf/GALAXY_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/GALAXY_half"
+      },
+      {
+        "condition": "GALAXY_tenth",
+        "fit_key": "e4/rep_2/fit/direct/arf/GALAXY_tenth",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/GALAXY_tenth"
+      },
+      {
+        "condition": "G_half",
+        "fit_key": "e4/rep_2/fit/direct/arf/G_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/G_half"
+      },
+      {
+        "condition": "G_tenth",
+        "fit_key": "e4/rep_2/fit/direct/arf/G_tenth",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/G_tenth"
+      },
+      {
+        "condition": "K_half",
+        "fit_key": "e4/rep_2/fit/direct/arf/K_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/K_half"
+      },
+      {
+        "condition": "K_tenth",
+        "fit_key": "e4/rep_2/fit/direct/arf/K_tenth",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/K_tenth"
+      },
+      {
+        "condition": "M_half",
+        "fit_key": "e4/rep_2/fit/direct/arf/M_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/M_half"
+      },
+      {
+        "condition": "M_tenth",
+        "fit_key": "e4/rep_2/fit/direct/arf/M_tenth",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/M_tenth"
+      },
+      {
+        "condition": "QSO_half",
+        "fit_key": "e4/rep_2/fit/direct/arf/QSO_half",
+        "kind": "eval",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": null,
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/QSO_half"
+      },
+      {
+        "condition": "QSO_tenth",
+        "fit_key": "e4/rep_2/fit/direct/arf/QSO_tenth",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 2,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_2/eval/direct/arf/QSO_tenth"
+      },
+      {
+        "condition": "control",
+        "fit_key": null,
+        "kind": "alias",
+        "outcome": "successful",
+        "rep": 2,
+        "source_key": "e3/rep_2/eval/direct/arf",
+        "status": "validated_terminal",
+        "task_key": "e4/rep_2/eval/direct/arf/control"
+      },
+      {
+        "condition": "A_half",
+        "fit_key": "e4/rep_3/fit/direct/arf/A_half",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/A_half"
+      },
+      {
+        "condition": "A_tenth",
+        "fit_key": "e4/rep_3/fit/direct/arf/A_tenth",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/A_tenth"
+      },
+      {
+        "condition": "F_half",
+        "fit_key": "e4/rep_3/fit/direct/arf/F_half",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/F_half"
+      },
+      {
+        "condition": "F_tenth",
+        "fit_key": "e4/rep_3/fit/direct/arf/F_tenth",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/F_tenth"
+      },
+      {
+        "condition": "GALAXY_half",
+        "fit_key": "e4/rep_3/fit/direct/arf/GALAXY_half",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/GALAXY_half"
+      },
+      {
+        "condition": "GALAXY_tenth",
+        "fit_key": "e4/rep_3/fit/direct/arf/GALAXY_tenth",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/GALAXY_tenth"
+      },
+      {
+        "condition": "G_half",
+        "fit_key": "e4/rep_3/fit/direct/arf/G_half",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/G_half"
+      },
+      {
+        "condition": "G_tenth",
+        "fit_key": "e4/rep_3/fit/direct/arf/G_tenth",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/G_tenth"
+      },
+      {
+        "condition": "K_half",
+        "fit_key": "e4/rep_3/fit/direct/arf/K_half",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/K_half"
+      },
+      {
+        "condition": "K_tenth",
+        "fit_key": "e4/rep_3/fit/direct/arf/K_tenth",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/K_tenth"
+      },
+      {
+        "condition": "M_half",
+        "fit_key": "e4/rep_3/fit/direct/arf/M_half",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/M_half"
+      },
+      {
+        "condition": "M_tenth",
+        "fit_key": "e4/rep_3/fit/direct/arf/M_tenth",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/M_tenth"
+      },
+      {
+        "condition": "QSO_half",
+        "fit_key": "e4/rep_3/fit/direct/arf/QSO_half",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/QSO_half"
+      },
+      {
+        "condition": "QSO_tenth",
+        "fit_key": "e4/rep_3/fit/direct/arf/QSO_tenth",
+        "kind": "eval",
+        "outcome": null,
+        "rep": 3,
+        "source_key": null,
+        "status": "waiting_for_dependency",
+        "task_key": "e4/rep_3/eval/direct/arf/QSO_tenth"
+      },
+      {
+        "condition": "control",
+        "fit_key": null,
+        "kind": "alias",
+        "outcome": "successful",
+        "rep": 3,
+        "source_key": "e3/rep_3/eval/direct/arf",
+        "status": "validated_terminal",
+        "task_key": "e4/rep_3/eval/direct/arf/control"
+      }
+    ],
+    "coverage_snapshot_sha256": "d48fbcd85b28ed2a996d7b95593c04d9b1fcb0ca8cae680f3c92693406a4ac7a",
+    "failure_keys": [
+      "e4/rep_1/eval/direct/arf/A_tenth",
+      "e4/rep_1/eval/direct/arf/K_tenth"
+    ],
+    "failure_summary": [
+      {
+        "observed_seconds": 600.269992878,
+        "outcome": "scientific_failure",
+        "phase": "evaluation",
+        "reason": "evaluation phase reached configured 600-second limit; raw operational receipt omitted",
+        "task_key": "e4/rep_1/eval/direct/arf/A_tenth"
+      },
+      {
+        "observed_seconds": 600.194036929,
+        "outcome": "scientific_failure",
+        "phase": "evaluation",
+        "reason": "evaluation phase reached configured 600-second limit; raw operational receipt omitted",
+        "task_key": "e4/rep_1/eval/direct/arf/K_tenth"
+      }
+    ],
+    "pending_keys": [
+      "e4/rep_2/eval/direct/arf/QSO_tenth",
+      "e4/rep_3/eval/direct/arf/A_half",
+      "e4/rep_3/eval/direct/arf/A_tenth",
+      "e4/rep_3/eval/direct/arf/F_half",
+      "e4/rep_3/eval/direct/arf/F_tenth",
+      "e4/rep_3/eval/direct/arf/GALAXY_half",
+      "e4/rep_3/eval/direct/arf/GALAXY_tenth",
+      "e4/rep_3/eval/direct/arf/G_half",
+      "e4/rep_3/eval/direct/arf/G_tenth",
+      "e4/rep_3/eval/direct/arf/K_half",
+      "e4/rep_3/eval/direct/arf/K_tenth",
+      "e4/rep_3/eval/direct/arf/M_half",
+      "e4/rep_3/eval/direct/arf/M_tenth",
+      "e4/rep_3/eval/direct/arf/QSO_half",
+      "e4/rep_3/eval/direct/arf/QSO_tenth"
+    ],
+    "physical_successes_audited": 25,
+    "planned_cells": 45,
+    "scientific_failures": 2,
+    "snapshot_state_counts": {
+      "scientific_failure": 2,
+      "successful": 28,
+      "waiting_for_dependency": 15
+    },
+    "unsupported": 0,
+    "waiting_for_dependency": 15
+  },
+  "scope_snapshot_utc": "2026-10-27T11:21:04.581402+00:00",
+  "supervision": {
+    "exit_code": 0,
+    "finished_utc": "2026-10-27T11:21:10.203399+00:00",
+    "guard_reason": null,
+    "guard_source_sha256": "9e102435d2bce80c8f071338d2d1d0f1f5fb9bfa8542c59f828f19568308a89c",
+    "native_threads": 1,
+    "nice": 19,
+    "peak_process_tree_rss_bytes": 80596992,
+    "rss_cap_bytes": 536870912,
+    "started_utc": "2026-10-27T11:21:06.254844+00:00",
+    "termination_grace_seconds": 5,
+    "wall_cap_seconds": 120,
+    "wall_seconds": 3.921
+  }
+}

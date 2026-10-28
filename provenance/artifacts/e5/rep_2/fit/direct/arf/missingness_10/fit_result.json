@@ -1,0 +1,42 @@
+{
+  "attempt_id": "1793139359_79ed67d8",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-27T22:16:32.211954+00:00",
+  "reason": "phase_exit_1: {'category': 'scientific_failure', 'exception_type': 'ScientificFitFailure', 'message': 'UnsupportedARFError: class 0 has a singular FORDE continuous marginal', 'phase': 'final_fit', 'traceback': 'Traceback (most recent call last):\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 90, in _train_model\\n    return model.fit(X,y)\\n           ^^^^^^^^^^^^^^\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_arf.py\", line 116, in fit\\n    raise UnsupportedARFError(f\"class {c} has a singular FORDE continuous marginal\")\\nbenchmark.models_arf.UnsupportedARFError: class 0 has a singular FORDE continuous marginal\\n\\nThe above exception was the direct cause of the following exception:\\n\\nTraceback (most recent call last):\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/phase_worker.py\", line 8, in <module>\\n    result=science.worker(cfg)\\n           ^^^^^^^^^^^^^^^^^^^\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 313, in worker\\n    if ph==\"final_fit\" or ph==\"trial\" or ph.startswith(\"trial_\"): return _fit_phase(payload)\\n                                                                         ^^^^^^^^^^^^^^^^^^^\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 168, in _fit_phase\\n    _train_model(model,Xt,y,sw)\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 92, in _train_model\\n    raise ScientificFitFailure(f\"{type(e).__name__}: {e}\") from e\\nscience.ScientificFitFailure: UnsupportedARFError: class 0 has a singular FORDE continuous marginal\\n'}; supervision={\"exit_code\":1,\"finished_at\":\"2026-10-27T22:16:32.211464+00:00\",\"peak_tree_rss_kib\":711040,\"phase\":\"final_fit\",\"reason\":null,\"seconds\":32.71471431700047}",
+  "result": {
+    "exception_type": "PhaseExecutionError"
+  },
+  "started_at": "2026-10-27T22:15:59.495559+00:00",
+  "status": "scientific_failure",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e5/rep_2/fit/direct/arf/missingness_10",
+    "condition": "missingness_10",
+    "dependencies": [
+      "e5/rep_2/corruption/missingness_10",
+      "e3/rep_2/fit/arf"
+    ],
+    "experiment": 5,
+    "generator": null,
+    "key": "e5/rep_2/fit/direct/arf/missingness_10",
+    "kind": "fit",
+    "mechanism": "missingness",
+    "method": "arf",
+    "optimizer_seed": 303366860,
+    "rate": 0.1,
+    "ratio": null,
+    "rep": 2,
+    "route": "direct",
+    "scientific_case": false,
+    "seed": 808708746,
+    "selection_key": "e3/rep_2/fit/arf",
+    "selection_mode": "fixed",
+    "selection_policy": "frozen_clean_selected_params_no_retuning",
+    "selection_source": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e3/rep_2/fit/arf",
+    "target_class": null,
+    "train_key": "e5/rep_2/corruption/missingness_10",
+    "train_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e5/rep_2/corruption/missingness_10/data.npz",
+    "treatment": null,
+    "trials": 0
+  },
+  "task_sha256": "a9b51b7e73514e196cd4bb5c45a86987a9260107db38f88627e36be6851faddd"
+}

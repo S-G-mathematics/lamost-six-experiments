@@ -1,0 +1,45 @@
+{
+  "metric_artifacts_read": false,
+  "next_action": "wait for a fresh stable resource/process window; do not override gate or change scheduler policy",
+  "observed_ist": "2026-10-27T03:47:28+05:30",
+  "observed_utc": "2026-10-26T22:17:28+00:00",
+  "output_directory_contains_only_script_and_this_gate_receipt": true,
+  "resource_gate_first_attempt": {
+    "decision": "denied_below_512_MiB",
+    "growth_margin_bytes": 2147483648,
+    "host_reserve_bytes": 6442450944,
+    "mem_available_bytes": 27200557056,
+    "observation_utc": "2026-10-26T22:15:52.922135+00:00",
+    "projected_headroom_bytes": 357011456,
+    "required_headroom_bytes": 536870912,
+    "worker_reservations_bytes": 18253611008,
+    "workers": [
+      {
+        "observed_pss_bytes": 1218026496,
+        "reservation_bytes": 6442450944,
+        "task_key": "e4/rep_1/fit/direct/arf/K_tenth"
+      },
+      {
+        "observed_pss_bytes": 1032416256,
+        "reservation_bytes": 6442450944,
+        "task_key": "e4/rep_1/fit/direct/arf/M_half"
+      },
+      {
+        "observed_pss_bytes": 1353412608,
+        "reservation_bytes": 5368709120,
+        "task_key": "e4/rep_3/fit/treatment/random_forest/A_half_smote"
+      }
+    ]
+  },
+  "resource_gate_second_attempt": {
+    "decision": "aborted_before_metric_reads",
+    "observation_utc": "2026-10-26T22:17:28+00:00",
+    "pids_or_process_receipts_exported": false,
+    "reason": "ProcessLookupError while reading /proc/<worker>/smaps_rollup during worker identity/resource snapshot; a registry-listed process changed during observation"
+  },
+  "schema": "lamost-e4-block-analysis-precheck/1",
+  "scientific_inputs_modified": false,
+  "staged_script_sha256": "69410c037c405240fb3721cdab692fc7c36804abb113c0fea9a5ce7f60721151",
+  "status": "deferred_before_metric_reads",
+  "task_scope": "bounded E4 descriptive block analysis only"
+}

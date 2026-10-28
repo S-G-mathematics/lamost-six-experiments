@@ -1,0 +1,214 @@
+{
+  "best_tuning_balanced_accuracy": 0.6521627674500345,
+  "budget": 30000,
+  "calibration_n": 3000,
+  "calibration_prediction_seconds": 4.381112649047282,
+  "conformal_alpha": 0.1,
+  "conformal_nonconformity_threshold": 0.9365039989352226,
+  "duplicate_trials": 1,
+  "experiment": 1,
+  "failed_trials": 1,
+  "final_fit_seconds": 201.61454951000633,
+  "fit_seconds_total": 728.8691032839124,
+  "invalid_support_fallback_count": {
+    "calibration": 0,
+    "test": 0,
+    "tuning": 0
+  },
+  "mean_prediction_set_size": 2.308132,
+  "memory_limit_exceeded": false,
+  "method": "arf",
+  "peak_rss_kib": 2376804,
+  "repetition": 4,
+  "resource_profile": "native8gib8cores",
+  "roles": {
+    "budget": 30000,
+    "requested_budget": 30000,
+    "roles": {
+      "calibration": {
+        "counts": [
+          168,
+          703,
+          1143,
+          645,
+          258,
+          47,
+          36
+        ],
+        "ids_sha256": "94104d4381484c506b4567449f10d43fabd64518d83cf433583e16d76a066194",
+        "n": 3000
+      },
+      "fit": {
+        "counts": [
+          1354,
+          5355,
+          9350,
+          5138,
+          2072,
+          369,
+          362
+        ],
+        "ids_sha256": "e2a5e79954bc78726c28e63cad2669a7d9248f740f46779a9d8c40646cc04645",
+        "n": 24000
+      },
+      "tune": {
+        "counts": [
+          170,
+          669,
+          1168,
+          642,
+          259,
+          46,
+          46
+        ],
+        "ids_sha256": "cbf8ad5ce293b586a68fcd63e6c3ab1c0c9ea9f8f68bba1d7036378866145d5d",
+        "n": 3000
+      }
+    },
+    "status": "ok"
+  },
+  "score_kind": "probability",
+  "seed": 271831,
+  "selected_params": {
+    "density_dist": "truncnorm",
+    "finite_bounds": "no",
+    "max_depth": 10,
+    "min_samples_leaf": 20,
+    "num_trees": 300
+  },
+  "selected_tuning_prediction_seconds": 4.437620229960885,
+  "status": "complete",
+  "successful_trials": 3,
+  "test_coverage": 0.903152,
+  "test_metrics": {
+    "balanced_accuracy": 0.6478861397784306,
+    "per_class": {
+      "0": {
+        "coverage": 0.6593044279788705,
+        "n": 28207,
+        "recall": 0.2787605913425745,
+        "set_size": 2.522458964086929
+      },
+      "1": {
+        "coverage": 0.8106392706344298,
+        "n": 111549,
+        "recall": 0.4071932513962474,
+        "set_size": 2.3799496185532814
+      },
+      "2": {
+        "coverage": 0.9689197096777505,
+        "n": 194818,
+        "recall": 0.6156771961523062,
+        "set_size": 2.4426285045529674
+      },
+      "3": {
+        "coverage": 0.912854152650071,
+        "n": 107016,
+        "recall": 0.5572250878373327,
+        "set_size": 2.345453016371384
+      },
+      "4": {
+        "coverage": 0.9705106245081246,
+        "n": 43202,
+        "recall": 0.8757233461413824,
+        "set_size": 1.653881764733114
+      },
+      "5": {
+        "coverage": 0.9565104166666667,
+        "n": 7680,
+        "recall": 0.93359375,
+        "set_size": 1.196875
+      },
+      "6": {
+        "coverage": 0.9067481402763018,
+        "n": 7528,
+        "recall": 0.8670297555791711,
+        "set_size": 1.3180127523910734
+      }
+    }
+  },
+  "test_prediction_seconds": 423.7205141930026,
+  "trial_budget": 5,
+  "trials": [
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 0,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 20,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 2172148,
+      "seconds": 190.58116388804046,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6521627674500345
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 1,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 100,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 2209252,
+      "seconds": 189.9036034309538,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6193316517360576
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 2,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 20,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 2209252,
+      "seconds": 0.00036847498267889023,
+      "status": "duplicate",
+      "tuning_balanced_accuracy": 0.6521627674500345
+    },
+    {
+      "error": null,
+      "error_traceback": null,
+      "number": 3,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 20,
+        "num_trees": 100
+      },
+      "peak_rss_kib": 2209252,
+      "seconds": 242.1165801519528,
+      "status": "complete",
+      "tuning_balanced_accuracy": 0.6489824846766251
+    },
+    {
+      "error": "UnsupportedARFError: class 1 has a singular FORDE continuous marginal",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/engine.py\", line 505, in run_e1\n    model.fit(Xfit, yfit)\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_arf.py\", line 116, in fit\n    raise UnsupportedARFError(f\"class {c} has a singular FORDE continuous marginal\")\nbenchmark.models_arf.UnsupportedARFError: class 1 has a singular FORDE continuous marginal\n",
+      "number": 4,
+      "params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "peak_rss_kib": 2209252,
+      "seconds": 106.26738733798265,
+      "status": "failed",
+      "tuning_balanced_accuracy": null
+    }
+  ]
+}

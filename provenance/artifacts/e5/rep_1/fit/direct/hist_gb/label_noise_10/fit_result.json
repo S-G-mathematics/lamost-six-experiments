@@ -1,0 +1,75 @@
+{
+  "artifact_sha256": "2581d4165906c318c27eacbc268513845a9291326e3559b247e9c89a70532d71",
+  "attempt_id": "1792967751_6d4ce713",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-25T22:35:58.261613+00:00",
+  "reason": null,
+  "result": {
+    "class_counts": [
+      5328,
+      17124,
+      28795,
+      16481,
+      7380,
+      2518,
+      2374
+    ],
+    "fit_seconds": 4.5309169250540435,
+    "params": {
+      "l2_regularization": 8.44688651640147,
+      "learning_rate": 0.26726720397433323,
+      "max_iter": 100,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 10
+    },
+    "phase_supervision": {
+      "exit_code": 0,
+      "finished_at": "2026-10-25T22:35:58.255521+00:00",
+      "peak_tree_rss_kib": 219792,
+      "phase": "final_fit",
+      "reason": null,
+      "seconds": 6.591712891007774
+    },
+    "pipeline_sha256": "2581d4165906c318c27eacbc268513845a9291326e3559b247e9c89a70532d71",
+    "seed": 783763867,
+    "source_sha256": "0bebdb64bfac117037b0c2f80e9ca2653d8891fdeb02ee9d91173e29224fd7ae",
+    "status": "success",
+    "training_X_sha256": "8110e2291af594ab2b1ea129c29e0d2ed19170e6ebf3a5f38d035a0b87dfeb07",
+    "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+    "training_rows": 80000,
+    "training_y_sha256": "c6665550d51edf705ab33b5c2d9958838e9cfd60f3182dd84d717700310cf182"
+  },
+  "started_at": "2026-10-25T22:35:51.662319+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e5/rep_1/fit/direct/hist_gb/label_noise_10",
+    "condition": "label_noise_10",
+    "dependencies": [
+      "e5/rep_1/corruption/label_noise_10",
+      "e3/rep_1/fit/real/hist_gb"
+    ],
+    "experiment": 5,
+    "generator": null,
+    "key": "e5/rep_1/fit/direct/hist_gb/label_noise_10",
+    "kind": "fit",
+    "mechanism": "label_noise",
+    "method": "hist_gb",
+    "optimizer_seed": 1489860515,
+    "rate": 0.1,
+    "ratio": null,
+    "rep": 1,
+    "route": "direct",
+    "scientific_case": false,
+    "seed": 783763867,
+    "selection_key": "e3/rep_1/fit/real/hist_gb",
+    "selection_mode": "fixed",
+    "selection_policy": "frozen_clean_selected_params_no_retuning",
+    "selection_source": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e3/rep_1/fit/real/hist_gb",
+    "target_class": null,
+    "train_key": "e5/rep_1/corruption/label_noise_10",
+    "train_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e5/rep_1/corruption/label_noise_10/data.npz",
+    "treatment": null,
+    "trials": 0
+  },
+  "task_sha256": "120737001811a3097dd568029629bad64150b80a7df8e5ab58daeb5e44589eb3"
+}

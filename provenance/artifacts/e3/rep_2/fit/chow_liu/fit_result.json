@@ -1,0 +1,99 @@
+{
+  "artifact_sha256": "4418775e8e9d7f61a26e1f3b190637790bafce71e4f55bcf6dabaf40f05a9531",
+  "attempt_id": "1792903747_804132c4",
+  "engine_code_sha256": "7ea971ea1dfbde6e60b29d30305e8c11cf398e7f49f7a8023b7f06f5ef632851",
+  "finished_at": "2026-10-25T04:49:08.225777+00:00",
+  "reason": null,
+  "result": {
+    "class_counts": [
+      4510,
+      17854,
+      31168,
+      17120,
+      6914,
+      1230,
+      1204
+    ],
+    "params": {
+      "n_bins": 32
+    },
+    "phase_supervision": {
+      "exit_code": 0,
+      "finished_at": "2026-10-25T04:49:08.225048+00:00",
+      "peak_tree_rss_kib": 175384,
+      "phase": "final_fit",
+      "reason": null,
+      "seconds": 1.043737115978729
+    },
+    "reused": true,
+    "seed": 273728,
+    "source": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_2/chow_liu/pipeline.joblib",
+    "source_sha256": "874e5efcd7d446d0d126231a71139cc95d857d99ada5c132db11d8af757ffb3f",
+    "status": "success",
+    "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc"
+  },
+  "started_at": "2026-10-25T04:49:07.180096+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e3/rep_2/fit/chow_liu",
+    "condition": null,
+    "dependencies": [],
+    "experiment": 3,
+    "generator": null,
+    "key": "e3/rep_2/fit/chow_liu",
+    "kind": "fit",
+    "mechanism": null,
+    "method": "chow_liu",
+    "observed_utc": "2026-10-25T04:47:15.450773+00:00",
+    "optimizer_seed": 1826202756,
+    "rate": null,
+    "ratio": null,
+    "rep": 2,
+    "reuse_pipeline": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_2/chow_liu/pipeline.joblib",
+    "role_membership_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc",
+    "route": "generator",
+    "scientific_case": false,
+    "seed": 273728,
+    "selection_key": null,
+    "selection_mode": "tune",
+    "selection_source": null,
+    "source_metadata": {
+      "fit_seed": 273728,
+      "gate": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_2/chow_liu/test_reproduction_gate.json",
+      "gate_sha256": "728d05e5d0e6d791ac702f1779de5c7f825d1578ff1c89399ae018db801e44a2",
+      "gate_status": "classification_not_reproduced",
+      "path": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_2/chow_liu/pipeline.joblib",
+      "preprocessing_note": "actual imputer medians and scaler mean/scale match recomputation on the exact cached 80k fitting rows (absolute tolerance 1e-12); 10k tuning and 10k calibration counts validated; no test rows in preprocessing",
+      "provenance": "E2 reconstructed fit; exact matching role-membership hash, selected parameters and reconstructed pipeline hash validated; not the omitted original E1 pipeline",
+      "reconstruction": "/home/ubuntu/lamost_e1_migration_20261023/e2_20261024/reconstruction/n_100000/rep_2/chow_liu/reconstruction.json",
+      "reconstruction_sha256": "ae4afed4196e60ce40fd656de369b442be4f69fec74963247c7f7ebcc7aafae4",
+      "selected_params_match": true,
+      "source_role_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc"
+    },
+    "source_sha256": "874e5efcd7d446d0d126231a71139cc95d857d99ada5c132db11d8af757ffb3f",
+    "started_epoch": 1792903633.434832,
+    "superseded_operational_attempts": [
+      {
+        "attempt_id": "3f5c82f2bd16477990d33f2dffbe7846",
+        "reason": "ModuleNotFoundError: No module named 'benchmark'",
+        "superseded_utc": "2026-10-25T04:48:47.882251+00:00"
+      }
+    ],
+    "target_class": null,
+    "train_key": null,
+    "training_counts": [
+      4510,
+      17854,
+      31168,
+      17120,
+      6914,
+      1230,
+      1204
+    ],
+    "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+    "training_rows": 80000,
+    "treatment": null,
+    "trials": 10
+  },
+  "task_sha256": "fbe6a9d7fc753fa25cd808d87b584490ffa8bf72d1565e9685f1a6b8d27625f4"
+}

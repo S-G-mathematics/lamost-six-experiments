@@ -1,0 +1,58 @@
+{
+  "admission_reservation_gib": 10,
+  "archive_digest_optimization": "deferred_not_deployed",
+  "controller_sha256": "68b081487afd8f7572362d33601b276b245150d9bca587aca5bf3b9cace75c10",
+  "cpu_reservation_units": 4,
+  "cpu_reserve_cores": 2,
+  "fit_n_jobs": 4,
+  "harness": {
+    "fit_n_jobs": 4,
+    "guard_exit_code": 0,
+    "guard_log_sha256": "6d6ebf01dd6983f47731fa6764dee1a1e44328118cb9db7e5bdeeed6ea9f4440",
+    "harness_guard": {
+      "address_space_limit_bytes": 2147483648,
+      "exit_code": 0,
+      "peak_process_tree_rss_bytes": 467611648,
+      "rss_limit_bytes": 1610612736,
+      "wall_limit_seconds": 120,
+      "wall_seconds": 7.014
+    },
+    "harness_source_sha256": "b70f02d6bb715477f0a7ccec1ed1078493de11df8a7a2ebe7e11c9d11df240c8",
+    "models_are_synthetic_only": true,
+    "prediction_n_jobs": 1,
+    "report_sha256": "20da6075131a9f1898ca7eb5674adb244e2b311e217a73e795c6b1e076cf6089",
+    "serialized_estimator_n_jobs": 1,
+    "source_sha256": {
+      "parallel_rf/phase_worker.py": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3",
+      "parallel_rf/science.py": "e36c8040c7dca254fc7e16a53ffe860872df31a77868a7bc6480162f32d253c6",
+      "parallel_rf/worker.py": "5741d1f60b513a6da0023e508b8d17d28e8f6e4355f30c08d5cfb81f1f233ab9"
+    },
+    "status": "passed"
+  },
+  "known_limits": "Synthetic engineering does not establish full-data RSS safety or speed gain; retain10GiB admission/hard limit; timing policy differs from prior one-job fits.",
+  "native_threads": 1,
+  "observed_utc": "2026-10-27T21:19:19.738181+00:00",
+  "operational_amendment": "idempotent preservation/validation of prior E6-v1 report supersession on controller restart; current v2 reports and scientific attempts unchanged",
+  "phase_timeout_seconds": 600,
+  "portable_suite": {
+    "bundle_fingerprint_sha256": "d41709ee13be6da6b9c828ff4692d7ef9e9f803b0537188d55dff1c9ee1dc7ce",
+    "exit_code": 0,
+    "expected_test_count": 531,
+    "failed_test_count": 0,
+    "passed_test_count": 531,
+    "receipt_sha256": "2a746d5a53965e27a75b28fd28a14c7a057bf7069c58728d0549389162197753",
+    "status": "passed"
+  },
+  "prediction_n_jobs": 1,
+  "schema": "lamost-rf4-execution-qualification/1",
+  "scientific_scope": "Prospective never-attempted E4/E5 RF fits only; no terminal retries, no search/seed/membership changes; native library and prediction threads1; RF estimator fit jobs4.",
+  "source_sha256": {
+    "parallel_rf/phase_worker.py": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3",
+    "parallel_rf/science.py": "e36c8040c7dca254fc7e16a53ffe860872df31a77868a7bc6480162f32d253c6",
+    "parallel_rf/worker.py": "5741d1f60b513a6da0023e508b8d17d28e8f6e4355f30c08d5cfb81f1f233ab9"
+  },
+  "status": "passed",
+  "termination_grace_seconds": 30,
+  "trial_timeout_seconds": 600,
+  "worker_memory_limit_gib": 10
+}

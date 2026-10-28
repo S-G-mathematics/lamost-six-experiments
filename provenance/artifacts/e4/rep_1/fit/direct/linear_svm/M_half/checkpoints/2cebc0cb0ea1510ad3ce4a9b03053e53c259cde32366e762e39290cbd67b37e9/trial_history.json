@@ -1,0 +1,10 @@
+[
+  {
+    "error": "phase_exit_1: {'category': 'operationally_invalid', 'exception_type': 'AttributeError', 'message': 'this SVM has margins, not native probabilities', 'phase': 'trial_0', 'traceback': 'Traceback (most recent call last):\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/phase_worker.py\", line 8, in <module>\\n    result=science.worker(cfg)\\n           ^^^^^^^^^^^^^^^^^^^\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 313, in worker\\n    if ph==\"final_fit\" or ph==\"trial\" or ph.startswith(\"trial_\"): return _fit_phase(payload)\\n                                                                         ^^^^^^^^^^^^^^^^^^^\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 163, in _fit_phase\\n    pv=_chunks(model,scaler.transform(imputer.transform(Xv)))\\n       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 99, in _chunks\\n    for i in range(0,len(X),size): out.append(_scores(model,X[i:i+size]))\\n                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/science.py\", line 94, in _scores\\n    if hasattr(model,\"predict_proba\"): return np.asarray(model.predict_proba(X),dtype=np.float64)\\n                                                         ^^^^^^^^^^^^^^^^^^^^^^\\n  File \"/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/models_basic.py\", line 166, in predict_proba\\n    raise AttributeError(\"this SVM has margins, not native probabilities\")\\nAttributeError: this SVM has margins, not native probabilities\\n'}; supervision={\"exit_code\":1,\"finished_at\":\"2026-10-25T20:47:00.645211+00:00\",\"peak_tree_rss_kib\":213632,\"phase\":\"trial_0\",\"reason\":null,\"seconds\":1.5522639929549769}",
+    "number": 0,
+    "params": {
+      "C": 15.453368269437561
+    },
+    "status": "operationally_invalid"
+  }
+]
