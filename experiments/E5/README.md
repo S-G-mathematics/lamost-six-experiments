@@ -1,3 +1,3 @@
-# E5 snapshot
+# E5 interim snapshot
 
-At the 2026-10-28T13:59:24.549717+00:00 UTC status snapshot, E5 has 960 planned cells: 700 successful, 50 scientific failures, 78 unavailable, and 132 waiting. No E5 results changed in this increment. E5 remains incomplete.
+At 2026-10-28T16:36:51.126740+00:00 UTC: 700 successful, 50 failures, 78 unavailable, 132 waiting of 960. No new E5 result was added in the latest increment.

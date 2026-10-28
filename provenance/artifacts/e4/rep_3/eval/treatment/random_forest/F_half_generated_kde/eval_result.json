@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "2a47001390105ff5bc045f488425db454944fb0e6b054d7d0c40b050edc15840",
+  "attempt_id": "1793197628_facc319d",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-28T14:27:35.506790+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7411725391420354,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        12532,
+        10435,
+        4078,
+        499,
+        188,
+        93,
+        382
+      ],
+      [
+        3065,
+        44084,
+        61347,
+        2036,
+        414,
+        72,
+        531
+      ],
+      [
+        282,
+        10698,
+        166840,
+        15490,
+        1155,
+        85,
+        268
+      ],
+      [
+        99,
+        985,
+        22722,
+        79882,
+        3162,
+        67,
+        99
+      ],
+      [
+        16,
+        145,
+        1231,
+        3061,
+        38719,
+        14,
+        16
+      ],
+      [
+        14,
+        100,
+        72,
+        42,
+        17,
+        7317,
+        118
+      ],
+      [
+        107,
+        391,
+        104,
+        78,
+        14,
+        82,
+        6752
+      ]
+    ],
+    "coverage": 0.902542,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/F_half_generated_kde",
+    "per_class": {
+      "0": {
+        "coverage": 0.7444251426950756,
+        "n": 28207,
+        "recall": 0.44428687914347503,
+        "set_size": 1.9535930797319814
+      },
+      "1": {
+        "coverage": 0.7650718518319304,
+        "n": 111549,
+        "recall": 0.39519852262234534,
+        "set_size": 1.791275582927682
+      },
+      "2": {
+        "coverage": 0.975885185147163,
+        "n": 194818,
+        "recall": 0.8563890400271023,
+        "set_size": 1.6950179141557762
+      },
+      "3": {
+        "coverage": 0.9215350975555057,
+        "n": 107016,
+        "recall": 0.7464491291021903,
+        "set_size": 1.5619066307841818
+      },
+      "4": {
+        "coverage": 0.9648627378362112,
+        "n": 43202,
+        "recall": 0.8962316559418545,
+        "set_size": 1.3025554372482755
+      },
+      "5": {
+        "coverage": 0.9657552083333333,
+        "n": 7680,
+        "recall": 0.952734375,
+        "set_size": 1.1209635416666666
+      },
+      "6": {
+        "coverage": 0.941817215727949,
+        "n": 7528,
+        "recall": 0.8969181721572795,
+        "set_size": 1.323990435706695
+      }
+    },
+    "pipeline_sha256": "5d926093fb68ab08831cff39c6917760f672696562a3f89ba84db122570389f7",
+    "score_kind": "probability",
+    "set_size": 1.654276,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.84
+  },
+  "started_at": "2026-10-28T14:27:08.205006+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_3/eval/treatment/random_forest/F_half_generated_kde",
+    "condition": "F_half_generated_kde",
+    "dependencies": [
+      "e4/rep_3/fit/treatment/random_forest/F_half_generated_kde"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/F_half_generated_kde",
+    "generator": "kde",
+    "key": "e4/rep_3/eval/treatment/random_forest/F_half_generated_kde",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 3,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 1,
+    "target_label": "F",
+    "treatment": "generated_kde"
+  },
+  "task_sha256": "7eccd1d6e7f7156a28be609ee2196cf18fdce19e63244b79011dcfc9f15b9f40"
+}
