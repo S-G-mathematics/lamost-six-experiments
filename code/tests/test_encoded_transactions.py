@@ -111,7 +111,9 @@ class EncodedTransactionTests(unittest.TestCase):
  def test_partial_alias_unlink_resumes_idempotently(self):
   key=next(iter(self.items))
   with self.assertRaises(RuntimeError):self.store.commit_models([self.items[key]],self.records,fail_after_unlinks=1)
-  tx=self.only_tx();j=self.journal(tx);self.assertEqual(j['state'],'unlinking');self.assertEqual(len(j['items'][0]['removed_aliases']),1)
+  tx=self.only_tx();j=self.journal(tx);self.assertEqual(j['state'],'unlinking');self.assertTrue(j['items'][0]['unlink_intents'])
+  missing=[p for p in j['items'][0]['aliases'] if not (self.store.root/p).exists()]
+  self.assertTrue(missing);self.assertTrue(set(missing)<=set(j['items'][0]['unlink_intents']))
   self.assertEqual(self.store.recover(tx,self.records),'complete')
   for alias in self.items[key]['aliases']:self.assertFalse((self.root/alias).exists())
  def test_codec_temp_root_rejects_symlinked_parent_without_writing_outside_runtime(self):

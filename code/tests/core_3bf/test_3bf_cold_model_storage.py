@@ -71,7 +71,9 @@ class ColdStoreTests(unittest.TestCase):
    with self.assertRaises(RuntimeError):s.commit_models([item],records,fail_after_unlinks=1)
    tx=next((rt/"journals"/"cold_store").glob("*/journal.json")).parent.name
    j=json.loads((rt/"journals"/"cold_store"/tx/"journal.json").read_text())
-   self.assertEqual(j["state"],"unlinking");self.assertTrue(j["items"][0]["removed_aliases"])
+   self.assertEqual(j["state"],"unlinking");self.assertTrue(j["items"][0]["unlink_intents"])
+   missing=[p for p in j["items"][0]["aliases"] if not (root/p).exists()]
+   self.assertTrue(missing);self.assertTrue(set(missing)<=set(j["items"][0]["unlink_intents"]))
    with self.assertRaises(AmbiguousState):
     with s.append_guard():pass
    committed_manifest=s.manifest.read_bytes()

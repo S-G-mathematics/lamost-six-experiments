@@ -304,7 +304,7 @@
     }
   ],
   "runner": "runtime_20261025/tests/run_portable_tests.sh",
-  "runner_sha256": "8f22268e28eed2978746884cefeeeb2036aae086d38fe62cfb3e76ea269ef107",
+  "runner_sha256": "cc4753a65b2c65facc8f8a1909e3b236d7fb542b2889af6c5a93176b8abc58f3",
   "runtime_staging_present": false,
   "schema": "archive-native-installed-portable-tests/1",
   "scope": "RF4 prospective adapter/admission, E6 availability narrative, and E6 terminal-resume idempotence candidate; no test collection or scientific fits performed.",
@@ -398,11 +398,11 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/cohorts.py"
     },
     {
-      "bundle_sha256": "423efd0f09b77ff4a42553fc78ac47abb531a7d35bc02c02e8d2aac874ee7492",
+      "bundle_sha256": "a4a79187758dd97b74f6d46c0ad23848d9490c6169e052e45dd9461583e9bab8",
       "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/cold_auto_compaction.py",
-      "source_sha256": "423efd0f09b77ff4a42553fc78ac47abb531a7d35bc02c02e8d2aac874ee7492",
+      "source_sha256": "a4a79187758dd97b74f6d46c0ad23848d9490c6169e052e45dd9461583e9bab8",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/cold_auto_compaction.py"
     },
     {
@@ -424,11 +424,11 @@
       "source_sha256": "4d937e725ba8002728150728749650fcf848756571abf2935eb6cd7c3e44b0e1"
     },
     {
-      "bundle_sha256": "f6f139ec8968cab5ec87936d056fe0bfc25e3669a5e1f52989c26ed96616ad93",
+      "bundle_sha256": "889a4083ca575fc7afa1f4bedd240c3f59a912c41549098cbd920a4a5ff543ec",
       "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "restored_live_core",
       "runtime_member": "runtime_20261025/source/cold_model_storage.py",
-      "source_sha256": "f6f139ec8968cab5ec87936d056fe0bfc25e3669a5e1f52989c26ed96616ad93",
+      "source_sha256": "889a4083ca575fc7afa1f4bedd240c3f59a912c41549098cbd920a4a5ff543ec",
       "upstream_stage_member": "installed_live_baseline_plus_controller_pin_cascade"
     },
     {
@@ -445,11 +445,11 @@
       "source_sha256": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273"
     },
     {
-      "bundle_sha256": "794eca7115991c18fd8a853f4ae5f6cd938fad79a29e49efb4834e15003be802",
+      "bundle_sha256": "81d0e388a5836382d15963845970e938abb1bca09e387598405767f658ce7411",
       "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/commit_batch_child.py",
-      "source_sha256": "794eca7115991c18fd8a853f4ae5f6cd938fad79a29e49efb4834e15003be802",
+      "source_sha256": "81d0e388a5836382d15963845970e938abb1bca09e387598405767f658ce7411",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/commit_batch_child.py"
     },
     {
@@ -610,11 +610,11 @@
       "source_sha256": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca"
     },
     {
-      "bundle_sha256": "0aeb49baad292c8667470a55037f8d76d1f370d2e241ff6c4cdb0b480bad5365",
+      "bundle_sha256": "cfeb99ca7327a3744962a4a1367bbe3384e66d160c4f30227921bfcf5c36f921",
       "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/run_batch.py",
-      "source_sha256": "0aeb49baad292c8667470a55037f8d76d1f370d2e241ff6c4cdb0b480bad5365",
+      "source_sha256": "cfeb99ca7327a3744962a4a1367bbe3384e66d160c4f30227921bfcf5c36f921",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/run_batch.py"
     },
     {
@@ -1091,6 +1091,7 @@
     "test_guard_runner_exit_identity.py": 6,
     "test_history_manifest_packaging.py": 1,
     "test_label_rate_gate.py": 7,
+    "test_legacy_checkpoint_migration.py": 1,
     "test_loop_snapshot_refresh.py": 1,
     "test_member_comparison_status_count.py": 3,
     "test_metadata_only_contract.py": 11,
@@ -1103,6 +1104,7 @@
     "test_postcommit_receipt.py": 8,
     "test_public_registry_process_privacy.py": 3,
     "test_raw_wide_profile.py": 2,
+    "test_recovery_archive_digest_reuse.py": 5,
     "test_reporting_completion.py": 9,
     "test_reporting_environment_policy.py": 3,
     "test_reporting_gaps.py": 6,
@@ -1110,10 +1112,11 @@
     "test_rf4_fit_jobs.py": 4,
     "test_startup_identity.py": 8,
     "test_supervisor_e6_pairs.py": 2,
+    "test_unlink_checkpoint_batch.py": 8,
     "test_verified_zombie_reap.py": 10,
     "test_weighted_mean_gate.py": 2
   },
-  "test_count_plan_total": 653,
+  "test_count_plan_total": 667,
   "test_directory": "runtime_20261025/tests",
   "test_summary_note": "Preserves all 596 R3 baseline IDs and all 637 historical combined archive-contract IDs; adds 16 inventory/lifecycle/profile IDs with 2048-group bounded fixtures.",
   "tests": [
@@ -1318,7 +1321,7 @@
       "adaptation": "Updated fixture contract for current archive manifest stat-identity verification; scientific/mutation assertions retained.",
       "group": "cold_core",
       "original_sha256": "ad462f64c9bcc5fab398217a1e9d3380de12c3db324183d16fd81f490bc7b28b",
-      "portable_sha256": "85ca4fe34bbd3c862f83edf29a5846ca315ddc50f6e4cc8bf54ce033014c11e4",
+      "portable_sha256": "8460d82bc5468a239c3de5402ee3d2c02a340c0d013802e85f07a6158155a8af",
       "scope": "preserves prior cold-store assertions with updated validated-family rejection fixture",
       "test_member": "runtime_20261025/tests/test_cold_model_storage.py",
       "upstream_portable_sha256": "ad462f64c9bcc5fab398217a1e9d3380de12c3db324183d16fd81f490bc7b28b",
@@ -1451,7 +1454,7 @@
       "upstream_stage_member": "e6_protocol_correction_v2_20261027/validation/tests/test_e6_v2_validation.py"
     },
     {
-      "portable_sha256": "7ed97e5c1c273759eeb36fe46516c3550309d27df474accf10b1f21d29ce7399",
+      "portable_sha256": "95682c9758bd7dc6573bbd2b3859aa6c22b2308156e09c012a07ab42487df923",
       "scope": "Storage encoding/recovery/archive-only access fixtures, no scientific models",
       "test_member": "runtime_20261025/tests/test_encoded_transactions.py"
     },
@@ -1708,7 +1711,7 @@
     {
       "group": "archive_optimization_and_policy",
       "original_sha256": "c94561e7902e8f0670c0a3a25a185f8dcb6dc5f7b71deea26065b46343df6b57",
-      "portable_sha256": "c94561e7902e8f0670c0a3a25a185f8dcb6dc5f7b71deea26065b46343df6b57",
+      "portable_sha256": "029ea8bc1ffdceb68efec63f89842cd271917e7bbc5affb9ed754371b5d9be9d",
       "scope": "staged portable fixture; no scientific model training or live archive mutation",
       "test_member": "runtime_20261025/tests/core_3bf/test_3bf_cold_model_storage.py"
     },
@@ -1718,6 +1721,21 @@
       "portable_sha256": "15e9585af71ac581963fc4102206cc9052ad944bea9832f6cbd1dcfae35019bc",
       "scope": "staged portable fixture; no scientific model training or live archive mutation",
       "test_member": "runtime_20261025/tests/test_mixed_small_profile.py"
+    },
+    {
+      "portable_sha256": "698f559cd672467aeb1f4fd13bc2344663d84c8f9f0da953118abd915ecf35eb",
+      "scope": "Bounded durable-intent checkpoint recovery and digest identity verification",
+      "test_member": "runtime_20261025/tests/test_unlink_checkpoint_batch.py"
+    },
+    {
+      "portable_sha256": "ec10ff0ea7eedecf84cdb1f688e1b5936b9c0bce1da538ac0a3a33fe614c50b0",
+      "scope": "Bounded durable-intent checkpoint recovery and digest identity verification",
+      "test_member": "runtime_20261025/tests/test_recovery_archive_digest_reuse.py"
+    },
+    {
+      "portable_sha256": "af3c55fa6c1bdc8762436259b511b6d46744ceb5fc377616145be22750599db9",
+      "scope": "Bounded durable-intent checkpoint recovery and digest identity verification",
+      "test_member": "runtime_20261025/tests/test_legacy_checkpoint_migration.py"
     }
   ]
 }

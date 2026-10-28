@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "d70834e56062f3474809bb0907d144f70b2a3c680217cb45d29377644203ee59",
+  "attempt_id": "1793184297_67fdd542",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-28T10:45:20.141186+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7612121538697253,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        15039,
+        8944,
+        3046,
+        493,
+        211,
+        92,
+        382
+      ],
+      [
+        2831,
+        56389,
+        49726,
+        1632,
+        396,
+        70,
+        505
+      ],
+      [
+        524,
+        17208,
+        163788,
+        11953,
+        1001,
+        77,
+        267
+      ],
+      [
+        185,
+        813,
+        26717,
+        76474,
+        2654,
+        69,
+        104
+      ],
+      [
+        51,
+        108,
+        1197,
+        3281,
+        38536,
+        12,
+        17
+      ],
+      [
+        57,
+        56,
+        81,
+        72,
+        14,
+        7263,
+        137
+      ],
+      [
+        235,
+        234,
+        150,
+        64,
+        14,
+        80,
+        6751
+      ]
+    ],
+    "coverage": 0.896764,
+    "fit_key": "e4/rep_2/fit/treatment/random_forest/K_tenth_generated_gmm",
+    "per_class": {
+      "0": {
+        "coverage": 0.7170560499166874,
+        "n": 28207,
+        "recall": 0.5331655262878009,
+        "set_size": 1.6683801893147092
+      },
+      "1": {
+        "coverage": 0.8342432473621458,
+        "n": 111549,
+        "recall": 0.505508789859165,
+        "set_size": 1.6498310159660776
+      },
+      "2": {
+        "coverage": 0.9608814380601381,
+        "n": 194818,
+        "recall": 0.8407231364658296,
+        "set_size": 1.6182436941145069
+      },
+      "3": {
+        "coverage": 0.8641324661732825,
+        "n": 107016,
+        "recall": 0.7146034237870973,
+        "set_size": 1.4125831651341856
+      },
+      "4": {
+        "coverage": 0.9502337854728947,
+        "n": 43202,
+        "recall": 0.8919957409379196,
+        "set_size": 1.2111013379010231
+      },
+      "5": {
+        "coverage": 0.9549479166666667,
+        "n": 7680,
+        "recall": 0.945703125,
+        "set_size": 1.0782552083333334
+      },
+      "6": {
+        "coverage": 0.9349096705632306,
+        "n": 7528,
+        "recall": 0.8967853347502657,
+        "set_size": 1.21692348565356
+      }
+    },
+    "pipeline_sha256": "603a21acb487d0f3b04a5634e916916120023e2777823c21c743a1641c6656fd",
+    "score_kind": "probability",
+    "set_size": 1.534586,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.8015008894841381
+  },
+  "started_at": "2026-10-28T10:44:57.696892+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/artifacts/e4/rep_2/eval/treatment/random_forest/K_tenth_generated_gmm",
+    "condition": "K_tenth_generated_gmm",
+    "dependencies": [
+      "e4/rep_2/fit/treatment/random_forest/K_tenth_generated_gmm"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_2/fit/treatment/random_forest/K_tenth_generated_gmm",
+    "generator": "gmm",
+    "key": "e4/rep_2/eval/treatment/random_forest/K_tenth_generated_gmm",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.1,
+    "rep": 2,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 3,
+    "target_label": "K",
+    "treatment": "generated_gmm"
+  },
+  "task_sha256": "b857f88b3df84c554fb505462ab9798fab54e986143162732b0de9c270c8f60b"
+}

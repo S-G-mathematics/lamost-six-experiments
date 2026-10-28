@@ -94,5 +94,8 @@ test_files=(
   "$R/tests/test_batch_inode_inventory_fixture.py" \
   "$R/tests/core_3bf/test_3bf_cold_model_storage.py" \
   "$R/tests/test_mixed_small_profile.py"
+  "$R/tests/test_unlink_checkpoint_batch.py" \
+  "$R/tests/test_recovery_archive_digest_reuse.py" \
+  "$R/tests/test_legacy_checkpoint_migration.py" \
 )
 exec "$python_bin" -m pytest "${pytest_args[@]}" "${test_files[@]}"

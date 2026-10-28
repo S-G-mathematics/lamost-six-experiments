@@ -1,6 +1,6 @@
 # E5 snapshot
 
-At the 08:48 UTC observer snapshot, E5 had 960 planned cases: 700 successful, 50 scientific failures, 78 unavailable, and 132 waiting.
+At the 2026-10-28T11:12:34.883459+00:00 UTC observer snapshot, E5 had 960 planned cases: 700 successful, 50 scientific failures, 78 unavailable, and 132 waiting. No new E5 evaluation was added in this increment.
 
 The incremental validated results supplement at reports/E4_INCREMENTAL_RESULTS_20261028T084431Z.md includes the E5 rep-3 direct Extra Trees clean alias. It reuses the E4 rep-3 direct Extra Trees control outcome and is not a separate fit or prediction run.
 

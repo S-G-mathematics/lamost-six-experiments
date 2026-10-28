@@ -1,6 +1,6 @@
 # E4 snapshot
 
-At the 08:48 UTC observer snapshot, E4 had 1,773 planned cells: 1553 successful, 71 scientific failures, 3 unavailable, and 146 waiting.
+At the 2026-10-28T11:12:34.883459+00:00 UTC observer snapshot, E4 had 1,773 planned cells: 1563 successful, 71 scientific failures, 3 unavailable, and 136 waiting. New validated rep-2 records are in the dated incremental supplement.
 
 The timestamped incremental results supplement at reports/E4_INCREMENTAL_RESULTS_20261028T084431Z.md adds the two newly validated E4 records since the prior Git snapshot. It lists each repetition and its saved per-class metrics; it does not recalculate the full E4 paired tables or figures. The E4 rep-3 Extra Trees control is also reused as the E5 rep-3 clean alias.
 

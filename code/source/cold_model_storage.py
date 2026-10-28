@@ -862,6 +862,67 @@ class ColdModelStore:
             if not row or row.get("sha256")!=item["sha256"] or row.get("archive_member")!=item["archive_member"] or row.get("crc32")!=item["crc32"] or row.get("header_offset")!=item["header_offset"]:raise AmbiguousState("committed public manifest omits or mismatches model")
             if row.get("storage_encoding")!=item.get("storage_encoding"):raise AmbiguousState("committed codec descriptor differs from transaction")
     def _unlink_aliases(self,j,fail_after_unlinks=None):
+        policy=j.get("unlink_checkpoint_policy")
+        if policy is None:
+            # Journals written before checkpoint batching retain byte-for-byte
+            # legacy per-alias recovery behavior.
+            return self._unlink_aliases_legacy(j,fail_after_unlinks)
+        if policy!={"schema":"bounded-intent-batch/1","max_aliases":48}:
+            raise AmbiguousState("unknown or malformed unlink checkpoint policy")
+        return self._unlink_aliases_checkpointed(j,fail_after_unlinks)
+    def _unlink_aliases_checkpointed(self,j,fail_after_unlinks=None):
+        policy=j["unlink_checkpoint_policy"]
+        jp=self._journal_dir(j["transaction_id"])/"journal.json"
+        j["state"]="unlinking";_atomic_json(jp,j);done=0;seen=set();pending=[]
+        for item in j["items"]:
+            if not isinstance(item.get("aliases"),list) or not isinstance(item.get("unlink_intents"),list) or not isinstance(item.get("removed_aliases"),list):
+                raise AmbiguousState("checkpointed item lacks alias journal state")
+            for rel in item["aliases"]:
+                rel=_safe_rel(rel)
+                if rel in seen:raise AmbiguousState("duplicate alias path across checkpointed items: "+rel)
+                seen.add(rel)
+                if rel not in item["removed_aliases"]:pending.append((item,rel))
+        max_aliases=policy["max_aliases"]
+        for offset in range(0,len(pending),max_aliases):
+            batch=pending[offset:offset+max_aliases];new_intents=[]
+            # Publish intent for every still-present alias in this bounded
+            # batch before unlinking any. Missing entries require an earlier
+            # durable intent. Content, inode and link-count checks run once in
+            # the existing verified unlink step below, immediately before use.
+            for item,rel in batch:
+                p=self._physical_path(rel)
+                if not p.exists() and not p.is_symlink():
+                    if rel not in item["unlink_intents"]:raise AmbiguousState("untracked alias disappeared after archive commit: "+rel)
+                    if rel not in item["removed_aliases"]:item["removed_aliases"].append(rel)
+                    continue
+                if rel not in item["unlink_intents"]:
+                    item["unlink_intents"].append(rel);new_intents.append(rel)
+            if new_intents:_atomic_json(jp,j)
+            # A zero-count injected crash models loss immediately after durable
+            # intent publication and before the first filesystem unlink.
+            if fail_after_unlinks==0 and done==0:raise RuntimeError("injected interruption after unlink intent batch")
+            for item,rel in batch:
+                if rel in item["removed_aliases"]:continue
+                p=self._physical_path(rel)
+                if not p.exists() and not p.is_symlink():
+                    if rel not in item["unlink_intents"]:raise AmbiguousState("untracked alias disappeared after archive commit: "+rel)
+                    item["removed_aliases"].append(rel);continue
+                if p.is_symlink() or not p.is_file() or sha256_file(p)!=item["sha256"]:
+                    raise AmbiguousState("alias changed after archive commit: "+rel)
+                st=p.stat()
+                if (st.st_dev,st.st_ino)!=(item["device"],item["inode"]):
+                    raise AmbiguousState("alias inode changed after archive commit: "+rel)
+                expected_links=len(item["aliases"])-len(item["removed_aliases"])
+                if st.st_nlink!=expected_links:raise AmbiguousState("hardlink count changed after archive commit: "+rel)
+                if rel not in item["unlink_intents"]:raise AmbiguousState("alias lacks durable unlink intent: "+rel)
+                p.unlink();_fsync_dir(p.parent);item["removed_aliases"].append(rel);done+=1
+                if fail_after_unlinks is not None and done>=fail_after_unlinks:
+                    raise RuntimeError("injected interruption during alias removal")
+            # One durable checkpoint records all completed or recovered-missing
+            # aliases in this bounded batch.
+            _atomic_json(jp,j)
+        j["state"]="complete";j["completed_utc"]=time.time();_atomic_json(jp,j)
+    def _unlink_aliases_legacy(self,j,fail_after_unlinks=None):
         jp=self._journal_dir(j["transaction_id"])/"journal.json";done=0
         j["state"]="unlinking";_atomic_json(jp,j)
         for item in j["items"]:
@@ -913,6 +974,7 @@ class ColdModelStore:
             j={"schema_version":SCHEMA,"transaction_id":tx,"state":"creating_backup","archive_relpath":self.archive.relative_to(self.root).as_posix(),"archive_sha256_before":oldsha,"archive_size_before":oldsize,"archive_device":self.archive.stat().st_dev,"archive_inode":self.archive.stat().st_ino,"central_directory_offset":start,"old_zip_records":oldrec,"old_zip_records_sha256":_record_sha(oldrec),"items":normalized,"required_task_keys":sorted(required),"process_inventory_complete":private_receipt.get("complete") is True,"created_utc":_safety.now_utc(),"public_manifest_before_sha256":manifest_before_sha,"member_records_after":None,"archive_sha256_after":None,"last_error":None}
             j["storage_codec_policy"]=self.storage_codec_policy
             j["codec_verifier_source_sha256"]=_IMPORTED_SOURCE_SHA256
+            j["unlink_checkpoint_policy"]={"schema":"bounded-intent-batch/1","max_aliases":48}
             jp=d/"journal.json";_atomic_json(jp,j)
             _atomic_json(d/"private_process_inventory.json",{"observed_utc":private_receipt.get("observed_utc"),"task_count":private_receipt.get("task_count"),"matching_processes":private_receipt.get("matching_processes"),"complete":private_receipt.get("complete"),"checked_task_process_identities":private_receipt.get("checked_task_process_identities",[]),"private_operational_evidence":True})
             tail=self._backup_tail(j)
@@ -957,11 +1019,22 @@ class ColdModelStore:
                     raise AmbiguousState("pre-append manifest has members but no committed archive identity")
                 return "rolled_back"
             if j["state"] in ("archive_committed","manifest_committed","unlinking"):
-                if sha256_file(self.archive)!=j["archive_sha256_after"]:raise AmbiguousState("committed ZIP changed")
+                # A caller may already have verified the whole-file digest and
+                # seeded the exact five-stat cache. Otherwise this check hashes once.
+                # Reuse only through the manifest checker, which rechecks the
+                # same identity before/after and recomputes on any stat drift.
+                if j["state"]=="archive_committed" and current_manifest.get("archive_sha256")!=j["archive_sha256_after"]:
+                    # A crash before public-manifest publication retains the old
+                    # manifest; verify the committed archive against the journal.
+                    recovered_sha=sha256_file(self.archive)
+                    with zipfile.ZipFile(self.archive,"r",allowZip64=True) as recovered_zip:
+                        recovered_records=_zip_records_all(recovered_zip)
+                else:
+                    recovered_sha,_,recovered_records=self._check_archive_manifest(current_manifest)
+                if recovered_sha!=j["archive_sha256_after"]:raise AmbiguousState("committed ZIP changed")
+                if recovered_records!=j["member_records_after"]:raise AmbiguousState("committed ZIP records differ from transaction")
                 with zipfile.ZipFile(self.archive,"r",allowZip64=True) as z:
-                    rec=_zip_records_all(z)
-                    if rec!=j["member_records_after"]:raise AmbiguousState("committed ZIP records differ")
-                    by={x["member"]:x for x in rec}
+                    by={x["member"]:x for x in recovered_records}
                     for item in j["items"]:
                         self._verify_transaction_item(item,by.get(item["archive_member"]),z)
                 if j["state"]=="archive_committed":self._write_manifest(j)
