@@ -44,7 +44,18 @@ WRAPPER_RSS_LIMIT=1536*1024**2
 WRAPPER_AS_LIMIT=1536*1024**2
 TERM_GRACE=30
 EXPECTED_INSTANCE='i-095641a281a4038b9'
-PINS={'controller.py': 'db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae', 'cold_model_storage.py': '889a4083ca575fc7afa1f4bedd240c3f59a912c41549098cbd920a4a5ff543ec', 'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c', 'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca', 'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9', 'run_batch.py': 'cfeb99ca7327a3744962a4a1367bbe3384e66d160c4f30227921bfcf5c36f921', 'commit_batch_child.py': '81d0e388a5836382d15963845970e938abb1bca09e387598405767f658ce7411', 'batch_plan.py': 'a46eea100f5046eaf6166f01b0ee8ecf21999d928fb4c38dc54f217a65f82c7b', 'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273', 'archive_fit_admission.py': 'ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030', 'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1'}
+PINS={'controller.py': 'db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae',
+ 'cold_model_storage.py': '0bff884e4cdb897320d0565a2da9b073fea378d3c078e6b800b21a5a29a616cf',
+ 'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c',
+ 'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca',
+ 'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
+ 'run_batch.py': 'a313e17a03db0c5517ad2684707bcf41531200bae8b15e232b9d6186df5cdcda',
+ 'commit_batch_child.py': '7a329574198fc33093cb25743552d3efda6bd598d9353bae3546f531637aab86',
+ 'batch_plan.py': '6616597e4e3d3fc9c6eb550553c6ee9033496ea5d5174feb58d4f6a3d723e575',
+ 'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
+ 'archive_fit_admission.py': 'd06fdf9b616b41eebcbaf43f4276c9bab2085901f618f8f6c17068538bd0b25c',
+ 'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
+ 'metadata_access_contract_v2.py': '3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8'}
 PRIVATE=R/'logs/private/cold_auto_compaction'
 PUBLIC=R/'reports/engineering_audits/cold_auto_compaction'
 JOURNALS=R/'journals/cold_model_store'

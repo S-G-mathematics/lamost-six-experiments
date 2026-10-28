@@ -2,7 +2,7 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research snapshot - 2026-10-28 16:42:34 IST (2026-10-28T11:12:34.883459+00:00 UTC).** This repository is a saved research record, not a claim that all six experiments have passed final validation. E4 and E5 still have pending evaluations. Existing E1 failures are preserved, E2 has incomplete primary coverage, and E6 has no successful primary ensemble test evaluations.
+**Interim research snapshot - 2026-10-28T18:10:41.416317+05:30 (2026-10-28T12:40:41.416317+00:00 UTC).** This repository is a saved research record, not a claim that all six experiments have passed final validation. E4 and E5 still have pending evaluations. Existing E1 failures are preserved, E2 has incomplete primary coverage, and E6 has no successful primary ensemble test evaluations.
 
 ## Experiment status and navigation
 
@@ -11,7 +11,7 @@ Code, recorded results, figures and scientific provenance for seven-class classi
 | E1 | Frozen classification benchmark | 765 terminal: 674 successful, 81 failed, 10 unsupported | [E1 report and ledger](experiments/E1/README.md) |
 | E2 | Generator fidelity versus classification | 108/150 primary evaluations; 120/120 separate classical references | [E2 report and provenance](experiments/E2/README.md) |
 | E3 | Direct Bayes, synthetic-only and real-only learning | 69 terminal: 64 successful, 3 failed, 2 unavailable | [E3 results](experiments/E3/README.md) |
-| E4 | Imbalance and target-class restoration | 1,563 successful, 71 failed, 3 unavailable, **136 waiting** / 1,773 | [E4 interim results](experiments/E4/README.md) |
+| E4 | Imbalance and target-class restoration | 1567 successful, 71 failed, 3 unavailable, **132 waiting** / 1,773 | [E4 interim results](experiments/E4/README.md) |
 | E5 | Fitting-data corruption | 700 successful, 50 failed, 78 unavailable, **132 waiting** / 960 | [E5 interim results](experiments/E5/README.md) |
 | E6 | Generative posterior ensembles | 12 member-reference successes, 3 primary failures, 6 unavailable / 21; primary ensemble successes: **0** | [E6 availability and findings](experiments/E6/README.md) |
 

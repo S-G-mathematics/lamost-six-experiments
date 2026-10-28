@@ -22,7 +22,7 @@ _LEGACY_CORE_SHA256="ba909e9f55f5f8020f165a5ac42f4159eed4c8c4b69b64f95f7313fd824
 _LEGACY_HISTORY_SHA256="594eebc2140060a48219394d48fb3fd15ee6b357cdc91c776f7c96bd1013b33f"
 _LEGACY_PASS_SHA256="c101e8486ffcf6e54f9eadd11a5c0ffebddcb378a6b6886ff8505f1a0d1e8d51"
 _LEGACY_HISTORY_ENTRY_COUNT=54
-_ARCHIVABLE_FIT_METHODS=frozenset(("arf", "cart", "chow_liu", "copula", "gaussian_nb", "gmm", "hist_gb", "kde", "knn", "lda", "linear_svm", "logistic", "qda", "random_forest", "rbf_svm", "shared_diagonal"))
+_ARCHIVABLE_FIT_METHODS = frozenset(['arf', 'cart', 'chow_liu', 'copula', 'extra_trees', 'gaussian_nb', 'gmm', 'hist_gb', 'kde', 'knn', 'lda', 'linear_svm', 'logistic', 'qda', 'random_forest', 'rbf_svm', 'shared_diagonal'])
 
 
 def _sha_bytes(data):return hashlib.sha256(data).hexdigest()
@@ -223,8 +223,16 @@ class ColdModelStore:
             return None
         if pending and not isinstance(claimed,dict): raise UnsafePlan("nonterminal consumers require an explicit metadata-only contract")
         if claimed is None: return None
-        import metadata_only_contract as contract_module
-        if sha256_file(Path(contract_module.__file__))!="1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1": raise UnsafePlan("metadata-only contract module pin mismatch")
+        policy=claimed.get("policy")
+        if policy=="e3-e5-fixed-selection-json-v1":
+            # Preserve the original E3 rep2 v1 source pin and verifier path.
+            import metadata_only_contract as contract_module
+            if sha256_file(Path(contract_module.__file__))!="1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1": raise UnsafePlan("metadata-only v1 contract module pin mismatch")
+        elif policy=="producer-selection-json-access-v2":
+            import metadata_access_contract_v2 as contract_module
+            if sha256_file(Path(contract_module.__file__))!='3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8': raise UnsafePlan("metadata-access v2 contract module pin mismatch")
+        else:
+            raise UnsafePlan("unknown metadata-only consumer contract version")
         try: expected=contract_module.build_contract(self.root,key,records,closure)
         except Exception as exc: raise AmbiguousState("metadata-only consumer contract no longer validates") from exc
         if claimed!=expected: raise AmbiguousState("metadata-only consumer contract changed")
@@ -369,13 +377,143 @@ class ColdModelStore:
     @staticmethod
     def _stat_identity(st):return _archive_stat_identity(st)
     def _check_reviewed_baseline(self,manifest,reviewed_sha256):
-        """Bind the explicit reviewed digest, manifest, ZIP index and prefix in one fresh read."""
+        """Verify reviewed baseline under writer/readers lease, using only a bound durable witness."""
         expected=reviewed_sha256.lower() if isinstance(reviewed_sha256,str) else ""
         if len(expected)!=64 or any(c not in "0123456789abcdef" for c in expected):
             raise UnsafePlan("explicit 64-hex reviewed baseline SHA required")
-        actual,st,records=self._check_archive_manifest(manifest)
-        if actual!=expected:raise AmbiguousState("archive does not match explicit reviewed baseline")
-        return actual,st,records
+        with self._write_lock():
+            self._assert_no_pending_transactions()
+            cache_path=self._baseline_cache_path()
+            if cache_path.is_file() and not cache_path.is_symlink() and self.archive.is_file() and not self.archive.is_symlink():
+                before=self.archive.stat();identity=_archive_stat_identity(before)
+                with zipfile.ZipFile(self.archive,"r",allowZip64=True) as z:
+                    records=_zip_records_all(z);start=z.start_dir
+                if _archive_stat_identity(self.archive.stat())==identity:
+                    self._seed_verified_baseline_cache(manifest,records,start,identity)
+            actual,st,records=self._check_archive_manifest(manifest)
+            if actual!=expected:raise AmbiguousState("archive does not match explicit reviewed baseline")
+            return actual,st,records
+    def _baseline_cache_path(self):
+        return self.runtime/"manifests"/".verified_archive_baseline_cache.json"
+    def _baseline_cache_source_pins(self):
+        names=("cold_model_storage.py","cold_storage_safety.py","cold_codec_storage.py","reversible_joblib_codec.py",
+               "commit_batch_child.py","run_batch.py","cold_auto_compaction.py","batch_plan.py","controller.py",
+               "archive_fit_admission.py","metadata_only_contract.py","admission_evidence.py")
+        source_dir=Path(__file__).resolve().parent;out={}
+        for name in names:
+            p=source_dir/name
+            if p.is_symlink() or not p.is_file():return None
+            out[name]=sha256_file(p)
+        if out.get("cold_model_storage.py")!=_IMPORTED_SOURCE_SHA256:return None
+        return out
+    def _has_pending_journal(self):
+        if not self.journals.exists():return False
+        try:
+            for d in self.journals.iterdir():
+                jp=d/"journal.json"
+                if not jp.exists():continue
+                if jp.is_symlink() or not jp.is_file():return True
+                j=json.loads(jp.read_text())
+                if j.get("state") not in ("complete","rolled_back"):return True
+        except Exception:return True
+        return False
+    def _seed_verified_baseline_cache(self,manifest,actual_records,actual_zip_start,archive_identity):
+        """Seed the existing in-process cache only from a completed, fully bound receipt."""
+        try:
+            if self._has_pending_journal():return False
+            archive_rel=self.archive.relative_to(self.root).as_posix()
+            if self.archive.is_symlink() or not self.archive.is_file() or manifest.get("archive_path")!=archive_rel:return False
+            before=self.archive.stat();identity=_archive_stat_identity(before)
+            if identity!=archive_identity:return False
+            cache_path=self._baseline_cache_path()
+            if cache_path.is_symlink() or not cache_path.is_file():return False
+            receipt=json.loads(cache_path.read_text())
+            if receipt.get("schema")!="verified-cold-archive-baseline/1":return False
+            if receipt.get("archive_path")!=archive_rel or tuple(receipt.get("archive_identity",()))!=identity:return False
+            if receipt.get("archive_sha256")!=manifest.get("archive_sha256") or receipt.get("archive_bytes")!=before.st_size:return False
+            records=manifest.get("zip_records")
+            if not isinstance(records,list) or actual_records!=records:return False
+            records_sha=_record_sha(records)
+            if receipt.get("zip_records_sha256")!=records_sha:return False
+            if receipt.get("zip_start_dir")!=actual_zip_start or receipt.get("prefix_bytes")!=actual_zip_start:return False
+            prefix_sha=receipt.get("prefix_sha256")
+            if not isinstance(prefix_sha,str) or len(prefix_sha)!=64 or any(c not in "0123456789abcdef" for c in prefix_sha):return False
+            txid=manifest.get("transaction_id")
+            if not isinstance(txid,str) or len(txid)!=32 or any(c not in "0123456789abcdef" for c in txid) or receipt.get("transaction_id")!=txid:return False
+            manifest_path=self.manifest
+            if manifest_path.is_symlink() or not manifest_path.is_file():return False
+            manifest_sha=sha256_file(manifest_path)
+            if receipt.get("manifest_sha256")!=manifest_sha:return False
+            journal_path=self._journal_dir(txid)/"journal.json"
+            if journal_path.is_symlink() or not journal_path.is_file():return False
+            journal_sha=sha256_file(journal_path)
+            if receipt.get("journal_sha256")!=journal_sha:return False
+            j=json.loads(journal_path.read_text())
+            if (j.get("state")!="complete" or j.get("transaction_id")!=txid or
+                j.get("archive_relpath")!=archive_rel or j.get("archive_sha256_after")!=manifest.get("archive_sha256") or
+                j.get("archive_bytes_after")!=before.st_size or j.get("member_records_after")!=records or
+                j.get("manifest_sha256")!=manifest_sha or j.get("public_manifest_after_sha256")!=manifest_sha or
+                j.get("codec_verifier_source_sha256")!=_IMPORTED_SOURCE_SHA256 or
+                j.get("archive_identity_after")!=list(identity) or
+                j.get("archive_prefix_bytes_after")!=actual_zip_start or
+                j.get("archive_prefix_sha256_after")!=receipt.get("prefix_sha256")):
+                return False
+            pins=self._baseline_cache_source_pins()
+            if pins is None or receipt.get("source_pins")!=pins or j.get("archive_source_pins_after")!=pins:return False
+            if receipt.get("verifier_source_sha256")!=_IMPORTED_SOURCE_SHA256:return False
+            after=self.archive.stat()
+            if _archive_stat_identity(after)!=identity:return False
+            self._archive_identity_cache={"identity":identity,"sha256":manifest["archive_sha256"],"zip_records":records,
+                "prefix_bytes":actual_zip_start,"prefix_sha256":prefix_sha,"zip_start_dir":actual_zip_start}
+            return True
+        except Exception:
+            return False
+    def _persist_completed_baseline_cache(self,transaction_id):
+        """Best-effort optimization receipt; a cache write never fails a completed commit."""
+        try:
+            if self._has_pending_journal():return False
+            cache=getattr(self,"_archive_identity_cache",None)
+            if not isinstance(cache,dict):return False
+            archive_rel=self.archive.relative_to(self.root).as_posix()
+            if self.archive.is_symlink() or not self.archive.is_file():return False
+            st=self.archive.stat();identity=_archive_stat_identity(st)
+            if cache.get("identity")!=identity:return False
+            prefix=cache.get("prefix_sha256");prefix_bytes=cache.get("prefix_bytes");start=cache.get("zip_start_dir")
+            if (not isinstance(prefix,str) or len(prefix)!=64 or any(c not in "0123456789abcdef" for c in prefix) or
+                not isinstance(prefix_bytes,int) or prefix_bytes<0 or start!=prefix_bytes):return False
+            manifest_path=self.manifest
+            if manifest_path.is_symlink() or not manifest_path.is_file():return False
+            manifest=json.loads(manifest_path.read_text());manifest_sha=sha256_file(manifest_path)
+            if manifest.get("transaction_id")!=transaction_id or manifest.get("archive_path")!=archive_rel:return False
+            if manifest.get("archive_sha256")!=cache.get("sha256") or manifest.get("archive_bytes")!=st.st_size:return False
+            records=manifest.get("zip_records")
+            if not isinstance(records,list) or records!=cache.get("zip_records"):return False
+            journal_path=self._journal_dir(transaction_id)/"journal.json"
+            if journal_path.is_symlink() or not journal_path.is_file():return False
+            j=json.loads(journal_path.read_text());journal_sha=sha256_file(journal_path)
+            if (j.get("state")!="complete" or j.get("transaction_id")!=transaction_id or
+                j.get("archive_relpath")!=archive_rel or j.get("archive_sha256_after")!=cache.get("sha256") or
+                j.get("archive_bytes_after")!=st.st_size or j.get("member_records_after")!=records or
+                j.get("manifest_sha256")!=manifest_sha or j.get("public_manifest_after_sha256")!=manifest_sha or
+                j.get("codec_verifier_source_sha256")!=_IMPORTED_SOURCE_SHA256 or
+                j.get("archive_identity_after")!=list(identity) or
+                j.get("archive_prefix_bytes_after")!=prefix_bytes or
+                j.get("archive_prefix_sha256_after")!=prefix):return False
+            pins=self._baseline_cache_source_pins()
+            if pins is None or j.get("archive_source_pins_after")!=pins:return False
+            if _archive_stat_identity(self.archive.stat())!=identity:return False
+            receipt={"schema":"verified-cold-archive-baseline/1","transaction_id":transaction_id,"archive_path":archive_rel,
+                "archive_identity":list(identity),"archive_sha256":cache["sha256"],"archive_bytes":st.st_size,
+                "zip_records_sha256":_record_sha(records),"zip_start_dir":start,"prefix_bytes":prefix_bytes,"prefix_sha256":prefix,
+                "manifest_sha256":manifest_sha,"journal_sha256":journal_sha,"verifier_source_sha256":_IMPORTED_SOURCE_SHA256,
+                "source_pins":pins,"created_utc":_safety.now_utc()}
+            path=self._baseline_cache_path();path.parent.mkdir(parents=True,exist_ok=True)
+            if path.is_symlink():return False
+            _atomic_json(path,receipt);os.chmod(path,0o600)
+            fd=os.open(path,os.O_RDONLY);os.fsync(fd);os.close(fd);_fsync_dir(path.parent)
+            return True
+        except Exception:
+            return False
     def _check_archive_manifest(self,manifest):
         if not self.archive.is_file() or self.archive.is_symlink():raise AmbiguousState("cold ZIP missing or not regular")
         before=self.archive.stat();identity=_archive_stat_identity(before)
@@ -830,6 +968,11 @@ class ColdModelStore:
                 raise AmbiguousState("preexisting archive payload prefix changed during append")
             self._verify_live_alias_snapshot(j["items"])
             j["archive_sha256_after"]=final_sha
+            j["archive_identity_after"]=list(final_identity)
+            j["archive_prefix_bytes_after"]=final_zip_start
+            j["archive_prefix_sha256_after"]=prefix_hashes[final_zip_start]
+            source_pins=self._baseline_cache_source_pins()
+            if source_pins is not None:j["archive_source_pins_after"]=source_pins
             self._archive_identity_cache={"identity":final_identity,"sha256":j["archive_sha256_after"],"zip_records":records,
                 "prefix_bytes":final_zip_start,"prefix_sha256":prefix_hashes[final_zip_start],"zip_start_dir":final_zip_start}
             j["archive_bytes_after"]=final_st.st_size;j["state"]="archive_committed"
@@ -956,6 +1099,7 @@ class ColdModelStore:
             if not self.archive.is_file() or self.archive.is_symlink():raise UnsafePlan("cold archive must be pre-created as regular ZIP")
             old_stat=self.archive.stat();old_identity=_archive_stat_identity(old_stat);oldsize=old_stat.st_size
             with zipfile.ZipFile(self.archive,"r",allowZip64=True) as z:oldrec=_zip_records_all(z);start=z.start_dir
+            if _archive_stat_identity(self.archive.stat())!=old_identity:raise AmbiguousState("cold ZIP changed while indexing baseline records")
             current=_manifest_load(self.manifest)
             if current.get("archive_sha256") is None:
                 oldsha,old_prefix_sha,total=sha256_file_and_prefix(self.archive,start)
@@ -964,7 +1108,9 @@ class ColdModelStore:
                 if oldrec:raise AmbiguousState("nonempty cold archive lacks committed manifest")
                 self._archive_identity_cache={"identity":old_identity,"sha256":oldsha,"zip_records":oldrec,
                     "prefix_bytes":start,"prefix_sha256":old_prefix_sha,"zip_start_dir":start}
-            else:oldsha,_,_=self._check_archive_manifest(current)
+            else:
+                self._seed_verified_baseline_cache(current,oldrec,start,old_identity)
+                oldsha,_,_=self._check_archive_manifest(current)
             required|=self._validate_existing_members(current,registry_records)
             private_receipt=_safety.verify_no_matching_processes(self.root,required,registry_records)
             existing={r["member"] for r in oldrec};new={x["archive_member"] for x in normalized}
@@ -981,6 +1127,7 @@ class ColdModelStore:
             j["tail_sha256"]=sha256_file(tail);j["prefix_sha256"]=self._verified_prefix_digest(oldsha,start);j["state"]="prepared";_atomic_json(jp,j)
             try:
                 j=self._append_locked(j,fault_after_bytes);self._write_manifest(j);self._unlink_aliases(j,fail_after_unlinks)
+                self._persist_completed_baseline_cache(tx)
             except BaseException as e:
                 with contextlib.suppress(Exception):
                     j=json.loads(jp.read_text());j["last_error"]={"type":type(e).__name__,"message":str(e)};_atomic_json(jp,j)

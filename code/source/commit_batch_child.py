@@ -4,7 +4,16 @@ ROOT=Path('/home/ubuntu/lamost_e1_migration_20261023'); R=ROOT/'runtime_20261025
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import cold_model_storage as cold
 from batch_plan import build_candidates, select_batch, public_candidate_summary, require_reviewed_baseline, validate_operation_directory, verify_alias_resolution, MAX_INITIAL_BYTES, MAX_INITIAL_GROUPS, MAX_LATER_BYTES, MAX_LATER_GROUPS, RAW_WIDE_MAX_BYTES, RAW_WIDE_MAX_GROUPS, RAW_WIDE_PROFILE, RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES, RAW_MIXED_SMALL_MAX_BYTES, RAW_MIXED_SMALL_MAX_GROUPS, RAW_MIXED_SMALL_PROFILE, RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES
-PINS={'cold_model_storage.py': '889a4083ca575fc7afa1f4bedd240c3f59a912c41549098cbd920a4a5ff543ec', 'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c', 'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca', 'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273', 'controller.py': 'db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae', 'batch_plan.py': 'a46eea100f5046eaf6166f01b0ee8ecf21999d928fb4c38dc54f217a65f82c7b', 'archive_fit_admission.py': 'ad54590034b336482efc91f4960ac20474923e18ac317b197d02ebeb2f331030', 'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1', 'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9'}
+PINS={'cold_model_storage.py': '0bff884e4cdb897320d0565a2da9b073fea378d3c078e6b800b21a5a29a616cf',
+ 'cold_codec_storage.py': '9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c',
+ 'reversible_joblib_codec.py': '189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca',
+ 'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
+ 'controller.py': 'db792edc3d855a5c052c0c2408bd56d292efa2e9051f27d89237571c874c78ae',
+ 'batch_plan.py': '6616597e4e3d3fc9c6eb550553c6ee9033496ea5d5174feb58d4f6a3d723e575',
+ 'archive_fit_admission.py': 'd06fdf9b616b41eebcbaf43f4276c9bab2085901f618f8f6c17068538bd0b25c',
+ 'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
+ 'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
+ 'metadata_access_contract_v2.py': '3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8'}
 def now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def sha(p): return cold.sha256_file(p)
 def snapshot():

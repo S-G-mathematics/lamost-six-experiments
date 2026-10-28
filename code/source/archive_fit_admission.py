@@ -18,9 +18,11 @@ GIB = 1024 ** 3
 HELPER_RESERVATION_BYTES = int(1.5 * GIB)
 HELPER_CPU_UNITS = 1
 OWNER_OPERATION = 'rf_cold_batch_wrapper_20261026'
-IO_PROFILE = 'bounded-1800'
+IO_PROFILE = 'bounded-1800-mixedsmall4gib2048'
 BATCH_POLICY = 'storage-followup'
 CACHE_SHA_MEMO = {}
+COLD_MEMBER_REF_CACHE = {}
+COLD_MEMBER_REF_CACHE_MAX = 2
 
 def _sha256_bytes(data):
     return hashlib.sha256(data).hexdigest()
@@ -69,6 +71,40 @@ def _cached_sha(path, expected=None):
         CACHE_SHA_MEMO[str(p.resolve())]=(after,digest)
     if expected is not None and digest!=expected:raise ValueError('input_hash_mismatch')
     return digest
+
+def _cold_model_manifest_refs(root):
+    """Return the exact logical paths already represented in the cold index.
+
+    The native fit output must be absent both on disk and from the current cold
+    archive index; an old archived alias is not permission to refit/recreate it.
+    Cache only by verified file identity and digest.
+    """
+    root=pathlib.Path(root).resolve()
+    path=_safe_file(root,pathlib.Path('manifests/cold_model_store_manifest.json'))
+    identity=_identity(path);digest=_cached_sha(path)
+    cache_key=str(path.resolve())
+    cached=COLD_MEMBER_REF_CACHE.get(cache_key)
+    if cached and cached[0]==identity and cached[1]==digest:
+        return digest,cached[2]
+    doc=_json_regular(path)
+    if doc.get('schema_version')!='lamost-cold-model-store/1' or not isinstance(doc.get('members'),list):
+        raise ValueError('cold_manifest_schema')
+    refs=set()
+    def add_safe(value):
+        if not isinstance(value,str) or not value or '\\' in value:
+            raise ValueError('cold_manifest_logical_path')
+        rel=pathlib.PurePosixPath(value)
+        if rel.is_absolute() or rel.as_posix()!=value or any(x in ('','.','..') for x in rel.parts):
+            raise ValueError('cold_manifest_logical_path')
+        refs.add(value)
+    for row in doc['members']:
+        if not isinstance(row,dict) or not isinstance(row.get('aliases'),list):
+            raise ValueError('cold_manifest_member')
+        add_safe(row.get('logical_path'))
+        for alias in row['aliases']:add_safe(alias)
+    if len(COLD_MEMBER_REF_CACHE)>=COLD_MEMBER_REF_CACHE_MAX:COLD_MEMBER_REF_CACHE.clear()
+    COLD_MEMBER_REF_CACHE[cache_key]=(identity,digest,refs)
+    return digest,refs
 
 def _source_pin_dict(path, assignment):
     tree=ast.parse(pathlib.Path(path).read_text(encoding='utf-8'),filename=str(path))
@@ -185,9 +221,9 @@ def native_fit_proof(runtime, task, definition, tasks):
             if not isinstance(validation,dict) or validation.get('status')!='validated' or validation.get('task_key')!=key:return None
             file_hashes=validation.get('files')
             if not isinstance(file_hashes,dict):return None
-            data_path=_safe_file(root,pathlib.Path('artifacts')/key/'data.npz')
             data_sha=None
             if 'data.npz' in file_hashes:
+                data_path=_safe_file(root,pathlib.Path('artifacts')/key/'data.npz')
                 data_sha=_cached_sha(data_path,file_hashes['data.npz'])
             if key==task.get('train_key') and data_sha is None:return None
             selection_sha=None
@@ -241,6 +277,12 @@ def native_fit_proof(runtime, task, definition, tasks):
         except (OSError,ValueError,TypeError):return None
     key=task.get('key')
     if not isinstance(key,str) or not re.fullmatch(r'[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*',key):return None
+    archive_target=(pathlib.PurePosixPath(root.name)/'artifacts'/key/'pipeline.joblib').as_posix()
+    try:
+        cold_manifest_sha,cold_model_refs=_cold_model_manifest_refs(root)
+    except (OSError,ValueError,TypeError,KeyError,json.JSONDecodeError):
+        return None
+    if archive_target in cold_model_refs:return None
     artifact_root=root/'artifacts';out=artifact_root/key
     cur=out
     while cur!=artifact_root and artifact_root in cur.parents:
@@ -255,6 +297,7 @@ def native_fit_proof(runtime, task, definition, tasks):
            'route':route,'method':task.get('method'),'rep':rep,
            'definition_sha256':_sha256_bytes(json.dumps(definition,sort_keys=True,separators=(',',':'),default=str).encode()),
            'dependency_evidence':dep_evidence,'role_cache':role_proof,'selection':selection_proof,
+           'cold_model_manifest_sha256':cold_manifest_sha,'candidate_pipeline_logical_path':archive_target,
            'no_existing_same_task_model_or_checkpoint':True}
     proof['proof_sha256']=_sha256_bytes(json.dumps(proof,sort_keys=True,separators=(',',':'),default=str).encode())
     return proof

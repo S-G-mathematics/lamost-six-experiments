@@ -8,6 +8,7 @@ from commit_batch_child import filter_candidate_publication_aliases
 from test_cold_model_storage import setup_store
 
 EXPECTED_METHODS = {
+    "extra_trees",
     "arf", "cart", "chow_liu", "copula", "gaussian_nb", "gmm", "hist_gb",
     "kde", "knn", "lda", "linear_svm", "logistic", "qda", "random_forest",
     "rbf_svm", "shared_diagonal",

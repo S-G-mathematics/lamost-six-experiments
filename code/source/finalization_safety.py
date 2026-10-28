@@ -4,7 +4,7 @@ from pathlib import Path,PurePosixPath
 
 PORTABLE_SCHEMA="lamost-terminal-portable-tests/1"
 LATCH_SCHEMA="lamost-finalization-retry-latch/1"
-WALL_LIMIT=60
+WALL_LIMIT=120
 RSS_LIMIT=1024**3
 TERM_GRACE=30
 RESOURCE_HOLD_LIMIT=3
@@ -216,7 +216,7 @@ def run_portable_test_bundle(root,runtime,snapshot=None):
                 failure="portable test process identity changed";resource_kind="operational";break
             rss=_tree_rss(pid);peak=max(peak,rss)
             if rss>RSS_LIMIT:failure="portable test process tree exceeded 1 GiB sampled RSS";resource_kind="memory";break
-            if time.monotonic()-begin>WALL_LIMIT:failure="portable test suite exceeded 60 seconds";resource_kind="timeout";break
+            if time.monotonic()-begin>WALL_LIMIT:failure=f"portable test suite exceeded {WALL_LIMIT} seconds";resource_kind="timeout";break
             time.sleep(.1)
         if failure:
             stopped=_terminate(p,pid,ticks,uid,snapshot["runner_path"])

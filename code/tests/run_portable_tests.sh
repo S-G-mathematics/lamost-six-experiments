@@ -97,5 +97,10 @@ test_files=(
   "$R/tests/test_unlink_checkpoint_batch.py" \
   "$R/tests/test_recovery_archive_digest_reuse.py" \
   "$R/tests/test_legacy_checkpoint_migration.py" \
+  "$R/tests/test_metadata_access_contract_v2.py"
+  "$R/tests/test_et17_archive_scope.py"
+  "$R/tests/test_durable_baseline_digest_cache.py"
+  "$R/tests/test_native_fit_mixedsmall_profile.py"
+  "$R/tests/test_native_fit_controller_harness.py"
 )
 exec "$python_bin" -m pytest "${pytest_args[@]}" "${test_files[@]}"

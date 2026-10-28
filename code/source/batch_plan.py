@@ -19,7 +19,7 @@ RAW_MIXED_SMALL_MAX_GROUPS = 2048
 RAW_MIXED_SMALL_PROFILE = "bounded-1800-mixedsmall4gib2048"
 RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES = 6 << 30
 RAW_ARCHIVE_IO_PROFILES = (RAW_WIDE_PROFILE, RAW_MIXED_SMALL_PROFILE)
-ARCHIVABLE_FIT_METHODS = frozenset(("arf", "cart", "chow_liu", "copula", "gaussian_nb", "gmm", "hist_gb", "kde", "knn", "lda", "linear_svm", "logistic", "qda", "random_forest", "rbf_svm", "shared_diagonal"))
+ARCHIVABLE_FIT_METHODS = frozenset(['arf', 'cart', 'chow_liu', 'copula', 'extra_trees', 'gaussian_nb', 'gmm', 'hist_gb', 'kde', 'knn', 'lda', 'linear_svm', 'logistic', 'qda', 'random_forest', 'rbf_svm', 'shared_diagonal'])
 
 
 def _terminal_success(task: dict[str, Any]) -> bool:
@@ -85,16 +85,26 @@ def build_candidates(root: Path, runtime: Path, records: dict[str, dict[str, Any
         metadata_contract = None
         if any(any(records.get(c, {}).get("status") != "validated_terminal" for c in closure)
                for closure in closures.values()):
-            # Only the single qualified E3 rep2 producer may use this opt-in.
-            import metadata_only_contract as contract_module
-            import hashlib
-            module_path=Path(contract_module.__file__)
-            if hashlib.sha256(module_path.read_bytes()).hexdigest()!="1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1":
-                continue
+            # Keep the original one-producer v1 binding byte-for-byte; every
+            # other pending closure uses the separately pinned v2 contract.
             if len(owner_keys) != 1:
                 continue
+            producer_key = owner_keys[0]
             try:
-                metadata_contract = contract_module.build_contract(root, owner_keys[0], records, closures[owner_keys[0]])
+                if producer_key == "e3/rep_2/fit/synthetic/random_forest/copula":
+                    import metadata_only_contract as contract_module
+                    import hashlib
+                    module_path=Path(contract_module.__file__)
+                    if hashlib.sha256(module_path.read_bytes()).hexdigest()!="1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1":
+                        continue
+                    metadata_contract = contract_module.build_contract(root, producer_key, records, closures[producer_key])
+                else:
+                    import metadata_access_contract_v2 as contract_module
+                    import hashlib
+                    module_path=Path(contract_module.__file__)
+                    if hashlib.sha256(module_path.read_bytes()).hexdigest()!='3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8':
+                        continue
+                    metadata_contract = contract_module.build_contract(root, producer_key, records, closures[producer_key])
             except Exception:
                 continue
         # Canonical paths determine a producer. Attempt/checkpoint-only orphan groups fail closed.

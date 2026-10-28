@@ -8,6 +8,7 @@ def jwrite(path,obj):
 class NativeFitScopeTests(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=pathlib.Path(self.tmp.name);self.tasks={}
+        jwrite(self.root/"manifests/cold_model_store_manifest.json",{"schema_version":"lamost-cold-model-store/1","members":[]})
         source='a'*64;ids={k:('%064x'%(i+1)) for i,k in enumerate(('fit','tune','cal','test'))}
         rolehash=write(self.root/'cache/roles/rep_1.npz',b'tiny role-membership fixture')
         jwrite(self.root/'cache/cache_manifest.json',{'cache_files':{'roles/rep_1.npz':rolehash},'roles':{'1':{'source_sha256':source,'id_hashes':ids}}})
