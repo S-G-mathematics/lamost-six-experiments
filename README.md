@@ -30,8 +30,11 @@ Counts refer to scientific evaluation cases, not controller dependency tasks. La
 - [File-level source/export hashes](file_manifest.csv), [snapshot hashes](snapshot_manifest.json), [explicit exclusion inventory](exclusion_inventory.csv).
 - [Current 759 qualification and interim report snapshot](docs/QUALIFIED_759_AND_INTERIM_REFRESH.md).
 - [Incremental validated E4/E5 results](reports/E4_INCREMENTAL_RESULTS_20261028T084431Z.md) record three post-snapshot validated ledger entries and link the two unique outcome arrays.
+- [E4 rep-3 incremental validated results](reports/E4_INCREMENTAL_VALIDATED_20261028T200243Z.md) contains six later RF treatment evaluations and 42 class-level rows; older derived tables and figures remain dated to the 17:00:39Z analysis snapshot.
 
 Large scientific result arrays and role-membership arrays are delivered separately through [GitHub Releases](https://github.com/S-G-mathematics/lamost-six-experiments/releases), with member manifests, ZIP CRC verification and SHA-256 checksums. The [verified array delivery](docs/RESULT_ARRAYS.md) contains 19 ZIPs (7.25 GB), with remote SHA-256 and byte-size verification. Fitted-model files and FITS files are excluded. Raw/generated training datasets are not part of this code-and-results repository.
+
+- [Frozen E1/E2 identity audit](provenance/identity/FROZEN_E1_E2_CURRENT_IDENTITY_20261029.json) records a 29-file current identity check; its archive check was a stat-chain check, not a fresh full archive hash.
 
 ## Scientific interpretation
 
@@ -53,4 +56,4 @@ See [export provenance and sanitization](docs/EXPORT_PROVENANCE.md) for source-v
 
 ## Current status note
 
-Read-only registry snapshot 2026-10-28T20:33:09.463284+00:00 UTC: E3 64 successful, 3 scientific failures, 2 unavailable; E4 1,605 successful, 71 scientific failures, 3 unavailable, 94 waiting; E5 700 successful, 50 scientific failures, 78 unavailable, 132 waiting. E6 has 15 member-reference aliases (12 successful, 3 unavailable) and six primary ensembles (3 scientific failures, 3 unavailable; 0/6 successful test evaluations). E1 remains frozen at 674 successful, 81 failed (55 resource failures; 26 supervisor-terminal manifests remained started) and 10 unsupported. E2 remains 108/150 primary and 120/120 classical-reference evaluations. No bootstrap or significance claims are made. Final calibration/report/archive validation remains pending.
+Read-only registry snapshot 2026-10-28T20:41:01.275758+00:00 UTC: E3 64 successful, 3 scientific failures, 2 unavailable; E4 1,605 successful, 71 scientific failures, 3 unavailable, 94 waiting; E5 700 successful, 50 scientific failures, 78 unavailable, 132 waiting. E6 has 15 member-reference aliases (12 successful, 3 unavailable) and six primary ensembles (3 scientific failures, 3 unavailable; 0/6 successful test evaluations). E1 remains frozen at 674 successful, 81 failed (55 resource failures; 26 supervisor-terminal manifests remained started) and 10 unsupported. E2 remains 108/150 primary and 120/120 classical-reference evaluations. No bootstrap or significance claims are made. Final calibration/report/archive validation remains pending.
