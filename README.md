@@ -2,12 +2,16 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research snapshot - scientific results observed 2026-10-29T05:02:02.829484+00:00 UTC.** This saved research record does not claim all six experiments have passed final validation. Existing aggregate tables and figures remain bound to their documented analysis snapshot unless explicitly identified as incremental results.
+**Interim research snapshot - scientific results observed 2026-10-29T07:49:47.720386+00:00 UTC.** This saved research record does not claim all six experiments have passed final validation. Existing aggregate tables and figures remain bound to their documented analysis snapshot unless explicitly identified as incremental results.
 
 
 ## Operational source update (2026-10-29T06:31:00Z)
 
 The qualified ET4/archive source profile is installed. Its bounded portable qualification recorded 776 passed tests, 3 warnings and 85 subtests. The archive handoff was paused at this observation; no scientific workers were active, and 220 E4/E5 scientific cases remained waiting (88 E4, 132 E5). The 4 GiB batch, 8 GiB encoded temporary-output and 5,400-second archive limits are qualified policy bounds, not measured throughput or claimed speedup. No new scientific results are represented by this source update. See [qualification and profile note](docs/QUALIFIED_CODEC4_776_AND_ET4_PROFILE_20261029.md) and [source-map provenance](provenance/qualification_codec4_776/OPERATIONAL_SOURCE_MAP_PROVENANCE_NOTE_20261029.md).
+
+## Latest coherent registry snapshot (2026-10-29T07:49:47.720386+00:00 UTC)
+
+E4 records 1,616 successful, 71 failed, 3 unavailable and 83 waiting cases. E5 records 700 successful, 50 failed, 78 unavailable and 132 waiting cases. The read-only snapshot accounts for all 2,823 E3-E6 scientific cases; 2,392 validated metric rows have saved evaluation JSON inputs and none were missing. The [timestamped report and tables](reports/deadline_submission_20261029/snapshot_20261029T074947Z/DEADLINE_INTERIM_SCIENTIFIC_REPORT.md) and [current cell ledger](reports/CURRENT_CELL_LEDGER.csv) preserve these counts. The snapshot includes a status figure; the broader E1-E6 figures remain tied to their earlier stated cutoffs. Waiting counts are ledger states, not process-liveness claims.
 
 ## Experiment status and navigation
 
@@ -16,11 +20,11 @@ The qualified ET4/archive source profile is installed. Its bounded portable qual
 | E1 | Frozen classification benchmark | 765 terminal: 674 successful, 81 failed, 10 unsupported | [E1 report and ledger](experiments/E1/README.md) |
 | E2 | Generator fidelity versus classification | 108/150 primary evaluations; 120/120 separate classical references | [E2 report and provenance](experiments/E2/README.md) |
 | E3 | Direct Bayes, synthetic-only and real-only learning | 69 terminal: 64 successful, 3 failed, 2 unavailable | [E3 results](experiments/E3/README.md) |
-| E4 | Imbalance and target-class restoration | 1,611 successful, 71 failed, 3 unavailable, **88 waiting** / 1,773 |
+| E4 | Imbalance and target-class restoration | 1,616 successful, 71 failed, 3 unavailable, **83 waiting** / 1,773 |
 | E5 | Fitting-data corruption | 700 successful, 50 failed, 78 unavailable, **132 waiting** / 960 |
 | E6 | Generative posterior ensembles | 12 successful member-reference aliases, 6 unavailable cases and 3 ensemble failures; **0/6** successful primary ensembles |
 
-At the registry snapshot 2026-10-29T05:02:02.829484+00:00, E4/E5 have 220 waiting scientific cases (88 E4; 132 E5). This is a task-ledger snapshot, not a process-liveness claim. E1 recovery remains separate: 24 successes, 10 failures, 2 user-stopped and 55 not attempted.
+At the coherent registry snapshot 2026-10-29T07:49:47.720386+00:00, E4/E5 have 215 waiting scientific cases (83 E4; 132 E5). This is a task-ledger snapshot, not a process-liveness claim. E1 recovery remains separate: 24 successes, 10 failures, 2 user-stopped and 55 not attempted.
 
 The stopped E1 recovery supplement is separate: 24 successes, 10 failures, 2 user-stopped partial cells and 55 not attempted. These outcomes never replace frozen E1.
 
