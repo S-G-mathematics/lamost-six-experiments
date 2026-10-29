@@ -7,6 +7,7 @@ parser.add_argument('--output',type=Path,required=True,help='New snapshot output
 parser.add_argument('--template',type=Path,default=R/'reports/deadline_submission_20261029/DEADLINE_INTERIM_SCIENTIFIC_REPORT.md')
 parser.add_argument('--scope-amendment',type=Path,default=R/'manifests/PROSPECTIVE_REPETITION_SCOPE_AMENDMENT_20261029.json')
 parser.add_argument('--scope-application',type=Path,default=R/'reports/SINGLE_EVAL_SCOPE_APPLICATION_20261029.json')
+parser.add_argument('--scope-canonical-amendment-path',type=Path,default=None,help='Canonical immutable EC2 source path bound to the copied amendment bytes.')
 parser.add_argument('--self-test',action='store_true')
 args=parser.parse_args()
 OUT=args.output if args.output.is_absolute() else ROOT/args.output
@@ -17,6 +18,12 @@ def sha(p):
  with open(p,'rb') as f:
   for b in iter(lambda:f.read(1048576),b''):h.update(b)
  return h.hexdigest()
+
+def canonical_amendment_binding(candidate,root=ROOT):
+ expected=(Path(root)/'runtime_20261025/manifests/PROSPECTIVE_REPETITION_SCOPE_AMENDMENT_20261029.json').resolve()
+ actual=Path(candidate).resolve()
+ if actual!=expected: raise ValueError('Canonical amendment path binding mismatch')
+ return actual
 def state_of(t):
  x=t.get('outcome') or t.get('status')
  if t.get('status')=='validated_terminal' and isinstance(x,dict): x=x.get('status') or x.get('outcome') or t.get('status')
@@ -160,7 +167,11 @@ amend_path=args.scope_amendment if args.scope_amendment.is_absolute() else ROOT/
 app_path=args.scope_application if args.scope_application.is_absolute() else ROOT/args.scope_application
 amendment=json.loads(amend_path.read_text()) if amend_path.is_file() else None
 application=json.loads(app_path.read_text()) if app_path.is_file() else None
-if amendment is not None:amendment['_sha256']=sha(amend_path);amendment['_path']=str(amend_path.resolve())
+if amendment is not None:
+ amendment['_sha256']=sha(amend_path)
+ if args.scope_canonical_amendment_path is not None:
+  amendment['_path']=str(canonical_amendment_binding(args.scope_canonical_amendment_path,ROOT))
+ else: amendment['_path']=str(amend_path.resolve())
 if application is not None:application['_sha256']=sha(app_path);application['_path']=str(app_path.resolve())
 if amendment is not None:
  if not set(amendment.get('dependency_closure_keys') or [])<=plan_task_keys or not set(amendment.get('selected_pending_dependency_closure_keys') or [])<=plan_task_keys:raise ValueError('Amendment closure contains unknown task keys')

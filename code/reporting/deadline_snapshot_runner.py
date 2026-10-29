@@ -4,7 +4,7 @@ from pathlib import Path
 from collections import Counter
 ROOT=Path('/home/ubuntu/lamost_e1_migration_20261023');R=ROOT/'runtime_20261025'
 REPO=ROOT/'github_delivery_20261028';BUILDER=R/'reports/deadline_submission_20261029/build_deadline_report.py'
-BUILDER_SHA='cbf3bc851f585370235e778a744a1e4690572604a6a38a1d6231277efa9f86f3'
+BUILDER_SHA='3bd7a6483bc8d3c59e323a5cd0eac952d615af16389c780535dbcc18a57b0c79'
 EXPECTED={3:69,4:1773,5:960,6:21}
 SUFFIXES={'.md','.csv','.json','.png','.svg','.html','.sha256'}
 EXCLUDE={'engineering_audits','staging','operational','private','history','overall_case_index','__pycache__'}
@@ -32,11 +32,34 @@ def validate_rows(rows):
 SAFE_TASK_FIELDS=('key','scientific_case','experiment','kind','rep','budget','method','condition','route','mode','target_class','ratio','treatment','mechanism','rate','generator','status','outcome','validation_state','dependencies')
 def normalized_task(raw):
  t={k:raw[k] for k in SAFE_TASK_FIELDS if k in raw}
- if not t.get('scientific_case'):return None
+ if 'scientific_case' not in t:t['scientific_case']=False
  if t.get('status')=='waiting_dependency':t['status']='waiting_for_dependency'
  if isinstance(t.get('outcome'),dict):
   x=t['outcome'];t['outcome']=x.get('status') or x.get('outcome') or t.get('status')
  return t
+def snapshot_metadata_inputs(source_runtime,work_runtime):
+ source_runtime=Path(source_runtime);work_runtime=Path(work_runtime)
+ mapping=[
+  ('manifests/tasks.json','manifests/tasks.json'),
+  ('manifests/PROSPECTIVE_REPETITION_SCOPE_AMENDMENT_20261029.json','manifests/PROSPECTIVE_REPETITION_SCOPE_AMENDMENT_20261029.json'),
+  ('reports/SINGLE_EVAL_SCOPE_APPLICATION_20261029.json','reports/SINGLE_EVAL_SCOPE_APPLICATION_20261029.json'),
+  ('reports/deadline_submission_20261029/DEADLINE_INTERIM_SCIENTIFIC_REPORT.md','reports/deadline_submission_20261029/DEADLINE_INTERIM_SCIENTIFIC_REPORT.md'),
+ ]
+ records=[]
+ for rel,destrel in mapping:
+  src=source_runtime/rel;before=sha(src);raw=src.read_bytes()
+  if hashlib.sha256(raw).hexdigest()!=before:raise RuntimeError('Metadata source changed while reading: '+rel)
+  dst=work_runtime/destrel;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes(raw)
+  after=sha(src);copied=sha(dst)
+  if before!=after or before!=copied:raise RuntimeError('Immutable metadata snapshot mismatch: '+rel)
+  records.append({'source_path':str(src.resolve()),'snapshot_path':destrel,'bytes':len(raw),'sha256':before})
+ return records
+def verify_metadata_inputs(source_runtime,work_runtime,records):
+ for item in records:
+  src=Path(item['source_path']);dst=Path(work_runtime)/item['snapshot_path']
+  if not src.is_file() or not dst.is_file() or sha(src)!=item['sha256'] or sha(dst)!=item['sha256']:raise RuntimeError('Metadata changed after snapshot: '+item['snapshot_path'])
+def canonical_amendment_source_path(source_runtime):
+ return (Path(source_runtime)/'manifests/PROSPECTIVE_REPETITION_SCOPE_AMENDMENT_20261029.json').resolve()
 def capture_registry(db_path,now_fn=None):
  now_fn=now_fn or (lambda:dt.datetime.now(dt.timezone.utc).isoformat())
  conn=sqlite3.connect('file:'+str(db_path)+'?mode=ro',uri=True,timeout=30)
@@ -54,7 +77,8 @@ def capture_registry(db_path,now_fn=None):
    tasks.append(item)
   counts={}
   for t in tasks:
-   group=counts.setdefault(str(t['experiment']),Counter());group[t.get('outcome') or t.get('status')]+=1
+   if t.get('scientific_case') and t.get('experiment') in EXPECTED:
+    group=counts.setdefault(str(t['experiment']),Counter());group[t.get('outcome') or t.get('status')]+=1
   return {'schema_version':1,'observed_utc':observed,'tasks':tasks,'scientific_counts':{k:dict(v) for k,v in counts.items()}},len(records)
  finally:
   conn.rollback();conn.close()
@@ -81,6 +105,19 @@ def safe_member(name):
  if p.is_absolute() or '..' in p.parts or p.suffix.lower() in FORBIDDEN or set(p.parts)&EXCLUDE:
   raise ValueError('Unsafe ZIP member: '+name)
 def self_test():
+ with tempfile.TemporaryDirectory() as td:
+  base=Path(td);source=base/'source';target=base/'target'
+  for rel,body in [('manifests/tasks.json',b'tasks'),('manifests/PROSPECTIVE_REPETITION_SCOPE_AMENDMENT_20261029.json',b'amendment'),('reports/SINGLE_EVAL_SCOPE_APPLICATION_20261029.json',b'application'),('reports/deadline_submission_20261029/DEADLINE_INTERIM_SCIENTIFIC_REPORT.md',b'template')]:
+   p=source/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(body)
+  snap=snapshot_metadata_inputs(source,target)
+  assert len(snap)==4 and all(sha(target/x['snapshot_path'])==x['sha256'] for x in snap)
+  verify_metadata_inputs(source,target,snap)
+  (source/'manifests/tasks.json').write_bytes(b'changed')
+  try:verify_metadata_inputs(source,target,snap)
+  except RuntimeError:pass
+  else:raise AssertionError('metadata source drift was accepted')
+  assert canonical_amendment_source_path(source)==(source/'manifests/PROSPECTIVE_REPETITION_SCOPE_AMENDMENT_20261029.json').resolve()
+ print('metadata snapshot fixtures passed: copied inputs are hash-bound and drift is rejected')
  with tempfile.TemporaryDirectory() as td:
   db=Path(td)/'fixture.sqlite'
   c=sqlite3.connect(db);c.execute('PRAGMA journal_mode=WAL');c.execute('CREATE TABLE tasks(key TEXT PRIMARY KEY,record TEXT NOT NULL)')
@@ -235,21 +272,20 @@ def build(args):
   work=Path(td);wr=work/'runtime_20261025';wr.mkdir()
   (wr/'source').symlink_to(R/'source',target_is_directory=True)
   (wr/'artifacts').symlink_to(R/'artifacts',target_is_directory=True)
-  (wr/'reports').symlink_to(R/'reports',target_is_directory=True)
+  metadata_inputs=snapshot_metadata_inputs(R,wr)
   (wr/'registry.json').write_text(safe_json,encoding='utf-8')
-  if not (wr/'reports/deadline_submission_20261029/DEADLINE_INTERIM_SCIENTIFIC_REPORT.md').is_file():
-   raise RuntimeError('Pinned report template is unavailable in isolated builder runtime')
   source=BUILDER.read_text(encoding='utf-8');needle="R=ROOT/'runtime_20261025'"
   if source.count(needle)!=1:raise RuntimeError('Could not isolate pinned report builder runtime path')
   adapter=source.replace(needle,"R=Path(os.environ['LAMOST_REPORT_SNAPSHOT_RUNTIME'])",1)
   adapter_path=work/'report_builder_snapshot_adapter.py';adapter_path.write_text(adapter,encoding='utf-8')
   builder_env=os.environ.copy();builder_env['LAMOST_REPORT_SNAPSHOT_RUNTIME']=str(wr)
-  subprocess.check_call([sys.executable,str(adapter_path),'--output',str(out)],env=builder_env)
+  subprocess.check_call([sys.executable,str(adapter_path),'--output',str(out),'--scope-canonical-amendment-path',str(canonical_amendment_source_path(R))],env=builder_env)
   rp=out/'DEADLINE_INTERIM_SCIENTIFIC_REPORT.md';text=rp.read_text(encoding='utf-8')
   text=re.sub(r'\n\n### Snapshot history\n.*\Z','',text,flags=re.S)
   text+=f'\n\n### Snapshot provenance\nThis report uses one read-only SQLite task-table transaction observed at {stamp} UTC. Registry changes after this cutoff are not folded into this snapshot; subsequent evaluations remain later project progress.'
   rp.write_text(text,encoding='utf-8')
   rows=list(csv.DictReader((out/'planned_case_ledger.csv').open(newline='',encoding='utf-8')))
+  for row in rows: row['scientific_case']=True
   counts=validate_rows(rows)
   rec=json.loads((out/'submission_receipt.json').read_text())
   if rec.get('planned_cases')!=sum(EXPECTED.values()) or rec.get('successful_cases_missing_metric_json'):raise RuntimeError('Report builder receipt gate failed')
@@ -259,7 +295,8 @@ def build(args):
    if '..' in Path(key).parts or Path(key).is_absolute():raise RuntimeError('Unsafe key in evaluation ledger')
    p=R/'artifacts'/key/'evaluation.json'
    if not p.is_file() or sha(p)!=row['sha256']:raise RuntimeError('Captured evaluation JSON mismatch: '+key)
-  capture={'source_database':'runtime_20261025/registry.sqlite','read_mode':'read-only SQLite transaction on tasks','observed_utc':stamp,'database_task_rows':db_rows,'scientific_case_rows':len(registry['tasks']),'sanitized_registry_sha256':safe_hash,'process_receipts_in_snapshot':False,'post_cutoff_updates_allowed':True}
+  verify_metadata_inputs(R,wr,metadata_inputs)
+  capture={'source_database':'runtime_20261025/registry.sqlite','read_mode':'read-only SQLite transaction on tasks','observed_utc':stamp,'database_task_rows':db_rows,'scientific_case_rows':len([t for t in registry['tasks'] if t.get('scientific_case')]),'sanitized_registry_sha256':safe_hash,'process_receipts_in_snapshot':False,'post_cutoff_updates_allowed':True,'metadata_inputs':metadata_inputs,'canonical_amendment_source_path':str(canonical_amendment_source_path(R))}
   side=out/'snapshot_provenance';side.mkdir()
   (side/'registry_snapshot_sanitized.json').write_text(safe_json,encoding='utf-8')
   (side/'report_builder_snapshot_adapter.py').write_text(adapter,encoding='utf-8')

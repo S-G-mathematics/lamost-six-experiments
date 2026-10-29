@@ -1,6 +1,6 @@
 # Supervisor review prompt — interim project state
 
-Observed UTC: 2026-10-29T10:07:37.284807+00:00; IST: 2026-10-29T15:37:37.284807+05:30.
+Observed UTC: 2026-10-29T11:03:25.156440+00:00; IST: 2026-10-29T16:33:25.156440+05:30.
 
 Please review the LAMOST six-experiment study below and give concrete scientific/reporting instructions for the submission deadline. This is an interim handoff, not a claim that the project is complete. Execution of the already authorized remaining cases continues; your review does not require reopening frozen results.
 
@@ -9,7 +9,7 @@ Please review the LAMOST six-experiment study below and give concrete scientific
 - Existing approved SSH: `w7-ec2`; existing instance `i-095641a281a4038b9`. All scientific work remains on EC2; preserve the separate Harbor workload.
 - Migration root: `/home/ubuntu/lamost_e1_migration_20261023`.
 - Project: `project`; later runtime/controller: `runtime_20261025`; E2: `e2_20261024`.
-- GitHub: https://github.com/S-G-mathematics/lamost-six-experiments . Both published branches were verified at `97185c6bef04f0858cbcde7a844a71b5f3f8644b`. That public-results snapshot is cut off at 08:55:39 UTC; subsequent live successes are not implied to be in that commit.
+- GitHub: https://github.com/S-G-mathematics/lamost-six-experiments . Both branches were verified at `1ff459cd455f40b587476991e5cc0320525915fb`. The verified report snapshot is cut off at 10:57:08 UTC and includes 2,400 validated metric rows (including 12 E6 aliases). Later progress must be checked separately.
 - Read the authoritative protocol, frozen configuration and memberships, E1 validated report, E2 report/reconstruction amendment/integrity audit, experiment manifests, and current SQLite registry. Check actual processes; never infer liveness from heartbeat files.
 
 ## Current scientific accounting
@@ -21,7 +21,7 @@ Please review the LAMOST six-experiment study below and give concrete scientific
 | Experiment | Successful | Scientific failure | Unavailable | User-stopped | Pending |
 |---|---:|---:|---:|---:|---:|
 | E3 | 64 | 3 | 2 | 0 | 0 |
-| E4 | 1621 | 71 | 3 | 67 | 11 |
+| E4 | 1624 | 71 | 3 | 67 | 8 |
 | E5 | 700 | 50 | 78 | 101 | 31 |
 | E6 | 12 | 3 | 6 | 0 | 0 |
 
@@ -40,10 +40,10 @@ E6 successful rows above are 12 member-reference aliases, not successful ensembl
 
 ## Delivery and remaining work
 
-- A verified interim ZIP is already on the laptop: `D:\LAMOST_Overall_EC2_Handoff_20261023\delivery\LAMOST_SCOPE_AMENDMENT_INTERIM_20261029T091814Z_97185c6.zip`.
-- Its size is 92,769,172 bytes; SHA-256 `6ab2f215615531afbded804eefe2ff0a85cb5e691ee4a3117372fd99216e35bb`. EC2 CRC passed and the laptop copy matched the exact hash. It contains code, reports/results/tables/figures, not fitted models or raw array payloads.
-- The readable interim report is on the laptop as `LAMOST_AMENDED_SCOPE_REPORT_20261029.md`. Its saved cutoff is 08:55:39 UTC, earlier than this live accounting.
-- A one-shot fresh reporting job is armed for 16:15 IST today; check its actual outcome before claiming a newer ZIP exists. The report deadline supplied by the user is 17:00 IST.
+- Fresh verified deadline ZIP is on the laptop: `D:\LAMOST_Overall_EC2_Handoff_20261023\delivery\LAMOST_SIX_EXPERIMENTS_DEADLINE_INTERIM_20261029T105708Z_1ff459cd.zip`.
+- Its size is 51,989,132 bytes; SHA-256 `1c5da2a94a9c07d65d929167840a24ec309bc273ede8761547c6b625f846839f`. EC2 CRC passed; laptop byte size/hash match exactly. Code, readable reports, main CSV tables and figures are included; models/array payloads are excluded.
+- Fresh readable report is on the laptop as `LAMOST_AMENDED_SCOPE_REPORT_20261029.md`, cut off at 10:57:08 UTC.
+- The 16:15 IST attempt failed on a missing captured plan path. The corrected adapter captured and hash-verified the immutable metadata with canonical source-path binding; a bounded retry exited 0 at 10:57:30 UTC. Original failure/retry evidence is preserved separately. The laptop copy was verified and finalized at 11:01:52 UTC. This remains an interim scientific submission, not final project validation.
 - Remaining authorized work: finish selected cases under fixed policies, incremental artifact validation, required native calibration replay/audit, final descriptive analyses/figures/report, full EC2 archive CRC/SHA/member-manifest verification, final GitHub results push, small delivery ZIP and verified laptop transfer, then cleanly stop only project-owned workers/watchers.
 - Current storage compaction is a live operational dependency, not a scientific evaluation. Verify its actual process/journal and the current queue before acting. Do not provision/resize AWS or delete unique results, historical backup pieces or unrelated Harbor material.
 
