@@ -174,18 +174,128 @@ def terminal_evidence(rt,expected_tasks=6270):
  owner=json.loads((rt/"owner.json").read_text())
  if owner.get("code_sha256")!=sha(rt/"source/controller.py"):raise RetentionError("terminal controller source binding mismatch")
  return {"tasks":len(records),"terminal_marker_utc":marker.get("observed_utc")}
-def _check_quiescent(rt,controller_pid):
- rt=pathlib.Path(rt).resolve();reg=registry(rt/"registry.sqlite")
- if any(x.get("status") in ("dispatching","running","worker_active","validating") for x in reg.values()):
-  raise RetentionError("active registry task exists")
- worker_names=("run_controller.py","controller.py","phase_worker.py","worker.py","parallel_rf/worker.py","run_batch.py","commit_batch_child.py","cold_auto_compaction.py","finalize_project.py","run_finalizer.sh","audit_artifacts.py","calibration_replay.py","calibration_replay_supervisor.py")
+ACTIVE_STATUSES={"dispatching","running","worker_active","validating"}
+WORKER_NAMES=("worker.py","parallel_rf/worker.py","parallel_extra_trees/worker.py","svm_margin/worker.py","phase_worker.py","parallel_rf/phase_worker.py","parallel_extra_trees/phase_worker.py","svm_margin/phase_worker.py")
+STORAGE_NAMES=("run_batch.py","commit_batch_child.py","cold_auto_compaction.py","finalize_project.py","run_finalizer.sh","audit_artifacts.py","calibration_replay.py","calibration_replay_supervisor.py")
+SCIENCE_DRAIN_MAX_SECONDS=690
+SCIENCE_DRAIN_POLL_SECONDS=5
+
+def _proc_snapshot():
+ out={}
  for proc in pathlib.Path("/proc").iterdir():
-  if not proc.name.isdigit() or int(proc.name)==os.getpid() or (controller_pid is not None and int(proc.name)==controller_pid):continue
+  if not proc.name.isdigit():continue
   try:
+   pid=int(proc.name);raw=(proc/"stat").read_text();tail=raw[raw.rfind(")")+2:].split();ppid=int(tail[1]);ticks=tail[19]
    argv=[x.decode(errors="replace") for x in (proc/"cmdline").read_bytes().split(b"\0") if x]
-   cwd=pathlib.Path(os.readlink(proc/"cwd"))
-  except OSError:continue
-  if _script_matches(argv,cwd,rt,worker_names):raise RetentionError("project worker/storage/finalizer process is active")
+   cwd=pathlib.Path(os.readlink(proc/"cwd"));uid=proc.stat().st_uid
+   out[pid]={"pid":pid,"ppid":ppid,"ticks":ticks,"argv":argv,"cwd":cwd,"uid":uid}
+  except (OSError,ValueError,IndexError):continue
+ return out
+
+def _descendant(pid,roots,procs):
+ seen=set()
+ while pid in procs and pid not in seen:
+  if pid in roots:return True
+  seen.add(pid);pid=procs[pid]["ppid"]
+ return False
+
+def _verified_worker_source(rt,relative):
+ rt=pathlib.Path(rt).resolve();rel=pathlib.PurePosixPath(relative)
+ if rel.is_absolute() or any(x in ("",".","..") for x in rel.parts):raise RetentionError("unsafe worker source path")
+ source=rt/"source"/pathlib.Path(*rel.parts);freeze_path=rt/"manifests"/"freeze.json"
+ if source.is_symlink() or not source.is_file() or freeze_path.is_symlink() or not freeze_path.is_file():raise RetentionError("worker source/freeze binding is absent or unsafe")
+ freeze=json.loads(freeze_path.read_text());expected=freeze.get("source_sha256",{}).get(rel.as_posix())
+ if not isinstance(expected,str) or sha(source)!=expected:raise RetentionError("worker source differs from frozen source binding")
+ return source.resolve()
+
+def _expected_worker_script(cfg,rt):
+ task=cfg.get("task")
+ if not isinstance(task,dict):raise RetentionError("active worker request task is malformed")
+ ep=cfg.get("execution_policy");rp=cfg.get("resource_profile")
+ try:experiment=int(task.get("experiment",-1))
+ except (TypeError,ValueError):raise RetentionError("active worker experiment is malformed")
+ method=task.get("method");kind=task.get("kind")
+ if ep is None and rp is None:
+  if method in ("linear_svm","rbf_svm") and kind in ("fit","eval","alias"):rel="svm_margin/worker.py"
+  else:rel="worker.py"
+ elif ep=="rf4-fit_n_jobs4-v1" and rp=="rf-fit_n_jobs4" and experiment in (4,5) and kind=="fit" and method=="random_forest" and not task.get("reuse_pipeline"):
+  rel="parallel_rf/worker.py"
+ elif ep=="et4-fit_n_jobs4-v1" and rp=="et-fit_n_jobs4" and experiment in (4,5) and kind=="fit" and method=="extra_trees" and not task.get("reuse_pipeline"):
+  rel="parallel_extra_trees/worker.py"
+ else:raise RetentionError("active worker execution profile is not recognized")
+ return _verified_worker_source(rt,rel)
+
+def _quiescence_observation(rt,controller_pid):
+ rt=pathlib.Path(rt).resolve();records=registry(rt/"registry.sqlite");active=[x for x in records.values() if x.get("status") in ACTIVE_STATUSES]
+ procs=_proc_snapshot();verified=set();transition=False
+ for task in active:
+  status=task.get("status");pid=task.get("pid");ticks=task.get("process_start_ticks")
+  if status=="dispatching" and not pid and not ticks:
+   transition=True;continue
+  if not pid or not ticks:raise RetentionError("active registry task lacks worker PID/start-ticks")
+  pid=int(pid);request=pathlib.Path(str(task.get("request_path","")))
+  if not request.is_absolute() or request.is_symlink() or not request.is_file() or not request.resolve().is_relative_to(rt):
+   raise RetentionError("active worker request path is absent or unsafe")
+  attempts=task.get("attempts")
+  if not isinstance(attempts,list) or not attempts or attempts[-1].get("request_path")!=str(request):
+   raise RetentionError("active task attempt/request identity is inconsistent")
+  cfg=json.loads(request.read_text())
+  task_cfg=cfg.get("task") if isinstance(cfg,dict) else None
+  if not isinstance(task_cfg,dict) or cfg.get("attempt_id")!=attempts[-1].get("attempt_id") or cfg.get("result_path")!=task.get("result_path") or task_cfg.get("key")!=task.get("key"):
+   raise RetentionError("active worker request does not bind registry task/attempt/result")
+  expected=_expected_worker_script(cfg,rt);proc=procs.get(pid)
+  if proc is None:
+   transition=True;continue
+  if str(proc["ticks"])!=str(ticks) or proc["uid"]!=os.getuid():
+   raise RetentionError("active worker PID/start-ticks/UID identity mismatch")
+  argv_paths=[]
+  for token in proc["argv"]:
+   if token.endswith(".py"):
+    candidate=pathlib.Path(token)
+    if not candidate.is_absolute():candidate=proc["cwd"]/candidate
+    try:argv_paths.append(candidate.resolve())
+    except OSError:pass
+  if expected not in argv_paths or str(request) not in proc["argv"]:
+   raise RetentionError("active worker argv does not bind expected script/request")
+  verified.add(pid)
+ for pid,proc in procs.items():
+  if pid==os.getpid() or pid==controller_pid:continue
+  if _script_matches(proc["argv"],proc["cwd"],rt,("controller.py","run_controller.py")):
+   raise RetentionError("unmatched project controller process is active")
+  if _script_matches(proc["argv"],proc["cwd"],rt,STORAGE_NAMES):
+   raise RetentionError("project storage/finalizer/audit process is active")
+  if _script_matches(proc["argv"],proc["cwd"],rt,WORKER_NAMES):
+   if not _descendant(pid,verified,procs):raise RetentionError("unmatched project worker process is active")
+   source_rel=None
+   for token in proc["argv"]:
+    if not token.endswith(".py"):continue
+    candidate=pathlib.Path(token)
+    if not candidate.is_absolute():candidate=proc["cwd"]/candidate
+    try:candidate=candidate.resolve();source_rel=candidate.relative_to(rt/"source").as_posix()
+    except (OSError,ValueError):continue
+    if source_rel in WORKER_NAMES:break
+    source_rel=None
+   if source_rel is None:raise RetentionError("project worker source path is unrecognized")
+   _verified_worker_source(rt,source_rel)
+ return {"busy":bool(active or transition or verified),"active_registry_tasks":len(active),"verified_worker_roots":len(verified),"transition_pending":transition}
+
+def _check_quiescent(rt,controller_pid):
+ state=_quiescence_observation(rt,controller_pid)
+ if state["busy"]:raise RetentionError("active verified scientific phase remains")
+
+def _wait_for_science_drain(rt,owner,timeout=SCIENCE_DRAIN_MAX_SECONDS,poll=SCIENCE_DRAIN_POLL_SECONDS,observe=None):
+ rt=pathlib.Path(rt).resolve();hold=rt/"ADMISSION_HOLD.json";deadline=time.monotonic()+timeout;obs=observe or _quiescence_observation
+ while True:
+  try:current=json.loads(hold.read_text())
+  except (OSError,ValueError) as exc:raise RetentionError("owned admission hold disappeared or became malformed") from exc
+  if current!=_HOLD_DOC:raise RetentionError("admission hold ownership changed during drain")
+  if _controller_identity(rt)!=owner:raise RetentionError("controller identity changed during scientific drain")
+  state=obs(rt,int(owner["pid"]))
+  if not state.get("busy"):return state
+  remaining=deadline-time.monotonic()
+  if remaining<=0:raise RetentionError("verified scientific drain exceeded 690 second bound")
+  time.sleep(min(poll,remaining))
+
 def quiet(rt,floor,allow_terminal=False):
  global _HOLD_DOC,_HOLD_PATH,_OWNER_SNAPSHOT
  import fcntl,secrets
@@ -207,7 +317,7 @@ def quiet(rt,floor,allow_terminal=False):
  hfd=os.open(hold.parent,os.O_RDONLY);os.fsync(hfd);os.close(hfd)
  try:
   try:
-   _OWNER_SNAPSHOT=_controller_identity(rt);_check_quiescent(rt,int(_OWNER_SNAPSHOT["pid"]))
+   _OWNER_SNAPSHOT=_controller_identity(rt);_wait_for_science_drain(rt,_OWNER_SNAPSHOT);_check_quiescent(rt,int(_OWNER_SNAPSHOT["pid"]))
   except Exception:
    if not allow_terminal:raise
    terminal_evidence(rt);_OWNER_SNAPSHOT=None;_check_quiescent(rt,None)

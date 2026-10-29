@@ -1,4 +1,5 @@
 import importlib.util,pathlib,tempfile,zipfile,hashlib,os,sys,unittest
+from unittest import mock
 H=pathlib.Path(__file__).resolve().parent;s=importlib.util.spec_from_file_location("rr",H/"release_retention.py");rr=importlib.util.module_from_spec(s);sys.modules["rr"]=rr;s.loader.exec_module(rr)
 class Tests(unittest.TestCase):
  def fx(self):
@@ -124,6 +125,14 @@ class Tests(unittest.TestCase):
   finally:t.cleanup()
 
 
+ def test_verified_worker_source_binds_freeze_sha(self):
+  with tempfile.TemporaryDirectory() as td:
+   rt=pathlib.Path(td)/"runtime";src=rt/"source/parallel_rf";src.mkdir(parents=True);p=src/"worker.py";p.write_bytes(b"fixture worker")
+   (rt/"manifests").mkdir();freeze=rt/"manifests/freeze.json";digest=hashlib.sha256(p.read_bytes()).hexdigest();freeze.write_text(__import__("json").dumps({"source_sha256":{"parallel_rf/worker.py":digest}}))
+   self.assertEqual(rr._verified_worker_source(rt,"parallel_rf/worker.py"),p.resolve())
+   freeze.write_text(__import__("json").dumps({"source_sha256":{"parallel_rf/worker.py":"0"*64}}))
+   with self.assertRaisesRegex(rr.RetentionError,"frozen source binding"):rr._verified_worker_source(rt,"parallel_rf/worker.py")
+
  def test_project_relative_script_identity(self):
   rt=pathlib.Path("/project/runtime")
   self.assertTrue(rr._script_matches(["python","-u","source/controller.py","run"],rt,rt,("controller.py",)))
@@ -149,6 +158,49 @@ class Tests(unittest.TestCase):
     self.assertEqual(__import__("json").loads(hp.read_text()),foreign)
    finally:rr._HOLD_DOC,rr._HOLD_PATH,rr._OWNER_SNAPSHOT,rr._controller_identity=old
 
+
+ def test_waits_under_owned_hold_while_verified_phase_drains(self):
+  with tempfile.TemporaryDirectory() as td:
+   rt=pathlib.Path(td)/"runtime";rt.mkdir();hold=rt/"ADMISSION_HOLD.json";own={"owner_operation":"release_retention_20261030","nonce":"own","operation_id":"op"};hold.write_text(__import__("json").dumps(own))
+   owner={"pid":123,"process_start_ticks":"9","code_sha256":"abc"};old=(rr._HOLD_DOC,rr._controller_identity,rr.time.sleep);checks=[]
+   def observe(path,pid):
+    self.assertEqual(__import__("json").loads(hold.read_text()),own);checks.append(pid)
+    return {"busy":len(checks)==1,"active_registry_tasks":1 if len(checks)==1 else 0}
+   try:
+    rr._HOLD_DOC=own;rr._controller_identity=lambda path:owner;rr.time.sleep=lambda seconds:None
+    state=rr._wait_for_science_drain(rt,owner,timeout=10,poll=1,observe=observe)
+    self.assertEqual(checks,[123,123]);self.assertFalse(state["busy"]);self.assertTrue(hold.exists())
+   finally:rr._HOLD_DOC,rr._controller_identity,rr.time.sleep=old
+
+ def test_science_drain_timeout_is_bounded_and_leaves_owned_hold_for_caller_cleanup(self):
+  with tempfile.TemporaryDirectory() as td:
+   rt=pathlib.Path(td)/"runtime";rt.mkdir();hold=rt/"ADMISSION_HOLD.json";own={"owner_operation":"release_retention_20261030","nonce":"own","operation_id":"op"};hold.write_text(__import__("json").dumps(own))
+   owner={"pid":123,"process_start_ticks":"9","code_sha256":"abc"};old=(rr._HOLD_DOC,rr._controller_identity,rr.time.monotonic,rr.time.sleep)
+   try:
+    rr._HOLD_DOC=own;rr._controller_identity=lambda path:owner;rr.time.monotonic=lambda:0 if not hasattr(rr,"_timeout_tick") else 2;rr._timeout_tick=False
+    def monotonic():return 0 if not rr._timeout_tick else 2
+    rr.time.monotonic=monotonic;rr.time.sleep=lambda seconds:setattr(rr,"_timeout_tick",True)
+    with self.assertRaisesRegex(rr.RetentionError,"690 second bound"):
+     rr._wait_for_science_drain(rt,owner,timeout=1,poll=1,observe=lambda path,pid:{"busy":True})
+    self.assertEqual(__import__("json").loads(hold.read_text()),own)
+   finally:
+    rr.__dict__.pop("_timeout_tick",None);rr._HOLD_DOC,rr._controller_identity,rr.time.monotonic,rr.time.sleep=old
+
+ def test_quiet_timeout_cleans_only_its_own_hold(self):
+  import fcntl
+  with tempfile.TemporaryDirectory() as td:
+   rt=pathlib.Path(td)/"runtime";(rt/"locks").mkdir(parents=True);(rt/"finalize.lock").write_text("")
+   owner={"pid":123,"process_start_ticks":"9","code_sha256":"abc"};tick=[0]
+   def fake_flock(fd,op):
+    if op & fcntl.LOCK_UN:return None
+    try:name=pathlib.Path(os.readlink("/proc/self/fd/"+str(fd))).name
+    except OSError:name=""
+    if name=="finalize.lock":raise BlockingIOError()
+    return None
+   def advance(seconds):tick[0]+=seconds
+   with mock.patch.object(rr,"_controller_identity",return_value=owner),mock.patch.object(rr,"_quiescence_observation",return_value={"busy":True,"active_registry_tasks":1}),mock.patch.object(rr,"_check_quiescent"),mock.patch.object(rr.shutil,"disk_usage",return_value=type("Usage",(),{"free":100*rr.GIB})()),mock.patch.object(rr.time,"monotonic",side_effect=lambda:tick[0]),mock.patch.object(rr.time,"sleep",side_effect=advance),mock.patch.object(rr,"SCIENCE_DRAIN_MAX_SECONDS",1),mock.patch.object(rr,"SCIENCE_DRAIN_POLL_SECONDS",1),mock.patch("fcntl.flock",side_effect=fake_flock):
+    with self.assertRaisesRegex(rr.RetentionError,"690 second bound"):rr.quiet(rt,20*rr.GIB)
+   self.assertFalse((rt/"ADMISSION_HOLD.json").exists());self.assertIsNone(rr._HOLD_DOC);self.assertEqual(rr._GUARD_FDS,[])
 
  def test_stopped_controller_restore_requires_terminal_registry(self):
   with tempfile.TemporaryDirectory() as td:
