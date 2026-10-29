@@ -12,6 +12,21 @@ class Tests(unittest.TestCase):
   try:
    rr.check_zip(z,a,row);p.unlink();i=b/"state.json";rr.atomic(i,{"schema":rr.INDEX,"retired":[{**row,"asset_bytes":a["bytes"],"asset_sha256":a["sha256"],"verified_copy_path":str(z)}],"restore_required":True});rr.restore(type("A",(),{"root":str(r),"state":str(i),"cache":str(r/"cache")})());self.assertEqual(p.read_bytes(),d)
   finally:t.cleanup()
+ def test_two_members_of_one_asset_verify_whole_zip_once(self):
+  import unittest.mock
+  with tempfile.TemporaryDirectory() as td:
+   root=pathlib.Path(td);one=b"first payload";two=b"second payload";n1="runtime_20261025/artifacts/e4/rep_1/eval/direct/rf/A_half/test_outcomes.npz";n2="runtime_20261025/artifacts/e4/rep_1/eval/direct/rf/F_half/test_outcomes.npz";z=root/"asset.zip"
+   with zipfile.ZipFile(z,"w",zipfile.ZIP_STORED) as f:f.writestr(n1,one);f.writestr(n2,two)
+   asset={"name":"asset.zip","bytes":z.stat().st_size,"sha256":rr.sha(z)}
+   rows=[]
+   for name,data in ((n1,one),(n2,two)):
+    rows.append({"archive_member":name,"source_bytes":len(data),"source_sha256":hashlib.sha256(data).hexdigest(),"archive_crc32":"%08x"%__import__("zlib").crc32(data)})
+   cached=None
+   with unittest.mock.patch.object(rr,"verify_asset",wraps=rr.verify_asset) as whole:
+    for row in rows:
+     witness,cached=rr.verified_asset_once(z,asset,cached);rr.check_member(z,row,witness)
+    self.assertEqual(whole.call_count,1)
+
  def test_wrong_zip_hash(self):
   t,b,r,p,d,row,z,a=self.fx()
   try:

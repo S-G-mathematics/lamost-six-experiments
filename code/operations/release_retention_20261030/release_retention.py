@@ -114,6 +114,13 @@ def verify_asset(zp,asset):
  after=p.lstat()
  if _witness(before)!=_witness(after):raise RetentionError("release asset changed during whole-file verification")
  return _witness(after)
+def verified_asset_once(zp,asset,cached):
+ p=pathlib.Path(zp);st=p.lstat();marker=(asset["name"],st.st_dev,st.st_ino,st.st_size,st.st_mtime_ns)
+ if cached is None or marker!=cached[0]:
+  witness=verify_asset(p,asset);cached=(marker,witness)
+ else:witness=cached[1]
+ return witness,cached
+
 def check_member(zp,row,witness=None):
  p=pathlib.Path(zp);before=p.lstat()
  if stat.S_ISLNK(before.st_mode) or not stat.S_ISREG(before.st_mode):raise RetentionError("member source is not regular")
@@ -423,11 +430,7 @@ def retire(a):
    got=download(a.repo,a.tag,asset["name"],cache);os.replace(got,z)
   if len(list(cache.iterdir()))!=1:raise RetentionError("cache must contain at most one release asset")
   if z.is_symlink():raise RetentionError("cached asset is a symlink")
-  ast=z.lstat()
-  marker=(asset["name"],ast.st_dev,ast.st_ino,ast.st_size,ast.st_mtime_ns)
-  if marker!=verified_asset:
-   asset_witness=verify_asset(z,asset);verified_asset=(marker,asset_witness)
-  else:asset_witness=verified_asset[1]
+  asset_witness,verified_asset=verified_asset_once(z,asset,verified_asset)
   check_member(z,r,asset_witness);out["verified"].append(r["source_path"])
   if a.execute:
    rt=root/"runtime_20261025"
