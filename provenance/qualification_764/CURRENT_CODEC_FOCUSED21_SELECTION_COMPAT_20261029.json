@@ -1,0 +1,56 @@
+{
+  "command": [
+    "/usr/bin/nice",
+    "-n",
+    "19",
+    "/home/ubuntu/lamost_e1_migration_20261023/venv/bin/python",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_native_codec_selection_compat_20261029/runtime_20261025/tests/run_guarded_tests.py",
+    "--rss-bytes",
+    "1073741824",
+    "--wall-seconds",
+    "60",
+    "--grace-seconds",
+    "3",
+    "--",
+    "/bin/bash",
+    "-c",
+    "ulimit -v 1048576; exec /home/ubuntu/lamost_e1_migration_20261023/venv/bin/python -m pytest -q --disable-warnings --tb=short -p no:cacheprovider /home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_native_codec_selection_compat_20261029/runtime_20261025/tests/test_native_codec_overlap.py /home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_native_codec_selection_compat_20261029/runtime_20261025/tests/test_native_fit_scope.py /home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_native_codec_selection_compat_20261029/runtime_20261025/tests/test_verified_zombie_reap.py"
+  ],
+  "exit_code": 0,
+  "expected_test_count": 21,
+  "failed_test_count": 0,
+  "finished_utc": "2026-10-29T01:30:18Z",
+  "fit_attempts_started": 0,
+  "limits": {
+    "actual_wall_seconds": 0.56,
+    "address_space_limit_bytes": 1073741824,
+    "native_threads": 1,
+    "nice": 19,
+    "peak_process_tree_rss_bytes": 47833088,
+    "wall_seconds": 60
+  },
+  "log_path": "reports/engineering_audits/CURRENT_CODEC_FOCUSED21_SELECTION_COMPAT_20261029.log",
+  "log_sha256": "3d0588594a6a1a39687c5a27cec315e4caa1bf151809d5e06382024c77020969",
+  "passed_test_count": 21,
+  "schema": "lamost-archive-native-codec-fit-overlap-focused-tests/1",
+  "source_sha256": {
+    "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+    "archive_fit_admission.py": "578dce5e4cca15f9dbd9d1afdacf048cb86654b0db876cb7af97c0375075341c",
+    "batch_plan.py": "0fb23c09532ee34c38907497d65a0833c328a1b95fa99f024ad00146d32fbf34",
+    "cold_auto_compaction.py": "979a6ec1dc3cf7e56ecd9e957d4ec52463d7b61ece6df94903b85b5e6dd65c71",
+    "cold_codec_storage.py": "b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b",
+    "cold_model_storage.py": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
+    "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
+    "commit_batch_child.py": "d69fa088c46e657d063749ffcdb2f10012912a6193fda16b9b6e9a1ce25c51f0",
+    "controller.py": "a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9",
+    "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
+    "run_batch.py": "6bf3de47c2f157639ac87efaca00d240ed749b217c21132ae9727b0334ff957e"
+  },
+  "started_utc": "2026-10-29T01:30:17Z",
+  "status": "passed",
+  "test_file_sha256": {
+    "tests/test_native_codec_overlap.py": "86f2a18d6243becf6811d73a623cd9c499439488c3ed8abc20dfb6e2a04d56c7",
+    "tests/test_native_fit_scope.py": "3c07e5979ced654ad967ff00c1194b6f5186f85da3fad72930ec218a16659055",
+    "tests/test_verified_zombie_reap.py": "2199debd3bf3df87d7f8ff2dcbc2fc5c0a77af27097222b572ea94965898f3a6"
+  }
+}

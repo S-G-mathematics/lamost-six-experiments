@@ -75,8 +75,8 @@ class CandidateFilterTests(unittest.TestCase):
         self.assertEqual(got,[good]);self.assertEqual(receipt['input_group_count'],2)
         self.assertEqual(receipt['eligible_group_count'],1);self.assertEqual(receipt['excluded_group_count'],1)
         exc=receipt['exclusions'][0]
-        self.assertEqual(exc['producer_task'],bad_key);self.assertEqual(exc['reason_type'],'AmbiguousState')
-        self.assertEqual(exc['aliases'],bad['aliases']);self.assertIn('receipt file missing',exc['reason'])
+        self.assertEqual(exc['producer_task'],bad_key);self.assertEqual(exc['reason_type'],'UnsafePlan')
+        self.assertEqual(exc['aliases'],bad['aliases']);self.assertEqual(exc['reason'],'selection fallback lacks authoritative validation SHA')
 
     def test_malformed_selection_json_is_recorded_as_known_bad_metadata(self):
         item,records,key=make_group('malformed');store=Store(('json','/attempts/'));self.addCleanup(store.close);store.seed(records)

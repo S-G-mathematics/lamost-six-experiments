@@ -1,0 +1,97 @@
+{
+  "blockers": [
+    "The independent full portable suite for this candidate has not yet run; this focused policy receipt is not a substitute for that gate."
+  ],
+  "compatibility_evidence": {
+    "interpretation": "These are separate narrow checks and do not replace candidate full-suite qualification.",
+    "legacy_encoder_roundtrip": {
+      "current_decoder_source_sha256": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
+      "legacy_encoder_source_sha256": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca",
+      "receipt_path": "reports/engineering_audits/LEGACY_CODEC_COMPATIBILITY_FIXTURE_20261029.json",
+      "receipt_sha256": "b2419d49cad3e4891a2af6209e842571ae8cb5a0709e40f70c9d526046948001",
+      "scope_limit": "One tiny synthetic old-encoder payload round-tripped byte-exactly; this does not prove every historical model payload decodes.",
+      "status": "passed_small_fixture_only",
+      "test_path": "tests/test_previous_codec_payload_compat.py",
+      "test_sha256": "13b813cfe0b6bb336685d667611d5c725a94e7ef4d8c1bcd9e87193510ca1899"
+    },
+    "predecessor_history_test": {
+      "description": "The historical bound-proof fixture exercises synthetic acceptance and tampered-binding rejection; it is not the 54-row production manifest check.",
+      "status": "synthetic_fixture_only",
+      "test_path": "tests/test_cold_model_storage.py",
+      "test_sha256": "8460d82bc5468a239c3de5402ee3d2c02a340c0d013802e85f07a6158155a8af"
+    },
+    "production_manifest_metadata": {
+      "archive_bytes": 61114853354,
+      "archive_payloads_read": 0,
+      "archive_sha256": "4d4bf0de8c1befd082f5af49f89df842172ba9400f8a66e80b5ebe0a525c6bf4",
+      "legacy_descriptors_validated": 54,
+      "manifest_sha256": "33b77c51e9671d9365ebf5b06e08c2c63210e3970be96fc2a1d5d7093a8bc20b",
+      "models_deserialized": 0,
+      "receipt_path": "reports/engineering_audits/PRODUCTION_CODEC_MANIFEST_METADATA_20261029.json",
+      "receipt_sha256": "af435df4d1a88b8bf7a1acc968ab58c0fc3db02c3fe8ddcae34ffa98a92776de",
+      "scope_limit": "Validated descriptors against the saved manifest and ZIP index metadata; no production payload was read or decoded.",
+      "status": "passed_metadata_only",
+      "zips_opened": 0
+    },
+    "selection_receipt_fallback": {
+      "archive_payloads_read": 0,
+      "focused_receipt_path": "reports/engineering_audits/selection_fallback_focused_test_receipt_20261029.json",
+      "focused_receipt_sha256": "0eb77421761d74c61b75670119c829e9d1533aaca481ccf43e45403611d4bd3c",
+      "focused_test_path": "tests/test_missing_attempt_selection_compat.py",
+      "focused_test_sha256": "6ff440782cc6d353bdd5aef1808844095d91e15c3c451c6f398b0235987e5661",
+      "groups_passed": 578,
+      "models_deserialized": 0,
+      "receipt_path": "reports/engineering_audits/selection_receipt_metadata_audit_20261029.json",
+      "receipt_sha256": "4f01f55ca9fb2c18915f3f4e7dffe2d5cd1f8c53ad9962ccbc3a223b6f524793",
+      "script_path": "reports/engineering_audits/selection_receipt_metadata_audit_20261029.py",
+      "script_sha256": "e01c8c096582d6f65644aae740ea0626ddd28ef8f0149c4ce8634104ca0ccd92",
+      "status": "passed_metadata_only",
+      "still_excluded_e3_groups": 27
+    }
+  },
+  "focused_codec_tests": {
+    "receipt_path": "reports/engineering_audits/CURRENT_CODEC_FOCUSED21_SELECTION_COMPAT_20261029.json",
+    "receipt_sha256": "57a408ab3d962698f8228631c089428c3077c69e4cb7719eb6afc3de1d02102f",
+    "status": "passed",
+    "test_file_sha256": {
+      "tests/test_native_codec_overlap.py": "86f2a18d6243becf6811d73a623cd9c499439488c3ed8abc20dfb6e2a04d56c7",
+      "tests/test_native_fit_scope.py": "3c07e5979ced654ad967ff00c1194b6f5186f85da3fad72930ec218a16659055",
+      "tests/test_verified_zombie_reap.py": "2199debd3bf3df87d7f8ff2dcbc2fc5c0a77af27097222b572ea94965898f3a6"
+    }
+  },
+  "native_admission_harness": {
+    "receipt_path": "reports/engineering_audits/CURRENT_CODEC_ADMISSION_HARNESS_SELECTION_COMPAT_20261029_CORRECTED.json",
+    "receipt_sha256": "80790a17ca23b7a3774c44981dcbbd36c31d78327baf9b0310378306a95f9008",
+    "status": "passed"
+  },
+  "native_input_manifests": {
+    "cache/cache_manifest.json": "bbcc195e0564066d541fbd483896935d7471e8893e6db34ca6184dfe90ee9720",
+    "manifests/E4_MANIFEST.json": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423",
+    "manifests/E5_MANIFEST.json": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9"
+  },
+  "overlap_classes": {
+    "current_workers": "validated_existing_worker_identities",
+    "new_workers": "native_fit_proof_pristine_task_and_dependencies"
+  },
+  "policy_sha256": "c236449d2fa14f16d6d5a1ed2009e9ca956949fb1b25a28cc4668f79c21e03ca",
+  "predecessor_regression_evidence": {
+    "classification": "predecessor_only",
+    "note": "The prior 741-case pass is evidence for the predecessor candidate only; it is not the combined codec candidate qualification.",
+    "status": "not_bound"
+  },
+  "schema": "lamost-archive-native-codec-fit-overlap-qualification/1",
+  "source_sha256": {
+    "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+    "archive_fit_admission.py": "578dce5e4cca15f9dbd9d1afdacf048cb86654b0db876cb7af97c0375075341c",
+    "batch_plan.py": "0fb23c09532ee34c38907497d65a0833c328a1b95fa99f024ad00146d32fbf34",
+    "cold_auto_compaction.py": "979a6ec1dc3cf7e56ecd9e957d4ec52463d7b61ece6df94903b85b5e6dd65c71",
+    "cold_codec_storage.py": "b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b",
+    "cold_model_storage.py": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
+    "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
+    "commit_batch_child.py": "d69fa088c46e657d063749ffcdb2f10012912a6193fda16b9b6e9a1ce25c51f0",
+    "controller.py": "a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9",
+    "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
+    "run_batch.py": "6bf3de47c2f157639ac87efaca00d240ed749b217c21132ae9727b0334ff957e"
+  },
+  "status": "passed"
+}

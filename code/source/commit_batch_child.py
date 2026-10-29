@@ -4,7 +4,7 @@ ROOT=Path('/home/ubuntu/lamost_e1_migration_20261023'); R=ROOT/'runtime_20261025
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import cold_model_storage as cold
 from batch_plan import build_candidates, select_batch, public_candidate_summary, require_reviewed_baseline, validate_operation_directory, verify_alias_resolution, MAX_INITIAL_BYTES, MAX_INITIAL_GROUPS, MAX_LATER_BYTES, MAX_LATER_GROUPS, RAW_WIDE_MAX_BYTES, RAW_WIDE_MAX_GROUPS, RAW_WIDE_PROFILE, RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES, RAW_MIXED_SMALL_MAX_BYTES, RAW_MIXED_SMALL_MAX_GROUPS, RAW_MIXED_SMALL_PROFILE, RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES, CODEC_MULTIGROUP_PROFILE, CODEC_MULTIGROUP_MAX_BYTES, CODEC_MULTIGROUP_MAX_GROUPS, CODEC_MULTIGROUP_TEMP_MAX_BYTES, CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES, CODEC_MULTIGROUP_DISK_MARGIN_BYTES, CODEC_ARCHIVE_IO_PROFILES, completed_archive_tail_bytes, codec_multigroup_disk_required_bytes
-PINS={'cold_model_storage.py': '485776aa20aedba397a666ae910244171155a32c6d9ae4551606d9e2b760f3d3',
+PINS={'cold_model_storage.py': 'be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172',
  'cold_codec_storage.py': 'b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b',
  'reversible_joblib_codec.py': 'f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
@@ -73,7 +73,35 @@ def _preflight_publication_receipt_files(owner,alias,store):
     for rel in rels:
         path=store._physical_path(rel)
         try:info=path.lstat()
-        except FileNotFoundError as exc:raise cold.AmbiguousState('publication receipt file missing: '+rel) from exc
+        except FileNotFoundError as exc:
+            # Legacy validated publications sometimes stored the selected
+            # configuration only at the canonical artifact path. Allow only
+            # this precise absent attempt copy when canonical bytes match the
+            # result's authoritative validation SHA; the core performs the
+            # complete publication/task/pipeline checks afterward.
+            attempt_selection_rel=f'{base}/attempts/{attempt_id}/selection.json'
+            checkpoint_selection_rel=f'{base}/checkpoints/{task_sha}/selection.json'
+            allowed_missing=((rel==attempt_selection_rel and alias==f'{base}/attempts/{attempt_id}/pipeline.joblib')
+                or (rel==checkpoint_selection_rel and alias==f'{base}/checkpoints/{task_sha}/pipeline.joblib'))
+            if not allowed_missing:
+                raise cold.AmbiguousState('publication receipt file missing: '+rel) from exc
+            validation=result.get('validation') or {};files=validation.get('files') or {}
+            expected=files.get('selection.json')
+            if not isinstance(expected,str) or len(expected)!=64 or any(c not in '0123456789abcdef' for c in expected):
+                raise cold.UnsafePlan('selection fallback lacks authoritative validation SHA')
+            canonical_selection=store._physical_path(f'{base}/selection.json')
+            try:canonical_info=canonical_selection.lstat()
+            except FileNotFoundError as missing:raise cold.AmbiguousState('publication receipt file missing: '+f'{base}/selection.json') from missing
+            if canonical_selection.is_symlink() or not stat.S_ISREG(canonical_info.st_mode):
+                raise cold.UnsafePlan('canonical selection receipt is not a regular owned file: '+f'{base}/selection.json')
+            if sha(canonical_selection)!=expected:
+                raise cold.AmbiguousState('canonical selected configuration SHA differs from validation record')
+            selected=json.loads(canonical_selection.read_text(encoding='utf-8'))
+            fit_result=json.loads(store._physical_path(f'{base}/fit_result.json').read_text(encoding='utf-8'))
+            params=(fit_result.get('result') or {}).get('params')
+            if not isinstance(params,dict) or selected.get('selected_params')!=params:
+                raise cold.AmbiguousState('canonical selection parameters differ from successful fit result')
+            continue
         if path.is_symlink() or not stat.S_ISREG(info.st_mode):
             raise cold.UnsafePlan('publication receipt is not a regular owned file: '+rel)
         if rel.endswith('/fit_publication.json') or rel.endswith('/fit_result.json'):

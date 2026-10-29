@@ -207,16 +207,46 @@ class ColdModelStore:
             raise AmbiguousState("fit_result receipt does not bind current validated pipeline")
         if sha256_file(selection_path)!=selection_expected:raise AmbiguousState("selected configuration SHA differs from validation record")
         attempt_prefix=f"runtime_20261025/artifacts/{key}/attempts/{attempt_id}"
-        attempt_pub=safe_file(attempt_prefix+"/fit_publication.json");attempt_result=safe_file(attempt_prefix+"/attempt.json");attempt_selection=safe_file(attempt_prefix+"/selection.json")
+        attempt_pub=safe_file(attempt_prefix+"/fit_publication.json");attempt_result=safe_file(attempt_prefix+"/attempt.json")
+        attempt_selection_rel=attempt_prefix+"/selection.json";attempt_selection_path=self._physical_path(attempt_selection_rel)
+        try:attempt_selection_stat=attempt_selection_path.lstat()
+        except FileNotFoundError:attempt_selection_stat=None
+        missing_selection_copies=[]
+        if attempt_selection_stat is None:
+            if kind not in ("attempt_publication","task_checkpoint"):raise AmbiguousState("publication receipt file missing: "+attempt_selection_rel)
+            # The canonical selection is the authoritative validation-bound copy.
+            attempt_selection=None;missing_selection_copies.append("attempt")
+        else:
+            if attempt_selection_path.is_symlink() or not stat.S_ISREG(attempt_selection_stat.st_mode):
+                raise UnsafePlan("attempt selection receipt is not a regular owned file: "+attempt_selection_rel)
+            attempt_selection=attempt_selection_path
         attempt_publication=json.loads(attempt_pub.read_text())
         for field in ("stage","attempt_id","task_sha256","pipeline_sha256","published_path"):
             if attempt_publication.get(field)!=publication.get(field):raise AmbiguousState("attempt and canonical publication receipts disagree")
         if sha256_file(attempt_result)!=sha256_file(fitresult_path):raise AmbiguousState("attempt fit-result receipt differs from canonical fit result")
-        if sha256_file(attempt_selection)!=selection_expected:raise AmbiguousState("attempt selected configuration SHA differs")
+        if attempt_selection is not None and sha256_file(attempt_selection)!=selection_expected:raise AmbiguousState("attempt selected configuration SHA differs")
         checkpoint_prefix=f"runtime_20261025/artifacts/{key}/checkpoints/{task_sha}"
-        checkpoint_selection=safe_file(checkpoint_prefix+"/selection.json")
-        if sha256_file(checkpoint_selection)!=selection_expected:raise AmbiguousState("checkpoint selected configuration SHA differs")
-        return {"owner_kind":kind,"attempt_id":attempt_id,"task_sha256":task_sha,"publication_sha256":sha256_file(fitpub_path),"attempt_publication_sha256":sha256_file(attempt_pub),"fit_result_sha256":sha256_file(fitresult_path),"selection_sha256":selection_expected}
+        checkpoint_selection_rel=checkpoint_prefix+"/selection.json";checkpoint_selection_path=self._physical_path(checkpoint_selection_rel)
+        try:checkpoint_selection_stat=checkpoint_selection_path.lstat()
+        except FileNotFoundError:checkpoint_selection_stat=None
+        if checkpoint_selection_stat is None:
+            if kind not in ("attempt_publication","task_checkpoint"):raise AmbiguousState("publication receipt file missing: "+checkpoint_selection_rel)
+            checkpoint_selection=None;missing_selection_copies.append("checkpoint")
+        else:
+            if checkpoint_selection_path.is_symlink() or not stat.S_ISREG(checkpoint_selection_stat.st_mode):
+                raise UnsafePlan("checkpoint selection receipt is not a regular owned file: "+checkpoint_selection_rel)
+            checkpoint_selection=checkpoint_selection_path
+        if checkpoint_selection is not None and sha256_file(checkpoint_selection)!=selection_expected:raise AmbiguousState("checkpoint selected configuration SHA differs")
+        if missing_selection_copies:
+            selected=json.loads(selection_path.read_text(encoding="utf-8"))
+            params=(fit_result.get("result") or {}).get("params")
+            if not isinstance(params,dict) or selected.get("selected_params")!=params:
+                raise AmbiguousState("canonical selection parameters differ from successful fit result")
+        evidence={"owner_kind":kind,"attempt_id":attempt_id,"task_sha256":task_sha,"publication_sha256":sha256_file(fitpub_path),"attempt_publication_sha256":sha256_file(attempt_pub),"fit_result_sha256":sha256_file(fitresult_path),"selection_sha256":selection_expected}
+        if missing_selection_copies:
+            evidence["selection_binding"]="canonical_validation_sha_fallback/1"
+            evidence["selection_missing_copies"]=sorted(missing_selection_copies)
+        return evidence
     def _consumer_contract(self,key,closure,records,claimed):
         pending=[k for k in closure if records[k].get("status")!="validated_terminal"]
         if not pending and claimed is None:
