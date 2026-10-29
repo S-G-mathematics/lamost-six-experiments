@@ -9,7 +9,7 @@ Coherent read-only registry snapshot: 2026-10-29T07:49:47.720386+00:00 UTC. This
 | E2 primary | 150 | 108 evaluated | - | 42 unavailable | - |
 | E2 classical references | 120 | 120 evaluated | - | 0 | - |
 | E3 | 69 | 64 successful, 3 recorded scientific failures, 0 unsupported, 2 unavailable, 0 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 0 waiting/active / 69 | 3 | 2 unavailable | 0 |
-| E4 | 1,773 | 1,621 successful, 71 recorded scientific failures, 0 unsupported, 3 unavailable, 67 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 11 waiting/active / 1,773 | 71 | 3 unavailable | 83 |
+| E4 | 1,773 | 1,624 successful, 71 recorded scientific failures, 0 unsupported, 3 unavailable, 67 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 8 waiting/active / 1,773 | 71 | 3 unavailable | 83 |
 | E5 | 960 | 700 successful, 50 recorded scientific failures, 0 unsupported, 78 unavailable, 101 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 31 waiting/active / 960 | 50 | 78 unavailable | 132 |
 | E6 all ledger rows | 21 | 12 successful member-reference aliases | 3 primary ensemble failures | 6 unavailable | 0 |
 
