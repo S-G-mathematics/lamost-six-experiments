@@ -1,0 +1,57 @@
+{
+  "expected_test_count": 25,
+  "failed_test_count": 0,
+  "fit_attempts_started": 0,
+  "limits": {
+    "address_space_limit_bytes": 1073741824,
+    "cpu_affinity_count": 1,
+    "duration_seconds": 1.966865264927037,
+    "measured_maxrss_bytes": 49684480,
+    "native_threads": 1,
+    "nice": 19,
+    "wall_seconds": 60
+  },
+  "log_path": "reports/engineering_audits/CODEC_FOCUSED_25_FRESHNESS_CLOCK_20261030.log",
+  "log_sha256": "ae3585607f1ea03532dd07e778f700232711f9483044bac3aff175b17e9f6309",
+  "observed_utc": "2026-10-29T21:25:11.933476+00:00",
+  "passed_test_count": 25,
+  "schema": "lamost-archive-native-codec-fit-overlap-focused-tests/1",
+  "source_sha256": {
+    "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+    "archive_fit_admission.py": "59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba",
+    "batch_plan.py": "2389a9468a73f5af6cacfe585346afd14cf9a2a340b16c59439c2a77304c9372",
+    "cold_auto_compaction.py": "5c438eff88940906ba229ce5c714046a32ece6b96c1a2feafe7aa57e282ddbf3",
+    "cold_codec_storage.py": "b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b",
+    "cold_model_storage.py": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
+    "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
+    "commit_batch_child.py": "3564c97a73ba9f70c816a5d3c2524254dee7bd82054bd6f6f922a12369603f94",
+    "controller.py": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+    "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
+    "run_batch.py": "39cc2fe79aadce01a713b01ff37783b684562be0a3c0fe1bddacd857e1d5085d"
+  },
+  "status": "passed",
+  "test_command": [
+    "/home/ubuntu/lamost_e1_migration_20261023/venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--rootdir",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/freshness_clock_20261030/migration/runtime_20261025/tests",
+    "--disable-warnings",
+    "--tb=short",
+    "-p",
+    "no:cacheprovider",
+    "-k",
+    "not candidate_freeze_reaper_binding_matches_current_helper",
+    "tests/test_native_codec_overlap.py",
+    "tests/test_native_fit_scope.py",
+    "tests/test_verified_zombie_reap.py",
+    "tests/test_driver_cli_alignment.py"
+  ],
+  "test_file_sha256": {
+    "tests/test_driver_cli_alignment.py": "25ec4e3306ea3454add7344f28fd92d7a9cc2db4a6ad52b5f4d99f48d56fd221",
+    "tests/test_native_codec_overlap.py": "48d8a71744fb8363fd56f0c5236bbe39e9bb8312898a8d67108d5d482f2dc352",
+    "tests/test_native_fit_scope.py": "3c07e5979ced654ad967ff00c1194b6f5186f85da3fad72930ec218a16659055",
+    "tests/test_verified_zombie_reap.py": "6a5553ce5f0280f7c7a893ecb34a1be654a0aab43c0efd6a540d59ec823843ae"
+  }
+}
