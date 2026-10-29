@@ -511,10 +511,10 @@
       "validation": "6score/worker/routing/aliasfixtures;9independentauditorfixtures;20controllerguardtests;2actualstagedsubprocessengineeringchecks;noengineeringmodelfits"
     }
   ],
-  "archive_native_codec4_fit_overlap_qualification_sha256": "1a5f42588e5503d6f0272c8317c52c63fcb6d0dfb325f502319d19c418feb499",
-  "archive_native_codec4_fit_overlap_sha256": "34b1944c4216005ded15679193082195181f0405a7fb98524122cba318767692",
-  "archive_native_codec_fit_overlap_qualification_sha256": "035476cc53961f87ccc91f3e576442926953c15ff480b289a7ee43ae0a40e08d",
-  "archive_native_codec_fit_overlap_sha256": "85d37950ee27b66e0980f672f6d75c05a0ecdbc6a8465cdf8e1a379855a36510",
+  "archive_native_codec4_fit_overlap_qualification_sha256": "008677ba412800a7787640eae48a4a4861d3d2e2c812bb0c92bb969b8eabbc3c",
+  "archive_native_codec4_fit_overlap_sha256": "230bf8292771e5239d21fab6f7606330b742ede3232d30eb87176fd7afaa1b74",
+  "archive_native_codec_fit_overlap_qualification_sha256": "686a4b5e33674957f2c2229a2443a47801bc7e9c193bd7466a275a28a6c2c785",
+  "archive_native_codec_fit_overlap_sha256": "18b304a949b92de556a35f7ad74f64e5bf72ec1cccd87c3d88479961238fc0ea",
   "archive_native_fit_overlap_qualification_sha256": "6c7bca53a6fbe505f2e73af22875890a0b4d3f85b57b8060be06fedde0f67151",
   "archive_native_fit_overlap_sha256": "d7721b863c61261bd71d1b5e7bc3831a03734fe8568e9ec5d009c3c1864adc99",
   "bootstrap": false,
@@ -889,6 +889,26 @@
       "observed_utc": "2026-10-29T01:44:13.231514+00:00",
       "scientific_tasks_or_results_changed": false,
       "scope": "Strict selection-receipt compatibility codec candidate; operational archive plumbing only"
+    },
+    {
+      "amendment_id": "storage_observation_check_time_20261030",
+      "codec4_profile_tests": 10,
+      "controller_admission_fixture_tests": 6,
+      "focused_codec1_tests": 25,
+      "focused_codec4_tests": 21,
+      "observed_utc": "2026-10-29T21:27:00.839318+00:00",
+      "portable_suite_expected_cases": 810,
+      "portable_suite_status": "pending",
+      "scientific_fits_started": 0,
+      "scientific_models_or_tasks_changed": false,
+      "scope": "Operational freshness clock only: validate the storage observation at the observation-check time after preflight work. Existing stale/future age limits, storage thresholds, fit limits, and task/science definitions are unchanged.",
+      "source_changes": [
+        {
+          "after": "5c438eff88940906ba229ce5c714046a32ece6b96c1a2feafe7aa57e282ddbf3",
+          "before": "2829df22e1b8df9cfe67fe9d671886fe43cdc125ba129c99abbeb2e6abdc1a6b",
+          "name": "cold_auto_compaction.py"
+        }
+      ]
     }
   ],
   "operational_controller_history": [

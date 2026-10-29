@@ -61,6 +61,15 @@ class ColdFinalizerIntegrationTests(unittest.TestCase):
   review={'snapshot':{'inputs':{'cold_archived_artifact_members':projection}}}
   checked,payload=a.cold_artifact_entries(f,root,rt,s,records,{},review)
   return checked,payload,review
+ def test_every_portable_bundle_log_is_in_exact_public_closure(self):
+  bundle=json.loads((HERE/'tests'/'PORTABLE_TEST_BUNDLE.json').read_text())
+  logs={row['runtime_member']:row['source_sha256'] for row in bundle['sources'] if isinstance(row.get('runtime_member'),str) and row['runtime_member'].endswith('.log')}
+  pins=f.PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256
+  self.assertEqual(len(logs),22)
+  self.assertTrue(logs)
+  self.assertTrue(all(path in pins for path in logs))
+  self.assertEqual({path:pins[path] for path in logs},logs)
+
  def test_public_resource_review_allowlist_is_exact_hash_bound_and_stage_scoped(self):
   with tempfile.TemporaryDirectory(dir=HERE/'tests') as td:
    root=pathlib.Path(td);rt=root/'runtime_20261025';(rt/'manifests').mkdir(parents=True)
@@ -212,9 +221,9 @@ class ColdFinalizerIntegrationTests(unittest.TestCase):
   # The production allowlist is sourced from the reviewed 807 bundle. This fixture
   # copies only those small inputs into an isolated fake root and exercises collect_full.
   pins=f.PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256
-  self.assertEqual(len(pins),26)
+  self.assertEqual(len(pins),28)
   self.assertEqual(sum(x.startswith('runtime_20261025/manifests/') for x in pins),6)
-  self.assertEqual(sum(x.endswith('.log') for x in pins),20)
+  self.assertEqual(sum(x.endswith('.log') for x in pins),22)
   with tempfile.TemporaryDirectory(dir=HERE/'tests') as td:
    root,rt,s,key,digest,records,item,build,oldrows=make_cold(td)
    for d in ('project','e1_wrapup_20261024','e1_recovery_20261024','e2_20261024'): (root/d).mkdir(parents=True,exist_ok=True)
@@ -229,11 +238,11 @@ class ColdFinalizerIntegrationTests(unittest.TestCase):
    by_member={e.member:e for e in entries}
    expected=set(pins)
    self.assertTrue(expected.issubset(by_member))
-   self.assertEqual(len([e for e in entries if e.member in expected]),26)
+   self.assertEqual(len([e for e in entries if e.member in expected]),28)
    manifest=json.loads(by_member['runtime_20261025/manifests/public_scientific_provenance_manifest.json'].source)
    closure=[x for x in manifest['included'] if x.get('curation') in {'exact_sha_pinned_policy_bytes','exact_sha_pinned_reviewed_safe_log_bytes'}]
    self.assertEqual({x['archive_member'] for x in closure},expected)
-   self.assertEqual(len(closure),26)
+   self.assertEqual(len(closure),28)
    for rel,pinned in pins.items():
     payload=by_member[rel].source if isinstance(by_member[rel].source,bytes) else by_member[rel].source.read_bytes()
     self.assertEqual(hashlib.sha256(payload).hexdigest(),pinned,rel)

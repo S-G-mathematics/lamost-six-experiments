@@ -1,7 +1,7 @@
 {
   "codec4_profile_tests": {
-    "receipt_path": "reports/engineering_audits/CODEC4_FOCUSED_10_CLI_ALIGNMENT_20261029.json",
-    "receipt_sha256": "0ce74437fb5af33ce67493cdbc520f72f94b3329fa5e513d26e726bf9db7656c",
+    "receipt_path": "reports/engineering_audits/CODEC4_PROFILE_FOCUSED_10_FRESHNESS_CLOCK_20261030.json",
+    "receipt_sha256": "88619439b4bb41902c988d041979298ff8a28e82610911bac3e92c812d83965b",
     "status": "passed",
     "test_file_sha256": {
       "tests/test_codec4gib_archive_profile.py": "57e4a19c2eaec3f173a52af32480a2fab31ccbaf4f30430fcdb5aa7dfe31416b",
@@ -9,8 +9,8 @@
     }
   },
   "focused_codec_tests": {
-    "receipt_path": "reports/engineering_audits/CODEC_FOCUSED_25_REAPER_BINDING_20261030.json",
-    "receipt_sha256": "2f4a4d522cf4596a802278df705b5da7f22a60d4b53c595cc6ad182b5f2bb7cc",
+    "receipt_path": "reports/engineering_audits/CODEC_FOCUSED_25_FRESHNESS_CLOCK_20261030.json",
+    "receipt_sha256": "b09986f8e02516f8efde730d6208a0dad9b6c9f19ca3ef57dba48b4689767b09",
     "status": "passed",
     "test_file_sha256": {
       "tests/test_driver_cli_alignment.py": "25ec4e3306ea3454add7344f28fd92d7a9cc2db4a6ad52b5f4d99f48d56fd221",
@@ -20,8 +20,8 @@
     }
   },
   "native_admission_harness": {
-    "receipt_path": "reports/engineering_audits/CODEC_ADMISSION_HARNESS3_CODEC4_CLI_ALIGNMENT_FINAL_20261029.json",
-    "receipt_sha256": "503d49cb8e2774b80adc20ebc63d64f158729495809019ae54e194149ab92222",
+    "receipt_path": "reports/engineering_audits/CODEC_ADMISSION_HARNESS3_CODEC4_FRESHNESS_CLOCK_20261030.json",
+    "receipt_sha256": "8927064a7b14d7645225cd69b3e5dea2e73faf93de0271130b0a5809ab90577f",
     "status": "passed"
   },
   "native_input_manifests": {
@@ -29,18 +29,19 @@
     "manifests/E4_MANIFEST.json": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423",
     "manifests/E5_MANIFEST.json": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9"
   },
+  "observed_utc": "2026-10-29T21:29:09.878804+00:00",
   "overlap_classes": {
     "current_workers": "validated_existing_worker_identities",
     "new_workers": "native_fit_proof_pristine_task_and_dependencies"
   },
-  "policy_sha256": "34b1944c4216005ded15679193082195181f0405a7fb98524122cba318767692",
-  "qualification_note": "CLI alignment focused and synthetic admission fixtures passed; the immutable 797-case portable suite is a separate deployment gate.",
+  "policy_sha256": "230bf8292771e5239d21fab6f7606330b742ede3232d30eb87176fd7afaa1b74",
+  "qualification_note": "Check-time freshness amendment is source-bound. The 25-case codec test set, codec4 profile/CLI tests, and fixture-only codec4 controller admission harness passed; profile stale/future age checks and scientific limits are unchanged.",
   "schema": "lamost-archive-native-codec-fit-overlap-qualification/1",
   "source_sha256": {
     "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
     "archive_fit_admission.py": "59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba",
     "batch_plan.py": "2389a9468a73f5af6cacfe585346afd14cf9a2a340b16c59439c2a77304c9372",
-    "cold_auto_compaction.py": "2829df22e1b8df9cfe67fe9d671886fe43cdc125ba129c99abbeb2e6abdc1a6b",
+    "cold_auto_compaction.py": "5c438eff88940906ba229ce5c714046a32ece6b96c1a2feafe7aa57e282ddbf3",
     "cold_codec_storage.py": "b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b",
     "cold_model_storage.py": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
     "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",

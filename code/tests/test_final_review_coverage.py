@@ -37,8 +37,8 @@ class CoverageTests(unittest.TestCase):
    expected={}
    result=fr.public_provenance_records(root,runtime,expected,finalizer_path=finalizer)
    views=result['archive_views'];sources=result['source_records']
-   self.assertEqual(len(views),38)
-   self.assertEqual(len(sources),37)
+   self.assertEqual(len(views),40)
+   self.assertEqual(len(sources),39)
    self.assertIn('runtime_20261025/manifests/incidents/e4_weight_schema_20261025_summary.json',views)
    self.assertIn('runtime_20261025/manifests/incidents/svm_native_margin_api_20261026_summary.json',views)
    self.assertIn('runtime_20261025/manifests/public_scientific_provenance_manifest.json',views)

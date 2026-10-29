@@ -431,6 +431,10 @@ def wide_overlap_policy_allowed(profile, freeze):
  if profile not in RAW_ARCHIVE_IO_PROFILES:return True
  return not (freeze.get('archive_native_fit_overlap_sha256') or freeze.get('archive_native_fit_overlap_qualification_sha256'))
 
+def current_storage_observation_epoch():
+ # Validate storage telemetry against the time it is read, not the earlier driver start.
+ return dt.datetime.now(dt.timezone.utc).timestamp()
+
 def run_once(preflight_only=False,storage_codec_policy=None,archive_io_profile=None):
  config=batch_config(storage_codec_policy,archive_io_profile)
  wrapper_wall_seconds=outer_wrapper_wall_seconds(archive_io_profile)
@@ -470,7 +474,7 @@ def run_once(preflight_only=False,storage_codec_policy=None,archive_io_profile=N
   cooldown_reason=archive_transaction_cooldown_reason(baseline,now_epoch)
   if cooldown_reason:return early('backoff',cooldown_reason)
   free=shutil.disk_usage(R).free
-  fresh,trigger,storage_reason=storage_freshness(R/'storage_observation.json',free,now_epoch)
+  fresh,trigger,storage_reason=storage_freshness(R/'storage_observation.json',free,current_storage_observation_epoch())
   if not fresh:return early('backoff',storage_reason)
   if not trigger and not preflight_only:return early('idle',storage_reason,free_bytes=free)
   archive_tail_bytes=baseline.get('archive_tail_backup_bytes',0) or 0

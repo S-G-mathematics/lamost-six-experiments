@@ -1,0 +1,92 @@
+{
+  "archive_operation": {
+    "archive_io_profile": "bounded-5400-codec4gib64",
+    "batch_policy": "storage-followup-codec",
+    "owner_operation": "rf_cold_batch_wrapper_20261026",
+    "storage_codec_policy": "reversible-xz-v1"
+  },
+  "limitations": [
+    "The 4 GiB source cap, 8 GiB temporary encoded-output bound, 14 GiB transient reserve and 2 GiB growth margin are validated as admission bounds; production codec4 throughput is unmeasured.",
+    "The 5400 second archive-child limit and 5460 second wrapper limit are time caps, not a claim that a batch will complete within them.",
+    "Fixture-only admission evidence does not claim a live worker inventory, model outcome, or scientific evaluation.",
+    "The full immutable portable suite is a separate gate and must bind the final freeze and bundle after these manifests are added."
+  ],
+  "native_input_manifests": {
+    "cache/cache_manifest.json": "bbcc195e0564066d541fbd483896935d7471e8893e6db34ca6184dfe90ee9720",
+    "manifests/E4_MANIFEST.json": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423",
+    "manifests/E5_MANIFEST.json": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9"
+  },
+  "overlap_classes": {
+    "current_workers": "validated_existing_worker_identities",
+    "new_workers": "native_fit_proof_pristine_task_and_dependencies"
+  },
+  "policy_id": "archive-native-codec4-fit-overlap-1.5gib-cpu1-v1",
+  "qualification_path": "reports/engineering_audits/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_QUALIFICATION_CLI_ALIGNMENT_20261029.json",
+  "qualification_required_before_enablement": true,
+  "qualification_requirements": {
+    "combined_portable_suite": "separate immutable qualification of exact candidate bundle is required before live cutover",
+    "focused_tests": "current-source-pinned codec and profile checks plus native admission fixture",
+    "production_throughput": "not measured; 5400 seconds is a hard cap, not a completion guarantee"
+  },
+  "resources": {
+    "admission_only_safety_buffer_gib": 1,
+    "archive_child_address_space_limit_bytes": 939524096,
+    "archive_child_rss_limit_bytes": 1073741824,
+    "archive_disk_growth_margin_bytes": 2147483648,
+    "archive_disk_reserve_bytes": 15032385536,
+    "archive_wall_seconds": 5400,
+    "archive_wrapper_rss_limit_bytes": 1610612736,
+    "archive_wrapper_wall_seconds": 5460,
+    "batch_max_bytes": 4294967296,
+    "batch_max_inode_groups": 64,
+    "commitment_growth_margin_gib": 2,
+    "encoded_temp_max_bytes": 8589934592,
+    "helper_cpu_reservation_units": 1,
+    "helper_reservation_gib": 1.5,
+    "host_os_harbor_reserve_gib": 6,
+    "native_threads": 1,
+    "nested_threads": 1,
+    "phase_timeout_seconds": 600,
+    "termination_grace_seconds": 30,
+    "trial_timeout_seconds": 600,
+    "worker_memory_limit_gib": 10
+  },
+  "schema": "lamost-archive-native-codec-fit-overlap-policy/1",
+  "scope": {
+    "archive_model_aliases_must_be_terminal": true,
+    "experiments": [
+      4,
+      5
+    ],
+    "kind": "fit",
+    "native_input_only": true,
+    "never_attempted": true,
+    "no_existing_same_task_pipeline_or_checkpoint": true,
+    "require_successful_dependencies": true,
+    "reuse_pipeline": false,
+    "routes": {
+      "4": [
+        "direct",
+        "treatment"
+      ],
+      "5": [
+        "direct",
+        "synthetic"
+      ]
+    }
+  },
+  "source_sha256": {
+    "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+    "archive_fit_admission.py": "59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba",
+    "batch_plan.py": "2389a9468a73f5af6cacfe585346afd14cf9a2a340b16c59439c2a77304c9372",
+    "cold_auto_compaction.py": "5c438eff88940906ba229ce5c714046a32ece6b96c1a2feafe7aa57e282ddbf3",
+    "cold_codec_storage.py": "b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b",
+    "cold_model_storage.py": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
+    "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
+    "commit_batch_child.py": "3564c97a73ba9f70c816a5d3c2524254dee7bd82054bd6f6f922a12369603f94",
+    "controller.py": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+    "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
+    "run_batch.py": "39cc2fe79aadce01a713b01ff37783b684562be0a3c0fe1bddacd857e1d5085d"
+  },
+  "status": "qualified"
+}

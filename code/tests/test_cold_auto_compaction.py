@@ -18,6 +18,32 @@ class CompactorPreflightTests(unittest.TestCase):
   self.assertEqual(m.should_trigger_storage(obs,99,time.time())[1],'storage_below_controller_minimum')
   self.assertEqual(m.should_trigger_storage(obs,100+m.STORAGE_TRIGGER_HEADROOM,time.time())[0],False)
 
+ def test_storage_observation_uses_check_time_and_keeps_future_stale_rejection(self):
+  import datetime, inspect
+  from unittest import mock
+  started=datetime.datetime(2026,10,30,12,0,0,tzinfo=datetime.timezone.utc)
+  observed=started+datetime.timedelta(seconds=2)
+  checked=observed+datetime.timedelta(milliseconds=250)
+  obs={'observed_utc':observed.isoformat(),'minimum_free_bytes':100}
+  with tempfile.TemporaryDirectory() as td:
+   path=Path(td)/'storage_observation.json';path.write_text(json.dumps(obs))
+   # This models telemetry written after driver start but before the observation check.
+   self.assertEqual(m.storage_freshness(path,10**12,started.timestamp()),(False,False,'storage_observation_stale_or_future'))
+   with mock.patch.object(m,'current_storage_observation_epoch',return_value=checked.timestamp()):
+    check_epoch=m.current_storage_observation_epoch()
+   self.assertGreater(check_epoch,observed.timestamp())
+   fresh,trigger,reason=m.storage_freshness(path,10**12,check_epoch)
+   self.assertTrue(fresh);self.assertFalse(trigger);self.assertEqual(reason,'storage_headroom_sufficient')
+   future_epoch=observed.timestamp()-0.25
+   stale_epoch=observed.timestamp()+m.OBSERVATION_MAX_AGE+1
+   self.assertFalse(m.storage_freshness(path,10**12,future_epoch)[0])
+   self.assertEqual(m.should_trigger_storage(obs,10**12,future_epoch)[1],'storage_observation_from_future')
+   self.assertFalse(m.storage_freshness(path,10**12,stale_epoch)[0])
+   self.assertEqual(m.should_trigger_storage(obs,10**12,stale_epoch)[1],'storage_observation_stale')
+  body=inspect.getsource(m.run_once)
+  self.assertIn("storage_freshness(R/'storage_observation.json',free,current_storage_observation_epoch())",body)
+  self.assertNotIn("storage_freshness(R/'storage_observation.json',free,now_epoch)",body)
+
  def test_stale_observation_backoffs(self):
   obs=self.fresh_observation();self.assertEqual(m.should_trigger_storage(obs,0,time.time()+301)[1],'storage_observation_stale')
 
