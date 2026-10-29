@@ -1,6 +1,6 @@
 # Latest project progress snapshot
 
-Read-only registry snapshot observed at 2026-10-28T20:41:01.275758+00:00 UTC on the existing EC2. This is a database snapshot, not a live-process inventory. Existing figures remain tied to the validated 2026-10-28T17:00:39.712874Z analysis snapshot; they were not regenerated for this status refresh.
+Read-only registry snapshot observed at 2026-10-29T01:14:30.900199+00:00 UTC on the existing EC2. This is a database snapshot, not a live-process inventory. Existing figures remain tied to the validated 2026-10-28T17:00:39.712874Z analysis snapshot; they were not regenerated for this status refresh.
 
 | Experiment | Planned | Successful | Scientific failures | Unsupported / unavailable | Waiting |
 |---|---:|---:|---:|---:|---:|
@@ -9,9 +9,11 @@ Read-only registry snapshot observed at 2026-10-28T20:41:01.275758+00:00 UTC on 
 | E2 primary | 150 | 108 evaluated | - | 42 unavailable | - |
 | E2 classical references | 120 | 120 evaluated | - | 0 | - |
 | E3 | 69 | 64 | 3 | 2 | 0 |
-| E4 | 1,773 | 1605 | 71 | 3 | 94 |
+| E4 | 1,773 | 1,605 | 71 | 3 | 94 |
 | E5 | 960 | 700 | 50 | 78 | 132 |
 | E6 | 21 | 12 successful aliases | 3 ensemble failures | 6 unavailable | 0 |
+
+The complete current E3-E6 case-state listing is in reports/CURRENT_CELL_LEDGER.csv (2,823 rows); this does not indicate process liveness.
 
 The six E6 primary ensemble cases remain separate from the 15 member-reference aliases. The 759-case qualification verifies operational code/tests, not scientific completion. The 759 portable qualification fingerprint is 585030a538d446ab8be76db1ac40af837cf5766115e9dea3b040069e96bbbbd4.
 
