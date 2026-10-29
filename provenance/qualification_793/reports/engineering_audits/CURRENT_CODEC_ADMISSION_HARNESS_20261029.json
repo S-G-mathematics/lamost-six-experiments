@@ -1,0 +1,68 @@
+{
+  "archive_alias_ownership_closure": "passed",
+  "archive_helper_fixture_only": true,
+  "archive_operation": {
+    "archive_io_profile": "bounded-1800-codec1gib64",
+    "batch_policy": "storage-followup-codec",
+    "owner_operation": "rf_cold_batch_wrapper_20261026",
+    "storage_codec_policy": "reversible-xz-v1"
+  },
+  "command": [
+    "/home/ubuntu/lamost_e1_migration_20261023/venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--disable-warnings",
+    "--tb=short",
+    "-p",
+    "no:cacheprovider",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_native_codec_multigroup_20261029/runtime_20261025/tests/test_codec_overlap_controller_harness.py"
+  ],
+  "controller_admission_gate": "passed",
+  "existing_worker_identity_validation": "passed",
+  "exit_code": 0,
+  "expected_test_count": 3,
+  "failed_test_count": 0,
+  "finished_utc": "2026-10-28T19:55:25.089008+00:00",
+  "fit_attempts_started": 0,
+  "helper_identity_and_resource_gates": "passed",
+  "limitations": [
+    "Fixture-only: no live process inventory; worker identity checks are synthetically modeled."
+  ],
+  "limits": {
+    "actual_wall_seconds": 0.617,
+    "address_space_limit_bytes": 536870912,
+    "native_threads": 1,
+    "nice": 19,
+    "peak_process_tree_rss_bytes": 61120512,
+    "wall_seconds": 60
+  },
+  "log_path": "reports/engineering_audits/CURRENT_CODEC_ADMISSION_HARNESS_20261029.log",
+  "log_sha256": "13776fd0bf8b2578684bbf9f48fd96c59bc573a784056ab0a7c14da3e3a5d3af",
+  "no_candidate_archive_model_fd_race": true,
+  "overlap_classes": {
+    "current_workers": "validated_existing_worker_identities",
+    "new_workers": "native_fit_proof_pristine_task_and_dependencies"
+  },
+  "passed_test_count": 3,
+  "schema": "lamost-archive-native-codec-overlap-admission-harness/1",
+  "source_sha256": {
+    "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+    "archive_fit_admission.py": "578dce5e4cca15f9dbd9d1afdacf048cb86654b0db876cb7af97c0375075341c",
+    "batch_plan.py": "0fb23c09532ee34c38907497d65a0833c328a1b95fa99f024ad00146d32fbf34",
+    "cold_auto_compaction.py": "efd911c63699045d85bb4f61ef8a60bd4613eca611354098c635eefbe1d34a0b",
+    "cold_codec_storage.py": "b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b",
+    "cold_model_storage.py": "485776aa20aedba397a666ae910244171155a32c6d9ae4551606d9e2b760f3d3",
+    "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
+    "commit_batch_child.py": "ef4a401122690d1f0d5346a8983e08e04e800d87e101350f3a5ee07f263097f5",
+    "controller.py": "a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9",
+    "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
+    "run_batch.py": "f8af01bbfa7ea67a1b52249583112ebb6f3a385bbddb8fa508cb4646e54a38a9"
+  },
+  "started_utc": "2026-10-28T19:55:24.425110+00:00",
+  "status": "passed",
+  "test_file": "tests/test_codec_overlap_controller_harness.py",
+  "test_file_sha256": "4a2837205b56ca6b3b7cfb36478934f96569df3d5fa414403198d0f7fa4be16c",
+  "unverified_workers": 0,
+  "workers_checked": 0
+}

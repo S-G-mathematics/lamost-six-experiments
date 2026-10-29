@@ -18,25 +18,32 @@
     "total_nodeids": 376,
     "unique_nodeids": 376
   },
-  "candidate_refresh_reason": "Preserve667 IDs; portable RF selection-only proof, ET17 RAW storage, completed-transaction baseline cache, native-fit/archive overlap and120s engineering suite; scientific10GiB600s unchanged.",
+  "candidate_refresh_reason": "ET4 source-bound rebuild after the prior full-suite failure; preserve all 764 baseline cases and bind the current 770-case candidate.",
   "collection_status": {
-    "added_nodeids": 1,
-    "address_space_limit_bytes_per_process": 1073741824,
-    "baseline_node_count": 595,
-    "candidate_nodeids_sha256": "0bc214e1201777d76f009e27a339bf702a3bd1aa8a958ee9437ac2da12af019e",
-    "candidate_unique_node_count": 596,
-    "collection_elapsed_seconds": 1.52,
-    "collection_log_path": "/tmp/lamost_nonfit_disk_drain_596_candidate_20261028/collect_only.log",
-    "collection_log_sha256": "dc2666af7e61ed7f5f896ed7ea4681eb457cb694a39dfef60be54208faeb8b7c",
+    "added_nodeids": 6,
+    "address_space_limit_bytes_per_process": 536870912,
+    "all_baseline_ids_retained": true,
+    "baseline_node_count": 770,
+    "baseline_nodeids_path": "tests/PORTABLE_COLLECTED_NODEIDS_ET4_770_20261029.txt",
+    "baseline_nodeids_sha256": "da101dc6a78ff5115b6760393ebeb4835f333d0a2db3412aba8db6c6cae219c6",
+    "baseline_unique_node_count": 770,
+    "candidate_node_count": 776,
+    "candidate_nodeids_path": "tests/PORTABLE_COLLECTED_NODEIDS_CODEC4_20261029.txt",
+    "candidate_nodeids_sha256": "939dcf8738fcc0b6dbe24d7923842d3ed2f819c7177c04a86a3cd93f302a6a14",
+    "candidate_unique_node_count": 776,
+    "collection_log_path": "reports/engineering_audits/CODEC4_COLLECT_ONLY_776_20261029.log",
+    "collection_log_sha256": "ad3e37d7f84c7cf9044494ce70e07758dca519a385e9663eba393ddea9d21352",
+    "collection_receipt_path": "reports/engineering_audits/CODEC4_COLLECT_ONLY_776_20261029.json",
+    "collection_receipt_sha256": "af21b803fa02c19473c8519c1d1c0817e2b6e8d236b6a70c1648aef7acc6dd02",
     "executed_test_bodies": false,
-    "expected_test_count": 596,
+    "expected_test_count": 776,
     "native_threads": 1,
     "nice": 19,
-    "nodeids_path": "PORTABLE_COLLECTED_NODEIDS_596.txt",
-    "preserved_baseline_nodeids": 595,
-    "removed_baseline_nodeids": 0,
+    "removed_baseline_ids": 0,
     "resource_gate_complete": true,
-    "status": "collect_only_passed"
+    "runner_sha256": "d4b89f274383d2e519e40e3bc07e4a3e6964264adaae1e2ab482dd669310561d",
+    "status": "collect_only_passed",
+    "wall_limit_seconds": 30
   },
   "companion_dependencies": [
     "reason_text_curation.py",
@@ -259,7 +266,7 @@
   "rep3_rf4_admission_stage": {
     "archive_overlap_policy_sha256": "700bc265ba7f447c00df3826efd79c6d4ab94017ec1058ff02d78d68c853c0ad",
     "archive_overlap_qualification_sha256": "259065872f870097c9a485354913f84918bcf13a4dd6f5e76cc0294eab500e08",
-    "controller_sha256": "a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9",
+    "controller_sha256": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
     "freeze_sha256": "2a24d2b82722f052dd94a196d62fc6e9a27162aa2f1aca3cb13c484870e20fe0",
     "module_sha256": "472502e9456196459561bc0a0bfe481aa977d3cef873a8b5bdcfd9752cbbbea1",
     "policy_sha256": "e1cf768468d9463f4f0af9917473eb2d454a55c17b5511d13e8cbb4bbda93e09",
@@ -345,16 +352,97 @@
       "expected_source_sha256": "28716b215c993cd5a8830fbfd423ba4254cb547427c048c9abc1641644a16dd5",
       "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/RF4_E4_6GIB_PROSPECTIVE_ADMISSION_EVIDENCE_20261028.json",
       "sha256": "28716b215c993cd5a8830fbfd423ba4254cb547427c048c9abc1641644a16dd5"
+    },
+    {
+      "archive_member": "runtime_20261025/manifests/freeze.json",
+      "bytes": 81667,
+      "expected_source_sha256": "2a59407631f4a7d3394f537629bbb219d7f90ef0dd1249edd04bdbb94dda5e6b",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/manifests/freeze.json",
+      "sha256": "2a59407631f4a7d3394f537629bbb219d7f90ef0dd1249edd04bdbb94dda5e6b"
+    },
+    {
+      "archive_member": "runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_20261029.json",
+      "bytes": 4431,
+      "expected_source_sha256": "5f24011571ac94024988496ca16f31c4aef2822c80a3f9078d3ebd66a8815f28",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_20261029.json",
+      "sha256": "5f24011571ac94024988496ca16f31c4aef2822c80a3f9078d3ebd66a8815f28"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_QUALIFICATION_20261029.json",
+      "bytes": 3793,
+      "expected_source_sha256": "ec200e658551cfedf56900d1da8c15e077e1b2cad63c81c7c1d338d551570133",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_QUALIFICATION_20261029.json",
+      "sha256": "ec200e658551cfedf56900d1da8c15e077e1b2cad63c81c7c1d338d551570133"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_PROFILE_FOCUSED6_FINAL_20261029.json",
+      "bytes": 1923,
+      "expected_source_sha256": "0690c7301d8ca5f0b69deff7dcd7b45e42772084938a1ad45497ff38b2985d45",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_PROFILE_FOCUSED6_FINAL_20261029.json",
+      "sha256": "0690c7301d8ca5f0b69deff7dcd7b45e42772084938a1ad45497ff38b2985d45"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_FOCUSED_21_FINAL_20261029.json",
+      "bytes": 2228,
+      "expected_source_sha256": "f319e3fc85551e00427e9e5f31d64b22c968ddb00e267ab439629f8e81f4eeb3",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_FOCUSED_21_FINAL_20261029.json",
+      "sha256": "f319e3fc85551e00427e9e5f31d64b22c968ddb00e267ab439629f8e81f4eeb3"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_ADMISSION_HARNESS3_FINAL_20261029.json",
+      "bytes": 2712,
+      "expected_source_sha256": "370d98b231f6e45972c84c2a268c67ee361d331b29bf8348ba3ae99f6d93ef0f",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_ADMISSION_HARNESS3_FINAL_20261029.json",
+      "sha256": "370d98b231f6e45972c84c2a268c67ee361d331b29bf8348ba3ae99f6d93ef0f"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_NATIVE_FIT_PROOF_PREFLIGHT_20261029.json",
+      "bytes": 3094,
+      "expected_source_sha256": "4429d71706422b322ffaad52660a8a17c95574cb0903f00968439a77cfd873d9",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_NATIVE_FIT_PROOF_PREFLIGHT_20261029.json",
+      "sha256": "4429d71706422b322ffaad52660a8a17c95574cb0903f00968439a77cfd873d9"
     }
   ],
   "runner": "runtime_20261025/tests/run_portable_tests.sh",
-  "runner_sha256": "8bdd471e304f51289aabaec99fe966e4c1e05dae37b42b94bbe5ed87264acc3c",
+  "runner_sha256": "96c0905625e24fa524065b3e5156e8430873dda2e61d848e000b85acb816294d",
   "runtime_staging_present": false,
   "schema": "archive-native-installed-portable-tests/1",
-  "scope": "RF4 prospective adapter/admission, E6 availability narrative, and E6 terminal-resume idempotence candidate; no test collection or scientific fits performed.",
-  "scope_current_amendment": "archive_digest_cache_metadata_contract_batch_inode_inventory_raw_mixed_small_2048_20261028",
+  "scope": "764-case candidate: preserves all 759 predecessor node IDs and adds five strict selection-receipt compatibility cases; no fits or production payload reads.",
+  "scope_current_amendment": "prospective_4gib_codec_temp8gib_disk_reserve14gib_20261029",
   "source_directory": "runtime_20261025/source",
   "sources": [
+    {
+      "bundle_sha256": "bbcc195e0564066d541fbd483896935d7471e8893e6db34ca6184dfe90ee9720",
+      "kind": "bounded_native_fit_overlap_qualification_evidence",
+      "runtime_member": "runtime_20261025/cache/cache_manifest.json",
+      "source_sha256": "bbcc195e0564066d541fbd483896935d7471e8893e6db34ca6184dfe90ee9720"
+    },
+    {
+      "bundle_sha256": "b22f97fbac544b85b7214798c2a307533b9cfe9f20856f7c90929e373f0aec02",
+      "kind": "qualification_history_or_collection_evidence",
+      "runtime_member": "runtime_20261025/logs/operational/terminal_portable_tests_326f91512a62469ca1919ba6a81332ec.log",
+      "source_sha256": "b22f97fbac544b85b7214798c2a307533b9cfe9f20856f7c90929e373f0aec02"
+    },
+    {
+      "bundle_sha256": "5f24011571ac94024988496ca16f31c4aef2822c80a3f9078d3ebd66a8815f28",
+      "kind": "codec4_prospective_policy",
+      "runtime_member": "runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_20261029.json",
+      "source_sha256": "5f24011571ac94024988496ca16f31c4aef2822c80a3f9078d3ebd66a8815f28"
+    },
+    {
+      "bundle_sha256": "d3956f62fd07df9b80e91024ab5c4182513b45230fba1f3ff0d408cc311c3e57",
+      "candidate_refresh_reason": "ET4 candidate current-source rebind; historical bytes are preserved in the prior manifest/history.",
+      "kind": "qualified_candidate_policy_or_freeze",
+      "runtime_member": "runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_20261029.json",
+      "source_sha256": "d3956f62fd07df9b80e91024ab5c4182513b45230fba1f3ff0d408cc311c3e57"
+    },
+    {
+      "bundle_sha256": "d7721b863c61261bd71d1b5e7bc3831a03734fe8568e9ec5d009c3c1864adc99",
+      "candidate_refresh_reason": "ET4 candidate current-source rebind; historical bytes are preserved in the prior manifest/history.",
+      "kind": "bounded_native_fit_overlap_qualification_evidence",
+      "runtime_member": "runtime_20261025/manifests/ARCHIVE_NATIVE_FIT_OVERLAP_20261028.json",
+      "source_sha256": "d7721b863c61261bd71d1b5e7bc3831a03734fe8568e9ec5d009c3c1864adc99"
+    },
     {
       "bundle_sha256": "594eebc2140060a48219394d48fb3fd15ee6b357cdc91c776f7c96bd1013b33f",
       "kind": "qualified_candidate_source_or_exact_historical_verifier_evidence",
@@ -362,10 +450,418 @@
       "source_sha256": "594eebc2140060a48219394d48fb3fd15ee6b357cdc91c776f7c96bd1013b33f"
     },
     {
+      "bundle_sha256": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423",
+      "kind": "bounded_native_fit_overlap_qualification_evidence",
+      "runtime_member": "runtime_20261025/manifests/E4_MANIFEST.json",
+      "source_sha256": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423"
+    },
+    {
+      "bundle_sha256": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9",
+      "kind": "bounded_native_fit_overlap_qualification_evidence",
+      "runtime_member": "runtime_20261025/manifests/E5_MANIFEST.json",
+      "source_sha256": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9"
+    },
+    {
+      "bundle_sha256": "89efee04ddbbf4f7d3c38bb27d2be2c9e23305a63e78aa39c9cf103967941c6e",
+      "candidate_refresh_reason": "ET4 candidate current-source rebind; historical bytes are preserved in the prior manifest/history.",
+      "kind": "et4_execution_policy",
+      "runtime_member": "runtime_20261025/manifests/EXTRA_TREES4_EXECUTION_POLICY_20261029.json",
+      "source_sha256": "89efee04ddbbf4f7d3c38bb27d2be2c9e23305a63e78aa39c9cf103967941c6e"
+    },
+    {
+      "bundle_sha256": "108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2",
+      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
+      "runtime_member": "runtime_20261025/manifests/RF4_E4_TREATMENT_6GIB_ADMISSION_20261028.json",
+      "source_sha256": "108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2"
+    },
+    {
+      "bundle_sha256": "d969d21e31b9fb9278c06de71c3ea240954c528f089ce9bc9060ee1bfeb782f2",
+      "candidate_refresh_reason": "ET4 current-source policy rebind; historical receipts preserved separately.",
+      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
+      "runtime_member": "runtime_20261025/manifests/RF4_EXECUTION_POLICY_20261028.json",
+      "source_sha256": "d969d21e31b9fb9278c06de71c3ea240954c528f089ce9bc9060ee1bfeb782f2"
+    },
+    {
+      "bundle_sha256": "2a59407631f4a7d3394f537629bbb219d7f90ef0dd1249edd04bdbb94dda5e6b",
+      "candidate_refresh_reason": "combined ET4 + codec4 candidate source-map rebind; exactly 19 frozen science keys preserved",
+      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
+      "runtime_member": "runtime_20261025/manifests/freeze.json",
+      "source_sha256": "2a59407631f4a7d3394f537629bbb219d7f90ef0dd1249edd04bdbb94dda5e6b"
+    },
+    {
+      "bundle_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "kind": "exact_frozen_task_plan_for_metadata_only_consumer_contract",
+      "runtime_member": "runtime_20261025/manifests/tasks.json",
+      "source_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb"
+    },
+    {
+      "bundle_sha256": "6d64db3dc917fae3181cfa61fe52e3cac25789a998098715abd24d0ee1e37ea1",
+      "kind": "superseded_764_candidate_pass_evidence",
+      "runtime_member": "runtime_20261025/reports/PORTABLE_TEST_PASS_3f92a50b97560be4ba8a6e10794f90ba9b555d4ccbb3db2bc3941d83c3685bc8.json",
+      "source_sha256": "6d64db3dc917fae3181cfa61fe52e3cac25789a998098715abd24d0ee1e37ea1"
+    },
+    {
+      "bundle_sha256": "0ac2173b6de36b3726dd5fff41ff1e06a70a14db5ca6066295bd3db106eb72fb",
+      "kind": "qualification_history_or_collection_evidence",
+      "runtime_member": "runtime_20261025/reports/PORTABLE_TEST_PASS_5014a3a4aafb559dfe529531e70bff3c9acef0023e3ed305346d52850b7815b3.json",
+      "source_sha256": "0ac2173b6de36b3726dd5fff41ff1e06a70a14db5ca6066295bd3db106eb72fb"
+    },
+    {
       "bundle_sha256": "c101e8486ffcf6e54f9eadd11a5c0ffebddcb378a6b6886ff8505f1a0d1e8d51",
       "kind": "qualified_candidate_source_or_exact_historical_verifier_evidence",
       "runtime_member": "runtime_20261025/reports/PORTABLE_TEST_PASS_908e78202071352c0a9798b714f1704b2e7e19fd9bb2252e477f9deebeed7465.json",
       "source_sha256": "c101e8486ffcf6e54f9eadd11a5c0ffebddcb378a6b6886ff8505f1a0d1e8d51"
+    },
+    {
+      "bundle_sha256": "ec200e658551cfedf56900d1da8c15e077e1b2cad63c81c7c1d338d551570133",
+      "kind": "codec4_focused_qualification",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_QUALIFICATION_20261029.json",
+      "source_sha256": "ec200e658551cfedf56900d1da8c15e077e1b2cad63c81c7c1d338d551570133"
+    },
+    {
+      "bundle_sha256": "f6a61eb55be0ba57c000aaad3b89889d29aa08ef6c2baaa9a893f8d25db2e35e",
+      "candidate_refresh_reason": "ET4 candidate current-source rebind; historical bytes are preserved in the prior manifest/history.",
+      "kind": "qualified_candidate_policy_or_freeze",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_QUALIFICATION_20261029.json",
+      "source_sha256": "f6a61eb55be0ba57c000aaad3b89889d29aa08ef6c2baaa9a893f8d25db2e35e"
+    },
+    {
+      "bundle_sha256": "6c7bca53a6fbe505f2e73af22875890a0b4d3f85b57b8060be06fedde0f67151",
+      "candidate_refresh_reason": "ET4 candidate current-source rebind; historical bytes are preserved in the prior manifest/history.",
+      "kind": "bounded_native_fit_overlap_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_FIT_OVERLAP_QUALIFICATION_20261028.json",
+      "source_sha256": "6c7bca53a6fbe505f2e73af22875890a0b4d3f85b57b8060be06fedde0f67151"
+    },
+    {
+      "bundle_sha256": "daf66c682609929f63fd5def0ddcb8674e7ebb4e2387ea2d589198bf51340707",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CODEC1_ADMISSION_HARNESS3_CURRENT_20261029.json",
+      "source_sha256": "daf66c682609929f63fd5def0ddcb8674e7ebb4e2387ea2d589198bf51340707"
+    },
+    {
+      "bundle_sha256": "bd52a03db96c76d163ac58f0d1d7a6a84be95c735c549c5cb9ae765fed3a242d",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CODEC4_ADMISSION_HARNESS3_CURRENT_20261029.json",
+      "source_sha256": "bd52a03db96c76d163ac58f0d1d7a6a84be95c735c549c5cb9ae765fed3a242d"
+    },
+    {
+      "bundle_sha256": "370d98b231f6e45972c84c2a268c67ee361d331b29bf8348ba3ae99f6d93ef0f",
+      "kind": "codec4_native_admission_harness_receipt",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CODEC4_ADMISSION_HARNESS3_FINAL_20261029.json",
+      "source_sha256": "370d98b231f6e45972c84c2a268c67ee361d331b29bf8348ba3ae99f6d93ef0f"
+    },
+    {
+      "bundle_sha256": "af21b803fa02c19473c8519c1d1c0817e2b6e8d236b6a70c1648aef7acc6dd02",
+      "kind": "codec4_profile_collection_receipt",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CODEC4_COLLECT_ONLY_776_20261029.json",
+      "source_sha256": "af21b803fa02c19473c8519c1d1c0817e2b6e8d236b6a70c1648aef7acc6dd02"
+    },
+    {
+      "bundle_sha256": "ad3e37d7f84c7cf9044494ce70e07758dca519a385e9663eba393ddea9d21352",
+      "kind": "codec4_profile_collection_log",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CODEC4_COLLECT_ONLY_776_20261029.log",
+      "source_sha256": "ad3e37d7f84c7cf9044494ce70e07758dca519a385e9663eba393ddea9d21352"
+    },
+    {
+      "bundle_sha256": "f319e3fc85551e00427e9e5f31d64b22c968ddb00e267ab439629f8e81f4eeb3",
+      "kind": "codec4_prior_codec_focused_receipt",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CODEC4_FOCUSED_21_FINAL_20261029.json",
+      "source_sha256": "f319e3fc85551e00427e9e5f31d64b22c968ddb00e267ab439629f8e81f4eeb3"
+    },
+    {
+      "bundle_sha256": "4429d71706422b322ffaad52660a8a17c95574cb0903f00968439a77cfd873d9",
+      "kind": "codec4_actual_candidate_policy_and_native_fit_proof_preflight",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CODEC4_NATIVE_FIT_PROOF_PREFLIGHT_20261029.json",
+      "source_sha256": "4429d71706422b322ffaad52660a8a17c95574cb0903f00968439a77cfd873d9"
+    },
+    {
+      "bundle_sha256": "0690c7301d8ca5f0b69deff7dcd7b45e42772084938a1ad45497ff38b2985d45",
+      "kind": "codec4_profile_focused_receipt",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CODEC4_PROFILE_FOCUSED6_FINAL_20261029.json",
+      "source_sha256": "0690c7301d8ca5f0b69deff7dcd7b45e42772084938a1ad45497ff38b2985d45"
+    },
+    {
+      "bundle_sha256": "94683b70577010774b431eccce3e5b405fd3e3a54614291ba1151dba2d32fec4",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_ADMISSION_HARNESS_20261029.json",
+      "source_sha256": "94683b70577010774b431eccce3e5b405fd3e3a54614291ba1151dba2d32fec4"
+    },
+    {
+      "bundle_sha256": "13776fd0bf8b2578684bbf9f48fd96c59bc573a784056ab0a7c14da3e3a5d3af",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_ADMISSION_HARNESS_20261029.log",
+      "source_sha256": "13776fd0bf8b2578684bbf9f48fd96c59bc573a784056ab0a7c14da3e3a5d3af"
+    },
+    {
+      "bundle_sha256": "fab7ec510862cc0a66f383a7d6c7c712cb0baa3cc697bb1ca38fd51210f532da",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_ADMISSION_HARNESS_SELECTION_COMPAT_20261029.log",
+      "source_sha256": "fab7ec510862cc0a66f383a7d6c7c712cb0baa3cc697bb1ca38fd51210f532da"
+    },
+    {
+      "bundle_sha256": "a0585c5ce87b7c78eae93fd542cd8f42358b83f061f9b19b200c90941c22fdce",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_ADMISSION_HARNESS_SELECTION_COMPAT_20261029_CORRECTED.json",
+      "source_sha256": "a0585c5ce87b7c78eae93fd542cd8f42358b83f061f9b19b200c90941c22fdce"
+    },
+    {
+      "bundle_sha256": "cad9f51efb207cac8d4f28113f34e9f60228a64b320cd6c63d3d80ae8f7b35ec",
+      "kind": "current_portable_collection_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_COLLECT_759_20261029.json",
+      "source_sha256": "cad9f51efb207cac8d4f28113f34e9f60228a64b320cd6c63d3d80ae8f7b35ec"
+    },
+    {
+      "bundle_sha256": "3f989f4fb4336b4bf7145cdd5b60b7b5a83465769ed3fd25625603195672a6d8",
+      "kind": "current_portable_collection_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_COLLECT_759_20261029.log",
+      "source_sha256": "3f989f4fb4336b4bf7145cdd5b60b7b5a83465769ed3fd25625603195672a6d8"
+    },
+    {
+      "bundle_sha256": "efa18ae1ae09cfabae2d165a8b7444964eed494d4ae7de870f7312c4e3c11ace",
+      "kind": "qualification_history_or_collection_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_COLLECT_FINAL_20261029.json",
+      "source_sha256": "efa18ae1ae09cfabae2d165a8b7444964eed494d4ae7de870f7312c4e3c11ace"
+    },
+    {
+      "bundle_sha256": "b4ae4c9c471a9bd019e3716f1dbdf2d26e8d5659d8c61fecb075aba19c3fb290",
+      "kind": "qualification_history_or_collection_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_COLLECT_FINAL_20261029.log",
+      "source_sha256": "b4ae4c9c471a9bd019e3716f1dbdf2d26e8d5659d8c61fecb075aba19c3fb290"
+    },
+    {
+      "bundle_sha256": "7412ed7bb66fd2f24df52d932bdfcd6c7d04e121bf5528bce452a5c255ebee33",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_COLLECT_ONLY_20261029.log",
+      "source_sha256": "7412ed7bb66fd2f24df52d932bdfcd6c7d04e121bf5528bce452a5c255ebee33"
+    },
+    {
+      "bundle_sha256": "7d2ddf10c5542e94c877eec96aa6483bccfdc3742ab0fa4b69376e2935f42c31",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_COLLECT_ONLY_20261029_CORRECTED.json",
+      "source_sha256": "7d2ddf10c5542e94c877eec96aa6483bccfdc3742ab0fa4b69376e2935f42c31"
+    },
+    {
+      "bundle_sha256": "9f6cc7171232c669bc1960a4af79ee670ae717869bd3878805fe7b69ec64f46b",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_FOCUSED21_20261029.json",
+      "source_sha256": "9f6cc7171232c669bc1960a4af79ee670ae717869bd3878805fe7b69ec64f46b"
+    },
+    {
+      "bundle_sha256": "03e8f26fa586807d286b7d4625c12d91e4e267985d88208e143cbfe8f4230d28",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_FOCUSED21_20261029.log",
+      "source_sha256": "03e8f26fa586807d286b7d4625c12d91e4e267985d88208e143cbfe8f4230d28"
+    },
+    {
+      "bundle_sha256": "879ae6dcf9ac7fe092133d3a251b047c427ee756223747b3698f1425eceb5b33",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_FOCUSED21_SELECTION_COMPAT_20261029.json",
+      "source_sha256": "879ae6dcf9ac7fe092133d3a251b047c427ee756223747b3698f1425eceb5b33"
+    },
+    {
+      "bundle_sha256": "3d0588594a6a1a39687c5a27cec315e4caa1bf151809d5e06382024c77020969",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_CODEC_FOCUSED21_SELECTION_COMPAT_20261029.log",
+      "source_sha256": "3d0588594a6a1a39687c5a27cec315e4caa1bf151809d5e06382024c77020969"
+    },
+    {
+      "bundle_sha256": "9060137f0307216593379d1c72ff52cd233f598a2fff1add832ae2c92f0fda12",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_RAW_CODEC_FOCUSED39_20261029.json",
+      "source_sha256": "9060137f0307216593379d1c72ff52cd233f598a2fff1add832ae2c92f0fda12"
+    },
+    {
+      "bundle_sha256": "db73ad9d48391d2051eb04e6327b64498f484c6fa03bb2be57d541394c8adfa1",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_RAW_CODEC_FOCUSED39_20261029.log",
+      "source_sha256": "db73ad9d48391d2051eb04e6327b64498f484c6fa03bb2be57d541394c8adfa1"
+    },
+    {
+      "bundle_sha256": "308aec2597fe494afdba450df9a930755724f75cce608c9ecd58e663934da8c7",
+      "kind": "current_raw_source_refresh_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_RAW_FOCUSED_SOURCE_REFRESH_20261029.json",
+      "source_sha256": "308aec2597fe494afdba450df9a930755724f75cce608c9ecd58e663934da8c7"
+    },
+    {
+      "bundle_sha256": "bf58e09b9a10279a1bde0354a6703f345280e23988ab5ed7522a7572d84a234a",
+      "kind": "current_raw_source_refresh_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CURRENT_RAW_FOCUSED_SOURCE_REFRESH_20261029.log",
+      "source_sha256": "bf58e09b9a10279a1bde0354a6703f345280e23988ab5ed7522a7572d84a234a"
+    },
+    {
+      "bundle_sha256": "f83ba4f556440f8127082684946e6187856d26286b45859dfeacb4a5ac2934bd",
+      "candidate_refresh_reason": "ET4 candidate current-source rebind; historical bytes are preserved in the prior manifest/history.",
+      "kind": "et4_execution_qualification",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/EXTRA_TREES4_EXECUTION_QUALIFICATION_20261029.json",
+      "source_sha256": "f83ba4f556440f8127082684946e6187856d26286b45859dfeacb4a5ac2934bd"
+    },
+    {
+      "bundle_sha256": "b9c7e071dc8e954e7b556d397900c98dd4dd4a7d1192534ccc6d8b48f0de442c",
+      "kind": "staged_policy_review_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/NONFIT_DISK_DRAIN_POLICY_20261028.json",
+      "scope": "Nonfit storage-drain design and test evidence; candidate only.",
+      "source_sha256": "b9c7e071dc8e954e7b556d397900c98dd4dd4a7d1192534ccc6d8b48f0de442c"
+    },
+    {
+      "bundle_sha256": "858786b0339f14f1967f649b4c404586166d7df3a022b6cb705679119f729970",
+      "kind": "staged_policy_review_note",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/NONFIT_DISK_DRAIN_POLICY_20261028.md",
+      "scope": "Nonfit storage-drain design note; candidate only.",
+      "source_sha256": "858786b0339f14f1967f649b4c404586166d7df3a022b6cb705679119f729970"
+    },
+    {
+      "bundle_sha256": "3db3ece5bb536221e3a95acfc00b4777789883980f1ced0e95b5996351b5c79a",
+      "candidate_refresh_reason": "ET4 current-source policy rebind; historical receipts preserved separately.",
+      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_EXECUTION_QUALIFICATION_20261028.json",
+      "source_sha256": "3db3ece5bb536221e3a95acfc00b4777789883980f1ced0e95b5996351b5c79a"
+    },
+    {
+      "bundle_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7",
+      "kind": "preserved_qualification_history",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_EXECUTION_QUALIFICATION_20261028_PRE_NONFIT.json",
+      "scope": "Original RF4 execution qualification prior to the candidate controller amendment.",
+      "source_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7"
+    },
+    {
+      "bundle_sha256": "40916664348f5ee7a4605a70835011b7c2232f22acbed5abc984919ef88db83b",
+      "candidate_refresh_reason": "ET4 candidate current-source rebind; historical bytes are preserved in the prior manifest/history.",
+      "kind": "qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_NATIVE_HARNESS_REP3_QUALIFICATION_20261028.json",
+      "source_sha256": "40916664348f5ee7a4605a70835011b7c2232f22acbed5abc984919ef88db83b"
+    },
+    {
+      "bundle_sha256": "2d5ead1b816ab5761eec28ca9afb506f9b35685629cbcdc7698fb633ff650ce1",
+      "candidate_refresh_reason": "ET4 candidate current-source rebind; historical bytes are preserved in the prior manifest/history.",
+      "kind": "qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_REP3_FOCUSED_QUALIFICATION_20261028.json",
+      "source_sha256": "2d5ead1b816ab5761eec28ca9afb506f9b35685629cbcdc7698fb633ff650ce1"
+    },
+    {
+      "bundle_sha256": "a2d60f0f773325ef28bd48db39b39d84b66ae91118fdebd71ce504eeec7c9e47",
+      "kind": "qualification_history_or_collection_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/ROOT_FULL_QUALIFICATION_752_20261029.json",
+      "source_sha256": "a2d60f0f773325ef28bd48db39b39d84b66ae91118fdebd71ce504eeec7c9e47"
+    },
+    {
+      "bundle_sha256": "47937d924195bcafed5720200a563f21c195a513b6cf340762d8d2eb5e6aa334",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/SELECTION_COMPAT_COLLECTION_20261029.json",
+      "source_sha256": "47937d924195bcafed5720200a563f21c195a513b6cf340762d8d2eb5e6aa334"
+    },
+    {
+      "bundle_sha256": "e9f0ffb572f2c30f5017f0c461fe19d93939cc622f8cce812f95f614432ce79e",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/SELECTION_COMPAT_COLLECTION_20261029.log",
+      "source_sha256": "e9f0ffb572f2c30f5017f0c461fe19d93939cc622f8cce812f95f614432ce79e"
+    },
+    {
+      "bundle_sha256": "454c1f1032cd12d364a012e172cdd87cc2c9d3effbffef2928bd759aff8ef7a2",
+      "kind": "bounded_native_fit_overlap_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/controller_harness_7.log",
+      "source_sha256": "454c1f1032cd12d364a012e172cdd87cc2c9d3effbffef2928bd759aff8ef7a2"
+    },
+    {
+      "bundle_sha256": "cbdc30b2b0f451dcfd67181ebdc5482fc840bfc655c761fd2ee5156001c3baf6",
+      "kind": "bounded_native_fit_overlap_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/controller_harness_7_assembler_input_receipt.json",
+      "source_sha256": "cbdc30b2b0f451dcfd67181ebdc5482fc840bfc655c761fd2ee5156001c3baf6"
+    },
+    {
+      "bundle_sha256": "91500a66118bebed7a18de6aba944c2823c69c02a69d5067a6b6ee02bdfbb0fe",
+      "kind": "bounded_native_fit_overlap_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/controller_harness_7_receipt.json",
+      "source_sha256": "91500a66118bebed7a18de6aba944c2823c69c02a69d5067a6b6ee02bdfbb0fe"
+    },
+    {
+      "bundle_sha256": "541fbcb53c3060b62112ab474908d9cd48300f6ac1b6ce3a91b4fbefa670ca2a",
+      "kind": "bounded_native_fit_overlap_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/suite_15.log",
+      "source_sha256": "541fbcb53c3060b62112ab474908d9cd48300f6ac1b6ce3a91b4fbefa670ca2a"
+    },
+    {
+      "bundle_sha256": "ca20e8203f4f5a3a685224ba7f20ba972ce6f5b76ed93ee5c1fa969d7b01642a",
+      "kind": "bounded_native_fit_overlap_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/suite_15_assembler_input_receipt.json",
+      "source_sha256": "ca20e8203f4f5a3a685224ba7f20ba972ce6f5b76ed93ee5c1fa969d7b01642a"
+    },
+    {
+      "bundle_sha256": "9f99ae526d026739cde92cd2ddf56b9ddc3c09d6a15e0a06eabf9d8743dc1185",
+      "kind": "bounded_native_fit_overlap_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/suite_15_receipt.json",
+      "source_sha256": "9f99ae526d026739cde92cd2ddf56b9ddc3c09d6a15e0a06eabf9d8743dc1185"
+    },
+    {
+      "bundle_sha256": "b6702369a272b60e1668aa90f10798c91a8db3daeeacee5b318ecbaca4da1b64",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/history_before_current_source_rebind/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_20261029.json.pre_current_source_rebind",
+      "source_sha256": "b6702369a272b60e1668aa90f10798c91a8db3daeeacee5b318ecbaca4da1b64"
+    },
+    {
+      "bundle_sha256": "9ebc22bc9c203bf85f62502c80dd80b15c32c5fb0b5c7f037fbe47ae2c5a4f8d",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/history_before_current_source_rebind/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_QUALIFICATION_20261029.json.pre_current_source_rebind",
+      "source_sha256": "9ebc22bc9c203bf85f62502c80dd80b15c32c5fb0b5c7f037fbe47ae2c5a4f8d"
+    },
+    {
+      "bundle_sha256": "700bc265ba7f447c00df3826efd79c6d4ab94017ec1058ff02d78d68c853c0ad",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/history_before_current_source_rebind/ARCHIVE_NATIVE_FIT_OVERLAP_20261028.json.pre_current_source_rebind",
+      "source_sha256": "700bc265ba7f447c00df3826efd79c6d4ab94017ec1058ff02d78d68c853c0ad"
+    },
+    {
+      "bundle_sha256": "259065872f870097c9a485354913f84918bcf13a4dd6f5e76cc0294eab500e08",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/history_before_current_source_rebind/ARCHIVE_NATIVE_FIT_OVERLAP_QUALIFICATION_20261028.json.pre_current_source_rebind",
+      "source_sha256": "259065872f870097c9a485354913f84918bcf13a4dd6f5e76cc0294eab500e08"
+    },
+    {
+      "bundle_sha256": "c567b5287fb1c969d171779c514b2c7d69285c0e8c1613b9d3399d3905ac5f4f",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/history_before_current_source_rebind/freeze.json.pre_current_source_rebind",
+      "source_sha256": "c567b5287fb1c969d171779c514b2c7d69285c0e8c1613b9d3399d3905ac5f4f"
+    },
+    {
+      "bundle_sha256": "578dce5e4cca15f9dbd9d1afdacf048cb86654b0db876cb7af97c0375075341c",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/history_count21/archive_fit_admission.py.pre_count21",
+      "source_sha256": "578dce5e4cca15f9dbd9d1afdacf048cb86654b0db876cb7af97c0375075341c"
+    },
+    {
+      "bundle_sha256": "86f2a18d6243becf6811d73a623cd9c499439488c3ed8abc20dfb6e2a04d56c7",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/history_count21/test_native_codec_overlap.py.pre_count21",
+      "source_sha256": "86f2a18d6243becf6811d73a623cd9c499439488c3ed8abc20dfb6e2a04d56c7"
+    },
+    {
+      "bundle_sha256": "9c0f15097adca0ce03dce85f8f2618a0c7763f86dccf4529eb67f4600ce1d777",
+      "kind": "qualification_history_or_collection_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/history_test_module_hygiene/test_codec_multigroup_profile.py.pre_sysmodules_restore",
+      "source_sha256": "9c0f15097adca0ce03dce85f8f2618a0c7763f86dccf4529eb67f4600ce1d777"
+    },
+    {
+      "bundle_sha256": "0eb77421761d74c61b75670119c829e9d1533aaca481ccf43e45403611d4bd3c",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/selection_fallback_focused_test_receipt_20261029.json",
+      "source_sha256": "0eb77421761d74c61b75670119c829e9d1533aaca481ccf43e45403611d4bd3c"
+    },
+    {
+      "bundle_sha256": "f6b039527f4eb3dab80a4798abc34cfe327b5b44a94c4eddb6b606f939c4cd2e",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/selection_fallback_focused_tests_20261029.log",
+      "source_sha256": "f6b039527f4eb3dab80a4798abc34cfe327b5b44a94c4eddb6b606f939c4cd2e"
+    },
+    {
+      "bundle_sha256": "4f01f55ca9fb2c18915f3f4e7dffe2d5cd1f8c53ad9962ccbc3a223b6f524793",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/selection_receipt_metadata_audit_20261029.json",
+      "source_sha256": "4f01f55ca9fb2c18915f3f4e7dffe2d5cd1f8c53ad9962ccbc3a223b6f524793"
+    },
+    {
+      "bundle_sha256": "e01c8c096582d6f65644aae740ea0626ddd28ef8f0149c4ce8634104ca0ccd92",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/selection_receipt_metadata_audit_20261029.py",
+      "source_sha256": "e01c8c096582d6f65644aae740ea0626ddd28ef8f0149c4ce8634104ca0ccd92"
     },
     {
       "bundle_sha256": "ba909e9f55f5f8020f165a5ac42f4159eed4c8c4b69b64f95f7313fd82430943",
@@ -381,11 +877,11 @@
       "upstream_stage_member": "e4_generated_rf_profile_stage_20261027/source/admission_evidence.py"
     },
     {
-      "bundle_sha256": "d06fdf9b616b41eebcbaf43f4276c9bab2085901f618f8f6c17068538bd0b25c",
-      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
+      "bundle_sha256": "e0dd5e014efee2f5698caba6722e6e99cf43fb0a5aa4dce00a71f1129eaa0b4e",
+      "candidate_refresh_reason": "combined ET4 + bounded codec4 profile candidate; archive temp/reserve bounds and pins updated",
       "kind": "qualified_candidate_source_or_exact_historical_verifier_evidence",
       "runtime_member": "runtime_20261025/source/archive_fit_admission.py",
-      "source_sha256": "d06fdf9b616b41eebcbaf43f4276c9bab2085901f618f8f6c17068538bd0b25c"
+      "source_sha256": "e0dd5e014efee2f5698caba6722e6e99cf43fb0a5aa4dce00a71f1129eaa0b4e"
     },
     {
       "bundle_sha256": "bf34d0d7c7262cc684b92067226eacfce3262d1dfa92cc3861528dc5029d50d6",
@@ -401,11 +897,11 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/e6_protocol_correction_v2_20261027/validation/audit_artifacts.py"
     },
     {
-      "bundle_sha256": "6616597e4e3d3fc9c6eb550553c6ee9033496ea5d5174feb58d4f6a3d723e575",
-      "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
+      "bundle_sha256": "2389a9468a73f5af6cacfe585346afd14cf9a2a340b16c59439c2a77304c9372",
+      "candidate_refresh_reason": "combined ET4 + bounded codec4 profile candidate; archive temp/reserve bounds and pins updated",
       "kind": "installed_port",
       "runtime_member": "runtime_20261025/source/batch_plan.py",
-      "source_sha256": "6616597e4e3d3fc9c6eb550553c6ee9033496ea5d5174feb58d4f6a3d723e575"
+      "source_sha256": "2389a9468a73f5af6cacfe585346afd14cf9a2a340b16c59439c2a77304c9372"
     },
     {
       "bundle_sha256": "a651a82c16246aea082de9fbdaba7a69b0991474dc9660b21f5dabcd54d75c29",
@@ -442,18 +938,18 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/cohorts.py"
     },
     {
-      "bundle_sha256": "55ec82225b1b00782c0cad711615086ad9330f9cd5638e65c8ad2da10e60c544",
-      "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
+      "bundle_sha256": "147a0a23c9fd5d9d6d98f5aae76a806bca89548b806b73f43d68019f4f340202",
+      "candidate_refresh_reason": "combined ET4 + codec4 operational candidate; runtime controller pins and profile temp/reserve bounds are bound",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/cold_auto_compaction.py",
-      "source_sha256": "55ec82225b1b00782c0cad711615086ad9330f9cd5638e65c8ad2da10e60c544",
+      "source_sha256": "147a0a23c9fd5d9d6d98f5aae76a806bca89548b806b73f43d68019f4f340202",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/cold_auto_compaction.py"
     },
     {
-      "bundle_sha256": "9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c",
+      "bundle_sha256": "b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b",
       "runtime_member": "runtime_20261025/source/cold_codec_storage.py",
       "scope": "Prospective encoded-cold-source integration; staged only",
-      "source_sha256": "9318ee513b923ff1c959e989569fe24549f11f6eb6d0b338cae390e3651cb76c"
+      "source_sha256": "b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b"
     },
     {
       "bundle_sha256": "e955aa9449b6319fb199725a2c98c61d7b165366adbd21188b3e0187c956c4cb",
@@ -468,11 +964,11 @@
       "source_sha256": "4d937e725ba8002728150728749650fcf848756571abf2935eb6cd7c3e44b0e1"
     },
     {
-      "bundle_sha256": "0bff884e4cdb897320d0565a2da9b073fea378d3c078e6b800b21a5a29a616cf",
+      "bundle_sha256": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
       "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
       "kind": "restored_live_core",
       "runtime_member": "runtime_20261025/source/cold_model_storage.py",
-      "source_sha256": "0bff884e4cdb897320d0565a2da9b073fea378d3c078e6b800b21a5a29a616cf",
+      "source_sha256": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
       "upstream_stage_member": "installed_live_baseline_plus_controller_pin_cascade"
     },
     {
@@ -489,11 +985,11 @@
       "source_sha256": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273"
     },
     {
-      "bundle_sha256": "a3a8288355404415b2e6667a53a29cece7bdd157d6f315d8480ee7e450b47c0e",
-      "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
+      "bundle_sha256": "04eb0b0cd873396d9ce92dc8a8cd164a4a012b1eb1ef9aa5f35e0f2ffc55de46",
+      "candidate_refresh_reason": "combined ET4 + codec4 operational candidate; runtime controller pins and profile temp/reserve bounds are bound",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/commit_batch_child.py",
-      "source_sha256": "a3a8288355404415b2e6667a53a29cece7bdd157d6f315d8480ee7e450b47c0e",
+      "source_sha256": "04eb0b0cd873396d9ce92dc8a8cd164a4a012b1eb1ef9aa5f35e0f2ffc55de46",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/commit_batch_child.py"
     },
     {
@@ -504,11 +1000,11 @@
       "upstream_stage_member": "staging/raw_io_cron_cleanup_20261027/source/complete_delivery.py"
     },
     {
-      "bundle_sha256": "a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9",
-      "candidate_refresh_reason": "E4 rep3 RF4 6 GiB prospective gate integration; only controller source changed in the frozen 16-source map.",
+      "bundle_sha256": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+      "candidate_refresh_reason": "ET4 candidate current-source rebind; historical bytes are preserved in the prior manifest/history.",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/controller.py",
-      "source_sha256": "a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9",
+      "source_sha256": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/controller.py"
     },
     {
@@ -593,12 +1089,42 @@
       "source_sha256": "8510b149d8db7a03956582ee4ebd28f04b89aaaca2f0eab96697136ade631186"
     },
     {
-      "bundle_sha256": "85ca7f73f95b683e6dca0b164dbbc5e8217c4b82780263fec723ea06371e4b9c",
-      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
+      "bundle_sha256": "ab83a9413e355d208b7a08bff2ada055d7cafd507e6f544086574fe0bc61a364",
+      "candidate_refresh_reason": "Qualified ET4 disclosure and user-approved single-evaluation reporting; original denominators and prior outcomes preserved.",
       "kind": "e6_v2_native_gate_finalizer",
       "runtime_member": "runtime_20261025/source/finalize_project.py",
-      "source_sha256": "85ca7f73f95b683e6dca0b164dbbc5e8217c4b82780263fec723ea06371e4b9c",
-      "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/e6_v2_reporting_20261027_revised/candidate/finalize_project.py"
+      "source_sha256": "ab83a9413e355d208b7a08bff2ada055d7cafd507e6f544086574fe0bc61a364",
+      "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_et4_codec4gib64_20261029_scope_report_v1/runtime_20261025/source/finalize_project.py"
+    },
+    {
+      "bundle_sha256": "3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8",
+      "kind": "prospective_qualified_project_operations",
+      "runtime_member": "runtime_20261025/source/metadata_access_contract_v2.py",
+      "source_sha256": "3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8"
+    },
+    {
+      "bundle_sha256": "1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1",
+      "kind": "staged_archive_optimization_or_policy_evidence",
+      "runtime_member": "runtime_20261025/source/metadata_only_contract.py",
+      "source_sha256": "1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1"
+    },
+    {
+      "bundle_sha256": "bf12c2abe5a5f91526b16ff970e5c2cd10468aa858b7a4e707198fbb959ecb22",
+      "kind": "et4_execution_source",
+      "runtime_member": "runtime_20261025/source/parallel_extra_trees/phase_worker.py",
+      "source_sha256": "bf12c2abe5a5f91526b16ff970e5c2cd10468aa858b7a4e707198fbb959ecb22"
+    },
+    {
+      "bundle_sha256": "f26f1bc2b9fce59f38b02fe2e2f54e5720a5e24cebb2f17de287ca02f49d98e9",
+      "kind": "et4_execution_source",
+      "runtime_member": "runtime_20261025/source/parallel_extra_trees/science.py",
+      "source_sha256": "f26f1bc2b9fce59f38b02fe2e2f54e5720a5e24cebb2f17de287ca02f49d98e9"
+    },
+    {
+      "bundle_sha256": "df8806f83b0fae347c770953b6306393d57d8183b1c7789dd222aefbb689f317",
+      "kind": "et4_execution_source",
+      "runtime_member": "runtime_20261025/source/parallel_extra_trees/worker.py",
+      "source_sha256": "df8806f83b0fae347c770953b6306393d57d8183b1c7789dd222aefbb689f317"
     },
     {
       "bundle_sha256": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3",
@@ -648,17 +1174,24 @@
       "source_sha256": "63d644f734cd3f8aa29246433bd82e66e99cdcbfbe81ccffc5e975b896eae3e4"
     },
     {
-      "bundle_sha256": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca",
+      "bundle_sha256": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
       "runtime_member": "runtime_20261025/source/reversible_joblib_codec.py",
       "scope": "Prospective encoded-cold-source integration; staged only",
-      "source_sha256": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca"
+      "source_sha256": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c"
     },
     {
-      "bundle_sha256": "e9b4eafed7c3d62dcb1c9203049621c40a3ed06307385cbe2ffb8a5f1001a0ad",
-      "candidate_refresh_reason": "combined R3 archive optimization/profile candidate; freeze scientific keys remain unchanged",
+      "bundle_sha256": "472502e9456196459561bc0a0bfe481aa977d3cef873a8b5bdcfd9752cbbbea1",
+      "kind": "staged_profile_gate",
+      "runtime_member": "runtime_20261025/source/rf4_e4_rep3_admission.py",
+      "source_sha256": "472502e9456196459561bc0a0bfe481aa977d3cef873a8b5bdcfd9752cbbbea1",
+      "upstream_stage_member": "staging/rf4_rep3_6g_supplement_20261028/source/rf4_e4_rep3_admission.py"
+    },
+    {
+      "bundle_sha256": "8fe0e1b975d589a52dd3659b5c817d6192d47289a3566f1519f1a13ddf43873f",
+      "candidate_refresh_reason": "combined ET4 + codec4 operational candidate; runtime controller pins and profile temp/reserve bounds are bound",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/run_batch.py",
-      "source_sha256": "e9b4eafed7c3d62dcb1c9203049621c40a3ed06307385cbe2ffb8a5f1001a0ad",
+      "source_sha256": "8fe0e1b975d589a52dd3659b5c817d6192d47289a3566f1519f1a13ddf43873f",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/run_batch.py"
     },
     {
@@ -695,6 +1228,61 @@
       "runtime_member": "runtime_20261025/source/worker.py",
       "source_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18",
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/worker.py"
+    },
+    {
+      "bundle_sha256": "939dcf8738fcc0b6dbe24d7923842d3ed2f819c7177c04a86a3cd93f302a6a14",
+      "kind": "codec4_profile_collection_nodeids",
+      "runtime_member": "runtime_20261025/tests/PORTABLE_COLLECTED_NODEIDS_CODEC4_20261029.txt",
+      "source_sha256": "939dcf8738fcc0b6dbe24d7923842d3ed2f819c7177c04a86a3cd93f302a6a14"
+    },
+    {
+      "bundle_sha256": "ad38abb95bad099d11cb78163a44f9000b66703bf24005a93d9ae38bb160a879",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/tests/PORTABLE_COLLECTED_NODEIDS_CODEC_20261029.txt",
+      "source_sha256": "ad38abb95bad099d11cb78163a44f9000b66703bf24005a93d9ae38bb160a879"
+    },
+    {
+      "bundle_sha256": "2605a0e156fe951d3e332126a19ba709bfa3df3cbc00817f87e69daa087a2f45",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/tests/PORTABLE_COLLECTED_NODEIDS_RECOVERY_PAYLOADS_741.txt",
+      "source_sha256": "2605a0e156fe951d3e332126a19ba709bfa3df3cbc00817f87e69daa087a2f45"
+    },
+    {
+      "bundle_sha256": "1ed96412c73093ac79987a051a1be9c8bc65c30fb7efa17b1d4395a1f8067e64",
+      "kind": "current_qualification_evidence",
+      "runtime_member": "runtime_20261025/tests/PORTABLE_COLLECTED_NODEIDS_SELECTION_COMPAT_20261029.txt",
+      "source_sha256": "1ed96412c73093ac79987a051a1be9c8bc65c30fb7efa17b1d4395a1f8067e64"
+    },
+    {
+      "bundle_sha256": "3eab459df67c5d4dadcfba85a62e0b3a00580ecb017cb7e2fbd5a424fb14c302",
+      "kind": "prospective_qualified_project_operations",
+      "runtime_member": "runtime_20261025/tests/et_store_fixture.py",
+      "source_sha256": "3eab459df67c5d4dadcfba85a62e0b3a00580ecb017cb7e2fbd5a424fb14c302"
+    },
+    {
+      "bundle_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba",
+      "kind": "engineering_test_fixture",
+      "runtime_member": "runtime_20261025/tests/evidence/controller_baseline_9caa7afd.py",
+      "scope": "Exact live controller baseline used solely for storage_allow AST equivalence fixture.",
+      "source_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba"
+    },
+    {
+      "bundle_sha256": "d06fdf9b616b41eebcbaf43f4276c9bab2085901f618f8f6c17068538bd0b25c",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/tests/fixtures/archive_fit_admission_raw_baseline.py",
+      "source_sha256": "d06fdf9b616b41eebcbaf43f4276c9bab2085901f618f8f6c17068538bd0b25c"
+    },
+    {
+      "bundle_sha256": "1450fea0826cea0508e2fd2386881632116a27b85731dcc9c668caaf4b922d69",
+      "kind": "staged_archive_optimization_or_policy_evidence",
+      "runtime_member": "runtime_20261025/tests/fixtures/archive_io/RAW_MIXED_SMALL_PROFILE_2048_EVIDENCE.json",
+      "source_sha256": "1450fea0826cea0508e2fd2386881632116a27b85731dcc9c668caaf4b922d69"
+    },
+    {
+      "bundle_sha256": "9cb6e709e0b6fc2f82d037b3ccd55c204f96e5693f1c133e95533dc7cea0d500",
+      "kind": "staged_archive_optimization_or_policy_evidence",
+      "runtime_member": "runtime_20261025/tests/fixtures/archive_io/metadata_inode_walk_benchmark.json",
+      "source_sha256": "9cb6e709e0b6fc2f82d037b3ccd55c204f96e5693f1c133e95533dc7cea0d500"
     },
     {
       "bundle_sha256": "b44881bf04dabffc9ca4e6cd7249541d2c9a44f128d11f14d3b4aac19bd855b6",
@@ -864,6 +1452,12 @@
       "source_sha256": "776ba2677eb08d811cf86ada95e714155f865885d58359d96850ade278f2aabf"
     },
     {
+      "bundle_sha256": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca",
+      "kind": "candidate_fixture_or_qualification_evidence",
+      "runtime_member": "runtime_20261025/tests/fixtures/reversible_joblib_codec_previous.py",
+      "source_sha256": "189b5ab887f47931638cf65aa183239ce077931de0673fc690fcf2c1c86355ca"
+    },
+    {
       "bundle_sha256": "b055df634d0944467c5fd295064af40c064dd03265fc38d4e16f8d861b99a8d7",
       "kind": "engineering_fixture",
       "runtime_member": "runtime_20261025/tests/fixtures/v2_append_proof/metadata.json",
@@ -878,33 +1472,6 @@
       "upstream_stage_member": "e4_generated_rf_profile_stage_20261027/tests/fixtures/v2_append_proof/validation.json"
     },
     {
-      "bundle_sha256": "2a24d2b82722f052dd94a196d62fc6e9a27162aa2f1aca3cb13c484870e20fe0",
-      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
-      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
-      "runtime_member": "runtime_20261025/manifests/freeze.json",
-      "source_sha256": "2a24d2b82722f052dd94a196d62fc6e9a27162aa2f1aca3cb13c484870e20fe0"
-    },
-    {
-      "bundle_sha256": "7138900cb7a5627dfe205b6b6afc917608e5a5cac4cdd8d79b7e0b0733414c31",
-      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
-      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
-      "runtime_member": "runtime_20261025/manifests/RF4_EXECUTION_POLICY_20261028.json",
-      "source_sha256": "7138900cb7a5627dfe205b6b6afc917608e5a5cac4cdd8d79b7e0b0733414c31"
-    },
-    {
-      "bundle_sha256": "ef83dec8ce10793f457bb6273bc685cfe8c2b0c55a3acb912d783ba85b89cabb",
-      "candidate_refresh_reason": "reviewed RF4 admission, zombie reaper, ET priority, and finalizer privacy rollup",
-      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_EXECUTION_QUALIFICATION_20261028.json",
-      "source_sha256": "ef83dec8ce10793f457bb6273bc685cfe8c2b0c55a3acb912d783ba85b89cabb"
-    },
-    {
-      "bundle_sha256": "108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2",
-      "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
-      "runtime_member": "runtime_20261025/manifests/RF4_E4_TREATMENT_6GIB_ADMISSION_20261028.json",
-      "source_sha256": "108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2"
-    },
-    {
       "bundle_sha256": "9e102435d2bce80c8f071338d2d1d0f1f5fb9bfa8542c59f828f19568308a89c",
       "kind": "engineering_test_helper",
       "runtime_member": "runtime_20261025/tests/run_guarded_tests.py",
@@ -912,153 +1479,10 @@
       "source_sha256": "9e102435d2bce80c8f071338d2d1d0f1f5fb9bfa8542c59f828f19568308a89c"
     },
     {
-      "bundle_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba",
-      "kind": "engineering_test_fixture",
-      "runtime_member": "runtime_20261025/tests/evidence/controller_baseline_9caa7afd.py",
-      "scope": "Exact live controller baseline used solely for storage_allow AST equivalence fixture.",
-      "source_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba"
-    },
-    {
-      "bundle_sha256": "b9c7e071dc8e954e7b556d397900c98dd4dd4a7d1192534ccc6d8b48f0de442c",
-      "kind": "staged_policy_review_evidence",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/NONFIT_DISK_DRAIN_POLICY_20261028.json",
-      "scope": "Nonfit storage-drain design and test evidence; candidate only.",
-      "source_sha256": "b9c7e071dc8e954e7b556d397900c98dd4dd4a7d1192534ccc6d8b48f0de442c"
-    },
-    {
-      "bundle_sha256": "858786b0339f14f1967f649b4c404586166d7df3a022b6cb705679119f729970",
-      "kind": "staged_policy_review_note",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/NONFIT_DISK_DRAIN_POLICY_20261028.md",
-      "scope": "Nonfit storage-drain design note; candidate only.",
-      "source_sha256": "858786b0339f14f1967f649b4c404586166d7df3a022b6cb705679119f729970"
-    },
-    {
-      "bundle_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7",
-      "kind": "preserved_qualification_history",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_EXECUTION_QUALIFICATION_20261028_PRE_NONFIT.json",
-      "scope": "Original RF4 execution qualification prior to the candidate controller amendment.",
-      "source_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7"
-    },
-    {
-      "bundle_sha256": "1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1",
-      "kind": "staged_archive_optimization_or_policy_evidence",
-      "runtime_member": "runtime_20261025/source/metadata_only_contract.py",
-      "source_sha256": "1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1"
-    },
-    {
-      "bundle_sha256": "9cb6e709e0b6fc2f82d037b3ccd55c204f96e5693f1c133e95533dc7cea0d500",
-      "kind": "staged_archive_optimization_or_policy_evidence",
-      "runtime_member": "runtime_20261025/tests/fixtures/archive_io/metadata_inode_walk_benchmark.json",
-      "source_sha256": "9cb6e709e0b6fc2f82d037b3ccd55c204f96e5693f1c133e95533dc7cea0d500"
-    },
-    {
-      "bundle_sha256": "1450fea0826cea0508e2fd2386881632116a27b85731dcc9c668caaf4b922d69",
-      "kind": "staged_archive_optimization_or_policy_evidence",
-      "runtime_member": "runtime_20261025/tests/fixtures/archive_io/RAW_MIXED_SMALL_PROFILE_2048_EVIDENCE.json",
-      "source_sha256": "1450fea0826cea0508e2fd2386881632116a27b85731dcc9c668caaf4b922d69"
-    },
-    {
-      "bundle_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
-      "kind": "exact_frozen_task_plan_for_metadata_only_consumer_contract",
-      "runtime_member": "runtime_20261025/manifests/tasks.json",
-      "source_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb"
-    },
-    {
-      "bundle_sha256": "3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8",
-      "kind": "prospective_qualified_project_operations",
-      "runtime_member": "runtime_20261025/source/metadata_access_contract_v2.py",
-      "source_sha256": "3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8"
-    },
-    {
-      "bundle_sha256": "3eab459df67c5d4dadcfba85a62e0b3a00580ecb017cb7e2fbd5a424fb14c302",
-      "kind": "prospective_qualified_project_operations",
-      "runtime_member": "runtime_20261025/tests/et_store_fixture.py",
-      "source_sha256": "3eab459df67c5d4dadcfba85a62e0b3a00580ecb017cb7e2fbd5a424fb14c302"
-    },
-    {
-      "bundle_sha256": "700bc265ba7f447c00df3826efd79c6d4ab94017ec1058ff02d78d68c853c0ad",
-      "kind": "bounded_native_fit_overlap_qualification_evidence",
-      "runtime_member": "runtime_20261025/manifests/ARCHIVE_NATIVE_FIT_OVERLAP_20261028.json",
-      "source_sha256": "700bc265ba7f447c00df3826efd79c6d4ab94017ec1058ff02d78d68c853c0ad"
-    },
-    {
-      "bundle_sha256": "259065872f870097c9a485354913f84918bcf13a4dd6f5e76cc0294eab500e08",
-      "kind": "bounded_native_fit_overlap_qualification_evidence",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_FIT_OVERLAP_QUALIFICATION_20261028.json",
-      "source_sha256": "259065872f870097c9a485354913f84918bcf13a4dd6f5e76cc0294eab500e08"
-    },
-    {
-      "bundle_sha256": "bbcc195e0564066d541fbd483896935d7471e8893e6db34ca6184dfe90ee9720",
-      "kind": "bounded_native_fit_overlap_qualification_evidence",
-      "runtime_member": "runtime_20261025/cache/cache_manifest.json",
-      "source_sha256": "bbcc195e0564066d541fbd483896935d7471e8893e6db34ca6184dfe90ee9720"
-    },
-    {
-      "bundle_sha256": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423",
-      "kind": "bounded_native_fit_overlap_qualification_evidence",
-      "runtime_member": "runtime_20261025/manifests/E4_MANIFEST.json",
-      "source_sha256": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423"
-    },
-    {
-      "bundle_sha256": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9",
-      "kind": "bounded_native_fit_overlap_qualification_evidence",
-      "runtime_member": "runtime_20261025/manifests/E5_MANIFEST.json",
-      "source_sha256": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9"
-    },
-    {
-      "bundle_sha256": "cbdc30b2b0f451dcfd67181ebdc5482fc840bfc655c761fd2ee5156001c3baf6",
-      "kind": "bounded_native_fit_overlap_qualification_evidence",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/controller_harness_7_assembler_input_receipt.json",
-      "source_sha256": "cbdc30b2b0f451dcfd67181ebdc5482fc840bfc655c761fd2ee5156001c3baf6"
-    },
-    {
-      "bundle_sha256": "454c1f1032cd12d364a012e172cdd87cc2c9d3effbffef2928bd759aff8ef7a2",
-      "kind": "bounded_native_fit_overlap_qualification_evidence",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/controller_harness_7.log",
-      "source_sha256": "454c1f1032cd12d364a012e172cdd87cc2c9d3effbffef2928bd759aff8ef7a2"
-    },
-    {
-      "bundle_sha256": "ca20e8203f4f5a3a685224ba7f20ba972ce6f5b76ed93ee5c1fa969d7b01642a",
-      "kind": "bounded_native_fit_overlap_qualification_evidence",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/suite_15_assembler_input_receipt.json",
-      "source_sha256": "ca20e8203f4f5a3a685224ba7f20ba972ce6f5b76ed93ee5c1fa969d7b01642a"
-    },
-    {
-      "bundle_sha256": "541fbcb53c3060b62112ab474908d9cd48300f6ac1b6ce3a91b4fbefa670ca2a",
-      "kind": "bounded_native_fit_overlap_qualification_evidence",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/suite_15.log",
-      "source_sha256": "541fbcb53c3060b62112ab474908d9cd48300f6ac1b6ce3a91b4fbefa670ca2a"
-    },
-    {
-      "bundle_sha256": "9f99ae526d026739cde92cd2ddf56b9ddc3c09d6a15e0a06eabf9d8743dc1185",
-      "kind": "bounded_native_fit_overlap_qualification_evidence",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/suite_15_receipt.json",
-      "source_sha256": "9f99ae526d026739cde92cd2ddf56b9ddc3c09d6a15e0a06eabf9d8743dc1185"
-    },
-    {
-      "bundle_sha256": "91500a66118bebed7a18de6aba944c2823c69c02a69d5067a6b6ee02bdfbb0fe",
-      "kind": "bounded_native_fit_overlap_qualification_evidence",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/controller_harness_7_receipt.json",
-      "source_sha256": "91500a66118bebed7a18de6aba944c2823c69c02a69d5067a6b6ee02bdfbb0fe"
-    },
-    {
-      "bundle_sha256": "472502e9456196459561bc0a0bfe481aa977d3cef873a8b5bdcfd9752cbbbea1",
-      "kind": "staged_profile_gate",
-      "runtime_member": "runtime_20261025/source/rf4_e4_rep3_admission.py",
-      "source_sha256": "472502e9456196459561bc0a0bfe481aa977d3cef873a8b5bdcfd9752cbbbea1",
-      "upstream_stage_member": "staging/rf4_rep3_6g_supplement_20261028/source/rf4_e4_rep3_admission.py"
-    },
-    {
-      "bundle_sha256": "b43a36f15fac3adcb8db634dbea2e591caf4161b2e8391cb81cb16a091ee7f34",
-      "kind": "qualification_evidence",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_NATIVE_HARNESS_REP3_QUALIFICATION_20261028.json",
-      "source_sha256": "b43a36f15fac3adcb8db634dbea2e591caf4161b2e8391cb81cb16a091ee7f34"
-    },
-    {
-      "bundle_sha256": "bf8cfe3cd28d7840d380492f7c82260096b135026ef841e4e1343eb2e9573299",
-      "kind": "qualification_evidence",
-      "runtime_member": "runtime_20261025/reports/engineering_audits/RF4_REP3_FOCUSED_QUALIFICATION_20261028.json",
-      "source_sha256": "bf8cfe3cd28d7840d380492f7c82260096b135026ef841e4e1343eb2e9573299"
+      "bundle_sha256": "6ff440782cc6d353bdd5aef1808844095d91e15c3c451c6f398b0235987e5661",
+      "kind": "current_portable_test",
+      "runtime_member": "runtime_20261025/tests/test_missing_attempt_selection_compat.py",
+      "source_sha256": "6ff440782cc6d353bdd5aef1808844095d91e15c3c451c6f398b0235987e5661"
     }
   ],
   "staged_integration_note": "Staged only. Historical candidate passes are retained. This bundle is separately content-addressed and must qualify before publication.",
@@ -1171,6 +1595,31 @@
       "reason": "New E6 terminal-resume controller fix; prior 527-node collection does not qualify this candidate."
     }
   ],
+  "superseded_private_operational_receipts_omitted": {
+    "reason": "Superseded test-run operational receipts/logs are preserved in the original EC2 operational log tree and excluded from the portable public fixture bundle; current immutable candidate pass is bound separately.",
+    "records": [
+      {
+        "kind": "superseded_failed_full_candidate_run_evidence",
+        "runtime_member": "runtime_20261025/logs/operational/portable_test_runs/dab3f6ddfae048799fdb9eea595a1ebc.json",
+        "sha256": "2c7478085d0d0361e60c86c5a54e93859f6e16ec2dc81b4532b9a2a247396bbe"
+      },
+      {
+        "kind": "superseded_failed_full_candidate_run_evidence",
+        "runtime_member": "runtime_20261025/logs/operational/terminal_portable_tests_dab3f6ddfae048799fdb9eea595a1ebc.log",
+        "sha256": "8fc4d881b92a8682bc8de0685a062e4e743397ef6205008a2c1e8dce78848fbe"
+      },
+      {
+        "kind": "superseded_764_candidate_pass_evidence",
+        "runtime_member": "runtime_20261025/logs/operational/portable_test_runs/8cc23c13307045bb8cea1e585da7610b.json",
+        "sha256": "7e36209e53192768a72622ba5f20a0178ab716aec8edbd8d3a6c5011d2d96632"
+      },
+      {
+        "kind": "superseded_764_candidate_pass_evidence",
+        "runtime_member": "runtime_20261025/logs/operational/terminal_portable_tests_8cc23c13307045bb8cea1e585da7610b.log",
+        "sha256": "da385ee77b2c6d7d0a6b7fbb836faa1c4f5b4df5af4ee6bf2272dd70cc94442b"
+      }
+    ]
+  },
   "test_count_plan": {
     "core_3bf/test_3bf_cold_model_storage.py": 28,
     "test_admission_hysteresis.py": 5,
@@ -1195,6 +1644,8 @@
     "test_child_cache_adoption.py": 2,
     "test_codec_archive_projection_integration.py": 1,
     "test_codec_finalizer_contract.py": 22,
+    "test_codec_multigroup_profile.py": 6,
+    "test_codec_overlap_controller_harness.py": 3,
     "test_codec_policy.py": 15,
     "test_cold_auditor.py": 12,
     "test_cold_auto_compaction.py": 15,
@@ -1204,13 +1655,14 @@
     "test_cold_cron_profiles.py": 3,
     "test_cold_finalizer_adapter.py": 16,
     "test_cold_model_storage.py": 29,
+    "test_cold_model_storage_aggregate_budget.py": 1,
     "test_cold_model_storage_reader.py": 4,
     "test_cold_report_access.py": 7,
     "test_combined_resource_handover.py": 3,
     "test_condition_findings_finalizer.py": 7,
     "test_delivery_cron_codec.py": 2,
     "test_dependency_packing_dispatch.py": 8,
-    "test_durable_baseline_digest_cache": 8,
+    "test_durable_baseline_digest_cache.py": 8,
     "test_e1_recovery_locator_archive_stream.py": 11,
     "test_e4_et_dependency_priority.py": 6,
     "test_e4_rf4_6g_admission.py": 13,
@@ -1220,13 +1672,16 @@
     "test_e6_terminal_resume_idempotence.py": 4,
     "test_e6_v2_contract.py": 9,
     "test_e6_v2_controller_contract.py": 3,
-    "test_e6_v2_finalizer_candidate.py": 13,
+    "test_e6_v2_finalizer_candidate.py": 12,
     "test_e6_v2_protocol.py": 7,
     "test_e6_v2_reporting.py": 9,
     "test_e6_v2_validation.py": 7,
     "test_encoded_transactions.py": 17,
-    "test_et17_archive_scope": 5,
+    "test_et17_archive_scope.py": 5,
+    "test_et4_resource_disclosure.py": 9,
     "test_export_dispatch.py": 2,
+    "test_extra_trees4_controller_contract.py": 3,
+    "test_extra_trees4_engineering.py": 3,
     "test_extracted_cold_source.py": 13,
     "test_feature_order_provenance.py": 4,
     "test_final_review_codec_identity.py": 17,
@@ -1238,20 +1693,25 @@
     "test_legacy_checkpoint_migration.py": 1,
     "test_loop_snapshot_refresh.py": 1,
     "test_member_comparison_status_count.py": 3,
-    "test_metadata_access_contract_v2": 18,
+    "test_metadata_access_contract_v2.py": 18,
     "test_metadata_only_contract.py": 11,
+    "test_missing_attempt_selection_compat.py": 5,
     "test_mixed_family_scope.py": 4,
     "test_mixed_small_profile.py": 6,
+    "test_native_codec_overlap.py": 6,
     "test_native_e6_replay_tiny.py": 2,
-    "test_native_fit_controller_harness": 7,
-    "test_native_fit_mixedsmall_profile": 12,
+    "test_native_fit_controller_harness.py": 7,
+    "test_native_fit_mixedsmall_profile.py": 12,
     "test_native_fit_scope.py": 5,
     "test_nonfit_disk_drain.py": 8,
     "test_pending_reclaim_guard.py": 11,
     "test_postcommit_receipt.py": 8,
+    "test_previous_codec_payload_compat.py": 1,
+    "test_production_codec_manifest_metadata.py": 1,
     "test_public_registry_process_privacy.py": 3,
     "test_raw_wide_profile.py": 2,
     "test_recovery_archive_digest_reuse.py": 5,
+    "test_repetition_scope_finalizer.py": 8,
     "test_reporting_completion.py": 9,
     "test_reporting_environment_policy.py": 3,
     "test_reporting_gaps.py": 6,
@@ -1260,15 +1720,23 @@
     "test_rf4_rep3_admission.py": 11,
     "test_rf4_rep3_controller_admit.py": 2,
     "test_startup_identity.py": 8,
-    "test_supervisor_e6_pairs.py": 2,
+    "test_supervisor_e6_pairs.py": 3,
     "test_unlink_checkpoint_batch.py": 8,
     "test_verified_zombie_reap.py": 10,
-    "test_weighted_mean_gate.py": 2
+    "test_weighted_mean_gate.py": 2,
+    "tests/test_codec4gib_archive_profile.py": 6
   },
-  "test_count_plan_total": 730,
+  "test_count_plan_total": 793,
   "test_directory": "runtime_20261025/tests",
-  "test_summary_note": "Preserves all 596 R3 baseline IDs and all 637 historical combined archive-contract IDs; adds 16 inventory/lifecycle/profile IDs with 2048-group bounded fixtures.",
+  "test_summary_note": "All 770 ET4 predecessor node IDs retained exactly; six codec4 profile checks added. Collection only; test bodies await final candidate qualification.",
   "tests": [
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "c94561e7902e8f0670c0a3a25a185f8dcb6dc5f7b71deea26065b46343df6b57",
+      "portable_sha256": "029ea8bc1ffdceb68efec63f89842cd271917e7bbc5affb9ed754371b5d9be9d",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/core_3bf/test_3bf_cold_model_storage.py"
+    },
     {
       "adaptation": "Imports staged controller in an isolated module with a scoped mock; arithmetic fixtures only, no queue or project data access.",
       "group": "memory_admission_hysteresis",
@@ -1285,6 +1753,13 @@
       "scope": "Fifteen focused admission-gate fixtures for E4 generated-restoration RF; V2 proof fixtures are read from the portable tests/evidence tree; no model fitting or loading.",
       "test_member": "runtime_20261025/tests/test_admission_profile.py",
       "upstream_stage_member": "e4_generated_rf_profile_stage_20261027/tests/test_admission_profile.py"
+    },
+    {
+      "group": "archive_digest_pass_coalescing",
+      "original_sha256": "74859265e3356ee17de0795e12daae9c348a55ddeec8df54eb12da59bbd9e6e3",
+      "portable_sha256": "74859265e3356ee17de0795e12daae9c348a55ddeec8df54eb12da59bbd9e6e3",
+      "scope": "Seven bounded synthetic fixtures verify coalesced whole/prefix hashing, cache identity, ZIP prefix integrity and rollback. No runtime archive or model payload opened.",
+      "test_member": "runtime_20261025/tests/test_archive_digest_coalescing.py"
     },
     {
       "portable_sha256": "bca4d2944ef09f12e0f44d1a793a97f430b7d176ec92cbfcef3873f3fd0f12f9",
@@ -1329,6 +1804,20 @@
       "portable_sha256": "4776eb712bae480c75d1f0e965d711a6ca4502151b585a540c63724392bfb16a",
       "scope": "Storage encoding/recovery/archive-only access fixtures, no scientific models",
       "test_member": "runtime_20261025/tests/test_auditor_extracted_cold.py"
+    },
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "bb8faa859fc1c752aafc5af47dce405eb002e0e1fa922437416eb722a702e877",
+      "portable_sha256": "bb8faa859fc1c752aafc5af47dce405eb002e0e1fa922437416eb722a702e877",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/test_batch_inode_inventory.py"
+    },
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "9e55f1e11e45f3b2cee97122204d7e052cb8078ac4937a77eb1485aaa6d0dc7f",
+      "portable_sha256": "9e55f1e11e45f3b2cee97122204d7e052cb8078ac4937a77eb1485aaa6d0dc7f",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/test_batch_inode_inventory_fixture.py"
     },
     {
       "adaptation": "No absolute project paths; uses relocated sibling source and bounded fixture-only checks.",
@@ -1389,7 +1878,7 @@
       "adaptation": "Nine reviewed unit fixtures exercise metadata-only candidate alias provenance filtering, missing attempt selection evidence, malformed/unsafe metadata, and infrastructure error propagation.",
       "group": "storage_candidate_provenance_filter",
       "original_sha256": "41bdc8a7a08eb957f9b05d62a2ae3de104c4f33dee618a838bd4970b5888d6d3",
-      "portable_sha256": "41bdc8a7a08eb957f9b05d62a2ae3de104c4f33dee618a838bd4970b5888d6d3",
+      "portable_sha256": "2e8bf695185021c7af483d4c9de068e5da3b0232cde137836d2a39619d9b7a18",
       "test_member": "runtime_20261025/tests/test_candidate_provenance_filter.py",
       "upstream_stage_member": "staging/storage_candidate_provenance_filter_20261027/tests/test_candidate_provenance_filter.py"
     },
@@ -1397,6 +1886,12 @@
       "portable_sha256": "5f4a43a047bf6494c361cf4c4aafbabc6756363aa19c14176fff56481ac2af93",
       "scope": "Fixture-only reaper/native input proof/cache transfer; no study fits or archive payload reads",
       "test_member": "runtime_20261025/tests/test_child_cache_adoption.py"
+    },
+    {
+      "group": "codec4_archive_profile",
+      "portable_sha256": "99abfac37ab559ee3b7658edc1907438afa9b57bafb12b1f47322b6ac377e83c",
+      "scope": "Prospective 4GiB batch profile; 8GiB temp envelope, 14GiB reserve, legacy 1GiB behavior and fail-closed qualification receipts; fixtures only.",
+      "test_member": "runtime_20261025/tests/test_codec4gib_archive_profile.py"
     },
     {
       "portable_sha256": "342df6b24495c7fea94f6b75b794d485ba6b29cbef954d63f349025ac258cac7",
@@ -1409,7 +1904,19 @@
       "test_member": "runtime_20261025/tests/test_codec_finalizer_contract.py"
     },
     {
-      "portable_sha256": "2354b3f4f5c9e48099f4fb2964604effb9428ee131c70cd047524eeb29228fdd",
+      "group": "native_codec_multigroup_storage",
+      "portable_sha256": "b9259a98e5dc4ed24bffaffd01789aca490624e0f215387b4b14ee5a649621b5",
+      "scope": "Bounded codec admission and aggregate temporary-space tests; synthetic store fixtures only.",
+      "test_member": "runtime_20261025/tests/test_codec_multigroup_profile.py"
+    },
+    {
+      "group": "native_codec_incremental",
+      "portable_sha256": "71c4a2ad53f2eeadab067819f3cf8eff8f829a7caf08a68c445f3103ecbb6c36",
+      "scope": "Synthetic controller overlap gate supports codec1 and codec4 operation identities; portable runner defaults to codec4. No live workers or fits.",
+      "test_member": "runtime_20261025/tests/test_codec_overlap_controller_harness.py"
+    },
+    {
+      "portable_sha256": "fcc21379e2acaede8ab97b6dea4a1bbd6810e2b0e305b06998c77a5d5f171b9b",
       "scope": "Prospective encoded storage scheduler policy, fixture-only; no actual compaction",
       "test_member": "runtime_20261025/tests/test_codec_policy.py"
     },
@@ -1477,6 +1984,12 @@
       "upstream_stage_member": "installed_live_baseline/test_cold_model_storage.py"
     },
     {
+      "group": "native_codec_multigroup_storage",
+      "portable_sha256": "a07c4c16b7f2d75dab53ee4b0de59519ccb6359551ab243132a0661992793e7b",
+      "scope": "Bounded codec admission and aggregate temporary-space tests; synthetic store fixtures only.",
+      "test_member": "runtime_20261025/tests/test_cold_model_storage_aggregate_budget.py"
+    },
+    {
       "portable_sha256": "ef05580189157a866fd2cd6a345fdd330da152ce325aa493b671589bff79a1b1",
       "scope": "Storage encoding/recovery/archive-only access fixtures, no scientific models",
       "test_member": "runtime_20261025/tests/test_cold_model_storage_reader.py"
@@ -1520,6 +2033,32 @@
       "scope": "Policy identifier expectation updated to the deployed ARF ready-lane policy; operational metadata only. Candidate fixture imports the actual E4 ExtraTrees priority predicate and asserts the current reviewed policy ID.",
       "test_member": "runtime_20261025/tests/test_dependency_packing_dispatch.py",
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/e6_portable_dispatch_fixture_update_20261027/test_dependency_packing_dispatch.py"
+    },
+    {
+      "group": "test_durable_baseline_digest_cache",
+      "original_sha256": "9756058c47009891c59312bac7c3bb3773578effeb48515a666b1a71691c4115",
+      "portable_sha256": "9756058c47009891c59312bac7c3bb3773578effeb48515a666b1a71691c4115",
+      "scope": "engineering fixture only; no scientific results",
+      "test_member": "runtime_20261025/tests/test_durable_baseline_digest_cache.py"
+    },
+    {
+      "kind": "recovery_payload_archive_stream",
+      "portable_sha256": "1cdf0f86e5b9c50080af9626ebd1256e2cc26005a50bad0e0c5c4074c2901cc9",
+      "test_member": "runtime_20261025/tests/test_e1_recovery_locator_archive_stream.py"
+    },
+    {
+      "group": "rf4_e4_6g_final_rollup",
+      "original_sha256": "9ceaddb7863f195500f22dcdb9b51ada0b606d3b78fa639a3b3acb187e170bc0",
+      "portable_sha256": "9ceaddb7863f195500f22dcdb9b51ada0b606d3b78fa639a3b3acb187e170bc0",
+      "scope": "ET priority preserves dependency unlock path without changing fit limits.",
+      "test_member": "runtime_20261025/tests/test_e4_et_dependency_priority.py"
+    },
+    {
+      "group": "rf4_e4_treatment_6gib_admission",
+      "original_sha256": "f57dc4a2463eef10aa58bfe63b24c3f23a7d5a6f1b87bed1c1ab32e41dff684b",
+      "portable_sha256": "f57dc4a2463eef10aa58bfe63b24c3f23a7d5a6f1b87bed1c1ab32e41dff684b",
+      "scope": "Thirteen focused fixtures for the E4 rep2 treatment RF4 admission estimate, policy binding, promotion and header-only metadata validation; no model fitting.",
+      "test_member": "runtime_20261025/tests/test_e4_rf4_6g_admission.py"
     },
     {
       "adaptation": "AST-extracts active e6_v2_reporting._artifact_dir from bundled source and calls its runtime/key signature; all four path assertions retained.",
@@ -1608,12 +2147,37 @@
       "test_member": "runtime_20261025/tests/test_encoded_transactions.py"
     },
     {
+      "group": "test_et17_archive_scope",
+      "original_sha256": "9cbc8d5c5e7bc29960bcf8595818e372f16334b0e778a0fdbac79003f9fef035",
+      "portable_sha256": "9cbc8d5c5e7bc29960bcf8595818e372f16334b0e778a0fdbac79003f9fef035",
+      "scope": "engineering fixture only; no scientific results",
+      "test_member": "runtime_20261025/tests/test_et17_archive_scope.py"
+    },
+    {
+      "group": "finalizer_report_disclosure",
+      "portable_sha256": "b918b734e0d8723b38d8b7d287a9eab1428be15f083039c762c6e0c505ac437d",
+      "scope": "ET4 fit execution policy disclosure; current task/attempt profile provenance; fixed E1 controls and user-authorized adaptive concurrency wording; no science changes.",
+      "test_member": "runtime_20261025/tests/test_et4_resource_disclosure.py"
+    },
+    {
       "adaptation": "Relocated source import to bundled runtime/source; assertions unchanged.",
       "group": "e6_v2_portable",
       "original_sha256": "ca5b23986a327b08ec0b21e3654c655f8687e0a375d4aa0bfd5c7d7b0a7d9c97",
       "portable_sha256": "ca5b23986a327b08ec0b21e3654c655f8687e0a375d4aa0bfd5c7d7b0a7d9c97",
       "test_member": "runtime_20261025/tests/test_export_dispatch.py",
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/e6_v2_reporting_20261027/tests/test_export_dispatch.py"
+    },
+    {
+      "group": "et4_execution_adapter",
+      "portable_sha256": "6978f15b493cfce572f135278a9fe1826bd186ecc2102d2b59e034e91ed64ca8",
+      "scope": "ET4 controller policy, source, worker selection and identity gates; no fit launch.",
+      "test_member": "runtime_20261025/tests/test_extra_trees4_controller_contract.py"
+    },
+    {
+      "group": "et4_execution_adapter",
+      "portable_sha256": "82a29f4fbbbe28146dfb50536487d52e9e72e6cb7a6bf9df926595612aa9b3b6",
+      "scope": "Synthetic ET4 estimator/search/preprocess equivalence; no scientific data.",
+      "test_member": "runtime_20261025/tests/test_extra_trees4_engineering.py"
     },
     {
       "portable_sha256": "b75bd65ee1ebcf5ecf6791774bba085dfce23d3e226d5ac9aaedbddcee083f87",
@@ -1660,12 +2224,28 @@
       "upstream_stage_member": "execution_plan_builder_guard_fix_20261027/test_guard_runner_exit_identity.py"
     },
     {
+      "portable_sha256": "7264e4ff6132bcf9a80d2b223cc21cd894cdb3acff5ac0acaaec1c4bfebd6b0d",
+      "test_member": "runtime_20261025/tests/test_history_manifest_packaging.py"
+    },
+    {
       "adaptation": "No path rewrite; test imports the bundled finalizer source and exercises the actual validation helper with temporary CSV fixtures.",
       "group": "e5_label_rate_gate",
       "original_sha256": "56cad17599a8e6d2daff7fd0a4ce95ccae34636e473addb649944a0e15ab8928",
       "portable_sha256": "56cad17599a8e6d2daff7fd0a4ce95ccae34636e473addb649944a0e15ab8928",
       "test_member": "runtime_20261025/tests/test_label_rate_gate.py",
       "upstream_stage_member": "finalizer_label_rate_gate_stage_20261027/tests/test_label_rate_gate.py"
+    },
+    {
+      "portable_sha256": "af3c55fa6c1bdc8762436259b511b6d46744ceb5fc377616145be22750599db9",
+      "scope": "Bounded durable-intent checkpoint recovery and digest identity verification",
+      "test_member": "runtime_20261025/tests/test_legacy_checkpoint_migration.py"
+    },
+    {
+      "group": "nonfit_disk_drain_loop_refresh",
+      "original_sha256": "612a9027c29314a007fbc64d96b5fbd4d9d1e4f22837aa5a1277e25310b73e5b",
+      "portable_sha256": "612a9027c29314a007fbc64d96b5fbd4d9d1e4f22837aa5a1277e25310b73e5b",
+      "scope": "Regression for reloading controller task state before running-worker reconciliation and terminal export; no worker retry or scientific changes.",
+      "test_member": "runtime_20261025/tests/test_loop_snapshot_refresh.py"
     },
     {
       "adaptation": "Portable staged fixture paths; assertions retained.",
@@ -1677,6 +2257,46 @@
       "upstream_stage_member": "staging/e6_reporting_availability_fix_20261028/tests/test_member_comparison_status_count.py"
     },
     {
+      "group": "test_metadata_access_contract_v2",
+      "original_sha256": "e1b5b07f494880aadd336e717d72d262806940c934727fec2920ec7ef7ad2c8d",
+      "portable_sha256": "e1b5b07f494880aadd336e717d72d262806940c934727fec2920ec7ef7ad2c8d",
+      "scope": "engineering fixture only; no scientific results",
+      "test_member": "runtime_20261025/tests/test_metadata_access_contract_v2.py"
+    },
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "0665a7cfcc0c11527520d71e15956f0f8f741301e38ca57048b297100b1d29b6",
+      "portable_sha256": "0665a7cfcc0c11527520d71e15956f0f8f741301e38ca57048b297100b1d29b6",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/test_metadata_only_contract.py"
+    },
+    {
+      "group": "selection_receipt_compatibility",
+      "portable_sha256": "6ff440782cc6d353bdd5aef1808844095d91e15c3c451c6f398b0235987e5661",
+      "scope": "Strict fallback only for absent attempt selection copy, bound to canonical validated selection SHA and publication identity.",
+      "test_member": "runtime_20261025/tests/test_missing_attempt_selection_compat.py"
+    },
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "96cc2f2cc0bf4b30f4a2c3c410c0e0357092b44b4024b9d3e3101d122e64ba8e",
+      "portable_sha256": "619b14a961fb214f836bf5bd5e96331a80534943ddbbaef52a681aae3734b24e",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/test_mixed_family_scope.py"
+    },
+    {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "87b3dd5b77aa6a2d6b7bff76624236096e808cabb3b88f9063417e24ffa01718",
+      "portable_sha256": "15e9585af71ac581963fc4102206cc9052ad944bea9832f6cbd1dcfae35019bc",
+      "scope": "staged portable fixture; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/test_mixed_small_profile.py"
+    },
+    {
+      "group": "native_codec_incremental",
+      "portable_sha256": "86f2a18d6243becf6811d73a623cd9c499439488c3ed8abc20dfb6e2a04d56c7",
+      "scope": "New codec compatibility and qualification proof; fixtures only, no production model payload reads.",
+      "test_member": "runtime_20261025/tests/test_native_codec_overlap.py"
+    },
+    {
       "adaptation": "Relocated validation and runtime roots to sibling runtime/source; assertions retained.",
       "group": "e6_v2_native_replay_regression",
       "original_sha256": "70a7d2930ccbc47699caf308adc41959de16bf28b04c07bde852b42061a80ab0",
@@ -1685,10 +2305,32 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/e6_protocol_correction_v2_20261027/validation/tests/test_native_e6_replay_tiny.py"
     },
     {
+      "group": "test_native_fit_controller_harness",
+      "original_sha256": "61f6cbbe899a05367cafa669dba8e84c83a133e42c2b6b28feee79d252ba53b7",
+      "portable_sha256": "61f6cbbe899a05367cafa669dba8e84c83a133e42c2b6b28feee79d252ba53b7",
+      "scope": "engineering fixture only; no scientific results",
+      "test_member": "runtime_20261025/tests/test_native_fit_controller_harness.py"
+    },
+    {
+      "group": "test_native_fit_mixedsmall_profile",
+      "original_sha256": "a3d2ae58c21713d8f1e67aff804b2cd022f60de9881fb19814c1586cde203861",
+      "portable_sha256": "a3d2ae58c21713d8f1e67aff804b2cd022f60de9881fb19814c1586cde203861",
+      "scope": "engineering fixture only; no scientific results",
+      "test_member": "runtime_20261025/tests/test_native_fit_mixedsmall_profile.py"
+    },
+    {
       "adaptation": "Prospective native-fit guard requires a cold-store index; fixture now supplies an empty valid index. Test IDs and assertions retained.",
       "portable_sha256": "3c07e5979ced654ad967ff00c1194b6f5186f85da3fad72930ec218a16659055",
       "scope": "Fixture-only reaper/native input proof/cache transfer; no study fits or archive payload reads",
       "test_member": "runtime_20261025/tests/test_native_fit_scope.py"
+    },
+    {
+      "adaptation": "Only the baseline-controller fixture path is made portable; assertions are unchanged.",
+      "group": "nonfit_disk_drain",
+      "original_sha256": "7f4a16d560a78e85f8e58cdd07222c939badd76c860990dc0501828e23a97abf",
+      "portable_sha256": "b131c8a8c4398a8e983ce1f1756611f4591e505f08334c5c0576579c1781fa80",
+      "scope": "Eight focused controller admission fixtures for E4/E5 nonfit disk drain.",
+      "test_member": "runtime_20261025/tests/test_nonfit_disk_drain.py"
     },
     {
       "adaptation": "Runtime-relative imports;11 tests distinguish recorded cleanup grace from actual liveness, preserving critical floor and source/task guards",
@@ -1705,6 +2347,34 @@
       "portable_sha256": "e75a03b64ce32552e6ecd8c14547d8aa49a7a7d95681443dd1b6c944c230f996",
       "test_member": "runtime_20261025/tests/test_postcommit_receipt.py",
       "upstream_stage_member": "installed_live_baseline/test_postcommit_receipt.py"
+    },
+    {
+      "group": "native_codec_incremental",
+      "portable_sha256": "13b813cfe0b6bb336685d667611d5c725a94e7ef4d8c1bcd9e87193510ca1899",
+      "scope": "New codec compatibility and qualification proof; fixtures only, no production model payload reads.",
+      "test_member": "runtime_20261025/tests/test_previous_codec_payload_compat.py"
+    },
+    {
+      "group": "native_codec_incremental",
+      "portable_sha256": "57497afd0f4024a003fec245e73800482adf7eb5d83efa0b1a62214c3b5da4a6",
+      "scope": "New codec compatibility and qualification proof; fixtures only, no production model payload reads.",
+      "test_member": "runtime_20261025/tests/test_production_codec_manifest_metadata.py"
+    },
+    {
+      "group": "rf4_e4_6g_final_rollup",
+      "original_sha256": "250d5c2afca33a76c26962157def6a7e7b43e534698a7b640bbe0bad8995e874",
+      "portable_sha256": "250d5c2afca33a76c26962157def6a7e7b43e534698a7b640bbe0bad8995e874",
+      "scope": "Finalizer public registry/process privacy and private receipt regressions. Path references now resolve to this exact portable candidate source.",
+      "test_member": "runtime_20261025/tests/test_public_registry_process_privacy.py"
+    },
+    {
+      "portable_sha256": "cd92959e5d0e456eab86617677a69c51ceb35860c00daabdb1ddf0bea0b13b30",
+      "test_member": "runtime_20261025/tests/test_raw_wide_profile.py"
+    },
+    {
+      "portable_sha256": "ec10ff0ea7eedecf84cdb1f688e1b5936b9c0bce1da538ac0a3a33fe614c50b0",
+      "scope": "Bounded durable-intent checkpoint recovery and digest identity verification",
+      "test_member": "runtime_20261025/tests/test_recovery_archive_digest_reuse.py"
     },
     {
       "adaptation": "none",
@@ -1750,6 +2420,20 @@
       "upstream_stage_member": "staging/parallel_rf4_20261028/tests/test_rf4_fit_jobs.py"
     },
     {
+      "group": "rf4_e4_rep3_admission",
+      "portable_sha256": "6280c2bb4fe4316b36759df9b5211c33c4962cc80e147095ae6fe04e46540cff",
+      "scope": "E4 rep3 RF4 admission gate and header-only NPZ checks; mocked controller admit/resume only; no fits.",
+      "test_member": "runtime_20261025/tests/test_rf4_rep3_admission.py",
+      "upstream_stage_member": "staging/rf4_rep3_6g_supplement_20261028/tests/test_rf4_rep3_admission.py"
+    },
+    {
+      "group": "rf4_e4_rep3_admission",
+      "portable_sha256": "3a36a564aad3ee12c32ba6e41533b75e57d3ad48546b120504af85485181fe69",
+      "scope": "E4 rep3 RF4 admission gate and header-only NPZ checks; mocked controller admit/resume only; no fits.",
+      "test_member": "runtime_20261025/tests/test_rf4_rep3_controller_admit.py",
+      "upstream_stage_member": "staging/qualified_project_operations_admit_fix_20261028/runtime_20261025/tests/test_rf4_rep3_controller_admit.py"
+    },
+    {
       "adaptation": "New guarded supervisor startup identity and process ownership fixtures.",
       "group": "calibration_replay_startup_identity",
       "original_sha256": "ae030350fc62d65dcce0e4af9c94f47ba585aa4b208b37ded127aae0ea96a914",
@@ -1766,6 +2450,11 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/e6_protocol_correction_v2_20261027/validation/tests/test_supervisor_e6_pairs.py"
     },
     {
+      "portable_sha256": "698f559cd672467aeb1f4fd13bc2344663d84c8f9f0da953118abd915ecf35eb",
+      "scope": "Bounded durable-intent checkpoint recovery and digest identity verification",
+      "test_member": "runtime_20261025/tests/test_unlink_checkpoint_batch.py"
+    },
+    {
       "original_sha256": "2199debd3bf3df87d7f8ff2dcbc2fc5c0a77af27097222b572ea94965898f3a6",
       "portable_sha256": "2199debd3bf3df87d7f8ff2dcbc2fc5c0a77af27097222b572ea94965898f3a6",
       "scope": "Verified zombie reaper identity handling, including exited child with unavailable cwd; prior coverage retained.",
@@ -1780,166 +2469,10 @@
       "upstream_stage_member": "/tmp/lamost_weighted_mean_gate_stage_20261026/tests/test_weighted_mean_gate.py"
     },
     {
-      "portable_sha256": "cd92959e5d0e456eab86617677a69c51ceb35860c00daabdb1ddf0bea0b13b30",
-      "test_member": "runtime_20261025/tests/test_raw_wide_profile.py"
-    },
-    {
-      "portable_sha256": "7264e4ff6132bcf9a80d2b223cc21cd894cdb3acff5ac0acaaec1c4bfebd6b0d",
-      "test_member": "runtime_20261025/tests/test_history_manifest_packaging.py"
-    },
-    {
-      "group": "rf4_e4_treatment_6gib_admission",
-      "original_sha256": "f57dc4a2463eef10aa58bfe63b24c3f23a7d5a6f1b87bed1c1ab32e41dff684b",
-      "portable_sha256": "f57dc4a2463eef10aa58bfe63b24c3f23a7d5a6f1b87bed1c1ab32e41dff684b",
-      "scope": "Thirteen focused fixtures for the E4 rep2 treatment RF4 admission estimate, policy binding, promotion and header-only metadata validation; no model fitting.",
-      "test_member": "runtime_20261025/tests/test_e4_rf4_6g_admission.py"
-    },
-    {
-      "group": "rf4_e4_6g_final_rollup",
-      "original_sha256": "9ceaddb7863f195500f22dcdb9b51ada0b606d3b78fa639a3b3acb187e170bc0",
-      "portable_sha256": "9ceaddb7863f195500f22dcdb9b51ada0b606d3b78fa639a3b3acb187e170bc0",
-      "scope": "ET priority preserves dependency unlock path without changing fit limits.",
-      "test_member": "runtime_20261025/tests/test_e4_et_dependency_priority.py"
-    },
-    {
-      "group": "rf4_e4_6g_final_rollup",
-      "original_sha256": "250d5c2afca33a76c26962157def6a7e7b43e534698a7b640bbe0bad8995e874",
-      "portable_sha256": "250d5c2afca33a76c26962157def6a7e7b43e534698a7b640bbe0bad8995e874",
-      "scope": "Finalizer public registry/process privacy and private receipt regressions. Path references now resolve to this exact portable candidate source.",
-      "test_member": "runtime_20261025/tests/test_public_registry_process_privacy.py"
-    },
-    {
-      "group": "archive_digest_pass_coalescing",
-      "original_sha256": "74859265e3356ee17de0795e12daae9c348a55ddeec8df54eb12da59bbd9e6e3",
-      "portable_sha256": "74859265e3356ee17de0795e12daae9c348a55ddeec8df54eb12da59bbd9e6e3",
-      "scope": "Seven bounded synthetic fixtures verify coalesced whole/prefix hashing, cache identity, ZIP prefix integrity and rollback. No runtime archive or model payload opened.",
-      "test_member": "runtime_20261025/tests/test_archive_digest_coalescing.py"
-    },
-    {
-      "adaptation": "Only the baseline-controller fixture path is made portable; assertions are unchanged.",
-      "group": "nonfit_disk_drain",
-      "original_sha256": "7f4a16d560a78e85f8e58cdd07222c939badd76c860990dc0501828e23a97abf",
-      "portable_sha256": "b131c8a8c4398a8e983ce1f1756611f4591e505f08334c5c0576579c1781fa80",
-      "scope": "Eight focused controller admission fixtures for E4/E5 nonfit disk drain.",
-      "test_member": "runtime_20261025/tests/test_nonfit_disk_drain.py"
-    },
-    {
-      "group": "nonfit_disk_drain_loop_refresh",
-      "original_sha256": "612a9027c29314a007fbc64d96b5fbd4d9d1e4f22837aa5a1277e25310b73e5b",
-      "portable_sha256": "612a9027c29314a007fbc64d96b5fbd4d9d1e4f22837aa5a1277e25310b73e5b",
-      "scope": "Regression for reloading controller task state before running-worker reconciliation and terminal export; no worker retry or scientific changes.",
-      "test_member": "runtime_20261025/tests/test_loop_snapshot_refresh.py"
-    },
-    {
-      "group": "archive_optimization_and_policy",
-      "original_sha256": "0665a7cfcc0c11527520d71e15956f0f8f741301e38ca57048b297100b1d29b6",
-      "portable_sha256": "0665a7cfcc0c11527520d71e15956f0f8f741301e38ca57048b297100b1d29b6",
-      "scope": "staged portable fixture; no scientific model training or live archive mutation",
-      "test_member": "runtime_20261025/tests/test_metadata_only_contract.py"
-    },
-    {
-      "group": "archive_optimization_and_policy",
-      "original_sha256": "96cc2f2cc0bf4b30f4a2c3c410c0e0357092b44b4024b9d3e3101d122e64ba8e",
-      "portable_sha256": "619b14a961fb214f836bf5bd5e96331a80534943ddbbaef52a681aae3734b24e",
-      "scope": "staged portable fixture; no scientific model training or live archive mutation",
-      "test_member": "runtime_20261025/tests/test_mixed_family_scope.py"
-    },
-    {
-      "group": "archive_optimization_and_policy",
-      "original_sha256": "bb8faa859fc1c752aafc5af47dce405eb002e0e1fa922437416eb722a702e877",
-      "portable_sha256": "bb8faa859fc1c752aafc5af47dce405eb002e0e1fa922437416eb722a702e877",
-      "scope": "staged portable fixture; no scientific model training or live archive mutation",
-      "test_member": "runtime_20261025/tests/test_batch_inode_inventory.py"
-    },
-    {
-      "group": "archive_optimization_and_policy",
-      "original_sha256": "9e55f1e11e45f3b2cee97122204d7e052cb8078ac4937a77eb1485aaa6d0dc7f",
-      "portable_sha256": "9e55f1e11e45f3b2cee97122204d7e052cb8078ac4937a77eb1485aaa6d0dc7f",
-      "scope": "staged portable fixture; no scientific model training or live archive mutation",
-      "test_member": "runtime_20261025/tests/test_batch_inode_inventory_fixture.py"
-    },
-    {
-      "group": "archive_optimization_and_policy",
-      "original_sha256": "c94561e7902e8f0670c0a3a25a185f8dcb6dc5f7b71deea26065b46343df6b57",
-      "portable_sha256": "029ea8bc1ffdceb68efec63f89842cd271917e7bbc5affb9ed754371b5d9be9d",
-      "scope": "staged portable fixture; no scientific model training or live archive mutation",
-      "test_member": "runtime_20261025/tests/core_3bf/test_3bf_cold_model_storage.py"
-    },
-    {
-      "group": "archive_optimization_and_policy",
-      "original_sha256": "87b3dd5b77aa6a2d6b7bff76624236096e808cabb3b88f9063417e24ffa01718",
-      "portable_sha256": "15e9585af71ac581963fc4102206cc9052ad944bea9832f6cbd1dcfae35019bc",
-      "scope": "staged portable fixture; no scientific model training or live archive mutation",
-      "test_member": "runtime_20261025/tests/test_mixed_small_profile.py"
-    },
-    {
-      "portable_sha256": "698f559cd672467aeb1f4fd13bc2344663d84c8f9f0da953118abd915ecf35eb",
-      "scope": "Bounded durable-intent checkpoint recovery and digest identity verification",
-      "test_member": "runtime_20261025/tests/test_unlink_checkpoint_batch.py"
-    },
-    {
-      "portable_sha256": "ec10ff0ea7eedecf84cdb1f688e1b5936b9c0bce1da538ac0a3a33fe614c50b0",
-      "scope": "Bounded durable-intent checkpoint recovery and digest identity verification",
-      "test_member": "runtime_20261025/tests/test_recovery_archive_digest_reuse.py"
-    },
-    {
-      "portable_sha256": "af3c55fa6c1bdc8762436259b511b6d46744ceb5fc377616145be22750599db9",
-      "scope": "Bounded durable-intent checkpoint recovery and digest identity verification",
-      "test_member": "runtime_20261025/tests/test_legacy_checkpoint_migration.py"
-    },
-    {
-      "group": "test_metadata_access_contract_v2",
-      "original_sha256": "e1b5b07f494880aadd336e717d72d262806940c934727fec2920ec7ef7ad2c8d",
-      "portable_sha256": "e1b5b07f494880aadd336e717d72d262806940c934727fec2920ec7ef7ad2c8d",
-      "scope": "engineering fixture only; no scientific results",
-      "test_member": "runtime_20261025/tests/test_metadata_access_contract_v2.py"
-    },
-    {
-      "group": "test_et17_archive_scope",
-      "original_sha256": "9cbc8d5c5e7bc29960bcf8595818e372f16334b0e778a0fdbac79003f9fef035",
-      "portable_sha256": "9cbc8d5c5e7bc29960bcf8595818e372f16334b0e778a0fdbac79003f9fef035",
-      "scope": "engineering fixture only; no scientific results",
-      "test_member": "runtime_20261025/tests/test_et17_archive_scope.py"
-    },
-    {
-      "group": "test_durable_baseline_digest_cache",
-      "original_sha256": "9756058c47009891c59312bac7c3bb3773578effeb48515a666b1a71691c4115",
-      "portable_sha256": "9756058c47009891c59312bac7c3bb3773578effeb48515a666b1a71691c4115",
-      "scope": "engineering fixture only; no scientific results",
-      "test_member": "runtime_20261025/tests/test_durable_baseline_digest_cache.py"
-    },
-    {
-      "group": "test_native_fit_mixedsmall_profile",
-      "original_sha256": "a3d2ae58c21713d8f1e67aff804b2cd022f60de9881fb19814c1586cde203861",
-      "portable_sha256": "a3d2ae58c21713d8f1e67aff804b2cd022f60de9881fb19814c1586cde203861",
-      "scope": "engineering fixture only; no scientific results",
-      "test_member": "runtime_20261025/tests/test_native_fit_mixedsmall_profile.py"
-    },
-    {
-      "group": "test_native_fit_controller_harness",
-      "original_sha256": "61f6cbbe899a05367cafa669dba8e84c83a133e42c2b6b28feee79d252ba53b7",
-      "portable_sha256": "61f6cbbe899a05367cafa669dba8e84c83a133e42c2b6b28feee79d252ba53b7",
-      "scope": "engineering fixture only; no scientific results",
-      "test_member": "runtime_20261025/tests/test_native_fit_controller_harness.py"
-    },
-    {
-      "group": "rf4_e4_rep3_admission",
-      "portable_sha256": "6280c2bb4fe4316b36759df9b5211c33c4962cc80e147095ae6fe04e46540cff",
-      "scope": "E4 rep3 RF4 admission gate and header-only NPZ checks; mocked controller admit/resume only; no fits.",
-      "test_member": "runtime_20261025/tests/test_rf4_rep3_admission.py",
-      "upstream_stage_member": "staging/rf4_rep3_6g_supplement_20261028/tests/test_rf4_rep3_admission.py"
-    },
-    {
-      "group": "rf4_e4_rep3_admission",
-      "portable_sha256": "3a36a564aad3ee12c32ba6e41533b75e57d3ad48546b120504af85485181fe69",
-      "scope": "E4 rep3 RF4 admission gate and header-only NPZ checks; mocked controller admit/resume only; no fits.",
-      "test_member": "runtime_20261025/tests/test_rf4_rep3_controller_admit.py",
-      "upstream_stage_member": "staging/qualified_project_operations_admit_fix_20261028/runtime_20261025/tests/test_rf4_rep3_controller_admit.py"
-    },
-    {
-      "kind": "recovery_payload_archive_stream",
-      "portable_sha256": "1cdf0f86e5b9c50080af9626ebd1256e2cc26005a50bad0e0c5c4074c2901cc9",
-      "test_member": "runtime_20261025/tests/test_e1_recovery_locator_archive_stream.py"
+      "group": "finalizer_repetition_scope",
+      "portable_sha256": "5e392e11390ea21aa136af5d203298456a718adcbcf7dd85f03e86b7399f2535",
+      "scope": "user_stopped is terminal administrative scope, distinct from failures/unavailable; preserves original denominators and score-blind one-per-group amendment",
+      "test_member": "runtime_20261025/tests/test_repetition_scope_finalizer.py"
     }
   ]
 }

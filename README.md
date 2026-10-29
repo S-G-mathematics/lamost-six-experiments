@@ -19,10 +19,10 @@ E4 records 1,616 successful, 71 failed, 3 unavailable and 83 waiting cases. E5 r
 |---|---|---|---|
 | E1 | Frozen classification benchmark | 765 terminal: 674 successful, 81 failed, 10 unsupported | [E1 report and ledger](experiments/E1/README.md) |
 | E2 | Generator fidelity versus classification | 108/150 primary evaluations; 120/120 separate classical references | [E2 report and provenance](experiments/E2/README.md) |
-| E3 | Direct Bayes, synthetic-only and real-only learning | 69 terminal: 64 successful, 3 failed, 2 unavailable | [E3 results](experiments/E3/README.md) |
-| E4 | Imbalance and target-class restoration | 1,616 successful, 71 failed, 3 unavailable, **83 waiting** / 1,773 |
-| E5 | Fitting-data corruption | 700 successful, 50 failed, 78 unavailable, **132 waiting** / 960 |
-| E6 | Generative posterior ensembles | 12 successful member-reference aliases, 6 unavailable cases and 3 ensemble failures; **0/6** successful primary ensembles |
+| E3 | Direct Bayes, synthetic-only and real-only learning | 64 successful, 3 recorded scientific failures, 0 unsupported, 2 unavailable, 0 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 0 waiting/active / 69 | [E3 results](experiments/E3/README.md) |
+| E4 | Imbalance and target-class restoration | 1,618 successful, 71 recorded scientific failures, 0 unsupported, 3 unavailable, 67 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 14 waiting/active / 1,773 |
+| E5 | Fitting-data corruption | 700 successful, 50 recorded scientific failures, 0 unsupported, 78 unavailable, 101 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 31 waiting/active / 960 |
+| E6 | Generative posterior ensembles | 12 successful member-reference aliases, 3 unavailable references; 3 ensemble failures, 3 unavailable ensembles; 0/6 successful primary test evaluations |
 
 At the coherent registry snapshot 2026-10-29T07:49:47.720386+00:00, E4/E5 have 215 waiting scientific cases (83 E4; 132 E5). This is a task-ledger snapshot, not a process-liveness claim. E1 recovery remains separate: 24 successes, 10 failures, 2 user-stopped and 55 not attempted.
 
@@ -69,4 +69,11 @@ See [export provenance and sanitization](docs/EXPORT_PROVENANCE.md) for source-v
 
 ## Current status note
 
-Read-only registry snapshot 2026-10-29T05:02:02.829484+00:00 UTC: E3 has 64 successes, 3 scientific failures, and 2 unavailable cases; E4 has 1,611 successes, 71 failures, 3 unavailable, and 88 waiting; E5 has 700 successes, 50 failures, 78 unavailable, and 132 waiting. E6 has 15 member-reference aliases (12 successful, 3 unavailable) and six primary ensembles (3 failures, 3 unavailable; 0/6 successful test evaluations). E1 remains frozen at 674 successful, 81 failed (55 resource failures; 26 supervisor-terminal manifests remained started) and 10 unsupported. E2 remains 108/150 primary and 120/120 classical-reference evaluations. The current E3-E6 ledger contains all 2,823 planned cases, including 220 waiting cases. No bootstrap or significance claims are made. Final native calibration replay, full artifact validation, final cross-experiment report, and full/small archive verification remain pending. This is an interim submission, not project completion.
+Read-only registry snapshot 2026-10-29T08:55:39.017085+00:00 UTC: E3: 64 successful, 3 recorded scientific failures, 0 unsupported, 2 unavailable, 0 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 0 waiting/active / 69; E4: 1,618 successful, 71 recorded scientific failures, 0 unsupported, 3 unavailable, 67 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 14 waiting/active / 1,773; E5: 700 successful, 50 recorded scientific failures, 0 unsupported, 78 unavailable, 101 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 31 waiting/active / 960. Operational interruptions/invalidations, user-stopped work, and packaging-pending work are counted separately from scientific failures. E6 has 12 successful member-reference aliases and 0/6 successful primary ensembles. E1 remains frozen at 674 successful, 81 failed (55 resource; 26 supervisor-terminal manifests remained started) and 10 unsupported; E2 remains 108/150 primary and 120/120 classical references. The E3-E6 ledger accounts for all 2,823 planned cases in this snapshot. This is interim; final calibration replay and full artifact validation remain pending.
+
+<!-- CURRENT REPETITION SCOPE -->
+## Current repetition-scope amendment
+
+At the registry snapshot in the linked interim report, the original 2,823 E3-E6 scientific cases and 6,270 DAG task rows remain the denominator. The score-independent amendment retained 45 selected E4/E5 evaluation cases with their dependency closure and marked 168 other pending E4/E5 scientific repetitions user-stopped. The complete selected dependency closure contained 167 tasks; 90 selected-closure tasks were pending at application. Previously terminal outcomes remain unchanged. Selected cases can complete after application; reports distinguish their current status from user-stopped work. The original three-repetition plan hash is unchanged, and the original full grid is not complete.
+
+<!-- END CURRENT REPETITION SCOPE -->

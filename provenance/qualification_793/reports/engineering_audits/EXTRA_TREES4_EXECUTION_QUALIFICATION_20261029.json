@@ -1,0 +1,94 @@
+{
+  "controller_contract": {
+    "exit_code": 0,
+    "scientific_fits_started": 0,
+    "status": "passed",
+    "synthetic_runtime_only": true,
+    "test_count": 3,
+    "test_path": "tests/test_extra_trees4_controller_contract.py",
+    "test_sha256": "6978f15b493cfce572f135278a9fe1826bd186ecc2102d2b59e034e91ed64ca8"
+  },
+  "controller_sha256": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+  "deployment_gate": {
+    "full_immutable_portable_suite": "required_external_gate",
+    "note": "The reviewed deployment process must independently verify the final immutable bundle fingerprint and full native PASS receipt. This qualification record does not claim or bind that self-referential receipt."
+  },
+  "execution": {
+    "admission_reservation_gib": 10,
+    "cpu_reservation_units": 4,
+    "fit_n_jobs": 4,
+    "native_threads": 1,
+    "phase_timeout_seconds": 600,
+    "prediction_n_jobs": 1,
+    "serialized_estimator_n_jobs": 1,
+    "termination_grace_seconds": 30,
+    "trial_timeout_seconds": 600,
+    "worker_memory_limit_gib": 10
+  },
+  "limitations": [
+    "No real E4/E5 task was run.",
+    "10 GiB reservation and hard cap are unchanged; E1 ExtraTrees resource evidence does not qualify a lower reservation.",
+    "This is focused execution-adapter qualification only; the reviewed deployment process must separately require the final immutable full portable-suite PASS."
+  ],
+  "schema": "lamost-et4-execution-qualification/1",
+  "scope": {
+    "experiments": [
+      4,
+      5
+    ],
+    "kind": "fit",
+    "methods": [
+      "extra_trees"
+    ],
+    "never_attempted": true,
+    "reuse_pipeline": false
+  },
+  "source_sha256": {
+    "parallel_extra_trees/phase_worker.py": "bf12c2abe5a5f91526b16ff970e5c2cd10468aa858b7a4e707198fbb959ecb22",
+    "parallel_extra_trees/science.py": "f26f1bc2b9fce59f38b02fe2e2f54e5720a5e24cebb2f17de287ca02f49d98e9",
+    "parallel_extra_trees/worker.py": "df8806f83b0fae347c770953b6306393d57d8183b1c7789dd222aefbb689f317"
+  },
+  "status": "passed",
+  "synthetic_thread_equivalence": {
+    "exit_code": 0,
+    "fixture_rows": {
+      "classes": 7,
+      "features": 6,
+      "fit": 140,
+      "validation": 70
+    },
+    "models_are_synthetic_only": true,
+    "prediction_probabilities_identical_single_vs_four": true,
+    "resource_guard": {
+      "fit_job_count": 4,
+      "native_thread_environment": 1,
+      "nice": 19,
+      "virtual_memory_limit_bytes_per_process": 2147483648,
+      "wall_seconds": 60
+    },
+    "same_selected_candidate_single_vs_four": true,
+    "scientific_fits_started": 0,
+    "seed": 271828,
+    "serialized_estimator_n_jobs": 1,
+    "status": "passed",
+    "test_count": 3,
+    "test_path": "tests/test_extra_trees4_engineering.py",
+    "test_sha256": "82a29f4fbbbe28146dfb50536487d52e9e72e6cb7a6bf9df926595612aa9b3b6",
+    "tree_structures_identical_single_vs_four": true,
+    "trial_params": [
+      {
+        "max_depth": 10,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      {
+        "max_depth": 20,
+        "max_features": 1.0,
+        "min_samples_leaf": 5,
+        "n_estimators": 500
+      }
+    ],
+    "validation_scores_identical_single_vs_four": true
+  }
+}

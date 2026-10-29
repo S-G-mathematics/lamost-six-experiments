@@ -1,0 +1,76 @@
+{
+  "archive_alias_ownership_closure": "passed",
+  "archive_helper_fixture_only": true,
+  "archive_operation": {
+    "archive_io_profile": "bounded-1800-codec1gib64",
+    "batch_policy": "storage-followup-codec",
+    "owner_operation": "rf_cold_batch_wrapper_20261026",
+    "storage_codec_policy": "reversible-xz-v1"
+  },
+  "command": [
+    "/usr/bin/nice",
+    "-n",
+    "19",
+    "/home/ubuntu/lamost_e1_migration_20261023/venv/bin/python",
+    "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_native_codec_selection_compat_20261029/runtime_20261025/tests/run_guarded_tests.py",
+    "--rss-bytes",
+    "1073741824",
+    "--wall-seconds",
+    "60",
+    "--grace-seconds",
+    "3",
+    "--",
+    "/bin/bash",
+    "-c",
+    "ulimit -v 1048576; exec /home/ubuntu/lamost_e1_migration_20261023/venv/bin/python -m pytest -q --disable-warnings --tb=short -p no:cacheprovider /home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_native_codec_selection_compat_20261029/runtime_20261025/tests/test_codec_overlap_controller_harness.py"
+  ],
+  "controller_admission_gate": "passed",
+  "existing_worker_identity_validation": "passed",
+  "exit_code": 0,
+  "expected_test_count": 3,
+  "failed_test_count": 0,
+  "finished_utc": "2026-10-29T01:30:18Z",
+  "fit_attempts_started": 0,
+  "helper_identity_and_resource_gates": "passed",
+  "limitations": [
+    "Fixture-only: no live process inventory; worker identity checks are synthetically modeled."
+  ],
+  "limits": {
+    "actual_wall_seconds": 0.448,
+    "address_space_limit_bytes": 1073741824,
+    "native_threads": 1,
+    "nice": 19,
+    "peak_process_tree_rss_bytes": 63885312,
+    "wall_seconds": 60
+  },
+  "log_path": "reports/engineering_audits/CURRENT_CODEC_ADMISSION_HARNESS_SELECTION_COMPAT_20261029.log",
+  "log_sha256": "fab7ec510862cc0a66f383a7d6c7c712cb0baa3cc697bb1ca38fd51210f532da",
+  "no_candidate_archive_model_fd_race": true,
+  "overlap_classes": {
+    "current_workers": "validated_existing_worker_identities",
+    "new_workers": "native_fit_proof_pristine_task_and_dependencies"
+  },
+  "passed_test_count": 3,
+  "schema": "lamost-archive-native-codec-overlap-admission-harness/1",
+  "source_sha256": {
+    "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+    "archive_fit_admission.py": "578dce5e4cca15f9dbd9d1afdacf048cb86654b0db876cb7af97c0375075341c",
+    "batch_plan.py": "0fb23c09532ee34c38907497d65a0833c328a1b95fa99f024ad00146d32fbf34",
+    "cold_auto_compaction.py": "c401a54937a9e914020cb9a87a93f1d0510350f9abe092fa548d9f8f424d73be",
+    "cold_codec_storage.py": "b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b",
+    "cold_model_storage.py": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
+    "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
+    "commit_batch_child.py": "3c13adfa31964468393c895c3ab96539b17d9fc51350936b524daf99a4c55258",
+    "controller.py": "2ea1c69ac24c2ed40ffb310b2005596a2b9e49caca1f2e78159ff8db3a50d216",
+    "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
+    "run_batch.py": "138ccc24ab422ba85c426e0177fbb5448dd7d59d35a4eff53e24b3a141633d69"
+  },
+  "started_utc": "2026-10-29T01:30:18Z",
+  "status": "passed",
+  "test_file": "tests/test_codec_overlap_controller_harness.py",
+  "test_file_sha256": {
+    "tests/test_codec_overlap_controller_harness.py": "58ecc4729f3906cb49696bbfedde411465f6a1340b46aa2321492a81f2637a55"
+  },
+  "unverified_workers": 0,
+  "workers_checked": 0
+}

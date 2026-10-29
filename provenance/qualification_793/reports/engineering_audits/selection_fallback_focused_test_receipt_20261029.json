@@ -1,0 +1,32 @@
+{
+  "command": "PYTHONPATH=tests:source /home/ubuntu/lamost_e1_migration_20261023/venv/bin/python3 -m unittest -v test_missing_attempt_selection_compat test_candidate_provenance_filter test_codec_policy test_cold_model_storage test_mixed_family_scope",
+  "guard": {
+    "lock": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/locks/engineering_audit.lock",
+    "nice": 19,
+    "ulimit_cpu_seconds": 60,
+    "ulimit_v_bytes": 1073741824
+  },
+  "schema": "selection-fallback-focused-test-receipt/1",
+  "scope": "synthetic receipt fixtures and existing test fixtures only; no live source/archive mutation or production model payload read",
+  "source_and_test_sha256": {
+    "reports/selection_fallback_focused_tests_20261029.log": "f6b039527f4eb3dab80a4798abc34cfe327b5b44a94c4eddb6b606f939c4cd2e",
+    "source/cold_auto_compaction.py": "979a6ec1dc3cf7e56ecd9e957d4ec52463d7b61ece6df94903b85b5e6dd65c71",
+    "source/cold_model_storage.py": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
+    "source/commit_batch_child.py": "d69fa088c46e657d063749ffcdb2f10012912a6193fda16b9b6e9a1ce25c51f0",
+    "source/run_batch.py": "6bf3de47c2f157639ac87efaca00d240ed749b217c21132ae9727b0334ff957e",
+    "tests/test_candidate_provenance_filter.py": "bd4ae54d3efb22af0081dc2611f42f9db7c2128182151f9c38236dc3e8f2c849",
+    "tests/test_codec_policy.py": "c98fe934643fd114ee96594a0cd39a324ec05c17be9189552664cd2f8fc68a31",
+    "tests/test_cold_model_storage.py": "8460d82bc5468a239c3de5402ee3d2c02a340c0d013802e85f07a6158155a8af",
+    "tests/test_missing_attempt_selection_compat.py": "6ff440782cc6d353bdd5aef1808844095d91e15c3c451c6f398b0235987e5661",
+    "tests/test_mixed_family_scope.py": "619b14a961fb214f836bf5bd5e96331a80534943ddbbaef52a681aae3734b24e"
+  },
+  "status": "passed",
+  "suite": [
+    "test_missing_attempt_selection_compat",
+    "test_candidate_provenance_filter",
+    "test_codec_policy",
+    "test_cold_model_storage",
+    "test_mixed_family_scope"
+  ],
+  "test_count": 62
+}

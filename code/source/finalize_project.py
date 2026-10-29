@@ -194,7 +194,7 @@ def figure_denominators(rd):
   m=re.match(r'E([3-6])_',name)
   if m:by_exp[int(m.group(1))].append(path)
  for e,title in ((3,'E3 route comparison'),(4,'E4 target restoration'),(5,'E5 fitting-data corruption'),(6,'E6 ensemble comparison')):
-  rs=[x for x in ledger if str(x.get('experiment'))==str(e)];ok=sum(x.get('outcome')=='successful' and x.get('balanced_accuracy') not in ('',None) for x in rs)
+  rs=[x for x in ledger if str(x.get('experiment'))==str(e)];ok=sum(x.get('outcome')=='successful' and x.get('balanced_accuracy') not in ('',None) for x in rs);user_stopped=sum(x.get('outcome')=='user_stopped' for x in rs)
   actual=by_exp[e]
   if not actual and ok:
    raise EvidenceError(f'E{e} has {ok} successful evaluations but report_result has no validated figure path')
@@ -204,7 +204,9 @@ def figure_denominators(rd):
   for path in actual:
    if not path.is_absolute():path=(rd/path).resolve()
    if not path.is_file() or path.stat().st_size<512 or not path.read_bytes().startswith(b'\x89PNG\r\n\x1a\n'):raise EvidenceError('missing/invalid report_result figure '+str(path))
-   out.append({'experiment':e,'path':path.name,'source_path':str(path),'figure_kind':'validated_report_figure' if path.name not in {f'E{i}_NO_SUCCESS_PLACEHOLDER.png' for i in (3,4,5,6)} else 'zero_success_placeholder','planned_unique_case_denominator':len(rs),'successful_BA_evaluation_denominator':ok,'bytes':path.stat().st_size,'sha256':sha_file(path)})
+   record={'experiment':e,'path':path.name,'source_path':str(path),'figure_kind':'validated_report_figure' if path.name not in {f'E{i}_NO_SUCCESS_PLACEHOLDER.png' for i in (3,4,5,6)} else 'zero_success_placeholder','planned_unique_case_denominator':len(rs),'successful_BA_evaluation_denominator':ok,'bytes':path.stat().st_size,'sha256':sha_file(path)}
+   if any(x.get('outcome')=='user_stopped' for x in ledger):record['user_stopped_scientific_case_denominator']=user_stopped
+   out.append(record)
  out.extend(frozen_e1_e2_figure_records(rd))
  write_csv(rd/'figure_denominators.csv',out);return out
 def _m(row,name):
@@ -224,8 +226,12 @@ def _group(row):
 def _summary(rows,e):
  rows=[r for r in rows if str(r.get('experiment'))==str(e)]
  if not rows:return '_No outcome summary is available._'
- z=['| Group | successful / planned | BA mean ± SD | coverage mean ± SD | set size mean ± SD | failure | unsupported | unavailable |','|---|---:|---:|---:|---:|---:|---:|---:|']
- for r in rows:z.append(f"| {_group(r)} | {r.get('successful',0)}/{r.get('planned',0)} | {_m(r,'balanced_accuracy')} | {_m(r,'coverage')} | {_m(r,'set_size')} | {r.get('failed_or_interrupted',0)} | {r.get('unsupported',0)} | {r.get('unavailable_dependency',0)} |")
+ amended=bool(rows and 'user_stopped' in rows[0])
+ if amended:z=['| Group | successful / planned | BA mean ± SD | coverage mean ± SD | set size mean ± SD | failure | unsupported | unavailable | user stopped | pending/active |','|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|']
+ else:z=['| Group | successful / planned | BA mean ± SD | coverage mean ± SD | set size mean ± SD | failure | unsupported | unavailable |','|---|---:|---:|---:|---:|---:|---:|---:|']
+ for r in rows:
+  base=f"| {_group(r)} | {r.get('successful',0)}/{r.get('planned',0)} | {_m(r,'balanced_accuracy')} | {_m(r,'coverage')} | {_m(r,'set_size')} | {r.get('failed_or_interrupted',0)} | {r.get('unsupported',0)} | {r.get('unavailable_dependency',0)} |"
+  z.append(base+f" {r.get('user_stopped',0)} | {r.get('pending_or_active',0)} |" if amended else base)
  return '\n'.join(z)
 def _paired_numeric_findings(rd):
  def summarize(rows,group_keys,label_fields,extra_metrics=()):
@@ -289,6 +295,29 @@ def _admission_reservation_disclosures(freeze):
         lines.append(text.strip())
     return lines
 
+def _et4_execution_disclosure(runtime,freeze):
+    """Readable provenance for the separately qualified ET4 fit execution."""
+    pointer=freeze.get('et4_execution_policy_sha256')
+    if pointer is None:
+        return []
+    if not isinstance(pointer,str) or len(pointer)!=64 or any(c not in '0123456789abcdef' for c in pointer.lower()):
+        raise EvidenceError('ET4 execution policy pointer is malformed')
+    path=Path(runtime)/'manifests'/'EXTRA_TREES4_EXECUTION_POLICY_20261029.json'
+    if not path.is_file() or path.is_symlink() or sha_file(path)!=pointer:
+        raise EvidenceError('ET4 execution policy manifest is missing or differs from frozen SHA')
+    policy=load(path)
+    scope=policy.get('scope')
+    expected_scope={'experiments':[4,5],'kind':'fit','methods':['extra_trees'],'never_attempted':True,'reuse_pipeline':False}
+    expected={'schema':'lamost-later-et4-execution-policy/1','status':'qualified','policy_id':'et4-fit_n_jobs4-v1',
+              'fit_n_jobs':4,'prediction_n_jobs':1,'native_threads':1,'worker_memory_limit_gib':10,
+              'trial_timeout_seconds':600,'phase_timeout_seconds':600,'termination_grace_seconds':30}
+    if any(policy.get(k)!=v for k,v in expected.items()) or scope!=expected_scope:
+        raise EvidenceError('ET4 execution policy is not the reviewed qualified E4/E5 ExtraTrees fit policy')
+    return [
+      f"ET4 ExtraTrees fit execution amendment: the separately qualified policy {policy['policy_id']} (manifest SHA-256 {pointer}) applies only to newly attempted E4/E5 ExtraTrees fits. It uses four estimator fit jobs, one prediction job, and one native-library thread, with the existing 10 GiB worker hard limit, 600-second tuning-trial and supervised-phase limits, and 30-second termination grace. The frozen search domains, seeds, trial count, and task plan are unchanged. This prospective policy does not imply every planned ExtraTrees fit has completed under it; each attempt's captured profile is authoritative, and older attempts without a snapshot retain their evidenced earlier profile.",
+      "The ET4 execution group is a separate feasibility condition from the frozen ET1 controls, which remain unchanged and were not refit under ET4. A fixed-configuration parity check does not establish identical tuning completion or selected parameters under the 600-second trial limit; observed timing differences are not an isolated speed comparison. After the user's explicit removal of the fixed two-worker ceiling, three Random Forest fits were observed concurrently during the adaptive period; this is an observed peak, not a universal cap. See the ET4 execution policy manifest and its qualification/limitations evidence."
+    ]
+
 def _resource_failure_disclosure(runtime,report_dir):
     rd=Path(report_dir);runtime=Path(runtime);lines=[]
     freeze_path=runtime/'manifests/freeze.json';freeze=load(freeze_path) if freeze_path.exists() else {}
@@ -342,6 +371,7 @@ def _resource_failure_disclosure(runtime,report_dir):
         else:policy_text='Resource limits are recorded separately in each E3–E6 manifest; a single policy history is not available.'
         lines.append(policy_text)
     lines.extend(_admission_reservation_disclosures(freeze))
+    lines.extend(_et4_execution_disclosure(runtime,freeze))
     rows=csvrows(rd/'resource_failure_summary.csv');lines.append('Failure evidence is classified only from saved explicit reasons/phase receipts. A timeout remains a timeout unless the receipt explicitly records a memory/RSS limit. Trial events are kept separate from terminal cell failures; a failed trial is not counted as a failed fit cell when the final fit succeeded. See `resource_failure_ledger.csv`, `resource_failure_summary.csv`, and phase timing/RSS records in `costs.csv`.')
     lines.append('Observed costs are hardware- and load-dependent. Compare resource outcomes with the per-task/per-attempt policy profile and period. Outcomes from the adaptive period are not directly comparable in feasibility to the initial fixed two-worker period unless this difference is stated.')
     cutoff_rows=csvrows(rd/'terminal_trial_cutoffs.csv')
@@ -358,11 +388,130 @@ def _resource_failure_disclosure(runtime,report_dir):
         for r in rows:lines.append(f"| E{r.get('experiment')} | {r.get('failure_evidence_type')} | {r.get('event_scope')} | {r.get('failure_event_count')} | {r.get('unique_task_count')} | {r.get('terminal_cell_failure_task_count')} | {r.get('successful_fit_tasks_with_failed_trial_count')} |")
     return lines
 
+SCOPE_AMENDMENT_REL='manifests/PROSPECTIVE_REPETITION_SCOPE_AMENDMENT_20261029.json'
+SCOPE_APPLICATION_REL='reports/SINGLE_EVAL_SCOPE_APPLICATION_20261029.json'
+SCOPE_AMENDMENT_SCHEMA='lamost-user-single-evaluation-scope-amendment/1'
+SCOPE_APPLICATION_SCHEMA='lamost-user-scope-amendment-application/1'
+_SCOPE_COUNTS={'selected_pending_scientific':45,'user_stopped_scientific':168,'selected_pending_tasks':90,'user_stopped_tasks':334}
+_SCOPE_BY_EXPERIMENT={'4':(14,67),'5':(31,101)}
+_REPORT_GROUP_FIELDS=('experiment','method','condition','route','mode','target_class','ratio','treatment','mechanism','rate','generator')
+def _scope_value(value):return '' if value is None or value=='' else str(value)
+def _scope_key(task,axes):
+ return tuple(_scope_value(task.get(k)) for k in axes)
+def _scope_amendment_info(runtime,terminal,ledger=None):
+ runtime=Path(runtime);ap=runtime/SCOPE_AMENDMENT_REL;pp=runtime/SCOPE_APPLICATION_REL
+ if not ap.exists() and not pp.exists():return None
+ if not ap.is_file() or not pp.is_file():raise EvidenceError('user scope amendment/application pair is incomplete')
+ amendment=load(ap);application=load(pp);amendment_sha=sha_file(ap)
+ if amendment.get('schema')!=SCOPE_AMENDMENT_SCHEMA or application.get('schema')!=SCOPE_APPLICATION_SCHEMA or application.get('status')!='applied_and_verified':
+  raise EvidenceError('user scope amendment or application schema/status is not verified')
+ if amendment.get('original_plan_sha256')!=terminal.get('plan_sha256') or application.get('original_plan_sha256')!=terminal.get('plan_sha256'):
+  raise EvidenceError('user scope amendment is not bound to the original frozen plan')
+ if amendment.get('original_task_count')!=6270 or amendment.get('original_scientific_count')!=2823:
+  raise EvidenceError('user scope amendment changed the original planned denominators')
+ if amendment.get('no_metric_values_read') is not True or amendment.get('preserves_all_prior_outcomes') is not True:
+  raise EvidenceError('user scope amendment lacks score-blind selection or prior-outcome preservation proof')
+ selected=amendment.get('selected_evaluation_keys');stopped=amendment.get('user_stopped_scientific_keys')
+ closure=amendment.get('selected_dependency_closure');pending_closure=amendment.get('selected_pending_dependency_closure_keys')
+ excluded=amendment.get('excluded_nonterminal_task_keys')
+ if not isinstance(selected,list) or len(selected)!=45 or len(set(selected))!=45 or not isinstance(stopped,list) or len(stopped)!=168 or len(set(stopped))!=168:
+  raise EvidenceError('user scope amendment selected/stopped scientific key counts differ')
+ if (not isinstance(closure,list) or len(set(closure))!=len(closure)
+     or not isinstance(pending_closure,list) or len(pending_closure)!=90 or len(set(pending_closure))!=90
+     or amendment.get('pending_dependency_closure_count')!=90
+     or not isinstance(excluded,list) or len(excluded)!=334 or len(set(excluded))!=334
+     or amendment.get('excluded_nonterminal_task_count')!=334
+     or amendment.get('user_stopped_scientific_count')!=168):
+  raise EvidenceError('user scope amendment dependency/stopped task closure counts differ')
+ if set(selected)&set(stopped):raise EvidenceError('user scope amendment selects and stops the same case')
+ if not set(selected).issubset(pending_closure) or not set(pending_closure).issubset(closure):
+  raise EvidenceError('selected evaluations are not in the pending dependency closure')
+ if set(closure)&set(excluded) or not set(stopped).issubset(excluded):
+  raise EvidenceError('pending dependency closure and excluded nonterminal keys overlap or omit stopped cases')
+ plan=load(runtime/'manifests/tasks.json');tasks=plan.get('tasks',[]);taskmap={x.get('key'):x for x in tasks if isinstance(x,dict)}
+ referenced=selected+stopped+closure+pending_closure+excluded
+ if len(taskmap)!=6270 or any(k not in taskmap for k in referenced):raise EvidenceError('user scope amendment references a missing task-plan key')
+ selected_tasks=[taskmap[k] for k in selected]
+ if any(not t.get('scientific_case') or str(t.get('experiment')) not in {'4','5'} or '/eval/' not in str(t.get('key','')) for t in selected_tasks):
+  raise EvidenceError('user scope amendment selected a non-E4/E5 scientific evaluation')
+ axes=amendment.get('group_axes',amendment.get('axes'))
+ if not isinstance(axes,list) or not {'experiment','method','condition','route'}.issubset(set(axes)) or 'rep' in axes:
+  raise EvidenceError('scope amendment group axes are missing or include repetition')
+ if len({_scope_key(t,axes) for t in selected_tasks})!=45:raise EvidenceError('selected evaluations do not represent 45 unique amended groups')
+ if not set(selected+stopped).issubset(set(closure+excluded)):
+  raise EvidenceError('user scope amendment task closure omits selected or stopped evaluation keys')
+ if application.get('amendment_sha256')!=amendment_sha:
+  raise EvidenceError('scope application receipt does not bind the amendment bytes')
+ declared_path=application.get('amendment_path')
+ allowed_paths={SCOPE_AMENDMENT_REL,'runtime_20261025/'+SCOPE_AMENDMENT_REL,str(ap)}
+ path_ok=declared_path in allowed_paths
+ if not path_ok and isinstance(declared_path,str):
+  try:path_ok=Path(declared_path).is_absolute() and Path(declared_path).resolve()==ap.resolve()
+  except OSError:path_ok=False
+ if not path_ok:raise EvidenceError('scope application receipt names an unexpected amendment path')
+ if any(application.get(k) is not True for k in ('original_plan_unchanged','existing_terminal_unchanged','only_closure_pending_proof')):
+  raise EvidenceError('scope application receipt does not prove unchanged prior plan/results and dependency closure')
+ if application.get('counts')!=_SCOPE_COUNTS:raise EvidenceError('scope application counts differ from the approved 45/168/90/334 cut')
+ byexp=application.get('by_experiment',{})
+ for e,(sel,stop) in _SCOPE_BY_EXPERIMENT.items():
+  row=byexp.get(e,{})
+  if row.get('selected_pending_scientific')!=sel or row.get('user_stopped_scientific')!=stop:
+   raise EvidenceError('scope application per-experiment scientific counts differ')
+ amend_byexp=amendment.get('counts_by_experiment',{})
+ for e,(sel,stop) in _SCOPE_BY_EXPERIMENT.items():
+  ar=amend_byexp.get(e,{})
+  if ar.get('selected_pending_scientific')!=sel or ar.get('user_stopped_scientific')!=stop:
+   raise EvidenceError('amendment and application per-experiment scientific counts differ')
+ out={'amendment_path':runtime.name+'/'+SCOPE_AMENDMENT_REL,'amendment_sha256':amendment_sha,
+      'application_path':runtime.name+'/'+SCOPE_APPLICATION_REL,'application_sha256':sha_file(pp),
+      'selected_count':len(selected),'stopped_count':len(stopped),'selected_by_experiment':{e:v[0] for e,v in _SCOPE_BY_EXPERIMENT.items()},
+      'stopped_by_experiment':{e:v[1] for e,v in _SCOPE_BY_EXPERIMENT.items()},
+      'counts':dict(_SCOPE_COUNTS),'selected_outcomes':{}}
+ if ledger is not None:
+  bykey={str(r.get('key')):r for r in ledger}
+  if len(bykey)!=2823 or any(k not in bykey for k in selected+stopped):raise EvidenceError('final scientific ledger does not cover amended selected/stopped cases')
+  if any(bykey[k].get('outcome')!='user_stopped' for k in stopped):raise EvidenceError('a scope-excluded repeated case is not recorded user_stopped')
+  extra=[str(r.get('key')) for r in ledger if r.get('outcome')=='user_stopped' and str(r.get('key')) not in set(stopped)]
+  if extra:raise EvidenceError('ledger contains user_stopped cases outside the amendment')
+  valid_selected={'successful','scientific_failure','unsupported','unavailable_dependency'}
+  if any(bykey[k].get('outcome') not in valid_selected for k in selected):raise EvidenceError('selected single-evaluation cases do not have an allowed terminal outcome')
+  counts=collections.Counter(str(bykey[k].get('outcome')) for k in selected)
+  out['selected_outcomes']={k:counts.get(k,0) for k in ('successful','scientific_failure','unsupported','unavailable_dependency')}
+  if sum(out['selected_outcomes'].values())!=45:raise EvidenceError('selected outcome accounting does not cover all 45 amended cases')
+  stopped_by_exp=collections.Counter(str(bykey[k].get('experiment')) for k in stopped)
+  if dict(stopped_by_exp)!={'4':67,'5':101}:raise EvidenceError('ledger user-stopped counts differ from applied amendment')
+ return out
+
+def _scope_group_tuple(row):return tuple(_scope_value(row.get(k)) for k in _REPORT_GROUP_FIELDS)
+def _split_user_stopped_coverage(runtime,terminal):
+ runtime=Path(runtime);rd=runtime/'reports';ledger=csvrows(rd/'planned_case_ledger.csv')
+ scope=_scope_amendment_info(runtime,terminal,ledger)
+ if scope is None:
+  if any(r.get('outcome')=='user_stopped' for r in ledger):raise EvidenceError('user_stopped outcomes require the applied scope amendment receipt')
+  if terminal.get('outcomes') and any(c.get('user_stopped',0) for c in terminal['outcomes'].values()):raise EvidenceError('terminal user_stopped outcomes require the applied scope amendment receipt')
+  return None
+ counts=collections.Counter(_scope_group_tuple(r) for r in ledger if r.get('outcome')=='user_stopped')
+ summary=csvrows(rd/'experiment_outcome_coverage.csv')
+ if not summary:raise EvidenceError('outcome coverage is empty for amended-scope report')
+ if 'user_stopped' in summary[0]:
+  for row in summary:
+   expected=counts.get(_scope_group_tuple(row),0)
+   if int(row.get('user_stopped') or 0)!=expected:raise EvidenceError('user-stopped outcome coverage was already written with different counts')
+ else:
+  for row in summary:
+   stopped=counts.get(_scope_group_tuple(row),0);pending=int(row.get('pending_or_active') or 0)
+   if pending<stopped:raise EvidenceError('pending/active count is below actual user-stopped count')
+   row['user_stopped']=stopped;row['pending_or_active']=pending-stopped
+  write_csv(rd/'experiment_outcome_coverage.csv',summary)
+ return scope
+
 def _availability_line(summary,e):
  rs=[r for r in summary if str(r.get('experiment'))==str(e)]
  total=lambda key:sum(int(r.get(key) or 0) for r in rs)
  planned=total('planned');success=total('successful');failed=total('failed_or_interrupted');unsupported=total('unsupported');unavailable=total('unavailable_dependency');pending=total('pending_or_active')
- return f'Availability: {success}/{planned} successful; {failed} failed or interrupted; {unsupported} unsupported; {unavailable} unavailable by dependency; {pending} pending/active. Paired estimates include only successful matched cases.'
+ if any('user_stopped' in r for r in rs):pending_text=f"{total('user_stopped')} user-stopped; {pending} pending/active"
+ else:pending_text=f"{pending} pending/active"
+ return f'Availability: {success}/{planned} successful; {failed} failed or interrupted; {unsupported} unsupported; {unavailable} unavailable by dependency; {pending_text}. Paired estimates include only successful matched cases.'
 
 def _finding_lines(items):
  if not items:return ['No matched pair with both valid scores is currently available.']
@@ -416,14 +565,54 @@ def _insert_e3_rep1_publication_disclosure(lines,runtime):
     lines[e4_index:e4_index]=['',disclosure,'']
     return lines
 
+def _single_eval_scope_report_lines(scope):
+ lines=['## User-directed amended repetition scope','',
+  'The frozen design specified three repetitions per condition. After observing earlier outcomes, the user directed one evaluation per unique method/condition group and no further repetition of already-covered groups. The amendment selected one E4/E5 evaluation for each of 45 uncovered groups without reading scores; all prior terminal outcomes were preserved. The original 6,270-task DAG and 2,823 scientific-case denominator remain unchanged.',
+  f"The applied amendment stopped {scope['counts']['user_stopped_tasks']} unstarted task records outside the selected closure, including {scope['stopped_count']} scientific evaluation cases marked `user_stopped` (E4: {scope['stopped_by_experiment']['4']}; E5: {scope['stopped_by_experiment']['5']}). These administrative stops are distinct from scientific failures and unavailable dependencies. The amendment retains 90 pending selected-closure tasks (45 evaluations and 45 pending fit dependencies) within a 167-key full dependency closure that also includes completed supporting dependencies.",
+  f"The 45 selected cases reached terminal outcomes as follows: {scope['selected_outcomes'].get('successful',0)} successful, {scope['selected_outcomes'].get('scientific_failure',0)} scientific failures, {scope['selected_outcomes'].get('unsupported',0)} unsupported, and {scope['selected_outcomes'].get('unavailable_dependency',0)} unavailable by dependency. The three-repetition grid was not fully executed; newly selected groups contribute one evaluation each and do not establish replication-based uncertainty. Paired summaries include only actual matched successful repetitions; no bootstrap is used.",'',
+  '| Experiment | Rep | Successful | Scientific failure | Unsupported | Unavailable dependency | User stopped |','|---|---:|---:|---:|---:|---:|---:|']
+ return lines
+
+def _repetition_outcome_rows(ledger):
+ counts=collections.Counter((str(r.get('experiment')),str(r.get('rep')),str(r.get('outcome'))) for r in ledger)
+ rows=[]
+ for e in ('3','4','5','6'):
+  reps=sorted({r.get('rep') for r in ledger if str(r.get('experiment'))==e},key=lambda x:int(x) if str(x).isdigit() else 999)
+  for rep in reps:
+   rows.append((e,str(rep),*[counts[(e,str(rep),state)] for state in ('successful','scientific_failure','unsupported','unavailable_dependency','user_stopped')]))
+ return rows
+
 def make_final_report(root,runtime,terminal,evidence):
  rd=runtime/'reports';summary=csvrows(rd/'experiment_outcome_coverage.csv');per=csvrows(rd/'per_repetition_metrics.csv');ledger=csvrows(rd/'planned_case_ledger.csv');pairs=expanded_pairs(rd);figs=figure_denominators(rd);findings=_paired_numeric_findings(rd);resource_disclosure=_resource_failure_disclosure(runtime,rd)
  e1=(root/'e1_wrapup_20261024/E1_WRAPUP.md').read_text();e2=(root/'e2_20261024/E2_CURRENT_REPORT.md').read_text();am=(root/'e2_20261024/E2_RECONSTRUCTION_AMENDMENT.md').read_text();p=load(runtime/'manifests/tasks.json');freeze=load(runtime/'manifests/freeze.json')
  lines=['# LAMOST DR10 v2 — final six-experiment report','',f'Generated UTC: {now()}',f"Plan SHA-256: `{p['plan_sha256']}`; frozen task file SHA-256: `{terminal['plan_file_sha256']}`; execution protocol: {freeze.get('protocol_version')}.",'', '## Data and information history','', 'The study uses the frozen cleaned LAMOST DR10 v2 baseline, six predictors (Pan-STARRS g, r, i, z, y; Gaia G), seven labels (A, F, G, K, M, GALAXY, QSO), saved source identities/roles, and a fixed 500,000-row test cohort. IDs, labels, spectral information, and audit metadata are not predictors. E1/E2 test outcomes were observed before E3–E6; later tests are not prospective untouched-test evaluations. E3–E6 plans were frozen before their new test evaluations; fitting, tuning, calibration, and test roles stayed separated.', '', 'Bootstrap was dropped. Results are descriptive, repetition matched, and report individual observations, actual successful denominators, means, sample standard deviations, and paired differences. No significance claims are made. Failures and unavailable cells remain in the ledger and are never given fabricated scores.', '', '## Terminal outcome coverage','', '| Experiment | Planned | Successful | Scientific failure | Unsupported | Unavailable dependency | Other terminal |','|---|---:|---:|---:|---:|---:|---:|']
+ scope=_scope_amendment_info(runtime,terminal,ledger)
+ if scope is not None:
+  idx=lines.index('## Terminal outcome coverage')
+  lines[idx:idx]=_single_eval_scope_report_lines(scope)+[f'| E{e} | {rep} | {su} | {fail} | {unsup} | {unavail} | {stopped} |' for e,rep,su,fail,unsup,unavail,stopped in _repetition_outcome_rows(ledger)]+['']
+  h=lines.index('| Experiment | Planned | Successful | Scientific failure | Unsupported | Unavailable dependency | Other terminal |')
+  lines[h]='| Experiment | Planned | Successful | Scientific failure | Unsupported | Unavailable dependency | User stopped | Other terminal |'
+  lines[h+1]='|---|---:|---:|---:|---:|---:|---:|---:|'
  for e in ('3','4','5','6'):
-  c=terminal['outcomes'].get(e,{});other=sum(v for k,v in c.items() if k not in {'successful','scientific_failure','unsupported','unavailable_dependency'});lines.append(f"| E{e} | {EXPECTED[e]} | {c.get('successful',0)} | {c.get('scientific_failure',0)} | {c.get('unsupported',0)} | {c.get('unavailable_dependency',0)} | {other} |")
+  c=terminal['outcomes'].get(e,{})
+  if scope is not None:
+   other=sum(v for k,v in c.items() if k not in {'successful','scientific_failure','unsupported','unavailable_dependency','user_stopped'});lines.append(f"| E{e} | {EXPECTED[e]} | {c.get('successful',0)} | {c.get('scientific_failure',0)} | {c.get('unsupported',0)} | {c.get('unavailable_dependency',0)} | {c.get('user_stopped',0)} | {other} |")
+  else:
+   other=sum(v for k,v in c.items() if k not in {'successful','scientific_failure','unsupported','unavailable_dependency'});lines.append(f"| E{e} | {EXPECTED[e]} | {c.get('successful',0)} | {c.get('scientific_failure',0)} | {c.get('unsupported',0)} | {c.get('unavailable_dependency',0)} | {other} |")
  lines += ['',f"All {len(ledger)} unique scientific outcomes are in `planned_case_ledger.csv`; successful repetition rows are in `per_repetition_metrics.csv`; all 6,270 planned DAG tasks and their terminal states are in `all_task_ledger.csv`.",'', '## Shared conformal evaluation\n\nEach evaluated route uses its recorded score type and calibration nonconformity. Probability routes use 1 - p_true; linear and RBF SVM routes use the negative native class margin. The conformal threshold is the finite-sample k = ceil((n_cal + 1) * 0.90) order statistic of calibration nonconformities (threshold +infinity if k exceeds n_cal), with a candidate class included when its nonconformity is at most that threshold. Predictions use the route’s fixed class-order argmax rule. Probability and margin thresholds are on different scales and are not comparable across methods; achieved coverage and set size are the comparable test summaries. A nominal 90% target does not imply 90% coverage for every class. E3 downstream learners and native generative routes retain their probability score rules.\n\n## Experiment 1 — frozen benchmark','', 'Question: compare the frozen classifier/model families and training budgets on balanced accuracy, conformal coverage/set size, and resource feasibility. Frozen outcomes remain 765/765 terminal: 674 successful, 81 failed (55 resource failures and 26 supervisor-terminal cells whose manifests remained started), and 10 unsupported. The complete 765-cell ledger, method-by-budget summary, learning curve, and validated report remain unchanged. Recovery is a separate supplement stopped early at user request; its outcomes are not substituted into frozen E1.', '', e1.strip(), '', 'The seven auxiliary tuning-history discrepancies, omitted historical fitted models/per-test-row predictions, conditional-on-success summaries, and hardware-dependent timing limitations remain disclosed. The staged ARF min-leaf variant was not run; saved-pipeline finalization did not pass its reproduction gate.', '', '## Experiment 2 — generator fidelity versus direct classification','', 'Question: whether class-conditional statistical fidelity diagnostics track direct classification performance. SDMetrics Quality Reports use six predictors, matched diagnostic sample sizes, and equal averaging across seven classes; Spearman comparisons are within budget/repetition, not pooled across budgets.', '', e2.strip(), '', '### E2 reconstruction amendment','', am.strip(), '', '## Experiment 3 — direct Bayes, synthetic-only, and real-only learning','', 'Question: for the same estimated class-conditional generator, compare direct Bayes prediction, a downstream learner trained only on synthetic rows, and that learner trained on real fitting rows.', '', 'Design/defaults: GMM, Gaussian copula, ARF/FORDE, KDE, and continuous Chow–Liu; 100,000-row development cohort; three repetitions; 80k/10k/10k fit/tune/calibration roles; 500k fixed test cohort. Logistic regression, random forest, and histogram gradient boosting are downstream learners. Each generator creates 400,000 fitting examples using deterministic largest-remainder allocation from the fitting-role class histogram. E3-owned missing generator fits tune only on tuning roles; validated E2 reconstructed GMM/copula/Chow–Liu pipelines retain reconstructed provenance and their own measured classification results. Real-only fits are shared across generators within each learner/repetition; synthetic and real routes each use ten trials.', '', 'Planned outcomes: 69 unique (15 direct, 45 synthetic-only, 9 shared real-only).', '', '### E3 outcome summary','', _summary(summary,3),_availability_line(summary,3),'', 'Expanded shared-real matched comparisons are in `E3_SHARED_REAL_PAIRED.csv` (rows: '+str(pairs['E3_SHARED_REAL_PAIRED.csv'])+'). They compare direct, synthetic-only, and real-only scores at each generator/repetition/learner without duplicating the real-only fit. Condition-specific paired results grouped by comparison, generator, and downstream learner; each n is matched successful repetitions (balanced-accuracy difference, A minus B):', '', *_finding_lines(findings[3]), '', _e3_cost_detail_note(runtime) or '', '', '## Experiment 4 — class imbalance and restoration','', 'Question: how halving or reducing one class’s fitting share to one tenth affects classification and conformal prediction, and how weighting, random oversampling, SMOTE, and generated restoration compare. The design has one unchanged control and 14 altered conditions (seven target classes × two severities) in each of three paired repetitions. Tune/calibration identities are reserved before altered cohorts; test cohorts keep the population distribution.', '', 'Seventeen direct methods are evaluated per condition. Logistic regression, random forest, and histogram gradient boosting additionally compare weighting, ROS, SMOTE, and restoration from five generators. Restoration returns target support to the original class share. All addition treatments have the same final histogram; generators see only the altered fitting cohort. SMOTE uses `min(5,n_target−1)` and is unsupported below two target rows. Each treatment is tuned separately on the same frozen tuning role with ten trials per learner. These treatment fits are separate from the untreated direct fit.', '', 'Planned outcomes: 1,773 unique test outcomes (765 direct and 1,008 treatment). Forty-two altered-cohort nodes, 126 shared base-treatment data nodes, and 210 generated append nodes are non-evaluation dependencies.', '', '### E4 outcome summary','', _summary(summary,4),_availability_line(summary,4),'', 'Paired altered-versus-unchanged-control, treatment-versus-untreated-altered, and treatment-versus-unchanged-control differences are in `E4_CONTROL_TREATMENT_PAIRED.csv` (rows: '+str(pairs['E4_CONTROL_TREATMENT_PAIRED.csv'])+'). Claims remain specific to target class, severity, method, and repetition. Condition-specific paired means and sample SDs are grouped by comparison, method, target class, severity ratio, and treatment; each n is matched successful repetitions. No pooling across targets or severities is used.', '', *_finding_lines(findings['4_control']+findings['4_treatment']), '', '## Experiment 5 — fitting-data corruption','', 'Question: whether direct and synthetic-data pipelines suppress, preserve, or amplify controlled corruption of fitting rows. The clean control is paired with feature noise, missingness, and label noise at 5%, 10%, and 20% for three repetitions. Only fitting data are corrupted; tuning, calibration, and test stay clean. Masks are nested across rates and shared across methods. No missingness indicator is added. Feature-noise scale is fitting-data IQR/1.349 with specified fallbacks; label changes are forced and logged.', '', 'Seventeen direct methods and fifteen generator/downstream routes are compared. Clean-selected configurations and matching seeds are carried to corrupted refits without retuning; synthetic-only routes keep the five-times-fitting sample count. These controlled mechanisms do not represent every astronomical measurement error.', '', 'Planned outcomes: 960 (510 direct and 450 synthetic-only). Exact perturbations, changed cells, missing cells, and label-transition records are preserved.', '', '### E5 outcome summary','', _summary(summary,5),_availability_line(summary,5),'', 'Matched corrupted-minus-clean values are in `E5_CLEAN_CORRUPTED_PAIRED.csv` (rows: '+str(pairs['E5_CLEAN_CORRUPTED_PAIRED.csv'])+'). Failed methods remain in the coverage denominator. Condition-specific paired means and sample SDs grouped by corruption mechanism, rate, method, route, and generator; each n is matched successful repetitions:', '', *_finding_lines(findings[5]), '', '## Experiment 6 — generative posterior ensembles','', 'Planned question: whether five-generator posterior ensembles improve classification or conformal set efficiency versus individual members. The comparison applies only to repetitions with all five validated member references. Members must have compatible roles/class order and normalized seven-class probabilities; the ensemble averages posteriors, not raw densities.', '', 'For eligible repetitions, the protocol specifies equal 0.2 weights and one global simplex vector selected on tuning balanced accuracy. The search uses five vertices, 1,000 seeded Dirichlet candidates, top-ten refinements at transfers 0.10/0.05/0.01, up to 2,000 candidates, and deterministic ties by distance to equal weights then order. Any selected weights freeze before calibration/test. All five members are required for a primary ensemble; partial ensembles are not primary.', '', _e6_reporting_text(ledger), '', '### E6 outcome summary','', _summary(summary,6),_availability_line(summary,6),'', 'Ensemble-to-member matched comparisons are in `E6_ENSEMBLE_MEMBER_PAIRED.csv` (rows: '+str(pairs['E6_ENSEMBLE_MEMBER_PAIRED.csv'])+').', '', *_finding_lines(findings[6]), '', '## Cross-experiment evidence and limits','', 'Predictive performance, statistical fidelity, resource feasibility, and artifact reproducibility answer different questions. E1/E2 remain frozen prior evidence. New E3–E6 models do not repair E1 failures or fill unavailable E2 primary cells. Interpretations are conditional on generator, learner, class, severity, mechanism, rate, repetition, and artifact availability. Survivor bias and missing dependencies constrain comparisons. Timing varies with hardware, libraries, concurrency, and system load. No test-based selection, bootstrap, or report-friendly subset was introduced. E2 contains no TSTR; E3 declared synthetic-only training routes are retained, with no additional TSTR arm outside that established design.', '', '## Resource feasibility and failure taxonomy','', *resource_disclosure, '', '## Main tables and figures','', f"The validated report has {len(per)} successful per-repetition rows and {len(csvrows(rd/'per_class_metrics.csv'))} per-class rows. Group means/sample SDs: `experiment_outcome_coverage.csv`; individual observations: `per_repetition_metrics.csv`; paired outcomes: `matched_paired_differences.csv` and `matched_paired_summary.csv`; class-level recall/coverage/set size: `per_class_metrics.csv`; all planned cells: `planned_case_ledger.csv`.",'', '| Figure | Planned denominator | Successful BA rows | Denominator scope |','|---|---:|---:|---|']
- for x in figs:lines.append(f"| `{x['path']}` | {x['planned_unique_case_denominator']} | {x['successful_BA_evaluation_denominator']} | {x.get('denominator_scope','E'+str(x['experiment'])+' planned cases')} |")
+ if scope is not None:
+  h=lines.index('| Figure | Planned denominator | Successful BA rows | Denominator scope |')
+  lines[h]='| Figure | Planned denominator | Successful BA rows | User-stopped cases | Denominator scope |'
+  lines[h+1]='|---|---:|---:|---:|---|'
+ for x in figs:
+  if scope is not None:lines.append(f"| `{x['path']}` | {x['planned_unique_case_denominator']} | {x['successful_BA_evaluation_denominator']} | {x.get('user_stopped_scientific_case_denominator',0)} | {x.get('denominator_scope','E'+str(x['experiment'])+' planned cases')} |")
+  else:lines.append(f"| `{x['path']}` | {x['planned_unique_case_denominator']} | {x['successful_BA_evaluation_denominator']} | {x.get('denominator_scope','E'+str(x['experiment'])+' planned cases')} |")
+ if scope is not None:
+  for i,line in enumerate(lines):
+   if line.startswith('Question: how halving or reducing one class'):
+    lines[i]=line+' The original three-repetition grid was not completed after the user-directed scope amendment.'
+   if line.startswith('Question: whether direct and synthetic-data pipelines suppress'):
+    lines[i]=line+' The original three-repetition grid was not completed after the user-directed scope amendment.'
  lines += condition_findings_reference_lines(load(rd/'report_result.json').get('condition_findings'))
  lines += ['', '## Reproduction','', 'See `RUN_RESUME_REPRODUCE.md`, frozen manifests, source/dependency files, the verified E1 wrap-up archive (curated as direct archive members; the earlier ZIP is not nested), and the E2 provenance directory. Restore content-deduplicated paths with `python3 restore_archive_aliases.py`. Historical E1 models/prediction arrays omitted from the compact migration are not claimed as restored.']
  lines=_insert_e3_rep1_publication_disclosure(lines,runtime)
@@ -648,7 +837,9 @@ def report_cli_and_validate(root,runtime,terminal):
  proc=subprocess.run([str(py),str(runtime/'source/report_cli.py')],capture_output=True,text=True,timeout=1800,env=env)
  if proc.returncode:raise EvidenceError('report_cli failed: '+proc.stderr[-3000:])
  e6_export=refresh_e6_v2_export(root,runtime,py,env)
- rd=runtime/'reports';result=load(rd/'report_result.json')
+ rd=runtime/'reports';scope=_split_user_stopped_coverage(runtime,terminal);result=load(rd/'report_result.json')
+ if scope is not None:
+  result['user_scope_amendment']={k:v for k,v in scope.items() if k!='user_stopped_by_group'};atomic_json(rd/'report_result.json',result)
  if result.get('status')!='success' or result.get('planned_scientific_cases')!=sum(EXPECTED.values()):raise EvidenceError('report_cli did not cover all planned cases')
  required=('all_task_ledger.csv','planned_case_ledger.csv','experiment_outcome_coverage.csv','per_repetition_metrics.csv','per_class_metrics.csv','matched_paired_differences.csv','matched_paired_summary.csv','dataset_inventory.csv','E4_class_histograms.csv','E5_corruption_realization_summary.csv','label_transition_counts.csv','E5_label_noise_source_class_rates.csv','model_selection_ledger.csv','evaluation_support_fallbacks.csv','evaluation_support_fallbacks_per_class.csv','E6_weights.csv','E6_candidate_ledger.csv','resource_failure_ledger.csv','resource_failure_summary.csv','terminal_trial_cutoffs.csv','terminal_trial_cutoffs.json')
  for n in required:
