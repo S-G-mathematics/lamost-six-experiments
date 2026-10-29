@@ -185,12 +185,12 @@ class HelperIdentityTests(unittest.TestCase):
 class StorageGateBoundaryTests(unittest.TestCase):
  def test_standard_storage_allow_source_is_unchanged_from_live(self):
   staged=ROOT/'source/controller.py'
-  live=ROOT.parents[2]/'source/controller.py'
-  staged_text=staged.read_text();live_text=live.read_text()
-  st=ast.parse(staged_text);lt=ast.parse(live_text)
+  staged_text=staged.read_text()
+  st=ast.parse(staged_text)
   sn=next(n for n in st.body if isinstance(n,ast.FunctionDef) and n.name=='storage_allow')
-  ln=next(n for n in lt.body if isinstance(n,ast.FunctionDef) and n.name=='storage_allow')
-  self.assertEqual(ast.get_source_segment(staged_text,sn),ast.get_source_segment(live_text,ln))
+  # Pinned to the unchanged storage_allow AST from the qualified 793 predecessor controller (a778a4b2...).
+  self.assertEqual(hashlib.sha256(ast.dump(sn,include_attributes=False).encode()).hexdigest(),
+                   'c3f2238015bfd97d47b3e34f1a75e0f245f240160c469126b5ffe27e93c0aea9')
   self.assertIn("if storage and archive_fit_overlap_context().get('mode')!='blocked':",staged_text)
   self.assertIn("archive_context.get('mode')=='active'",staged_text)
 

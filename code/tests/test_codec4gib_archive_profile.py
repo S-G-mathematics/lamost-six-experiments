@@ -93,15 +93,20 @@ class Codec4GiBProfileTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             testfile = root / 'tests' / 'test_codec4gib_archive_profile.py'
+            cli_testfile = root / 'tests' / 'test_driver_cli_alignment.py'
             testfile.parent.mkdir()
             testfile.write_bytes(b'fixture test bytes')
+            cli_testfile.write_bytes(b'fixture cli test bytes')
             test_sha = hashlib.sha256(testfile.read_bytes()).hexdigest()
+            cli_test_sha = hashlib.sha256(cli_testfile.read_bytes()).hexdigest()
+            test_hashes = {'tests/test_codec4gib_archive_profile.py': test_sha,
+                           'tests/test_driver_cli_alignment.py': cli_test_sha}
             receipt = {
                 'schema': 'lamost-codec4-profile-focused-tests/1',
                 'status': 'passed',
                 'source_sha256': current,
-                'test_file_sha256': {'tests/test_codec4gib_archive_profile.py': test_sha},
-                'expected_test_count': 6, 'passed_test_count': 6,
+                'test_file_sha256': test_hashes,
+                'expected_test_count': 10, 'passed_test_count': 10,
                 'failed_test_count': 0, 'fit_attempts_started': 0,
                 'limits': {'address_space_limit_bytes': 1 << 30,
                            'wall_seconds': 60, 'native_threads': 1, 'nice': 19},
@@ -113,7 +118,7 @@ class Codec4GiBProfileTests(unittest.TestCase):
                 'status': 'passed',
                 'receipt_path': 'reports/engineering_audits/codec4.json',
                 'receipt_sha256': hashlib.sha256(receipt_path.read_bytes()).hexdigest(),
-                'test_file_sha256': {'tests/test_codec4gib_archive_profile.py': test_sha},
+                'test_file_sha256': test_hashes,
             }}
             result = admission._validate_codec4_profile_receipt(root, qdoc, current)
             self.assertEqual(result['receipt_sha256'], qdoc['codec4_profile_tests']['receipt_sha256'])

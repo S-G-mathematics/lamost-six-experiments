@@ -37,6 +37,19 @@ CACHE_SHA_MEMO = {}
 COLD_MEMBER_REF_CACHE = {}
 COLD_MEMBER_REF_CACHE_MAX = 2
 
+def driver_command_matches(argv, *, python, script, batch_policy, storage_codec, io_profile):
+    # batch_policy is derived internally by cold_auto_compaction from the codec/profile flags.
+    prefix=[str(python),str(script)]
+    if storage_codec:
+        if batch_policy!=CODEC_BATCH_POLICY:
+            return False
+        expected=prefix+['--storage-codec-policy',storage_codec,'--archive-io-profile',io_profile]
+    else:
+        if batch_policy!=BATCH_POLICY:
+            return False
+        expected=prefix+['--archive-io-profile',io_profile]
+    return list(argv)==expected
+
 def _sha256_bytes(data):
     return hashlib.sha256(data).hexdigest()
 
@@ -262,12 +275,12 @@ def _codec_policy(runtime, frozen):
     ffile=_safe_file(root,frel);fraw=ffile.read_bytes()
     if _sha256_bytes(fraw)!=fsha:raise ValueError('codec_focused_receipt_sha_mismatch')
     freceipt=json.loads(fraw);fsource=focused.get('test_file_sha256')
-    required_tests={'tests/test_native_codec_overlap.py','tests/test_native_fit_scope.py','tests/test_verified_zombie_reap.py'}
+    required_tests={'tests/test_native_codec_overlap.py','tests/test_native_fit_scope.py','tests/test_verified_zombie_reap.py','tests/test_driver_cli_alignment.py'}
     if not isinstance(fsource,dict) or set(fsource)!=required_tests or any(not _hex(v) for v in fsource.values()):raise ValueError('codec_focused_test_inventory')
     for rel,digest in fsource.items():
         _cached_sha(_safe_file(root,rel),digest)
     if freceipt.get('schema')!='lamost-archive-native-codec-fit-overlap-focused-tests/1' or freceipt.get('status')!='passed' or freceipt.get('source_sha256')!=current or freceipt.get('test_file_sha256')!=fsource:raise ValueError('codec_focused_receipt_binding_mismatch')
-    if freceipt.get('expected_test_count')!=21 or freceipt.get('passed_test_count')!=21 or freceipt.get('failed_test_count')!=0 or freceipt.get('fit_attempts_started')!=0:raise ValueError('codec_focused_receipt_counts')
+    if freceipt.get('expected_test_count')!=25 or freceipt.get('passed_test_count')!=25 or freceipt.get('failed_test_count')!=0 or freceipt.get('fit_attempts_started')!=0:raise ValueError('codec_focused_receipt_counts')
     flimits=freceipt.get('limits')
     if not isinstance(flimits,dict) or flimits.get('address_space_limit_bytes')>1073741824 or flimits.get('wall_seconds')>60 or flimits.get('native_threads')!=1 or flimits.get('nice')!=19:raise ValueError('codec_focused_receipt_limits')
     admission=qdoc.get('native_admission_harness')
@@ -303,7 +316,7 @@ def _validate_codec4_profile_receipt(root,qdoc,current):
     ffile=_safe_file(pathlib.Path(root),frel);fraw=ffile.read_bytes()
     if _sha256_bytes(fraw)!=fsha:raise ValueError('codec4_profile_receipt_sha_mismatch')
     freceipt=json.loads(fraw);test_files=focused.get('test_file_sha256')
-    required={'tests/test_codec4gib_archive_profile.py'}
+    required={'tests/test_codec4gib_archive_profile.py','tests/test_driver_cli_alignment.py'}
     if not isinstance(test_files,dict) or set(test_files)!=required or any(not _hex(v) for v in test_files.values()):
         raise ValueError('codec4_profile_test_inventory')
     for rel,digest in test_files.items():_cached_sha(_safe_file(pathlib.Path(root),rel),digest)
@@ -312,7 +325,7 @@ def _validate_codec4_profile_receipt(root,qdoc,current):
         or freceipt.get('source_sha256')!=current
         or freceipt.get('test_file_sha256')!=test_files):
         raise ValueError('codec4_profile_receipt_binding_mismatch')
-    if (freceipt.get('expected_test_count')!=6 or freceipt.get('passed_test_count')!=6
+    if (freceipt.get('expected_test_count')!=10 or freceipt.get('passed_test_count')!=10
         or freceipt.get('failed_test_count')!=0 or freceipt.get('fit_attempts_started')!=0):
         raise ValueError('codec4_profile_receipt_counts')
     limits=freceipt.get('limits')
@@ -385,12 +398,12 @@ def _codec4_policy(runtime, frozen):
     ffile=_safe_file(root,frel);fraw=ffile.read_bytes()
     if _sha256_bytes(fraw)!=fsha:raise ValueError('codec_focused_receipt_sha_mismatch')
     freceipt=json.loads(fraw);fsource=focused.get('test_file_sha256')
-    required_tests={'tests/test_native_codec_overlap.py','tests/test_native_fit_scope.py','tests/test_verified_zombie_reap.py'}
+    required_tests={'tests/test_native_codec_overlap.py','tests/test_native_fit_scope.py','tests/test_verified_zombie_reap.py','tests/test_driver_cli_alignment.py'}
     if not isinstance(fsource,dict) or set(fsource)!=required_tests or any(not _hex(v) for v in fsource.values()):raise ValueError('codec_focused_test_inventory')
     for rel,digest in fsource.items():
         _cached_sha(_safe_file(root,rel),digest)
     if freceipt.get('schema')!='lamost-archive-native-codec-fit-overlap-focused-tests/1' or freceipt.get('status')!='passed' or freceipt.get('source_sha256')!=current or freceipt.get('test_file_sha256')!=fsource:raise ValueError('codec_focused_receipt_binding_mismatch')
-    if freceipt.get('expected_test_count')!=21 or freceipt.get('passed_test_count')!=21 or freceipt.get('failed_test_count')!=0 or freceipt.get('fit_attempts_started')!=0:raise ValueError('codec_focused_receipt_counts')
+    if freceipt.get('expected_test_count')!=25 or freceipt.get('passed_test_count')!=25 or freceipt.get('failed_test_count')!=0 or freceipt.get('fit_attempts_started')!=0:raise ValueError('codec_focused_receipt_counts')
     flimits=freceipt.get('limits')
     if not isinstance(flimits,dict) or flimits.get('address_space_limit_bytes')>1073741824 or flimits.get('wall_seconds')>60 or flimits.get('native_threads')!=1 or flimits.get('nice')!=19:raise ValueError('codec_focused_receipt_limits')
     _validate_codec4_profile_receipt(root,qdoc,current)
@@ -647,7 +660,9 @@ def inspect_runtime(runtime, frozen, *, proc_root='/proc', uid=None):
     except (OSError,ValueError,TypeError,json.JSONDecodeError):return {'mode':'blocked','reason':'private_helper_receipt_missing'}
     driver=byrole['cold_auto_compaction.py'];wrapper=byrole['run_batch.py'];child_proc=byrole['commit_batch_child.py']
     if any(x['uid']!=uid for x in (driver,wrapper,child_proc)):return {'mode':'blocked','reason':'helper_uid_mismatch'}
-    if driver['argv'][:2]!=[str(root.parent/'venv/bin/python'),str(root/'source/cold_auto_compaction.py')] or driver['argv'][2:]!=(['--batch-policy',batch_policy,'--storage-codec-policy',storage_codec,'--archive-io-profile',io_profile] if storage_codec else ['--archive-io-profile',io_profile]):
+    if not driver_command_matches(driver['argv'],python=root.parent/'venv/bin/python',
+            script=root/'source/cold_auto_compaction.py',batch_policy=batch_policy,
+            storage_codec=storage_codec,io_profile=io_profile):
         return {'mode':'blocked','reason':'driver_command_mismatch'}
     if driver['cwd']!=str(root):return {'mode':'blocked','reason':'driver_cwd_mismatch'}
     if inventory.get('operation_id')!=opid or inventory.get('archive_io_profile')!=io_profile:return {'mode':'blocked','reason':'driver_receipt_mismatch'}

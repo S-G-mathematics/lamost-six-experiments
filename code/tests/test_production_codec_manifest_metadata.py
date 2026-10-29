@@ -8,7 +8,7 @@ ARCHIVE_SHA='4d4bf0de8c1befd082f5af49f89df842172ba9400f8a66e80b5ebe0a525c6bf4'
 ARCHIVE_BYTES=61114853354
 class ProductionCodecManifestMetadataTests(unittest.TestCase):
     def test_existing_54_codec_descriptors_and_zip_metadata_validate_without_payload_reads(self):
-        manifest_path=STAGE/'manifests/cold_model_store_manifest.json'
+        manifest_path=STAGE/'tests/fixtures/cold_model_store_manifest_54_codec.json'
         raw=manifest_path.read_bytes()
         self.assertEqual(hashlib.sha256(raw).hexdigest(),MANIFEST_SHA)
         manifest=json.loads(raw)

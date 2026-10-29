@@ -6,6 +6,7 @@ PORTABLE_SCHEMA="lamost-terminal-portable-tests/1"
 LATCH_SCHEMA="lamost-finalization-retry-latch/1"
 WALL_LIMIT=120
 RSS_LIMIT=1024**3
+AS_LIMIT=4*1024**3
 TERM_GRACE=30
 RESOURCE_HOLD_LIMIT=3
 FAILURE_LIMIT=2
@@ -164,8 +165,11 @@ def _terminate(p,pid,ticks,uid,runner):
     except OSError:return False
 
 def _preexec_limits():
-    os.nice(10)
-    resource.setrlimit(resource.RLIMIT_AS,(RSS_LIMIT,RSS_LIMIT))
+    os.nice(19)
+    cpus=sorted(os.sched_getaffinity(0))
+    if not cpus:raise RuntimeError("portable test worker has no CPU affinity set")
+    os.sched_setaffinity(0,{cpus[0]})
+    resource.setrlimit(resource.RLIMIT_AS,(AS_LIMIT,AS_LIMIT))
     resource.setrlimit(resource.RLIMIT_CPU,(WALL_LIMIT,WALL_LIMIT))
 
 def portable_pass_receipt_path(runtime,snapshot):
@@ -234,7 +238,7 @@ def run_portable_test_bundle(root,runtime,snapshot=None):
     receipt={"schema_version":PORTABLE_SCHEMA,"status":status,"observed_utc":_utc(),"run_nonce":nonce,
         "started_utc":started,"duration_seconds":duration,"exit_code":exit_code,"failure_reason":failure,
         "command":command,"environment_policy_sha256":snapshot["environment_policy_sha256"],
-        "resource_limits":{"wall_seconds":WALL_LIMIT,"address_space_bytes_per_process":RSS_LIMIT,"process_tree_sampled_rss_bytes":RSS_LIMIT,"sample_interval_seconds":.1,"termination_grace_seconds":TERM_GRACE,"nice":10,"native_threads":1},
+        "resource_limits":{"wall_seconds":WALL_LIMIT,"address_space_bytes_per_process":AS_LIMIT,"process_tree_sampled_rss_bytes":RSS_LIMIT,"sample_interval_seconds":.1,"termination_grace_seconds":TERM_GRACE,"nice":19,"native_threads":1,"cpu_affinity_count":1},
         "measurement_method":"process-tree /proc VmRSS sampled every 100ms; short spikes between samples may be missed",
         "peak_process_tree_rss_bytes":peak,"runner_sha256":snapshot["runner_sha256"],"manifest_sha256":snapshot["manifest_sha256"],
         "source_hashes":snapshot["source_hashes"],"test_hashes":snapshot["test_hashes"],"resource_proofs":snapshot["resource_proofs"],

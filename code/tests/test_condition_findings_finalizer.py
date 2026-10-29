@@ -3,6 +3,17 @@ from unittest import mock
 HERE=pathlib.Path(__file__).resolve().parents[1]
 import finalize_project as f
 
+def _fixture_empty_primary_archive_context(runtime):
+ import hashlib, sys, types
+ raw=b'{"schema_version":"fixture-empty-primary/1"}\n'
+ rel="manifests/FROZEN_E1_PRIMARY_ARCHIVED_ASSETS_20261030.json"
+ path=pathlib.Path(runtime)/rel
+ path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(raw)
+ module=types.ModuleType("frozen_e1_primary_archive")
+ module.LOCATOR_REL=rel;module.LOCATOR_SHA256=hashlib.sha256(raw).hexdigest()
+ module.primary_e1_archive_entries=lambda *a,**k:([],b'{"fixture":"empty-primary"}')
+ return mock.patch.dict(sys.modules,{"frozen_e1_primary_archive":module})
+
 INPUTS=f.CONDITION_FINDINGS_INPUTS
 COUNTS=f._condition_findings_expected_counts()
 
@@ -98,7 +109,7 @@ class ConditionFindingsFinalizerTests(unittest.TestCase):
    (rt/'source').mkdir(parents=True);(rt/'tests').mkdir();(rt/'cache').mkdir();(rt/'artifacts').mkdir();(rt/'reports').mkdir();(rt/'manifests').mkdir()
    for name in ('build_condition_findings.py','reporting.py'):(rt/'source'/name).write_text('fixture source '+name)
    for name in ('E4_CONDITION_FINDINGS.md','E5_CONDITION_FINDINGS.md','CONDITION_FINDINGS_INDEX.md','CONDITION_FINDINGS_MANIFEST.json'):(rt/'reports'/name).write_text('fixture report '+name)
-   with mock.patch('cold_finalizer_adapter.e1_locator_archive_entries',lambda *a,**k:([],b'{}')):
+   with _fixture_empty_primary_archive_context(rt), mock.patch('cold_finalizer_adapter.e1_locator_archive_entries',lambda *a,**k:([],b'{}')):
     entries=f.collect_full(root,rt,b'#fixture',json.dumps({'tasks':[]}))
    members={x.member for x in entries}
    self.assertIn('runtime_20261025/source/build_condition_findings.py',members)

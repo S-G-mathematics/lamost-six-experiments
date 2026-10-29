@@ -11,6 +11,14 @@ from dataclasses import dataclass
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parents[1]
+def _empty_primary_archive_module(raw):
+    mod=types.ModuleType("frozen_e1_primary_archive")
+    rel="manifests/FROZEN_E1_PRIMARY_ARCHIVED_ASSETS_20261030.json"
+    mod.LOCATOR_REL=rel
+    mod.LOCATOR_SHA256=hashlib.sha256(raw).hexdigest()
+    mod.primary_e1_archive_entries=lambda *a,**k:([],b'{"fixture":"empty-primary"}')
+    return mod,rel
+
 SOURCE=HERE/"source"
 if str(SOURCE) not in sys.path:
     sys.path.insert(0,str(SOURCE))
@@ -102,6 +110,9 @@ class E1LocatorArchiveStreamTests(unittest.TestCase):
         td,root,archive,locator,payloads,args=self.make_fixture()
         self.addCleanup(td.cleanup)
         runtime=root/"runtime_20261025";(runtime/"manifests").mkdir(parents=True)
+        primary_raw=b'{"schema_version":"fixture-empty-primary/1"}\n'
+        primary_mod,primary_rel=_empty_primary_archive_module(primary_raw)
+        (runtime/primary_rel).write_bytes(primary_raw)
         safety=types.ModuleType("finalization_safety")
         for name in ("PortableBundleError","PortableTestFailure","portable_bundle_snapshot","finalization_fingerprint",
                      "begin_finalization_attempt","finish_finalization_attempt","run_portable_test_bundle",
@@ -110,7 +121,7 @@ class E1LocatorArchiveStreamTests(unittest.TestCase):
         histories=types.ModuleType("archive_scientific_histories")
         histories.collect_scientific_attempt_entries=lambda *a,**k:([],b"{}")
         with mock.patch.dict(sys.modules,{"finalization_safety":safety,"archive_scientific_histories":histories,
-                                         "cold_finalizer_adapter":adapter}):
+                                         "cold_finalizer_adapter":adapter,"frozen_e1_primary_archive":primary_mod}):
             spec=importlib.util.spec_from_file_location("e1_collect_fixture_finalizer",SOURCE/"finalize_project.py")
             finalizer=importlib.util.module_from_spec(spec);sys.modules[spec.name]=finalizer
             spec.loader.exec_module(finalizer)

@@ -10,6 +10,19 @@ import cold_finalizer_adapter as a
 import cold_model_storage
 from test_cold_model_storage import setup_store
 
+def _fixture_empty_primary_archive_context(runtime):
+    import hashlib, types, sys
+    raw=b'{"schema_version":"fixture-empty-primary/1"}\n'
+    rel="manifests/FROZEN_E1_PRIMARY_ARCHIVED_ASSETS_20261030.json"
+    path=pathlib.Path(runtime)/rel
+    path.parent.mkdir(parents=True,exist_ok=True)
+    path.write_bytes(raw)
+    module=types.ModuleType("frozen_e1_primary_archive")
+    module.LOCATOR_REL=rel
+    module.LOCATOR_SHA256=hashlib.sha256(raw).hexdigest()
+    module.primary_e1_archive_entries=lambda *a,**k:([],b'{"fixture":"empty-primary"}')
+    return mock.patch.dict(sys.modules,{"frozen_e1_primary_archive":module})
+
 def sha(p):
  h=hashlib.sha256()
  with open(p,'rb') as x:
@@ -172,7 +185,7 @@ class ColdFinalizerIntegrationTests(unittest.TestCase):
    for rel in f.PUBLIC_RESOURCE_REVIEW_SHA256:
     src=fixture_root/rel;dst=root/rel;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
    public=json.dumps({'tasks':list(records.values()),'observed_utc':'fixture'})
-   with mock.patch.object(a,'e1_locator_archive_entries',lambda *args,**kwargs:([],b'{}')):
+   with _fixture_empty_primary_archive_context(rt), mock.patch.object(a,'e1_locator_archive_entries',lambda *args,**kwargs:([],b'{}')):
     entries=f.collect_full(root,rt,b'# readme',public,{'candidate_id':'fixture','decision':'pass'}, {},cold_store=s,registry_records=records,review_manifest=review)
    logical=item['source_relpath']
    found=[e for e in entries if e.member==logical]
@@ -198,7 +211,7 @@ class ColdFinalizerIntegrationTests(unittest.TestCase):
    for d in ('source','tests','cache','artifacts','reports','manifests'): (rt/d).mkdir(parents=True,exist_ok=True)
    (rt/'reports'/'small.txt').write_text('ordinary package')
    full=root/'packages'/'LAMOST_ALL_EXPERIMENTS_fixture.zip';ev={'e1_archive':{'path':'preserved-e1.zip','sha256':'a'*64}}
-   with mock.patch.object(a,'e1_locator_archive_entries',lambda *args,**kwargs:([],b'{}')):
+   with _fixture_empty_primary_archive_context(rt), mock.patch.object(a,'e1_locator_archive_entries',lambda *args,**kwargs:([],b'{}')):
     result=f.write_full_archive(root,rt,full,ev,{'candidate_id':'fixture','decision':'pass'},{},{},{'snapshot':{'inputs':{'cold_archived_artifact_members':[]}}},public=b'{"tasks":[]}')
    self.assertTrue(result['zip_crc_passed'])
    with zipfile.ZipFile(full) as z:

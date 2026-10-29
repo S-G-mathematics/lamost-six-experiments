@@ -1,4 +1,4 @@
-import importlib.util, json, pathlib, tempfile, unittest
+import hashlib, importlib.util, json, pathlib, tempfile, unittest
 MODULE=pathlib.Path(__file__).resolve().parents[1]/'source/archive_fit_admission.py'
 sp=importlib.util.spec_from_file_location('admission_test',MODULE); m=importlib.util.module_from_spec(sp); sp.loader.exec_module(m)
 def statline(state='Z',ppid=41,ticks='123456'):
@@ -84,5 +84,11 @@ class ReapTests(unittest.TestCase):
         digest='a'*64
         self.assertTrue(m.worker_reaper_enabled({'worker_reaper_source_sha256':digest,
             'source_sha256':{'archive_fit_admission.py':digest}},digest))
+
+    def test_candidate_freeze_reaper_binding_matches_current_helper(self):
+        digest=hashlib.sha256(MODULE.read_bytes()).hexdigest()
+        freeze_path=MODULE.parents[1]/'manifests'/'freeze.json'
+        frozen=json.loads(freeze_path.read_text())
+        self.assertTrue(m.worker_reaper_enabled(frozen,digest))
 
 if __name__=='__main__':unittest.main()

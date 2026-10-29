@@ -1,0 +1,91 @@
+{
+  "created_utc": "2026-10-28T07:17:04.697421+00:00",
+  "hashes": {
+    "focused_test_log_sha256": "0ec0f6e1320b6e617200c6e810bbab902cb6ede4f6238aecc984fa5a366dc6b2",
+    "focused_test_sha256": "7f4a16d560a78e85f8e58cdd07222c939badd76c860990dc0501828e23a97abf",
+    "guard_runner_sha256": "9e102435d2bce80c8f071338d2d1d0f1f5fb9bfa8542c59f828f19568308a89c",
+    "live_controller_base_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba",
+    "phase_worker_source_sha256": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+    "science_source_sha256": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+    "staged_controller_sha256": "b2a16a7c48708eddfa9bb0807c08b1d08e5ce87ce3d6cec95a1b61077fd15c61"
+  },
+  "nonclaims": [
+    "No production integration or controller adoption has occurred.",
+    "No queue task was launched and no scientific result was computed.",
+    "This stage was not tested against a live task admission; root must independently review and decide whether to integrate."
+  ],
+  "output_size_basis": {
+    "evidence": "The existing bounded inventory cited in the task context measured 302 successful E4/E5 RF/ExtraTrees evaluation outputs; largest test_outcomes.npz was 1,677,742 bytes and largest checked alias JSON was 2,805 bytes.",
+    "limitations": "The cited output-size observation is a historical bounded inventory, not an exhaustive guarantee for every future artifact or filesystem condition. The 20 GiB hard floor is retained.",
+    "reserve_comparison": "2 GiB per active/new drain task remains the unchanged policy reserve; it is over 214 times the 10,000,000-byte raw-array payload at the stated 500,000-row scope, before compression and small container metadata.",
+    "scope_bound": {
+      "calculation": "IDs int64 (8) + predicted class int8 (1) + packed set byte (1) + covered bool (1) + set_size int64 (8) + fallback bool (1).",
+      "evaluated_rows": 500000,
+      "evidence": "Root read-only source review of current writer schema; no output arrays were read or written for this bound.",
+      "per_row_payload_bytes": 20,
+      "raw_array_payload_bytes": 10000000
+    },
+    "writer_behavior": "_eval_phase predicts in chunks, writes test_outcomes.npz.tmp then atomically replaces test_outcomes.npz; evaluation results/metrics are small JSON. It does not serialize a model. The per-active/new-task 2 GiB allowance is over 1,200 times the observed largest NPZ, but remains an operational reserve, not a mathematical output bound.",
+    "writer_source": {
+      "lines": "234-263",
+      "path": "source/science.py",
+      "sha256": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3"
+    }
+  },
+  "policy": {
+    "active_task_rule": "All already-running tasks must themselves qualify as the narrow evaluation/clean-alias drain tasks; any active fit, generation, other task type, failed dependency, or archive overlap blocks drain admission.",
+    "archive_hold_policy": "Requires archive_fit_overlap_context mode inactive and no operator ADMISSION_HOLD. STORAGE_HOLD remains a status marker; it does not permit archive overlap.",
+    "attempt_metadata": "Admitted attempt resource_profile receives storage_drain_policy evidence with dependency, artifact, disk gate and policy identities.",
+    "attempt_policy": "Any ready task with prior attempts is ineligible. No fitting, generation, tuning trial, retry, refit, or model serialization is admitted through this path.",
+    "disk_gate": {
+      "extra_reserved_bytes_per_active_or_new_drain_task": 2147483648,
+      "hard_free_floor_bytes": 21474836480,
+      "no_reclaim_or_floor_change": true,
+      "required_formula": "20 GiB + 2 GiB * (number of active drain tasks + one proposed task)"
+    },
+    "eligible": [
+      "Ready E4 or E5 eval tasks whose method is random_forest or extra_trees, route is one of the frozen E4/E5 routes, no prior task attempts, and whose single matching fit dependency is validated_terminal/successful.",
+      "Fit task result, fit_result.json, validation.json, and physical artifacts/<fit_key>/pipeline.joblib must agree on the selected pipeline SHA; file and directory paths must be canonical, confined, regular, and non-symlink.",
+      "Ready E5 direct clean alias tasks only when their exact same-repetition/method E4 direct control source is successful and validated, with evaluation.json matching the source validation manifest."
+    ],
+    "hash_io": "The first selected physical model is SHA-256 streamed in 4 MiB chunks with before/open/after stat identity checks and O_NOFOLLOW. A bounded 256-entry cache is keyed by device/inode/size/mtime/ctime; no joblib load or model deserialization occurs.",
+    "id": "nonfit-e4e5-eval-only-20261028-v1",
+    "ordinary_storage_forecast": "UNCHANGED; storage_allow() AST source is byte-identical to current live controller",
+    "resource_policy": "Existing controller admission_candidate remains authoritative for current RAM/CPU reservation, task timeout, native-thread controls, checkpointing, and process supervision; no scientific settings or limits are changed.",
+    "scheduling_io": "Candidates are visited in the controller existing ready order and the first eligible one is selected; it does not scan/hash every candidate model on each poll.",
+    "trigger": "Only in the existing controller branch where normal storage_allow() is false. The standard fit/generation future-space gate is never bypassed."
+  },
+  "schema": "lamost-nonfit-disk-drain-staged-review/1",
+  "scope": "Storage-forecast fallback for already-fitted E4/E5 random_forest or extra_trees evaluation tasks, plus E5 clean evaluation-result aliases only.",
+  "staged_paths": {
+    "controller": "staging/nonfit_disk_drain_20261028/source/controller.py",
+    "tests": "staging/nonfit_disk_drain_20261028/tests/test_nonfit_disk_drain.py"
+  },
+  "status": "STAGED_ONLY_NOT_DEPLOYED",
+  "verification": {
+    "command": "nice -n 19 env PYTHONDONTWRITEBYTECODE=1 <venv>/bin/python tests/run_guarded_tests.py --rss-bytes 1073741824 --wall-seconds 60 --grace-seconds 3 -- <venv>/bin/python -B -m unittest discover -s staging/nonfit_disk_drain_20261028/tests -p test_*.py -v",
+    "coverage": [
+      "validated E4 RF and ExtraTrees physical fit evaluation eligibility",
+      "E5 clean aliases including E4 control alias provenance",
+      "failed/unvalidated/missing dependencies",
+      "attempted task exclusion",
+      "path confinement/symlink/hash mismatch",
+      "20 GiB floor and per-task output reservation arithmetic",
+      "active fit/generation/archive/hold denial",
+      "normal storage forecast AST identity and unchanged hard limits"
+    ],
+    "guard_result": {
+      "exit_code": 0,
+      "peak_process_tree_rss_bytes": 37801984,
+      "reason": null,
+      "rss_cap_bytes": 1073741824,
+      "wall_seconds": 0.224
+    },
+    "observation_utc": "2026-10-28T07:16:06.375181+00:00",
+    "output_sha256": "0ec0f6e1320b6e617200c6e810bbab902cb6ede4f6238aecc984fa5a366dc6b2",
+    "preflight_memavailable_kib": 30308560,
+    "preflight_root_free_bytes": 35613855744,
+    "tests_failed": 0,
+    "tests_passed": 8
+  }
+}

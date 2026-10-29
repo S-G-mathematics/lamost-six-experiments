@@ -511,11 +511,16 @@
       "validation": "6score/worker/routing/aliasfixtures;9independentauditorfixtures;20controllerguardtests;2actualstagedsubprocessengineeringchecks;noengineeringmodelfits"
     }
   ],
-  "archive_native_fit_overlap_qualification_sha256": "259065872f870097c9a485354913f84918bcf13a4dd6f5e76cc0294eab500e08",
-  "archive_native_fit_overlap_sha256": "700bc265ba7f447c00df3826efd79c6d4ab94017ec1058ff02d78d68c853c0ad",
+  "archive_native_codec4_fit_overlap_qualification_sha256": "1a5f42588e5503d6f0272c8317c52c63fcb6d0dfb325f502319d19c418feb499",
+  "archive_native_codec4_fit_overlap_sha256": "34b1944c4216005ded15679193082195181f0405a7fb98524122cba318767692",
+  "archive_native_codec_fit_overlap_qualification_sha256": "035476cc53961f87ccc91f3e576442926953c15ff480b289a7ee43ae0a40e08d",
+  "archive_native_codec_fit_overlap_sha256": "85d37950ee27b66e0980f672f6d75c05a0ecdbc6a8465cdf8e1a379855a36510",
+  "archive_native_fit_overlap_qualification_sha256": "6c7bca53a6fbe505f2e73af22875890a0b4d3f85b57b8060be06fedde0f67151",
+  "archive_native_fit_overlap_sha256": "d7721b863c61261bd71d1b5e7bc3831a03734fe8568e9ec5d009c3c1864adc99",
   "bootstrap": false,
   "cold_verifier_history_sha256": "594eebc2140060a48219394d48fb3fd15ee6b357cdc91c776f7c96bd1013b33f",
   "e6_execution_overlay_sha256": "54540cfcff47d32878184f7b9ff0a061753cb3d61cabff290ca6c907d38aadce",
+  "et4_execution_policy_sha256": "89efee04ddbbf4f7d3c38bb27d2be2c9e23305a63e78aa39c9cf103967941c6e",
   "frozen_utc": "2026-10-25T04:46:31.018995+00:00",
   "operational_amendments": [
     {
@@ -819,6 +824,71 @@
           "name": "run_batch.py"
         }
       ]
+    },
+    {
+      "all_759_predecessor_nodeids_retained": true,
+      "amendment_id": "selection_receipt_layout_compatibility_20261029",
+      "bootstrap": false,
+      "codec_overlap_admission_harness_tests": {
+        "failed": 0,
+        "passed": 3
+      },
+      "codec_overlap_focused_tests": {
+        "failed": 0,
+        "passed": 21
+      },
+      "compatible_groups": 578,
+      "excluded_missing_fit_publication_groups": 27,
+      "focused_selection_tests": {
+        "failed": 0,
+        "passed": 62
+      },
+      "frozen_E1_unchanged": true,
+      "metadata_audit_sha256": "4f01f55ca9fb2c18915f3f4e7dffe2d5cd1f8c53ad9962ccbc3a223b6f524793",
+      "new_test_count": 5,
+      "observed_utc": "2026-10-29T01:00:00Z",
+      "scientific_plan_sha256_unchanged": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+      "scope": "Operational archive candidate publication only; no experiment plan, model parameters, seeds, evaluation roles, or scientific outcomes changed.",
+      "source_changes": {
+        "cold_auto_compaction.py": {
+          "after": "979a6ec1dc3cf7e56ecd9e957d4ec52463d7b61ece6df94903b85b5e6dd65c71",
+          "before": "efd911c63699045d85bb4f61ef8a60bd4613eca611354098c635eefbe1d34a0b",
+          "purpose": "pin updated batch source",
+          "sha256": "979a6ec1dc3cf7e56ecd9e957d4ec52463d7b61ece6df94903b85b5e6dd65c71"
+        },
+        "cold_model_storage.py": {
+          "after": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
+          "before": "485776aa20aedba397a666ae910244171155a32c6d9ae4551606d9e2b760f3d3",
+          "purpose": "allow fallback to validation-hash-bound canonical selection only when attempt/checkpoint copies are absent",
+          "sha256": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172"
+        },
+        "commit_batch_child.py": {
+          "after": "d69fa088c46e657d063749ffcdb2f10012912a6193fda16b9b6e9a1ce25c51f0",
+          "before": "ef4a401122690d1f0d5346a8983e08e04e800d87e101350f3a5ee07f263097f5",
+          "purpose": "pin the selection-layout eligibility check",
+          "sha256": "d69fa088c46e657d063749ffcdb2f10012912a6193fda16b9b6e9a1ce25c51f0"
+        },
+        "run_batch.py": {
+          "after": "6bf3de47c2f157639ac87efaca00d240ed749b217c21132ae9727b0334ff957e",
+          "before": "f8af01bbfa7ea67a1b52249583112ebb6f3a385bbddb8fa508cb4646e54a38a9",
+          "purpose": "pin updated child source",
+          "sha256": "6bf3de47c2f157639ac87efaca00d240ed749b217c21132ae9727b0334ff957e"
+        }
+      }
+    },
+    {
+      "changed_operational_source_sha256": {
+        "cold_auto_compaction.py": "979a6ec1dc3cf7e56ecd9e957d4ec52463d7b61ece6df94903b85b5e6dd65c71",
+        "cold_model_storage.py": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
+        "commit_batch_child.py": "d69fa088c46e657d063749ffcdb2f10012912a6193fda16b9b6e9a1ce25c51f0",
+        "run_batch.py": "6bf3de47c2f157639ac87efaca00d240ed749b217c21132ae9727b0334ff957e"
+      },
+      "frozen_plan_unchanged": true,
+      "frozen_source_map_count": 16,
+      "frozen_source_map_unchanged": true,
+      "observed_utc": "2026-10-29T01:44:13.231514+00:00",
+      "scientific_tasks_or_results_changed": false,
+      "scope": "Strict selection-receipt compatibility codec candidate; operational archive plumbing only"
     }
   ],
   "operational_controller_history": [
@@ -998,10 +1068,10 @@
   ],
   "operational_qualification_sha256": "1a94dd1a136fe678f658831270ca40414bb8039eda126477b80d396342f953e7",
   "operational_source_sha256": {
-    "cold_auto_compaction.py": "d36f1dd8f37f6130ad16815cb331c1d90c53103e0112acc2e324e1062c17e80a",
-    "cold_model_storage.py": "90876f61a5e98b03621f134b2f07478da37cb9c65c864f92f75beb588739847b",
-    "commit_batch_child.py": "974dadb20d39f535a5f28b401b23c5dc516447611201399c0b0d5de1982d81a0",
-    "run_batch.py": "803793bb3b32d82ab8fdda4f8ee1333035eb59f97970d3d7b2416df9cb1a28fc"
+    "cold_auto_compaction.py": "06addb644df2101c51dbd59beb822f6f5955b7131892f0c9ccdfa95ab9c30488",
+    "cold_model_storage.py": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
+    "commit_batch_child.py": "b719bac52e73fe9e52193b837415fb8617c3cc51d84d3497c0c05b7033beeee0",
+    "run_batch.py": "c2469d383d6b2982edb829cb0c956a72b760a6430374e6057e6a40568b6b5af3"
   },
   "plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
   "protocol_version": "LAMOST-later-v1-20261025",
@@ -1121,8 +1191,8 @@
   "rf4_e4_rep3_treatment_6g_admission_sha256": "e1cf768468d9463f4f0af9917473eb2d454a55c17b5511d13e8cbb4bbda93e09",
   "rf4_e4_treatment_6g_admission_sha256": "108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2",
   "rf4_e4_treatment_6g_candidate_note": "Portable-test candidate only; 6 GiB admission estimate pending root publication decision.",
-  "rf4_execution_policy_sha256": "7138900cb7a5627dfe205b6b6afc917608e5a5cac4cdd8d79b7e0b0733414c31",
-  "rf4_execution_qualification_sha256": "ef83dec8ce10793f457bb6273bc685cfe8c2b0c55a3acb912d783ba85b89cabb",
+  "rf4_execution_policy_sha256": "d969d21e31b9fb9278c06de71c3ea240954c528f089ce9bc9060ee1bfeb782f2",
+  "rf4_execution_qualification_sha256": "3db3ece5bb536221e3a95acfc00b4777789883980f1ced0e95b5996351b5c79a",
   "source_amendment_history": [
     {
       "amended_source_sha256": {
@@ -1300,12 +1370,15 @@
   "source_amendment_version": "nonfit-e4e5-eval-disk-drain-20261028-v2-loop-refresh",
   "source_sha256": {
     "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
-    "archive_fit_admission.py": "d06fdf9b616b41eebcbaf43f4276c9bab2085901f618f8f6c17068538bd0b25c",
+    "archive_fit_admission.py": "59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba",
     "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d",
-    "controller.py": "a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9",
+    "controller.py": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
     "e6_phase_supervisor.py": "5babe2da661c4162283ab945b17db4d88350bf863335744b5619285d69a37d05",
     "ensemble.py": "5b4444bc83576affe80946762dc1cceb76feb6cdcd33305fdcc6339c3c390476",
     "ensemble_maintenance_patch.py": "0d1d0eefc1d41dcc6609b2b409f2570dd1970f44c7367c5e5eab7955b4154a8e",
+    "parallel_extra_trees/phase_worker.py": "bf12c2abe5a5f91526b16ff970e5c2cd10468aa858b7a4e707198fbb959ecb22",
+    "parallel_extra_trees/science.py": "f26f1bc2b9fce59f38b02fe2e2f54e5720a5e24cebb2f17de287ca02f49d98e9",
+    "parallel_extra_trees/worker.py": "df8806f83b0fae347c770953b6306393d57d8183b1c7789dd222aefbb689f317",
     "parallel_rf/phase_worker.py": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3",
     "parallel_rf/science.py": "e36c8040c7dca254fc7e16a53ffe860872df31a77868a7bc6480162f32d253c6",
     "parallel_rf/worker.py": "5741d1f60b513a6da0023e508b8d17d28e8f6e4355f30c08d5cfb81f1f233ab9",
@@ -1317,5 +1390,5 @@
     "worker.py": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18"
   },
   "test_information_history": "E1/E2 fixed test results already observed; later plans frozen before new test evaluations",
-  "worker_reaper_source_sha256": "d06fdf9b616b41eebcbaf43f4276c9bab2085901f618f8f6c17068538bd0b25c"
+  "worker_reaper_source_sha256": "59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba"
 }

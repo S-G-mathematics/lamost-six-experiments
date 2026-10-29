@@ -1270,6 +1270,14 @@ def collect_full(root,runtime,readme,public,review_proof=None,expected_source_sh
   expected_extension_counts=E1_ARCHIVED_PAYLOAD_COUNTS)
  out.extend(e1_payload_entries)
  out.append(Entry(e1_payload_provenance,'runtime_20261025/manifests/e1_recovery_archived_payload_provenance.json','E1_recovery_archived_payload_provenance'))
+ from frozen_e1_primary_archive import primary_e1_archive_entries, LOCATOR_REL, LOCATOR_SHA256
+ locator_path=runtime/LOCATOR_REL
+ locator_bytes=locator_path.read_bytes()
+ if sha_bytes(locator_bytes)!=LOCATOR_SHA256:raise EvidenceError('frozen E1 primary locator bytes differ from pinned SHA')
+ primary_entries,primary_provenance=primary_e1_archive_entries(__import__(__name__),root,runtime)
+ out.extend(primary_entries)
+ out.append(Entry(primary_provenance,'runtime_20261025/manifests/e1_primary_archive_provenance.json','frozen_E1_primary_archive_availability'))
+ out.append(Entry(locator_bytes,'runtime_20261025/'+LOCATOR_REL,'frozen_E1_primary_archive_locator'))
  for p in iterfiles(root/'e2_20261024',skip_logs=True):out.append(archive_json_entry(p,'e2_20261024/'+p.relative_to(root/'e2_20261024').as_posix(),'E2_original_reconstructed_diagnostics',root,expected_source_sha256) if p.suffix.lower()=='.json' else ent(p,'e2_20261024/'+p.relative_to(root/'e2_20261024').as_posix(),'E2_original_reconstructed_diagnostics',root))
  for n in ('freeze.json','startup_audit.json','authorization_and_decisions.json','tasks.json','plan_summary.json','plan_amendments.json','E3_MANIFEST.json','E4_MANIFEST.json','E5_MANIFEST.json','E6_MANIFEST.json','COLD_VERIFIER_HISTORY_20261028.json'): 
   p=runtime/'manifests'/n

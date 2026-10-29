@@ -1,0 +1,299 @@
+{
+  "assessment": {
+    "max_final_fit_peak_rss_kib": 4521604,
+    "max_trial_peak_rss_kib": 3385088,
+    "prior_5gib_generated_scope": "Prior review excluded generated restoration because it had no evidence above 82,394 rows.",
+    "recommendation": "Prospective 6 GiB admission estimate only for never-attempted matching E4 generated-restoration RF fits with actual rows <=125934; keep 10 GiB hard cap and dynamic promotion, all guards, and unchanged scientific plan. >125934 rows (including 125955 metadata maximum), or missing/mismatched provenance, retains default 10 GiB. Provisional; not a worst-case bound."
+  },
+  "limitations": [
+    "87 successful completions are selected-run evidence and do not predict success of remaining tasks.",
+    "Largest completed fit 125934 rows is 21 below max append metadata 125955; strict gate excludes this gap.",
+    "Tree RSS evidence is not a worst-case guarantee; retain 10 GiB cap and promotion.",
+    "E3/E5 400k synthetic-only RF evidence excluded as nonmatching.",
+    "No model deserialization, NPZ array load, scientific fit or prediction performed."
+  ],
+  "observed_ist": "2026-10-27T07:01:44.765637+05:30",
+  "observed_utc": "2026-10-27T01:31:44.765637+00:00",
+  "prior_reviews": {
+    "immutable_v1_file_manifest_sha256": "f2e85e7050c1a4db2b0841de2b5b9e2ae2d879bb10ec412d3d96711ee6c9117b",
+    "immutable_v1_sha256": "50a7d36aef1577afab5d99b763bd9eef4c462a6aa604284f1ec7f8511fe80711",
+    "prior_review_file_sha256": {
+      "runtime_20261025/reports/engineering_audits/E4_DIRECT_RF_ADMISSION_EVIDENCE_20261026.md": "1877f63a72d5941b5e108ee725d3b1bd91713482a6c996f94bebf0aa35753122",
+      "runtime_20261025/reports/engineering_audits/E4_GENERATED_RF_ADMISSION_REVIEW_20261027.md": "97b9b39dd6f2f11e0dfa4e98197d669e8e9a2797f3db78a696449ab9223acb3f",
+      "runtime_20261025/staging/e4_rf_fit_reservation_review_20261026/E4_RF_FIT_RESERVATION_RESOURCE_REVIEW_20261026.json": "2e6356dac0be320eb5e57c3537b3c4dff01e8943d5f1490424f117e4b332e1b6",
+      "runtime_20261025/staging/e4_rf_fit_reservation_review_20261026/E4_RF_FIT_RESERVATION_RESOURCE_REVIEW_20261026.md": "4b42dee88ad5dc2b0ec5d54679e28b4e64e9f51ac0d91ba703219669e6ac2761"
+    }
+  },
+  "receipt_manifest": {
+    "category_counts": {
+      "append_metadata": 184,
+      "append_validation": 184,
+      "controller_request": 100,
+      "controller_worker_result": 87,
+      "fit_result": 87,
+      "fit_validation": 87,
+      "phase_request": 819,
+      "phase_result": 901,
+      "phase_state": 819,
+      "prior_review": 4,
+      "selection": 87,
+      "source": 7,
+      "superseded_review": 1
+    },
+    "item_count": 3367,
+    "path": "runtime_20261025/reports/engineering_audits/E4_GENERATED_RF_ADMISSION_REVIEW_20261027_V2_RECEIPTS.json",
+    "sha256": "5cd4a7c73df658aea359ecb917cd21e9b32122492c588dd7cf129b56616f2abb",
+    "source_hashes": {
+      "admission_evidence.py": "f6fa21b593be8ced9a05ee05acf994d163761067bc3a1456395338cb330a8b19",
+      "cold_auto_compaction.py": "982a75c412dd2041438bc9634013a8a46a0643b16ee205f442666b343a29f1bc",
+      "controller.py": "3306a15b3d246b7b169880a063ce52032488df3e5bf46c2710d78cae2e85c564",
+      "observe_progress.py": "0bc50f65b884f6c436ff5e612ab3192833bfda7e2f23b123427b53eebd3bf9b7",
+      "phase_worker.py": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+      "science.py": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+      "worker.py": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18"
+    }
+  },
+  "registry_snapshot": {
+    "attempt_reason_counts": {
+      "implementation repair: only explicit weighted treatments may carry sample_weight; original attempts preserved and superseded": 18,
+      "initial planned attempt": 70,
+      "resource headroom guard; checkpoint-preserving adaptive operational interruption": 12
+    },
+    "controller_attempt_count_distribution": {
+      "0": 122,
+      "1": 78,
+      "2": 8,
+      "3": 2
+    },
+    "controller_attempts_missing_worker_result_by_reason": {
+      "implementation repair: only explicit weighted treatments may carry sample_weight; original attempts preserved and superseded": 1,
+      "initial planned attempt": 10,
+      "resource headroom guard; checkpoint-preserving adaptive operational interruption": 2
+    },
+    "controller_worker_result_status_counts": {
+      "successful": 87
+    },
+    "plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+    "planned_cells": 210,
+    "rechecked_unchanged_after_receipt_scan": true,
+    "single_readonly_transaction": true,
+    "status_counts": {
+      "running": 1,
+      "validated_terminal": 87,
+      "waiting_for_dependency": 122
+    },
+    "task_record_snapshot_sha256": "c870181dbd802d9c1e1b06debef20434c4ab897fc3a10b3171d943ceb822e5ca",
+    "validated_terminal_success_cells": 87
+  },
+  "resource_gate": {
+    "admitted": true,
+    "all_running_worker_identities_verified": true,
+    "audit_reservation_mib": 256,
+    "growth_margin_gib": 2,
+    "host_reserve_gib": 6,
+    "memavailable_gib": 26.36,
+    "running_registry_workers": 3,
+    "unspent_reservations_gib": 14.06
+  },
+  "schema_version": "lamost-e4-generated-restoration-rf-admission-review/2",
+  "supersedes": {
+    "classification": "result-sidecar outputs, not missing phase inputs; V1 did not persist a per-file receipt index, so its sidecar subtype breakdown is not independently pinned.",
+    "path": "runtime_20261025/reports/engineering_audits/E4_GENERATED_RF_ADMISSION_REVIEW_20261027.json",
+    "reason": "V1 prose used stale counts and its broad phase_*.json count included result-sidecar outputs; V2 separates input, state, and result records.",
+    "reported_unpaired_json_count": 898,
+    "sha256": "50a7d36aef1577afab5d99b763bd9eef4c462a6aa604284f1ec7f8511fe80711"
+  },
+  "training_size": {
+    "all_available_metadata_rows_max": 125955,
+    "all_available_metadata_rows_min": 80610,
+    "append_metadata_available": 184,
+    "append_metadata_missing": 26,
+    "largest_success_row_gap": 21,
+    "metadata_upper_rows": 125955,
+    "successful_fit_added_rows_max": 45934,
+    "successful_fit_added_rows_min": 611,
+    "successful_fit_rows_max": 125934,
+    "successful_fit_rows_min": 80611,
+    "successful_fits_above_82394": 41
+  },
+  "trial_and_phase_evidence": {
+    "all_attempt_phase_peak_summary": {
+      "final_fit": {
+        "count": 87,
+        "max_rows": 125934,
+        "max_rss_kib": 4521604,
+        "max_task": "e4/rep_1/fit/treatment/random_forest/G_tenth_generated_gmm",
+        "status": {
+          "finished": 87
+        }
+      },
+      "trial_0": {
+        "count": 93,
+        "max_rows": 125934,
+        "max_rss_kib": 3322760,
+        "max_task": "e4/rep_1/fit/treatment/random_forest/G_tenth_generated_gmm",
+        "status": {
+          "finished": 88,
+          "running": 5
+        }
+      },
+      "trial_1": {
+        "count": 87,
+        "max_rows": 84310,
+        "max_rss_kib": 1843336,
+        "max_task": "e4/rep_3/fit/treatment/random_forest/A_tenth_generated_gmm",
+        "status": {
+          "finished": 85,
+          "running": 2
+        }
+      },
+      "trial_2": {
+        "count": 87,
+        "max_rows": 105518,
+        "max_rss_kib": 3385088,
+        "max_task": "e4/rep_1/fit/treatment/random_forest/G_half_generated_gmm",
+        "status": {
+          "finished": 85,
+          "running": 2
+        }
+      },
+      "trial_3": {
+        "count": 14,
+        "max_rows": 80611,
+        "max_rss_kib": 2104636,
+        "max_task": "e4/rep_2/fit/treatment/random_forest/QSO_half_generated_kde",
+        "status": {
+          "finished": 13,
+          "running": 1
+        }
+      },
+      "trial_4": {
+        "count": 83,
+        "max_rows": 91487,
+        "max_rss_kib": 3237508,
+        "max_task": "e4/rep_1/fit/treatment/random_forest/F_half_generated_gmm",
+        "status": {
+          "finished": 82,
+          "running": 1
+        }
+      },
+      "trial_5": {
+        "count": 65,
+        "max_rows": 90896,
+        "max_rss_kib": 3221004,
+        "max_task": "e4/rep_1/fit/treatment/random_forest/K_half_generated_kde",
+        "status": {
+          "finished": 64,
+          "running": 1
+        }
+      },
+      "trial_6": {
+        "count": 76,
+        "max_rows": 82394,
+        "max_rss_kib": 2116048,
+        "max_task": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula",
+        "status": {
+          "finished": 75,
+          "running": 1
+        }
+      },
+      "trial_7": {
+        "count": 75,
+        "max_rows": 105518,
+        "max_rss_kib": 3178036,
+        "max_task": "e4/rep_1/fit/treatment/random_forest/G_half_generated_gmm",
+        "status": {
+          "finished": 75
+        }
+      },
+      "trial_8": {
+        "count": 76,
+        "max_rows": 125934,
+        "max_rss_kib": 2116492,
+        "max_task": "e4/rep_1/fit/treatment/random_forest/G_tenth_generated_copula",
+        "status": {
+          "finished": 76
+        }
+      },
+      "trial_9": {
+        "count": 76,
+        "max_rows": 105518,
+        "max_rss_kib": 3341132,
+        "max_task": "e4/rep_1/fit/treatment/random_forest/G_half_generated_copula",
+        "status": {
+          "finished": 76
+        }
+      }
+    },
+    "observed_parameter_values": {
+      "max_depth": [
+        "10",
+        "20",
+        "None"
+      ],
+      "max_features": [
+        "1.0",
+        "sqrt"
+      ],
+      "min_samples_leaf": [
+        "1",
+        "20",
+        "5"
+      ],
+      "n_estimators": [
+        "200",
+        "500"
+      ]
+    },
+    "phase_input_file_counts": {
+      "final_fit": 87,
+      "trial_0": 93,
+      "trial_1": 87,
+      "trial_2": 87,
+      "trial_3": 14,
+      "trial_4": 83,
+      "trial_5": 65,
+      "trial_6": 76,
+      "trial_7": 75,
+      "trial_8": 76,
+      "trial_9": 76
+    },
+    "phase_input_files_missing_state": 0,
+    "phase_input_missing_state_count": 0,
+    "phase_result_exit_code_counts": {
+      "aggregate_result": {
+        "no_exit_code": 95
+      },
+      "finalfit_result": {
+        "0": 87
+      },
+      "trial_result": {
+        "0": 719
+      }
+    },
+    "phase_result_file_counts": {
+      "aggregate_result": 95,
+      "finalfit_result": 87,
+      "trial_result": 719
+    },
+    "phase_result_sidecars_are_outputs": true,
+    "phase_state_receipt_count": 819,
+    "phase_state_status_counts": {
+      "finished": 806,
+      "running": 13
+    },
+    "selection_trial_count_distribution": {
+      "10": 87
+    },
+    "selection_trial_status_counts": {
+      "duplicate_cached": 153,
+      "success": 717
+    },
+    "sidecar_observation": "V2 freezes its own current sidecar inventory. These result outputs can include active or historical attempts and do not equal completed selection trial counts.",
+    "stored_running_state_count": 13,
+    "stored_running_state_exact_live_phase_workers": 1,
+    "successful_selection_trial_entries": 717,
+    "successful_trials_missing_exact_matching_receipt": 0,
+    "successful_trials_with_exact_matching_finished_receipt": 717
+  }
+}

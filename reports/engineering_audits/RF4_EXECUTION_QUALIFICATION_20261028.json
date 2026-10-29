@@ -1,0 +1,114 @@
+{
+  "admission_reservation_gib": 10,
+  "archive_digest_optimization": "deferred_not_deployed",
+  "controller_integration_amendment": {
+    "candidate_controller_sha256": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+    "focused_suite": {
+      "cases": 37,
+      "path": "reports/engineering_audits/ET4_REBIND_RF4_FOCUSED37.json",
+      "sha256": "0a3b1fc655955402765234301744d3842782213a23cafc2cbbce7fc03bd43493",
+      "status": "passed"
+    },
+    "id": "e4-rep3-rf4-admission-6gib-20261028-v1",
+    "native_harness": {
+      "cases": 7,
+      "path": "reports/engineering_audits/RF4_NATIVE_HARNESS_REP3_QUALIFICATION_20261028.json",
+      "sha256": "b43a36f15fac3adcb8db634dbea2e591caf4161b2e8391cb81cb16a091ee7f34",
+      "status": "passed"
+    },
+    "notes": "The 552-case field is predecessor-only. This 770-case candidate's full pass is an external content-addressed deployment gate.",
+    "portable_suite": {
+      "expected_test_count": 770,
+      "status": "pending_external_immutable_bundle_gate"
+    },
+    "rep3_admission_module_sha256": "472502e9456196459561bc0a0bfe481aa977d3cef873a8b5bdcfd9752cbbbea1",
+    "rep3_policy_sha256": "e1cf768468d9463f4f0af9917473eb2d454a55c17b5511d13e8cbb4bbda93e09",
+    "rf4_adapter_sources_changed": false,
+    "scientific_definitions_changed": false,
+    "status": "passed_for_rep3_admission_extension; baseline RF4 adapter evidence remains historical and unchanged",
+    "worker_and_phase_sources_changed": false
+  },
+  "controller_rebind_focused": {
+    "receipt_path": "reports/engineering_audits/ET4_REBIND_RF4_E6_FOCUSED21.json",
+    "receipt_sha256": "1a597fea58d650d5eb46ed736734d1aefb074632b5e083400c9a80440c2374ae",
+    "status": "passed"
+  },
+  "controller_sha256": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+  "cpu_reservation_units": 4,
+  "cpu_reserve_cores": 2,
+  "fit_n_jobs": 4,
+  "harness": {
+    "fit_n_jobs": 4,
+    "guard_exit_code": 0,
+    "guard_log_sha256": "6d6ebf01dd6983f47731fa6764dee1a1e44328118cb9db7e5bdeeed6ea9f4440",
+    "harness_guard": {
+      "address_space_limit_bytes": 2147483648,
+      "exit_code": 0,
+      "peak_process_tree_rss_bytes": 467611648,
+      "rss_limit_bytes": 1610612736,
+      "wall_limit_seconds": 120,
+      "wall_seconds": 7.014
+    },
+    "harness_source_sha256": "b70f02d6bb715477f0a7ccec1ed1078493de11df8a7a2ebe7e11c9d11df240c8",
+    "models_are_synthetic_only": true,
+    "prediction_n_jobs": 1,
+    "report_sha256": "20da6075131a9f1898ca7eb5674adb244e2b311e217a73e795c6b1e076cf6089",
+    "serialized_estimator_n_jobs": 1,
+    "source_sha256": {
+      "parallel_rf/phase_worker.py": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3",
+      "parallel_rf/science.py": "e36c8040c7dca254fc7e16a53ffe860872df31a77868a7bc6480162f32d253c6",
+      "parallel_rf/worker.py": "5741d1f60b513a6da0023e508b8d17d28e8f6e4355f30c08d5cfb81f1f233ab9"
+    },
+    "status": "passed"
+  },
+  "known_limits": "Synthetic engineering does not establish full-data RSS safety or speed gain; retain10GiB admission/hard limit; timing policy differs from prior one-job fits.",
+  "native_threads": 1,
+  "observed_utc": "2026-10-28T08:01:33.786277+00:00",
+  "operational_amendment": "Owned exited worker reaping and byte-preserving archive verification digest reuse; RF4 science/source/caps unchanged; archive overlap disabled; candidate controller adds storage-fallback admission only for validated nonfit E4/E5 RF/ExtraTrees evaluations and exact E5 clean aliases; RF4 estimator behavior, seeds, searches, hard limits, and fit admissions remain unchanged.",
+  "phase_timeout_seconds": 600,
+  "portable_suite": {
+    "bundle_fingerprint_sha256": "b17664b6e4077059a8e3a9d8e0d65f241cf75711e00e7a29420fd1ff08a28ef6",
+    "exit_code": 0,
+    "expected_test_count": 552,
+    "failed_test_count": 0,
+    "passed_test_count": 552,
+    "receipt_sha256": "70d05c8171c3c7369d7962480b678ebf43d220004b84622ef51eb28eab73deed",
+    "status": "passed"
+  },
+  "portable_suite_history_note": "The recorded 552-case suite is predecessor evidence only. Current ET4 candidate controller compatibility is covered by ET4_CURRENT_RF4_E6_FOCUSED.json; final candidate full-suite PASS is a separate deployment gate.",
+  "prediction_n_jobs": 1,
+  "qualification_history": [
+    {
+      "controller_sha256": "9caa7afd4c910e52e89cbb1e34370d0a3025fb8bb31b643cf809e9500f8990ba",
+      "portable_suite": {
+        "bundle_fingerprint_sha256": "b17664b6e4077059a8e3a9d8e0d65f241cf75711e00e7a29420fd1ff08a28ef6",
+        "exit_code": 0,
+        "expected_test_count": 552,
+        "failed_test_count": 0,
+        "passed_test_count": 552,
+        "receipt_sha256": "70d05c8171c3c7369d7962480b678ebf43d220004b84622ef51eb28eab73deed",
+        "status": "passed"
+      },
+      "preserved_at": "reports/engineering_audits/RF4_EXECUTION_QUALIFICATION_20261028_PRE_NONFIT.json",
+      "record_sha256": "19d0f6615e2872ed9431acb15069d8e90038949c73e880c332106e76d71bfcf7"
+    },
+    {
+      "bundle_fingerprint_sha256": "dfeb062f3ac703828f42a8792a277fd8102155d4e6b1e27a335cdfe33f03a760",
+      "controller_sha256": "b2a16a7c48708eddfa9bb0807c08b1d08e5ce87ce3d6cec95a1b61077fd15c61",
+      "portable_receipt_sha256": "244875b7a5804f3642dbedfd45a01669f5c40ce620e3e9b318d2ab5b1ceeeda5",
+      "portable_test_count": 595,
+      "status": "candidate_superseded_by_loop_refresh"
+    }
+  ],
+  "schema": "lamost-rf4-execution-qualification/1",
+  "scientific_scope": "Prospective never-attempted E4/E5 RF fits only; no terminal retries, no search/seed/membership changes; native library and prediction threads1; RF estimator fit jobs4.",
+  "source_sha256": {
+    "parallel_rf/phase_worker.py": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3",
+    "parallel_rf/science.py": "e36c8040c7dca254fc7e16a53ffe860872df31a77868a7bc6480162f32d253c6",
+    "parallel_rf/worker.py": "5741d1f60b513a6da0023e508b8d17d28e8f6e4355f30c08d5cfb81f1f233ab9"
+  },
+  "status": "passed",
+  "termination_grace_seconds": 30,
+  "trial_timeout_seconds": 600,
+  "worker_memory_limit_gib": 10
+}

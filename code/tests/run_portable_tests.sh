@@ -46,6 +46,7 @@ test_files=(
   "$R/tests/test_auditor_extracted_cold.py" \
   "$R/tests/test_codec_policy.py" \
   "$R/tests/test_native_codec_overlap.py" \
+  "$R/tests/test_driver_cli_alignment.py" \
   "$R/tests/test_codec_overlap_controller_harness.py" \
   "$R/tests/test_previous_codec_payload_compat.py" \
   "$R/tests/test_production_codec_manifest_metadata.py" \
@@ -110,6 +111,7 @@ test_files=(
   "$R/tests/test_durable_baseline_digest_cache.py"
   "$R/tests/test_native_fit_mixedsmall_profile.py"
   "$R/tests/test_native_fit_controller_harness.py" \
+  "$R/tests/test_frozen_e1_primary_archive.py" \
   "$R/tests/test_e1_recovery_locator_archive_stream.py"
   "$R/tests/test_missing_attempt_selection_compat.py" \
   "$R/tests/test_extra_trees4_controller_contract.py" \

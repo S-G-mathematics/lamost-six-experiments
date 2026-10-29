@@ -18,32 +18,41 @@
     "total_nodeids": 376,
     "unique_nodeids": 376
   },
-  "candidate_refresh_reason": "ET4 source-bound rebuild after the prior full-suite failure; preserve all 764 baseline cases and bind the current 770-case candidate.",
+  "candidate_refresh_reason": "Enforce real frozen primary locator project/ source prefix; validate all 160 sealed metadata rows without payload reads.",
   "collection_status": {
-    "added_nodeids": 6,
-    "address_space_limit_bytes_per_process": 536870912,
-    "all_baseline_ids_retained": true,
-    "baseline_node_count": 770,
-    "baseline_nodeids_path": "tests/PORTABLE_COLLECTED_NODEIDS_ET4_770_20261029.txt",
-    "baseline_nodeids_sha256": "da101dc6a78ff5115b6760393ebeb4835f333d0a2db3412aba8db6c6cae219c6",
-    "baseline_unique_node_count": 770,
-    "candidate_node_count": 776,
-    "candidate_nodeids_path": "tests/PORTABLE_COLLECTED_NODEIDS_CODEC4_20261029.txt",
-    "candidate_nodeids_sha256": "939dcf8738fcc0b6dbe24d7923842d3ed2f819c7177c04a86a3cd93f302a6a14",
-    "candidate_unique_node_count": 776,
-    "collection_log_path": "reports/engineering_audits/CODEC4_COLLECT_ONLY_776_20261029.log",
-    "collection_log_sha256": "ad3e37d7f84c7cf9044494ce70e07758dca519a385e9663eba393ddea9d21352",
-    "collection_receipt_path": "reports/engineering_audits/CODEC4_COLLECT_ONLY_776_20261029.json",
-    "collection_receipt_sha256": "af21b803fa02c19473c8519c1d1c0817e2b6e8d236b6a70c1648aef7acc6dd02",
-    "executed_test_bodies": false,
-    "expected_test_count": 776,
-    "native_threads": 1,
-    "nice": 19,
-    "removed_baseline_ids": 0,
-    "resource_gate_complete": true,
-    "runner_sha256": "d4b89f274383d2e519e40e3bc07e4a3e6964264adaae1e2ab482dd669310561d",
     "status": "collect_only_passed",
-    "wall_limit_seconds": 30
+    "executed_test_bodies": false,
+    "baseline_node_count": 806,
+    "baseline_unique_node_count": 806,
+    "baseline_nodeids_path": "runtime_20261025/tests/PORTABLE_COLLECTED_NODEIDS_E1_PRIMARY_806_20261030.txt",
+    "baseline_nodeids_sha256": "cdb75ae713996b774990bed669e719c72a9d87231485ef430624d9655a7681a7",
+    "candidate_node_count": 807,
+    "candidate_unique_node_count": 807,
+    "candidate_nodeids_path": "runtime_20261025/tests/PORTABLE_COLLECTED_NODEIDS_E1_PRIMARY_807_20261030.txt",
+    "candidate_nodeids_sha256": "9f31e27801e2df93da0d74517a71a3995958e67fd02be49dc3acbb5673a8f688",
+    "added_nodeids": 1,
+    "added_nodeids_list": [
+      "test_frozen_e1_primary_archive.py::test_real_sealed_manifest_parses_all_160_metadata_rows"
+    ],
+    "removed_baseline_ids": 0,
+    "all_baseline_ids_retained": true,
+    "collection_log_path": "runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_COLLECT_ONLY_807_20261030.log",
+    "collection_log_sha256": "6683f194e7acd7692f01b944f88f42e7216aaf8966a1926e36e8882f81bf3eb2",
+    "collection_receipt_path": "runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_COLLECT_ONLY_807_20261030.json",
+    "collection_receipt_sha256": "da84783719f0669e3aac1567fb661b05c30d7d5f26fbdb63f2b09856dc3300fa",
+    "observed_utc": "2026-10-29T20:04:14.552625+00:00",
+    "runner_sha256": "c23748e2d238d14046d418396c7884700e60ff2f7eb2a36c982ead916235f128",
+    "expected_test_count": 807,
+    "resource_gate": {
+      "address_space_limit_bytes_per_process": 4294967296,
+      "cpu_affinity_count": 1,
+      "mem_available_at_admission_bytes": 31235637248,
+      "native_threads": 1,
+      "nice": 19,
+      "timeout_seconds": 120
+    },
+    "predecessor_bundle_fingerprint": "e2c0b08349a7f1191d9a0f6d871b17df74453b0cdbfc0732ee15181de5b3d39a",
+    "predecessor_pass_receipt_sha256": "42b8a9d0dcabe9806b18efc99c0f01ad3571dda4f99712b2b0d0bd966c8d204c"
   },
   "companion_dependencies": [
     "reason_text_curation.py",
@@ -81,6 +90,15 @@
   "extra_root_resource_proofs_present": true,
   "fixture_directory": "runtime_20261025/tests/fixtures",
   "no_ec2_absolute_paths_in_tests": true,
+  "portable_test_resource_envelope": {
+    "address_space_limit_bytes_per_process": 4294967296,
+    "cpu_affinity_count": 1,
+    "native_threads": 1,
+    "nice": 19,
+    "rationale": "Four GiB virtual address-space allowance accommodates scientific-library mappings and joblib thread stacks; measured process-tree RSS remains capped at one GiB.",
+    "sampled_process_tree_rss_limit_bytes": 1073741824,
+    "wall_seconds": 120
+  },
   "ports": [
     "audit_artifacts.py",
     "build_condition_findings.py",
@@ -260,6 +278,36 @@
       "prior_nodeids_retained": 717,
       "scientific_models_or_queues_changed": false,
       "scope": "Staged integration of E4 rep3 RF4 admission supplement into D2 candidate; source pins and test collection refreshed."
+    },
+    {
+      "candidate_cases": 805,
+      "new_test_count": 8,
+      "new_test_module": "runtime_20261025/tests/test_frozen_e1_primary_archive.py",
+      "predecessor_pass_fingerprint": "37aec89287a67fdf7fb194bed244c4b635eb0dd8a056cdb3f98cdf41d068e704",
+      "predecessor_pass_sha256": "f853a2af974c0adc2ebb9b2252bb78d67f55f861540e77ada169888f74813515",
+      "production_archive_payloads_read_during_tests": false,
+      "scientific_models_loaded_or_fitted": false,
+      "scope": "Staged E1 primary archive locator integration"
+    },
+    {
+      "added": 8,
+      "all_baseline_ids_retained": true,
+      "baseline_count": 797,
+      "candidate_count": 805,
+      "collection_nodeids_sha256": "59decd2fdac296603135ad26c19d85ba5917e22945c5cf13890e8984735ca103",
+      "collection_receipt_sha256": "d2e3aaac137edfbb33984116eadd05e237d73336085a7d63cec86c2fcab2bd0f",
+      "full_suite_pass_claimed": false,
+      "removed": 0,
+      "scope": "Collect-only closure for E1 primary locator integration"
+    },
+    {
+      "address_space_limit_bytes_per_process": 4294967296,
+      "baseline_test_ids_changed": false,
+      "cpu_affinity_count": 1,
+      "native_threads": 1,
+      "sampled_process_tree_rss_limit_bytes": 1073741824,
+      "scientific_resource_policy_changed": false,
+      "scope": "Portable engineering-runner address-space/RSS separation and scoped empty primary-archive fixture injection"
     }
   ],
   "readme": "runtime_20261025/tests/README.md",
@@ -277,39 +325,46 @@
   },
   "resource_review_proofs": [
     {
-      "archive_member": "runtime_20261025/staging/e4_rf_fit_reservation_review_20261026/E4_RF_FIT_RESERVATION_RESOURCE_REVIEW_20261026.json",
-      "bytes": 105064,
-      "expected_source_sha256": "2e6356dac0be320eb5e57c3537b3c4dff01e8943d5f1490424f117e4b332e1b6",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/staging/e4_rf_fit_reservation_review_20261026/E4_RF_FIT_RESERVATION_RESOURCE_REVIEW_20261026.json",
-      "sha256": "2e6356dac0be320eb5e57c3537b3c4dff01e8943d5f1490424f117e4b332e1b6"
+      "archive_member": "runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_20261029.json",
+      "bytes": 4445,
+      "expected_source_sha256": "34b1944c4216005ded15679193082195181f0405a7fb98524122cba318767692",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/cli_alignment/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_20261029.json",
+      "sha256": "34b1944c4216005ded15679193082195181f0405a7fb98524122cba318767692"
     },
     {
-      "archive_member": "runtime_20261025/staging/resource_followup_e5_e4_rf_20261026/E5_E4_RF_RESOURCE_FOLLOWUP_20261026.json",
-      "bytes": 48805,
-      "expected_source_sha256": "9884af26a84d04e5be913d651d36f9b055dda7613a8e2f95b73a137626de4754",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/staging/resource_followup_e5_e4_rf_20261026/E5_E4_RF_RESOURCE_FOLLOWUP_20261026.json",
-      "sha256": "9884af26a84d04e5be913d651d36f9b055dda7613a8e2f95b73a137626de4754"
+      "archive_member": "runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_20261029.json",
+      "bytes": 5326,
+      "expected_source_sha256": "85d37950ee27b66e0980f672f6d75c05a0ecdbc6a8465cdf8e1a379855a36510",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/cli_alignment/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_20261029.json",
+      "sha256": "85d37950ee27b66e0980f672f6d75c05a0ecdbc6a8465cdf8e1a379855a36510"
     },
     {
-      "archive_member": "runtime_20261025/staging/nonrf_heavy_resource_readiness_20261026/HEAVY_METHOD_RESOURCE_READINESS_AUDIT_20261026.json",
-      "bytes": 9567,
-      "expected_source_sha256": "b3530fd93a17095fa6d3e8b7071b4df943cceea829ecad4415513ac06bf11c49",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/staging/nonrf_heavy_resource_readiness_20261026/HEAVY_METHOD_RESOURCE_READINESS_AUDIT_20261026.json",
-      "sha256": "b3530fd93a17095fa6d3e8b7071b4df943cceea829ecad4415513ac06bf11c49"
+      "archive_member": "runtime_20261025/manifests/freeze.json",
+      "bytes": 81667,
+      "expected_source_sha256": "793100235650472147f85c2d58dc4787f2c2d0951ce971acee68298dd1cdf76b",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/cli_alignment/freeze.json",
+      "sha256": "793100235650472147f85c2d58dc4787f2c2d0951ce971acee68298dd1cdf76b"
     },
     {
-      "archive_member": "runtime_20261025/reports/engineering_audits/RESOURCE_THROUGHPUT_REVIEW_20261027.json",
-      "bytes": 20071,
-      "expected_source_sha256": "5be794d336ea0e049643e1dd519418b4595ef41ed3955020b20cd0f69eb16fd9",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/RESOURCE_THROUGHPUT_REVIEW_20261027.json",
-      "sha256": "5be794d336ea0e049643e1dd519418b4595ef41ed3955020b20cd0f69eb16fd9"
+      "archive_member": "runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_QUALIFICATION_20261029.json",
+      "bytes": 3793,
+      "expected_source_sha256": "ec200e658551cfedf56900d1da8c15e077e1b2cad63c81c7c1d338d551570133",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_QUALIFICATION_20261029.json",
+      "sha256": "ec200e658551cfedf56900d1da8c15e077e1b2cad63c81c7c1d338d551570133"
     },
     {
-      "archive_member": "runtime_20261025/reports/engineering_audits/ARF_GENERATION_ADMISSION_REVIEW_20261027.json",
-      "bytes": 20827,
-      "expected_source_sha256": "7f632bde2863e9e3c4be95d19ec3395243bda8ad580d56a3f93528106a73ceaf",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/ARF_GENERATION_ADMISSION_REVIEW_20261027.json",
-      "sha256": "7f632bde2863e9e3c4be95d19ec3395243bda8ad580d56a3f93528106a73ceaf"
+      "archive_member": "runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_QUALIFICATION_CLI_ALIGNMENT_20261029.json",
+      "bytes": 3405,
+      "expected_source_sha256": "1a5f42588e5503d6f0272c8317c52c63fcb6d0dfb325f502319d19c418feb499",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/cli_alignment/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_QUALIFICATION_CLI_ALIGNMENT_20261029.json",
+      "sha256": "1a5f42588e5503d6f0272c8317c52c63fcb6d0dfb325f502319d19c418feb499"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_QUALIFICATION_CLI_ALIGNMENT_20261029.json",
+      "bytes": 2902,
+      "expected_source_sha256": "035476cc53961f87ccc91f3e576442926953c15ff480b289a7ee43ae0a40e08d",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/cli_alignment/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_QUALIFICATION_CLI_ALIGNMENT_20261029.json",
+      "sha256": "035476cc53961f87ccc91f3e576442926953c15ff480b289a7ee43ae0a40e08d"
     },
     {
       "archive_member": "runtime_20261025/reports/engineering_audits/ARF_GENERATION_ADMISSION_EVIDENCE_BINDINGS_20261027.json",
@@ -319,18 +374,60 @@
       "sha256": "198441f1493c4c9955305377112e2b28b52ffbd013fc659d98949cd110105221"
     },
     {
-      "archive_member": "runtime_20261025/reports/engineering_audits/KNN_RBF_ADMISSION_REVIEW_20261027.json",
-      "bytes": 25764,
-      "expected_source_sha256": "95a125a3aef6c0cd7e6741749fd8a20d452fc31f564d63918c29d9aa08af15cf",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/KNN_RBF_ADMISSION_REVIEW_20261027.json",
-      "sha256": "95a125a3aef6c0cd7e6741749fd8a20d452fc31f564d63918c29d9aa08af15cf"
+      "archive_member": "runtime_20261025/reports/engineering_audits/ARF_GENERATION_ADMISSION_REVIEW_20261027.json",
+      "bytes": 20827,
+      "expected_source_sha256": "7f632bde2863e9e3c4be95d19ec3395243bda8ad580d56a3f93528106a73ceaf",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/ARF_GENERATION_ADMISSION_REVIEW_20261027.json",
+      "sha256": "7f632bde2863e9e3c4be95d19ec3395243bda8ad580d56a3f93528106a73ceaf"
     },
     {
-      "archive_member": "runtime_20261025/reports/engineering_audits/KNN_RBF_ADMISSION_REVIEW_V2_20261027.json",
-      "bytes": 114948,
-      "expected_source_sha256": "3f5c4fc2117665c3193852c2c457de07dcc19941ed14f86319deb9d0cf74046f",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/KNN_RBF_ADMISSION_REVIEW_V2_20261027.json",
-      "sha256": "3f5c4fc2117665c3193852c2c457de07dcc19941ed14f86319deb9d0cf74046f"
+      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_ADMISSION_HARNESS3_FINAL_20261029.json",
+      "bytes": 2712,
+      "expected_source_sha256": "370d98b231f6e45972c84c2a268c67ee361d331b29bf8348ba3ae99f6d93ef0f",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_ADMISSION_HARNESS3_FINAL_20261029.json",
+      "sha256": "370d98b231f6e45972c84c2a268c67ee361d331b29bf8348ba3ae99f6d93ef0f"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_FOCUSED_21_FINAL_20261029.json",
+      "bytes": 2228,
+      "expected_source_sha256": "f319e3fc85551e00427e9e5f31d64b22c968ddb00e267ab439629f8e81f4eeb3",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_FOCUSED_21_FINAL_20261029.json",
+      "sha256": "f319e3fc85551e00427e9e5f31d64b22c968ddb00e267ab439629f8e81f4eeb3"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_NATIVE_FIT_PROOF_PREFLIGHT_20261029.json",
+      "bytes": 3094,
+      "expected_source_sha256": "4429d71706422b322ffaad52660a8a17c95574cb0903f00968439a77cfd873d9",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_NATIVE_FIT_PROOF_PREFLIGHT_20261029.json",
+      "sha256": "4429d71706422b322ffaad52660a8a17c95574cb0903f00968439a77cfd873d9"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_PROFILE_FOCUSED6_FINAL_20261029.json",
+      "bytes": 1923,
+      "expected_source_sha256": "0690c7301d8ca5f0b69deff7dcd7b45e42772084938a1ad45497ff38b2985d45",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_PROFILE_FOCUSED6_FINAL_20261029.json",
+      "sha256": "0690c7301d8ca5f0b69deff7dcd7b45e42772084938a1ad45497ff38b2985d45"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC_ADMISSION_HARNESS3_CODEC1_CLI_ALIGNMENT_20261029.json",
+      "bytes": 3073,
+      "expected_source_sha256": "2c4064210114a0f3e84ca877be50ae2311b52f584fb6b8f82abfadf402d7ada9",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/cli_alignment/CODEC_ADMISSION_HARNESS3_CODEC1_CLI_ALIGNMENT_20261029.json",
+      "sha256": "2c4064210114a0f3e84ca877be50ae2311b52f584fb6b8f82abfadf402d7ada9"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC_ADMISSION_HARNESS3_CODEC4_CLI_ALIGNMENT_20261029.json",
+      "bytes": 3073,
+      "expected_source_sha256": "f0928ffe6a14faf6789cfb121f222a60d8f9f663c649948095bb676ec1eeb738",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/cli_alignment/CODEC_ADMISSION_HARNESS3_CODEC4_CLI_ALIGNMENT_20261029.json",
+      "sha256": "f0928ffe6a14faf6789cfb121f222a60d8f9f663c649948095bb676ec1eeb738"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC_FOCUSED_21_CLI_ALIGNMENT_20261029.json",
+      "bytes": 2257,
+      "expected_source_sha256": "20783396e0a28d91f5c061292e413352ff78b84744bf42a7f73114cd91b05840",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/cli_alignment/CODEC_FOCUSED_21_CLI_ALIGNMENT_20261029.json",
+      "sha256": "20783396e0a28d91f5c061292e413352ff78b84744bf42a7f73114cd91b05840"
     },
     {
       "archive_member": "runtime_20261025/reports/engineering_audits/E4_GENERATED_RF_ADMISSION_REVIEW_20261027_V2.json",
@@ -347,6 +444,27 @@
       "sha256": "5cd4a7c73df658aea359ecb917cd21e9b32122492c588dd7cf129b56616f2abb"
     },
     {
+      "archive_member": "runtime_20261025/reports/engineering_audits/KNN_RBF_ADMISSION_REVIEW_20261027.json",
+      "bytes": 25764,
+      "expected_source_sha256": "95a125a3aef6c0cd7e6741749fd8a20d452fc31f564d63918c29d9aa08af15cf",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/KNN_RBF_ADMISSION_REVIEW_20261027.json",
+      "sha256": "95a125a3aef6c0cd7e6741749fd8a20d452fc31f564d63918c29d9aa08af15cf"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/KNN_RBF_ADMISSION_REVIEW_V2_20261027.json",
+      "bytes": 114948,
+      "expected_source_sha256": "3f5c4fc2117665c3193852c2c457de07dcc19941ed14f86319deb9d0cf74046f",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/KNN_RBF_ADMISSION_REVIEW_V2_20261027.json",
+      "sha256": "3f5c4fc2117665c3193852c2c457de07dcc19941ed14f86319deb9d0cf74046f"
+    },
+    {
+      "archive_member": "runtime_20261025/reports/engineering_audits/RESOURCE_THROUGHPUT_REVIEW_20261027.json",
+      "bytes": 20071,
+      "expected_source_sha256": "5be794d336ea0e049643e1dd519418b4595ef41ed3955020b20cd0f69eb16fd9",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/RESOURCE_THROUGHPUT_REVIEW_20261027.json",
+      "sha256": "5be794d336ea0e049643e1dd519418b4595ef41ed3955020b20cd0f69eb16fd9"
+    },
+    {
       "archive_member": "runtime_20261025/reports/engineering_audits/RF4_E4_6GIB_PROSPECTIVE_ADMISSION_EVIDENCE_20261028.json",
       "bytes": 62400,
       "expected_source_sha256": "28716b215c993cd5a8830fbfd423ba4254cb547427c048c9abc1641644a16dd5",
@@ -354,57 +472,29 @@
       "sha256": "28716b215c993cd5a8830fbfd423ba4254cb547427c048c9abc1641644a16dd5"
     },
     {
-      "archive_member": "runtime_20261025/manifests/freeze.json",
-      "bytes": 81667,
-      "expected_source_sha256": "2a59407631f4a7d3394f537629bbb219d7f90ef0dd1249edd04bdbb94dda5e6b",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/manifests/freeze.json",
-      "sha256": "2a59407631f4a7d3394f537629bbb219d7f90ef0dd1249edd04bdbb94dda5e6b"
+      "archive_member": "runtime_20261025/staging/e4_rf_fit_reservation_review_20261026/E4_RF_FIT_RESERVATION_RESOURCE_REVIEW_20261026.json",
+      "bytes": 105064,
+      "expected_source_sha256": "2e6356dac0be320eb5e57c3537b3c4dff01e8943d5f1490424f117e4b332e1b6",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/staging/e4_rf_fit_reservation_review_20261026/E4_RF_FIT_RESERVATION_RESOURCE_REVIEW_20261026.json",
+      "sha256": "2e6356dac0be320eb5e57c3537b3c4dff01e8943d5f1490424f117e4b332e1b6"
     },
     {
-      "archive_member": "runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_20261029.json",
-      "bytes": 4431,
-      "expected_source_sha256": "5f24011571ac94024988496ca16f31c4aef2822c80a3f9078d3ebd66a8815f28",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_20261029.json",
-      "sha256": "5f24011571ac94024988496ca16f31c4aef2822c80a3f9078d3ebd66a8815f28"
+      "archive_member": "runtime_20261025/staging/nonrf_heavy_resource_readiness_20261026/HEAVY_METHOD_RESOURCE_READINESS_AUDIT_20261026.json",
+      "bytes": 9567,
+      "expected_source_sha256": "b3530fd93a17095fa6d3e8b7071b4df943cceea829ecad4415513ac06bf11c49",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/staging/nonrf_heavy_resource_readiness_20261026/HEAVY_METHOD_RESOURCE_READINESS_AUDIT_20261026.json",
+      "sha256": "b3530fd93a17095fa6d3e8b7071b4df943cceea829ecad4415513ac06bf11c49"
     },
     {
-      "archive_member": "runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_QUALIFICATION_20261029.json",
-      "bytes": 3793,
-      "expected_source_sha256": "ec200e658551cfedf56900d1da8c15e077e1b2cad63c81c7c1d338d551570133",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_QUALIFICATION_20261029.json",
-      "sha256": "ec200e658551cfedf56900d1da8c15e077e1b2cad63c81c7c1d338d551570133"
-    },
-    {
-      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_PROFILE_FOCUSED6_FINAL_20261029.json",
-      "bytes": 1923,
-      "expected_source_sha256": "0690c7301d8ca5f0b69deff7dcd7b45e42772084938a1ad45497ff38b2985d45",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_PROFILE_FOCUSED6_FINAL_20261029.json",
-      "sha256": "0690c7301d8ca5f0b69deff7dcd7b45e42772084938a1ad45497ff38b2985d45"
-    },
-    {
-      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_FOCUSED_21_FINAL_20261029.json",
-      "bytes": 2228,
-      "expected_source_sha256": "f319e3fc85551e00427e9e5f31d64b22c968ddb00e267ab439629f8e81f4eeb3",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_FOCUSED_21_FINAL_20261029.json",
-      "sha256": "f319e3fc85551e00427e9e5f31d64b22c968ddb00e267ab439629f8e81f4eeb3"
-    },
-    {
-      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_ADMISSION_HARNESS3_FINAL_20261029.json",
-      "bytes": 2712,
-      "expected_source_sha256": "370d98b231f6e45972c84c2a268c67ee361d331b29bf8348ba3ae99f6d93ef0f",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_ADMISSION_HARNESS3_FINAL_20261029.json",
-      "sha256": "370d98b231f6e45972c84c2a268c67ee361d331b29bf8348ba3ae99f6d93ef0f"
-    },
-    {
-      "archive_member": "runtime_20261025/reports/engineering_audits/CODEC4_NATIVE_FIT_PROOF_PREFLIGHT_20261029.json",
-      "bytes": 3094,
-      "expected_source_sha256": "4429d71706422b322ffaad52660a8a17c95574cb0903f00968439a77cfd873d9",
-      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/reports/engineering_audits/CODEC4_NATIVE_FIT_PROOF_PREFLIGHT_20261029.json",
-      "sha256": "4429d71706422b322ffaad52660a8a17c95574cb0903f00968439a77cfd873d9"
+      "archive_member": "runtime_20261025/staging/resource_followup_e5_e4_rf_20261026/E5_E4_RF_RESOURCE_FOLLOWUP_20261026.json",
+      "bytes": 48805,
+      "expected_source_sha256": "9884af26a84d04e5be913d651d36f9b055dda7613a8e2f95b73a137626de4754",
+      "fixture_member": "runtime_20261025/tests/fixtures/public_resource_reviews/runtime_20261025/staging/resource_followup_e5_e4_rf_20261026/E5_E4_RF_RESOURCE_FOLLOWUP_20261026.json",
+      "sha256": "9884af26a84d04e5be913d651d36f9b055dda7613a8e2f95b73a137626de4754"
     }
   ],
   "runner": "runtime_20261025/tests/run_portable_tests.sh",
-  "runner_sha256": "96c0905625e24fa524065b3e5156e8430873dda2e61d848e000b85acb816294d",
+  "runner_sha256": "c23748e2d238d14046d418396c7884700e60ff2f7eb2a36c982ead916235f128",
   "runtime_staging_present": false,
   "schema": "archive-native-installed-portable-tests/1",
   "scope": "764-case candidate: preserves all 759 predecessor node IDs and adds five strict selection-receipt compatibility cases; no fits or production payload reads.",
@@ -424,17 +514,18 @@
       "source_sha256": "b22f97fbac544b85b7214798c2a307533b9cfe9f20856f7c90929e373f0aec02"
     },
     {
-      "bundle_sha256": "5f24011571ac94024988496ca16f31c4aef2822c80a3f9078d3ebd66a8815f28",
+      "bundle_sha256": "34b1944c4216005ded15679193082195181f0405a7fb98524122cba318767692",
+      "candidate_refresh_reason": "CLI driver command alignment; policy/source pins and staged freeze refreshed",
       "kind": "codec4_prospective_policy",
       "runtime_member": "runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_20261029.json",
-      "source_sha256": "5f24011571ac94024988496ca16f31c4aef2822c80a3f9078d3ebd66a8815f28"
+      "source_sha256": "34b1944c4216005ded15679193082195181f0405a7fb98524122cba318767692"
     },
     {
-      "bundle_sha256": "d3956f62fd07df9b80e91024ab5c4182513b45230fba1f3ff0d408cc311c3e57",
-      "candidate_refresh_reason": "ET4 candidate current-source rebind; historical bytes are preserved in the prior manifest/history.",
+      "bundle_sha256": "85d37950ee27b66e0980f672f6d75c05a0ecdbc6a8465cdf8e1a379855a36510",
+      "candidate_refresh_reason": "CLI driver command alignment; policy/source pins and staged freeze refreshed",
       "kind": "qualified_candidate_policy_or_freeze",
       "runtime_member": "runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_20261029.json",
-      "source_sha256": "d3956f62fd07df9b80e91024ab5c4182513b45230fba1f3ff0d408cc311c3e57"
+      "source_sha256": "85d37950ee27b66e0980f672f6d75c05a0ecdbc6a8465cdf8e1a379855a36510"
     },
     {
       "bundle_sha256": "d7721b863c61261bd71d1b5e7bc3831a03734fe8568e9ec5d009c3c1864adc99",
@@ -482,11 +573,11 @@
       "source_sha256": "d969d21e31b9fb9278c06de71c3ea240954c528f089ce9bc9060ee1bfeb782f2"
     },
     {
-      "bundle_sha256": "2a59407631f4a7d3394f537629bbb219d7f90ef0dd1249edd04bdbb94dda5e6b",
-      "candidate_refresh_reason": "combined ET4 + codec4 candidate source-map rebind; exactly 19 frozen science keys preserved",
+      "bundle_sha256": "793100235650472147f85c2d58dc4787f2c2d0951ce971acee68298dd1cdf76b",
+      "candidate_refresh_reason": "CLI driver command alignment; policy/source pins and staged freeze refreshed",
       "kind": "candidate_rf4_e4_6g_policy_or_pin_input",
       "runtime_member": "runtime_20261025/manifests/freeze.json",
-      "source_sha256": "2a59407631f4a7d3394f537629bbb219d7f90ef0dd1249edd04bdbb94dda5e6b"
+      "source_sha256": "793100235650472147f85c2d58dc4787f2c2d0951ce971acee68298dd1cdf76b"
     },
     {
       "bundle_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
@@ -877,11 +968,11 @@
       "upstream_stage_member": "e4_generated_rf_profile_stage_20261027/source/admission_evidence.py"
     },
     {
-      "bundle_sha256": "e0dd5e014efee2f5698caba6722e6e99cf43fb0a5aa4dce00a71f1129eaa0b4e",
-      "candidate_refresh_reason": "combined ET4 + bounded codec4 profile candidate; archive temp/reserve bounds and pins updated",
+      "bundle_sha256": "59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba",
+      "candidate_refresh_reason": "CLI driver command alignment; operation source hashes refreshed without runtime behavior changes",
       "kind": "qualified_candidate_source_or_exact_historical_verifier_evidence",
       "runtime_member": "runtime_20261025/source/archive_fit_admission.py",
-      "source_sha256": "e0dd5e014efee2f5698caba6722e6e99cf43fb0a5aa4dce00a71f1129eaa0b4e"
+      "source_sha256": "59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba"
     },
     {
       "bundle_sha256": "bf34d0d7c7262cc684b92067226eacfce3262d1dfa92cc3861528dc5029d50d6",
@@ -938,11 +1029,11 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/source/cohorts.py"
     },
     {
-      "bundle_sha256": "147a0a23c9fd5d9d6d98f5aae76a806bca89548b806b73f43d68019f4f340202",
-      "candidate_refresh_reason": "combined ET4 + codec4 operational candidate; runtime controller pins and profile temp/reserve bounds are bound",
+      "bundle_sha256": "2829df22e1b8df9cfe67fe9d671886fe43cdc125ba129c99abbeb2e6abdc1a6b",
+      "candidate_refresh_reason": "CLI driver command alignment; operation source hashes refreshed without runtime behavior changes",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/cold_auto_compaction.py",
-      "source_sha256": "147a0a23c9fd5d9d6d98f5aae76a806bca89548b806b73f43d68019f4f340202",
+      "source_sha256": "2829df22e1b8df9cfe67fe9d671886fe43cdc125ba129c99abbeb2e6abdc1a6b",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/cold_auto_compaction.py"
     },
     {
@@ -985,11 +1076,11 @@
       "source_sha256": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273"
     },
     {
-      "bundle_sha256": "04eb0b0cd873396d9ce92dc8a8cd164a4a012b1eb1ef9aa5f35e0f2ffc55de46",
-      "candidate_refresh_reason": "combined ET4 + codec4 operational candidate; runtime controller pins and profile temp/reserve bounds are bound",
+      "bundle_sha256": "3564c97a73ba9f70c816a5d3c2524254dee7bd82054bd6f6f922a12369603f94",
+      "candidate_refresh_reason": "CLI driver command alignment; operation source hashes refreshed without runtime behavior changes",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/commit_batch_child.py",
-      "source_sha256": "04eb0b0cd873396d9ce92dc8a8cd164a4a012b1eb1ef9aa5f35e0f2ffc55de46",
+      "source_sha256": "3564c97a73ba9f70c816a5d3c2524254dee7bd82054bd6f6f922a12369603f94",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/commit_batch_child.py"
     },
     {
@@ -1083,17 +1174,17 @@
       "upstream_stage_member": "calibration_replay_finalization_gate_20261026/source/final_review.py"
     },
     {
-      "bundle_sha256": "8510b149d8db7a03956582ee4ebd28f04b89aaaca2f0eab96697136ade631186",
+      "bundle_sha256": "09e7e4368aa333b7199b4494a29db66b02a24082a0aa09f9719c2c2893001afa",
       "kind": "installed_port",
       "runtime_member": "runtime_20261025/source/finalization_safety.py",
-      "source_sha256": "8510b149d8db7a03956582ee4ebd28f04b89aaaca2f0eab96697136ade631186"
+      "source_sha256": "09e7e4368aa333b7199b4494a29db66b02a24082a0aa09f9719c2c2893001afa"
     },
     {
-      "bundle_sha256": "ab83a9413e355d208b7a08bff2ada055d7cafd507e6f544086574fe0bc61a364",
-      "candidate_refresh_reason": "Qualified ET4 disclosure and user-approved single-evaluation reporting; original denominators and prior outcomes preserved.",
+      "bundle_sha256": "aaa81e94416db35cc20dac68093ad3e0bb9ec418bc49e70576416cd90d863fee",
+      "candidate_refresh_reason": "Add hash-pinned frozen E1 primary archive locator streaming; preserve all prior 797 cases and source inputs.",
       "kind": "e6_v2_native_gate_finalizer",
       "runtime_member": "runtime_20261025/source/finalize_project.py",
-      "source_sha256": "ab83a9413e355d208b7a08bff2ada055d7cafd507e6f544086574fe0bc61a364",
+      "source_sha256": "aaa81e94416db35cc20dac68093ad3e0bb9ec418bc49e70576416cd90d863fee",
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_et4_codec4gib64_20261029_scope_report_v1/runtime_20261025/source/finalize_project.py"
     },
     {
@@ -1187,11 +1278,11 @@
       "upstream_stage_member": "staging/rf4_rep3_6g_supplement_20261028/source/rf4_e4_rep3_admission.py"
     },
     {
-      "bundle_sha256": "8fe0e1b975d589a52dd3659b5c817d6192d47289a3566f1519f1a13ddf43873f",
-      "candidate_refresh_reason": "combined ET4 + codec4 operational candidate; runtime controller pins and profile temp/reserve bounds are bound",
+      "bundle_sha256": "39cc2fe79aadce01a713b01ff37783b684562be0a3c0fe1bddacd857e1d5085d",
+      "candidate_refresh_reason": "CLI driver command alignment; operation source hashes refreshed without runtime behavior changes",
       "kind": "e6_terminal_resume_controller_pin_candidate",
       "runtime_member": "runtime_20261025/source/run_batch.py",
-      "source_sha256": "8fe0e1b975d589a52dd3659b5c817d6192d47289a3566f1519f1a13ddf43873f",
+      "source_sha256": "39cc2fe79aadce01a713b01ff37783b684562be0a3c0fe1bddacd857e1d5085d",
       "upstream_stage_member": "staging/e6_terminal_resume_fix_20261028/run_batch.py"
     },
     {
@@ -1483,6 +1574,119 @@
       "kind": "current_portable_test",
       "runtime_member": "runtime_20261025/tests/test_missing_attempt_selection_compat.py",
       "source_sha256": "6ff440782cc6d353bdd5aef1808844095d91e15c3c451c6f398b0235987e5661"
+    },
+    {
+      "bundle_sha256": "04cf5d679571669aad7586a61ddb65b238bc579cb7603f8a17fcfb51c28d525c",
+      "kind": "frozen_E1_primary_archive_stream_helper",
+      "runtime_member": "runtime_20261025/source/frozen_e1_primary_archive.py",
+      "source_sha256": "04cf5d679571669aad7586a61ddb65b238bc579cb7603f8a17fcfb51c28d525c",
+      "candidate_refresh_reason": "Enforce exact project/ ledger-cell source prefix for frozen primary E1 members."
+    },
+    {
+      "bundle_sha256": "0c1f7d99c63dc8094fd470151188e4b9f93f38482fc8d564d3b4d02b396611f4",
+      "kind": "frozen_E1_primary_archive_locator",
+      "runtime_member": "runtime_20261025/manifests/FROZEN_E1_PRIMARY_ARCHIVED_ASSETS_20261030.json",
+      "source_sha256": "0c1f7d99c63dc8094fd470151188e4b9f93f38482fc8d564d3b4d02b396611f4"
+    },
+    {
+      "bundle_sha256": "33b77c51e9671d9365ebf5b06e08c2c63210e3970be96fc2a1d5d7093a8bc20b",
+      "kind": "pinned_codec_metadata_test_input",
+      "runtime_member": "runtime_20261025/tests/fixtures/cold_model_store_manifest_54_codec.json",
+      "source_sha256": "33b77c51e9671d9365ebf5b06e08c2c63210e3970be96fc2a1d5d7093a8bc20b"
+    },
+    {
+      "bundle_sha256": "0352a896b66203a05af3a1a7e89136f70c18defb8b170d76d21b338cd0e3c595",
+      "kind": "predecessor_797_nodeid_set",
+      "runtime_member": "runtime_20261025/tests/PORTABLE_COLLECTED_NODEIDS_PREDECESSOR_797_20261029.txt",
+      "source_sha256": "0352a896b66203a05af3a1a7e89136f70c18defb8b170d76d21b338cd0e3c595"
+    },
+    {
+      "bundle_sha256": "59decd2fdac296603135ad26c19d85ba5917e22945c5cf13890e8984735ca103",
+      "kind": "candidate_805_nodeid_set",
+      "runtime_member": "runtime_20261025/tests/PORTABLE_COLLECTED_NODEIDS_E1_PRIMARY_805_20261030.txt",
+      "source_sha256": "59decd2fdac296603135ad26c19d85ba5917e22945c5cf13890e8984735ca103"
+    },
+    {
+      "bundle_sha256": "d2e3aaac137edfbb33984116eadd05e237d73336085a7d63cec86c2fcab2bd0f",
+      "kind": "e1_primary_805_collection_receipt",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_COLLECT_ONLY_805_20261030.json",
+      "source_sha256": "d2e3aaac137edfbb33984116eadd05e237d73336085a7d63cec86c2fcab2bd0f"
+    },
+    {
+      "bundle_sha256": "71ed1c73ad36f6ecc9017bd3c517a703ebc9aa21f47100a1ccca3b587b7249c7",
+      "kind": "e1_primary_805_collection_log",
+      "runtime_member": "runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_COLLECT_ONLY_805_20261030.log",
+      "source_sha256": "71ed1c73ad36f6ecc9017bd3c517a703ebc9aa21f47100a1ccca3b587b7249c7"
+    },
+    {
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CODEC_FOCUSED_25_REAPER_BINDING_20261030.json",
+      "source_sha256": "2f4a4d522cf4596a802278df705b5da7f22a60d4b53c595cc6ad182b5f2bb7cc",
+      "bundle_sha256": "2f4a4d522cf4596a802278df705b5da7f22a60d4b53c595cc6ad182b5f2bb7cc",
+      "kind": "focused_reaper_binding_compatibility_evidence",
+      "candidate_refresh_reason": "Rebind focused codec overlap test receipt to current candidate reaper-binding regression source."
+    },
+    {
+      "runtime_member": "runtime_20261025/reports/engineering_audits/CODEC_FOCUSED_25_REAPER_BINDING_20261030.log",
+      "source_sha256": "cc93e3eb742c1c057eab8ffd548895e67ebf7ae03ac738066ad33e76530e7d16",
+      "bundle_sha256": "cc93e3eb742c1c057eab8ffd548895e67ebf7ae03ac738066ad33e76530e7d16",
+      "kind": "focused_reaper_binding_compatibility_evidence",
+      "candidate_refresh_reason": "Rebind focused codec overlap test receipt to current candidate reaper-binding regression source."
+    },
+    {
+      "runtime_member": "runtime_20261025/tests/PORTABLE_COLLECTED_NODEIDS_E1_PRIMARY_806_20261030.txt",
+      "source_sha256": "cdb75ae713996b774990bed669e719c72a9d87231485ef430624d9655a7681a7",
+      "bundle_sha256": "cdb75ae713996b774990bed669e719c72a9d87231485ef430624d9655a7681a7",
+      "kind": "collection_nodeids",
+      "candidate_refresh_reason": "Bind exact 806-node collection and predecessor retention before full native run."
+    },
+    {
+      "runtime_member": "runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_COLLECT_ONLY_806_20261030.log",
+      "source_sha256": "5274299e6573873f87f9390f413cb3bf4fdf2ac0001288ecea06de649c27b8f8",
+      "bundle_sha256": "5274299e6573873f87f9390f413cb3bf4fdf2ac0001288ecea06de649c27b8f8",
+      "kind": "collection_log",
+      "candidate_refresh_reason": "Bind exact 806-node collection and predecessor retention before full native run."
+    },
+    {
+      "runtime_member": "runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_COLLECT_ONLY_806_20261030.json",
+      "source_sha256": "284dd75095f11fd788aae32d2a4d757991ff87b94adf65eeb972f5da782ccc76",
+      "bundle_sha256": "284dd75095f11fd788aae32d2a4d757991ff87b94adf65eeb972f5da782ccc76",
+      "kind": "collection_receipt",
+      "candidate_refresh_reason": "Bind exact 806-node collection and predecessor retention before full native run."
+    },
+    {
+      "runtime_member": "runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_STRICT_PREFIX_FOCUSED_9_20261030.json",
+      "source_sha256": "81caff307f152d5263c77e41541ce78a531ba8ecc60019d3fa9bde284df7ca5e",
+      "bundle_sha256": "81caff307f152d5263c77e41541ce78a531ba8ecc60019d3fa9bde284df7ca5e",
+      "kind": "e1_primary_locator_strict_prefix_focused_evidence",
+      "candidate_refresh_reason": "Focused 9-test strict-prefix and sealed 160-row metadata regression."
+    },
+    {
+      "runtime_member": "runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_STRICT_PREFIX_FOCUSED_9_20261030.log",
+      "source_sha256": "4ea46a1fc13fe9b8d7489f6c906e16488885a31be4be86efc80ee2bbbca8a837",
+      "bundle_sha256": "4ea46a1fc13fe9b8d7489f6c906e16488885a31be4be86efc80ee2bbbca8a837",
+      "kind": "e1_primary_locator_strict_prefix_focused_evidence",
+      "candidate_refresh_reason": "Focused 9-test strict-prefix and sealed 160-row metadata regression."
+    },
+    {
+      "runtime_member": "runtime_20261025/tests/PORTABLE_COLLECTED_NODEIDS_E1_PRIMARY_807_20261030.txt",
+      "source_sha256": "9f31e27801e2df93da0d74517a71a3995958e67fd02be49dc3acbb5673a8f688",
+      "bundle_sha256": "9f31e27801e2df93da0d74517a71a3995958e67fd02be49dc3acbb5673a8f688",
+      "kind": "collection_nodeids",
+      "candidate_refresh_reason": "Bind exact 807-node collection preserving all 806 predecessor IDs."
+    },
+    {
+      "runtime_member": "runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_COLLECT_ONLY_807_20261030.log",
+      "source_sha256": "6683f194e7acd7692f01b944f88f42e7216aaf8966a1926e36e8882f81bf3eb2",
+      "bundle_sha256": "6683f194e7acd7692f01b944f88f42e7216aaf8966a1926e36e8882f81bf3eb2",
+      "kind": "collection_log",
+      "candidate_refresh_reason": "Bind exact 807-node collection preserving all 806 predecessor IDs."
+    },
+    {
+      "runtime_member": "runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_COLLECT_ONLY_807_20261030.json",
+      "source_sha256": "da84783719f0669e3aac1567fb661b05c30d7d5f26fbdb63f2b09856dc3300fa",
+      "bundle_sha256": "da84783719f0669e3aac1567fb661b05c30d7d5f26fbdb63f2b09856dc3300fa",
+      "kind": "collection_receipt",
+      "candidate_refresh_reason": "Bind exact 807-node collection preserving all 806 predecessor IDs."
     }
   ],
   "staged_integration_note": "Staged only. Historical candidate passes are retained. This bundle is separately content-addressed and must qualify before publication.",
@@ -1593,6 +1797,42 @@
         "status": "collect_only_passed"
       },
       "reason": "New E6 terminal-resume controller fix; prior 527-node collection does not qualify this candidate."
+    },
+    {
+      "bundle_fingerprint": "37aec89287a67fdf7fb194bed244c4b635eb0dd8a056cdb3f98cdf41d068e704",
+      "pass_receipt_sha256": "f853a2af974c0adc2ebb9b2252bb78d67f55f861540e77ada169888f74813515",
+      "preserved_in_separate_candidate": true,
+      "scope": "797-case passing predecessor before E1 primary locator integration",
+      "status": "passed"
+    },
+    {
+      "collection_status": {
+        "added_nodeids": 6,
+        "address_space_limit_bytes_per_process": 536870912,
+        "all_baseline_ids_retained": true,
+        "baseline_node_count": 770,
+        "baseline_nodeids_path": "tests/PORTABLE_COLLECTED_NODEIDS_ET4_770_20261029.txt",
+        "baseline_nodeids_sha256": "da101dc6a78ff5115b6760393ebeb4835f333d0a2db3412aba8db6c6cae219c6",
+        "baseline_unique_node_count": 770,
+        "candidate_node_count": 776,
+        "candidate_nodeids_path": "tests/PORTABLE_COLLECTED_NODEIDS_CODEC4_20261029.txt",
+        "candidate_nodeids_sha256": "939dcf8738fcc0b6dbe24d7923842d3ed2f819c7177c04a86a3cd93f302a6a14",
+        "candidate_unique_node_count": 776,
+        "collection_log_path": "reports/engineering_audits/CODEC4_COLLECT_ONLY_776_20261029.log",
+        "collection_log_sha256": "ad3e37d7f84c7cf9044494ce70e07758dca519a385e9663eba393ddea9d21352",
+        "collection_receipt_path": "reports/engineering_audits/CODEC4_COLLECT_ONLY_776_20261029.json",
+        "collection_receipt_sha256": "af21b803fa02c19473c8519c1d1c0817e2b6e8d236b6a70c1648aef7acc6dd02",
+        "executed_test_bodies": false,
+        "expected_test_count": 776,
+        "native_threads": 1,
+        "nice": 19,
+        "removed_baseline_ids": 0,
+        "resource_gate_complete": true,
+        "runner_sha256": "d4b89f274383d2e519e40e3bc07e4a3e6964264adaae1e2ab482dd669310561d",
+        "status": "collect_only_passed",
+        "wall_limit_seconds": 30
+      },
+      "scope": "Superseded 776-case collection status retained before 797-to-805 E1 locator collection"
     }
   ],
   "superseded_private_operational_receipts_omitted": {
@@ -1662,6 +1902,7 @@
     "test_condition_findings_finalizer.py": 7,
     "test_delivery_cron_codec.py": 2,
     "test_dependency_packing_dispatch.py": 8,
+    "test_driver_cli_alignment.py": 4,
     "test_durable_baseline_digest_cache.py": 8,
     "test_e1_recovery_locator_archive_stream.py": 11,
     "test_e4_et_dependency_priority.py": 6,
@@ -1687,6 +1928,7 @@
     "test_final_review_codec_identity.py": 17,
     "test_final_review_coverage.py": 4,
     "test_finalization_safety.py": 7,
+    "test_frozen_e1_primary_archive.py": 9,
     "test_guard_runner_exit_identity.py": 6,
     "test_history_manifest_packaging.py": 1,
     "test_label_rate_gate.py": 7,
@@ -1722,13 +1964,13 @@
     "test_startup_identity.py": 8,
     "test_supervisor_e6_pairs.py": 3,
     "test_unlink_checkpoint_batch.py": 8,
-    "test_verified_zombie_reap.py": 10,
+    "test_verified_zombie_reap.py": 11,
     "test_weighted_mean_gate.py": 2,
     "tests/test_codec4gib_archive_profile.py": 6
   },
-  "test_count_plan_total": 793,
+  "test_count_plan_total": 807,
   "test_directory": "runtime_20261025/tests",
-  "test_summary_note": "All 770 ET4 predecessor node IDs retained exactly; six codec4 profile checks added. Collection only; test bodies await final candidate qualification.",
+  "test_summary_note": "805 planned pytest cases: all 797 passing predecessor cases retained, plus 8 tiny frozen-E1 locator streaming fixtures. The full 805 suite is pending.",
   "tests": [
     {
       "group": "archive_optimization_and_policy",
@@ -1889,7 +2131,7 @@
     },
     {
       "group": "codec4_archive_profile",
-      "portable_sha256": "99abfac37ab559ee3b7658edc1907438afa9b57bafb12b1f47322b6ac377e83c",
+      "portable_sha256": "57e4a19c2eaec3f173a52af32480a2fab31ccbaf4f30430fcdb5aa7dfe31416b",
       "scope": "Prospective 4GiB batch profile; 8GiB temp envelope, 14GiB reserve, legacy 1GiB behavior and fail-closed qualification receipts; fixtures only.",
       "test_member": "runtime_20261025/tests/test_codec4gib_archive_profile.py"
     },
@@ -1968,7 +2210,7 @@
       "adaptation": "Runtime-relative source/tests and three byte-identical native-path resource-proof fixtures; collector includes the third proof and provenance record.",
       "group": "finalizer",
       "original_sha256": "24a933441aad8011f63c4a4b0eb05c2ad5a8e0462139883c986e8608bd235041",
-      "portable_sha256": "36dec174e6792b22dcb1a07f5a88be9653b6a49617b2897b1893cb20e1e1eeaa",
+      "portable_sha256": "a6b4ad55a653c9353f8bcb4e60d9b4aa5e95bf7898875b0ac2691043c4f95a1d",
       "test_member": "runtime_20261025/tests/test_cold_finalizer_adapter.py",
       "upstream_portable_sha256": "aee2e2cdaae4cb5c05ba0094d484826e12d294cc7a1fa505d4b24221f7ffd333",
       "upstream_stage_member": "cold_finalizer_integration_20261026/tests/test_cold_finalizer_adapter.py"
@@ -2015,7 +2257,7 @@
       "adaptation": "Resolve builder from the relocated runtime/source tree.",
       "group": "finalizer",
       "original_sha256": "67844f172fac78b0cb6c0aed3d8b2639cc4d988ec8c86d44998036ca44364221",
-      "portable_sha256": "13f8ce202ce1de1dde1525201a7159eeeaf9f1a9544582fe4972fbf30a33a2b1",
+      "portable_sha256": "d7bba4b2333416d9d116ec3c8f31a8c8f99a983825e67c32e149183f030fa3be",
       "test_member": "runtime_20261025/tests/test_condition_findings_finalizer.py",
       "upstream_portable_sha256": "52a6a7c2f94a4116ca93cde7da11a128b80a5682a8b350598326ac1c5c699610",
       "upstream_stage_member": "cold_finalizer_integration_20261026/tests/test_condition_findings_finalizer.py"
@@ -2035,6 +2277,13 @@
       "upstream_stage_member": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/e6_portable_dispatch_fixture_update_20261027/test_dependency_packing_dispatch.py"
     },
     {
+      "group": "archive_optimization_and_policy",
+      "original_sha256": "25ec4e3306ea3454add7344f28fd92d7a9cc2db4a6ad52b5f4d99f48d56fd221",
+      "portable_sha256": "25ec4e3306ea3454add7344f28fd92d7a9cc2db4a6ad52b5f4d99f48d56fd221",
+      "scope": "real cold_auto_compaction CLI regression; no scientific model training or live archive mutation",
+      "test_member": "runtime_20261025/tests/test_driver_cli_alignment.py"
+    },
+    {
       "group": "test_durable_baseline_digest_cache",
       "original_sha256": "9756058c47009891c59312bac7c3bb3773578effeb48515a666b1a71691c4115",
       "portable_sha256": "9756058c47009891c59312bac7c3bb3773578effeb48515a666b1a71691c4115",
@@ -2043,7 +2292,7 @@
     },
     {
       "kind": "recovery_payload_archive_stream",
-      "portable_sha256": "1cdf0f86e5b9c50080af9626ebd1256e2cc26005a50bad0e0c5c4074c2901cc9",
+      "portable_sha256": "bbc28cf3b99c922e0b2a31a0b6b843bd7fbff79423821d31b2281e516b66b619",
       "test_member": "runtime_20261025/tests/test_e1_recovery_locator_archive_stream.py"
     },
     {
@@ -2210,7 +2459,7 @@
       "adaptation": "Uses relocated sibling runtime/source; no EC2 absolute paths.",
       "group": "final_current_finalization_safety",
       "original_sha256": "4eb7d34f258bae6c93df3c988775b0a654e10b4f656c377d8220cea45c01b18e",
-      "portable_sha256": "c33898bd73772abb8e9ddb826a6e667f6bf535f5c75403df50eb885888de20ab",
+      "portable_sha256": "6ffa930f23fb4596df1ee4d7d499042880155c16098575b48872a1cc62481f6c",
       "test_member": "runtime_20261025/tests/test_finalization_safety.py",
       "upstream_stage_member": "live runtime_20261025/tests/test_finalization_safety.py"
     },
@@ -2224,7 +2473,7 @@
       "upstream_stage_member": "execution_plan_builder_guard_fix_20261027/test_guard_runner_exit_identity.py"
     },
     {
-      "portable_sha256": "7264e4ff6132bcf9a80d2b223cc21cd894cdb3acff5ac0acaaec1c4bfebd6b0d",
+      "portable_sha256": "9be92326c687dd110a3d3674d6e4effb04da2d7d82c879567d402bd6552c6cc2",
       "test_member": "runtime_20261025/tests/test_history_manifest_packaging.py"
     },
     {
@@ -2292,7 +2541,8 @@
     },
     {
       "group": "native_codec_incremental",
-      "portable_sha256": "86f2a18d6243becf6811d73a623cd9c499439488c3ed8abc20dfb6e2a04d56c7",
+      "original_sha256": "108bf2af2046b1620cbdcd7d0f95a0ed8646988567b2e79a7425bbd460c3f5bd",
+      "portable_sha256": "48d8a71744fb8363fd56f0c5236bbe39e9bb8312898a8d67108d5d482f2dc352",
       "scope": "New codec compatibility and qualification proof; fixtures only, no production model payload reads.",
       "test_member": "runtime_20261025/tests/test_native_codec_overlap.py"
     },
@@ -2314,7 +2564,7 @@
     {
       "group": "test_native_fit_mixedsmall_profile",
       "original_sha256": "a3d2ae58c21713d8f1e67aff804b2cd022f60de9881fb19814c1586cde203861",
-      "portable_sha256": "a3d2ae58c21713d8f1e67aff804b2cd022f60de9881fb19814c1586cde203861",
+      "portable_sha256": "4e6723677786d2aeadf177d426beaa239060343f24126783c3b8596252e9edce",
       "scope": "engineering fixture only; no scientific results",
       "test_member": "runtime_20261025/tests/test_native_fit_mixedsmall_profile.py"
     },
@@ -2356,7 +2606,7 @@
     },
     {
       "group": "native_codec_incremental",
-      "portable_sha256": "57497afd0f4024a003fec245e73800482adf7eb5d83efa0b1a62214c3b5da4a6",
+      "portable_sha256": "86d886dad1ff000446836c3b92371fdcda00707c6cb456afb2f36f6f1d01ad98",
       "scope": "New codec compatibility and qualification proof; fixtures only, no production model payload reads.",
       "test_member": "runtime_20261025/tests/test_production_codec_manifest_metadata.py"
     },
@@ -2375,6 +2625,12 @@
       "portable_sha256": "ec10ff0ea7eedecf84cdb1f688e1b5936b9c0bce1da538ac0a3a33fe614c50b0",
       "scope": "Bounded durable-intent checkpoint recovery and digest identity verification",
       "test_member": "runtime_20261025/tests/test_recovery_archive_digest_reuse.py"
+    },
+    {
+      "group": "finalizer_repetition_scope",
+      "portable_sha256": "5e392e11390ea21aa136af5d203298456a718adcbcf7dd85f03e86b7399f2535",
+      "scope": "user_stopped is terminal administrative scope, distinct from failures/unavailable; preserves original denominators and score-blind one-per-group amendment",
+      "test_member": "runtime_20261025/tests/test_repetition_scope_finalizer.py"
     },
     {
       "adaptation": "none",
@@ -2456,7 +2712,7 @@
     },
     {
       "original_sha256": "2199debd3bf3df87d7f8ff2dcbc2fc5c0a77af27097222b572ea94965898f3a6",
-      "portable_sha256": "2199debd3bf3df87d7f8ff2dcbc2fc5c0a77af27097222b572ea94965898f3a6",
+      "portable_sha256": "6a5553ce5f0280f7c7a893ecb34a1be654a0aab43c0efd6a540d59ec823843ae",
       "scope": "Verified zombie reaper identity handling, including exited child with unavailable cwd; prior coverage retained.",
       "test_member": "runtime_20261025/tests/test_verified_zombie_reap.py"
     },
@@ -2469,10 +2725,11 @@
       "upstream_stage_member": "/tmp/lamost_weighted_mean_gate_stage_20261026/tests/test_weighted_mean_gate.py"
     },
     {
-      "group": "finalizer_repetition_scope",
-      "portable_sha256": "5e392e11390ea21aa136af5d203298456a718adcbcf7dd85f03e86b7399f2535",
-      "scope": "user_stopped is terminal administrative scope, distinct from failures/unavailable; preserves original denominators and score-blind one-per-group amendment",
-      "test_member": "runtime_20261025/tests/test_repetition_scope_finalizer.py"
+      "group": "frozen_e1_primary_archive_streaming",
+      "original_sha256": "41d1e246d88405d7c921f7e50a96b825d1f821e931a4599f31a5d4767cf0c767",
+      "portable_sha256": "e1f6bd1d9041007c6ae2bca577b0fb3d4cbcd151da28409e65ac7610039c18d9",
+      "scope": "Eight bounded synthetic ZIP/member integrity tests; no production archive reads, model loads, or inference.",
+      "test_member": "runtime_20261025/tests/test_frozen_e1_primary_archive.py"
     }
   ]
 }

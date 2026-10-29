@@ -1,0 +1,40 @@
+{
+  "admission_reservation_gib": 10,
+  "cpu_reservation_units": 4,
+  "cpu_reserve_cores": 2,
+  "fit_n_jobs": 4,
+  "native_threads": 1,
+  "notes": "Focused ET4 execution-adapter qualification and source pins are bound here. Final deployment remains gated on the reviewed process independently verifying the exact immutable full portable-suite fingerprint and native PASS receipt.",
+  "phase_timeout_seconds": 600,
+  "policy_id": "et4-fit_n_jobs4-v1",
+  "prediction_n_jobs": 1,
+  "qualification": {
+    "path": "reports/engineering_audits/EXTRA_TREES4_EXECUTION_QUALIFICATION_20261029.json",
+    "sha256": "f83ba4f556440f8127082684946e6187856d26286b45859dfeacb4a5ac2934bd"
+  },
+  "resource_profile_id": "et-fit_n_jobs4",
+  "schema": "lamost-later-et4-execution-policy/1",
+  "scope": {
+    "experiments": [
+      4,
+      5
+    ],
+    "kind": "fit",
+    "methods": [
+      "extra_trees"
+    ],
+    "never_attempted": true,
+    "reuse_pipeline": false
+  },
+  "search_domains_preserved": true,
+  "selection_seed_and_trial_count_preserved": true,
+  "source_sha256": {
+    "parallel_extra_trees/phase_worker.py": "bf12c2abe5a5f91526b16ff970e5c2cd10468aa858b7a4e707198fbb959ecb22",
+    "parallel_extra_trees/science.py": "f26f1bc2b9fce59f38b02fe2e2f54e5720a5e24cebb2f17de287ca02f49d98e9",
+    "parallel_extra_trees/worker.py": "df8806f83b0fae347c770953b6306393d57d8183b1c7789dd222aefbb689f317"
+  },
+  "status": "qualified",
+  "termination_grace_seconds": 30,
+  "trial_timeout_seconds": 600,
+  "worker_memory_limit_gib": 10
+}

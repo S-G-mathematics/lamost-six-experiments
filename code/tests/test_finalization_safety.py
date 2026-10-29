@@ -135,6 +135,8 @@ class PortableProcessExitRaceTests(unittest.TestCase):
      result=fs.run_portable_test_bundle(root,runtime,snap)
      self.assertEqual(result['status'],'passed')
  def test_proc_disappearance_waits_only_for_actual_exit_and_checks_counts(self):
+  self.assertEqual(fs.RSS_LIMIT,1024**3)
+  self.assertEqual(fs.AS_LIMIT,4*1024**3)
   with self.subTest('reaped-zero-and-complete-count'):self._run_case(0,'4 passed in 0.01s\n')
   with self.subTest('still-live-identity-unknown'):self._run_case('timeout','4 passed in 0.01s\n')
   with self.subTest('nonzero-exit'):self._run_case(1,'4 passed in 0.01s\n')

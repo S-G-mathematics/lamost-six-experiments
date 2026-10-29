@@ -19,8 +19,8 @@ def fixture(root):
  op={'owner_operation':h.OWNER_OPERATION,'batch_policy':h.CODEC_BATCH_POLICY,'archive_io_profile':h.CODEC_IO_PROFILE,'storage_codec_policy':h.CODEC_STORAGE_POLICY}
  doc={'schema':'lamost-archive-native-codec-fit-overlap-policy/1','status':'qualified','policy_id':h.CODEC_POLICY_ID,'scope':scope,'resources':resources,'archive_operation':op,'overlap_classes':{'current_workers':'validated_existing_worker_identities','new_workers':'native_fit_proof_pristine_task_and_dependencies'},'source_sha256':sh,'native_input_manifests':ni,'qualification_path':'reports/engineering_audits/q.json'}
  pp=root/h.CODEC_POLICY_REL;ps=put(pp,json.dumps(doc,sort_keys=True,separators=(',',':')).encode())
- test_hashes={n:put(root/n,('fixture test '+n).encode()) for n in ('tests/test_native_codec_overlap.py','tests/test_native_fit_scope.py','tests/test_verified_zombie_reap.py')}
- focused={'schema':'lamost-archive-native-codec-fit-overlap-focused-tests/1','status':'passed','source_sha256':sh,'test_file_sha256':test_hashes,'expected_test_count':21,'passed_test_count':21,'failed_test_count':0,'fit_attempts_started':0,'limits':{'address_space_limit_bytes':1073741824,'wall_seconds':60,'native_threads':1,'nice':19}}
+ test_hashes={n:put(root/n,('fixture test '+n).encode()) for n in ('tests/test_native_codec_overlap.py','tests/test_native_fit_scope.py','tests/test_verified_zombie_reap.py','tests/test_driver_cli_alignment.py')}
+ focused={'schema':'lamost-archive-native-codec-fit-overlap-focused-tests/1','status':'passed','source_sha256':sh,'test_file_sha256':test_hashes,'expected_test_count':25,'passed_test_count':25,'failed_test_count':0,'fit_attempts_started':0,'limits':{'address_space_limit_bytes':1073741824,'wall_seconds':60,'native_threads':1,'nice':19}}
  fp='reports/engineering_audits/focused_codec_tests.json';fs=put(root/fp,json.dumps(focused,sort_keys=True,separators=(',',':')).encode())
  admission={'schema':'lamost-archive-native-codec-overlap-admission-harness/1','status':'passed','source_sha256':sh,'fit_attempts_started':0,'archive_helper_fixture_only':True,'controller_admission_gate':'passed','helper_identity_and_resource_gates':'passed','existing_worker_identity_validation':'passed','archive_alias_ownership_closure':'passed','no_candidate_archive_model_fd_race':True,'workers_checked':0,'unverified_workers':0,'archive_operation':op,'overlap_classes':doc['overlap_classes']}
  ap='reports/engineering_audits/native_admission_harness.json';ass=put(root/ap,json.dumps(admission,sort_keys=True,separators=(',',':')).encode())
@@ -33,7 +33,7 @@ def fixture(root):
  return root,frozen,doc
 def procset(root,opid,nonce):
  py=str(root.parent/'venv/bin/python');base='a'*64;io=h.CODEC_IO_PROFILE;bp=h.CODEC_BATCH_POLICY;codec=h.CODEC_STORAGE_POLICY
- d={'pid':11,'ppid':1,'pgid':11,'start_ticks':'101','uid':1000,'cwd':str(root),'argv':[py,str(root/'source/cold_auto_compaction.py'),'--batch-policy',bp,'--storage-codec-policy',codec,'--archive-io-profile',io]}
+ d={'pid':11,'ppid':1,'pgid':11,'start_ticks':'101','uid':1000,'cwd':str(root),'argv':[py,str(root/'source/cold_auto_compaction.py'),'--storage-codec-policy',codec,'--archive-io-profile',io]}
  w={'pid':12,'ppid':11,'pgid':12,'start_ticks':'102','uid':1000,'cwd':str(root),'argv':[py,str(root/'source/run_batch.py'),'--baseline-sha256',base,'--operation-id',opid,'--batch-policy',bp,'--storage-codec-policy',codec,'--archive-io-profile',io]}
  c={'pid':13,'ppid':12,'pgid':13,'start_ticks':'103','uid':1000,'cwd':str(root),'argv':[py,str(root/'source/commit_batch_child.py'),'--operation-dir',str(root/'runs'/opid),'--baseline-sha256',base,'--operation-id',opid,'--hold-nonce',nonce,'--batch-policy',bp,'--storage-codec-policy',codec,'--archive-io-profile',io]}
  return [('cold_auto_compaction.py',d),('run_batch.py',w),('commit_batch_child.py',c)],d,w,c
