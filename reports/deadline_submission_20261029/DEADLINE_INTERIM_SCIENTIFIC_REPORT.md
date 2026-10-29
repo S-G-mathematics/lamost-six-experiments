@@ -1,19 +1,19 @@
 # LAMOST six-experiment research: consolidated interim submission
 
-**INTERIM - not final project completion.** Read-only registry snapshot: 2026-10-29T05:02:02.829484+00:00 UTC on the existing EC2. This submission combines frozen E1/E2 reports with current E3-E6 case outcomes and metrics from saved, validated evaluation JSONs. No model was loaded, fit, retuned, or used for inference; no bootstrap was run. Existing test outcomes are already observed, so later cohorts are not described as an untouched prospective test.
+**INTERIM - not final project completion.** Read-only registry snapshot: 2026-10-29T08:55:39.017085+00:00 UTC on the existing EC2. This submission combines frozen E1/E2 reports with current E3-E6 case outcomes and metrics from saved, validated evaluation JSONs. No model was loaded, fit, retuned, or used for inference; no bootstrap was run. Existing test outcomes are already observed, so later cohorts are not described as an untouched prospective test.
 
 ## Current status
 
-| Experiment | Planned | Successful/evaluated | Recorded failures | Unsupported/unavailable | Waiting |
+| Experiment | Planned | Successful/evaluated | Scientific failures | Unsupported | Unavailable | User-stopped | Not attempted | Operationally interrupted | Operationally invalid | Packaging pending | Waiting/active |
 |---|---:|---:|---:|---:|---:|
-| E1 frozen | 765 | 674 | 81 (55 resource; 26 supervisor-terminal manifests remained started) | 10 unsupported | 0 |
-| E2 primary | 150 | 108 | - | 42 unavailable | 0 |
-| E2 classical references | 120 | 120 | - | 0 | 0 |
-| E3 | 69 | 64 | 3 | 2 | 0 |
-| E4 | 1,773 | 1,611 | 71 | 3 | 88 |
-| E5 | 960 | 700 | 50 | 78 | 132 |
-| E6 primary ensembles | 6 | 0 | 3 | 3 | 0 |
-| E6 member references | 15 | 12 aliases | 0 | 3 | 0 |
+| E1 frozen | 765 | 674 | 81 | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| E2 primary | 150 | 108 | 0 | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
+| E2 classical references | 120 | 120 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| E3 | 69 | 64 | 3 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| E4 | 1,773 | 1618 | 71 | 0 | 3 | 67 | 0 | 0 | 0 | 0 | 14 |
+| E5 | 960 | 700 | 50 | 0 | 78 | 101 | 0 | 0 | 0 | 0 | 31 |
+| E6 primary ensembles | 6 | 0 | 3 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
+| E6 member references | 15 | 12 aliases | 0 | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 **Stopped E1 recovery supplement (separate from the frozen ledger):**
 
@@ -22,7 +22,11 @@
 | 91 | 24 | 10 | 2 | 55 | 0 |
 
 
-E4/E5 have 220 planned cases waiting in the registry snapshot. The [complete E3-E6 case ledger](planned_case_ledger.csv), [per-repetition metrics](per_repetition_metrics.csv), [per-class metrics](per_class_metrics.csv), [confusion matrices](confusion_matrices_long.csv), [current paired differences](matched_paired_differences_current.csv), [E4 control comparisons](E4_CONTROL_TREATMENT_PAIRED_CURRENT.csv), [E5 corruption comparisons](E5_clean_corrupted_paired_metrics_CURRENT.csv), and [evaluation input hashes](evaluation_input_hashes.csv) accompany this report. The [current status chart](current_status_coverage.svg) uses this registry snapshot. Other experiment figures remain dated to their validated analysis cutoff.
+E4/E5 have 45 planned cases waiting in the registry snapshot. The [complete E3-E6 case ledger](planned_case_ledger.csv), [condition repetition coverage](condition_repetition_coverage.csv), [per-repetition metrics](per_repetition_metrics.csv), [per-class metrics](per_class_metrics.csv), [confusion matrices](confusion_matrices_long.csv), [current paired differences](matched_paired_differences_current.csv), [E4 control comparisons](E4_CONTROL_TREATMENT_PAIRED_CURRENT.csv), [E5 corruption comparisons](E5_clean_corrupted_paired_metrics_CURRENT.csv), and [evaluation input hashes](evaluation_input_hashes.csv) accompany this report. The [current status chart](current_status_coverage.svg) uses this registry snapshot. Other experiment figures remain dated to their validated analysis cutoff.
+
+## Prospective repetition-scope amendment
+
+A score-independent amendment was applied and verified at 2026-10-29T08:39:50.880664+00:00. It selects one pending evaluation key per unique method/condition case from the original three-repetition plan, along with its reviewed dependency closure. All prior terminal outcomes are preserved. The original 2,823 scientific-case plan and task-manifest SHA remain unchanged. It marks 168 pending scientific repetition rows user-stopped, not failed or unavailable; 167 closure tasks are in the full amendment set and 90 tasks were pending in the selected closure at application time. Selected cases may already have completed by this snapshot. See the sanitized [amendment](scope_amendment_public.json) and [application summary](scope_application_public.json). Actual repetition counts vary by condition; see [condition repetition coverage](condition_repetition_coverage.csv). Paired summaries use matched available repetitions; sample SD is undefined and blank at n=1. The original full three-repetition grid is not complete.
 
 ## Shared data and protocol
 
@@ -102,12 +106,12 @@ The CSV covers every planned E4 comparison stratum (direct altered versus unchan
 | Comparison | Planned strata | n=3 | n=2 | n=1 | n=0 | Total BA paired reps |
 |---|---|---|---|---|---|---|
 | altered_direct_minus_unchanged_control | 238 | 194 | 2 | 0 | 42 | 586 |
-| treatment_minus_unchanged_control | 336 | 290 | 46 | 0 | 0 | 962 |
-| treatment_minus_untreated_altered | 336 | 290 | 46 | 0 | 0 | 962 |
+| treatment_minus_unchanged_control | 336 | 297 | 39 | 0 | 0 | 969 |
+| treatment_minus_untreated_altered | 336 | 297 | 39 | 0 | 0 | 969 |
 
 
 
-E4 currently has 1611 successes, 71 failures, 3 unavailable, and 88 waiting. The reviewed direct-KNN block contains all 45 cells (3 controls plus 42 altered); every altered condition is paired to the matching repetition's unchanged control. Across the 14 target-by-severity means, target-class recall fell in each condition. The 0.1 retained-share conditions include large classwise recall losses; some returned full seven-label sets with coverage 1, which is not an efficiency benefit.
+E4 currently has 1618 successes, 71 failures, 3 unavailable, and 14 waiting. The reviewed direct-KNN block contains all 45 cells (3 controls plus 42 altered); every altered condition is paired to the matching repetition's unchanged control. Across the 14 target-by-severity means, target-class recall fell in each condition. The 0.1 retained-share conditions include large classwise recall losses; some returned full seven-label sets with coverage 1, which is not an efficiency benefit.
 
 The reviewed direct-kernel block shows availability and evaluation feasibility separately: all 45 RBF-SVM selected models existed, but 18 evaluations succeeded and 27 failed under the fixed policy. All 45 KDE selected models existed; 42 altered test phases timed out and 3 unchanged-control aliases were unavailable because E3 direct KDE timed out. See the [direct-KNN block](../e4_direct_knn_block_20261027/E4_DIRECT_KNN_BLOCK_REPORT.md) and [direct-kernel block](../e4_direct_kernel_block_20261027/E4_DIRECT_KERNEL_BLOCK_REPORT.md). These are condition-specific findings, not a universal restoration effect.
 
@@ -125,7 +129,7 @@ Each mechanism row below summarizes availability across its full planned method/
 
 
 
-E5 currently has 700 successes, 50 failures, 78 unavailable, and 132 waiting. The reviewed direct-RF and direct-KNN blocks each include all 30 cells (3 clean controls and 27 corrupted) and all nine mechanism/rate strata with three matched repetitions. At 20% label noise, mean balanced-accuracy change was -0.017309 for RF and -0.023067 for KNN. At 20% feature noise it was -0.010556 and -0.009613; at 20% missingness -0.005531 and -0.006139. These compare only two direct routes under the specified masks. No universal ranking follows; coverage, set size, per-class effects, failures, and unavailable cases remain included in the component tables. See the [RF report](../e5_direct_rf_block_20261027/E5_DIRECT_RF_BLOCK_REPORT.md) and [KNN report](../e5_direct_knn_block_20261027/E5_DIRECT_KNN_BLOCK_REPORT.md).
+E5 currently has 700 successes, 50 failures, 78 unavailable, and 31 waiting. The reviewed direct-RF and direct-KNN blocks each include all 30 cells (3 clean controls and 27 corrupted) and all nine mechanism/rate strata with three matched repetitions. At 20% label noise, mean balanced-accuracy change was -0.017309 for RF and -0.023067 for KNN. At 20% feature noise it was -0.010556 and -0.009613; at 20% missingness -0.005531 and -0.006139. These compare only two direct routes under the specified masks. No universal ranking follows; coverage, set size, per-class effects, failures, and unavailable cases remain included in the component tables. See the [RF report](../e5_direct_rf_block_20261027/E5_DIRECT_RF_BLOCK_REPORT.md) and [KNN report](../e5_direct_knn_block_20261027/E5_DIRECT_KNN_BLOCK_REPORT.md).
 
 ## E6 - posterior ensembles
 
@@ -150,4 +154,4 @@ E1 used 180-second/6-GiB settings. E3-E6 settings are 600-second/10-GiB per work
 
 
 ### Snapshot history
-This 2026-10-29T05:02:02.829484+00:00 UTC interim refresh supersedes the earlier 03:53Z interim snapshot. The earlier snapshot remains available in Git history at commit c6112170e168fda4a81fb1f9e72d942e2152b24e.
+This 2026-10-29T08:55:39.017085+00:00 UTC interim refresh supersedes the earlier 03:53Z interim snapshot. The earlier snapshot remains available in Git history at commit c6112170e168fda4a81fb1f9e72d942e2152b24e.
