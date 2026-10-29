@@ -2,7 +2,7 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research snapshot - read-only registry observed 2026-10-29T02:11:36.520486+00:00 UTC.** This saved research record does not claim all six experiments have passed final validation. Existing aggregate tables and figures remain bound to their documented analysis snapshot unless explicitly identified as incremental results.
+**Interim research snapshot - read-only registry observed 2026-10-29T03:53:22.951438+00:00 UTC.** This saved research record does not claim all six experiments have passed final validation. Existing aggregate tables and figures remain bound to their documented analysis snapshot unless explicitly identified as incremental results.
 
 ## Experiment status and navigation
 
@@ -15,7 +15,7 @@ Code, recorded results, figures and scientific provenance for seven-class classi
 | E5 | Fitting-data corruption | 700 successful, 50 failed, 78 unavailable, **132 waiting** / 960 |
 | E6 | Generative posterior ensembles | 12 successful member-reference aliases, 6 unavailable cases and 3 ensemble failures; **0/6** successful primary ensembles |
 
-At the registry snapshot 2026-10-29T02:10:44.392619+00:00, E4/E5 have 226 waiting scientific cases (94 E4; 132 E5). This is a task-ledger snapshot, not a process-liveness claim. E1 recovery remains separate: 24 successes, 10 failures, 2 user-stopped and 55 not attempted.
+At the registry snapshot 2026-10-29T03:53:22.951438+00:00, E4/E5 have 226 waiting scientific cases (94 E4; 132 E5). This is a task-ledger snapshot, not a process-liveness claim. E1 recovery remains separate: 24 successes, 10 failures, 2 user-stopped and 55 not attempted.
 
 The stopped E1 recovery supplement is separate: 24 successes, 10 failures, 2 user-stopped partial cells and 55 not attempted. These outcomes never replace frozen E1.
 
@@ -29,6 +29,7 @@ Counts refer to scientific evaluation cases, not controller dependency tasks. La
 - [Per-repetition metrics](reports/per_repetition_metrics.csv), [per-class metrics](reports/per_class_metrics.csv), [coverage ledger](reports/experiment_outcome_coverage.csv), [resource failures](reports/resource_failure_ledger.csv).
 - [File-level source/export hashes](file_manifest.csv), [snapshot hashes](snapshot_manifest.json), [explicit exclusion inventory](exclusion_inventory.csv).
 - [Current scientific cell ledger](reports/CURRENT_CELL_LEDGER.csv) contains all 2,823 E3-E6 case states from the read-only registry snapshot; it is not a process-liveness inventory.
+- [Consolidated deadline interim scientific report and current tables](reports/deadline_submission_20261029/DEADLINE_INTERIM_SCIENTIFIC_REPORT.md).
 - [Current 764 qualification and interim report snapshot](docs/QUALIFIED_764_AND_INTERIM_REFRESH.md).
 - [Incremental validated E4/E5 results](reports/E4_INCREMENTAL_RESULTS_20261028T084431Z.md) record three post-snapshot validated ledger entries and link the two unique outcome arrays.
 - [E4 rep-3 incremental validated results](reports/E4_INCREMENTAL_VALIDATED_20261028T200243Z.md) contains six later RF treatment evaluations and 42 class-level rows; older derived tables and figures remain dated to the 17:00:39Z analysis snapshot.
@@ -59,4 +60,4 @@ See [export provenance and sanitization](docs/EXPORT_PROVENANCE.md) for source-v
 
 ## Current status note
 
-Read-only registry snapshot 2026-10-29T02:10:44.392619+00:00 UTC: E3 has 64 successes, 3 scientific failures, and 2 unavailable cases; E4 has 1,605 successes, 71 failures, 3 unavailable, and 94 waiting; E5 has 700 successes, 50 failures, 78 unavailable, and 132 waiting. E6 has 15 member-reference aliases (12 successful, 3 unavailable) and six primary ensembles (3 failures, 3 unavailable; 0/6 successful test evaluations). E1 remains frozen at 674 successful, 81 failed (55 resource failures; 26 supervisor-terminal manifests remained started) and 10 unsupported. E2 remains 108/150 primary and 120/120 classical-reference evaluations. The current E3-E6 ledger contains all 2,823 planned cases and distinguishes waiting from terminal outcomes. No bootstrap or significance claims are made. Final calibration/report/archive validation remains pending.
+Read-only registry snapshot 2026-10-29T03:53:22.951438+00:00 UTC: E3 has 64 successes, 3 scientific failures, and 2 unavailable cases; E4 has 1,605 successes, 71 failures, 3 unavailable, and 94 waiting; E5 has 700 successes, 50 failures, 78 unavailable, and 132 waiting. E6 has 15 member-reference aliases (12 successful, 3 unavailable) and six primary ensembles (3 failures, 3 unavailable; 0/6 successful test evaluations). E1 remains frozen at 674 successful, 81 failed (55 resource failures; 26 supervisor-terminal manifests remained started) and 10 unsupported. E2 remains 108/150 primary and 120/120 classical-reference evaluations. The current E3-E6 ledger contains all 2,823 planned cases, including 226 waiting cases. No bootstrap or significance claims are made. Final native calibration replay, full artifact validation, final cross-experiment report, and full/small archive verification remain pending. This is an interim submission, not project completion.
