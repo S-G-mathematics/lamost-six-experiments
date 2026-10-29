@@ -2,24 +2,25 @@ from pathlib import Path
 import sys,os,json,hashlib,datetime,time,sqlite3,subprocess,signal,fcntl,traceback,argparse,shutil
 ROOT=Path('/home/ubuntu/lamost_e1_migration_20261023');R=ROOT/'runtime_20261025';D=Path(__file__).resolve().parent.parent;H=R/'ADMISSION_HOLD.json'
 sys.path.insert(0,str(Path(__file__).resolve().parent));import controller as c
-from batch_plan import MAX_INITIAL_BYTES,MAX_INITIAL_GROUPS,MAX_LATER_BYTES,MAX_LATER_GROUPS,RAW_WIDE_MAX_BYTES,RAW_WIDE_MAX_GROUPS,RAW_WIDE_PROFILE,RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES,RAW_MIXED_SMALL_MAX_BYTES,RAW_MIXED_SMALL_MAX_GROUPS,RAW_MIXED_SMALL_PROFILE,RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES,RAW_ARCHIVE_IO_PROFILES,CODEC_MULTIGROUP_PROFILE,CODEC_MULTIGROUP_MAX_BYTES,CODEC_MULTIGROUP_MAX_GROUPS,CODEC_MULTIGROUP_TEMP_MAX_BYTES,CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,CODEC_MULTIGROUP_DISK_MARGIN_BYTES,CODEC_ARCHIVE_IO_PROFILES,completed_archive_tail_bytes,codec_multigroup_disk_required_bytes,resource_admission_ready
+from batch_plan import MAX_INITIAL_BYTES,MAX_INITIAL_GROUPS,MAX_LATER_BYTES,MAX_LATER_GROUPS,RAW_WIDE_MAX_BYTES,RAW_WIDE_MAX_GROUPS,RAW_WIDE_PROFILE,RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES,RAW_MIXED_SMALL_MAX_BYTES,RAW_MIXED_SMALL_MAX_GROUPS,RAW_MIXED_SMALL_PROFILE,RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES,RAW_ARCHIVE_IO_PROFILES,CODEC_MULTIGROUP_PROFILE,CODEC_MULTIGROUP_MAX_BYTES,CODEC_MULTIGROUP_MAX_GROUPS,CODEC_MULTIGROUP_TEMP_MAX_BYTES,CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,CODEC_MULTIGROUP_DISK_MARGIN_BYTES,CODEC_LARGE_PROFILE,CODEC_LARGE_MAX_BYTES,CODEC_LARGE_MAX_GROUPS,CODEC_LARGE_TEMP_MAX_BYTES,CODEC_LARGE_WALL_SECONDS,CODEC_ARCHIVE_IO_PROFILES,completed_archive_tail_bytes,codec_multigroup_disk_required_bytes,resource_admission_ready
 CHILD_WALL_SECONDS=180
 FOLLOWUP_CHILD_WALL_SECONDS=600
 ARCHIVE_IO_PROFILE='bounded-1800'
 RAW_WIDE_PROFILE='bounded-1800-wide8gib'
 ARCHIVE_IO_PROFILES=(ARCHIVE_IO_PROFILE,RAW_WIDE_PROFILE,RAW_MIXED_SMALL_PROFILE,*CODEC_ARCHIVE_IO_PROFILES)
 ARCHIVE_IO_WALL_SECONDS=1800
+CODEC_LARGE_WALL_SECONDS=5400
 CODEC_FOLLOWUP_MAX_BYTES=1<<30
 CODEC_FOLLOWUP_MAX_GROUPS=1
-SOURCE_PINS={'commit_batch_child.py': 'd69fa088c46e657d063749ffcdb2f10012912a6193fda16b9b6e9a1ce25c51f0',
- 'controller.py': 'a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9',
- 'batch_plan.py': '0fb23c09532ee34c38907497d65a0833c328a1b95fa99f024ad00146d32fbf34',
+SOURCE_PINS={'commit_batch_child.py': '04eb0b0cd873396d9ce92dc8a8cd164a4a012b1eb1ef9aa5f35e0f2ffc55de46',
+ 'controller.py': '7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b',
+ 'batch_plan.py': '2389a9468a73f5af6cacfe585346afd14cf9a2a340b16c59439c2a77304c9372',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
  'cold_model_storage.py': 'be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172',
  'cold_codec_storage.py': 'b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b',
  'reversible_joblib_codec.py': 'f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
- 'archive_fit_admission.py': '578dce5e4cca15f9dbd9d1afdacf048cb86654b0db876cb7af97c0375075341c',
+ 'archive_fit_admission.py': 'e0dd5e014efee2f5698caba6722e6e99cf43fb0a5aa4dce00a71f1129eaa0b4e',
  'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
  'metadata_access_contract_v2.py': '3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8'}
 BATCH_POLICIES={"initial":{"max_bytes":MAX_INITIAL_BYTES,"max_groups":MAX_INITIAL_GROUPS,"wall_seconds":CHILD_WALL_SECONDS,"packing":"smallest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup":{"max_bytes":MAX_LATER_BYTES,"max_groups":MAX_LATER_GROUPS,"wall_seconds":FOLLOWUP_CHILD_WALL_SECONDS,"packing":"largest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup-codec":{"max_bytes":CODEC_FOLLOWUP_MAX_BYTES,"max_groups":CODEC_FOLLOWUP_MAX_GROUPS,"wall_seconds":FOLLOWUP_CHILD_WALL_SECONDS,"packing":"largest_first","storage_codec_policy":"reversible-xz-v1","transient_disk_reserve_bytes":0}}
@@ -32,10 +33,11 @@ def resolve_batch_policy(batch_policy,storage_codec_policy,archive_io_profile=No
  if archive_io_profile in CODEC_ARCHIVE_IO_PROFILES:
   if batch_policy!='storage-followup-codec' or storage_codec_policy!='reversible-xz-v1':
    raise ValueError('codec multigroup profile requires storage-followup-codec and reversible-xz-v1')
-  result=dict(base);result.update({'max_bytes':CODEC_MULTIGROUP_MAX_BYTES,'max_groups':CODEC_MULTIGROUP_MAX_GROUPS,
-   'wall_seconds':ARCHIVE_IO_WALL_SECONDS,'archive_io_profile':archive_io_profile,
-   'transient_disk_reserve_bytes':CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,
-   'codec_temp_budget_bytes':CODEC_MULTIGROUP_TEMP_MAX_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES})
+  large=archive_io_profile==CODEC_LARGE_PROFILE
+  result=dict(base);result.update({'max_bytes':CODEC_LARGE_MAX_BYTES if large else CODEC_MULTIGROUP_MAX_BYTES,'max_groups':CODEC_LARGE_MAX_GROUPS if large else CODEC_MULTIGROUP_MAX_GROUPS,
+   'wall_seconds':CODEC_LARGE_WALL_SECONDS if large else ARCHIVE_IO_WALL_SECONDS,'archive_io_profile':archive_io_profile,
+   'transient_disk_reserve_bytes':(CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES + (4 << 30)) if large else CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,
+   'codec_temp_budget_bytes':CODEC_LARGE_TEMP_MAX_BYTES if large else CODEC_MULTIGROUP_TEMP_MAX_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES})
   return result
  if batch_policy!='storage-followup' or storage_codec_policy is not None:
   raise ValueError('bounded archive I/O profiles are only valid for raw storage-followup')
@@ -124,8 +126,10 @@ def main():
   owner=verify_controller()
   H.parent.mkdir(parents=True,exist_ok=True)
   fd=os.open(H,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
+  hold_doc={'owner_operation':'rf_cold_batch_wrapper_20261026','nonce':nonce,'operation_id':a.operation_id,'created_utc':now(),'reason':'one-shot bounded cold-model archive batch; pause new admissions only','batch_policy':a.batch_policy}
+  if a.archive_io_profile:hold_doc['archive_io_profile']=a.archive_io_profile
   with os.fdopen(fd,'w') as f:
-   json.dump({'owner_operation':'rf_cold_batch_wrapper_20261026','nonce':nonce,'operation_id':a.operation_id,'created_utc':now(),'reason':'one-shot bounded cold-model archive batch; pause new admissions only','batch_policy':a.batch_policy},f);f.flush();os.fsync(f.fileno())
+   json.dump(hold_doc,f);f.flush();os.fsync(f.fileno())
   hold=True;time.sleep(6)
   deadline=time.monotonic()+3600;admission=None
   while time.monotonic()<deadline:
@@ -143,7 +147,7 @@ def main():
   codec_tail_bytes=None;codec_disk_required=None
   if a.archive_io_profile in CODEC_ARCHIVE_IO_PROFILES:
    codec_tail_bytes=completed_archive_tail_bytes(ROOT,R,ROOT/'packages/LAMOST_ALL_EXPERIMENTS_BUILDING_20261026.zip',a.baseline_sha256)
-   codec_disk_required=codec_multigroup_disk_required_bytes(codec_tail_bytes)
+   codec_disk_required=codec_multigroup_disk_required_bytes(codec_tail_bytes,policy['max_bytes'])
   disk_free=shutil.disk_usage(R).free if a.archive_io_profile in RAW_ARCHIVE_IO_PROFILES or a.archive_io_profile in CODEC_ARCHIVE_IO_PROFILES else None
   disk_required=(policy['max_bytes']+policy['transient_disk_reserve_bytes'] if a.archive_io_profile in RAW_ARCHIVE_IO_PROFILES else codec_disk_required)
   if disk_free is not None and disk_free<disk_required:

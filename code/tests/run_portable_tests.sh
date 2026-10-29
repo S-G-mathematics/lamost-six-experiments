@@ -8,7 +8,7 @@ else
   export PYTHONPATH="$R/source:$R/tests${PYTHONPATH:+:$PYTHONPATH}"
 fi
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1
-pytest_args=(-q --disable-warnings --tb=short -p no:cacheprovider)
+pytest_args=(-q --rootdir="$R/tests" --disable-warnings --tb=short -p no:cacheprovider)
 if [[ "${LAMOST_TEST_COLLECT_ONLY:-0}" == "1" ]]; then
   pytest_args+=(--collect-only)
 fi
@@ -36,6 +36,8 @@ test_files=(
   "$R/tests/test_reporting_environment_policy.py" \
   "$R/tests/test_weighted_mean_gate.py" \
   "$R/tests/test_cold_codec_storage.py" \
+  "$R/tests/test_codec_multigroup_profile.py" \
+  "$R/tests/test_cold_model_storage_aggregate_budget.py" \
   "$R/tests/test_encoded_transactions.py" \
   "$R/tests/test_cold_model_storage_reader.py" \
   "$R/tests/test_codec_finalizer_contract.py" \
@@ -43,6 +45,10 @@ test_files=(
   "$R/tests/test_final_review_codec_identity.py" \
   "$R/tests/test_auditor_extracted_cold.py" \
   "$R/tests/test_codec_policy.py" \
+  "$R/tests/test_native_codec_overlap.py" \
+  "$R/tests/test_codec_overlap_controller_harness.py" \
+  "$R/tests/test_previous_codec_payload_compat.py" \
+  "$R/tests/test_production_codec_manifest_metadata.py" \
   "$R/tests/test_delivery_cron_codec.py" \
   "$R/tests/test_calibration_replay_supervisor_clock_race.py" \
   "$R/tests/test_codec_archive_projection_integration.py" \
@@ -105,5 +111,9 @@ test_files=(
   "$R/tests/test_native_fit_mixedsmall_profile.py"
   "$R/tests/test_native_fit_controller_harness.py" \
   "$R/tests/test_e1_recovery_locator_archive_stream.py"
+  "$R/tests/test_missing_attempt_selection_compat.py" \
+  "$R/tests/test_extra_trees4_controller_contract.py" \
+  "$R/tests/test_extra_trees4_engineering.py" \
+  "$R/tests/test_codec4gib_archive_profile.py" \
 )
 exec "$python_bin" -m pytest "${pytest_args[@]}" "${test_files[@]}"

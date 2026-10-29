@@ -1,0 +1,58 @@
+{
+  "bound_files": {
+    "manifests/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_20261029.json": "a6adf61b7cda2584309041bfa86350287443ee05ffe0fb6c1211726d1232e402",
+    "manifests/freeze.json": "31c26e718873209d1c0d1f5069ebbb5a302e48197897ec62fc0a17181be6cdb0",
+    "manifests/tasks.json": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+    "reports/engineering_audits/CODEC4_FULL_776_20261029.log": "c1188b57a397e9ea375373e8e939a994b89760012b63b19d60785af3d162b76d",
+    "source/archive_fit_admission.py": "e0dd5e014efee2f5698caba6722e6e99cf43fb0a5aa4dce00a71f1129eaa0b4e",
+    "source/batch_plan.py": "2389a9468a73f5af6cacfe585346afd14cf9a2a340b16c59439c2a77304c9372",
+    "source/cold_auto_compaction.py": "147a0a23c9fd5d9d6d98f5aae76a806bca89548b806b73f43d68019f4f340202",
+    "source/commit_batch_child.py": "04eb0b0cd873396d9ce92dc8a8cd164a4a012b1eb1ef9aa5f35e0f2ffc55de46",
+    "source/controller.py": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+    "source/run_batch.py": "8fe0e1b975d589a52dd3659b5c817d6192d47289a3566f1519f1a13ddf43873f",
+    "tests/PORTABLE_COLLECTED_NODEIDS_CODEC4_20261029.txt": "939dcf8738fcc0b6dbe24d7923842d3ed2f819c7177c04a86a3cd93f302a6a14",
+    "tests/PORTABLE_TEST_BUNDLE.json": "0bd9134924b84b0cb9a7d5b6a9699c7f47b5b8f644d75c141e5ecac58a986e95",
+    "tests/run_portable_tests.sh": "d4b89f274383d2e519e40e3bc07e4a3e6964264adaae1e2ab482dd669310561d"
+  },
+  "bundle_sha256": "0bd9134924b84b0cb9a7d5b6a9699c7f47b5b8f644d75c141e5ecac58a986e95",
+  "bundle_source_rows": 161,
+  "bundle_test_rows": 102,
+  "candidate_root": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_et4_codec4gib64_20261029",
+  "collection": {
+    "added_count": 6,
+    "baseline_count": 770,
+    "baseline_missing_count": 0,
+    "baseline_nodeids_path": "tests/PORTABLE_COLLECTED_NODEIDS_ET4_770_V3_20261029.txt",
+    "candidate_count": 776,
+    "candidate_nodeids_path": "tests/PORTABLE_COLLECTED_NODEIDS_CODEC4_20261029.txt",
+    "candidate_nodeids_sha256": "939dcf8738fcc0b6dbe24d7923842d3ed2f819c7177c04a86a3cd93f302a6a14",
+    "unique_count": 776
+  },
+  "command": "LAMOST_TEST_PYTHON=<frozen venv>/bin/python LAMOST_TEST_VENV_SITE=<frozen venv>/lib/python3.12/site-packages PYTHONPYCACHEPREFIX=/tmp/codec4_full_pycache_20261029; nice -n 10 <frozen venv>/bin/python tests/run_guarded_tests.py --rss-bytes 1073741824 --wall-seconds 120 --grace-seconds 5 -- bash tests/run_portable_tests.sh",
+  "hash_index_path": "reports/engineering_audits/CODEC4_776_SOURCE_TEST_SHA_INDEX_20261029.json",
+  "hash_index_sha256": "742ac5e6630369f9a09352b9a0e04d8ce39aa385dc7b79aafd9e6bda6d28cc5b",
+  "observed_utc": "2026-10-29T05:38:24.924971+00:00",
+  "preserved_prior_failed_attempt": "reports/engineering_audits/CODEC4_FULL_776_20261029.log",
+  "qualification_limitations": [
+    "This records the staging candidate test pass only; root review, codec4 profile/qdoc policy qualification, and publication/activation remain separate gates.",
+    "No scientific fits, model loads, predictions, or dataset changes were performed by this test run.",
+    "The prior failed full run is preserved as a separate historical attempt."
+  ],
+  "result": {
+    "exit_code": 0,
+    "failed_cases": 0,
+    "graceful_termination_sent": false,
+    "guarded_wall_seconds": 84.284,
+    "passed_cases": 776,
+    "peak_process_tree_rss_bytes": 875675648,
+    "pytest_duration_seconds": 82.11,
+    "rss_limit_bytes": 1073741824,
+    "subtests": 85,
+    "wall_limit_seconds": 120,
+    "warnings": 3
+  },
+  "runtime_root": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/staging/qualified_et4_codec4gib64_20261029/runtime_20261025",
+  "schema": "lamost-codec4-full-suite-qualification-observation/1",
+  "status": "candidate_full_suite_pass_root_review_pending",
+  "verified_hash_mismatches": 0
+}

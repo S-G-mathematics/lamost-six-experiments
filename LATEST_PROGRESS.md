@@ -1,8 +1,10 @@
 # Latest project progress snapshot
 
-Read-only registry snapshot observed at 2026-10-29T05:02:02.829484+00:00 UTC on the existing EC2. This is a database snapshot, not a process-liveness inventory. Existing aggregate figures and tables remain tied to their dated analysis snapshot unless identified as incremental results.
+Operational/source observation: 2026-10-29T06:31:00Z. The qualified ET4/archive source profile is installed. Portable qualification recorded 776 passed tests, 3 warnings and 85 subtests. The archive handoff is paused; no scientific workers were active at this observation.
 
-| Experiment | Planned | Successful | Scientific failures | Unsupported / unavailable | Waiting |
+The scientific tables below retain their 2026-10-29T05:02:02.829484Z cutoff. No newer scientific outcomes are claimed in this update.
+
+| Experiment | Planned | Successful/evaluated | Scientific failures | Unsupported/unavailable | Waiting |
 |---|---:|---:|---:|---:|---:|
 | E1 frozen | 765 | 674 | 81 (55 resource; 26 supervisor-terminal manifests still started) | 10 unsupported | 0 |
 | E1 recovery | 91 separate supplement | 24 | 10 retry failures | 2 user-stopped; 55 not attempted | 0 |
@@ -13,10 +15,6 @@ Read-only registry snapshot observed at 2026-10-29T05:02:02.829484+00:00 UTC on 
 | E5 | 960 | 700 | 50 | 78 | 132 |
 | E6 | 21 | 12 successful member-reference aliases | 3 primary ensemble failures | 6 | 0 |
 
-The complete E3-E6 scientific-case listing is reports/CURRENT_CELL_LEDGER.csv (2,823 rows) from this same registry snapshot. E6 has zero successful primary ensemble test evaluations. The 764-case portable qualification fingerprint is 6bad0b705d58a0b7cb99762c24e83876416cc20f2451168440c3c2b09ffe8bcc; it is engineering evidence, not scientific evaluation.
+E4/E5 had 220 waiting planned cases at the 06:31 UTC operational observation (88 E4, 132 E5). The report and figures remain at their documented earlier scientific cutoff. E6 has zero successful primary ensemble test evaluations. The 776 pass is engineering qualification, not scientific evaluation.
 
-The 764 selection metadata audit validated 578 canonical selection-fallback bindings and excluded 27 cases without fit_publication.json. It opened zero model payloads and zero archive payloads. Six validated E4 rep-3 RF treatment evaluations remain separately documented; aggregate figures and tables keep their earlier analysis cutoff.
-
-E1 and E2 remain frozen. E2 retains 31 reconstruction accuracy differences, 210 low-precision class-report flags and four complete five-family correlation strata. Historical E1 models and per-test-row predictions remain omitted; seven auxiliary tuning-history discrepancies remain disclosed. Recovery remains separate and stopped.
-
-No bootstrap or unsupported significance claims are included. E1 uses 180-second/6-GiB limits; later experiments use 600-second/10-GiB limits. Timing depends on hardware and shared-host load. Final calibration/report/archive validation remains pending.
+The qualified profile bounds a 4 GiB source batch, 8 GiB encoded temporary output, and a 5,400-second archive child; production throughput is unmeasured. The archive handoff was paused, and no scientific workers were active at 06:31Z. The project is incomplete; final calibration replay, artifact validation and final archive remain pending.

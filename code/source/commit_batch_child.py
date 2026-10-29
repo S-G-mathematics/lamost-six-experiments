@@ -3,14 +3,14 @@ import argparse, datetime, hashlib, json, sqlite3, stat, sys, time, zipfile, shu
 ROOT=Path('/home/ubuntu/lamost_e1_migration_20261023'); R=ROOT/'runtime_20261025'; D=Path(__file__).resolve().parent.parent
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import cold_model_storage as cold
-from batch_plan import build_candidates, select_batch, public_candidate_summary, require_reviewed_baseline, validate_operation_directory, verify_alias_resolution, MAX_INITIAL_BYTES, MAX_INITIAL_GROUPS, MAX_LATER_BYTES, MAX_LATER_GROUPS, RAW_WIDE_MAX_BYTES, RAW_WIDE_MAX_GROUPS, RAW_WIDE_PROFILE, RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES, RAW_MIXED_SMALL_MAX_BYTES, RAW_MIXED_SMALL_MAX_GROUPS, RAW_MIXED_SMALL_PROFILE, RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES, CODEC_MULTIGROUP_PROFILE, CODEC_MULTIGROUP_MAX_BYTES, CODEC_MULTIGROUP_MAX_GROUPS, CODEC_MULTIGROUP_TEMP_MAX_BYTES, CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES, CODEC_MULTIGROUP_DISK_MARGIN_BYTES, CODEC_ARCHIVE_IO_PROFILES, completed_archive_tail_bytes, codec_multigroup_disk_required_bytes
+from batch_plan import build_candidates, select_batch, public_candidate_summary, require_reviewed_baseline, validate_operation_directory, verify_alias_resolution, MAX_INITIAL_BYTES, MAX_INITIAL_GROUPS, MAX_LATER_BYTES, MAX_LATER_GROUPS, RAW_WIDE_MAX_BYTES, RAW_WIDE_MAX_GROUPS, RAW_WIDE_PROFILE, RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES, RAW_MIXED_SMALL_MAX_BYTES, RAW_MIXED_SMALL_MAX_GROUPS, RAW_MIXED_SMALL_PROFILE, RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES, CODEC_MULTIGROUP_PROFILE, CODEC_MULTIGROUP_MAX_BYTES, CODEC_MULTIGROUP_MAX_GROUPS, CODEC_MULTIGROUP_TEMP_MAX_BYTES, CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES, CODEC_MULTIGROUP_DISK_MARGIN_BYTES, CODEC_LARGE_PROFILE, CODEC_LARGE_MAX_BYTES, CODEC_LARGE_MAX_GROUPS, CODEC_LARGE_TEMP_MAX_BYTES, CODEC_LARGE_WALL_SECONDS, CODEC_ARCHIVE_IO_PROFILES, completed_archive_tail_bytes, codec_multigroup_disk_required_bytes
 PINS={'cold_model_storage.py': 'be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172',
  'cold_codec_storage.py': 'b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b',
  'reversible_joblib_codec.py': 'f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
- 'controller.py': 'a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9',
- 'batch_plan.py': '0fb23c09532ee34c38907497d65a0833c328a1b95fa99f024ad00146d32fbf34',
- 'archive_fit_admission.py': '578dce5e4cca15f9dbd9d1afdacf048cb86654b0db876cb7af97c0375075341c',
+ 'controller.py': '7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b',
+ 'batch_plan.py': '2389a9468a73f5af6cacfe585346afd14cf9a2a340b16c59439c2a77304c9372',
+ 'archive_fit_admission.py': 'e0dd5e014efee2f5698caba6722e6e99cf43fb0a5aa4dce00a71f1129eaa0b4e',
  'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
  'metadata_access_contract_v2.py': '3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8'}
@@ -30,6 +30,7 @@ ARCHIVE_IO_PROFILE='bounded-1800'
 RAW_WIDE_PROFILE='bounded-1800-wide8gib'
 ARCHIVE_IO_PROFILES=(ARCHIVE_IO_PROFILE,RAW_WIDE_PROFILE,RAW_MIXED_SMALL_PROFILE,*CODEC_ARCHIVE_IO_PROFILES)
 ARCHIVE_IO_WALL_SECONDS=1800
+CODEC_LARGE_WALL_SECONDS=5400
 POLICIES={"initial":{"max_bytes":MAX_INITIAL_BYTES,"max_groups":MAX_INITIAL_GROUPS,"wall_seconds":180,"packing":"smallest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup":{"max_bytes":MAX_LATER_BYTES,"max_groups":MAX_LATER_GROUPS,"wall_seconds":600,"packing":"largest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup-codec":{"max_bytes":CODEC_FOLLOWUP_MAX_BYTES,"max_groups":CODEC_FOLLOWUP_MAX_GROUPS,"wall_seconds":600,"packing":"largest_first","storage_codec_policy":"reversible-xz-v1","transient_disk_reserve_bytes":0}}
 def validate_storage_policy(batch_policy,storage_codec_policy,archive_io_profile=None):
     if batch_policy not in POLICIES: raise ValueError('unknown batch policy')
@@ -40,10 +41,11 @@ def validate_storage_policy(batch_policy,storage_codec_policy,archive_io_profile
     if archive_io_profile in CODEC_ARCHIVE_IO_PROFILES:
         if batch_policy!='storage-followup-codec' or storage_codec_policy!='reversible-xz-v1':
             raise ValueError('codec multigroup profile requires storage-followup-codec and reversible-xz-v1')
+        large=archive_io_profile==CODEC_LARGE_PROFILE
         policy=dict(POLICIES[batch_policy])
-        policy.update({'max_bytes':CODEC_MULTIGROUP_MAX_BYTES,'max_groups':CODEC_MULTIGROUP_MAX_GROUPS,
-            'wall_seconds':ARCHIVE_IO_WALL_SECONDS,'transient_disk_reserve_bytes':CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,
-            'codec_temp_budget_bytes':CODEC_MULTIGROUP_TEMP_MAX_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES,
+        policy.update({'max_bytes':CODEC_LARGE_MAX_BYTES if large else CODEC_MULTIGROUP_MAX_BYTES,'max_groups':CODEC_LARGE_MAX_GROUPS if large else CODEC_MULTIGROUP_MAX_GROUPS,
+            'wall_seconds':CODEC_LARGE_WALL_SECONDS if large else ARCHIVE_IO_WALL_SECONDS,'transient_disk_reserve_bytes':(CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES + (4 << 30)) if large else CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,
+            'codec_temp_budget_bytes':CODEC_LARGE_TEMP_MAX_BYTES if large else CODEC_MULTIGROUP_TEMP_MAX_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES,
             'archive_io_profile':archive_io_profile})
         return policy
     if batch_policy!='storage-followup' or storage_codec_policy is not None:
@@ -397,7 +399,7 @@ def main():
     codec_tail_bytes=None;codec_disk_required=None;codec_disk_free=None
     if args.archive_io_profile in CODEC_ARCHIVE_IO_PROFILES:
         codec_tail_bytes=completed_archive_tail_bytes(ROOT,R,archive,baseline)
-        codec_disk_required=codec_multigroup_disk_required_bytes(codec_tail_bytes)
+        codec_disk_required=codec_multigroup_disk_required_bytes(codec_tail_bytes,policy['max_bytes'])
         codec_disk_free=shutil.disk_usage(R).free
         if batch and codec_disk_free<codec_disk_required:
             raise RuntimeError(f'codec multigroup transient disk headroom insufficient: free={codec_disk_free} required={codec_disk_required}')

@@ -25,8 +25,14 @@ CODEC_MULTIGROUP_MAX_BYTES = 1 << 30
 CODEC_MULTIGROUP_MAX_GROUPS = 64
 CODEC_MULTIGROUP_TEMP_MAX_BYTES = 4 << 30
 CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES = (4 << 30) + (6 << 30)
+CODEC_LARGE_TRANSIENT_DISK_RESERVE_BYTES = (8 << 30) + (6 << 30)
 CODEC_MULTIGROUP_DISK_MARGIN_BYTES = 2 << 30
-CODEC_ARCHIVE_IO_PROFILES = (CODEC_MULTIGROUP_PROFILE,)
+CODEC_LARGE_PROFILE = "bounded-5400-codec4gib64"
+CODEC_LARGE_MAX_BYTES = 4 << 30
+CODEC_LARGE_MAX_GROUPS = 64
+CODEC_LARGE_TEMP_MAX_BYTES = 8 << 30
+CODEC_LARGE_WALL_SECONDS = 5400
+CODEC_ARCHIVE_IO_PROFILES = (CODEC_MULTIGROUP_PROFILE, CODEC_LARGE_PROFILE)
 ARCHIVE_IO_PROFILES = RAW_ARCHIVE_IO_PROFILES + CODEC_ARCHIVE_IO_PROFILES
 
 
@@ -72,9 +78,12 @@ def completed_archive_tail_bytes(root: Path, runtime: Path, archive: Path, expec
     return st.st_size-prefix
 
 
-def codec_multigroup_disk_required_bytes(tail_bytes: int) -> int:
+def codec_multigroup_disk_required_bytes(tail_bytes: int, batch_max_bytes: int = CODEC_MULTIGROUP_MAX_BYTES) -> int:
     if type(tail_bytes) is not int or tail_bytes<0: raise ValueError("invalid archive tail bound")
-    return CODEC_MULTIGROUP_MAX_BYTES+CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES+CODEC_MULTIGROUP_DISK_MARGIN_BYTES+tail_bytes
+    if type(batch_max_bytes) is not int or batch_max_bytes not in (CODEC_MULTIGROUP_MAX_BYTES, CODEC_LARGE_MAX_BYTES):
+        raise ValueError("codec batch source bound is not a recognized profile limit")
+    reserve = CODEC_LARGE_TRANSIENT_DISK_RESERVE_BYTES if batch_max_bytes == CODEC_LARGE_MAX_BYTES else CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES
+    return batch_max_bytes+reserve+CODEC_MULTIGROUP_DISK_MARGIN_BYTES+tail_bytes
 ARCHIVABLE_FIT_METHODS = frozenset(['arf', 'cart', 'chow_liu', 'copula', 'extra_trees', 'gaussian_nb', 'gmm', 'hist_gb', 'kde', 'knn', 'lda', 'linear_svm', 'logistic', 'qda', 'random_forest', 'rbf_svm', 'shared_diagonal'])
 
 

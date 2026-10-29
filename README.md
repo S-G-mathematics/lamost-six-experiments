@@ -2,7 +2,12 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research snapshot - read-only registry observed 2026-10-29T05:02:02.829484+00:00 UTC.** This saved research record does not claim all six experiments have passed final validation. Existing aggregate tables and figures remain bound to their documented analysis snapshot unless explicitly identified as incremental results.
+**Interim research snapshot - scientific results observed 2026-10-29T05:02:02.829484+00:00 UTC.** This saved research record does not claim all six experiments have passed final validation. Existing aggregate tables and figures remain bound to their documented analysis snapshot unless explicitly identified as incremental results.
+
+
+## Operational source update (2026-10-29T06:31:00Z)
+
+The qualified ET4/archive source profile is installed. Its bounded portable qualification recorded 776 passed tests, 3 warnings and 85 subtests. The archive handoff was paused at this observation; no scientific workers were active, and 220 E4/E5 scientific cases remained waiting (88 E4, 132 E5). The 4 GiB batch, 8 GiB encoded temporary-output and 5,400-second archive limits are qualified policy bounds, not measured throughput or claimed speedup. No new scientific results are represented by this source update. See [qualification and profile note](docs/QUALIFIED_CODEC4_776_AND_ET4_PROFILE_20261029.md) and [source-map provenance](provenance/qualification_codec4_776/OPERATIONAL_SOURCE_MAP_PROVENANCE_NOTE_20261029.md).
 
 ## Experiment status and navigation
 

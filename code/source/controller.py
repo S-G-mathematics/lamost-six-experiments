@@ -53,6 +53,13 @@ RF4_RESOURCE_PROFILE='rf-fit_n_jobs4'
 RF4_PROFILE_ID=RF4_RESOURCE_PROFILE
 RF4_CPU_UNITS=4
 RF4_SOURCE_NAMES=('parallel_rf/worker.py','parallel_rf/phase_worker.py','parallel_rf/science.py')
+ET4_EXECUTION_POLICY='et4-fit_n_jobs4-v1'
+ET4_RESOURCE_PROFILE='et-fit_n_jobs4'
+ET4_PROFILE_ID='et4-fit-n_jobs4-10gib-e45-never-attempted-v1'
+ET4_POLICY_FIELD='et4_execution_policy_sha256'
+ET4_POLICY_REL='manifests/EXTRA_TREES4_EXECUTION_POLICY_20261029.json'
+ET4_SOURCE_NAMES=('parallel_extra_trees/worker.py','parallel_extra_trees/phase_worker.py','parallel_extra_trees/science.py')
+ET4_CPU_UNITS=4
 ARCHIVE_FIT_POLICY_FIELD=archive_fit_admission.POLICY_FIELD
 ARCHIVE_FIT_OVERLAP_PROFILE='archive-native-fit-overlap-1.5gib-cpu1-v1'
 RF4_POLICY_CACHE_SIGNATURE=None
@@ -100,6 +107,7 @@ def source_hashes():
   try: freeze_doc=json.loads(freeze_path.read_text())
   except (OSError,ValueError,AttributeError): freeze_doc={}
   if isinstance(freeze_doc,dict) and (RF4_POLICY_FIELD in freeze_doc or RF4_E4_6G_POLICY_FIELD in freeze_doc or RF4_E4_REP3_POLICY_FIELD in freeze_doc):names.extend(RF4_SOURCE_NAMES)
+  if isinstance(freeze_doc,dict) and ET4_POLICY_FIELD in freeze_doc:names.extend(ET4_SOURCE_NAMES)
   if isinstance(freeze_doc,dict) and (ARCHIVE_FIT_POLICY_FIELD in freeze_doc or archive_fit_admission.WORKER_REAPER_FIELD in freeze_doc):names.append('archive_fit_admission.py')
  return {n:sha(R/'source'/n) for n in names}
 def _rf4_manifest_and_freeze(frozen=None):
@@ -423,6 +431,85 @@ def _rf4_fit_eligible(task):
  if not isinstance(definition,dict) or definition.get('key')!=key:return None
  if any(definition.get(k)!=task.get(k) for k in ('key','experiment','kind','method')) or definition.get('reuse_pipeline'):return None
  return {'profile_id':RF4_PROFILE_ID,'reservation_gib':10,'cpu_reservation_units':RF4_CPU_UNITS,'execution_policy':RF4_EXECUTION_POLICY,'resource_profile':RF4_RESOURCE_PROFILE,'policy_sha256':policy['manifest_sha256'],'source_sha256':dict(policy['source_sha256'])}
+def _et4_policy(frozen=None):
+ frozen=frozen if isinstance(frozen,dict) else _safe_profile_json(R/"manifests"/"freeze.json") or {}
+ if ET4_POLICY_FIELD not in frozen:return None
+ declared=frozen.get(ET4_POLICY_FIELD)
+ if not isinstance(declared,str) or len(declared)!=64 or any(c not in "0123456789abcdef" for c in declared):raise RuntimeError("declared ET4 policy SHA is malformed")
+ manifest=R/ET4_POLICY_REL
+ if manifest.is_symlink() or not manifest.is_file():raise RuntimeError("declared ET4 policy manifest missing or unsafe")
+ raw=manifest.read_bytes(); digest=hashlib.sha256(raw).hexdigest()
+ if digest!=declared:raise RuntimeError("declared ET4 policy SHA mismatch")
+ doc=json.loads(raw)
+ if not isinstance(doc,dict) or doc.get("schema")!="lamost-later-et4-execution-policy/1" or doc.get("policy_id")!=ET4_EXECUTION_POLICY or doc.get("resource_profile_id")!=ET4_RESOURCE_PROFILE or doc.get("status")!="qualified":
+  raise RuntimeError("declared ET4 policy is not qualified")
+ scope={"experiments":[4,5],"kind":"fit","methods":["extra_trees"],"never_attempted":True,"reuse_pipeline":False}
+ if doc.get("scope")!=scope:raise RuntimeError("ET4 task scope mismatch")
+ limits={"fit_n_jobs":4,"prediction_n_jobs":1,"native_threads":1,"admission_reservation_gib":10,"worker_memory_limit_gib":10,"trial_timeout_seconds":600,"phase_timeout_seconds":600,"termination_grace_seconds":30,"cpu_reservation_units":4}
+ if any(doc.get(k)!=v for k,v in limits.items()):raise RuntimeError("ET4 resource policy mismatch")
+ sources=doc.get("source_sha256")
+ if not isinstance(sources,dict) or set(sources)!=set(ET4_SOURCE_NAMES):raise RuntimeError("ET4 adapter source inventory mismatch")
+ files={name:R/"source"/name for name in ET4_SOURCE_NAMES}
+ if any(x.is_symlink() or not x.is_file() for x in files.values()):raise RuntimeError("ET4 source missing or unsafe")
+ current={name:sha(path) for name,path in files.items()}
+ frozen_sources=frozen.get("source_sha256")
+ if sources!=current or not isinstance(frozen_sources,dict) or any(frozen_sources.get(k)!=v for k,v in current.items()):
+  raise RuntimeError("ET4 adapter pins differ from frozen source map")
+ q=doc.get("qualification")
+ if not isinstance(q,dict) or not isinstance(q.get("path"),str) or not isinstance(q.get("sha256"),str):raise RuntimeError("ET4 qualification evidence missing")
+ qrel=pathlib.Path(q["path"])
+ if qrel.is_absolute() or ".." in qrel.parts:raise RuntimeError("ET4 qualification path unsafe")
+ qpath=R/qrel
+ if qpath.is_symlink() or not qpath.is_file() or R.resolve() not in qpath.resolve().parents:raise RuntimeError("ET4 qualification path invalid")
+ qraw=qpath.read_bytes()
+ if hashlib.sha256(qraw).hexdigest()!=q["sha256"]:raise RuntimeError("ET4 qualification evidence SHA mismatch")
+ qdoc=json.loads(qraw)
+ if not isinstance(qdoc,dict) or qdoc.get("schema")!="lamost-et4-execution-qualification/1" or qdoc.get("status")!="passed" or qdoc.get("source_sha256")!=current:
+  raise RuntimeError("ET4 qualification evidence not bound/passed")
+ if qdoc.get("controller_sha256")!=sha(pathlib.Path(__file__)):
+  raise RuntimeError("ET4 qualification controller pin mismatch")
+ expected_execution={"fit_n_jobs":4,"prediction_n_jobs":1,"serialized_estimator_n_jobs":1,"native_threads":1,"admission_reservation_gib":10,"worker_memory_limit_gib":10,"trial_timeout_seconds":600,"phase_timeout_seconds":600,"termination_grace_seconds":30,"cpu_reservation_units":4}
+ if qdoc.get("execution")!=expected_execution:raise RuntimeError("ET4 qualification execution limits mismatch")
+ fixture=qdoc.get("synthetic_thread_equivalence")
+ if (not isinstance(fixture,dict) or fixture.get("status")!="passed" or fixture.get("models_are_synthetic_only") is not True
+     or fixture.get("scientific_fits_started")!=0 or fixture.get("exit_code")!=0 or fixture.get("test_count")<1
+     or fixture.get("serialized_estimator_n_jobs")!=1
+     or not all(fixture.get(k) is True for k in ("tree_structures_identical_single_vs_four","validation_scores_identical_single_vs_four","same_selected_candidate_single_vs_four","prediction_probabilities_identical_single_vs_four"))):
+  raise RuntimeError("ET4 synthetic parallel-equivalence evidence is incomplete")
+ test_rel=pathlib.Path(str(fixture.get("test_path","")))
+ if test_rel.is_absolute() or ".." in test_rel.parts:raise RuntimeError("ET4 fixture test path unsafe")
+ test_path=R/test_rel
+ if test_path.is_symlink() or not test_path.is_file() or sha(test_path)!=fixture.get("test_sha256"):
+  raise RuntimeError("ET4 fixture test pin mismatch")
+ contract=qdoc.get("controller_contract")
+ if (not isinstance(contract,dict) or contract.get("status")!="passed"
+     or contract.get("exit_code")!=0 or contract.get("test_count")<1):
+  raise RuntimeError("ET4 focused controller-contract evidence is incomplete")
+ contract_rel=pathlib.Path(str(contract.get("test_path","")))
+ if contract_rel.is_absolute() or ".." in contract_rel.parts:raise RuntimeError("ET4 contract test path unsafe")
+ contract_path=R/contract_rel
+ if contract_path.is_symlink() or not contract_path.is_file() or sha(contract_path)!=contract.get("test_sha256"):
+  raise RuntimeError("ET4 focused controller-contract test pin mismatch")
+ return {"policy_sha256":digest,"source_sha256":current,"document":doc,"qualification_sha256":q["sha256"]}
+
+def _has_recorded_et4_profile(task):
+ profiles=[task.get("admission_resource_policy")]
+ if task.get("attempts"):profiles.append(task["attempts"][-1].get("resource_profile"))
+ return any(isinstance(x,dict) and x.get("execution_policy")==ET4_EXECUTION_POLICY and x.get("resource_profile")==ET4_RESOURCE_PROFILE and x.get("admission_profile_id")==ET4_PROFILE_ID for x in profiles)
+def _et4_fit_eligible(task):
+ if not isinstance(task,dict):return None
+ if task.get("kind")!="fit" or task.get("method")!="extra_trees":return None
+ try: experiment=int(task.get("experiment"))
+ except (TypeError,ValueError):return None
+ if experiment not in (4,5) or task.get("reuse_pipeline") or task.get("attempts"):return None
+ if task.get("admission_reservation_bytes") is not None or task.get("status") not in ("planned","waiting_dependency","waiting_for_dependency"):return None
+ key=task.get("key");definition=DEFINITIONS.get(key)
+ if not isinstance(definition,dict) or definition.get("key")!=key:return None
+ if any(definition.get(k)!=task.get(k) for k in ("key","experiment","kind","method")) or definition.get("reuse_pipeline"):return None
+ policy=_et4_policy()
+ if policy is None:return None
+ return {"profile_id":ET4_PROFILE_ID,"reservation_gib":10,"cpu_reservation_units":ET4_CPU_UNITS,"execution_policy":ET4_EXECUTION_POLICY,"resource_profile":ET4_RESOURCE_PROFILE,"policy_sha256":policy["policy_sha256"],"source_sha256":dict(policy["source_sha256"])}
+
 def lock_project():
  f=(R/'owner.lock').open('a+')
  try:fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB)
@@ -813,6 +900,14 @@ def recover(db,t,reason):
   t.pop(field,None)
  put(db,t);event(db,'operational_recovery',{'key':t['key'],'reason':reason,'recovery_number':n+1,'checkpoint_preserved':True})
 def worker_script_for_task(task,execution_policy=None,resource_profile=None):
+ if execution_policy==ET4_EXECUTION_POLICY or resource_profile==ET4_RESOURCE_PROFILE:
+  try:experiment=int(task.get('experiment'))
+  except (TypeError,ValueError):experiment=-1
+  if (execution_policy!=ET4_EXECUTION_POLICY or resource_profile!=ET4_RESOURCE_PROFILE
+      or _et4_policy() is None or task.get('kind')!='fit' or task.get('method')!='extra_trees'
+      or experiment not in (4,5) or task.get('reuse_pipeline')):
+   raise RuntimeError('ET4 worker dispatch metadata is invalid or not qualified')
+  return R/'source'/'parallel_extra_trees'/'worker.py'
  if execution_policy is not None or resource_profile is not None:
   try:experiment=int(task.get('experiment'))
   except (TypeError,ValueError):experiment=-1
@@ -824,6 +919,11 @@ def worker_script_for_task(task,execution_policy=None,resource_profile=None):
  if task.get('kind') in {'fit','eval','alias'} and task.get('method') in {'linear_svm','rbf_svm'}:
   return R/'source'/'svm_margin'/'worker.py'
  return R/'source'/'worker.py'
+
+def _execution_worker_profile_fields(profile_id):
+ if profile_id==ET4_PROFILE_ID:return {"execution_policy":ET4_EXECUTION_POLICY,"resource_profile":ET4_RESOURCE_PROFILE}
+ if profile_id in (RF4_PROFILE_ID,RF4_E4_6G_PROFILE_ID,RF4_E4_REP3_PROFILE_ID):return {"execution_policy":RF4_EXECUTION_POLICY,"resource_profile":RF4_RESOURCE_PROFILE}
+ return {}
 
 def worker_request_definition(task):
  # Keep the scientific task exactly as frozen; only resolve its artifact output path.
@@ -950,6 +1050,7 @@ def admit(db,t,idle_hint=None,storage_drain_evidence=None):
  rf6_rep3_evidence=_e4_treatment_rf4_rep3_6g_eligible(t) if not t.get('attempts') else None
  rf6_evidence=_e4_treatment_rf4_6g_eligible(t) if not t.get('attempts') else None
  rf4_evidence=_rf4_fit_eligible(t) if not t.get('attempts') else None
+ et4_evidence=_et4_fit_eligible(t) if not t.get('attempts') else None
  if rf6_rep3_evidence is not None:
   if reservation!=6*GIB:raise RuntimeError('qualified E4 rep3 treatment RF4 task lacks 6 GiB reservation')
   profile_id=RF4_E4_REP3_PROFILE_ID;profile_evidence=rf6_rep3_evidence
@@ -959,10 +1060,20 @@ def admit(db,t,idle_hint=None,storage_drain_evidence=None):
  elif rf4_evidence is not None:
   if reservation!=10*GIB:raise RuntimeError('qualified RF4 task lacks required 10 GiB reservation')
   profile_id=RF4_PROFILE_ID;profile_evidence=rf4_evidence
+ elif et4_evidence is not None:
+  if reservation!=10*GIB:raise RuntimeError('qualified ET4 task lacks required 10 GiB reservation')
+  profile_id=ET4_PROFILE_ID;profile_evidence=et4_evidence
  elif _has_recorded_rf4_profile(t):
   if reservation!=10*GIB or profile_id not in (None,RF4_PROFILE_ID):
    raise RuntimeError('recorded RF4 operational resume profile is inconsistent')
   profile_id=RF4_PROFILE_ID
+  profile_evidence=t.get('admission_profile_evidence')
+  if not profile_evidence and t.get('attempts'):
+   profile_evidence=t['attempts'][-1].get('resource_profile',{}).get('admission_profile_evidence')
+ elif _has_recorded_et4_profile(t):
+  if reservation!=10*GIB or profile_id not in (None,ET4_PROFILE_ID):
+   raise RuntimeError('recorded ET4 operational resume profile is inconsistent')
+  profile_id=ET4_PROFILE_ID
   profile_evidence=t.get('admission_profile_evidence')
   if not profile_evidence and t.get('attempts'):
    profile_evidence=t['attempts'][-1].get('resource_profile',{}).get('admission_profile_evidence')
@@ -1029,6 +1140,8 @@ def admit(db,t,idle_hint=None,storage_drain_evidence=None):
  if storage_drain_evidence is not None:resource_profile['storage_drain_policy']=dict(storage_drain_evidence)
  if profile_id in (RF4_PROFILE_ID,RF4_E4_6G_PROFILE_ID,RF4_E4_REP3_PROFILE_ID):
   resource_profile.update({'execution_policy':RF4_EXECUTION_POLICY,'resource_profile':RF4_RESOURCE_PROFILE,'cpu_reservation_units':RF4_CPU_UNITS,'fit_n_jobs':4,'prediction_n_jobs':1,'native_threads':1})
+ if profile_id==ET4_PROFILE_ID:
+  resource_profile.update({'execution_policy':ET4_EXECUTION_POLICY,'resource_profile':ET4_RESOURCE_PROFILE,'cpu_reservation_units':ET4_CPU_UNITS,'fit_n_jobs':4,'prediction_n_jobs':1,'native_threads':1})
  if profile_evidence:resource_profile['admission_profile_evidence']=dict(profile_evidence)
  if overlap_evidence:resource_profile['archive_native_fit_overlap_admission']=overlap_evidence
  t['admission_reservation_bytes']=reservation;t['admission_profile_id']=profile_id
@@ -1046,7 +1159,7 @@ def admit(db,t,idle_hint=None,storage_drain_evidence=None):
   definition['effective_dependencies']=eff
   definition['member_evaluation_dependency_observations']={k:{'status':allstates[k]['status'],'outcome':allstates[k].get('outcome'),'reason':allstates[k].get('reason')} for k in definition.get('member_evaluations',{}).values()}
  cfg={'task':definition,'attempt_id':aid,'result_path':str(result),'dispatch_policy_id':DISPATCH_POLICY_ID}
- if profile_id in (RF4_PROFILE_ID,RF4_E4_6G_PROFILE_ID,RF4_E4_REP3_PROFILE_ID):cfg.update({'execution_policy':RF4_EXECUTION_POLICY,'resource_profile':RF4_RESOURCE_PROFILE})
+ cfg.update(_execution_worker_profile_fields(profile_id))
  worker_script=worker_script_for_task(definition,cfg.get('execution_policy'),cfg.get('resource_profile'))
  if definition.get('e6_protocol_version')==E6_V2 and int(definition.get('experiment',0) or 0)==6:
   definition['_controller_request_sha256']=_e6_request_digest(cfg)
@@ -1274,6 +1387,7 @@ def worker_reservation_bytes(t):
  # A recorded RF4 attempt always carries the full hard-limit reservation;
  # malformed historical metadata must not lower its memory commitment.
  if _has_recorded_rf4_profile(t):return 10*GIB
+ if _has_recorded_et4_profile(t):return 10*GIB
  if _has_recorded_e4_treatment_rf6_profile(t):return 6*GIB
  recorded=t.get('admission_reservation_bytes')
  if recorded is not None:
@@ -1289,6 +1403,8 @@ def worker_reservation_bytes(t):
  if not t.get('attempts'):
   rf4=_rf4_fit_eligible(t)
   if rf4 is not None and rf4.get('reservation_gib')==10:return 10*GIB
+  et4=_et4_fit_eligible(t)
+  if et4 is not None and et4.get('reservation_gib')==10:return 10*GIB
  # Prospective only: tasks with any prior attempt keep their historical
  # reservation unless explicitly persisted on the task itself.
  if not t.get('attempts') and is_e4_direct_rf_80k(t):return 4*GIB
@@ -1329,7 +1445,7 @@ def cpu_admission_slots(active_workers,total_cpus,idle_cores,reserve_cores=2):
  ceiling=min(max(0,int(total_cpus)-int(reserve_cores)),int(active_workers)+extra)
  return max(0,ceiling-int(active_workers))
 def worker_cpu_reservation_units(t):
- if _has_recorded_rf4_profile(t) or _has_recorded_e4_treatment_rf6_profile(t):
+ if _has_recorded_rf4_profile(t) or _has_recorded_et4_profile(t) or _has_recorded_e4_treatment_rf6_profile(t):
   profiles=[t.get('admission_resource_policy')]
   if t.get('attempts'):profiles.append(t['attempts'][-1].get('resource_profile'))
   for profile in profiles:
@@ -1338,11 +1454,16 @@ def worker_cpu_reservation_units(t):
      units=int(profile.get('cpu_reservation_units',RF4_CPU_UNITS))
      return RF4_CPU_UNITS if units!=RF4_CPU_UNITS else units
     except (TypeError,ValueError):return RF4_CPU_UNITS
+   if isinstance(profile,dict) and profile.get('execution_policy')==ET4_EXECUTION_POLICY and profile.get('resource_profile')==ET4_RESOURCE_PROFILE:
+    try:
+     units=int(profile.get('cpu_reservation_units',ET4_CPU_UNITS))
+     return ET4_CPU_UNITS if units!=ET4_CPU_UNITS else units
+    except (TypeError,ValueError):return ET4_CPU_UNITS
  return 1
 def candidate_cpu_reservation_units(t):
  # Operational retries retain the execution profile already recorded on the task.
  if worker_cpu_reservation_units(t)==RF4_CPU_UNITS:return RF4_CPU_UNITS
- return RF4_CPU_UNITS if (_rf4_fit_eligible(t) is not None or _e4_treatment_rf4_rep3_6g_eligible(t) is not None or _e4_treatment_rf4_6g_eligible(t) is not None) else 1
+ return RF4_CPU_UNITS if (_rf4_fit_eligible(t) is not None or _et4_fit_eligible(t) is not None or _e4_treatment_rf4_rep3_6g_eligible(t) is not None or _e4_treatment_rf4_6g_eligible(t) is not None) else 1
 def cpu_admission_units(running,total_cpus,idle_cores,reserve_cores=2):
  occupied=sum(worker_cpu_reservation_units(t) for t in running)
  extra=max(0,int(idle_cores)-int(reserve_cores))

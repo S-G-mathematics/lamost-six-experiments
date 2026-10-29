@@ -1,5 +1,5 @@
 from pathlib import Path
-import sys, unittest, hashlib
+import os, sys, unittest, hashlib
 from unittest.mock import patch
 STAGE=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(STAGE/'source'))
@@ -8,7 +8,7 @@ sys.path.insert(0,str(STAGE/'source'))
 sys.modules.pop('controller',None)
 sys.modules.pop('archive_fit_admission',None)
 import controller
-_EXPECTED_CONTROLLER_SHA='a778a4b267f7fee2bc2411711d47c145077b4b0409fb14b334ce13796b3b25a9'
+_EXPECTED_CONTROLLER_SHA='7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b'
 assert Path(controller.__file__).resolve()==(STAGE/'source/controller.py').resolve()
 assert hashlib.sha256(Path(controller.__file__).read_bytes()).hexdigest()==_EXPECTED_CONTROLLER_SHA
 assert Path(controller.archive_fit_overlap_context.__code__.co_filename).resolve()==(STAGE/'source/controller.py').resolve()
@@ -19,6 +19,11 @@ class NativeCodecAdmissionHarnessTests(unittest.TestCase):
         self.task={'key':self.key,'experiment':4,'kind':'fit','route':'direct','method':'random_forest','rep':1,'status':'planned','attempts':[],'dependencies':['e4/rep_1/cohort/clean'],'reuse_pipeline':False}
         self.records={self.key:self.task}
         self.helper_context={'evidence':{'context_sha256':'a'*64}}
+        self.profile=os.environ.get('LAMOST_TEST_CODEC_PROFILE','codec4')
+        if self.profile not in {'codec1','codec4'}: raise ValueError('unsupported test profile')
+        io_profile='bounded-1800-codec1gib64' if self.profile=='codec1' else 'bounded-5400-codec4gib64'
+        self.expected_overlap_profile='codec' if self.profile=='codec1' else 'codec4'
+        self.archive_op={'owner_operation':'rf_cold_batch_wrapper_20261026','batch_policy':'storage-followup-codec','archive_io_profile':io_profile,'storage_codec_policy':'reversible-xz-v1'}
         self.helper={'available_bytes':20*G,'credited_pss_bytes':512*1024**2,'observed_peak_pss_bytes':700*1024**2,'context':self.helper_context}
         self.patches=[]
         def start(target,*a,**kw):
@@ -26,7 +31,7 @@ class NativeCodecAdmissionHarnessTests(unittest.TestCase):
         start(controller,'archive_fit_overlap_context',return_value={'mode':'active','evidence':self.helper_context['evidence']})
         start(controller,'_archive_overlap_freeze',return_value={'source_sha256':{'controller.py':'c'*64,'archive_fit_admission.py':'d'*64}})
         start(controller,'load',return_value=self.records)
-        start(controller.archive_fit_admission,'qualify_candidate',return_value={'proof_sha256':'b'*64,'overlap_profile':'codec','archive_operation':{'batch_policy':'storage-followup-codec'}})
+        start(controller.archive_fit_admission,'qualify_candidate',return_value={'proof_sha256':'b'*64,'overlap_profile':self.expected_overlap_profile,'archive_operation':self.archive_op})
         start(controller,'_bracketed_archive_helper',return_value=self.helper)
         start(controller,'bracketed_worker_memory',return_value=(20*G,[],[]))
         start(controller,'memory_admission_ok',return_value=True)
@@ -40,6 +45,8 @@ class NativeCodecAdmissionHarnessTests(unittest.TestCase):
         result=controller._archive_fit_launch_gate(object(),self.task,idle_hint=4)
         self.assertIsInstance(result,dict)
         self.assertEqual(result['task_input_proof']['proof_sha256'],'b'*64)
+        self.assertEqual(result['task_input_proof']['overlap_profile'],self.expected_overlap_profile)
+        self.assertEqual(result['task_input_proof']['archive_operation'],self.archive_op)
         self.assertEqual(result['helper_reservation_bytes'],int(1.5*G))
         controller.archive_fit_admission.qualify_candidate.assert_called_once()
         self.assertEqual(self.task['attempts'],[])
