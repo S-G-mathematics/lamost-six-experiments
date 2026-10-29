@@ -210,6 +210,7 @@ for mech in sorted({x.get('mechanism') for x in e5summary}):
 if '### All current matched-condition summaries' in report: _replace_table('### All current matched-condition summaries','| Comparison |',_mdtable(['Comparison','Planned strata','n=3','n=2','n=1','n=0','Total BA paired reps'],e4rows))
 if '### All current matched corruption summaries' in report: _replace_table('### All current matched corruption summaries','| Mechanism |',_mdtable(['Mechanism','Planned strata','n=3','n=2','n=1','n=0','Total BA paired reps'],e5rows))
 report=re.sub(r'(?m)^(\| E6 member references \| \d+ \| )(\d+)( \|)',lambda m:m.group(1)+m.group(2)+' aliases'+m.group(3),report,count=1)
+report=re.sub(r'\n\n### Snapshot history\n.*\Z','',report,flags=re.S)
 report += f'\n\n### Snapshot history\nThis {obs} UTC interim refresh supersedes the earlier 03:53Z interim snapshot. The earlier snapshot remains available in Git history at commit c6112170e168fda4a81fb1f9e72d942e2152b24e.'
 (OUT/'DEADLINE_INTERIM_SCIENTIFIC_REPORT.md').write_text(report,encoding='utf-8')
 (OUT/'DEADLINE_INTERIM_SCIENTIFIC_REPORT.md').write_text(report,encoding='utf-8')

@@ -1,6 +1,6 @@
 # LAMOST six-experiment research: consolidated interim submission
 
-**INTERIM - not final project completion.** Read-only registry snapshot: 2026-10-29T05:00:13.700949+00:00 UTC on the existing EC2. This submission combines frozen E1/E2 reports with current E3-E6 case outcomes and metrics from saved, validated evaluation JSONs. No model was loaded, fit, retuned, or used for inference; no bootstrap was run. Existing test outcomes are already observed, so later cohorts are not described as an untouched prospective test.
+**INTERIM - not final project completion.** Read-only registry snapshot: 2026-10-29T05:02:02.829484+00:00 UTC on the existing EC2. This submission combines frozen E1/E2 reports with current E3-E6 case outcomes and metrics from saved, validated evaluation JSONs. No model was loaded, fit, retuned, or used for inference; no bootstrap was run. Existing test outcomes are already observed, so later cohorts are not described as an untouched prospective test.
 
 ## Current status
 
@@ -150,7 +150,4 @@ E1 used 180-second/6-GiB settings. E3-E6 settings are 600-second/10-GiB per work
 
 
 ### Snapshot history
-This 2026-10-29T04:54Z interim refresh supersedes the earlier 03:53Z interim snapshot. The earlier snapshot remains available in Git history at commit c6112170e168fda4a81fb1f9e72d942e2152b24e.
-
-### Snapshot history
-This 2026-10-29T05:00:13.700949+00:00 UTC interim refresh supersedes the earlier 03:53Z interim snapshot. The earlier snapshot remains available in Git history at commit c6112170e168fda4a81fb1f9e72d942e2152b24e.
+This 2026-10-29T05:02:02.829484+00:00 UTC interim refresh supersedes the earlier 03:53Z interim snapshot. The earlier snapshot remains available in Git history at commit c6112170e168fda4a81fb1f9e72d942e2152b24e.
