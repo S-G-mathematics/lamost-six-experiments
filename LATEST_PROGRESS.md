@@ -1,6 +1,6 @@
 # Latest project progress snapshot
 
-Read-only registry snapshot observed at 2026-10-29T02:10:44.392619+00:00 UTC on the existing EC2. This is a database snapshot, not a process-liveness inventory. Existing aggregate figures and tables remain tied to their dated analysis snapshot unless identified as incremental results.
+Read-only registry snapshot observed at 2026-10-29T05:00:13.700949+00:00 UTC on the existing EC2. This is a database snapshot, not a process-liveness inventory. Existing aggregate figures and tables remain tied to their dated analysis snapshot unless identified as incremental results.
 
 | Experiment | Planned | Successful | Scientific failures | Unsupported / unavailable | Waiting |
 |---|---:|---:|---:|---:|---:|
@@ -9,7 +9,7 @@ Read-only registry snapshot observed at 2026-10-29T02:10:44.392619+00:00 UTC on 
 | E2 primary | 150 | 108 evaluated | - | 42 unavailable | - |
 | E2 classical references | 120 | 120 evaluated | - | 0 | - |
 | E3 | 69 | 64 | 3 | 2 | 0 |
-| E4 | 1,773 | 1,605 | 71 | 3 | 94 |
+| E4 | 1,773 | 1,611 | 71 | 3 | 88 |
 | E5 | 960 | 700 | 50 | 78 | 132 |
 | E6 | 21 | 12 successful member-reference aliases | 3 primary ensemble failures | 6 | 0 |
 
