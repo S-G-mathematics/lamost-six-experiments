@@ -1,0 +1,217 @@
+{
+  "bootstrap": false,
+  "budgets": [
+    100000
+  ],
+  "calibration_rows": 10000,
+  "design_origin": "Export of design, tasks, roles and decisions frozen before new later-experiment test evaluation; export does not change design",
+  "experiment": 4,
+  "features": [
+    "mag_ps_g",
+    "mag_ps_r",
+    "mag_ps_i",
+    "mag_ps_z",
+    "mag_ps_y",
+    "gaia_g_mean_mag"
+  ],
+  "fit_rows": 80000,
+  "implementation_defaults": {
+    "E4_100k_budget": true,
+    "E5_100k_budget_and_3repetitions": true,
+    "E6_100k_budget_and_3repetitions_and_weight_search": true,
+    "corruption_floor_native_units": 1e-12,
+    "downstream_preprocessing": "own permitted training source in native predictors",
+    "target_add_rounding": "nearest integer, half upward",
+    "trials": "fixed established domains;10ordinary,5declaredexpensive;3startup;no replacement failures"
+  },
+  "label_order": [
+    "A",
+    "F",
+    "G",
+    "K",
+    "M",
+    "GALAXY",
+    "QSO"
+  ],
+  "operational_concurrency_amendment": "concurrency_user_authorization_20261025.json",
+  "original_plan_freeze_utc": "2026-10-25T04:46:31.018995+00:00",
+  "planned_scientific_cases": 1773,
+  "planned_task_count": 4110,
+  "protocol_version": "LAMOST-later-v1-20261025",
+  "question": "Reducing support for each class and restoring its original share",
+  "repetitions": 3,
+  "resource_policy": {
+    "admission_pause_below_gib": 8,
+    "alias_reservation_gib": 0.25,
+    "bounded_helper_reservation_gib": 1,
+    "commitment_growth_margin_gib": 2,
+    "cpu_reserve_cores": 2,
+    "emergency_backoff_seconds": 60,
+    "host_os_harbor_reserve_gib": 6,
+    "max_operational_recoveries": 2,
+    "nested_threads": 1,
+    "phase_timeout_seconds": 600,
+    "prediction_chunk_rows": 50000,
+    "queue_packing": "retain one heavy fitting lane and prefer admissible light work before additional heavy fits",
+    "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+    "retry_cooldown_seconds": [
+      60,
+      120,
+      300
+    ],
+    "termination_grace_seconds": 30,
+    "trial_timeout_seconds": 600,
+    "worker_admission_reservation_gib_by_class": {
+      "heavy": 10,
+      "light": 2
+    },
+    "worker_count_ceiling": "cpu-derived",
+    "worker_memory_limit_gib": 10,
+    "worker_nice": 10
+  },
+  "resource_policy_effective_from_utc": "2026-10-25T17:12:32.165349+00:00",
+  "resource_policy_history": [
+    {
+      "effective_from_utc": "2026-10-25T04:46:31.018995+00:00",
+      "effective_until_utc": "2026-10-25T16:56:04.059139+00:00",
+      "policy": {
+        "max_workers": 2,
+        "native_threads": 1,
+        "phase_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "termination_grace_seconds": 30,
+        "trial_seconds": 600,
+        "worker_memory_gib": 10
+      },
+      "reason": "initial prospective two-worker policy"
+    },
+    {
+      "effective_from_utc": "2026-10-25T16:56:04.059139+00:00",
+      "effective_until_utc": "2026-10-25T17:12:32.165349+00:00",
+      "policy": {
+        "admission_pause_below_gib": 8,
+        "alias_reservation_gib": 0.25,
+        "bounded_helper_reservation_gib": 1,
+        "commitment_growth_margin_gib": 2,
+        "cpu_reserve_cores": 2,
+        "emergency_backoff_seconds": 60,
+        "host_os_harbor_reserve_gib": 6,
+        "max_operational_recoveries": 2,
+        "nested_threads": 1,
+        "phase_timeout_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+        "retry_cooldown_seconds": [
+          60,
+          120,
+          300
+        ],
+        "termination_grace_seconds": 30,
+        "trial_timeout_seconds": 600,
+        "worker_admission_reservation_gib_by_class": {
+          "heavy": 10,
+          "light": 2
+        },
+        "worker_count_ceiling": "cpu-derived",
+        "worker_memory_limit_gib": 10,
+        "worker_nice": 10
+      },
+      "reason": "explicit user authorization removes fixed two-worker cap; adaptive CPU/RAM/storage scheduling with lower CPU priority for new workers"
+    },
+    {
+      "effective_from_utc": "2026-10-25T17:12:32.165349+00:00",
+      "effective_until_utc": null,
+      "policy": {
+        "admission_pause_below_gib": 8,
+        "alias_reservation_gib": 0.25,
+        "bounded_helper_reservation_gib": 1,
+        "commitment_growth_margin_gib": 2,
+        "cpu_reserve_cores": 2,
+        "emergency_backoff_seconds": 60,
+        "host_os_harbor_reserve_gib": 6,
+        "max_operational_recoveries": 2,
+        "nested_threads": 1,
+        "phase_timeout_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "queue_packing": "retain one heavy fitting lane and prefer admissible light work before additional heavy fits",
+        "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+        "retry_cooldown_seconds": [
+          60,
+          120,
+          300
+        ],
+        "termination_grace_seconds": 30,
+        "trial_timeout_seconds": 600,
+        "worker_admission_reservation_gib_by_class": {
+          "heavy": 10,
+          "light": 2
+        },
+        "worker_count_ceiling": "cpu-derived",
+        "worker_memory_limit_gib": 10,
+        "worker_nice": 10
+      },
+      "reason": "user-authorized peak safe concurrency: keep one heavy fit progressing while packing admissible light work before an additional heavy fit"
+    }
+  ],
+  "role_hashes": {
+    "1": {
+      "fit_counts": [
+        4519,
+        17848,
+        31159,
+        17127,
+        6913,
+        1230,
+        1204
+      ],
+      "id_hashes": {
+        "calibration_ids": "9dfa5d3a64279d1106bcfe1db38a3d08c7c0f34ade8702cc428188ec77243903",
+        "fit_ids": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+        "tuning_ids": "0e489582cafccae210fc02ad94b665b6afe19d92a25dd522beb00eaa30f33bc8"
+      },
+      "source": "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/results/e1/rep_1/n_100000/role_membership.npz",
+      "source_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334"
+    },
+    "2": {
+      "fit_counts": [
+        4510,
+        17854,
+        31168,
+        17120,
+        6914,
+        1230,
+        1204
+      ],
+      "id_hashes": {
+        "calibration_ids": "670be2d3b576828b0a0481f2c7c2ef69a9c5788f3803f64a372fec04c70630b8",
+        "fit_ids": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+        "tuning_ids": "3cec10594094f8c4423c684c7e16c1b6e551756b1af028d00c2e681c6e11d195"
+      },
+      "source": "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/results/e1/rep_2/n_100000/role_membership.npz",
+      "source_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc"
+    },
+    "3": {
+      "fit_counts": [
+        4519,
+        17846,
+        31166,
+        17122,
+        6917,
+        1228,
+        1202
+      ],
+      "id_hashes": {
+        "calibration_ids": "27c90e9051d20ef9e15af51d0d0bc73c8feb1e84584d0ffe6d522456f0c8682a",
+        "fit_ids": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+        "tuning_ids": "5e01eeacdda87b0091eac068d620ca6c92600b0d7d708c9c82408765b0517a65"
+      },
+      "source": "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/results/e1/rep_3/n_100000/role_membership.npz",
+      "source_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e"
+    }
+  },
+  "source_authorization": "authorization_and_decisions.json",
+  "source_frozen_plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+  "test_information_history": "E1/E2 fixed test results already observed; later plans frozen before new test evaluations",
+  "test_rows": 500000,
+  "tuning_rows": 10000
+}

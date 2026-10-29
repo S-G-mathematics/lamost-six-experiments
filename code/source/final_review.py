@@ -248,6 +248,8 @@ def public_provenance_records(root,runtime,expected_hashes=None,finalizer_path=N
  }
  required.update(p.relative_to(root).as_posix() for p in sorted((runtime/'manifests').glob('freeze_before_*.json')))
  required.update((runtime/rel).relative_to(root).as_posix() for rel in PUBLIC_PROVENANCE_ARCHIVE_MEMBERS)
+ qualified_closure=set(getattr(collector,'PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256',{}))
+ required.update(qualified_closure)
  if set(by_archive)!=required:raise ReviewError('public provenance inventory archive-member allowlist mismatch')
  curated_map={
   (runtime/'manifests/incidents/e4_weight_schema_20261025.json').relative_to(root).as_posix():(runtime/'manifests/incidents/e4_weight_schema_20261025_summary.json').relative_to(root).as_posix(),
@@ -260,7 +262,9 @@ def public_provenance_records(root,runtime,expected_hashes=None,finalizer_path=N
   if source_member not in allowed_sources or archive_member not in required:
    raise ReviewError('public provenance inventory contains a non-allowlisted source/member')
   expected_archive=curated_map.get(source_member,source_member)
-  expected_curation='allowlisted_source_sha_bound_projection' if source_member in curated_map else 'archive_json_entry'
+  if source_member in qualified_closure:
+   expected_curation='exact_sha_pinned_policy_bytes' if source_member.endswith('.json') else 'exact_sha_pinned_reviewed_safe_log_bytes'
+  else:expected_curation='allowlisted_source_sha_bound_projection' if source_member in curated_map else 'archive_json_entry'
   if archive_member!=expected_archive or item.get('curation')!=expected_curation:
    raise ReviewError('public provenance source/member curation mapping is invalid')
   if not item.get('source_sha256') or not item.get('archive_sha256'):

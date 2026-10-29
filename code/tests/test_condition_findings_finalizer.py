@@ -109,6 +109,8 @@ class ConditionFindingsFinalizerTests(unittest.TestCase):
    (rt/'source').mkdir(parents=True);(rt/'tests').mkdir();(rt/'cache').mkdir();(rt/'artifacts').mkdir();(rt/'reports').mkdir();(rt/'manifests').mkdir()
    for name in ('build_condition_findings.py','reporting.py'):(rt/'source'/name).write_text('fixture source '+name)
    for name in ('E4_CONDITION_FINDINGS.md','E5_CONDITION_FINDINGS.md','CONDITION_FINDINGS_INDEX.md','CONDITION_FINDINGS_MANIFEST.json'):(rt/'reports'/name).write_text('fixture report '+name)
+   from test_cold_finalizer_adapter import copy_pinned_qualified_closure
+   copy_pinned_qualified_closure(root)
    with _fixture_empty_primary_archive_context(rt), mock.patch('cold_finalizer_adapter.e1_locator_archive_entries',lambda *a,**k:([],b'{}')):
     entries=f.collect_full(root,rt,b'#fixture',json.dumps({'tasks':[]}))
    members={x.member for x in entries}

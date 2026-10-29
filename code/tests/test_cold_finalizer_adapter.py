@@ -29,6 +29,13 @@ def sha(p):
   for b in iter(lambda:x.read(1<<20),b''):h.update(b)
  return h.hexdigest()
 
+def copy_pinned_qualified_closure(root):
+ root=pathlib.Path(root)
+ for rel,pinned in f.PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256.items():
+  src=HERE.parent.joinpath(*pathlib.PurePosixPath(rel).parts)
+  if sha(src)!=pinned:raise AssertionError('candidate pinned source changed: '+rel)
+  dst=root.joinpath(*pathlib.PurePosixPath(rel).parts);dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,dst)
+
 def make_cold(tmp):
  root,rt,s,key,src,alias,obj,digest,records,item=setup_store(tmp)
  s.commit_models([item],records)
@@ -62,6 +69,7 @@ class ColdFinalizerIntegrationTests(unittest.TestCase):
    for rel in rels:
     src=realroot/rel;self.assertEqual(sha(src),f.PUBLIC_RESOURCE_REVIEW_SHA256[rel])
     dst=root/rel;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
+   copy_pinned_qualified_closure(root)
    unrelated=root/'staging/private_ops/private_process_receipt.json';unrelated.parent.mkdir(parents=True);unrelated.write_text('{"pid":123,"cleanup":true}')
    other=root/'staging/unrelated/review.json';other.parent.mkdir(parents=True);other.write_text('{"scientific":true}')
    entries=[];f._add_public_provenance(root,rt,entries)
@@ -184,6 +192,7 @@ class ColdFinalizerIntegrationTests(unittest.TestCase):
    fixture_root=pathlib.Path(__file__).resolve().parent/'fixtures'/'public_resource_reviews'
    for rel in f.PUBLIC_RESOURCE_REVIEW_SHA256:
     src=fixture_root/rel;dst=root/rel;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
+   copy_pinned_qualified_closure(root)
    public=json.dumps({'tasks':list(records.values()),'observed_utc':'fixture'})
    with _fixture_empty_primary_archive_context(rt), mock.patch.object(a,'e1_locator_archive_entries',lambda *args,**kwargs:([],b'{}')):
     entries=f.collect_full(root,rt,b'# readme',public,{'candidate_id':'fixture','decision':'pass'}, {},cold_store=s,registry_records=records,review_manifest=review)
@@ -199,6 +208,48 @@ class ColdFinalizerIntegrationTests(unittest.TestCase):
    self.assertEqual(by_member[heavy].source,(root/heavy).read_bytes())
    provenance=json.loads(by_member['runtime_20261025/manifests/public_scientific_provenance_manifest.json'].source)
    self.assertIn(heavy,{x['archive_member'] for x in provenance['included']})
+ def test_full_collector_includes_exact_pinned_policy_and_safe_log_closure(self):
+  # The production allowlist is sourced from the reviewed 807 bundle. This fixture
+  # copies only those small inputs into an isolated fake root and exercises collect_full.
+  pins=f.PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256
+  self.assertEqual(len(pins),26)
+  self.assertEqual(sum(x.startswith('runtime_20261025/manifests/') for x in pins),6)
+  self.assertEqual(sum(x.endswith('.log') for x in pins),20)
+  with tempfile.TemporaryDirectory(dir=HERE/'tests') as td:
+   root,rt,s,key,digest,records,item,build,oldrows=make_cold(td)
+   for d in ('project','e1_wrapup_20261024','e1_recovery_20261024','e2_20261024'): (root/d).mkdir(parents=True,exist_ok=True)
+   for d in ('source','tests','cache','artifacts','reports','manifests'): (rt/d).mkdir(parents=True,exist_ok=True)
+   fixture_root=pathlib.Path(__file__).resolve().parent/'fixtures'/'public_resource_reviews'
+   for rel in f.PUBLIC_RESOURCE_REVIEW_SHA256:
+    src=fixture_root/rel;dst=root/rel;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
+   copy_pinned_qualified_closure(root)
+   public=json.dumps({'tasks':list(records.values()),'observed_utc':'fixture'})
+   with _fixture_empty_primary_archive_context(rt), mock.patch.object(a,'e1_locator_archive_entries',lambda *args,**kwargs:([],b'{}')):
+    entries=f.collect_full(root,rt,b'# readme',public,{'candidate_id':'fixture','decision':'pass'}, {},cold_store=s,registry_records=records,review_manifest=self.projection(root,rt,s,records)[2])
+   by_member={e.member:e for e in entries}
+   expected=set(pins)
+   self.assertTrue(expected.issubset(by_member))
+   self.assertEqual(len([e for e in entries if e.member in expected]),26)
+   manifest=json.loads(by_member['runtime_20261025/manifests/public_scientific_provenance_manifest.json'].source)
+   closure=[x for x in manifest['included'] if x.get('curation') in {'exact_sha_pinned_policy_bytes','exact_sha_pinned_reviewed_safe_log_bytes'}]
+   self.assertEqual({x['archive_member'] for x in closure},expected)
+   self.assertEqual(len(closure),26)
+   for rel,pinned in pins.items():
+    payload=by_member[rel].source if isinstance(by_member[rel].source,bytes) else by_member[rel].source.read_bytes()
+    self.assertEqual(hashlib.sha256(payload).hexdigest(),pinned,rel)
+   self.assertFalse(any('portable_test_runs/' in m for m in by_member))
+   self.assertIn('private operational output-tail receipts',manifest['retained_only_omissions']['scope'])
+
+ def test_qualified_input_closure_rejects_missing_or_mutated_pinned_member(self):
+  rel,pinned=next(iter(f.PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256.items()))
+  with tempfile.TemporaryDirectory(dir=HERE/'tests') as td:
+   root=pathlib.Path(td);path=root.joinpath(*pathlib.PurePosixPath(rel).parts);path.parent.mkdir(parents=True)
+   with mock.patch.dict(f.__dict__,{'PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256':{rel:pinned}}):
+    path.write_bytes(b'wrong bytes')
+    with self.assertRaises(f.EvidenceError):f._add_pinned_qualified_input_closure(root,[],{},[])
+    path.unlink()
+    with self.assertRaises(f.EvidenceError):f._add_pinned_qualified_input_closure(root,[],{},[])
+
  def test_finalizer_keeps_report_audit_before_append(self):
   import inspect
   body=inspect.getsource(f.finalize)
@@ -210,6 +261,7 @@ class ColdFinalizerIntegrationTests(unittest.TestCase):
    for d in ('project','e1_wrapup_20261024','e1_recovery_20261024','e2_20261024'): (root/d).mkdir(parents=True,exist_ok=True)
    for d in ('source','tests','cache','artifacts','reports','manifests'): (rt/d).mkdir(parents=True,exist_ok=True)
    (rt/'reports'/'small.txt').write_text('ordinary package')
+   copy_pinned_qualified_closure(root)
    full=root/'packages'/'LAMOST_ALL_EXPERIMENTS_fixture.zip';ev={'e1_archive':{'path':'preserved-e1.zip','sha256':'a'*64}}
    with _fixture_empty_primary_archive_context(rt), mock.patch.object(a,'e1_locator_archive_entries',lambda *args,**kwargs:([],b'{}')):
     result=f.write_full_archive(root,rt,full,ev,{'candidate_id':'fixture','decision':'pass'},{},{},{'snapshot':{'inputs':{'cold_archived_artifact_members':[]}}},public=b'{"tasks":[]}')

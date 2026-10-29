@@ -1,7 +1,15 @@
-# Portable engineering qualification suite
+# Portable delivery tests
 
-The latest EC2 qualification contains 667 collected test cases across 84 test files. The exact runner, case list, and byte-hashed source/test manifest are included. The qualification receipt is at ../../reports/PORTABLE_TEST_PASS_72875f36da6833a441e30a4b21fe248591a65955dc7c5612bdb1c7f711283234.json; its fingerprint and input hashes are summarized in ../../metadata/PORTABLE_QUALIFICATION_667_SUMMARY.json.
+The selected portable suite has 112 checks in eleven explicitly listed test files. It uses runtime-relative source imports and tiny fixtures under runtime_20261025/tests/fixtures. The three public resource-review fixtures retain their original bytes and native archive member names in PORTABLE_TEST_BUNDLE.json.
 
-The 667/667 result is an engineering qualification, not a scientific evaluation. It does not establish that an archive transaction completed CRC validation and does not mark the research project complete. The full EC2 migration/runtime layout and its specified Python 3.12 environment are needed to reproduce this exact qualification; this Git export is not claimed to be independently pytest-self-contained.
+Run on EC2 from the extracted archive root with the recreated Python3.12 environment:
 
-The runner is run_portable_tests.sh. The qualified case list is ../PORTABLE_COLLECTED_NODEIDS_667.txt. The prior 653, 596, and 587 case lists and receipts remain as historical qualification evidence.
+    bash runtime_20261025/tests/run_portable_tests.sh
+
+Set LAMOST_TEST_PYTHON to select the Python executable. The runner sets numerical-library threads to one. The selected suite does not run research experiments or read real fitted models or scientific data; cold-storage fixtures are tiny synthetic dictionaries. Other historical/integration checks archived beside it may require the original runtime artifact layout. The current controller and cold batch wrappers are included as operational companion source; tests never start a scientific worker.
+
+The verified existing-EC2 command uses frozen scientific packages first, followed by existing plotting support:
+
+    LAMOST_TEST_PYTHON=/home/ubuntu/lamost_e1_migration_20261023/venv/bin/python PYTHONPATH=/home/ubuntu/lamost_e1_migration_20261023/venv/lib/python3.12/site-packages:/home/ubuntu/.local/lib/python3.12/site-packages:/usr/lib/python3/dist-packages bash runtime_20261025/tests/run_portable_tests.sh
+
+For a separate reporting environment, install the frozen core dependencies and source/reporting_support_requirements_20261026.txt, then select that interpreter. Actual versions and import order are recorded in source/reporting_support_environment_20261026.json. Scientific workers continue with their unmodified frozen environment.

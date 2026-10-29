@@ -1192,6 +1192,7 @@ PUBLIC_RESOURCE_REVIEW_SHA256={
  'runtime_20261025/staging/resource_followup_e5_e4_rf_20261026/E5_E4_RF_RESOURCE_FOLLOWUP_20261026.json':'9884af26a84d04e5be913d651d36f9b055dda7613a8e2f95b73a137626de4754',
  'runtime_20261025/staging/nonrf_heavy_resource_readiness_20261026/HEAVY_METHOD_RESOURCE_READINESS_AUDIT_20261026.json':'b3530fd93a17095fa6d3e8b7071b4df943cceea829ecad4415513ac06bf11c49',
 }
+PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256={'runtime_20261025/logs/operational/terminal_portable_tests_326f91512a62469ca1919ba6a81332ec.log': 'b22f97fbac544b85b7214798c2a307533b9cfe9f20856f7c90929e373f0aec02', 'runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC4_FIT_OVERLAP_20261029.json': '34b1944c4216005ded15679193082195181f0405a7fb98524122cba318767692', 'runtime_20261025/manifests/ARCHIVE_NATIVE_CODEC_FIT_OVERLAP_20261029.json': '85d37950ee27b66e0980f672f6d75c05a0ecdbc6a8465cdf8e1a379855a36510', 'runtime_20261025/manifests/ARCHIVE_NATIVE_FIT_OVERLAP_20261028.json': 'd7721b863c61261bd71d1b5e7bc3831a03734fe8568e9ec5d009c3c1864adc99', 'runtime_20261025/manifests/EXTRA_TREES4_EXECUTION_POLICY_20261029.json': '89efee04ddbbf4f7d3c38bb27d2be2c9e23305a63e78aa39c9cf103967941c6e', 'runtime_20261025/manifests/RF4_E4_TREATMENT_6GIB_ADMISSION_20261028.json': '108067cfd67b5f2f195123c93e235c13c8596716c56e4b27f06d7519180ac0b2', 'runtime_20261025/manifests/RF4_EXECUTION_POLICY_20261028.json': 'd969d21e31b9fb9278c06de71c3ea240954c528f089ce9bc9060ee1bfeb782f2', 'runtime_20261025/reports/engineering_audits/CODEC4_COLLECT_ONLY_776_20261029.log': 'ad3e37d7f84c7cf9044494ce70e07758dca519a385e9663eba393ddea9d21352', 'runtime_20261025/reports/engineering_audits/CURRENT_CODEC_ADMISSION_HARNESS_20261029.log': '13776fd0bf8b2578684bbf9f48fd96c59bc573a784056ab0a7c14da3e3a5d3af', 'runtime_20261025/reports/engineering_audits/CURRENT_CODEC_ADMISSION_HARNESS_SELECTION_COMPAT_20261029.log': 'fab7ec510862cc0a66f383a7d6c7c712cb0baa3cc697bb1ca38fd51210f532da', 'runtime_20261025/reports/engineering_audits/CURRENT_CODEC_COLLECT_759_20261029.log': '3f989f4fb4336b4bf7145cdd5b60b7b5a83465769ed3fd25625603195672a6d8', 'runtime_20261025/reports/engineering_audits/CURRENT_CODEC_COLLECT_FINAL_20261029.log': 'b4ae4c9c471a9bd019e3716f1dbdf2d26e8d5659d8c61fecb075aba19c3fb290', 'runtime_20261025/reports/engineering_audits/CURRENT_CODEC_COLLECT_ONLY_20261029.log': '7412ed7bb66fd2f24df52d932bdfcd6c7d04e121bf5528bce452a5c255ebee33', 'runtime_20261025/reports/engineering_audits/CURRENT_CODEC_FOCUSED21_20261029.log': '03e8f26fa586807d286b7d4625c12d91e4e267985d88208e143cbfe8f4230d28', 'runtime_20261025/reports/engineering_audits/CURRENT_CODEC_FOCUSED21_SELECTION_COMPAT_20261029.log': '3d0588594a6a1a39687c5a27cec315e4caa1bf151809d5e06382024c77020969', 'runtime_20261025/reports/engineering_audits/CURRENT_RAW_CODEC_FOCUSED39_20261029.log': 'db73ad9d48391d2051eb04e6327b64498f484c6fa03bb2be57d541394c8adfa1', 'runtime_20261025/reports/engineering_audits/CURRENT_RAW_FOCUSED_SOURCE_REFRESH_20261029.log': 'bf58e09b9a10279a1bde0354a6703f345280e23988ab5ed7522a7572d84a234a', 'runtime_20261025/reports/engineering_audits/SELECTION_COMPAT_COLLECTION_20261029.log': 'e9f0ffb572f2c30f5017f0c461fe19d93939cc622f8cce812f95f614432ce79e', 'runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/controller_harness_7.log': '454c1f1032cd12d364a012e172cdd87cc2c9d3effbffef2928bd759aff8ef7a2', 'runtime_20261025/reports/engineering_audits/archive_native_fit_overlap_D_qualification_20261028/suite_15.log': '541fbcb53c3060b62112ab474908d9cd48300f6ac1b6ce3a91b4fbefa670ca2a', 'runtime_20261025/reports/engineering_audits/selection_fallback_focused_tests_20261029.log': 'f6b039527f4eb3dab80a4798abc34cfe327b5b44a94c4eddb6b606f939c4cd2e', 'runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_COLLECT_ONLY_805_20261030.log': '71ed1c73ad36f6ecc9017bd3c517a703ebc9aa21f47100a1ccca3b587b7249c7', 'runtime_20261025/reports/engineering_audits/CODEC_FOCUSED_25_REAPER_BINDING_20261030.log': 'cc93e3eb742c1c057eab8ffd548895e67ebf7ae03ac738066ad33e76530e7d16', 'runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_COLLECT_ONLY_806_20261030.log': '5274299e6573873f87f9390f413cb3bf4fdf2ac0001288ecea06de649c27b8f8', 'runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_STRICT_PREFIX_FOCUSED_9_20261030.log': '4ea46a1fc13fe9b8d7489f6c906e16488885a31be4be86efc80ee2bbbca8a837', 'runtime_20261025/reports/engineering_audits/E1_PRIMARY_LOCATOR_COLLECT_ONLY_807_20261030.log': '6683f194e7acd7692f01b944f88f42e7216aaf8966a1926e36e8882f81bf3eb2'}
 RESOURCE_REVIEW_PRIVATE_KEYS={'pid','pgid','argv','cmdline','startticks','processstartticks','workerpid','controllerpid','ownerpid','auth','authorization','cleanup','cleanupreceipt','requestpath','resultpath','logpath','processreceipt'}
 def _assert_public_resource_review(raw,source_path):
  try:doc=json.loads(raw)
@@ -1226,6 +1227,40 @@ def _add_resource_review_evidence(root,out,expected_source_sha256=None,records=N
   records.append({'source_member':member_path.as_posix(),'archive_member':member_path.as_posix(),'source_sha256':observed,'archive_sha256':observed,'bytes':len(raw),'curation':'exact_bytes_pinned_public_scientific_resource_review'})
  return records
 
+def _add_pinned_qualified_input_closure(root,out,expected_source_sha256,records):
+ root=Path(root).resolve();expected_source_sha256=expected_source_sha256 or {}
+ existing={e.member for e in out}
+ for relative,pinned_sha in PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256.items():
+  rel=PurePosixPath(relative)
+  if rel.is_absolute() or not rel.parts or rel.parts[0]!='runtime_20261025' or any(part in ('','.','..') for part in rel.parts) or '\\' in relative:
+   raise EvidenceError('unsafe pinned qualified-input member path: '+relative)
+  path=root.joinpath(*rel.parts)
+  # The fixed allowlist is required and symlink-free; no directory walk or glob can expand it.
+  cursor=root
+  for part in rel.parts:
+   cursor=cursor/part
+   if cursor.is_symlink():raise EvidenceError('symlink in pinned qualified-input source path: '+relative)
+  try:mode=path.lstat().st_mode
+  except OSError as exc:raise EvidenceError('required pinned qualified input is missing: '+relative) from exc
+  if not __import__('stat').S_ISREG(mode):raise EvidenceError('pinned qualified input is not a regular file: '+relative)
+  raw=path.read_bytes();observed=sha_bytes(raw)
+  if observed!=pinned_sha:raise EvidenceError('pinned qualified input SHA mismatch: '+relative)
+  reviewed=expected_source_sha256.get(str(path.resolve()))
+  if reviewed not in (None,observed):raise EvidenceError('reviewed qualified-input SHA mismatch: '+relative)
+  if relative.endswith('.json'):
+   _assert_public_resource_review(raw,path)
+   category='pinned_public_qualified_policy'
+   curation='exact_sha_pinned_policy_bytes'
+  elif relative.endswith('.log'):
+   category='pinned_public_qualified_log'
+   curation='exact_sha_pinned_reviewed_safe_log_bytes'
+  else:raise EvidenceError('unrecognized pinned qualified-input type: '+relative)
+  if relative in existing:raise EvidenceError('duplicate pinned qualified-input archive member: '+relative)
+  out.append(Entry(raw,relative,category));existing.add(relative)
+  records.append({'source_member':relative,'archive_member':relative,'source_sha256':observed,'archive_sha256':observed,'bytes':len(raw),'curation':curation})
+ if len(PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256)!=26:raise EvidenceError('qualified-input allowlist count changed')
+ return records
+
 def _add_public_provenance(root,runtime,out,expected_source_sha256=None):
  records=[]
  def add_raw(path,member,category):
@@ -1243,6 +1278,7 @@ def _add_public_provenance(root,runtime,out,expected_source_sha256=None):
   records.append({'source_member':path.relative_to(root).as_posix(),'archive_member':member,'source_sha256':source_sha,'curation':'allowlisted_source_sha_bound_projection','archive_sha256':sha_bytes(data)})
  mf=runtime/'manifests'
  _add_resource_review_evidence(root,out,expected_source_sha256,records,required=(runtime/'source'/'admission_evidence.py').is_file())
+ _add_pinned_qualified_input_closure(root,out,expected_source_sha256,records)
  for name in ('baseline_identity_boundary_audit.json','concurrency_user_authorization_20261025.json'):
   path=mf/name
   if path.is_file():add_raw(path,'runtime_20261025/manifests/'+name,'public_scientific_provenance')
@@ -1252,7 +1288,7 @@ def _add_public_provenance(root,runtime,out,expected_source_sha256=None):
  if e4.is_file():add_curated(e4,'runtime_20261025/manifests/incidents/e4_weight_schema_20261025_summary.json','curated_E4_weight_schema_incident',_curated_e4_weight_schema)
  svm=mf/'incidents/svm_native_margin_api_20261026.json'
  if svm.is_file():add_curated(svm,'runtime_20261025/manifests/incidents/svm_native_margin_api_20261026_summary.json','curated_SVM_native_margin_incident',_curated_svm_incident)
- omitted={'scope':'Only the three hash-pinned public scientific resource-review JSONs listed in included are selected from runtime staging; all other staging files, operational incident holds, service/process receipts, and private logs are retained on EC2 and excluded from the public archive.','examples':['staging/** except the three explicit public resource-review members','incidents/*_hold*.json','incidents/serialization_validation_20261025/dequeue_hold_resolved.json','logs/operational/**']}
+ omitted={'scope':'Only the exact hash-pinned public resource-review JSONs, six qualified policy JSONs, and twenty reviewer-classified safe qualification logs listed in included are selected from runtime staging; all other staging files, operational incident holds, service/process receipts, private operational output-tail receipts, and private logs are retained on EC2 and excluded from the public archive.','examples':['staging/** except explicitly listed public review/policy members','incidents/*_hold*.json','incidents/serialization_validation_20261025/dequeue_hold_resolved.json','logs/operational/** except the one exact SHA-pinned terminal test log','private operational portable-test output-tail JSON receipts']}
  manifest={'schema_version':'lamost-public-execution-provenance/1','included':records,'retained_only_omissions':omitted}
  out.append(Entry((json.dumps(manifest,indent=2,sort_keys=True,ensure_ascii=False)+'\n').encode(),'runtime_20261025/manifests/public_scientific_provenance_manifest.json','public_scientific_provenance_inventory'))
 

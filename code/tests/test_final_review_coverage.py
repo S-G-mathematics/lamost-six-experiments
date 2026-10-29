@@ -30,13 +30,15 @@ class CoverageTests(unittest.TestCase):
    for i in range(7):put(f'runtime_20261025/manifests/freeze_before_{i}.json','{}\n')
    e4={'observed_utc':'2026-10-26T00:00:00Z','bootstrap':False,'amendment':{'amendment_id':'fixture-e4','scope':'E4 weights','reason':'schema correction','validation':{'passed':True}},'cohort_container_supersessions':[],'dependent_unavailability_reset_keys':['e4/fixture/reset'],'invalid_fit_keys':['e4/fixture/invalid'],'scientific_trial_history_rows':5,'raw_private_evidence_retained_on_EC2':'PRIVATE_PAYLOAD_E4_SHOULD_NOT_APPEAR'}
    svm={'incident_id':'fixture-svm','observed_utc':'2026-10-26T00:00:00Z','classification':'implementation defect','error_signature':'margin interface','scientific_method_definition':'native margins','SVM_source_sha256':{'science.py':'abc'},'newSVM_engine_sha256':'def','nonSVM_engine_sha256_unchanged':'ghi','affected_invalid_control_evaluations':3,'affected_invalid_fit_tasks':42,'requeued_keys':['e4/fixture/svm'],'ordinary_terminal_tasks_requeued':0,'E1_orE2fits_started':0,'scientific_workers_signaled':0,'resource_limits_unchanged':{'phase_seconds':600},'original_freeze_utc_unchanged':'2026-10-25T00:00:00Z','plan_sha256_unchanged':'jkl','valid_control_models_preserved_sha256':{'fit':'mno'},'private_process_receipt':'PRIVATE_PAYLOAD_SVM_SHOULD_NOT_APPEAR'}
+   from test_cold_finalizer_adapter import copy_pinned_qualified_closure
+   copy_pinned_qualified_closure(root)
    raw_e4='runtime_20261025/manifests/incidents/e4_weight_schema_20261025.json';raw_svm='runtime_20261025/manifests/incidents/svm_native_margin_api_20261026.json'
    put(raw_e4,json.dumps(e4));put(raw_svm,json.dumps(svm));put('runtime_20261025/manifests/incidents/private_process_receipt.json','PRIVATE_RECEIPT')
    expected={}
    result=fr.public_provenance_records(root,runtime,expected,finalizer_path=finalizer)
    views=result['archive_views'];sources=result['source_records']
-   self.assertEqual(len(views),12)
-   self.assertEqual(len(sources),11)
+   self.assertEqual(len(views),38)
+   self.assertEqual(len(sources),37)
    self.assertIn('runtime_20261025/manifests/incidents/e4_weight_schema_20261025_summary.json',views)
    self.assertIn('runtime_20261025/manifests/incidents/svm_native_margin_api_20261026_summary.json',views)
    self.assertIn('runtime_20261025/manifests/public_scientific_provenance_manifest.json',views)
