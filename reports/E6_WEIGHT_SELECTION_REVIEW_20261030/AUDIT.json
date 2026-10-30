@@ -1,0 +1,171 @@
+{
+  "conclusion": "Saved tuning evidence reports three frozen learned vectors and pairwise stability; performance comparison is unavailable because no E6 primary test succeeded.",
+  "e6_primary_test_successes": 0,
+  "existing_report_inputs": {
+    "reports/E6_V2_INTERIM_20261027T204752Z/E6_V2_PARTIAL_TUNING_EVIDENCE.csv": {
+      "bytes": 3072,
+      "sha256": "732a7d8328166ed73594e9fc78a61fe656b7e62b1c228b1d62d9b64663672464"
+    },
+    "reports/E6_V2_INTERIM_20261027T204752Z/E6_V2_PHASE_COSTS.csv": {
+      "bytes": 141,
+      "sha256": "db736238cfc2bf46d0ad4dbf9f802cc5aa02c0c857d49f7bb25cb8757f4d1071"
+    },
+    "reports/E6_V2_INTERIM_20261027T204752Z/E6_V2_TUNING_WEIGHT_STABILITY.csv": {
+      "bytes": 1271,
+      "sha256": "2853594ba5036467bd1e9f55b5892e5a491f22aaedf5002d01fff9f20a327b83"
+    },
+    "reports/E6_weights.csv": {
+      "bytes": 3103,
+      "sha256": "1be913c569808c9a4fa4d94f88fa88228c6b1302fe0151fdab0c9d5ce028d864"
+    }
+  },
+  "learned_pairwise_stability_rows": [
+    {
+      "basis": "validated frozen tuning weights only; no test metric selection",
+      "euclidean_distance": "0.06420879900597733",
+      "l1_distance": "0.12589891473023565",
+      "rep_a": "1",
+      "rep_b": "2",
+      "task_a": "e6/rep_1/ensemble/learned",
+      "task_b": "e6/rep_2/ensemble/learned"
+    },
+    {
+      "basis": "validated frozen tuning weights only; no test metric selection",
+      "euclidean_distance": "0.18693380853367206",
+      "l1_distance": "0.3422699466515829",
+      "rep_a": "1",
+      "rep_b": "3",
+      "task_a": "e6/rep_1/ensemble/learned",
+      "task_b": "e6/rep_3/ensemble/learned"
+    },
+    {
+      "basis": "validated frozen tuning weights only; no test metric selection",
+      "euclidean_distance": "0.20294591191463818",
+      "l1_distance": "0.3273431354388065",
+      "rep_a": "2",
+      "rep_b": "3",
+      "task_a": "e6/rep_2/ensemble/learned",
+      "task_b": "e6/rep_3/ensemble/learned"
+    }
+  ],
+  "learned_rows": [
+    {
+      "candidate_cap": 2000,
+      "candidate_count": 1606,
+      "candidate_ledger_sha256": "c0938655b8c7ae13185c019c9d89b46fec8f81470c97a23946004bae2bac488e",
+      "frozen_sha256": "60ac0681d91170e808a80dc5ff83131d22f17d60b0b12f863b294d463c504f3e",
+      "frozen_utc": "2026-10-27T19:55:00.927621+00:00",
+      "ledger_declared_count_matches": true,
+      "ledger_declared_selected_matches": true,
+      "ledger_member_order_matches": true,
+      "ledger_seed_matches": true,
+      "member_order": [
+        "gmm",
+        "copula",
+        "arf",
+        "kde",
+        "chow_liu"
+      ],
+      "rep": 1,
+      "seed": 767347469,
+      "selected_candidate": 1050,
+      "selected_candidate_tuning_balanced_accuracy": 0.8074983392030024,
+      "selected_ledger_row_weights_match": true,
+      "selection_limit": "bounded search for a discontinuous tuning objective; not globally optimal",
+      "task_key": "e6/rep_1/ensemble/learned",
+      "weights": [
+        0.8179124100009786,
+        0.022277051133202976,
+        0.011824674884291713,
+        0.12143674541889833,
+        0.026549118562628423
+      ],
+      "weights_frozen_before_calibration_and_test": true
+    },
+    {
+      "candidate_cap": 2000,
+      "candidate_count": 1558,
+      "candidate_ledger_sha256": "ae1c611d266690ac654d17fe7f26d181636387e494b467139bddeb2721f882fc",
+      "frozen_sha256": "240c2b30e94a7ea359168c895b315007cfe92ddfcafced69906c2383936c3603",
+      "frozen_utc": "2026-10-27T20:25:29.059268+00:00",
+      "ledger_declared_count_matches": true,
+      "ledger_declared_selected_matches": true,
+      "ledger_member_order_matches": true,
+      "ledger_seed_matches": true,
+      "member_order": [
+        "gmm",
+        "copula",
+        "arf",
+        "kde",
+        "chow_liu"
+      ],
+      "rep": 2,
+      "seed": 1121150187,
+      "selected_candidate": 1058,
+      "selected_candidate_tuning_balanced_accuracy": 0.801765636939175,
+      "selected_ledger_row_weights_match": true,
+      "selection_limit": "bounded search for a discontinuous tuning objective; not globally optimal",
+      "task_key": "e6/rep_2/ensemble/learned",
+      "weights": [
+        0.7769258283413296,
+        0.051455934383179996,
+        0.011085969460894117,
+        0.15520731953403916,
+        0.005324948280557195
+      ],
+      "weights_frozen_before_calibration_and_test": true
+    },
+    {
+      "candidate_cap": 2000,
+      "candidate_count": 1606,
+      "candidate_ledger_sha256": "7108ece95071521ca4a3fa276cae3d2b323579b2a10a5e3aec983f430dc3a9ab",
+      "frozen_sha256": "c333c9d48ec465ac458453615de78b58122bcf1e2e761a7c3e14a49f9016ae81",
+      "frozen_utc": "2026-10-27T20:37:40.574822+00:00",
+      "ledger_declared_count_matches": true,
+      "ledger_declared_selected_matches": true,
+      "ledger_member_order_matches": true,
+      "ledger_seed_matches": true,
+      "member_order": [
+        "gmm",
+        "copula",
+        "arf",
+        "kde",
+        "chow_liu"
+      ],
+      "rep": 3,
+      "seed": 1845118683,
+      "selected_candidate": 1261,
+      "selected_candidate_tuning_balanced_accuracy": 0.8090546712015733,
+      "selected_ledger_row_weights_match": true,
+      "selection_limit": "bounded search for a discontinuous tuning objective; not globally optimal",
+      "task_key": "e6/rep_3/ensemble/learned",
+      "weights": [
+        0.7281266536012706,
+        0.05096462702166241,
+        0.0062191491464014745,
+        0.045693054230705105,
+        0.1689965159999604
+      ],
+      "weights_frozen_before_calibration_and_test": true
+    }
+  ],
+  "learned_weight_rows_validated": 3,
+  "limitations": [
+    "Candidate search is capped/bounded and explicitly not globally optimal.",
+    "The saved candidate and frozen-weight artifacts are internally bound by matching candidate ID, vector, seed, count and member order; this review does not independently recompute candidate ranking.",
+    "No valid E6 ensemble test metrics; do not infer benefit from tuning BA or weight stability.",
+    "Tuning phase costs are absent from E6_V2_PHASE_COSTS.csv."
+  ],
+  "member_order": [
+    "gmm",
+    "copula",
+    "arf",
+    "kde",
+    "chow_liu"
+  ],
+  "observed_utc": "2026-10-30T09:36:25.110815+00:00",
+  "phase_cost_rows": 0,
+  "phase_cost_status": "not reported in this interim table (header only); no tuning-cost estimate is made",
+  "schema_version": "lamost-e6-weight-selection-review/1",
+  "scope": "saved tuning metadata only; no model, prediction array, calibration replay, or test evaluation read"
+}
