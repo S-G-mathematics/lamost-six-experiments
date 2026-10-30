@@ -2,7 +2,7 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research checkpoint - 2026-10-30T11:05:18Z.** The project is not complete. See [LATEST_PROGRESS.md](LATEST_PROGRESS.md) for the current ledger and the [full work report](handoff/LAMOST_ALL_EXPERIMENTS_WORK_REPORT_20261030.md) and [supervisor prompt](handoff/LAMOST_SUPERVISOR_PROMPT_20261030.md). Older status sections and figures retain their stated cutoffs.
+**Interim research checkpoint - 2026-10-30T12:08:13.342926Z.** The project is not complete. See [LATEST_PROGRESS.md](LATEST_PROGRESS.md) for the current ledger and the [full work report](handoff/LAMOST_ALL_EXPERIMENTS_WORK_REPORT_20261030.md) and [supervisor prompt](handoff/LAMOST_SUPERVISOR_PROMPT_20261030.md). Older status sections and figures retain their stated cutoffs.
 
 
 ## Operational source update (2026-10-29T06:31:00Z)
@@ -95,3 +95,12 @@ At the registry snapshot in the linked interim report, the original 2,823 E3-E6 
 ## Portable qualification 807
 
 Portable engineering qualification passed: **807/807**. Bundle fingerprint d3ce1b3657ac513573b1fb8ec7994a9aa272ec2b7c68641c78b2b21e3bfda825, manifest SHA-256 9c17f0e7f2ee715b0c22ef7f942d047fd5acf347f3d43e52552ba9e9b9759857, pass receipt [PORTABLE_TEST_PASS_d3ce1b3657ac513573b1fb8ec7994a9aa272ec2b7c68641c78b2b21e3bfda825.json](reports/PORTABLE_TEST_PASS_d3ce1b3657ac513573b1fb8ec7994a9aa272ec2b7c68641c78b2b21e3bfda825.json). Frozen E1 results remain unchanged. No fitted models or prediction arrays are included. The scientific project remains incomplete. See [qualification details](docs/QUALIFICATION_807.md), [delivery manifest](metadata/PORTABLE_QUALIFICATION_807_DELIVERY_MANIFEST.json), and [export curation](docs/EXPORT_CURATION.md).
+
+
+## Current update (2026-10-30T12:08:13.342926Z)
+
+The latest case ledger has 2,433 successful E3-E6 rows including 12 E6 member-reference aliases, 127 recorded failures, 89 unavailable, 168 user-stopped, and 6 pending. The original planned denominator remains 2,823.
+
+See [latest progress](LATEST_PROGRESS.md), [current case ledger](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030/PLANNED_CASE_OUTCOMES_2823.csv), and [new E5 rep-1 results](reports/E5_REP1_INCREMENTAL_RESULTS_20261030T120813Z/RESULTS.csv). 8 additional exact test-outcome arrays are in a remote-verified [GitHub release asset](https://github.com/S-G-mathematics/lamost-six-experiments/releases/download/results-2026-10-28/e5_rep1_8_validated_outcomes_20261030T120813Z.zip). No fitted models or raw training data are included.
+
+The [B668 controller and approved source closure](provenance/working_reserve_storage_20261030/README.md) records a 6 GiB working reserve with one fit; the 10 GiB per-fit cap and 600-second phase cap remain unchanged. Final calibration replay and project validation remain pending.

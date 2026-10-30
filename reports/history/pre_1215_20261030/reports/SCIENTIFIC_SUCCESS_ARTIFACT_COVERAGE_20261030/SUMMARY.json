@@ -1,0 +1,102 @@
+{
+  "difference_success_rows_minus_manifest_suffix_count": 28,
+  "duplicate_successful_source_destination_rows_before_update": 1,
+  "metadata_files_added": {
+    "artifact_ref.json": 3,
+    "eval_result.json": 56,
+    "evaluation.json": 49,
+    "validation.json": 57
+  },
+  "metadata_files_added_total": 165,
+  "no_arrays_models_raw_training_data_or_operational_receipts_copied": true,
+  "notes": [
+    "The 2,397 prior destination-name count had 2,377 rows mapping to 2,376 distinct successful task sources (one duplicate mapping), plus 20 unrelated evaluation-named destinations. Forty-nine successful source paths were absent, giving 2,425 - 2,397 = 49 - 20 - 1 = 28.",
+    "Aliases stay separate task rows with dependency references; no duplicate outcome arrays are added.",
+    "Failures, unavailable, user-stopped, and pending rows remain in the planned denominator; success-only artifacts do not mean experiment set is complete.",
+    "For 56 eval_result.json records, only absolute project root in task.artifact_dir was normalized to project-relative runtime_20261025/...; scientific fields were preserved."
+  ],
+  "observed_utc": "2026-10-30T09:59:05.478433+00:00",
+  "outcomes_by_experiment": {
+    "E3": {
+      "outcomes": {
+        "scientific_failure": 3,
+        "successful": 64,
+        "unavailable_dependency": 2
+      },
+      "statuses": {
+        "validated_terminal": 69
+      }
+    },
+    "E4": {
+      "outcomes": {
+        "scientific_failure": 71,
+        "successful": 1632,
+        "unavailable_dependency": 3,
+        "user_stopped": 67
+      },
+      "statuses": {
+        "validated_terminal": 1773
+      }
+    },
+    "E5": {
+      "outcomes": {
+        "None": 14,
+        "scientific_failure": 50,
+        "successful": 717,
+        "unavailable_dependency": 78,
+        "user_stopped": 101
+      },
+      "statuses": {
+        "validated_terminal": 946,
+        "waiting_for_dependency": 14
+      }
+    },
+    "E6": {
+      "outcomes": {
+        "scientific_failure": 3,
+        "successful": 12,
+        "unavailable_dependency": 6
+      },
+      "statuses": {
+        "validated_terminal": 21
+      }
+    }
+  },
+  "planned_scientific_case_rows": 2823,
+  "pre_update_manifest_destinations_ending_evaluation_json": 2397,
+  "reconciliation_formula": {
+    "already_mapped_distinct_success_sources": 2376,
+    "duplicate_mapping_rows": 1,
+    "identity": "2425 - 2397 = 49 - 20 - 1 = 28",
+    "missing_success_sources": 49,
+    "net_difference": 28,
+    "previous_manifest_suffix_destinations": 2397,
+    "successful_task_sources": 2425,
+    "unrelated_evaluation_named_destinations": 20
+  },
+  "schema_version": "lamost-scientific-success-artifact-coverage/1",
+  "source_snapshot": "one read-only SQLite transaction over runtime_20261025/registry.sqlite; raw DB file hash not asserted",
+  "success_evaluation_sources_in_manifest_before_update": 2376,
+  "success_evaluation_sources_missing_before_update": 49,
+  "success_metadata_presence_counts": {
+    "artifact_ref_json": 121,
+    "eval_result_json": 2304,
+    "evaluation_json": 2425,
+    "validation_json": 2425
+  },
+  "successful_alias_rows": 121,
+  "successful_case_rows": 2425,
+  "successful_evaluation_destination_rows_in_manifest_before_update": 2377,
+  "successful_evaluation_sources_in_manifest_before_update": 2376,
+  "successful_evaluation_sources_missing_before_update": 49,
+  "successful_rows_by_experiment_kind": {
+    "E3:eval": 64,
+    "E4:alias": 21,
+    "E4:eval": 1611,
+    "E5:alias": 88,
+    "E5:eval": 629,
+    "E6:alias": 12
+  },
+  "unique_successful_artifact_directories": 2425,
+  "unrelated_evaluation_named_destinations_before_update": 20
+}

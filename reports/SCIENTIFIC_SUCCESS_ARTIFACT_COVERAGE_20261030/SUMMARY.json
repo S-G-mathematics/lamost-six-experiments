@@ -1,21 +1,55 @@
 {
-  "difference_success_rows_minus_manifest_suffix_count": 28,
+  "difference_success_rows_minus_manifest_suffix_count": 0,
   "duplicate_successful_source_destination_rows_before_update": 1,
+  "historical_reconciliation_before_latest_delta": {
+    "difference_success_rows_minus_manifest_suffix_count": 28,
+    "pre_update_manifest_destinations_ending_evaluation_json": 2397,
+    "reconciliation_formula": {
+      "already_mapped_distinct_success_sources": 2376,
+      "duplicate_mapping_rows": 1,
+      "identity": "2425 - 2397 = 49 - 20 - 1 = 28",
+      "missing_success_sources": 49,
+      "net_difference": 28,
+      "previous_manifest_suffix_destinations": 2397,
+      "successful_task_sources": 2425,
+      "unrelated_evaluation_named_destinations": 20
+    },
+    "success_evaluation_sources_in_manifest_before_update": 2376,
+    "success_evaluation_sources_missing_before_update": 49,
+    "successful_evaluation_destination_rows_in_manifest_before_update": 2377,
+    "successful_evaluation_sources_in_manifest_before_update": 2376,
+    "unrelated_evaluation_named_destinations_before_update": 20
+  },
+  "incremental_update": {
+    "current_registry_observed_utc": "2026-10-30T12:08:13.342926Z",
+    "new_success_rows": 8,
+    "new_success_task_keys": [
+      "e5/rep_1/eval/direct/extra_trees/feature_noise_05",
+      "e5/rep_1/eval/direct/extra_trees/feature_noise_10",
+      "e5/rep_1/eval/direct/extra_trees/feature_noise_20",
+      "e5/rep_1/eval/synthetic/random_forest/missingness_05_copula",
+      "e5/rep_1/eval/synthetic/random_forest/missingness_10_chow_liu",
+      "e5/rep_1/eval/synthetic/random_forest/missingness_10_copula",
+      "e5/rep_1/eval/synthetic/random_forest/missingness_20_chow_liu",
+      "e5/rep_1/eval/synthetic/random_forest/missingness_20_copula"
+    ],
+    "planned_scientific_case_rows": 2823,
+    "previous_success_rows": 2425
+  },
   "metadata_files_added": {
     "artifact_ref.json": 3,
-    "eval_result.json": 56,
-    "evaluation.json": 49,
-    "validation.json": 57
+    "eval_result.json": 64,
+    "evaluation.json": 57,
+    "validation.json": 65
   },
-  "metadata_files_added_total": 165,
+  "metadata_files_added_total": 189,
   "no_arrays_models_raw_training_data_or_operational_receipts_copied": true,
   "notes": [
-    "The 2,397 prior destination-name count had 2,377 rows mapping to 2,376 distinct successful task sources (one duplicate mapping), plus 20 unrelated evaluation-named destinations. Forty-nine successful source paths were absent, giving 2,425 - 2,397 = 49 - 20 - 1 = 28.",
-    "Aliases stay separate task rows with dependency references; no duplicate outcome arrays are added.",
-    "Failures, unavailable, user-stopped, and pending rows remain in the planned denominator; success-only artifacts do not mean experiment set is complete.",
-    "For 56 eval_result.json records, only absolute project root in task.artifact_dir was normalized to project-relative runtime_20261025/...; scientific fields were preserved."
+    "All current successful task rows reconcile to the current evaluation metadata crosswalk.",
+    "Evaluation and validation records are byte-identical; eval_result records normalize project-root paths only.",
+    "Failure, unavailable, user-stopped and pending cases remain in the separate planned denominator."
   ],
-  "observed_utc": "2026-10-30T09:59:05.478433+00:00",
+  "observed_utc": "2026-10-30T12:08:13.342926Z",
   "outcomes_by_experiment": {
     "E3": {
       "outcomes": {
@@ -76,16 +110,18 @@
   },
   "schema_version": "lamost-scientific-success-artifact-coverage/1",
   "source_snapshot": "one read-only SQLite transaction over runtime_20261025/registry.sqlite; raw DB file hash not asserted",
+  "success_evaluation_sources_in_manifest": 2433,
   "success_evaluation_sources_in_manifest_before_update": 2376,
+  "success_evaluation_sources_missing": 0,
   "success_evaluation_sources_missing_before_update": 49,
   "success_metadata_presence_counts": {
     "artifact_ref_json": 121,
-    "eval_result_json": 2304,
-    "evaluation_json": 2425,
-    "validation_json": 2425
+    "eval_result_json": 2312,
+    "evaluation_json": 2433,
+    "validation_json": 2433
   },
   "successful_alias_rows": 121,
-  "successful_case_rows": 2425,
+  "successful_case_rows": 2433,
   "successful_evaluation_destination_rows_in_manifest_before_update": 2377,
   "successful_evaluation_sources_in_manifest_before_update": 2376,
   "successful_evaluation_sources_missing_before_update": 49,
@@ -94,9 +130,9 @@
     "E4:alias": 21,
     "E4:eval": 1611,
     "E5:alias": 88,
-    "E5:eval": 629,
+    "E5:eval": 637,
     "E6:alias": 12
   },
-  "unique_successful_artifact_directories": 2425,
+  "unique_successful_artifact_directories": 2433,
   "unrelated_evaluation_named_destinations_before_update": 20
 }

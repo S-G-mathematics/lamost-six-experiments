@@ -1,48 +1,38 @@
 # Latest project progress
 
-Observation: 2026-10-30T11:05:18Z UTC. Registry outcomes below remain from the latest coherent read-only snapshot at 2026-10-30T10:04:33.369017Z; storage was re-observed at 11:05:18Z after the 10:45-10:47Z cleanup. This is interim and does not mark the project complete.
+Observation: 2026-10-30T12:08:13.342926Z UTC. This interim snapshot uses one read-only SQLite transaction over all 6,270 task rows. The project is not complete; full calibration replay, final artifact review, and final archive review remain pending.
 
-## Current machine-readable ledger
-
-The canonical current 2,823-row outcome/reason ledger is [reports/planned_case_ledger.csv](reports/planned_case_ledger.csv), mirrored by [PLANNED_CASE_OUTCOMES_2823.csv](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030/PLANNED_CASE_OUTCOMES_2823.csv), captured 2026-10-30T10:04:33.369017+00:00. It records 2,425 successes including 12 E6 reference aliases, 127 failures, 89 unavailable, 168 user-stopped and 14 pending rows. The prior 05:19Z pre-scope public ledger is preserved byte-for-byte at [history/planned_case_ledger_20261030T051951Z.csv](reports/history/planned_case_ledger_20261030T051951Z.csv).
-
-## Result coverage and current storage
-
-See the [11:05 UTC result-asset and resource-approval update](handoff/LAMOST_RESULT_ASSET_AND_RESOURCE_APPROVAL_20261030T1105Z.md) and [GitHub asset coverage audit](reports/GITHUB_AVAILABLE_RESULT_PAYLOAD_COVERAGE_20261030/README.md). The audit confirms 2,322 exact-member-verified later outcome arrays (2,214 overlap the base release and 108 are unique additions), 80/674 frozen E1 primary prediction arrays, and 24/24 recovery prediction arrays. Fitted models are not in GitHub assets.
-
-The 10:45-10:47Z cleanup retired 2,132 already-published result groups (5,601,906,688 allocated bytes). Free space was 19,182,096,384 bytes at 11:05:18Z, below the unchanged 21,474,836,480-byte standard floor by 2,292,740,096 bytes. The user approved a 6 GiB reserve with one fit while keeping the 10 GiB per-fit ceiling and 600-second phase cap; implementation and validation remain pending, the setting is not active, and no fit has started under it.
-
-## Current E3-E6 scientific ledger
-
-| Experiment | Planned cases | Successful | Recorded failures | Unavailable | User-stopped | Waiting |
+| Experiment | Planned | Successful / evaluated | Recorded failures | Unavailable | User-stopped | Pending |
 |---|---:|---:|---:|---:|---:|---:|
+| E1 frozen | 765 | 674 | 81 | 0 | 0 | 0 |
+| E1 unsupported | 10 | 0 | 0 | 10 unsupported | 0 | 0 |
+| E1 stopped recovery supplement | 91 | 24 | 10 | 0 | 2 user-stopped | 55 not attempted |
+| E2 primary | 150 | 108 | 0 new failures | 42 unavailable | 0 | 0 |
+| E2 classical references | 120 | 120 | 0 | 0 | 0 | 0 |
 | E3 | 69 | 64 | 3 | 2 | 0 | 0 |
-| E4 | 1,773 | 1632 | 71 | 3 | 67 | 0 |
-| E5 | 960 | 717 | 50 | 78 | 101 | 14 |
-| E6 | 21 | 12 E3-reference aliases | 3 | 6 | 0 | 0 |
+| E4 | 1,773 | 1,632 | 71 | 3 | 67 | 0 |
+| E5 | 960 | 725 | 50 | 78 | 101 | 6 |
+| E6 | 21 | 12 aliases | 3 | 6 | 0 | 0 |
+| E3-E6 total | 2,823 | 2,433 including aliases | 127 | 89 | 168 | 6 |
 
-The ledger accounts for 2,823 E3-E6 case rows. The E6 primary six have no successful ensemble results: three equal-weight cases ended in test-prediction timeouts and three learned-weight cases were unavailable through a shared posterior dependency. The 12 successful E6 rows are reused E3 member-reference evaluations; three KDE references are unavailable. No five-member ensemble performance or benefit claim is supported.
+E6 has zero successful primary ensemble test evaluations. Its 12 successful entries are E3 member-reference aliases. The 3 E6 failures and 6 unavailable rows do not support an ensemble-benefit claim.
 
-The prospective scope amendment selected 45 evaluations (14 E4, 31 E5) and marked 168 other scientific repetitions user-stopped. Existing terminal outcomes and all prior repetition results remain in the ledger; the original three-repetition plan was not rewritten.
+The [current case ledger](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030/PLANNED_CASE_OUTCOMES_2823.csv), [ledger summary](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030/SUMMARY.json), and [successful metadata crosswalk](reports/SCIENTIFIC_SUCCESS_ARTIFACT_COVERAGE_20261030/SUCCESSFUL_TASK_ARTIFACT_COVERAGE.csv) were refreshed from this snapshot. Historical ledgers remain preserved.
 
-## Frozen E1 and E2
+## New E5 repetition-1 results
 
-E1 remains the frozen 765-case ledger: 674 successful, 81 recorded failures (55 resource outcomes and 26 supervisor-terminal outcomes), and 10 unsupported. Its stopped recovery supplement is separate and must not be merged into the original denominator.
+8 newly indexed E5 rep-1 evaluations validated by the snapshot. See [the case table](reports/E5_REP1_INCREMENTAL_RESULTS_20261030T120813Z/RESULTS.csv) for method, route, corruption, balanced accuracy, coverage, set size, and sample sizes. The exact test-outcome arrays were uploaded and verified as a separate [GitHub release asset](https://github.com/S-G-mathematics/lamost-six-experiments/releases/download/results-2026-10-28/e5_rep1_8_validated_outcomes_20261030T120813Z.zip).
 
-E2 has 108/150 primary evaluations and 120/120 separate classical references; 42 primary cases are unavailable. The reconstruction report records 31 reconstruction-accuracy differences, 210 low-precision flags, and four complete correlation strata. These counts do not make E2 primary coverage complete.
+These individual repetition-1 results do not form three-repetition means or universal rankings. The E5 plan remains at 960 rows, with 6 pending evaluations and separately retained failure, unavailable, and user-stopped cases.
 
-## Storage and validation
+## Frozen boundaries and source update
 
-The 1,499 previously retained E3-E6 payload groups were restored and passed byte and hard-link checks at 2026-10-30 09:04 UTC; the original retention index remains preserved as history and the promoted state reports no restore requirement. No payload retirement was performed in this checkpoint.
+E1 remains frozen at 674 successful, 81 recorded failures (55 resource outcomes and 26 supervisor-terminal outcomes), and 10 unsupported of 765. The stopped recovery supplement is separate: 24 successful retries, 10 retry failures, 2 user-stopped partial cells, and 55 not attempted. The compact migration still omits most historical E1 model artifacts and per-row predictions; release evidence covers 80 of 674 primary prediction arrays and 24 of 24 recovery arrays.
 
-A read-only v2 retention plan at 08:45 UTC selected zero bytes because the catalog payload rows lacked remote-asset evidence fields that were present on their asset records. This is a metadata binding issue, not a conclusion that the outcomes are ineligible. The upper bound considered for project-only reclamation is below the existing 20 GiB storage floor, so storage admission remains blocked without changing policy. Current free space at this observation is 13,105,987,584 bytes.
+E2 remains 108/150 primary evaluations, 42 unavailable original-model dependencies, and 120/120 classical references. Its reconstruction has 31 reconstruction-accuracy differences, 210 low-precision flags, and four complete correlation strata; this does not complete primary E2 coverage.
 
-Final calibration-quantile replay, full artifact validation, and final archive review remain pending. Bootstrap remains dropped. No fitted models, FITS products, raw datasets, private process receipts, or credentials are included in this repository update.
+The prospective scope amendment selected 45 evaluations and marked 168 other E4/E5 repetitions user-stopped. Prior results and the original plan are preserved.
 
-## Reports and handoff
+The installed controller is B668 bound to freeze F9FB. The [source closure and public qualification evidence](provenance/working_reserve_storage_20261030/README.md) records the approved 6 GiB working reserve with one concurrent fit. The 10 GiB per-fit ceiling and 600-second phase cap remain unchanged. This registry snapshot does not make a claim about current worker liveness.
 
-- [Full experiment work report](handoff/LAMOST_ALL_EXPERIMENTS_WORK_REPORT_20261030.md)
-- [Supervisor continuation prompt](handoff/LAMOST_SUPERVISOR_PROMPT_20261030.md)
-- [Earlier detailed progress snapshot](reports/PROJECT_PROGRESS_20261030.md) (dated 2026-10-29; its status counts are historical)
-
-This update adds current documentation and links only; it does not alter scientific metrics, figures, source code, or the existing interim results ZIP.
+Bootstrap remains dropped. No fitted models, FITS files, or raw training data are in Git or the result-array ZIP.

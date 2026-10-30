@@ -160,18 +160,84 @@ def _rf4_manifest_and_freeze(frozen=None):
   if hashlib.sha256(qualification_bytes).hexdigest()!=qualification['sha256']:raise RuntimeError('RF4 qualification evidence mismatch')
   qdoc=json.loads(qualification_bytes)
  except (OSError,ValueError,TypeError) as exc:raise RuntimeError('RF4 qualification evidence is malformed') from exc
- _validate_rf4_qualification(qdoc,current)
+ _validate_rf4_qualification(qdoc,current,frozen)
  after=tuple(_rf4_file_identity(x,'bound') for x in cache_paths)
  if before!=after:raise RuntimeError('RF4 policy inputs changed during verification')
  return {'manifest_sha256':manifest_sha,'document':doc,'source_sha256':current,'_cache_paths':cache_paths}
 def _rf4_hex_sha(value):
  return isinstance(value,str) and len(value)==64 and all(c in '0123456789abcdef' for c in value)
-def _validate_rf4_qualification(doc,source_map):
+def _controller_dispatch_ast_sha256(path,names):
+ try:
+  tree=ast.parse(pathlib.Path(path).read_text())
+  functions={node.name:node for node in tree.body if isinstance(node,ast.FunctionDef)}
+  result={}
+  for name in names:
+   node=functions.get(name)
+   if node is None:return None
+   result[name]=hashlib.sha256(ast.dump(node,annotate_fields=True,include_attributes=False).encode()).hexdigest()
+  return result
+ except (OSError,SyntaxError,ValueError,TypeError):return None
+def _storage_operational_amendment_valid(frozen,legacy_controller_sha):
+ # This narrowly accepts the old RF4/ET4 controller pin only for the exact
+ # reviewed storage-only amendment; all worker, request, profile and resource
+ # checks in their original qualification readers remain active.
+ if not isinstance(frozen,dict) or legacy_controller_sha!='7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b':return False
+ amendment=frozen.get('storage_admission_amendment')
+ if not isinstance(amendment,dict) or amendment.get('schema')!='lamost-controller-operational-source-amendment/1':return False
+ current=sha(pathlib.Path(__file__))
+ if amendment.get('baseline_controller_sha256')!=legacy_controller_sha or amendment.get('candidate_controller_sha256')!=current:return False
+ expected_policy=WORKING_STORAGE_POLICY
+ if frozen.get('storage_admission_policy')!=expected_policy:return False
+ project=R.parent
+ def bound_file(field,sha_field):
+  rel=amendment.get(field);digest=amendment.get(sha_field)
+  if not isinstance(rel,str) or not isinstance(digest,str) or len(digest)!=64 or any(c not in '0123456789abcdef' for c in digest):return None
+  member=pathlib.Path(rel)
+  if member.is_absolute() or '..' in member.parts:return None
+  path=project/member
+  try:
+   if path.is_symlink() or not path.is_file() or project.resolve() not in path.resolve().parents:return None
+   raw=path.read_bytes()
+   if hashlib.sha256(raw).hexdigest()!=digest:return None
+   return path,json.loads(raw)
+  except (OSError,ValueError,TypeError):return None
+ policy_pair=bound_file('policy_path','policy_sha256')
+ receipt_pair=bound_file('focused_receipt_path','focused_receipt_sha256')
+ approval_pair=bound_file('approval_path','approval_sha256')
+ if not policy_pair or not receipt_pair or not approval_pair:return False
+ policy_path,policy=policy_pair;receipt_path,receipt=receipt_pair;approval_path,approval=approval_pair
+ if policy.get('schema')!='lamost-working-storage-admission-policy/1' or policy.get('policy_id')!=expected_policy['policy_id']:return False
+ if policy.get('controller_baseline_sha256')!=legacy_controller_sha or policy.get('controller_candidate_sha256')!=current:return False
+ if policy.get('freeze_binding_value')!=expected_policy or policy.get('approval_record_sha256')!=amendment.get('approval_sha256'):return False
+ if policy.get('approval_record')!=amendment.get('approval_path'):return False
+ expected_scientific_limits={'worker_hard_limit_bytes':10*GIB,'trial_timeout_seconds':600,'phase_timeout_seconds':600,'termination_grace_seconds':30,'nested_threads':1}
+ if policy.get('unchanged_scientific_resource_limits')!=expected_scientific_limits or policy.get('maximum_concurrent_fit_tasks')!=1:return False
+ if not approval.get('authorized') or approval.get('user_answer')!='Use 6 GiB reserve and one fit':return False
+ names=('_rf4_fit_eligible','_et4_fit_eligible','worker_script_for_task','worker_request_definition','worker_resource_class','worker_reservation_bytes','candidate_cpu_reservation_units')
+ actual_dispatch=_controller_dispatch_ast_sha256(pathlib.Path(__file__),names)
+ dispatch=policy.get('protected_dispatch_function_ast_sha256')
+ if not isinstance(dispatch,dict) or actual_dispatch!=dispatch:return False
+ if amendment.get('protected_dispatch_function_ast_sha256')!=dispatch:return False
+ if receipt.get('schema')!='lamost-working-storage-admission-focused-qualification/1' or receipt.get('result')!='passed' or receipt.get('tests_passed')!=13 or receipt.get('tests_failed')!=0:return False
+ if receipt.get('controller_sha256')!=current or receipt.get('policy_sha256')!=amendment.get('policy_sha256') or receipt.get('py_compile')!='passed':return False
+ test_rel=receipt.get('test_path');test_sha=receipt.get('test_sha256')
+ if not isinstance(test_rel,str) or not isinstance(test_sha,str) or len(test_sha)!=64:return False
+ test_member=pathlib.Path(test_rel)
+ if test_member.is_absolute() or '..' in test_member.parts:return False
+ test_path=project/test_member
+ try:
+  if test_path.is_symlink() or not test_path.is_file() or sha(test_path)!=test_sha:return False
+ except OSError:return False
+ return (amendment.get('policy_path')==policy_path.relative_to(project).as_posix()
+         and amendment.get('focused_receipt_path')==receipt_path.relative_to(project).as_posix()
+         and amendment.get('approval_path')==approval_path.relative_to(project).as_posix())
+def _validate_rf4_qualification(doc,source_map,frozen=None):
  if not isinstance(doc,dict) or doc.get('schema')!='lamost-rf4-execution-qualification/1' or doc.get('status')!='passed':
   raise RuntimeError('RF4 qualification record is not passed/supported')
  if doc.get('source_sha256')!=source_map:raise RuntimeError('RF4 qualification source hashes mismatch')
  if 'controller_sha256' in doc and doc.get('controller_sha256')!=sha(pathlib.Path(__file__)):
-  raise RuntimeError('RF4 qualification controller source hash mismatch')
+  if not _storage_operational_amendment_valid(frozen,doc.get('controller_sha256')):
+   raise RuntimeError('RF4 qualification controller source hash mismatch')
  required={'fit_n_jobs':4,'prediction_n_jobs':1,'native_threads':1,'admission_reservation_gib':10,'worker_memory_limit_gib':10,'trial_timeout_seconds':600,'phase_timeout_seconds':600,'termination_grace_seconds':30,'cpu_reservation_units':4,'cpu_reserve_cores':2}
  if any(doc.get(k)!=v for k,v in required.items()):raise RuntimeError('RF4 qualification execution/resource settings mismatch')
  harness=doc.get('harness')
@@ -467,7 +533,8 @@ def _et4_policy(frozen=None):
  if not isinstance(qdoc,dict) or qdoc.get("schema")!="lamost-et4-execution-qualification/1" or qdoc.get("status")!="passed" or qdoc.get("source_sha256")!=current:
   raise RuntimeError("ET4 qualification evidence not bound/passed")
  if qdoc.get("controller_sha256")!=sha(pathlib.Path(__file__)):
-  raise RuntimeError("ET4 qualification controller pin mismatch")
+  if not _storage_operational_amendment_valid(frozen,qdoc.get("controller_sha256")):
+   raise RuntimeError("ET4 qualification controller pin mismatch")
  expected_execution={"fit_n_jobs":4,"prediction_n_jobs":1,"serialized_estimator_n_jobs":1,"native_threads":1,"admission_reservation_gib":10,"worker_memory_limit_gib":10,"trial_timeout_seconds":600,"phase_timeout_seconds":600,"termination_grace_seconds":30,"cpu_reservation_units":4}
  if qdoc.get("execution")!=expected_execution:raise RuntimeError("ET4 qualification execution limits mismatch")
  fixture=qdoc.get("synthetic_thread_equivalence")
@@ -796,8 +863,9 @@ def freeze():
   f=json.loads(p.read_text())
   _rf4_manifest_and_freeze(f)
   if f['source_sha256']!=actual:raise RuntimeError('Execution source changed after freeze; reviewed amendment required')
+  if f.get('storage_admission_policy')!=WORKING_STORAGE_POLICY:raise RuntimeError('storage admission policy is not explicitly frozen')
   return f
- f={'protocol_version':'LAMOST-later-v1-20261025','frozen_utc':now(),'source_sha256':actual,'plan_sha256':sha(R/'manifests/tasks.json'),'bootstrap':False,'test_information_history':'E1/E2 fixed test results already observed; later plans frozen before new test evaluations','resource_policy':dict(ADAPTIVE_POLICY),'airbag_method':'ownership lock, atomic checkpoints, actual-process supervision, bounded recovery, five-minute watchdog','airbag_skill_available':False}
+ f={'protocol_version':'LAMOST-later-v1-20261025','frozen_utc':now(),'source_sha256':actual,'plan_sha256':sha(R/'manifests/tasks.json'),'bootstrap':False,'test_information_history':'E1/E2 fixed test results already observed; later plans frozen before new test evaluations','resource_policy':dict(ADAPTIVE_POLICY),'storage_admission_policy':dict(WORKING_STORAGE_POLICY),'airbag_method':'ownership lock, atomic checkpoints, actual-process supervision, bounded recovery, five-minute watchdog','airbag_skill_available':False}
  atomic(p,f);return f
 def terminalize(db,t,outcome,reason=None,result=None):
  t.update(status='validated_terminal',outcome=outcome,reason=reason,finished_utc=now(),observed_utc=now(),validation_state='validated' if outcome=='successful' else 'validated_terminal_outcome')
@@ -1600,7 +1668,7 @@ def admission_candidate(db,running,ready,idle_cores,available_bytes=None,archive
  growth_commitment=sum(max(0,x['reservation_bytes']-min(x['reservation_bytes'],x['credited_pss_bytes'])) for x in charges)
  if time.time()<EMERGENCY_BACKOFF_UNTIL or available<ADMISSION_FLOOR or cpu_slots<=0:return None
  heavy_lane=any(worker_resource_class(t)=='heavy' for t in running)
- ordered_ready=order_ready_for_admission(running,ready)
+ ordered_ready=fit_limited_ready(running,order_ready_for_admission(running,ready))
  native_overlap_proofs={}
  if archive_context.get('mode')=='active':
   all_tasks=load(db)
@@ -1665,8 +1733,125 @@ def cpu_idle_cores():
  CPU_PREVIOUS=point
  return LAST_IDLE_CORES
 STORAGE_DRAIN_POLICY_ID='nonfit-e4e5-eval-only-20261028-v1'
-STORAGE_DRAIN_FLOOR_BYTES=20*GIB
 STORAGE_DRAIN_OUTPUT_RESERVE_BYTES=2*GIB
+# Operational disk admission amendment; separate from scientific worker limits
+# and from the full archive verification performed by finalization.
+WORKING_STORAGE_POLICY={
+ 'policy_id':'working-reserve-6gib-one-fit-v1',
+ 'working_reserve_bytes':6*GIB,
+ 'maximum_restore_bytes':10*GIB,
+ 'maximum_single_restore_asset_bytes':GIB,
+ 'per_active_or_new_task_output_reserve_bytes':STORAGE_DRAIN_OUTPUT_RESERVE_BYTES,
+ 'maximum_concurrent_fit_tasks':1,
+ 'restore_index_rel':'operations/terminal_result_retention_v2_20261030/guardian/retention_index.json',
+ 'restore_index_schema':'lamost-terminal-result-retention-index/2',
+ 'full_archive_verification':'finalization_only'
+}
+def retention_budget_matches_policy(budget,policy):
+ if not isinstance(budget,dict) or not isinstance(policy,dict):return False
+ expected={'index_sha256':policy.get('retention_index_sha256'),
+           'row_count':policy.get('retention_row_count'),
+           'restore_bytes':policy.get('retention_restore_bytes'),
+           'largest_asset_bytes':policy.get('largest_restore_asset_bytes'),
+           'restore_required':policy.get('retention_restore_required')}
+ return (all(expected[k] is not None for k in expected)
+         and budget==expected
+         and expected['restore_required'] is True)
+def _storage_expected_campaign(frozen):
+ if not isinstance(frozen,dict) or frozen.get('storage_admission_policy')!=WORKING_STORAGE_POLICY:return None
+ amendment=frozen.get('storage_admission_amendment')
+ if not isinstance(amendment,dict) or amendment.get('schema')!='lamost-controller-operational-source-amendment/1':return None
+ current=sha(pathlib.Path(__file__))
+ if amendment.get('candidate_controller_sha256')!=current:return None
+ rel=amendment.get('policy_path');digest=amendment.get('policy_sha256')
+ if not isinstance(rel,str) or not isinstance(digest,str) or len(digest)!=64:return None
+ member=pathlib.Path(rel)
+ if member.is_absolute() or '..' in member.parts:return None
+ project=R.parent;path=project/member
+ try:
+  if path.is_symlink() or not path.is_file() or project.resolve() not in path.resolve().parents:return None
+  raw=path.read_bytes()
+  if hashlib.sha256(raw).hexdigest()!=digest:return None
+  policy=json.loads(raw)
+ except (OSError,ValueError,TypeError):return None
+ if (not isinstance(policy,dict) or policy.get('schema')!='lamost-working-storage-admission-policy/1'
+     or policy.get('controller_candidate_sha256')!=current
+     or policy.get('freeze_binding_value')!=WORKING_STORAGE_POLICY
+     or policy.get('policy_id')!=WORKING_STORAGE_POLICY['policy_id']):return None
+ if policy.get('retention_index_path')!=WORKING_STORAGE_POLICY['restore_index_rel'] or policy.get('retention_index_schema')!=WORKING_STORAGE_POLICY['restore_index_schema']:return None
+ if policy.get('maximum_concurrent_fit_tasks')!=WORKING_STORAGE_POLICY['maximum_concurrent_fit_tasks'] or policy.get('per_active_or_new_task_output_reserve_bytes')!=WORKING_STORAGE_POLICY['per_active_or_new_task_output_reserve_bytes']:return None
+ return policy
+def retention_restore_budget(index_path):
+ """Validate the bounded restore index and return conservative reserve inputs."""
+ p=pathlib.Path(index_path)
+ try:
+  if p.is_symlink() or not p.is_file():return None
+  st=p.stat()
+  if st.st_size<=0 or st.st_size>32*1024*1024:return None
+  raw=p.read_bytes()
+  digest=hashlib.sha256(raw).hexdigest()
+  doc=json.loads(raw)
+ except (OSError,ValueError,TypeError):
+  return None
+ if not isinstance(doc,dict) or doc.get('schema')!=WORKING_STORAGE_POLICY['restore_index_schema']:return None
+ restore=doc.get('restore_required');rows=doc.get('retired')
+ if not isinstance(restore,bool) or not isinstance(rows,list) or (restore and not rows):return None
+ total=0;largest=0;seen_paths=set();seen_sources=set()
+ root_prefix='runtime_20261025/artifacts/'
+ for row in rows:
+  if not isinstance(row,dict):return None
+  key=row.get('task_key');source=row.get('source_path')
+  if not isinstance(key,str) or not isinstance(source,str):return None
+  parts=key.split('/')
+  if len(parts)<5 or parts[0] not in ('e3','e4','e5','e6') or any(x in ('','.','..') for x in parts):return None
+  if source!=root_prefix+key+'/test_outcomes.npz':return None
+  if row.get('task_family')!=int(parts[0][1:]):return None
+  if row.get('asset') is not None and row.get('asset')!=row.get('asset_name',row.get('asset')):return None
+  if source in seen_sources:return None
+  seen_sources.add(source)
+  size=row.get('source_bytes');sh=row.get('source_sha256')
+  if not isinstance(size,int) or isinstance(size,bool) or size<=0:return None
+  if not isinstance(sh,str) or len(sh)!=64 or any(c not in '0123456789abcdef' for c in sh):return None
+  assetsize=row.get('asset_bytes');assetsha=row.get('asset_sha256');assetname=row.get('asset_name',row.get('asset'))
+  if not isinstance(assetsize,int) or isinstance(assetsize,bool) or assetsize<=0 or assetsize>WORKING_STORAGE_POLICY['maximum_single_restore_asset_bytes']:return None
+  if not isinstance(assetsha,str) or len(assetsha)!=64 or any(c not in '0123456789abcdef' for c in assetsha):return None
+  if not isinstance(assetname,str) or not assetname or '/' in assetname or chr(92) in assetname or assetname in ('.','..'):return None
+  native=row.get('native_paths');unlinked=row.get('unlinked_paths')
+  if not isinstance(native,list) or not isinstance(unlinked,list) or not native:return None
+  link_count=row.get('link_count',row.get('native_nlink'))
+  if not isinstance(link_count,int) or isinstance(link_count,bool) or link_count!=len(native):return None
+  if source not in native or set(native)!=set(unlinked) or len(unlinked)!=len(set(unlinked)) or len(native)!=len(set(native)):return None
+  if row.get('retirement_kind')!='complete_inode_group' or row.get('fresh_native_inventory_verified') is not True:return None
+  for evidence_sha_field in ('asset_remote_evidence_sha256','member_record_evidence_sha256','manifest_sha256','physical_inventory_sha256','plan_sha256'):
+   evidence_sha=row.get(evidence_sha_field)
+   if not isinstance(evidence_sha,str) or len(evidence_sha)!=64 or any(c not in '0123456789abcdef' for c in evidence_sha):return None
+  if not isinstance(row.get('asset_remote_evidence_path'),str) or not row['asset_remote_evidence_path']:return None
+  if not isinstance(row.get('member_record_evidence_path'),str) or not row['member_record_evidence_path']:return None
+  crc=row.get('archive_crc32');member=row.get('archive_member')
+  if not isinstance(crc,str) or len(crc)!=8 or any(c not in '0123456789abcdef' for c in crc):return None
+  if not isinstance(member,str) or not member.startswith(root_prefix) or '..' in member.split('/'):return None
+  expected_alias_prefix=root_prefix+key+'/attempts/'
+  for alias in native:
+   if not isinstance(alias,str) or alias in seen_paths:return None
+   if alias!=source and (not alias.startswith(expected_alias_prefix) or not alias.endswith('/test_outcomes.npz')):return None
+   if '..' in alias.split('/') or chr(92) in alias:return None
+   seen_paths.add(alias)
+  total+=size;largest=max(largest,assetsize)
+  if total>WORKING_STORAGE_POLICY['maximum_restore_bytes']:return None
+ if not restore:total=largest=0
+ return {'index_sha256':digest,'restore_required':restore,'restore_bytes':total,'largest_asset_bytes':largest,'row_count':len(rows)}
+def storage_required_bytes(restore_bytes,largest_asset_bytes,active_count):
+ if any(not isinstance(x,int) or isinstance(x,bool) or x<0 for x in (restore_bytes,largest_asset_bytes,active_count)):return None
+ if restore_bytes>WORKING_STORAGE_POLICY['maximum_restore_bytes'] or largest_asset_bytes>WORKING_STORAGE_POLICY['maximum_single_restore_asset_bytes']:return None
+ return (WORKING_STORAGE_POLICY['working_reserve_bytes']+restore_bytes+largest_asset_bytes+
+         WORKING_STORAGE_POLICY['per_active_or_new_task_output_reserve_bytes']*(active_count+1))
+def fit_limited_ready(running,ready):
+ """Enforce one global fit lane while retaining ready evaluations and aliases."""
+ fit_limit=WORKING_STORAGE_POLICY['maximum_concurrent_fit_tasks']
+ running_fits=sum(1 for t in running if isinstance(t,dict) and t.get('kind')=='fit')
+ if running_fits>=fit_limit:
+  return [t for t in ready if not (isinstance(t,dict) and t.get('kind')=='fit')]
+ return list(ready)
 _STORAGE_DRAIN_HASH_CACHE={}
 _STORAGE_DRAIN_HASH_CACHE_MAX=256
 
@@ -1803,54 +1988,62 @@ def _storage_drain_task_evidence(task,tasks,runtime,require_ready=True):
           'source_validation_manifest_sha256':sha(src_val_file[0]),'no_model_fit_or_serialization':True}
  return None
 
-def storage_drain_candidate(tasks,ready,running,free_bytes,runtime,archive_mode='inactive',admission_hold=False):
- # A storage forecast may be bypassed only for bounded E4/E5 evaluation sinks.
- # Preserve the 20 GiB hard floor and reserve 2 GiB for every active plus new
- # drain task. No archive overlap or operator admission hold may be bypassed.
+def storage_drain_candidate(tasks,ready,running,free_bytes,runtime,archive_mode='inactive',admission_hold=False,frozen=None):
+ # Only bounded E4/E5 evaluation sinks may bypass ordinary fit admission.
+ # Their disk floor still includes every pending verified restore and output
+ # reservation; no archive overlap or operator hold may be bypassed.
  if admission_hold or archive_mode!='inactive':return None
  try:free=int(free_bytes)
  except (TypeError,ValueError):return None
- if free<STORAGE_DRAIN_FLOOR_BYTES:return None
+ expected_campaign=_storage_expected_campaign(frozen)
+ index_path=pathlib.Path(runtime).resolve().parent/WORKING_STORAGE_POLICY['restore_index_rel']
+ budget=retention_restore_budget(index_path)
+ if expected_campaign is None or not retention_budget_matches_policy(budget,expected_campaign):return None
  active_evidence=[]
  for t in running:
   evidence=_storage_drain_task_evidence(t,tasks,runtime,require_ready=False)
   if evidence is None:return None
   active_evidence.append(evidence)
- required=STORAGE_DRAIN_FLOOR_BYTES+STORAGE_DRAIN_OUTPUT_RESERVE_BYTES*(len(active_evidence)+1)
- if free<required:return None
+ required=storage_required_bytes(budget['restore_bytes'],budget['largest_asset_bytes'],len(active_evidence))
+ if required is None or free<required:return None
  # Preserve the established ready ordering and inspect candidates one at a
  # time. Hash at most the selected candidate's model per scheduler pass.
  for selected in order_ready_for_admission(running,ready):
   proof=_storage_drain_task_evidence(selected,tasks,runtime,require_ready=True)
   if proof is None:continue
   proof=dict(proof)
-  proof.update({'free_bytes_at_admission_check':free,'hard_free_floor_bytes':STORAGE_DRAIN_FLOOR_BYTES,
+  proof.update({'free_bytes_at_admission_check':free,'hard_free_floor_bytes':WORKING_STORAGE_POLICY['working_reserve_bytes']+budget['restore_bytes']+budget['largest_asset_bytes'],
                 'reserved_output_bytes_per_active_or_new_task':STORAGE_DRAIN_OUTPUT_RESERVE_BYTES,
                 'active_drain_task_count':len(active_evidence),
                 'reserved_output_total_bytes':STORAGE_DRAIN_OUTPUT_RESERVE_BYTES*(len(active_evidence)+1),
-                'required_free_bytes':required,'archive_overlap_mode':'inactive','operator_admission_hold_absent':True,
+                'required_free_bytes':required,'retention_index_sha256':budget['index_sha256'],'restore_bytes_reserved':budget['restore_bytes'],'largest_restore_asset_bytes_reserved':budget['largest_asset_bytes'],'archive_overlap_mode':'inactive','operator_admission_hold_absent':True,
                 'normal_future_space_forecast_gate_passed':False})
   return selected,proof
  return None
 
-def storage_allow():
- global STORAGE_ESTIMATE
+def storage_allow(running=(),frozen=None):
  free=shutil.disk_usage(R).free
- if time.monotonic()-STORAGE_ESTIMATE[0]>300:
-  seen=set();size=0
-  for root in [R/'artifacts',R/'cache',R.parent/'e2_20261024']:
-   for base,dirs,files in os.walk(root):
-    dirs[:]=[d for d in dirs if d!='__pycache__']
-    for name in files:
-     try:
-      st=os.stat(os.path.join(base,name));identity=(st.st_dev,st.st_ino)
-      if identity not in seen:size+=st.st_size;seen.add(identity)
-     except OSError:pass
-  size+=(R.parent/'packages/LAMOST_E1_WRAPUP_20261024T080232_571618+0000.zip').stat().st_size
-  STORAGE_ESTIMATE=(time.monotonic(),size)
- minimum=max(20*1024**3,STORAGE_ESTIMATE[1]+6*1024**3)
- atomic(R/'storage_observation.json',{'observed_utc':now(),'free_bytes':free,'estimated_uncompressed_archive_input_bytes_conservative':STORAGE_ESTIMATE[1],'minimum_free_bytes':minimum,'no_unique_artifacts_deleted':True})
- return free>=minimum,free
+ if frozen is None:
+  try:frozen=json.loads((R/'manifests/freeze.json').read_text())
+  except (OSError,ValueError,TypeError):frozen=None
+ expected_campaign=_storage_expected_campaign(frozen)
+ index_path=R.parent/WORKING_STORAGE_POLICY['restore_index_rel']
+ budget=retention_restore_budget(index_path)
+ campaign_match=retention_budget_matches_policy(budget,expected_campaign)
+ active_count=sum(1 for t in running if isinstance(t,dict) and t.get('status')=='running')
+ required=None if budget is None or not campaign_match else storage_required_bytes(budget['restore_bytes'],budget['largest_asset_bytes'],active_count)
+ allowed=bool(required is not None and free>=required)
+ atomic(R/'storage_observation.json',{'observed_utc':now(),'policy_id':WORKING_STORAGE_POLICY['policy_id'],
+  'free_bytes':free,'working_reserve_bytes':WORKING_STORAGE_POLICY['working_reserve_bytes'],
+  'retention_index_path':str(index_path),'retention_index_sha256':budget.get('index_sha256') if budget else None,
+  'restore_required':budget.get('restore_required') if budget else None,'retention_index_matches_approved_campaign':campaign_match,
+  'restore_bytes_reserved':budget.get('restore_bytes') if budget else None,
+  'largest_restore_asset_bytes_reserved':budget.get('largest_asset_bytes') if budget else None,
+  'active_running_task_count':active_count,'per_active_or_new_task_output_reserve_bytes':WORKING_STORAGE_POLICY['per_active_or_new_task_output_reserve_bytes'],
+  'required_free_bytes':required,'admission_allowed':allowed,
+  'full_archive_verification':'finalization_only','no_unique_artifacts_deleted':True})
+ return allowed,free
+
 def stop_handler(sig,frame):
  global STOP;STOP=True
 def admission_hold_active():
@@ -1876,7 +2069,7 @@ def run():
    last_source=time.monotonic()
   ready=ready_tasks(db,tasks);running=[t for t in tasks.values() if t['status']=='running']
   guard=emergency_interrupt_one(db,tasks)
-  storage,free=storage_allow()
+  storage,free=storage_allow(running,frozen)
   idle=cpu_idle_cores()
   # Re-sample process PSS and MemAvailable after every launch; never trust a batch reservation.
   if storage and archive_fit_overlap_context().get('mode')!='blocked':
@@ -1888,12 +2081,20 @@ def run():
     candidate=admission_candidate(db,running,ready_tasks(db,tasks),idle)
     if candidate is None:break
     if archive_fit_overlap_context().get('mode')=='blocked':break
+    storage,free=storage_allow(running,frozen)
+    if not storage:break
     admitted_cpu_units=candidate_cpu_reservation_units(candidate)
     if not admit(db,candidate,idle):break
     idle=max(0.0,idle-float(admitted_cpu_units))
     tasks=load(db);guard=emergency_interrupt_one(db,tasks)
   elif ready and not storage:
-   atomic(R/'STORAGE_HOLD.json',{'observed_utc':now(),'free_bytes':free,'minimum_free_bytes':20*1024**3,'reason':'storage backoff; unique artifacts preserved'})
+   storage_observation={}
+   try:storage_observation=json.loads((R/'storage_observation.json').read_text())
+   except (OSError,ValueError,TypeError):pass
+   atomic(R/'STORAGE_HOLD.json',{'observed_utc':now(),'free_bytes':free,
+    'minimum_free_bytes':storage_observation.get('required_free_bytes'),
+    'policy_id':storage_observation.get('policy_id'),
+    'reason':'working reserve or verified-retention restore budget unavailable; unique artifacts preserved'})
    # Drain only already-fitted E4/E5 RF/ET evaluation sinks and E5 clean aliases.
    # This path never changes the ordinary fit/generation forecast admission.
    if not admission_hold_active():
@@ -1902,7 +2103,7 @@ def run():
      fresh_tasks=load(db);fresh_ready=ready_tasks(db,fresh_tasks)
      fresh_running=[x for x in fresh_tasks.values() if x.get('status')=='running']
      drain=storage_drain_candidate(fresh_tasks,fresh_ready,fresh_running,shutil.disk_usage(R).free,R,
-                                   drain_archive.get('mode'),admission_hold_active())
+                                   drain_archive.get('mode'),admission_hold_active(),frozen=frozen)
      if drain is not None:
       drain_task,drain_proof=drain
       candidate=admission_candidate(db,fresh_running,[drain_task],idle,archive_context=drain_archive)
@@ -1913,7 +2114,7 @@ def run():
        latest_running=[x for x in latest.values() if x.get('status')=='running']
        latest_archive=archive_fit_overlap_context();latest_free=shutil.disk_usage(R).free
        latest_drain=storage_drain_candidate(latest,latest_ready,latest_running,latest_free,R,
-                                            latest_archive.get('mode'),admission_hold_active())
+                                            latest_archive.get('mode'),admission_hold_active(),frozen=frozen)
        if latest_drain is not None and latest_drain[0].get('key')==candidate.get('key'):
         admit(db,candidate,idle,storage_drain_evidence=latest_drain[1])
   if time.monotonic()-last_export>10:

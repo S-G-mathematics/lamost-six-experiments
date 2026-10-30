@@ -511,10 +511,12 @@
       "validation": "6score/worker/routing/aliasfixtures;9independentauditorfixtures;20controllerguardtests;2actualstagedsubprocessengineeringchecks;noengineeringmodelfits"
     }
   ],
-  "archive_native_codec4_fit_overlap_qualification_sha256": "1a5f42588e5503d6f0272c8317c52c63fcb6d0dfb325f502319d19c418feb499",
-  "archive_native_codec4_fit_overlap_sha256": "34b1944c4216005ded15679193082195181f0405a7fb98524122cba318767692",
-  "archive_native_codec_fit_overlap_qualification_sha256": "035476cc53961f87ccc91f3e576442926953c15ff480b289a7ee43ae0a40e08d",
-  "archive_native_codec_fit_overlap_sha256": "85d37950ee27b66e0980f672f6d75c05a0ecdbc6a8465cdf8e1a379855a36510",
+  "archive_native_codec12_fit_overlap_qualification_sha256": "ca73c06d58cbc290d0eea995e83fd9cb76cb3a5ddebd5f19eb79407105cbc141",
+  "archive_native_codec12_fit_overlap_sha256": "64f4b950fa1099e45a26c004c3691db08d1e819d8360c84f6a394ee2c4b14ef4",
+  "archive_native_codec4_fit_overlap_qualification_sha256": "7d8b059fc0b433e5758e863089a67eb7cdaac84310c6e8a3d51ddd73378ff0d0",
+  "archive_native_codec4_fit_overlap_sha256": "ec1c227bb0273acc3ad317b986a77d6a34e85dcc4577f17ca6e798f6ef8f6f81",
+  "archive_native_codec_fit_overlap_qualification_sha256": "6b080eee5cb51da0872ed256211acc1d5e90c41670bc22493e27951e2c4b2696",
+  "archive_native_codec_fit_overlap_sha256": "e04d63f4ef69b907166bfb426fc92804c18c875c27d8b11bd61722c824cfd94e",
   "archive_native_fit_overlap_qualification_sha256": "6c7bca53a6fbe505f2e73af22875890a0b4d3f85b57b8060be06fedde0f67151",
   "archive_native_fit_overlap_sha256": "d7721b863c61261bd71d1b5e7bc3831a03734fe8568e9ec5d009c3c1864adc99",
   "bootstrap": false,
@@ -889,6 +891,70 @@
       "observed_utc": "2026-10-29T01:44:13.231514+00:00",
       "scientific_tasks_or_results_changed": false,
       "scope": "Strict selection-receipt compatibility codec candidate; operational archive plumbing only"
+    },
+    {
+      "amendment_id": "storage_observation_check_time_20261030",
+      "codec4_profile_tests": 10,
+      "controller_admission_fixture_tests": 6,
+      "focused_codec1_tests": 25,
+      "focused_codec4_tests": 21,
+      "observed_utc": "2026-10-29T21:27:00.839318+00:00",
+      "portable_suite_expected_cases": 810,
+      "portable_suite_status": "pending",
+      "scientific_fits_started": 0,
+      "scientific_models_or_tasks_changed": false,
+      "scope": "Operational freshness clock only: validate the storage observation at the observation-check time after preflight work. Existing stale/future age limits, storage thresholds, fit limits, and task/science definitions are unchanged.",
+      "source_changes": [
+        {
+          "after": "5c438eff88940906ba229ce5c714046a32ece6b96c1a2feafe7aa57e282ddbf3",
+          "before": "2829df22e1b8df9cfe67fe9d671886fe43cdc125ba129c99abbeb2e6abdc1a6b",
+          "name": "cold_auto_compaction.py"
+        }
+      ]
+    },
+    {
+      "amendment_id": "codec_payload12_readiness_20261030",
+      "candidate_only": true,
+      "changed_frozen_source_sha256": {
+        "archive_fit_admission.py": {
+          "after": "79b3d87e26c0290d2ab18593e48f0be31dfe79ae177a63298162df2c88270e11",
+          "before": "59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba"
+        }
+      },
+      "frozen_plan_unchanged": true,
+      "frozen_source_key_count": 19,
+      "native_admission_harness_run": false,
+      "observed_utc": "2026-10-30T01:08:19.956970+00:00",
+      "policy_sha256": "7a0085a961ee67fa96a44d53a4eef94c930efbbaa4dfc697244ca9838bdc1c04",
+      "portable_regression_run": false,
+      "probe_run": false,
+      "profile_id": "bounded-5400-codec4gib64-payload12",
+      "prospective_operational_policy_sources": [
+        "batch_plan.py",
+        "cold_auto_compaction.py",
+        "run_batch.py",
+        "commit_batch_child.py",
+        "cold_model_storage.py",
+        "cold_codec_storage.py"
+      ],
+      "qualification_sha256": "c8799266a96d1cea077d42da81b4f95201c5143ac8a7cc4e6b928cffb07f2cb1",
+      "qualification_status": "unqualified",
+      "scientific_tasks_or_results_changed": false,
+      "scope": "staged prospective payload12 policy readiness only; no production enablement",
+      "storage_codec_policy": "reversible-xz-v1-payload12"
+    },
+    {
+      "archive_overlap_policies": "Oldarchivepinsfailclosedifarchiveactive; refreshseparatelybeforeuse",
+      "controller_after_sha256": "b6684a6031b47de96cce09d34db6ef01cc4a6b1f33ca68d026f7f38aef12c022",
+      "controller_before_sha256": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+      "historical_RF4_ET4_qdocs_unchanged": true,
+      "id": "working-reserve-6gib-one-fit-v1",
+      "observed_utc": "2026-10-30T11:37:46.697452+00:00",
+      "policy_sha256": "48e3c1c7f4f61b31b4ed4a535ca298dcabcdd7b2ccb63d538a5aa13b0278e4f5",
+      "qualification_scope": "13 actual focused storage/index and historical-profile binding fixtures; original830qualification remains historical",
+      "qualification_sha256": "5087d088d0eb4f20ba26358d822565b37dce900029c2b5183f8de00a71d10b44",
+      "scientific_plan_and_worker_limits_unchanged": true,
+      "user_approved": true
     }
   ],
   "operational_controller_history": [
@@ -1068,10 +1134,10 @@
   ],
   "operational_qualification_sha256": "1a94dd1a136fe678f658831270ca40414bb8039eda126477b80d396342f953e7",
   "operational_source_sha256": {
-    "cold_auto_compaction.py": "06addb644df2101c51dbd59beb822f6f5955b7131892f0c9ccdfa95ab9c30488",
-    "cold_model_storage.py": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
-    "commit_batch_child.py": "b719bac52e73fe9e52193b837415fb8617c3cc51d84d3497c0c05b7033beeee0",
-    "run_batch.py": "c2469d383d6b2982edb829cb0c956a72b760a6430374e6057e6a40568b6b5af3"
+    "cold_auto_compaction.py": "c7ba57b79c3f3a6bb7212895787d06ee2aa18ca7356eb0d6e9db3c72e9005c05",
+    "cold_model_storage.py": "4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25",
+    "commit_batch_child.py": "b4fa91a978384d254460915540f3592da6fdea69c3580998be6f1b779da1d8e3",
+    "run_batch.py": "82b46060d42d4da0f9234982ee0ed5ba16a02826e443213b058e8d500979660b"
   },
   "plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
   "protocol_version": "LAMOST-later-v1-20261025",
@@ -1370,9 +1436,9 @@
   "source_amendment_version": "nonfit-e4e5-eval-disk-drain-20261028-v2-loop-refresh",
   "source_sha256": {
     "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
-    "archive_fit_admission.py": "59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba",
+    "archive_fit_admission.py": "e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed",
     "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d",
-    "controller.py": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+    "controller.py": "b6684a6031b47de96cce09d34db6ef01cc4a6b1f33ca68d026f7f38aef12c022",
     "e6_phase_supervisor.py": "5babe2da661c4162283ab945b17db4d88350bf863335744b5619285d69a37d05",
     "ensemble.py": "5b4444bc83576affe80946762dc1cceb76feb6cdcd33305fdcc6339c3c390476",
     "ensemble_maintenance_patch.py": "0d1d0eefc1d41dcc6609b2b409f2570dd1970f44c7367c5e5eab7955b4154a8e",
@@ -1389,6 +1455,37 @@
     "svm_margin/worker.py": "31bb90a980501142d921b44c3059e200f50846af073137cebe391039d76fc5dd",
     "worker.py": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18"
   },
+  "storage_admission_amendment": {
+    "approval_path": "operations/root_storage6gib_deploy_20261030/USER_RESOURCE_DECISION.json",
+    "approval_sha256": "f815a14ce26006aa40320262d195a097128347a4d82d8e35bd65ed2f9a3febf2",
+    "baseline_controller_sha256": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+    "candidate_controller_sha256": "b6684a6031b47de96cce09d34db6ef01cc4a6b1f33ca68d026f7f38aef12c022",
+    "focused_receipt_path": "operations/working_reserve_storage_20261030/FOCUSED_QUALIFICATION_20261030.json",
+    "focused_receipt_sha256": "5087d088d0eb4f20ba26358d822565b37dce900029c2b5183f8de00a71d10b44",
+    "policy_path": "operations/working_reserve_storage_20261030/WORKING_STORAGE_POLICY_20261030.json",
+    "policy_sha256": "48e3c1c7f4f61b31b4ed4a535ca298dcabcdd7b2ccb63d538a5aa13b0278e4f5",
+    "protected_dispatch_function_ast_sha256": {
+      "_et4_fit_eligible": "b0845bd986c79d30552ebd97129f4dccfcec7f70609bda5fd0a0a0e37b495274",
+      "_rf4_fit_eligible": "d5a532cf07baa43e492ab991f3ce753f2f0385b2956073bc3c785d35864f02de",
+      "candidate_cpu_reservation_units": "2365427c3365b59afca4604ab97b07e699d4d168616c7d907b2796cab610b93f",
+      "worker_request_definition": "78adcd803a0bd8368af26ec937a6f46d6b6858dfaba421ed655db40a9886dc4e",
+      "worker_reservation_bytes": "322e9ab8b166f2621fd766d5ba9164e356d5e6c76f81b948ac9de7b57d6aba1b",
+      "worker_resource_class": "31c98783c7725b4641ba741b2a5b3ff8272187aed0f78a255e1eb18df4a4be2c",
+      "worker_script_for_task": "4c774f537c5eb72f17b0e478c8e43e4f15e98f10baec6983248ec584bcbada0a"
+    },
+    "schema": "lamost-controller-operational-source-amendment/1"
+  },
+  "storage_admission_policy": {
+    "full_archive_verification": "finalization_only",
+    "maximum_concurrent_fit_tasks": 1,
+    "maximum_restore_bytes": 10737418240,
+    "maximum_single_restore_asset_bytes": 1073741824,
+    "per_active_or_new_task_output_reserve_bytes": 2147483648,
+    "policy_id": "working-reserve-6gib-one-fit-v1",
+    "restore_index_rel": "operations/terminal_result_retention_v2_20261030/guardian/retention_index.json",
+    "restore_index_schema": "lamost-terminal-result-retention-index/2",
+    "working_reserve_bytes": 6442450944
+  },
   "test_information_history": "E1/E2 fixed test results already observed; later plans frozen before new test evaluations",
-  "worker_reaper_source_sha256": "59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba"
+  "worker_reaper_source_sha256": "e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed"
 }
