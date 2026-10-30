@@ -2,7 +2,7 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research checkpoint - 2026-10-30T09:27:46Z.** The project is not complete. See [LATEST_PROGRESS.md](LATEST_PROGRESS.md) for the current ledger and the [full work report](handoff/LAMOST_ALL_EXPERIMENTS_WORK_REPORT_20261030.md) and [supervisor prompt](handoff/LAMOST_SUPERVISOR_PROMPT_20261030.md). Older status sections and figures retain their stated cutoffs.
+**Interim research checkpoint - 2026-10-30T10:04:33Z.** The project is not complete. See [LATEST_PROGRESS.md](LATEST_PROGRESS.md) for the current ledger and the [full work report](handoff/LAMOST_ALL_EXPERIMENTS_WORK_REPORT_20261030.md) and [supervisor prompt](handoff/LAMOST_SUPERVISOR_PROMPT_20261030.md). Older status sections and figures retain their stated cutoffs.
 
 
 ## Operational source update (2026-10-29T06:31:00Z)
@@ -17,18 +17,22 @@ The installed codec payload profile is recorded in [the public activation eviden
 
 E4 records 1,616 successful, 71 failed, 3 unavailable and 83 waiting cases. E5 records 700 successful, 50 failed, 78 unavailable and 132 waiting cases. The read-only snapshot accounts for all 2,823 E3-E6 scientific cases; 2,392 validated metric rows have saved evaluation JSON inputs and none were missing. The [timestamped report and tables](reports/deadline_submission_20261029/snapshot_20261029T074947Z/DEADLINE_INTERIM_SCIENTIFIC_REPORT.md) and [current cell ledger](reports/CURRENT_CELL_LEDGER.csv) preserve these counts. The snapshot includes a status figure; the broader E1-E6 figures remain tied to their earlier stated cutoffs. Waiting counts are ledger states, not process-liveness claims.
 
+## Current case ledger
+
+The canonical current 2,823-row planned outcome and reason ledger is [reports/planned_case_ledger.csv](reports/planned_case_ledger.csv), mirrored by the source-bound dated capture [PLANNED_CASE_OUTCOMES_2823.csv](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030/PLANNED_CASE_OUTCOMES_2823.csv), captured 2026-10-30T10:04:33.369017+00:00. The prior 05:19Z pre-scope public ledger is preserved byte-for-byte at [history/planned_case_ledger_20261030T051951Z.csv](reports/history/planned_case_ledger_20261030T051951Z.csv). The current ledger keeps the original denominator and distinguishes successful aliases, recorded failures, unavailable, user-stopped, and pending outcomes.
+
 ## Experiment status and navigation
 
-| Experiment | Question | Recorded status | Start here |
+| Experiment | Question | Current recorded outcome at 2026-10-30T10:04:33Z | Start here |
 |---|---|---|---|
-| E1 | Frozen classification benchmark | 765 terminal: 674 successful, 81 failed, 10 unsupported | [E1 report and ledger](experiments/E1/README.md) |
+| E1 | Frozen classification benchmark | 765 terminal: 674 successful, 81 recorded failures, 10 unsupported | [E1 report and ledger](experiments/E1/README.md) |
 | E2 | Generator fidelity versus classification | 108/150 primary evaluations; 120/120 separate classical references | [E2 report and provenance](experiments/E2/README.md) |
-| E3 | Direct Bayes, synthetic-only and real-only learning | 64 successful, 3 recorded scientific failures, 0 unsupported, 2 unavailable, 0 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 0 waiting/active / 69 | [E3 results](experiments/E3/README.md) |
-| E4 | Imbalance and target-class restoration | 1,624 successful, 71 recorded scientific failures, 0 unsupported, 3 unavailable, 67 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 8 waiting/active / 1,773 |
-| E5 | Fitting-data corruption | 700 successful, 50 recorded scientific failures, 0 unsupported, 78 unavailable, 101 user-stopped, 0 operationally interrupted, 0 operationally invalid, 0 packaging-pending, 31 waiting/active / 960 |
-| E6 | Generative posterior ensembles | 12 successful member-reference aliases, 3 unavailable references; 3 ensemble failures, 3 unavailable ensembles; 0/6 successful primary test evaluations |
+| E3 | Direct Bayes, synthetic-only and real-only learning | 64 successful, 3 recorded failures, 2 unavailable / 69 | [E3 results](experiments/E3/README.md) |
+| E4 | Imbalance and target-class restoration | 1,632 successful, 71 recorded failures, 3 unavailable, 67 user-stopped, 0 pending / 1,773 | [E4 results](experiments/E4/README.md) |
+| E5 | Fitting-data corruption | 717 successful, 50 recorded failures, 78 unavailable, 101 user-stopped, 14 pending / 960 | [E5 results](experiments/E5/README.md) |
+| E6 | Generative posterior ensembles | 12 successful member-reference aliases, 3 recorded failures, 6 unavailable; 0/6 successful primary ensemble test evaluations | [E6 results](experiments/E6/README.md) |
 
-At the coherent registry snapshot 2026-10-29T07:49:47.720386+00:00, E4/E5 have 215 waiting scientific cases (83 E4; 132 E5). This is a task-ledger snapshot, not a process-liveness claim. E1 recovery remains separate: 24 successes, 10 failures, 2 user-stopped and 55 not attempted.
+At the coherent registry snapshot 2026-10-30T10:04:33.369017+00:00, E5 has 14 pending scientific cases; E4 has none pending under the prospective scope amendment. These are ledger states, not process-liveness claims. E1 recovery remains separate: 24 successes, 10 failures, 2 user-stopped and 55 not attempted.
 
 The stopped E1 recovery supplement is separate: 24 successes, 10 failures, 2 user-stopped partial cells and 55 not attempted. These outcomes never replace frozen E1.
 

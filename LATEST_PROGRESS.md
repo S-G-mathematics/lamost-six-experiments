@@ -1,6 +1,10 @@
 # Latest project progress
 
-Observation: 2026-10-30T09:27:46Z UTC. This is an interim status snapshot from a read-only SQLite transaction; it does not mark the project complete.
+Observation: 2026-10-30T10:04:33.369017+00:00 UTC. This is an interim status snapshot from a read-only SQLite transaction; it does not mark the project complete.
+
+## Current machine-readable ledger
+
+The canonical current 2,823-row outcome/reason ledger is [reports/planned_case_ledger.csv](reports/planned_case_ledger.csv), mirrored by [PLANNED_CASE_OUTCOMES_2823.csv](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030/PLANNED_CASE_OUTCOMES_2823.csv), captured 2026-10-30T10:04:33.369017+00:00. It records 2,425 successes including 12 E6 reference aliases, 127 failures, 89 unavailable, 168 user-stopped and 14 pending rows. The prior 05:19Z pre-scope public ledger is preserved byte-for-byte at [history/planned_case_ledger_20261030T051951Z.csv](reports/history/planned_case_ledger_20261030T051951Z.csv).
 
 ## Current E3-E6 scientific ledger
 
