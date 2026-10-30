@@ -43,7 +43,14 @@ CODEC_LARGE_MAX_GROUPS=64
 CODEC_LARGE_TEMP_MAX_BYTES=8*GIB
 CODEC_LARGE_WALL_SECONDS=5400
 CODEC_LARGE_WRAPPER_WALL_SECONDS=5460
-CODEC_ARCHIVE_IO_PROFILES=(CODEC_MULTIGROUP_PROFILE,CODEC_LARGE_PROFILE)
+CODEC_PAYLOAD12_PROFILE='bounded-5400-codec4gib64-payload12'
+CODEC_PAYLOAD12_POLICY='reversible-xz-v1-payload12'
+CODEC_PAYLOAD12_MAX_BYTES=CODEC_LARGE_MAX_BYTES
+CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES=12*GIB
+CODEC_PAYLOAD12_MAX_GROUPS=CODEC_LARGE_MAX_GROUPS
+CODEC_PAYLOAD12_TEMP_MAX_BYTES=CODEC_LARGE_TEMP_MAX_BYTES
+CODEC_PAYLOAD12_WALL_SECONDS=CODEC_LARGE_WALL_SECONDS
+CODEC_ARCHIVE_IO_PROFILES=(CODEC_MULTIGROUP_PROFILE,CODEC_LARGE_PROFILE,CODEC_PAYLOAD12_PROFILE)
 ARCHIVE_IO_PROFILES=(ARCHIVE_IO_PROFILE,RAW_WIDE_PROFILE,RAW_MIXED_SMALL_PROFILE,*CODEC_ARCHIVE_IO_PROFILES)
 RAW_WIDE_MAX_BYTES=8*GIB
 RAW_WIDE_MAX_GROUPS=64
@@ -60,15 +67,15 @@ WRAPPER_AS_LIMIT=1536*1024**2
 TERM_GRACE=30
 EXPECTED_INSTANCE='i-095641a281a4038b9'
 PINS={'controller.py': '7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b',
- 'cold_model_storage.py': 'be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172',
- 'cold_codec_storage.py': 'b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b',
+ 'cold_model_storage.py': '4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25',
+ 'cold_codec_storage.py': '424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430',
  'reversible_joblib_codec.py': 'f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
- 'run_batch.py': '39cc2fe79aadce01a713b01ff37783b684562be0a3c0fe1bddacd857e1d5085d',
- 'commit_batch_child.py': '3564c97a73ba9f70c816a5d3c2524254dee7bd82054bd6f6f922a12369603f94',
- 'batch_plan.py': '2389a9468a73f5af6cacfe585346afd14cf9a2a340b16c59439c2a77304c9372',
+ 'run_batch.py': '82b46060d42d4da0f9234982ee0ed5ba16a02826e443213b058e8d500979660b',
+ 'commit_batch_child.py': 'b4fa91a978384d254460915540f3592da6fdea69c3580998be6f1b779da1d8e3',
+ 'batch_plan.py': '63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
- 'archive_fit_admission.py': '59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba',
+ 'archive_fit_admission.py': '79b3d87e26c0290d2ab18593e48f0be31dfe79ae177a63298162df2c88270e11',
  'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
  'metadata_access_contract_v2.py': '3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8'}
 PRIVATE=R/'logs/private/cold_auto_compaction'
@@ -396,7 +403,7 @@ def codec_policy_args(storage_codec_policy):
 def outer_wrapper_wall_seconds(archive_io_profile=None):
  if archive_io_profile is None:return MAX_WRAPPER_WALL
  if archive_io_profile not in ARCHIVE_IO_PROFILES:raise ValueError('unknown archive I/O profile')
- if archive_io_profile==CODEC_LARGE_PROFILE:return CODEC_LARGE_WRAPPER_WALL_SECONDS
+ if archive_io_profile in (CODEC_LARGE_PROFILE,CODEC_PAYLOAD12_PROFILE):return CODEC_LARGE_WRAPPER_WALL_SECONDS
  return ARCHIVE_IO_WRAPPER_WALL_SECONDS
 
 def archive_io_profile_args(profile):
@@ -405,12 +412,15 @@ def archive_io_profile_args(profile):
  return ['--archive-io-profile',profile]
 
 def batch_config(storage_codec_policy,archive_io_profile=None):
- if storage_codec_policy not in (None,CODEC_POLICY):raise ValueError('unknown storage codec policy')
+ if storage_codec_policy not in (None,CODEC_POLICY,CODEC_PAYLOAD12_POLICY):raise ValueError('unknown storage codec policy')
  if archive_io_profile not in (None,*ARCHIVE_IO_PROFILES):raise ValueError('unknown archive I/O profile')
+ if storage_codec_policy==CODEC_PAYLOAD12_POLICY and archive_io_profile!=CODEC_PAYLOAD12_PROFILE:raise ValueError('payload12 policy requires its dedicated archive profile')
  if archive_io_profile in CODEC_ARCHIVE_IO_PROFILES:
-  if storage_codec_policy!=CODEC_POLICY:raise ValueError('codec multigroup profile requires reversible-xz-v1')
-  large=archive_io_profile==CODEC_LARGE_PROFILE
-  return {'batch_policy':'storage-followup-codec','max_bytes':CODEC_LARGE_MAX_BYTES if large else CODEC_MULTIGROUP_MAX_BYTES,'max_groups':CODEC_LARGE_MAX_GROUPS if large else CODEC_MULTIGROUP_MAX_GROUPS,'wall_seconds':CODEC_LARGE_WALL_SECONDS if large else ARCHIVE_IO_WALL_SECONDS,'packing':'largest_first','storage_codec_policy':storage_codec_policy,'transient_disk_reserve_bytes':CODEC_LARGE_TRANSIENT_DISK_RESERVE_BYTES if large else CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES,'codec_temp_budget_bytes':CODEC_LARGE_TEMP_MAX_BYTES if large else CODEC_MULTIGROUP_TEMP_MAX_BYTES,'archive_io_profile':archive_io_profile}
+  payload12=archive_io_profile==CODEC_PAYLOAD12_PROFILE
+  expected_policy=CODEC_PAYLOAD12_POLICY if payload12 else CODEC_POLICY
+  if storage_codec_policy!=expected_policy:raise ValueError('codec profile/storage policy mismatch')
+  large=archive_io_profile in (CODEC_LARGE_PROFILE,CODEC_PAYLOAD12_PROFILE)
+  return {'batch_policy':'storage-followup-codec','max_bytes':CODEC_LARGE_MAX_BYTES if large else CODEC_MULTIGROUP_MAX_BYTES,'max_groups':CODEC_LARGE_MAX_GROUPS if large else CODEC_MULTIGROUP_MAX_GROUPS,'wall_seconds':CODEC_LARGE_WALL_SECONDS if large else ARCHIVE_IO_WALL_SECONDS,'packing':'largest_first','storage_codec_policy':storage_codec_policy,'max_payload_bytes':(CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES if payload12 else 2*GIB),'transient_disk_reserve_bytes':CODEC_LARGE_TRANSIENT_DISK_RESERVE_BYTES if large else CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES,'codec_temp_budget_bytes':CODEC_LARGE_TEMP_MAX_BYTES if large else CODEC_MULTIGROUP_TEMP_MAX_BYTES,'archive_io_profile':archive_io_profile}
  if archive_io_profile and storage_codec_policy is not None:raise ValueError('bounded archive I/O profiles are raw-only')
  wide=archive_io_profile==RAW_WIDE_PROFILE
  mixed_small=archive_io_profile==RAW_MIXED_SMALL_PROFILE
@@ -424,7 +434,8 @@ def codec_multigroup_overlap_policy_allowed(c,freeze,profile=CODEC_MULTIGROUP_PR
  try:
   fn=getattr(getattr(c,'archive_fit_admission',None),'native_codec_overlap_policy_allowed',None)
   if not callable(fn):return False
-  return fn(R,freeze,archive_io_profile=profile,batch_policy='storage-followup-codec',storage_codec_policy=CODEC_POLICY) is True
+  policy=CODEC_PAYLOAD12_POLICY if profile==CODEC_PAYLOAD12_PROFILE else CODEC_POLICY
+  return fn(R,freeze,archive_io_profile=profile,batch_policy='storage-followup-codec',storage_codec_policy=policy) is True
  except Exception:return False
 def wide_overlap_policy_allowed(profile, freeze):
  if profile in CODEC_ARCHIVE_IO_PROFILES:return codec_multigroup_overlap_policy_allowed(load_controller(),freeze,profile)
@@ -542,7 +553,7 @@ def run_once(preflight_only=False,storage_codec_policy=None,archive_io_profile=N
   if not child_process_gone(op):result_status='wrapper_failed';raise RuntimeError('recorded batch child still appears live; preserve admission hold')
   if child.get('batch_policy')!=config['batch_policy'] or child.get('storage_codec_policy')!=storage_codec_policy or child.get('archive_io_profile')!=archive_io_profile or child.get('batch_max_bytes')!=config['max_bytes'] or child.get('batch_max_inode_groups')!=config['max_groups'] or child.get('transient_disk_reserve_bytes')!=config['transient_disk_reserve_bytes'] or child.get('child_wall_limit_seconds')!=config['wall_seconds']:
    result_status='wrapper_failed';raise RuntimeError('batch receipt policy identity mismatch')
-  if archive_io_profile in CODEC_ARCHIVE_IO_PROFILES and (child.get('codec_temp_budget_bytes')!=config['codec_temp_budget_bytes'] or child.get('transient_disk_required_bytes')!=private['preflight']['transient_disk_required_bytes'] or child.get('archive_tail_backup_bytes')!=archive_tail_bytes):
+  if archive_io_profile in CODEC_ARCHIVE_IO_PROFILES and (child.get('codec_temp_budget_bytes')!=config['codec_temp_budget_bytes'] or child.get('transient_disk_required_bytes')!=private['preflight']['transient_disk_required_bytes'] or child.get('archive_tail_backup_bytes')!=archive_tail_bytes or child.get('max_payload_bytes',2*GIB)!=config.get('max_payload_bytes',2*GIB)):
    result_status='wrapper_failed';raise RuntimeError('codec multigroup disk/temp receipt mismatch')
   elapsed=child.get('child_elapsed_seconds')
   if not isinstance(elapsed,(int,float)) or elapsed<0 or elapsed>config['wall_seconds']:result_status='wrapper_failed';raise RuntimeError('child actual elapsed receipt invalid')
@@ -572,7 +583,7 @@ def run_once(preflight_only=False,storage_codec_policy=None,archive_io_profile=N
     result_status='wrapper_failed';raise RuntimeError('archive or manifest changed during no-op child')
   else:result_status='wrapper_failed';raise RuntimeError('unrecognized child terminal state')
   finished=dt.datetime.now(dt.timezone.utc)
-  safe={'schema':'lamost-cold-auto-compaction/1','operation_id':opid,'observed_utc':finished.isoformat(),'status':child.get('status'),'batch_policy':config['batch_policy'],'storage_codec_policy':storage_codec_policy,'batch_max_bytes':config['max_bytes'],'batch_max_inode_groups':config['max_groups'],'transient_disk_reserve_bytes':config['transient_disk_reserve_bytes'],'transient_disk_margin_bytes':config.get('transient_disk_margin_bytes',0),'codec_temp_budget_bytes':config.get('codec_temp_budget_bytes'),'transient_disk_required_bytes':private['preflight']['transient_disk_required_bytes'],'archive_tail_backup_bytes':archive_tail_bytes,'packing':child.get('batch_packing'),'child_wall_limit_seconds':config['wall_seconds'],**({'archive_io_profile':archive_io_profile} if archive_io_profile else {}),'child_elapsed_seconds':elapsed,'supervisor_elapsed_seconds':sr.get('elapsed_seconds'),'peak_wrapper_tree_rss_bytes':peak,'models_in_batch':child.get('batch',{}).get('candidate_count'),'batch_source_bytes':child.get('batch',{}).get('source_bytes'),'storage_evidence':child.get('storage_evidence'),'transaction_id':child.get('transaction_id'),'archive_sha256_before':baseline['archive_sha256'],'archive_sha256_after':child.get('archive_sha256_after'),'archive_bytes_after':child.get('archive_bytes_after'),'zip_crc_verified':child.get('zip_crc_verified'),'scientific_fits_started':0,'no_scientific_attempts':True}
+  safe={'schema':'lamost-cold-auto-compaction/1','operation_id':opid,'observed_utc':finished.isoformat(),'status':child.get('status'),'batch_policy':config['batch_policy'],'storage_codec_policy':storage_codec_policy,'batch_max_bytes':config['max_bytes'],'batch_max_inode_groups':config['max_groups'],'transient_disk_reserve_bytes':config['transient_disk_reserve_bytes'],'transient_disk_margin_bytes':config.get('transient_disk_margin_bytes',0),'codec_temp_budget_bytes':config.get('codec_temp_budget_bytes'),'max_payload_bytes':config.get('max_payload_bytes',2*GIB),'transient_disk_required_bytes':private['preflight']['transient_disk_required_bytes'],'archive_tail_backup_bytes':archive_tail_bytes,'packing':child.get('batch_packing'),'child_wall_limit_seconds':config['wall_seconds'],**({'archive_io_profile':archive_io_profile} if archive_io_profile else {}),'child_elapsed_seconds':elapsed,'supervisor_elapsed_seconds':sr.get('elapsed_seconds'),'peak_wrapper_tree_rss_bytes':peak,'models_in_batch':child.get('batch',{}).get('candidate_count'),'batch_source_bytes':child.get('batch',{}).get('source_bytes'),'storage_evidence':child.get('storage_evidence'),'transaction_id':child.get('transaction_id'),'archive_sha256_before':baseline['archive_sha256'],'archive_sha256_after':child.get('archive_sha256_after'),'archive_bytes_after':child.get('archive_bytes_after'),'zip_crc_verified':child.get('zip_crc_verified'),'scientific_fits_started':0,'no_scientific_attempts':True}
   if child.get('status')=='committed_and_resolved':
    pub=PUBLIC/(finished.strftime('%Y%m%dT%H%M%SZ')+'_'+opid+'.json');atomic_json(pub,safe)
   result_status='successful';private['status']='successful';private['public_receipt_path']=str(pub) if child.get('status')=='committed_and_resolved' else None
@@ -594,7 +605,7 @@ def run_once(preflight_only=False,storage_codec_policy=None,archive_io_profile=N
 
 def main():
  import argparse
- ap=argparse.ArgumentParser();ap.add_argument('--preflight-only',action='store_true');ap.add_argument('--storage-codec-policy',choices=(CODEC_POLICY,));ap.add_argument('--archive-io-profile',choices=ARCHIVE_IO_PROFILES);args=ap.parse_args()
+ ap=argparse.ArgumentParser();ap.add_argument('--preflight-only',action='store_true');ap.add_argument('--storage-codec-policy',choices=(CODEC_POLICY,CODEC_PAYLOAD12_POLICY));ap.add_argument('--archive-io-profile',choices=ARCHIVE_IO_PROFILES);args=ap.parse_args()
  try:print(json.dumps(run_once(preflight_only=args.preflight_only,storage_codec_policy=args.storage_codec_policy,archive_io_profile=args.archive_io_profile),sort_keys=True,default=str),flush=True)
  except Exception as e:
   print(json.dumps({'status':'backoff','reason':type(e).__name__+': '+str(e)},sort_keys=True),flush=True)

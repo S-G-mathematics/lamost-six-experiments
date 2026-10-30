@@ -1,0 +1,80 @@
+{
+  "codec4_profile_tests": {
+    "receipt_path": "reports/engineering_audits/CODEC4_PROFILE_FOCUSED_10_PAYLOAD12_SOURCESET_20261030.json",
+    "receipt_sha256": "87901431265174c209cf40b2f6e1a1f84221e7d4f1e248d4bc08f951384c306c",
+    "required": true,
+    "status": "passed",
+    "test_file_sha256": {
+      "tests/test_codec4gib_archive_profile.py": "57e4a19c2eaec3f173a52af32480a2fab31ccbaf4f30430fcdb5aa7dfe31416b",
+      "tests/test_driver_cli_alignment.py": "25ec4e3306ea3454add7344f28fd92d7a9cc2db4a6ad52b5f4d99f48d56fd221"
+    }
+  },
+  "fit_attempts_started": 0,
+  "legacy_metadata_audit": {
+    "path": "reports/engineering_audits/CODEC12_LEGACY_NATIVE_METADATA_20261030.json",
+    "scope": "descriptor metadata only; no payload decode or full archive integrity check",
+    "sha256": "ad2e0939b5789d32938409410bc6e0bfcca6bf109361056469a6d6f5d24bfff2",
+    "status": "passed"
+  },
+  "native_admission_harness": {
+    "archive_helper_fixture_only": true,
+    "receipt_path": "reports/engineering_audits/CODEC12_NATIVE_ADMISSION_HARNESS_20261030.json",
+    "receipt_sha256": "c5f8250ab9900d410ff194e7ce38683b52f707b731251beb5eaf9a265eb6aa74",
+    "required": true,
+    "status": "passed",
+    "workers_checked": 0
+  },
+  "native_input_manifests": {
+    "cache/cache_manifest.json": "bbcc195e0564066d541fbd483896935d7471e8893e6db34ca6184dfe90ee9720",
+    "manifests/E4_MANIFEST.json": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423",
+    "manifests/E5_MANIFEST.json": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9"
+  },
+  "observed_utc": "2026-10-30T02:12:24Z",
+  "payload12_profile_tests": {
+    "receipt_path": "reports/engineering_audits/CODEC12_PROFILE_FOCUSED_8_FINAL_20261030.json",
+    "receipt_sha256": "63e0546abe0dc3ccae60eb1239656b60a9c413017b7fa3b1ed5578b4ff622838",
+    "required": true,
+    "status": "passed",
+    "test_file_sha256": {
+      "tests/test_codec_payload12_profile.py": "e79d45459bcb63d2e1030a19de9981c04c781f737173ba0160ad5dfac4cc58df"
+    }
+  },
+  "policy_path": "manifests/ARCHIVE_NATIVE_CODEC12_FIT_OVERLAP_20261030.json",
+  "policy_sha256": "04a7d8e665ab46746a29d5096d1a5538255aa5a1856c504bef30a523864bf546",
+  "portable_regression": {
+    "required": true,
+    "status": "passed",
+    "summary_path": "reports/engineering_audits/CODEC12_PORTABLE_REGRESSION_824_20261030.json",
+    "summary_scope": "prior 824-case regression before the focused harness test additions; the current 827-case regression is bound by a separate external portable pass receipt",
+    "summary_sha256": "aa928115c80158247c95d5da9349a0bf048f0df588b17773f324ad4c58987b55"
+  },
+  "profile_probe": {
+    "raw_private_receipt_sha256": "4cb710b55919907f7a7339c6215c7bab4ee18174f919cb8e99898cdeb2ec430a",
+    "required": true,
+    "status": "passed",
+    "summary_path": "reports/engineering_audits/CODEC12_REAL_ARTIFACT_BYTE_PROBE_20261030.json",
+    "summary_sha256": "f26c555ef97cdb3dda640fd0b7b7eed14be2ca6378543bc5c19b86b2e71631f8"
+  },
+  "qualification_blockers": [],
+  "qualification_limitations": [
+    "Offline fixture-only admission harness; zero live workers checked and no codec12 archive operation or fit launched.",
+    "The byte-exact real-artifact probe inflated 3,804,490,678 bytes; it did not test the 12 GiB ceiling or a complete archive transaction.",
+    "The 5,400-second archive limit is a cap, not a measured production completion time or throughput guarantee."
+  ],
+  "schema": "lamost-archive-native-codec-payload12-fit-overlap-qualification/1",
+  "scientific_cells_changed": false,
+  "source_sha256": {
+    "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+    "archive_fit_admission.py": "79b3d87e26c0290d2ab18593e48f0be31dfe79ae177a63298162df2c88270e11",
+    "batch_plan.py": "63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47",
+    "cold_auto_compaction.py": "c7ba57b79c3f3a6bb7212895787d06ee2aa18ca7356eb0d6e9db3c72e9005c05",
+    "cold_codec_storage.py": "424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430",
+    "cold_model_storage.py": "4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25",
+    "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
+    "commit_batch_child.py": "b4fa91a978384d254460915540f3592da6fdea69c3580998be6f1b779da1d8e3",
+    "controller.py": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+    "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
+    "run_batch.py": "82b46060d42d4da0f9234982ee0ed5ba16a02826e443213b058e8d500979660b"
+  },
+  "status": "passed"
+}

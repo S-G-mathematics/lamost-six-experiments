@@ -124,7 +124,7 @@ class ColdModelStore:
     def __init__(self,migration_root,runtime_root,archive_path,manifest_path,journal_root,writer_lock=None,reader_lock=None,joblib_compressor_source_path=None,storage_codec_policy=None):
         self.root=Path(migration_root).resolve();self.runtime=Path(runtime_root).resolve();self.archive=Path(archive_path).resolve(strict=False);self.manifest=Path(manifest_path).resolve(strict=False);self.journals=Path(journal_root).resolve(strict=False)
         self.joblib_compressor_source_path=Path(joblib_compressor_source_path) if joblib_compressor_source_path is not None else None
-        if storage_codec_policy not in (None,"reversible-xz-v1"):raise UnsafePlan("unknown storage codec write policy")
+        if storage_codec_policy not in (None,"reversible-xz-v1","reversible-xz-v1-payload12"):raise UnsafePlan("unknown storage codec write policy")
         self.storage_codec_policy=storage_codec_policy
         self.writer_lock=Path(writer_lock or self.runtime/"locks"/"cold_model_store.writer.lock");self.reader_lock=Path(reader_lock or self.runtime/"locks"/"cold_model_store.readers.lock");self._archive_identity_cache=None
         for p in (self.runtime,self.archive,self.manifest,self.journals,self.writer_lock,self.reader_lock):
@@ -656,8 +656,11 @@ class ColdModelStore:
         try:
             manifest=_codec_storage._codec_manifest(entry)
             opts=self._codec_options()
+            desc=entry["storage_encoding"]
+            payload_limit=_codec_storage.codec_payload_limit(
+                desc.get("storage_codec_policy"),desc.get("max_payload_bytes"))
             _codec_storage.codec._manifest(manifest,opts["joblib_compressor_source_path"],
-                _codec_storage.codec.DEFAULT_MAX_PAYLOAD_BYTES,_codec_storage.codec.DEFAULT_MAX_FILE_BYTES)
+                payload_limit,_codec_storage.codec.DEFAULT_MAX_FILE_BYTES)
         except Exception:return False
         proof={"protocol":_CODEC_PROOF_PROTOCOL,"verifier_source_sha256":_IMPORTED_SOURCE_SHA256,
             "logical_sha256":entry["sha256"],"logical_bytes":int(entry["bytes"]),
@@ -911,12 +914,12 @@ class ColdModelStore:
         if not (cached and cached.get("identity")==identity and cached.get("sha256")==j["archive_sha256_before"]):
             if sha256_file(self.archive)!=j["archive_sha256_before"]:
                 raise AmbiguousState("archive changed after cold-store prepare")
-        if j.get("storage_codec_policy") not in (None,"reversible-xz-v1"):
+        if j.get("storage_codec_policy") not in (None,"reversible-xz-v1","reversible-xz-v1-payload12"):
             raise AmbiguousState("unsupported journal storage policy")
         jp=self._journal_dir(j["transaction_id"])/"journal.json"
         # Temporary payloads are reproducible derivatives only. The journal,
         # source aliases, old central tail and old archive remain retained.
-        if codec_temp_budget_bytes is not None and (type(codec_temp_budget_bytes) is not int or codec_temp_budget_bytes<=0 or j.get("storage_codec_policy")!="reversible-xz-v1"):
+        if codec_temp_budget_bytes is not None and (type(codec_temp_budget_bytes) is not int or codec_temp_budget_bytes<=0 or j.get("storage_codec_policy") not in ("reversible-xz-v1","reversible-xz-v1-payload12")):
             raise UnsafePlan("aggregate codec temp budget requires reversible-xz-v1 and positive bytes")
         with tempfile.TemporaryDirectory(prefix="encoding-",dir=jp.parent) as td:
             payloads={};retained_codec_temp_bytes=0;codec_temp_peak_bytes=0
@@ -924,8 +927,9 @@ class ColdModelStore:
                 source=self._physical_path(item["source_relpath"])
                 if sha256_file(source)!=item["sha256"]:
                     raise AmbiguousState("source changed before payload preparation")
-                if j.get("storage_codec_policy")=="reversible-xz-v1":
+                if j.get("storage_codec_policy") in ("reversible-xz-v1","reversible-xz-v1-payload12"):
                     opts=self._codec_options();opts["temp_root"]=Path(td)
+                    opts["storage_codec_policy"]=j["storage_codec_policy"]
                     if codec_temp_budget_bytes is not None:
                         # Accepted outputs stay in this transaction temp tree
                         # and remain smaller than their logical source. Reserve
@@ -949,8 +953,10 @@ class ColdModelStore:
                         # Always prove a round trip even if this encoding gives
                         # no space benefit. No unverifiable derivative is used.
                         descriptor=fields["storage_encoding"]
-                        manifest={k:v for k,v in descriptor.items() if k not in {"original_crc32","encoded_crc32"}}
-                        with _codec_storage.codec.open_verified(payload,manifest,temp_root=td,joblib_compressor_source_path=opts["joblib_compressor_source_path"]) as f:
+                        manifest=_codec_storage._codec_manifest(fields)
+                        with _codec_storage.codec.open_verified(payload,manifest,temp_root=td,joblib_compressor_source_path=opts["joblib_compressor_source_path"],
+                             max_payload_bytes=_codec_storage.codec_payload_limit(
+                                 descriptor.get("storage_codec_policy"),descriptor.get("max_payload_bytes"))) as f:
                             h,n,crc=_stream_hash(f)
                         if (h,n,crc)!=(item["sha256"],item["bytes"],fields["crc32"]):
                             raise AmbiguousState("preappend codec logical verification failed")
@@ -1136,7 +1142,7 @@ class ColdModelStore:
         j["state"]="complete";j["completed_utc"]=time.time();_atomic_json(jp,j)
     def commit_models(self,items,registry_records,fail_after_unlinks=None,fault_after_bytes=None,*,codec_temp_budget_bytes=None):
         with self._write_lock():
-            if codec_temp_budget_bytes is not None and (type(codec_temp_budget_bytes) is not int or codec_temp_budget_bytes<=0 or self.storage_codec_policy!="reversible-xz-v1"):
+            if codec_temp_budget_bytes is not None and (type(codec_temp_budget_bytes) is not int or codec_temp_budget_bytes<=0 or self.storage_codec_policy not in ("reversible-xz-v1","reversible-xz-v1-payload12")):
                 raise UnsafePlan("aggregate codec temp budget requires reversible-xz-v1 and positive bytes")
             self._assert_no_pending_transactions()
             normalized=self._normalize(items,registry_records)

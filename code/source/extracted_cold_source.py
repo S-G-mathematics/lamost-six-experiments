@@ -5,6 +5,35 @@ from pathlib import PurePosixPath
 
 class ExtractedColdError(RuntimeError): pass
 
+_LEGACY_STORAGE_CODEC_POLICY="reversible-xz-v1"
+_PAYLOAD12_STORAGE_CODEC_POLICY="reversible-xz-v1-payload12"
+_LEGACY_MAX_PAYLOAD_BYTES=2<<30
+_PAYLOAD12_MAX_PAYLOAD_BYTES=12<<30
+
+def _codec_policy_manifest(encoded):
+    """Validate storage metadata while keeping this extractor codec-only/standalone."""
+    if not isinstance(encoded,dict):
+        raise ExtractedColdError("encoded descriptor is malformed")
+    has_policy="storage_codec_policy" in encoded
+    has_cap="max_payload_bytes" in encoded
+    if has_policy != has_cap:
+        raise ExtractedColdError("encoded descriptor has an incomplete storage policy/cap")
+    if not has_policy:
+        cap=_LEGACY_MAX_PAYLOAD_BYTES
+    else:
+        policy=encoded.get("storage_codec_policy")
+        expected={_LEGACY_STORAGE_CODEC_POLICY:_LEGACY_MAX_PAYLOAD_BYTES,
+                  _PAYLOAD12_STORAGE_CODEC_POLICY:_PAYLOAD12_MAX_PAYLOAD_BYTES}.get(policy)
+        if expected is None:
+            raise ExtractedColdError("encoded descriptor has an unknown storage codec policy")
+        stored=encoded.get("max_payload_bytes")
+        if type(stored) is not int or stored!=expected:
+            raise ExtractedColdError("encoded descriptor payload cap differs from its policy")
+        cap=expected
+    manifest={k:v for k,v in encoded.items()
+              if k not in ("original_crc32","encoded_crc32","storage_codec_policy","max_payload_bytes")}
+    return manifest,cap
+
 def _sha_file(path):
     h=hashlib.sha256()
     with open(path,"rb") as f:
@@ -127,6 +156,7 @@ class ExtractedColdSource:
                 raise ExtractedColdError("encoded descriptor differs from physical projection")
             if (encoded.get("original_sha256"),encoded.get("original_size_bytes"),encoded.get("original_crc32"))!=(logical_sha,logical_size,logical_crc):
                 raise ExtractedColdError("encoded descriptor differs from logical projection")
+            _codec_policy_manifest(encoded)
         else:
             if (physical_sha,physical_size,physical_crc)!=(logical_sha,logical_size,logical_crc):
                 raise ExtractedColdError("raw member physical/logical identities disagree")
@@ -187,10 +217,11 @@ class ExtractedColdSource:
                 yield raw
             self._check_projection_unchanged()
             return
-        codec_manifest={k:v for k,v in encoded.items() if k not in ("original_crc32","encoded_crc32")}
         try:
+            codec_manifest,payload_limit=_codec_policy_manifest(encoded)
             with self.codec.open_verified(p,codec_manifest,temp_root=self.temp_root,
-                    joblib_compressor_source_path=self.compressor) as logical:
+                    joblib_compressor_source_path=self.compressor,
+                    max_payload_bytes=payload_limit) as logical:
                 logical.seek(0); h=hashlib.sha256();crc=n=0
                 while True:
                     b=logical.read(1<<20)

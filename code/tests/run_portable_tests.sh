@@ -117,6 +117,8 @@ test_files=(
   "$R/tests/test_extra_trees4_controller_contract.py" \
   "$R/tests/test_extra_trees4_engineering.py" \
   "$R/tests/test_codec4gib_archive_profile.py" \
+  "$R/tests/test_codec_payload12_data_plane.py" \
+  "$R/tests/test_codec_payload12_profile.py" \
   "$R/tests/test_et4_resource_disclosure.py" \
   "$R/tests/test_repetition_scope_finalizer.py" \
 )

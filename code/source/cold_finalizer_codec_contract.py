@@ -5,7 +5,7 @@ This module is isolated staging. It does not append archives or touch live sourc
 from __future__ import annotations
 import hashlib, os, pathlib, tempfile, zipfile, uuid
 from reversible_joblib_codec import open_verified, sha_file
-from cold_codec_storage import logical_stat, StorageFormatError
+from cold_codec_storage import logical_stat, StorageFormatError, codec_payload_limit, _codec_manifest
 
 class FinalizerCodecError(ValueError): pass
 
@@ -71,10 +71,20 @@ def _safe_dest(root, dest):
 
 def materialize_encoded_alias(encoded_path, destination, row, *, output_root, temp_root,
                               joblib_compressor_source_path, max_file_bytes=4<<30,
-                              max_payload_bytes=2<<30, chunk_bytes=1<<20):
+                              max_payload_bytes=None, chunk_bytes=1<<20):
     """Decode and verify before atomic publish. Never overwrites a different file."""
     desc=row.get("storage_encoding")
     if not isinstance(desc,dict): raise FinalizerCodecError("encoded descriptor required")
+    try:
+        manifest=_codec_manifest(row)
+        payload_limit=codec_payload_limit(desc.get("storage_codec_policy"),
+                                          desc.get("max_payload_bytes"))
+        if max_payload_bytes is not None:
+            if type(max_payload_bytes) is not int or max_payload_bytes <= 0 or max_payload_bytes > payload_limit:
+                raise StorageFormatError("materializer cap exceeds persisted descriptor limit")
+            payload_limit=max_payload_bytes
+    except Exception as exc:
+        raise FinalizerCodecError("encoded descriptor has an invalid storage policy/cap") from exc
     root,target=_safe_dest(output_root,destination)
     src=pathlib.Path(encoded_path)
     if src.is_symlink() or not src.is_file(): raise FinalizerCodecError("encoded source is not a regular file")
@@ -94,13 +104,13 @@ def materialize_encoded_alias(encoded_path, destination, row, *, output_root, te
         if same_path and target.is_file() and not target.is_symlink() and sha_file(target)==desc.get("encoded_sha256"):
             in_place=True
         else: raise FileExistsError("refusing to overwrite a different alias")
-    codec_manifest={k:v for k,v in desc.items() if k not in {"original_crc32","encoded_crc32"}}
+    codec_manifest=manifest
     fd,tmp_name=tempfile.mkstemp(prefix=".codec_alias_",dir=target.parent)
     tmp=pathlib.Path(tmp_name)
     try:
         with os.fdopen(fd,"wb") as dst, open_verified(src,codec_manifest,temp_root=temp_root,
              joblib_compressor_source_path=joblib_compressor_source_path,
-             max_file_bytes=max_file_bytes,max_payload_bytes=max_payload_bytes,chunk_bytes=chunk_bytes) as logical:
+             max_file_bytes=max_file_bytes,max_payload_bytes=payload_limit,chunk_bytes=chunk_bytes) as logical:
             h=hashlib.sha256();n=0;crc=0
             while True:
                 block=logical.read(chunk_bytes)

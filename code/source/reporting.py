@@ -1193,7 +1193,7 @@ def _figures(runtime,outdir,rows):
             elif metric=='set_size': ax.set_ylim(0,7)
             ax.grid(axis='y',alpha=.25)
             handles,labels=ax.get_legend_handles_labels()
-            if handles: ax.legend(handles,labels,fontsize=8,ncol=4,loc='upper center',bbox_to_anchor=(.5,1.15))
+            if handles: ax.legend(handles,labels,fontsize=8,ncol=5,loc='upper center',bbox_to_anchor=(.5,1.15))
             fig.tight_layout(); p=Path(outdir)/f'E6_{metric}_member_ensemble.png'; fig.savefig(p,dpi=150,bbox_inches='tight'); plt.close(fig); made.append(str(p))
     e6=[]
     for r in rows:

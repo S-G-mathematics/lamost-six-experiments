@@ -14,6 +14,42 @@ import reversible_joblib_codec as codec
 class StorageFormatError(ValueError):
     pass
 
+LEGACY_STORAGE_CODEC_POLICY = "reversible-xz-v1"
+PAYLOAD12_STORAGE_CODEC_POLICY = "reversible-xz-v1-payload12"
+LEGACY_MAX_PAYLOAD_BYTES = 2 << 30
+PAYLOAD12_MAX_PAYLOAD_BYTES = 12 << 30
+
+def codec_payload_limit(policy=None, descriptor_cap=None):
+    """Resolve a persisted per-entry raw-payload limit without widening legacy rows.
+
+    Descriptors predating policy tags remain bound to the 2-GiB v1 limit.
+    New tagged descriptors must carry the exact cap assigned to their policy.
+    """
+    if policy is None:
+        if descriptor_cap is not None:
+            raise StorageFormatError("payload cap is present without a storage codec policy")
+        return LEGACY_MAX_PAYLOAD_BYTES
+    limits = {
+        LEGACY_STORAGE_CODEC_POLICY: LEGACY_MAX_PAYLOAD_BYTES,
+        PAYLOAD12_STORAGE_CODEC_POLICY: PAYLOAD12_MAX_PAYLOAD_BYTES,
+    }
+    if policy not in limits:
+        raise StorageFormatError("unknown storage codec policy")
+    expected = limits[policy]
+    if descriptor_cap is not None and (type(descriptor_cap) is not int or descriptor_cap != expected):
+        raise StorageFormatError("persisted payload cap does not match storage codec policy")
+    return expected
+
+def _resolve_requested_payload_limit(policy, requested):
+    cap = codec_payload_limit(policy)
+    if requested is None:
+        return cap
+    if type(requested) is not int or requested <= 0 or requested > cap:
+        raise StorageFormatError("requested payload cap exceeds or mismatches storage codec policy")
+    if policy is not None and requested != cap:
+        raise StorageFormatError("tagged storage policy requires its exact payload cap")
+    return requested
+
 def _sha_stream(f, chunk=1 << 20):
     h=hashlib.sha256(); n=0; crc=0
     while True:
@@ -47,7 +83,8 @@ def _crc_file(path):
 
 def encode_entry_payload(source_path, *, archive_member, temp_root,
                          joblib_compressor_source_path,
-                         max_payload_bytes=codec.DEFAULT_MAX_PAYLOAD_BYTES,
+                         storage_codec_policy=None,
+                         max_payload_bytes=None,
                          max_file_bytes=codec.DEFAULT_MAX_FILE_BYTES,
                          chunk_bytes=codec.DEFAULT_CHUNK_BYTES,
                          max_encoded_temp_bytes=None):
@@ -57,10 +94,11 @@ def encode_entry_payload(source_path, *, archive_member, temp_root,
     transaction. This function never changes or removes source_path.
     """
     member=_safe_rel(archive_member); root=_dir(temp_root)
+    payload_limit=_resolve_requested_payload_limit(storage_codec_policy,max_payload_bytes)
     payload=root/("candidate-"+os.urandom(12).hex()+".xz")
     m=codec.encode_file(source_path,payload,output_root=root,
         joblib_compressor_source_path=joblib_compressor_source_path,
-        max_payload_bytes=max_payload_bytes,max_file_bytes=max_file_bytes,
+        max_payload_bytes=payload_limit,max_file_bytes=max_file_bytes,
         chunk_bytes=chunk_bytes,max_encoded_temp_bytes=max_encoded_temp_bytes)
     logical_crc,logical_n=_crc_file(source_path)
     payload_crc,payload_n=_crc_file(payload)
@@ -69,6 +107,9 @@ def encode_entry_payload(source_path, *, archive_member, temp_root,
         raise StorageFormatError("writer byte counts disagree with codec manifest")
     descriptor=dict(m)
     descriptor.update({"original_crc32":logical_crc,"encoded_crc32":payload_crc})
+    if storage_codec_policy is not None:
+        descriptor.update({"storage_codec_policy":storage_codec_policy,
+                           "max_payload_bytes":payload_limit})
     fields={"archive_member":member,"sha256":m["original_sha256"],
             "bytes":m["original_size_bytes"],"crc32":logical_crc,
             "storage_encoding":descriptor}
@@ -84,15 +125,23 @@ def _codec_manifest(row):
       "zlib_compile_version","zlib_runtime_version","zlib_params",
       "joblib_compressor_source_sha256","lzma_format","lzma_preset",
       "original_crc32","encoded_crc32"}
-    if set(d)!=expected:
+    tagged=expected|{"storage_codec_policy","max_payload_bytes"}
+    if set(d) not in (expected,tagged):
         raise StorageFormatError("codec descriptor fields differ from the supported contract")
+    policy=d.get("storage_codec_policy")
+    cap=d.get("max_payload_bytes")
+    if policy is None and ({"storage_codec_policy","max_payload_bytes"} & set(d)):
+        raise StorageFormatError("incomplete storage codec policy descriptor")
+    if policy == PAYLOAD12_STORAGE_CODEC_POLICY and cap is None:
+        raise StorageFormatError("payload12 descriptor is missing its persisted payload cap")
+    codec_payload_limit(policy,cap)
     if d.get("codec_version")!=codec.CODEC_VERSION:
         raise codec.UnsupportedCodec("unknown storage codec")
     if (d.get("original_sha256")!=row.get("sha256") or
         d.get("original_size_bytes")!=row.get("bytes") or
         d.get("original_crc32")!=row.get("crc32")):
         raise StorageFormatError("logical artifact identity disagrees with codec descriptor")
-    out={k:v for k,v in d.items() if k not in {"original_crc32","encoded_crc32"}}
+    out={k:v for k,v in d.items() if k not in {"original_crc32","encoded_crc32","storage_codec_policy","max_payload_bytes"}}
     return out
 
 def _archive_stamp(path):
@@ -153,7 +202,7 @@ def append_encoded_payload(zip_writer, payload_path, row, *, chunk_bytes=1 << 20
 @contextmanager
 def open_logical_member(archive_path, row, *, temp_root,
                         joblib_compressor_source_path,
-                        max_payload_bytes=codec.DEFAULT_MAX_PAYLOAD_BYTES,
+                        max_payload_bytes=None,
                         max_file_bytes=codec.DEFAULT_MAX_FILE_BYTES,
                         chunk_bytes=codec.DEFAULT_CHUNK_BYTES):
     """Yield exact logical artifact bytes from either legacy raw or encoded row.
@@ -182,6 +231,12 @@ def open_logical_member(archive_path, row, *, temp_root,
             return
         manifest=_codec_manifest(row)
         desc=row["storage_encoding"]
+        payload_limit=codec_payload_limit(desc.get("storage_codec_policy"),
+                                          desc.get("max_payload_bytes"))
+        if max_payload_bytes is not None:
+            if type(max_payload_bytes) is not int or max_payload_bytes <= 0 or max_payload_bytes > payload_limit:
+                raise StorageFormatError("reader payload cap exceeds persisted descriptor limit")
+            payload_limit=max_payload_bytes
         if int(desc["encoded_size_bytes"])>max_file_bytes:
             raise StorageFormatError("encoded payload exceeds configured limit")
         with tempfile.TemporaryDirectory(prefix="cold-codec-member-",dir=root) as td:
@@ -202,7 +257,7 @@ def open_logical_member(archive_path, row, *, temp_root,
                 raise StorageFormatError("archive changed during encoded-member staging")
             with codec.open_verified(payload,manifest,temp_root=td,
                 joblib_compressor_source_path=joblib_compressor_source_path,
-                max_payload_bytes=max_payload_bytes,max_file_bytes=max_file_bytes,
+                max_payload_bytes=payload_limit,max_file_bytes=max_file_bytes,
                 chunk_bytes=chunk_bytes) as logical:
                 logical.seek(0); lh=hashlib.sha256(); ln=0; lc=0
                 while True:

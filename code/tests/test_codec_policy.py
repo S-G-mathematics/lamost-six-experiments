@@ -37,9 +37,10 @@ def stub_batch_plan():
     m.CODEC_MULTIGROUP_TEMP_MAX_BYTES=4<<30;m.CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES=10<<30;m.CODEC_MULTIGROUP_DISK_MARGIN_BYTES=2<<30
     m.CODEC_LARGE_PROFILE='bounded-5400-codec4gib64';m.CODEC_LARGE_MAX_BYTES=4<<30;m.CODEC_LARGE_MAX_GROUPS=64
     m.CODEC_LARGE_TEMP_MAX_BYTES=8<<30;m.CODEC_LARGE_WALL_SECONDS=5400
-    m.CODEC_ARCHIVE_IO_PROFILES=(m.CODEC_MULTIGROUP_PROFILE,m.CODEC_LARGE_PROFILE)
+    m.CODEC_PAYLOAD12_PROFILE='bounded-5400-codec4gib64-payload12';m.CODEC_PAYLOAD12_MAX_BYTES=4<<30;m.CODEC_PAYLOAD12_MAX_GROUPS=64;m.CODEC_PAYLOAD12_TEMP_MAX_BYTES=8<<30;m.CODEC_PAYLOAD12_WALL_SECONDS=5400;m.CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES=12<<30
+    m.CODEC_ARCHIVE_IO_PROFILES=(m.CODEC_MULTIGROUP_PROFILE,m.CODEC_LARGE_PROFILE,m.CODEC_PAYLOAD12_PROFILE)
     m.completed_archive_tail_bytes=lambda *a,**k:0
-    m.codec_multigroup_disk_required_bytes=lambda tail:(13<<30)+tail
+    m.codec_multigroup_disk_required_bytes=lambda tail,batch_max_bytes=(1<<30):batch_max_bytes+((14<<30) if batch_max_bytes==(4<<30) else (10<<30))+(2<<30)+tail
     m.resource_admission_ready=lambda *a: True
     for n in ('build_candidates','select_batch','public_candidate_summary','require_reviewed_baseline','validate_operation_directory','verify_alias_resolution'):
         setattr(m,n,lambda *a,**k:None)

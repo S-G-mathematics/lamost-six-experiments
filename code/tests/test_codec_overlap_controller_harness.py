@@ -20,10 +20,11 @@ class NativeCodecAdmissionHarnessTests(unittest.TestCase):
         self.records={self.key:self.task}
         self.helper_context={'evidence':{'context_sha256':'a'*64}}
         self.profile=os.environ.get('LAMOST_TEST_CODEC_PROFILE','codec4')
-        if self.profile not in {'codec1','codec4'}: raise ValueError('unsupported test profile')
-        io_profile='bounded-1800-codec1gib64' if self.profile=='codec1' else 'bounded-5400-codec4gib64'
-        self.expected_overlap_profile='codec' if self.profile=='codec1' else 'codec4'
-        self.archive_op={'owner_operation':'rf_cold_batch_wrapper_20261026','batch_policy':'storage-followup-codec','archive_io_profile':io_profile,'storage_codec_policy':'reversible-xz-v1'}
+        if self.profile not in {'codec1','codec4','codec12'}: raise ValueError('unsupported test profile')
+        io_profile={'codec1':'bounded-1800-codec1gib64','codec4':'bounded-5400-codec4gib64','codec12':'bounded-5400-codec4gib64-payload12'}[self.profile]
+        self.expected_overlap_profile={'codec1':'codec','codec4':'codec4','codec12':'codec12'}[self.profile]
+        storage={'codec12':'reversible-xz-v1-payload12'}.get(self.profile,'reversible-xz-v1')
+        self.archive_op={'owner_operation':'rf_cold_batch_wrapper_20261026','batch_policy':'storage-followup-codec','archive_io_profile':io_profile,'storage_codec_policy':storage}
         self.helper={'available_bytes':20*G,'credited_pss_bytes':512*1024**2,'observed_peak_pss_bytes':700*1024**2,'context':self.helper_context}
         self.patches=[]
         def start(target,*a,**kw):
@@ -49,6 +50,14 @@ class NativeCodecAdmissionHarnessTests(unittest.TestCase):
         self.assertEqual(result['task_input_proof']['archive_operation'],self.archive_op)
         self.assertEqual(result['helper_reservation_bytes'],int(1.5*G))
         controller.archive_fit_admission.qualify_candidate.assert_called_once()
+        self.assertEqual(self.task['attempts'],[])
+    def test_payload12_profile_is_bound_in_the_controller_launch_decision(self):
+        if self.profile!='codec12': self.skipTest('run with LAMOST_TEST_CODEC_PROFILE=codec12')
+        result=controller._archive_fit_launch_gate(object(),self.task,idle_hint=4)
+        self.assertEqual(result['task_input_proof']['overlap_profile'],'codec12')
+        self.assertEqual(result['task_input_proof']['archive_operation']['archive_io_profile'],'bounded-5400-codec4gib64-payload12')
+        self.assertEqual(result['task_input_proof']['archive_operation']['storage_codec_policy'],'reversible-xz-v1-payload12')
+        self.assertEqual(result['task_input_proof']['archive_operation']['batch_policy'],'storage-followup-codec')
         self.assertEqual(self.task['attempts'],[])
     def test_helper_failure_or_nonpristine_candidate_is_denied(self):
         with patch.object(controller,'_bracketed_archive_helper',return_value=None):

@@ -2,7 +2,7 @@ from pathlib import Path
 import sys,os,json,hashlib,datetime,time,sqlite3,subprocess,signal,fcntl,traceback,argparse,shutil
 ROOT=Path('/home/ubuntu/lamost_e1_migration_20261023');R=ROOT/'runtime_20261025';D=Path(__file__).resolve().parent.parent;H=R/'ADMISSION_HOLD.json'
 sys.path.insert(0,str(Path(__file__).resolve().parent));import controller as c
-from batch_plan import MAX_INITIAL_BYTES,MAX_INITIAL_GROUPS,MAX_LATER_BYTES,MAX_LATER_GROUPS,RAW_WIDE_MAX_BYTES,RAW_WIDE_MAX_GROUPS,RAW_WIDE_PROFILE,RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES,RAW_MIXED_SMALL_MAX_BYTES,RAW_MIXED_SMALL_MAX_GROUPS,RAW_MIXED_SMALL_PROFILE,RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES,RAW_ARCHIVE_IO_PROFILES,CODEC_MULTIGROUP_PROFILE,CODEC_MULTIGROUP_MAX_BYTES,CODEC_MULTIGROUP_MAX_GROUPS,CODEC_MULTIGROUP_TEMP_MAX_BYTES,CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,CODEC_MULTIGROUP_DISK_MARGIN_BYTES,CODEC_LARGE_PROFILE,CODEC_LARGE_MAX_BYTES,CODEC_LARGE_MAX_GROUPS,CODEC_LARGE_TEMP_MAX_BYTES,CODEC_LARGE_WALL_SECONDS,CODEC_ARCHIVE_IO_PROFILES,completed_archive_tail_bytes,codec_multigroup_disk_required_bytes,resource_admission_ready
+from batch_plan import MAX_INITIAL_BYTES,MAX_INITIAL_GROUPS,MAX_LATER_BYTES,MAX_LATER_GROUPS,RAW_WIDE_MAX_BYTES,RAW_WIDE_MAX_GROUPS,RAW_WIDE_PROFILE,RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES,RAW_MIXED_SMALL_MAX_BYTES,RAW_MIXED_SMALL_MAX_GROUPS,RAW_MIXED_SMALL_PROFILE,RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES,RAW_ARCHIVE_IO_PROFILES,CODEC_MULTIGROUP_PROFILE,CODEC_MULTIGROUP_MAX_BYTES,CODEC_MULTIGROUP_MAX_GROUPS,CODEC_MULTIGROUP_TEMP_MAX_BYTES,CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,CODEC_MULTIGROUP_DISK_MARGIN_BYTES,CODEC_LARGE_PROFILE,CODEC_LARGE_MAX_BYTES,CODEC_LARGE_MAX_GROUPS,CODEC_LARGE_TEMP_MAX_BYTES,CODEC_LARGE_WALL_SECONDS,CODEC_PAYLOAD12_PROFILE,CODEC_PAYLOAD12_MAX_BYTES,CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES,CODEC_PAYLOAD12_MAX_GROUPS,CODEC_PAYLOAD12_TEMP_MAX_BYTES,CODEC_PAYLOAD12_WALL_SECONDS,CODEC_ARCHIVE_IO_PROFILES,completed_archive_tail_bytes,codec_multigroup_disk_required_bytes,resource_admission_ready
 CHILD_WALL_SECONDS=180
 FOLLOWUP_CHILD_WALL_SECONDS=600
 ARCHIVE_IO_PROFILE='bounded-1800'
@@ -12,32 +12,38 @@ ARCHIVE_IO_WALL_SECONDS=1800
 CODEC_LARGE_WALL_SECONDS=5400
 CODEC_FOLLOWUP_MAX_BYTES=1<<30
 CODEC_FOLLOWUP_MAX_GROUPS=1
-SOURCE_PINS={'commit_batch_child.py': '3564c97a73ba9f70c816a5d3c2524254dee7bd82054bd6f6f922a12369603f94',
+SOURCE_PINS={'commit_batch_child.py': 'b4fa91a978384d254460915540f3592da6fdea69c3580998be6f1b779da1d8e3',
  'controller.py': '7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b',
- 'batch_plan.py': '2389a9468a73f5af6cacfe585346afd14cf9a2a340b16c59439c2a77304c9372',
+ 'batch_plan.py': '63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
- 'cold_model_storage.py': 'be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172',
- 'cold_codec_storage.py': 'b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b',
+ 'cold_model_storage.py': '4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25',
+ 'cold_codec_storage.py': '424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430',
  'reversible_joblib_codec.py': 'f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
- 'archive_fit_admission.py': '59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba',
+ 'archive_fit_admission.py': '79b3d87e26c0290d2ab18593e48f0be31dfe79ae177a63298162df2c88270e11',
  'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
  'metadata_access_contract_v2.py': '3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8'}
 BATCH_POLICIES={"initial":{"max_bytes":MAX_INITIAL_BYTES,"max_groups":MAX_INITIAL_GROUPS,"wall_seconds":CHILD_WALL_SECONDS,"packing":"smallest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup":{"max_bytes":MAX_LATER_BYTES,"max_groups":MAX_LATER_GROUPS,"wall_seconds":FOLLOWUP_CHILD_WALL_SECONDS,"packing":"largest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup-codec":{"max_bytes":CODEC_FOLLOWUP_MAX_BYTES,"max_groups":CODEC_FOLLOWUP_MAX_GROUPS,"wall_seconds":FOLLOWUP_CHILD_WALL_SECONDS,"packing":"largest_first","storage_codec_policy":"reversible-xz-v1","transient_disk_reserve_bytes":0}}
 def resolve_batch_policy(batch_policy,storage_codec_policy,archive_io_profile=None):
  if batch_policy not in BATCH_POLICIES:raise ValueError('unknown batch policy')
  base=BATCH_POLICIES[batch_policy]
- if storage_codec_policy!=base['storage_codec_policy']:raise ValueError('batch/storage codec policy mismatch')
+ if archive_io_profile==CODEC_PAYLOAD12_PROFILE:
+  if batch_policy!='storage-followup-codec' or storage_codec_policy!='reversible-xz-v1-payload12':raise ValueError('payload12 profile requires matching codec policy')
+  base=dict(base);base['storage_codec_policy']='reversible-xz-v1-payload12'
+ elif storage_codec_policy!=base['storage_codec_policy']:
+  raise ValueError('batch/storage codec policy mismatch')
  if archive_io_profile is None:return base
  if archive_io_profile not in ARCHIVE_IO_PROFILES:raise ValueError('unknown archive I/O profile')
  if archive_io_profile in CODEC_ARCHIVE_IO_PROFILES:
-  if batch_policy!='storage-followup-codec' or storage_codec_policy!='reversible-xz-v1':
-   raise ValueError('codec multigroup profile requires storage-followup-codec and reversible-xz-v1')
-  large=archive_io_profile==CODEC_LARGE_PROFILE
+  payload12=archive_io_profile==CODEC_PAYLOAD12_PROFILE
+  expected_codec='reversible-xz-v1-payload12' if payload12 else 'reversible-xz-v1'
+  if batch_policy!='storage-followup-codec' or storage_codec_policy!=expected_codec:
+   raise ValueError('codec profile requires matching storage-followup-codec policy')
+  large=archive_io_profile in (CODEC_LARGE_PROFILE,CODEC_PAYLOAD12_PROFILE)
   result=dict(base);result.update({'max_bytes':CODEC_LARGE_MAX_BYTES if large else CODEC_MULTIGROUP_MAX_BYTES,'max_groups':CODEC_LARGE_MAX_GROUPS if large else CODEC_MULTIGROUP_MAX_GROUPS,
    'wall_seconds':CODEC_LARGE_WALL_SECONDS if large else ARCHIVE_IO_WALL_SECONDS,'archive_io_profile':archive_io_profile,
    'transient_disk_reserve_bytes':(CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES + (4 << 30)) if large else CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,
-   'codec_temp_budget_bytes':CODEC_LARGE_TEMP_MAX_BYTES if large else CODEC_MULTIGROUP_TEMP_MAX_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES})
+   'codec_temp_budget_bytes':CODEC_LARGE_TEMP_MAX_BYTES if large else CODEC_MULTIGROUP_TEMP_MAX_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES,'max_payload_bytes':(CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES if payload12 else 2*(1<<30))})
   return result
  if batch_policy!='storage-followup' or storage_codec_policy is not None:
   raise ValueError('bounded archive I/O profiles are only valid for raw storage-followup')
@@ -112,7 +118,7 @@ def main():
  ap.add_argument('--baseline-sha256',required=True)
  ap.add_argument('--operation-id',required=True,help='unique safe name; must not already exist')
  ap.add_argument('--batch-policy',choices=tuple(BATCH_POLICIES),default='initial')
- ap.add_argument('--storage-codec-policy',choices=('reversible-xz-v1',))
+ ap.add_argument('--storage-codec-policy',choices=('reversible-xz-v1','reversible-xz-v1-payload12'))
  ap.add_argument('--archive-io-profile',choices=ARCHIVE_IO_PROFILES)
  a=ap.parse_args()
  policy=resolve_batch_policy(a.batch_policy,a.storage_codec_policy,a.archive_io_profile)
@@ -137,7 +143,7 @@ def main():
    unresolved=[t.get('key') for t in running if not c.alive(t.get('pid'),t.get('process_start_ticks'))]
    avail,credit,peaks=c.bracketed_worker_memory(running)
    commitments=[(10*1024**3,0) if t.get('key') in unresolved else (c.promoted_reservation_bytes(t,p),cr) for t,p,cr in zip(running,peaks,credit)]
-   admission={'observed_utc':now(),'available_bytes':avail,'running_task_count':len(running),'unresolved_running_task_count':len(unresolved),'worker_commitments_bytes':commitments,'helper_reservation_bytes':int(1.5*1024**3),'policy_host_reserve_bytes':6*1024**3,'policy_growth_margin_bytes':2*1024**3,'batch_policy':a.batch_policy,'storage_codec_policy':a.storage_codec_policy,'batch_max_bytes':policy['max_bytes'],'batch_max_inode_groups':policy['max_groups'],'transient_disk_reserve_bytes':policy['transient_disk_reserve_bytes'],'batch_packing':policy['packing'],'child_wall_limit_seconds':policy['wall_seconds'],**({'archive_io_profile':a.archive_io_profile} if a.archive_io_profile else {})}
+   admission={'observed_utc':now(),'available_bytes':avail,'running_task_count':len(running),'unresolved_running_task_count':len(unresolved),'worker_commitments_bytes':commitments,'helper_reservation_bytes':int(1.5*1024**3),'policy_host_reserve_bytes':6*1024**3,'policy_growth_margin_bytes':2*1024**3,'batch_policy':a.batch_policy,'storage_codec_policy':a.storage_codec_policy,'batch_max_bytes':policy['max_bytes'],'batch_max_inode_groups':policy['max_groups'],'max_payload_bytes':policy.get('max_payload_bytes',2*(1<<30)),'transient_disk_reserve_bytes':policy['transient_disk_reserve_bytes'],'batch_packing':policy['packing'],'child_wall_limit_seconds':policy['wall_seconds'],**({'archive_io_profile':a.archive_io_profile} if a.archive_io_profile else {})}
    # Do not retroactively overlap workers that started before the codec policy
    # could qualify them. Once the verified helper is active, controller admission
    # can launch only fresh candidates proved by its codec-specific qualification.
@@ -152,7 +158,7 @@ def main():
   disk_required=(policy['max_bytes']+policy['transient_disk_reserve_bytes'] if a.archive_io_profile in RAW_ARCHIVE_IO_PROFILES else codec_disk_required)
   if disk_free is not None and disk_free<disk_required:
    raise RuntimeError(f'archive profile transient disk headroom insufficient: free={disk_free} required={disk_required}')
-  admission.update({'codec_temp_budget_bytes':policy.get('codec_temp_budget_bytes'),'transient_disk_margin_bytes':policy.get('transient_disk_margin_bytes',0),'archive_tail_backup_bytes':codec_tail_bytes,'transient_disk_free_bytes':disk_free,'transient_disk_required_bytes':disk_required})
+  admission.update({'codec_temp_budget_bytes':policy.get('codec_temp_budget_bytes'),'max_payload_bytes':policy.get('max_payload_bytes',2*(1<<30)),'transient_disk_margin_bytes':policy.get('transient_disk_margin_bytes',0),'archive_tail_backup_bytes':codec_tail_bytes,'transient_disk_free_bytes':disk_free,'transient_disk_required_bytes':disk_required})
   atomic(op/'private_admission.json',admission)
   env=os.environ.copy()
   for n in ['OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS']:env[n]='1'
@@ -171,12 +177,12 @@ def main():
     elif c.memory_available()<8*1024**3:reason='host MemAvailable below 8 GiB'
     if reason:stop_child(child,ticks,script);break
     time.sleep(.5)
-   result={'status':'successful' if child.returncode==0 else 'operationally_interrupted_requires_journal_review','finished_utc':now(),'returncode':child.returncode,'reason':reason,'elapsed_seconds':round(time.monotonic()-start,2),'peak_child_tree_rss_bytes':peak,'scientific_fits_started':0,'hold_nonce':nonce,'operation_id':a.operation_id,'batch_policy':a.batch_policy,'storage_codec_policy':a.storage_codec_policy,'batch_max_bytes':policy['max_bytes'],'batch_max_inode_groups':policy['max_groups'],'transient_disk_reserve_bytes':policy['transient_disk_reserve_bytes'],'batch_packing':policy['packing'],'child_wall_limit_seconds':policy['wall_seconds'],**({'archive_io_profile':a.archive_io_profile} if a.archive_io_profile else {})}
+   result={'status':'successful' if child.returncode==0 else 'operationally_interrupted_requires_journal_review','finished_utc':now(),'returncode':child.returncode,'reason':reason,'elapsed_seconds':round(time.monotonic()-start,2),'peak_child_tree_rss_bytes':peak,'scientific_fits_started':0,'hold_nonce':nonce,'operation_id':a.operation_id,'batch_policy':a.batch_policy,'storage_codec_policy':a.storage_codec_policy,'batch_max_bytes':policy['max_bytes'],'batch_max_inode_groups':policy['max_groups'],'max_payload_bytes':policy.get('max_payload_bytes',2*(1<<30)),'transient_disk_reserve_bytes':policy['transient_disk_reserve_bytes'],'batch_packing':policy['packing'],'child_wall_limit_seconds':policy['wall_seconds'],**({'archive_io_profile':a.archive_io_profile} if a.archive_io_profile else {})}
    atomic(op/'supervisor_result.json',result)
    if child.returncode!=0:raise RuntimeError('batch child incomplete; hold is preserved for journal review')
    # Child success is only accepted with its own public receipt and matching successful status.
    child_result=json.loads((op/'child_result.json').read_text())
-   if child_result.get('schema')!='lamost-rf-cold-batch/1' or child_result.get('operation_id')!=a.operation_id or child_result.get('baseline_archive_sha256')!=a.baseline_sha256.lower() or child_result.get('batch_policy')!=a.batch_policy or child_result.get('storage_codec_policy')!=a.storage_codec_policy or child_result.get('batch_max_bytes')!=policy['max_bytes'] or child_result.get('batch_max_inode_groups')!=policy['max_groups'] or child_result.get('transient_disk_reserve_bytes')!=policy['transient_disk_reserve_bytes'] or child_result.get('child_wall_limit_seconds')!=policy['wall_seconds'] or child_result.get('archive_io_profile')!=a.archive_io_profile:
+   if child_result.get('schema')!='lamost-rf-cold-batch/1' or child_result.get('operation_id')!=a.operation_id or child_result.get('baseline_archive_sha256')!=a.baseline_sha256.lower() or child_result.get('batch_policy')!=a.batch_policy or child_result.get('storage_codec_policy')!=a.storage_codec_policy or child_result.get('batch_max_bytes')!=policy['max_bytes'] or child_result.get('batch_max_inode_groups')!=policy['max_groups'] or child_result.get('max_payload_bytes',2*(1<<30))!=policy.get('max_payload_bytes',2*(1<<30)) or child_result.get('transient_disk_reserve_bytes')!=policy['transient_disk_reserve_bytes'] or child_result.get('child_wall_limit_seconds')!=policy['wall_seconds'] or child_result.get('archive_io_profile')!=a.archive_io_profile:
     raise RuntimeError('child receipt identity/baseline mismatch; preserve admission hold')
    if a.archive_io_profile in CODEC_ARCHIVE_IO_PROFILES and (child_result.get('codec_temp_budget_bytes')!=policy['codec_temp_budget_bytes'] or child_result.get('transient_disk_required_bytes')!=admission.get('transient_disk_required_bytes') or child_result.get('archive_tail_backup_bytes')!=codec_tail_bytes):
     raise RuntimeError('codec multigroup disk/temp receipt mismatch; preserve admission hold')
