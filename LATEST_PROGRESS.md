@@ -1,6 +1,6 @@
 # Latest project progress
 
-Observation: 2026-10-30T12:08:13.342926Z UTC. This interim snapshot uses one read-only SQLite transaction over all 6,270 task rows. The project is not complete; full calibration replay, final artifact review, and final archive review remain pending.
+Observation: 2026-10-30T14:55:25.944320+00:00 UTC, based on the current read-only registry snapshot. Interim status; final validation and project completion remain pending.
 
 | Experiment | Planned | Successful / evaluated | Recorded failures | Unavailable | User-stopped | Pending |
 |---|---:|---:|---:|---:|---:|---:|
@@ -11,13 +11,13 @@ Observation: 2026-10-30T12:08:13.342926Z UTC. This interim snapshot uses one rea
 | E2 classical references | 120 | 120 | 0 | 0 | 0 | 0 |
 | E3 | 69 | 64 | 3 | 2 | 0 | 0 |
 | E4 | 1,773 | 1,632 | 71 | 3 | 67 | 0 |
-| E5 | 960 | 725 | 50 | 78 | 101 | 6 |
+| E5 | 960 | 726 | 50 | 78 | 101 | 5 |
 | E6 | 21 | 12 aliases | 3 | 6 | 0 | 0 |
-| E3-E6 total | 2,823 | 2,433 including aliases | 127 | 89 | 168 | 6 |
+| E3-E6 total | 2,823 | 2,434 including aliases | 127 | 89 | 168 | 5 |
 
-E6 has zero successful primary ensemble test evaluations. Its 12 successful entries are E3 member-reference aliases. The 3 E6 failures and 6 unavailable rows do not support an ensemble-benefit claim.
+E6 has zero successful primary ensemble test evaluations; its 12 successful rows are member-reference aliases. E5 remains incomplete. The current E5 rep-1 batch comprises nine newly validated cases; see [results and provenance](reports/E5_REP1_NINE_VALIDATED_20261030/README.md) and the complete [case ledger](reports/CURRENT_CELL_LEDGER.csv). The ninth test-outcome array is available as a separate [release asset](https://github.com/S-G-mathematics/lamost-six-experiments/releases/download/results-2026-10-28/e5_rep1_ninth_validated_20261030T1452Z.zip). The figures and earlier narrative snapshots retain their original cutoffs.
 
-The [current case ledger](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030/PLANNED_CASE_OUTCOMES_2823.csv), [ledger summary](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030/SUMMARY.json), and [successful metadata crosswalk](reports/SCIENTIFIC_SUCCESS_ARTIFACT_COVERAGE_20261030/SUCCESSFUL_TASK_ARTIFACT_COVERAGE.csv) were refreshed from this snapshot. Historical ledgers remain preserved.
+The current archive-profile source and focused qualification are included as exact-hash provenance. The focused suite is fixture-based and does not establish a completed production archive transaction. Full artifact review and global calibration replay remain pending.
 
 ## New E5 repetition-1 results
 

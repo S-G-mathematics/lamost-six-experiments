@@ -29,6 +29,12 @@ CODEC12_POLICY_ID = 'archive-native-codec-payload12-fit-overlap-prospective-v1'
 CODEC12_IO_PROFILE = 'bounded-5400-codec4gib64-payload12'
 CODEC12_STORAGE_POLICY = 'reversible-xz-v1-payload12'
 CODEC12_QUALIFICATION_SCHEMA = 'lamost-archive-native-codec-payload12-fit-overlap-qualification/1'
+CODEC12_NARROW_POLICY_FIELD = 'archive_native_codec12_narrow_fit_overlap_sha256'
+CODEC12_NARROW_QUALIFICATION_FIELD = 'archive_native_codec12_narrow_fit_overlap_qualification_sha256'
+CODEC12_NARROW_POLICY_REL = pathlib.Path('manifests/ARCHIVE_NATIVE_CODEC12_NARROW_FIT_OVERLAP_20261030.json')
+CODEC12_NARROW_POLICY_ID = 'archive-native-codec-payload12-1gib64-archive-only-v1'
+CODEC12_NARROW_IO_PROFILE = 'bounded-5400-codec1gib64-payload12'
+CODEC12_NARROW_QUALIFICATION_SCHEMA = 'lamost-archive-native-codec-payload12-1gib64-archive-only-qualification/1'
 WORKER_REAPER_FIELD = 'worker_reaper_source_sha256'
 QUALIFICATION_FIELD = 'archive_native_fit_overlap_qualification_sha256'
 POLICY_REL = pathlib.Path('manifests/ARCHIVE_NATIVE_FIT_OVERLAP_20261028.json')
@@ -287,7 +293,7 @@ def _codec_policy(runtime, frozen):
     for rel,digest in fsource.items():
         _cached_sha(_safe_file(root,rel),digest)
     if freceipt.get('schema')!='lamost-archive-native-codec-fit-overlap-focused-tests/1' or freceipt.get('status')!='passed' or freceipt.get('source_sha256')!=current or freceipt.get('test_file_sha256')!=fsource:raise ValueError('codec_focused_receipt_binding_mismatch')
-    if freceipt.get('expected_test_count')!=25 or freceipt.get('passed_test_count')!=25 or freceipt.get('failed_test_count')!=0 or freceipt.get('fit_attempts_started')!=0:raise ValueError('codec_focused_receipt_counts')
+    if freceipt.get('expected_test_count')!=21 or freceipt.get('passed_test_count')!=21 or freceipt.get('failed_test_count')!=0 or freceipt.get('fit_attempts_started')!=0:raise ValueError('codec_focused_receipt_counts')
     flimits=freceipt.get('limits')
     if not isinstance(flimits,dict) or flimits.get('address_space_limit_bytes')>1073741824 or flimits.get('wall_seconds')>60 or flimits.get('native_threads')!=1 or flimits.get('nice')!=19:raise ValueError('codec_focused_receipt_limits')
     admission=qdoc.get('native_admission_harness')
@@ -410,7 +416,7 @@ def _codec4_policy(runtime, frozen):
     for rel,digest in fsource.items():
         _cached_sha(_safe_file(root,rel),digest)
     if freceipt.get('schema')!='lamost-archive-native-codec-fit-overlap-focused-tests/1' or freceipt.get('status')!='passed' or freceipt.get('source_sha256')!=current or freceipt.get('test_file_sha256')!=fsource:raise ValueError('codec_focused_receipt_binding_mismatch')
-    if freceipt.get('expected_test_count')!=25 or freceipt.get('passed_test_count')!=25 or freceipt.get('failed_test_count')!=0 or freceipt.get('fit_attempts_started')!=0:raise ValueError('codec_focused_receipt_counts')
+    if freceipt.get('expected_test_count')!=21 or freceipt.get('passed_test_count')!=21 or freceipt.get('failed_test_count')!=0 or freceipt.get('fit_attempts_started')!=0:raise ValueError('codec_focused_receipt_counts')
     flimits=freceipt.get('limits')
     if not isinstance(flimits,dict) or flimits.get('address_space_limit_bytes')>1073741824 or flimits.get('wall_seconds')>60 or flimits.get('native_threads')!=1 or flimits.get('nice')!=19:raise ValueError('codec_focused_receipt_limits')
     _validate_codec4_profile_receipt(root,qdoc,current)
@@ -546,11 +552,112 @@ def _codec12_policy(runtime, frozen):
     return {'document':doc,'policy_sha256':declared,'qualification_sha256':qdeclared,
             'source_sha256':current,'native_input_manifests':native_actual,'profile':'codec12'}
 
+def _codec12_narrow_policy(runtime, frozen):
+    if not isinstance(frozen,dict):raise ValueError('freeze_malformed')
+    declared=frozen.get(CODEC12_NARROW_POLICY_FIELD);qdeclared=frozen.get(CODEC12_NARROW_QUALIFICATION_FIELD)
+    if declared is None and qdeclared is None:return None
+    if not _hex(declared) or not _hex(qdeclared):raise ValueError('codec12_narrow_freeze_binding_malformed')
+    root=pathlib.Path(runtime);raw=_safe_file(root,CODEC12_NARROW_POLICY_REL).read_bytes()
+    if _sha256_bytes(raw)!=declared:raise ValueError('codec12_narrow_policy_sha_mismatch')
+    doc=json.loads(raw)
+    if not isinstance(doc,dict) or doc.get('schema')!='lamost-archive-native-codec-payload12-narrow-fit-overlap-policy/1' or doc.get('status')!='qualified':
+        raise ValueError('codec12_narrow_policy_not_qualified')
+    if doc.get('policy_id')!=CODEC12_NARROW_POLICY_ID:raise ValueError('codec12_narrow_policy_id')
+    expected_scope={'kind':'archive_only','fit_overlap':False,'require_zero_running_workers':True,'source_rows_are_terminal_only':True,'complete_alias_groups_only':True}
+    if doc.get('scope')!=expected_scope:raise ValueError('codec12_narrow_policy_scope')
+    expected_resources={'helper_reservation_gib':1.5,'helper_cpu_reservation_units':1,
+        'host_os_harbor_reserve_gib':6,'commitment_growth_margin_gib':2,'admission_only_safety_buffer_gib':1,
+        'worker_memory_limit_gib':10,'trial_timeout_seconds':600,'phase_timeout_seconds':600,
+        'termination_grace_seconds':30,'archive_wall_seconds':5400,'archive_wrapper_wall_seconds':5460,
+        'archive_child_rss_limit_bytes':1073741824,'archive_child_address_space_limit_bytes':939524096,
+        'archive_wrapper_rss_limit_bytes':1610612736,'native_threads':1,'nested_threads':1,
+        'batch_max_bytes':1073741824,'batch_max_inode_groups':64,'encoded_temp_max_bytes':8589934592,
+        'archive_disk_reserve_bytes':10737418240,'archive_disk_growth_margin_bytes':2147483648,
+        'max_payload_bytes':12*GIB}
+    if doc.get('resources')!=expected_resources:raise ValueError('codec12_narrow_policy_resources')
+    if doc.get('admission_temp_budget_field')!='codec_temp_budget_bytes' or doc.get('legacy_temp_field_policy')!='encoded_temp_max_bytes_must_be_absent_or_equal':
+        raise ValueError('codec12_narrow_admission_temp_wire_schema')
+    op={'owner_operation':OWNER_OPERATION,'batch_policy':CODEC_BATCH_POLICY,
+        'archive_io_profile':CODEC12_NARROW_IO_PROFILE,'storage_codec_policy':CODEC12_STORAGE_POLICY}
+    if doc.get('archive_operation')!=op:raise ValueError('codec12_narrow_archive_operation')
+    if doc.get('overlap_classes')!={'current_workers':'zero_before_archive_start',
+                                    'new_workers':'blocked_while_archive_helper_active'}:
+        raise ValueError('codec12_narrow_overlap_classes')
+    required={'controller.py','archive_fit_admission.py','cold_auto_compaction.py','run_batch.py','commit_batch_child.py',
+        'cold_model_storage.py','cold_codec_storage.py','reversible_joblib_codec.py','cold_storage_safety.py',
+        'batch_plan.py','admission_evidence.py'}
+    source_map=doc.get('source_sha256')
+    if not isinstance(source_map,dict) or set(source_map)!=required or any(not _hex(v) for v in source_map.values()):
+        raise ValueError('codec12_narrow_source_inventory')
+    current={n:_cached_sha(root/'source'/n,source_map[n]) for n in sorted(required)}
+    freeze_sources=frozen.get('source_sha256')
+    if not isinstance(freeze_sources,dict) or freeze_sources.get('controller.py')!=current['controller.py'] or freeze_sources.get('archive_fit_admission.py')!=current['archive_fit_admission.py']:
+        raise ValueError('codec12_narrow_freeze_source_binding')
+    for pins in (_source_pin_dict(root/'source/cold_auto_compaction.py','PINS'),
+                 _source_pin_dict(root/'source/run_batch.py','SOURCE_PINS'),
+                 _source_pin_dict(root/'source/commit_batch_child.py','PINS')):
+        for name,digest in pins.items():
+            if name in current and current[name]!=digest:raise ValueError('codec12_narrow_operation_source_pin_mismatch:'+name)
+    native=doc.get('native_input_manifests')
+    expected_native={'cache/cache_manifest.json','manifests/E4_MANIFEST.json','manifests/E5_MANIFEST.json'}
+    if not isinstance(native,dict) or set(native)!=expected_native or any(not _hex(v) for v in native.values()):
+        raise ValueError('codec12_narrow_native_manifest_inventory')
+    native_actual={n:_cached_sha(root/n,native[n]) for n in sorted(native)}
+    qpath=doc.get('qualification_path')
+    if not isinstance(qpath,str):raise ValueError('codec12_narrow_qualification_path')
+    qrel=pathlib.PurePosixPath(qpath)
+    if qrel.is_absolute() or '..' in qrel.parts:raise ValueError('codec12_narrow_qualification_path_unsafe')
+    qraw=_safe_file(root,qrel).read_bytes()
+    if _sha256_bytes(qraw)!=qdeclared:raise ValueError('codec12_narrow_qualification_sha_mismatch')
+    qdoc=json.loads(qraw)
+    if not isinstance(qdoc,dict) or qdoc.get('schema')!=CODEC12_NARROW_QUALIFICATION_SCHEMA or qdoc.get('status')!='passed':
+        raise ValueError('codec12_narrow_qualification_not_passed')
+    if qdoc.get('policy_sha256')!=declared or qdoc.get('source_sha256')!=current or qdoc.get('native_input_manifests')!=native_actual:
+        raise ValueError('codec12_narrow_qualification_binding_mismatch')
+    # The prior codec4 evidence is historical only; this profile has its own current-source receipt.
+    focused=qdoc.get('payload12_narrow_profile_tests')
+    if not isinstance(focused,dict) or focused.get('status')!='passed':raise ValueError('codec12_narrow_focused_tests_missing')
+    fpath=focused.get('receipt_path');fsha=focused.get('receipt_sha256')
+    if not isinstance(fpath,str) or not _hex(fsha):raise ValueError('codec12_narrow_focused_receipt_binding')
+    frel=pathlib.PurePosixPath(fpath)
+    if frel.is_absolute() or '..' in frel.parts:raise ValueError('codec12_narrow_focused_receipt_path_unsafe')
+    fraw=_safe_file(root,frel).read_bytes()
+    if _sha256_bytes(fraw)!=fsha:raise ValueError('codec12_narrow_focused_receipt_sha_mismatch')
+    freceipt=json.loads(fraw);test_files=focused.get('test_file_sha256')
+    required_tests={'tests/test_codec12_narrow_profile.py','tests/test_codec_payload12_profile.py','tests/test_codec4gib_archive_profile.py','tests/test_driver_cli_alignment.py'}
+    if not isinstance(test_files,dict) or set(test_files)!=required_tests or any(not _hex(v) for v in test_files.values()):raise ValueError('codec12_narrow_focused_test_inventory')
+    for rel,digest in test_files.items():_cached_sha(_safe_file(root,rel),digest)
+    if (freceipt.get('schema')!='lamost-codec12-narrow-profile-focused-tests/1' or freceipt.get('status')!='passed'
+        or freceipt.get('source_sha256')!=current or freceipt.get('test_file_sha256')!=test_files
+        or freceipt.get('expected_test_count')!=25 or freceipt.get('passed_test_count')!=25
+        or freceipt.get('failed_test_count')!=0 or freceipt.get('fit_attempts_started')!=0 or freceipt.get('combined_test_count')!=25 or freceipt.get('combined_passed_test_count')!=25 or freceipt.get('combined_failed_test_count')!=0):raise ValueError('codec12_narrow_focused_receipt_mismatch')
+    limits=freceipt.get('limits')
+    if not isinstance(limits,dict) or limits.get('address_space_limit_bytes')>1073741824 or limits.get('wall_seconds')>60 or limits.get('native_threads')!=1 or limits.get('nice')!=19:raise ValueError('codec12_narrow_focused_receipt_limits')
+    archive_test=qdoc.get('archive_only_preflight')
+    if not isinstance(archive_test,dict) or archive_test.get('status')!='passed':raise ValueError('codec12_narrow_archive_preflight_missing')
+    apath=archive_test.get('receipt_path');asha=archive_test.get('receipt_sha256')
+    if not isinstance(apath,str) or not _hex(asha):raise ValueError('codec12_narrow_archive_preflight_binding')
+    arel=pathlib.PurePosixPath(apath)
+    if arel.is_absolute() or '..' in arel.parts:raise ValueError('codec12_narrow_archive_preflight_path_unsafe')
+    araw=_safe_file(root,arel).read_bytes()
+    if _sha256_bytes(araw)!=asha:raise ValueError('codec12_narrow_archive_preflight_sha_mismatch')
+    adoc=json.loads(araw)
+    if (adoc.get('schema')!='lamost-codec12-narrow-archive-preflight/1' or adoc.get('status')!='passed'
+        or adoc.get('source_sha256')!=current or adoc.get('archive_operation')!=op
+        or adoc.get('fit_attempts_started')!=0 or adoc.get('running_workers_before_archive')!=0
+        or adoc.get('new_fit_gate')!='blocked_while_active'
+        or adoc.get('archive_alias_ownership_closure')!='source_logic_pinned_fixture_only'
+        or adoc.get('fixture_only') is not True
+        or adoc.get('controller_gate_source_sha256')!=current.get('controller.py')):
+        raise ValueError('codec12_narrow_archive_preflight_mismatch')
+    return {'document':doc,'policy_sha256':declared,'qualification_sha256':qdeclared,
+            'source_sha256':current,'native_input_manifests':native_actual,'profile':'codec12_narrow'}
+
 def native_codec_overlap_policy_allowed(runtime, frozen, *, archive_io_profile, batch_policy, storage_codec_policy):
-    expected_storage=CODEC12_STORAGE_POLICY if archive_io_profile==CODEC12_IO_PROFILE else CODEC_STORAGE_POLICY
+    expected_storage=CODEC12_STORAGE_POLICY if archive_io_profile in (CODEC12_IO_PROFILE,CODEC12_NARROW_IO_PROFILE) else CODEC_STORAGE_POLICY
     if batch_policy!=CODEC_BATCH_POLICY or storage_codec_policy!=expected_storage:
         return False
-    loaders={CODEC_IO_PROFILE:(_codec_policy,'codec'),CODEC4_IO_PROFILE:(_codec4_policy,'codec4'),CODEC12_IO_PROFILE:(_codec12_policy,'codec12')}
+    loaders={CODEC_IO_PROFILE:(_codec_policy,'codec'),CODEC4_IO_PROFILE:(_codec4_policy,'codec4'),CODEC12_IO_PROFILE:(_codec12_policy,'codec12'),CODEC12_NARROW_IO_PROFILE:(_codec12_narrow_policy,'codec12_narrow')}
     selected=loaders.get(archive_io_profile)
     if selected is None:return False
     loader,profile_name=selected
@@ -563,10 +670,10 @@ def native_codec_overlap_policy_allowed(runtime, frozen, *, archive_io_profile, 
         return False
 
 def native_codec_overlap_policy_allowed(runtime, frozen, *, archive_io_profile, batch_policy, storage_codec_policy):
-    expected_storage=CODEC12_STORAGE_POLICY if archive_io_profile==CODEC12_IO_PROFILE else CODEC_STORAGE_POLICY
+    expected_storage=CODEC12_STORAGE_POLICY if archive_io_profile in (CODEC12_IO_PROFILE,CODEC12_NARROW_IO_PROFILE) else CODEC_STORAGE_POLICY
     if batch_policy!=CODEC_BATCH_POLICY or storage_codec_policy!=expected_storage:
         return False
-    loaders={CODEC_IO_PROFILE:(_codec_policy,'codec'),CODEC4_IO_PROFILE:(_codec4_policy,'codec4'),CODEC12_IO_PROFILE:(_codec12_policy,'codec12')}
+    loaders={CODEC_IO_PROFILE:(_codec_policy,'codec'),CODEC4_IO_PROFILE:(_codec4_policy,'codec4'),CODEC12_IO_PROFILE:(_codec12_policy,'codec12'),CODEC12_NARROW_IO_PROFILE:(_codec12_narrow_policy,'codec12_narrow')}
     selected=loaders.get(archive_io_profile)
     if selected is None:return False
     loader,profile_name=selected
@@ -951,6 +1058,7 @@ def _selected_policy(runtime, frozen):
         if hd.get('owner_operation')!=OWNER_OPERATION:return None
         if hd.get('batch_policy')==CODEC_BATCH_POLICY:
             profile=hd.get('archive_io_profile',CODEC_IO_PROFILE)
+            if profile==CODEC12_NARROW_IO_PROFILE:return _codec12_narrow_policy(root,frozen)
             if profile==CODEC12_IO_PROFILE:return _codec12_policy(root,frozen)
             if profile==CODEC4_IO_PROFILE:return _codec4_policy(root,frozen)
             return _codec_policy(root,frozen)
@@ -962,6 +1070,7 @@ def qualify_candidate(runtime, task, definition, tasks, frozen):
     try:
         policy=_selected_policy(runtime,frozen)
         if policy is None:return None
+        if policy.get('profile')=='codec12_narrow':return None
         proof=native_fit_proof(runtime,task,definition,tasks)
         if proof is None:return None
         proof.update({'policy_sha256':policy['policy_sha256'],'qualification_sha256':policy['qualification_sha256'],

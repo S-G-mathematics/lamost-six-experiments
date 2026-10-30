@@ -17,7 +17,7 @@ class CodecPayload12ProfileTests(unittest.TestCase):
   self.assertEqual((batch_plan.CODEC_PAYLOAD12_MAX_BYTES,batch_plan.CODEC_PAYLOAD12_MAX_GROUPS,batch_plan.CODEC_PAYLOAD12_TEMP_MAX_BYTES,batch_plan.CODEC_PAYLOAD12_WALL_SECONDS),(4<<30,64,8<<30,5400))
   self.assertEqual(batch_plan.CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES,12<<30)
   self.assertEqual(auto.outer_wrapper_wall_seconds(p),5460)
-  self.assertEqual(batch_plan.CODEC_ARCHIVE_IO_PROFILES,(batch_plan.CODEC_MULTIGROUP_PROFILE,batch_plan.CODEC_LARGE_PROFILE,p))
+  self.assertEqual(batch_plan.CODEC_ARCHIVE_IO_PROFILES,(batch_plan.CODEC_MULTIGROUP_PROFILE,batch_plan.CODEC_LARGE_PROFILE,p,batch_plan.CODEC_PAYLOAD12_NARROW_PROFILE))
   self.assertIn('reversible-xz-v1-payload12',(HERE/'source'/'cold_auto_compaction.py').read_text())
 
  def test_policy_cap_explicit_and_legacy_stays_two_gib(self):

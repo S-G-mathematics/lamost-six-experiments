@@ -2,7 +2,7 @@ from pathlib import Path
 import sys,os,json,hashlib,datetime,time,sqlite3,subprocess,signal,fcntl,traceback,argparse,shutil
 ROOT=Path('/home/ubuntu/lamost_e1_migration_20261023');R=ROOT/'runtime_20261025';D=Path(__file__).resolve().parent.parent;H=R/'ADMISSION_HOLD.json'
 sys.path.insert(0,str(Path(__file__).resolve().parent));import controller as c
-from batch_plan import MAX_INITIAL_BYTES,MAX_INITIAL_GROUPS,MAX_LATER_BYTES,MAX_LATER_GROUPS,RAW_WIDE_MAX_BYTES,RAW_WIDE_MAX_GROUPS,RAW_WIDE_PROFILE,RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES,RAW_MIXED_SMALL_MAX_BYTES,RAW_MIXED_SMALL_MAX_GROUPS,RAW_MIXED_SMALL_PROFILE,RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES,RAW_ARCHIVE_IO_PROFILES,CODEC_MULTIGROUP_PROFILE,CODEC_MULTIGROUP_MAX_BYTES,CODEC_MULTIGROUP_MAX_GROUPS,CODEC_MULTIGROUP_TEMP_MAX_BYTES,CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,CODEC_MULTIGROUP_DISK_MARGIN_BYTES,CODEC_LARGE_PROFILE,CODEC_LARGE_MAX_BYTES,CODEC_LARGE_MAX_GROUPS,CODEC_LARGE_TEMP_MAX_BYTES,CODEC_LARGE_WALL_SECONDS,CODEC_PAYLOAD12_PROFILE,CODEC_PAYLOAD12_MAX_BYTES,CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES,CODEC_PAYLOAD12_MAX_GROUPS,CODEC_PAYLOAD12_TEMP_MAX_BYTES,CODEC_PAYLOAD12_WALL_SECONDS,CODEC_ARCHIVE_IO_PROFILES,completed_archive_tail_bytes,codec_multigroup_disk_required_bytes,resource_admission_ready
+from batch_plan import MAX_INITIAL_BYTES,MAX_INITIAL_GROUPS,MAX_LATER_BYTES,MAX_LATER_GROUPS,RAW_WIDE_MAX_BYTES,RAW_WIDE_MAX_GROUPS,RAW_WIDE_PROFILE,RAW_WIDE_TRANSIENT_DISK_RESERVE_BYTES,RAW_MIXED_SMALL_MAX_BYTES,RAW_MIXED_SMALL_MAX_GROUPS,RAW_MIXED_SMALL_PROFILE,RAW_MIXED_SMALL_TRANSIENT_DISK_RESERVE_BYTES,RAW_ARCHIVE_IO_PROFILES,CODEC_MULTIGROUP_PROFILE,CODEC_MULTIGROUP_MAX_BYTES,CODEC_MULTIGROUP_MAX_GROUPS,CODEC_MULTIGROUP_TEMP_MAX_BYTES,CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,CODEC_MULTIGROUP_DISK_MARGIN_BYTES,CODEC_LARGE_PROFILE,CODEC_LARGE_MAX_BYTES,CODEC_LARGE_MAX_GROUPS,CODEC_LARGE_TEMP_MAX_BYTES,CODEC_LARGE_WALL_SECONDS,CODEC_PAYLOAD12_PROFILE,CODEC_PAYLOAD12_MAX_BYTES,CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES,CODEC_PAYLOAD12_MAX_GROUPS,CODEC_PAYLOAD12_TEMP_MAX_BYTES,CODEC_PAYLOAD12_WALL_SECONDS,CODEC_PAYLOAD12_NARROW_PROFILE,CODEC_PAYLOAD12_NARROW_MAX_BYTES,CODEC_PAYLOAD12_NARROW_MAX_GROUPS,CODEC_PAYLOAD12_NARROW_TEMP_MAX_BYTES,CODEC_PAYLOAD12_NARROW_WALL_SECONDS,CODEC_ARCHIVE_IO_PROFILES,completed_archive_tail_bytes,codec_multigroup_disk_required_bytes,resource_admission_ready
 CHILD_WALL_SECONDS=180
 FOLLOWUP_CHILD_WALL_SECONDS=600
 ARCHIVE_IO_PROFILE='bounded-1800'
@@ -12,22 +12,22 @@ ARCHIVE_IO_WALL_SECONDS=1800
 CODEC_LARGE_WALL_SECONDS=5400
 CODEC_FOLLOWUP_MAX_BYTES=1<<30
 CODEC_FOLLOWUP_MAX_GROUPS=1
-SOURCE_PINS={'commit_batch_child.py': '03aa5a589ff52566942246c827299d77fa6e37e4013d24f3bba6bd200fe8be9c',
- 'controller.py': '7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b',
- 'batch_plan.py': '63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47',
+SOURCE_PINS={'commit_batch_child.py': 'f74f2a00b5bb488b60e51f40d5d64c05e393c52ca573e79e086b0ce932a55c3a',
+ 'controller.py': 'b6684a6031b47de96cce09d34db6ef01cc4a6b1f33ca68d026f7f38aef12c022',
+ 'batch_plan.py': '653ae3ff46e433ce102939e1a635f2a9374f8387b4e59abfc7681d5243dbe0f5',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
  'cold_model_storage.py': '4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25',
  'cold_codec_storage.py': '424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430',
  'reversible_joblib_codec.py': 'f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
- 'archive_fit_admission.py': 'e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed',
+ 'archive_fit_admission.py': '93ce1cc5948d451dfbc0a6b397561a62a76992a3ca2c9e5e3300a8758e14d3b9',
  'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
  'metadata_access_contract_v2.py': '3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8'}
 BATCH_POLICIES={"initial":{"max_bytes":MAX_INITIAL_BYTES,"max_groups":MAX_INITIAL_GROUPS,"wall_seconds":CHILD_WALL_SECONDS,"packing":"smallest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup":{"max_bytes":MAX_LATER_BYTES,"max_groups":MAX_LATER_GROUPS,"wall_seconds":FOLLOWUP_CHILD_WALL_SECONDS,"packing":"largest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup-codec":{"max_bytes":CODEC_FOLLOWUP_MAX_BYTES,"max_groups":CODEC_FOLLOWUP_MAX_GROUPS,"wall_seconds":FOLLOWUP_CHILD_WALL_SECONDS,"packing":"largest_first","storage_codec_policy":"reversible-xz-v1","transient_disk_reserve_bytes":0}}
 def resolve_batch_policy(batch_policy,storage_codec_policy,archive_io_profile=None):
  if batch_policy not in BATCH_POLICIES:raise ValueError('unknown batch policy')
  base=BATCH_POLICIES[batch_policy]
- if archive_io_profile==CODEC_PAYLOAD12_PROFILE:
+ if archive_io_profile in (CODEC_PAYLOAD12_PROFILE,CODEC_PAYLOAD12_NARROW_PROFILE):
   if batch_policy!='storage-followup-codec' or storage_codec_policy!='reversible-xz-v1-payload12':raise ValueError('payload12 profile requires matching codec policy')
   base=dict(base);base['storage_codec_policy']='reversible-xz-v1-payload12'
  elif storage_codec_policy!=base['storage_codec_policy']:
@@ -35,15 +35,16 @@ def resolve_batch_policy(batch_policy,storage_codec_policy,archive_io_profile=No
  if archive_io_profile is None:return base
  if archive_io_profile not in ARCHIVE_IO_PROFILES:raise ValueError('unknown archive I/O profile')
  if archive_io_profile in CODEC_ARCHIVE_IO_PROFILES:
-  payload12=archive_io_profile==CODEC_PAYLOAD12_PROFILE
+  payload12=archive_io_profile in (CODEC_PAYLOAD12_PROFILE,CODEC_PAYLOAD12_NARROW_PROFILE)
   expected_codec='reversible-xz-v1-payload12' if payload12 else 'reversible-xz-v1'
   if batch_policy!='storage-followup-codec' or storage_codec_policy!=expected_codec:
    raise ValueError('codec profile requires matching storage-followup-codec policy')
   large=archive_io_profile in (CODEC_LARGE_PROFILE,CODEC_PAYLOAD12_PROFILE)
-  result=dict(base);result.update({'max_bytes':CODEC_LARGE_MAX_BYTES if large else CODEC_MULTIGROUP_MAX_BYTES,'max_groups':CODEC_LARGE_MAX_GROUPS if large else CODEC_MULTIGROUP_MAX_GROUPS,
-   'wall_seconds':CODEC_LARGE_WALL_SECONDS if large else ARCHIVE_IO_WALL_SECONDS,'archive_io_profile':archive_io_profile,
-   'transient_disk_reserve_bytes':(CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES + (4 << 30)) if large else CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,
-   'codec_temp_budget_bytes':CODEC_LARGE_TEMP_MAX_BYTES if large else CODEC_MULTIGROUP_TEMP_MAX_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES,'max_payload_bytes':(CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES if payload12 else 2*(1<<30))})
+  narrow=archive_io_profile==CODEC_PAYLOAD12_NARROW_PROFILE
+  result=dict(base);result.update({'max_bytes':CODEC_PAYLOAD12_NARROW_MAX_BYTES if narrow else (CODEC_LARGE_MAX_BYTES if large else CODEC_MULTIGROUP_MAX_BYTES),'max_groups':CODEC_PAYLOAD12_NARROW_MAX_GROUPS if narrow else (CODEC_LARGE_MAX_GROUPS if large else CODEC_MULTIGROUP_MAX_GROUPS),
+   'wall_seconds':CODEC_PAYLOAD12_NARROW_WALL_SECONDS if narrow else (CODEC_LARGE_WALL_SECONDS if large else ARCHIVE_IO_WALL_SECONDS),'archive_io_profile':archive_io_profile,
+   'transient_disk_reserve_bytes':CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES if narrow or not large else (CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES + (4 << 30)),
+   'codec_temp_budget_bytes':CODEC_PAYLOAD12_NARROW_TEMP_MAX_BYTES if narrow else (CODEC_LARGE_TEMP_MAX_BYTES if large else CODEC_MULTIGROUP_TEMP_MAX_BYTES),'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES,'max_payload_bytes':(CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES if payload12 else 2*(1<<30))})
   return result
  if batch_policy!='storage-followup' or storage_codec_policy is not None:
   raise ValueError('bounded archive I/O profiles are only valid for raw storage-followup')

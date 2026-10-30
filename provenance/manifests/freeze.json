@@ -513,6 +513,8 @@
   ],
   "archive_native_codec12_fit_overlap_qualification_sha256": "ca73c06d58cbc290d0eea995e83fd9cb76cb3a5ddebd5f19eb79407105cbc141",
   "archive_native_codec12_fit_overlap_sha256": "64f4b950fa1099e45a26c004c3691db08d1e819d8360c84f6a394ee2c4b14ef4",
+  "archive_native_codec12_narrow_fit_overlap_qualification_sha256": "179490d6ec0ab9dcfd8772717cc45759bbeb73b4209538ff0db00d6af94a3e3e",
+  "archive_native_codec12_narrow_fit_overlap_sha256": "1a6033a8e215ceadfa74f0d840ff57804283064a1d6a55093a0f146e1b453130",
   "archive_native_codec4_fit_overlap_qualification_sha256": "7d8b059fc0b433e5758e863089a67eb7cdaac84310c6e8a3d51ddd73378ff0d0",
   "archive_native_codec4_fit_overlap_sha256": "ec1c227bb0273acc3ad317b986a77d6a34e85dcc4577f17ca6e798f6ef8f6f81",
   "archive_native_codec_fit_overlap_qualification_sha256": "6b080eee5cb51da0872ed256211acc1d5e90c41670bc22493e27951e2c4b2696",
@@ -955,6 +957,27 @@
       "qualification_sha256": "5087d088d0eb4f20ba26358d822565b37dce900029c2b5183f8de00a71d10b44",
       "scientific_plan_and_worker_limits_unchanged": true,
       "user_approved": true
+    },
+    {
+      "adopted_utc": "2026-10-30T14:10:28.558856+00:00",
+      "fixture_qualified_candidate_sha256": "ca3d2c439c53ce7dc4f1909b8ff8a33a92eb4c069b7d717226969de6fdc65645",
+      "focused_tests_passed": 25,
+      "id": "archive-only-codec12-narrow-1gib64-v1",
+      "production_transaction_claim": false,
+      "qualified_stage_freeze_sha256": "1c20ed17bdc55d4763e4c9c3f773cd0b727889af3d68085e4783bd27afff3b39",
+      "scope": "Archive-only; no fits or evaluations can overlap; scientificworkerlimitsandmodeldefinitionsunchanged",
+      "worker_reaper_binding_update": {
+        "additional_existing_reaper_tests_passed": 11,
+        "baseline_source_sha256": "e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed",
+        "candidate_source_sha256": "93ce1cc5948d451dfbc0a6b397561a62a76992a3ca2c9e5e3300a8758e14d3b9",
+        "compatibility_receipt_sha256": "20fd762d552396c532ad5601b756aefebd7f8e67764c8907aa3822f510efa9a0",
+        "unchanged_function_AST": [
+          "_hex",
+          "reap_recorded_zombies",
+          "reap_zombie_child",
+          "worker_reaper_enabled"
+        ]
+      }
     }
   ],
   "operational_controller_history": [
@@ -1099,7 +1122,7 @@
       "root_regression_checks": "77 passed, 3 subtests passed",
       "scientific_test_results_not_used_for_admission_choices": true,
       "scientific_workers_signaled": 0,
-      "scope": "Existing prospective admission profiles preserved. Defer another noncritical reclaim while a registry-running task has a recorded TERM age0\u201330seconds, including a fully exited tree awaiting next controller cleanup pass. This is cleanup-state reservation debt, not a process-liveness assertion. Actual target verification, watchdog liveness checks, grace/criticalfloor and hard limits are unchanged.",
+      "scope": "Existing prospective admission profiles preserved. Defer another noncritical reclaim while a registry-running task has a recorded TERM age0–30seconds, including a fully exited tree awaiting next controller cleanup pass. This is cleanup-state reservation debt, not a process-liveness assertion. Actual target verification, watchdog liveness checks, grace/criticalfloor and hard limits are unchanged.",
       "source_after_sha256": {
         "admission_evidence.py": "44bdeef607dac4937a25c33b711d0f42375d6094845c83718e61ad0df7235e5b",
         "controller.py": "44dc08e2f6af9bc6acb237b4b85827612e5c69055d197b5af960008d803b1514"
@@ -1436,7 +1459,7 @@
   "source_amendment_version": "nonfit-e4e5-eval-disk-drain-20261028-v2-loop-refresh",
   "source_sha256": {
     "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
-    "archive_fit_admission.py": "e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed",
+    "archive_fit_admission.py": "93ce1cc5948d451dfbc0a6b397561a62a76992a3ca2c9e5e3300a8758e14d3b9",
     "cohorts.py": "5d5988b365613966778abc7438926d9e1b26ec36b779df98586aa600a3d20a1d",
     "controller.py": "b6684a6031b47de96cce09d34db6ef01cc4a6b1f33ca68d026f7f38aef12c022",
     "e6_phase_supervisor.py": "5babe2da661c4162283ab945b17db4d88350bf863335744b5619285d69a37d05",
@@ -1487,5 +1510,5 @@
     "working_reserve_bytes": 6442450944
   },
   "test_information_history": "E1/E2 fixed test results already observed; later plans frozen before new test evaluations",
-  "worker_reaper_source_sha256": "e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed"
+  "worker_reaper_source_sha256": "93ce1cc5948d451dfbc0a6b397561a62a76992a3ca2c9e5e3300a8758e14d3b9"
 }

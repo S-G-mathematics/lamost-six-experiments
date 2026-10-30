@@ -44,13 +44,18 @@ CODEC_LARGE_TEMP_MAX_BYTES=8*GIB
 CODEC_LARGE_WALL_SECONDS=5400
 CODEC_LARGE_WRAPPER_WALL_SECONDS=5460
 CODEC_PAYLOAD12_PROFILE='bounded-5400-codec4gib64-payload12'
+CODEC_PAYLOAD12_NARROW_PROFILE='bounded-5400-codec1gib64-payload12'
 CODEC_PAYLOAD12_POLICY='reversible-xz-v1-payload12'
 CODEC_PAYLOAD12_MAX_BYTES=CODEC_LARGE_MAX_BYTES
+CODEC_PAYLOAD12_NARROW_MAX_BYTES=1*GIB
 CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES=12*GIB
 CODEC_PAYLOAD12_MAX_GROUPS=CODEC_LARGE_MAX_GROUPS
+CODEC_PAYLOAD12_NARROW_MAX_GROUPS=64
 CODEC_PAYLOAD12_TEMP_MAX_BYTES=CODEC_LARGE_TEMP_MAX_BYTES
+CODEC_PAYLOAD12_NARROW_TEMP_MAX_BYTES=CODEC_LARGE_TEMP_MAX_BYTES
 CODEC_PAYLOAD12_WALL_SECONDS=CODEC_LARGE_WALL_SECONDS
-CODEC_ARCHIVE_IO_PROFILES=(CODEC_MULTIGROUP_PROFILE,CODEC_LARGE_PROFILE,CODEC_PAYLOAD12_PROFILE)
+CODEC_PAYLOAD12_NARROW_WALL_SECONDS=CODEC_LARGE_WALL_SECONDS
+CODEC_ARCHIVE_IO_PROFILES=(CODEC_MULTIGROUP_PROFILE,CODEC_LARGE_PROFILE,CODEC_PAYLOAD12_PROFILE,CODEC_PAYLOAD12_NARROW_PROFILE)
 ARCHIVE_IO_PROFILES=(ARCHIVE_IO_PROFILE,RAW_WIDE_PROFILE,RAW_MIXED_SMALL_PROFILE,*CODEC_ARCHIVE_IO_PROFILES)
 RAW_WIDE_MAX_BYTES=8*GIB
 RAW_WIDE_MAX_GROUPS=64
@@ -66,16 +71,16 @@ WRAPPER_RSS_LIMIT=1536*1024**2
 WRAPPER_AS_LIMIT=1536*1024**2
 TERM_GRACE=30
 EXPECTED_INSTANCE='i-095641a281a4038b9'
-PINS={'controller.py': '7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b',
+PINS={'controller.py': 'b6684a6031b47de96cce09d34db6ef01cc4a6b1f33ca68d026f7f38aef12c022',
  'cold_model_storage.py': '4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25',
  'cold_codec_storage.py': '424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430',
  'reversible_joblib_codec.py': 'f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
- 'run_batch.py': '890033a39d9e883b7e7ad1c27037026bdfc96193ed24c739368b90c98e6b7e07',
- 'commit_batch_child.py': '03aa5a589ff52566942246c827299d77fa6e37e4013d24f3bba6bd200fe8be9c',
- 'batch_plan.py': '63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47',
+ 'run_batch.py': '622b28824e1dfd2bcd562f9762a00543b929b574e928b55a8dd4eed1d97d7698',
+ 'commit_batch_child.py': 'f74f2a00b5bb488b60e51f40d5d64c05e393c52ca573e79e086b0ce932a55c3a',
+ 'batch_plan.py': '653ae3ff46e433ce102939e1a635f2a9374f8387b4e59abfc7681d5243dbe0f5',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
- 'archive_fit_admission.py': 'e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed',
+ 'archive_fit_admission.py': '93ce1cc5948d451dfbc0a6b397561a62a76992a3ca2c9e5e3300a8758e14d3b9',
  'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
  'metadata_access_contract_v2.py': '3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8'}
 PRIVATE=R/'logs/private/cold_auto_compaction'
@@ -107,14 +112,61 @@ def parse_utc(value):
  if d.tzinfo is None:raise ValueError('timestamp lacks timezone')
  return d.timestamp()
 
-def should_trigger_storage(observation,free_bytes,now_epoch,*,max_age=OBSERVATION_MAX_AGE,headroom=STORAGE_TRIGGER_HEADROOM):
- if not isinstance(observation,dict):return False,'storage_observation_missing'
+def _working_reserve_observation_valid(doc,policy,runtime_root,approved_campaign,restore_budget):
+ if not isinstance(policy,dict) or policy.get('policy_id')!='working-reserve-6gib-one-fit-v1':return False
+ expected={'working_reserve_bytes':6*(1<<30),'maximum_restore_bytes':10*(1<<30),
+           'maximum_single_restore_asset_bytes':1<<30,'per_active_or_new_task_output_reserve_bytes':2<<30,
+           'maximum_concurrent_fit_tasks':1,
+           'full_archive_verification':'finalization_only','restore_index_schema':'lamost-terminal-result-retention-index/2'}
+ if any(policy.get(k)!=v for k,v in expected.items()):return False
  try:
-  age=float(now_epoch)-parse_utc(observation['observed_utc'])
-  minimum=int(observation['minimum_free_bytes'])
+  if (doc.get('policy_id')!=policy['policy_id'] or doc.get('working_reserve_bytes')!=policy['working_reserve_bytes']
+      or doc.get('full_archive_verification')!=policy['full_archive_verification']
+      or doc.get('active_running_task_count')!=0 or doc.get('restore_required') is not True
+      or doc.get('retention_index_matches_approved_campaign') is not True
+      or doc.get('no_unique_artifacts_deleted') is not True):return False
+  vals=['free_bytes','required_free_bytes','restore_bytes_reserved','largest_restore_asset_bytes_reserved',
+        'per_active_or_new_task_output_reserve_bytes']
+  if any(type(doc.get(k)) is not int or doc[k]<0 for k in vals):return False
+  if doc['restore_bytes_reserved']<=0 or doc['restore_bytes_reserved']>policy['maximum_restore_bytes']:return False
+  if doc['largest_restore_asset_bytes_reserved']<=0 or doc['largest_restore_asset_bytes_reserved']>policy['maximum_single_restore_asset_bytes']:return False
+  if doc['per_active_or_new_task_output_reserve_bytes']!=policy['per_active_or_new_task_output_reserve_bytes']:return False
+  expected_required=policy['working_reserve_bytes']+doc['restore_bytes_reserved']+doc['largest_restore_asset_bytes_reserved']+policy['per_active_or_new_task_output_reserve_bytes']
+  if doc['required_free_bytes']!=expected_required:return False
+  if type(doc.get('admission_allowed')) is not bool or doc['admission_allowed']!=(doc['free_bytes']>=expected_required):return False
+  rel=Path(policy['restore_index_rel'])
+  if rel.is_absolute() or '..' in rel.parts or policy.get('restore_index_schema')!='lamost-terminal-result-retention-index/2':return False
+  root=Path(runtime_root).resolve();index=(root/rel).resolve()
+  if root not in index.parents or Path(doc.get('retention_index_path','')).resolve()!=index:return False
+  if not isinstance(approved_campaign,dict) or approved_campaign.get('policy_id')!=policy['policy_id']:return False
+  expected={'index_sha256':approved_campaign.get('retention_index_sha256'),
+            'row_count':approved_campaign.get('retention_row_count'),
+            'restore_bytes':approved_campaign.get('retention_restore_bytes'),
+            'largest_asset_bytes':approved_campaign.get('largest_restore_asset_bytes'),
+            'restore_required':approved_campaign.get('retention_restore_required')}
+  if any(v is None for v in expected.values()) or expected['restore_required'] is not True:return False
+  if restore_budget!=expected:return False
+  if (doc.get('retention_index_sha256')!=expected['index_sha256']
+      or doc['restore_bytes_reserved']!=expected['restore_bytes']
+      or doc['largest_restore_asset_bytes_reserved']!=expected['largest_asset_bytes']):return False
+  return True
+ except Exception:return False
+
+def should_trigger_storage(observation,free_bytes,now_epoch,*,max_age=OBSERVATION_MAX_AGE,headroom=STORAGE_TRIGGER_HEADROOM,storage_policy=None,archive_io_profile=None,runtime_root=None,approved_campaign=None,restore_budget=None):
+ if not isinstance(observation,dict):return False,'storage_observation_missing'
+ try:age=float(now_epoch)-parse_utc(observation['observed_utc'])
  except Exception:return False,'storage_observation_invalid'
  if age<0:return False,'storage_observation_from_future'
  if age>max_age:return False,'storage_observation_stale'
+ if archive_io_profile==CODEC_PAYLOAD12_NARROW_PROFILE:
+  if (observation.get('policy_id')!='working-reserve-6gib-one-fit-v1'
+      or not _working_reserve_observation_valid(observation,storage_policy,runtime_root or ROOT,approved_campaign,restore_budget)):
+   return False,'storage_observation_invalid'
+  minimum=int(observation['required_free_bytes'])
+ else:
+  if 'policy_id' in observation:return False,'storage_observation_invalid'
+  try:minimum=int(observation['minimum_free_bytes'])
+  except Exception:return False,'storage_observation_invalid'
  gap=int(free_bytes)-minimum
  if gap<0:return True,'storage_below_controller_minimum'
  if gap<headroom:return True,'storage_headroom_below_trigger'
@@ -338,13 +390,15 @@ def archive_transaction_cooldown_reason(baseline,now_epoch,cooldown_seconds=ARCH
 def lock_available(path):
  return file_lock_probe(path)
 
-def storage_freshness(observation_path,free_bytes,now_epoch):
+def storage_freshness(observation_path,free_bytes,now_epoch,*,storage_policy=None,archive_io_profile=None,runtime_root=None,approved_campaign=None,restore_budget=None):
  try:doc=json.loads(Path(observation_path).read_text())
  except Exception:return False,False,'storage_observation_missing'
- age=float(now_epoch)-parse_utc(doc['observed_utc'])
+ try:age=float(now_epoch)-parse_utc(doc['observed_utc'])
+ except Exception:return False,False,'storage_observation_invalid'
  fresh=0<=age<=OBSERVATION_MAX_AGE
  if not fresh:return False,False,'storage_observation_stale_or_future'
- trig,reason=should_trigger_storage(doc,free_bytes,now_epoch)
+ trig,reason=should_trigger_storage(doc,free_bytes,now_epoch,storage_policy=storage_policy,
+                                   archive_io_profile=archive_io_profile,runtime_root=runtime_root,approved_campaign=approved_campaign,restore_budget=restore_budget)
  return True,trig,reason
 
 def failure_count_last_hour(private_dir,now_epoch):
@@ -403,7 +457,7 @@ def codec_policy_args(storage_codec_policy):
 def outer_wrapper_wall_seconds(archive_io_profile=None):
  if archive_io_profile is None:return MAX_WRAPPER_WALL
  if archive_io_profile not in ARCHIVE_IO_PROFILES:raise ValueError('unknown archive I/O profile')
- if archive_io_profile in (CODEC_LARGE_PROFILE,CODEC_PAYLOAD12_PROFILE):return CODEC_LARGE_WRAPPER_WALL_SECONDS
+ if archive_io_profile in (CODEC_LARGE_PROFILE,CODEC_PAYLOAD12_PROFILE,CODEC_PAYLOAD12_NARROW_PROFILE):return CODEC_LARGE_WRAPPER_WALL_SECONDS
  return ARCHIVE_IO_WRAPPER_WALL_SECONDS
 
 def archive_io_profile_args(profile):
@@ -414,13 +468,14 @@ def archive_io_profile_args(profile):
 def batch_config(storage_codec_policy,archive_io_profile=None):
  if storage_codec_policy not in (None,CODEC_POLICY,CODEC_PAYLOAD12_POLICY):raise ValueError('unknown storage codec policy')
  if archive_io_profile not in (None,*ARCHIVE_IO_PROFILES):raise ValueError('unknown archive I/O profile')
- if storage_codec_policy==CODEC_PAYLOAD12_POLICY and archive_io_profile!=CODEC_PAYLOAD12_PROFILE:raise ValueError('payload12 policy requires its dedicated archive profile')
+ if storage_codec_policy==CODEC_PAYLOAD12_POLICY and archive_io_profile not in (CODEC_PAYLOAD12_PROFILE,CODEC_PAYLOAD12_NARROW_PROFILE):raise ValueError('payload12 policy requires its dedicated archive profile')
  if archive_io_profile in CODEC_ARCHIVE_IO_PROFILES:
-  payload12=archive_io_profile==CODEC_PAYLOAD12_PROFILE
+  payload12=archive_io_profile in (CODEC_PAYLOAD12_PROFILE,CODEC_PAYLOAD12_NARROW_PROFILE)
   expected_policy=CODEC_PAYLOAD12_POLICY if payload12 else CODEC_POLICY
   if storage_codec_policy!=expected_policy:raise ValueError('codec profile/storage policy mismatch')
   large=archive_io_profile in (CODEC_LARGE_PROFILE,CODEC_PAYLOAD12_PROFILE)
-  return {'batch_policy':'storage-followup-codec','max_bytes':CODEC_LARGE_MAX_BYTES if large else CODEC_MULTIGROUP_MAX_BYTES,'max_groups':CODEC_LARGE_MAX_GROUPS if large else CODEC_MULTIGROUP_MAX_GROUPS,'wall_seconds':CODEC_LARGE_WALL_SECONDS if large else ARCHIVE_IO_WALL_SECONDS,'packing':'largest_first','storage_codec_policy':storage_codec_policy,'max_payload_bytes':(CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES if payload12 else 2*GIB),'transient_disk_reserve_bytes':CODEC_LARGE_TRANSIENT_DISK_RESERVE_BYTES if large else CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES,'codec_temp_budget_bytes':CODEC_LARGE_TEMP_MAX_BYTES if large else CODEC_MULTIGROUP_TEMP_MAX_BYTES,'archive_io_profile':archive_io_profile}
+  narrow=archive_io_profile==CODEC_PAYLOAD12_NARROW_PROFILE
+  return {'batch_policy':'storage-followup-codec','max_bytes':CODEC_PAYLOAD12_NARROW_MAX_BYTES if narrow else (CODEC_LARGE_MAX_BYTES if large else CODEC_MULTIGROUP_MAX_BYTES),'max_groups':CODEC_PAYLOAD12_NARROW_MAX_GROUPS if narrow else (CODEC_LARGE_MAX_GROUPS if large else CODEC_MULTIGROUP_MAX_GROUPS),'wall_seconds':CODEC_PAYLOAD12_NARROW_WALL_SECONDS if narrow else (CODEC_LARGE_WALL_SECONDS if large else ARCHIVE_IO_WALL_SECONDS),'packing':'largest_first','storage_codec_policy':storage_codec_policy,'max_payload_bytes':(CODEC_PAYLOAD12_MAX_PAYLOAD_BYTES if payload12 else 2*GIB),'transient_disk_reserve_bytes':CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES if narrow or not large else CODEC_LARGE_TRANSIENT_DISK_RESERVE_BYTES,'transient_disk_margin_bytes':CODEC_MULTIGROUP_DISK_MARGIN_BYTES,'codec_temp_budget_bytes':CODEC_PAYLOAD12_NARROW_TEMP_MAX_BYTES if narrow else (CODEC_LARGE_TEMP_MAX_BYTES if large else CODEC_MULTIGROUP_TEMP_MAX_BYTES),'archive_io_profile':archive_io_profile}
  if archive_io_profile and storage_codec_policy is not None:raise ValueError('bounded archive I/O profiles are raw-only')
  wide=archive_io_profile==RAW_WIDE_PROFILE
  mixed_small=archive_io_profile==RAW_MIXED_SMALL_PROFILE
@@ -434,7 +489,7 @@ def codec_multigroup_overlap_policy_allowed(c,freeze,profile=CODEC_MULTIGROUP_PR
  try:
   fn=getattr(getattr(c,'archive_fit_admission',None),'native_codec_overlap_policy_allowed',None)
   if not callable(fn):return False
-  policy=CODEC_PAYLOAD12_POLICY if profile==CODEC_PAYLOAD12_PROFILE else CODEC_POLICY
+  policy=CODEC_PAYLOAD12_POLICY if profile in (CODEC_PAYLOAD12_PROFILE,CODEC_PAYLOAD12_NARROW_PROFILE) else CODEC_POLICY
   return fn(R,freeze,archive_io_profile=profile,batch_policy='storage-followup-codec',storage_codec_policy=policy) is True
  except Exception:return False
 def wide_overlap_policy_allowed(profile, freeze):
@@ -485,7 +540,20 @@ def run_once(preflight_only=False,storage_codec_policy=None,archive_io_profile=N
   cooldown_reason=archive_transaction_cooldown_reason(baseline,now_epoch)
   if cooldown_reason:return early('backoff',cooldown_reason)
   free=shutil.disk_usage(R).free
-  fresh,trigger,storage_reason=storage_freshness(R/'storage_observation.json',free,current_storage_observation_epoch())
+  storage_policy=freeze.get('storage_admission_policy') if archive_io_profile==CODEC_PAYLOAD12_NARROW_PROFILE else None
+  storage_campaign=None;restore_budget=None
+  if archive_io_profile==CODEC_PAYLOAD12_NARROW_PROFILE:
+   storage_campaign=c._storage_expected_campaign(freeze)
+   if storage_campaign is None:return early('backoff','working_storage_campaign_policy_unavailable')
+   rel=Path(storage_campaign.get('retention_index_path',''))
+   if rel.is_absolute() or '..' in rel.parts:return early('backoff','working_storage_index_path_unsafe')
+   index_path=(ROOT/rel).resolve()
+   if ROOT.resolve() not in index_path.parents:return early('backoff','working_storage_index_path_unsafe')
+   restore_budget=c.retention_restore_budget(index_path)
+   if not c.retention_budget_matches_policy(restore_budget,storage_campaign):return early('backoff','working_storage_restore_budget_unverified')
+  fresh,trigger,storage_reason=storage_freshness(R/'storage_observation.json',free,current_storage_observation_epoch(),
+      storage_policy=storage_policy,archive_io_profile=archive_io_profile,runtime_root=ROOT,
+      approved_campaign=storage_campaign,restore_budget=restore_budget)
   if not fresh:return early('backoff',storage_reason)
   if not trigger and not preflight_only:return early('idle',storage_reason,free_bytes=free)
   archive_tail_bytes=baseline.get('archive_tail_backup_bytes',0) or 0
