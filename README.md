@@ -2,7 +2,7 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research snapshot - scientific results observed 2026-10-29T07:49:47.720386+00:00 UTC.** This saved research record does not claim all six experiments have passed final validation. Existing aggregate tables and figures remain bound to their documented analysis snapshot unless explicitly identified as incremental results.
+**Interim research checkpoint - 2026-10-30T09:27:46Z.** The project is not complete. See [LATEST_PROGRESS.md](LATEST_PROGRESS.md) for the current ledger and the [full work report](handoff/LAMOST_ALL_EXPERIMENTS_WORK_REPORT_20261030.md) and [supervisor prompt](handoff/LAMOST_SUPERVISOR_PROMPT_20261030.md). Older status sections and figures retain their stated cutoffs.
 
 
 ## Operational source update (2026-10-29T06:31:00Z)
@@ -13,7 +13,7 @@ The qualified ET4/archive source profile is installed. Its bounded portable qual
 
 The installed codec payload profile is recorded in [the public activation evidence](reports/engineering_audits/CODEC12_PUBLIC_ACTIVATION_20261030.json). The exact 827-test portable qualification and its source/test fixtures are included under code/ and provenance/qualification_codec12_827/. This is an operational storage/admission update plus an E6 figure-layout correction; it does not change the scientific plan or recorded metric values. The explicit descriptor ceiling is 12 GiB per payload, while untagged legacy payloads remain capped at 2 GiB. The qualification used fixtures and one exact 3.8 GB payload roundtrip; it did not run a production 12 GiB archive transaction or fit. The 5,400-second archive setting is a cap, not a measured completion time. The archived portable bundle retains historical staging-purpose wording; the activation record supersedes that wording for the installed state.
 
-## Latest coherent registry snapshot (2026-10-29T07:49:47.720386+00:00 UTC)
+## Earlier coherent registry snapshot (2026-10-29T07:49:47.720386+00:00 UTC)
 
 E4 records 1,616 successful, 71 failed, 3 unavailable and 83 waiting cases. E5 records 700 successful, 50 failed, 78 unavailable and 132 waiting cases. The read-only snapshot accounts for all 2,823 E3-E6 scientific cases; 2,392 validated metric rows have saved evaluation JSON inputs and none were missing. The [timestamped report and tables](reports/deadline_submission_20261029/snapshot_20261029T074947Z/DEADLINE_INTERIM_SCIENTIFIC_REPORT.md) and [current cell ledger](reports/CURRENT_CELL_LEDGER.csv) preserve these counts. The snapshot includes a status figure; the broader E1-E6 figures remain tied to their earlier stated cutoffs. Waiting counts are ledger states, not process-liveness claims.
 
