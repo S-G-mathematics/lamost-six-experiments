@@ -1,10 +1,16 @@
 # Latest project progress
 
-Observation: 2026-10-30T10:04:33.369017+00:00 UTC. This is an interim status snapshot from a read-only SQLite transaction; it does not mark the project complete.
+Observation: 2026-10-30T10:49:15Z UTC. Storage follows the 10:45-10:47 UTC cleanup; registry outcomes below remain from the latest coherent read-only snapshot at 2026-10-30T10:04:33.369017Z. This is interim and does not mark the project complete.
 
 ## Current machine-readable ledger
 
 The canonical current 2,823-row outcome/reason ledger is [reports/planned_case_ledger.csv](reports/planned_case_ledger.csv), mirrored by [PLANNED_CASE_OUTCOMES_2823.csv](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030/PLANNED_CASE_OUTCOMES_2823.csv), captured 2026-10-30T10:04:33.369017+00:00. It records 2,425 successes including 12 E6 reference aliases, 127 failures, 89 unavailable, 168 user-stopped and 14 pending rows. The prior 05:19Z pre-scope public ledger is preserved byte-for-byte at [history/planned_case_ledger_20261030T051951Z.csv](reports/history/planned_case_ledger_20261030T051951Z.csv).
+
+## Result coverage and current storage
+
+The [interim coverage and storage update](handoff/LAMOST_STORAGE_AND_RESULT_COVERAGE_UPDATE_20261030T1049Z.md) details the frozen E1/E2 caveats, all 2,823 E3-E6 case outcomes, result-array backing, and cleanup. The public success crosswalk includes 2,425 successful task rows; the result-payload catalog records 2,322 exact-member-verified test-outcome arrays and 165 added metadata records. E6 still has zero successful primary ensemble test evaluations.
+
+The bounded cleanup retired 2,132 already-published payload groups (5,601,906,688 allocated bytes). Available space was 19,191,664,640 bytes at 10:49:15 UTC, below the unchanged 21,474,836,480-byte standard storage floor by 2,283,171,840 bytes. The gate still blocks 13 fits and 14 evaluation cases. No alternative 6 GiB reserve is active; the 10 GiB fit ceiling and 600-second phase limit are unchanged.
 
 ## Current E3-E6 scientific ledger
 

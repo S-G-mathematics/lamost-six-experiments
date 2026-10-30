@@ -2,7 +2,7 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research checkpoint - 2026-10-30T10:04:33Z.** The project is not complete. See [LATEST_PROGRESS.md](LATEST_PROGRESS.md) for the current ledger and the [full work report](handoff/LAMOST_ALL_EXPERIMENTS_WORK_REPORT_20261030.md) and [supervisor prompt](handoff/LAMOST_SUPERVISOR_PROMPT_20261030.md). Older status sections and figures retain their stated cutoffs.
+**Interim research checkpoint - 2026-10-30T10:49:15Z.** The project is not complete. See [LATEST_PROGRESS.md](LATEST_PROGRESS.md) for the current ledger and the [full work report](handoff/LAMOST_ALL_EXPERIMENTS_WORK_REPORT_20261030.md) and [supervisor prompt](handoff/LAMOST_SUPERVISOR_PROMPT_20261030.md). Older status sections and figures retain their stated cutoffs.
 
 
 ## Operational source update (2026-10-29T06:31:00Z)
@@ -16,6 +16,10 @@ The installed codec payload profile is recorded in [the public activation eviden
 ## Earlier coherent registry snapshot (2026-10-29T07:49:47.720386+00:00 UTC)
 
 E4 records 1,616 successful, 71 failed, 3 unavailable and 83 waiting cases. E5 records 700 successful, 50 failed, 78 unavailable and 132 waiting cases. The read-only snapshot accounts for all 2,823 E3-E6 scientific cases; 2,392 validated metric rows have saved evaluation JSON inputs and none were missing. The [timestamped report and tables](reports/deadline_submission_20261029/snapshot_20261029T074947Z/DEADLINE_INTERIM_SCIENTIFIC_REPORT.md) and [current cell ledger](reports/CURRENT_CELL_LEDGER.csv) preserve these counts. The snapshot includes a status figure; the broader E1-E6 figures remain tied to their earlier stated cutoffs. Waiting counts are ledger states, not process-liveness claims.
+
+## Result coverage and storage checkpoint
+
+The current status ledger and 2,322-member verified result-array catalog are summarized in the [10:49 UTC interim coverage and storage update](handoff/LAMOST_STORAGE_AND_RESULT_COVERAGE_UPDATE_20261030T1049Z.md). At the 10:04 UTC registry snapshot, 14 selected E5 cases remained pending. After the 10:45-10:47 UTC LAMOST-only cleanup, available space was 19,191,664,640 bytes, still below the unchanged 20 GiB standard storage floor. No new resource profile is active.
 
 ## Current case ledger
 
