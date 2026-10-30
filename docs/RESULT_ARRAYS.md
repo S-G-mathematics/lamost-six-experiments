@@ -28,3 +28,15 @@ The array manifest binds to the initial audited code/report snapshot at commit 7
 ## Incremental outcomes staged after the base release
 
 An additional E4 delta is staged at github_delta_results_20261028/e4_three_validated_cells_20261028T084431Z/e4_three_validated_outcomes_delta.zip. It contains two unique arrays for three validated records (the E5 direct Extra Trees clean record aliases the E4 rep-3 control). ZIP CRC passed; the ZIP is 3144012 bytes with SHA-256 49d94bba6fc13f4d4f56b10332e0410701e5a3e3d247ec1db37df772388c54a5. The archive and uniquely named manifest, README and checksum sidecars are uploaded to the existing GitHub Release results-2026-10-28. Remote downloads were compared byte-for-byte with the staged files; the verification receipt is metadata/E4_DELTA_RELEASE_UPLOAD_VERIFICATION_20261028.json. Its task-level manifest is linked from the incremental E4/E5 results supplement.
+
+
+## Incremental current-payload catalog (2026-10-30)
+
+A separately verified results-only asset now backs 104 additional current E4/E5 test-outcome arrays:
+- Asset: `lamost-e4-e5-104-current-test-outcomes-20261030T062744Z.zip`
+- GitHub asset ID: `691184816`
+- Size: `163660895` bytes
+- SHA-256: `1a297bfa7c8b00a88e1417dd04e27a605357c0fc83d39b712ec44b0ba4a6b3a9`
+- Remote downloaded copy and all 104 member SHA/size/CRC checks passed.
+
+The sanitized payload inventory, complete 2,823-case ledger, and member proof summary are under `provenance/result_payload_catalog/20261030/`. This supplements the earlier release inventory and does not mean every planned case completed: the catalog snapshot records 14 E5 evaluations waiting, and E6 has no successful primary ensemble result. Historical E1 artifacts absent from EC2 remain absent. No fitted models or raw training data are in this asset.
