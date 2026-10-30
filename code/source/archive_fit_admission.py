@@ -461,6 +461,8 @@ def _codec12_policy(runtime, frozen):
         'archive_disk_reserve_bytes':15032385536,'archive_disk_growth_margin_bytes':2147483648,
         'max_payload_bytes':12*GIB}
     if doc.get('resources')!=expected_resources:raise ValueError('codec12_policy_resources')
+    if doc.get('admission_temp_budget_field')!='codec_temp_budget_bytes' or doc.get('legacy_temp_field_policy')!='encoded_temp_max_bytes_must_be_absent_or_equal':
+        raise ValueError('codec12_admission_temp_wire_schema')
     op={'owner_operation':OWNER_OPERATION,'batch_policy':CODEC_BATCH_POLICY,
         'archive_io_profile':CODEC12_IO_PROFILE,'storage_codec_policy':CODEC12_STORAGE_POLICY}
     if doc.get('archive_operation')!=op:raise ValueError('codec12_archive_operation')
@@ -816,7 +818,11 @@ def inspect_runtime(runtime, frozen, *, proc_root='/proc', uid=None):
         if not isinstance(tail,int) or tail<0:return {'mode':'blocked','reason':'codec_tail_receipt_invalid'}
         if admission.get('batch_max_bytes')!=r['batch_max_bytes'] or admission.get('batch_max_inode_groups')!=r['batch_max_inode_groups'] or admission.get('child_wall_limit_seconds')!=r['archive_wall_seconds'] or admission.get('transient_disk_reserve_bytes')!=r['archive_disk_reserve_bytes'] or admission.get('transient_disk_required_bytes')!=r['batch_max_bytes']+r['archive_disk_reserve_bytes']+r['archive_disk_growth_margin_bytes']+tail:
             return {'mode':'blocked','reason':'codec_admission_envelope_mismatch'}
-        if admission.get('encoded_temp_max_bytes')!=r['encoded_temp_max_bytes']:
+        actual_temp=admission.get('codec_temp_budget_bytes')
+        if type(actual_temp) is not int or actual_temp!=r['encoded_temp_max_bytes']:
+            return {'mode':'blocked','reason':'codec_temp_envelope_mismatch'}
+        legacy_temp=admission.get('encoded_temp_max_bytes')
+        if legacy_temp is not None and (type(legacy_temp) is not int or legacy_temp!=actual_temp):
             return {'mode':'blocked','reason':'codec_temp_envelope_mismatch'}
         if policy.get('profile')=='codec12' and admission.get('max_payload_bytes')!=r['max_payload_bytes']:
             return {'mode':'blocked','reason':'codec12_payload_cap_mismatch'}

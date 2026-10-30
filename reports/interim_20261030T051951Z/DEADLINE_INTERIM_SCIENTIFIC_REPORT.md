@@ -5,7 +5,7 @@
 ## Current status
 
 | Experiment | Planned | Successful/evaluated | Scientific failures | Unsupported | Unavailable | User-stopped | Not attempted | Operationally interrupted | Operationally invalid | Packaging pending | Waiting/active |
-|---|---:|---:|---:|---:|---:|
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | E1 frozen | 765 | 674 | 81 | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | E2 primary | 150 | 108 | 0 | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
 | E2 classical references | 120 | 120 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |

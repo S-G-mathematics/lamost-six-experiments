@@ -1,7 +1,7 @@
 {
   "codec4_profile_tests": {
-    "receipt_path": "reports/engineering_audits/CODEC4_PROFILE_FOCUSED_10_PAYLOAD12_SOURCESET_20261030.json",
-    "receipt_sha256": "87901431265174c209cf40b2f6e1a1f84221e7d4f1e248d4bc08f951384c306c",
+    "receipt_path": "reports/engineering_audits/CODEC4_PROFILE_FOCUSED_10_WIRE_CURRENT_20261030.json",
+    "receipt_sha256": "3dd4f729d2742424f345d896fc6c407b76301e8d2cf45ff85debb23e28d5e958",
     "required": true,
     "status": "passed",
     "test_file_sha256": {
@@ -19,7 +19,7 @@
   "native_admission_harness": {
     "archive_helper_fixture_only": true,
     "receipt_path": "reports/engineering_audits/CODEC12_NATIVE_ADMISSION_HARNESS_20261030.json",
-    "receipt_sha256": "c5f8250ab9900d410ff194e7ce38683b52f707b731251beb5eaf9a265eb6aa74",
+    "receipt_sha256": "41080e5b5067347a50028e78c3d4f7fe31836683964354e87538df4797bd15ff",
     "required": true,
     "status": "passed",
     "workers_checked": 0
@@ -32,7 +32,7 @@
   "observed_utc": "2026-10-30T02:12:24Z",
   "payload12_profile_tests": {
     "receipt_path": "reports/engineering_audits/CODEC12_PROFILE_FOCUSED_8_FINAL_20261030.json",
-    "receipt_sha256": "63e0546abe0dc3ccae60eb1239656b60a9c413017b7fa3b1ed5578b4ff622838",
+    "receipt_sha256": "65501f58cc1fb58eeef372da5665e6616dfc11b7f33a9ae6ccbf4782e1347319",
     "required": true,
     "status": "passed",
     "test_file_sha256": {
@@ -40,7 +40,7 @@
     }
   },
   "policy_path": "manifests/ARCHIVE_NATIVE_CODEC12_FIT_OVERLAP_20261030.json",
-  "policy_sha256": "04a7d8e665ab46746a29d5096d1a5538255aa5a1856c504bef30a523864bf546",
+  "policy_sha256": "64f4b950fa1099e45a26c004c3691db08d1e819d8360c84f6a394ee2c4b14ef4",
   "portable_regression": {
     "required": true,
     "status": "passed",
@@ -65,16 +65,30 @@
   "scientific_cells_changed": false,
   "source_sha256": {
     "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
-    "archive_fit_admission.py": "79b3d87e26c0290d2ab18593e48f0be31dfe79ae177a63298162df2c88270e11",
+    "archive_fit_admission.py": "e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed",
     "batch_plan.py": "63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47",
-    "cold_auto_compaction.py": "c7ba57b79c3f3a6bb7212895787d06ee2aa18ca7356eb0d6e9db3c72e9005c05",
+    "cold_auto_compaction.py": "8b0edb2416ba2a9096ef256b3fed2c1b6b1c2dccad5aefb1d85b55f1f7fb5916",
     "cold_codec_storage.py": "424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430",
     "cold_model_storage.py": "4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25",
     "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
-    "commit_batch_child.py": "b4fa91a978384d254460915540f3592da6fdea69c3580998be6f1b779da1d8e3",
+    "commit_batch_child.py": "03aa5a589ff52566942246c827299d77fa6e37e4013d24f3bba6bd200fe8be9c",
     "controller.py": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
     "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
-    "run_batch.py": "82b46060d42d4da0f9234982ee0ed5ba16a02826e443213b058e8d500979660b"
+    "run_batch.py": "890033a39d9e883b7e7ad1c27037026bdfc96193ed24c739368b90c98e6b7e07"
   },
-  "status": "passed"
+  "status": "passed",
+  "wire_schema_contract": {
+    "expected_codec12_value_bytes": 8589934592,
+    "focused_receipt_path": "reports/engineering_audits/CODEC12_NATIVE_ADMISSION_HARNESS_20261030.json",
+    "focused_receipt_sha256": "41080e5b5067347a50028e78c3d4f7fe31836683964354e87538df4797bd15ff",
+    "legacy_alias_rule": "absent_or_equal",
+    "legacy_receipt_alias": "encoded_temp_max_bytes",
+    "policy_resource_field": "encoded_temp_max_bytes",
+    "producer_field": "codec_temp_budget_bytes",
+    "tests": [
+      "test_actual_run_batch_temp_wire_key_is_accepted",
+      "test_missing_or_underreported_canonical_temp_cap_fails_closed",
+      "test_conflicting_legacy_temp_field_fails_closed"
+    ]
+  }
 }

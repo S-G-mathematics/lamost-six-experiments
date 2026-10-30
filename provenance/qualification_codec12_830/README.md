@@ -1,0 +1,9 @@
+# Codec 12 activation and qualification (830)
+
+Observed and installed at 2026-10-30T05:30:11.586605+00:00 UTC. This is a bounded archive I/O and fit-admission operational update; it does not alter the scientific task plan, model methods, calibration rules, or 600-second/10-GiB per-fit scientific limits. Portable qualification passed for fingerprint 3dd5d7bd5c93c45dc149bc1a366838fe0cc2a418976dca98486ce7099be8e268 with 830 planned tests. The installed receipt confirms an actual controller restart and states that the full scientific audit is not complete.
+
+The portable bundle SHA-256 is 405d47bd2adb0a7949204b8b1f4e4b4c577118f5e30d0cf30768dcf81dcc390b. It records 202 source entries, 108 test entries, 26 resource-review proof pairs, and 354 unique installed paths. GIT_SOURCE_CLOSURE.json binds the current source/test/proof members and installed receipt to exact bytes and SHA-256 hashes. The current bundle is code/tests/PORTABLE_TEST_BUNDLE.json. Qualification receipts are CODEC12_PROFILE_INSTALLED.json and PORTABLE_TEST_PASS.json.
+
+The current project progress file was updated from the reviewed public report. Its phrase "31 accuracy differences" was clarified to "31 balanced-accuracy differences," matching the E2 source report. The interim scientific report remains bound to its earlier 05:19:51Z data snapshot. The interim report's status-table divider was fixed for its 12 columns without changing values.
+
+The portable bundle retains a metadata reference to an earlier collection report whose source file is no longer present; that absent file was not reconstructed. It is separate from the 354-byte-bound installed source/test/proof closure. No fitted model artifacts, raw training data, private process records, or credentials are included. The interim results remain incomplete: the original three-repetition grid, global native calibration replay, full artifact validation, and final archive verification remain pending.

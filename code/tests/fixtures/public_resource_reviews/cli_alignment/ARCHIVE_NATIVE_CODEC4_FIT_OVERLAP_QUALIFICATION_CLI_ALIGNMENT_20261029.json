@@ -1,7 +1,7 @@
 {
   "codec4_profile_tests": {
-    "receipt_path": "reports/engineering_audits/CODEC4_PROFILE_FOCUSED_10_FRESHNESS_CLOCK_20261030.json",
-    "receipt_sha256": "88619439b4bb41902c988d041979298ff8a28e82610911bac3e92c812d83965b",
+    "receipt_path": "reports/engineering_audits/CODEC4_PROFILE_FOCUSED_10_WIRE_CURRENT_20261030.json",
+    "receipt_sha256": "3dd4f729d2742424f345d896fc6c407b76301e8d2cf45ff85debb23e28d5e958",
     "status": "passed",
     "test_file_sha256": {
       "tests/test_codec4gib_archive_profile.py": "57e4a19c2eaec3f173a52af32480a2fab31ccbaf4f30430fcdb5aa7dfe31416b",
@@ -9,19 +9,19 @@
     }
   },
   "focused_codec_tests": {
-    "receipt_path": "reports/engineering_audits/CODEC_FOCUSED_25_FRESHNESS_CLOCK_20261030.json",
-    "receipt_sha256": "b09986f8e02516f8efde730d6208a0dad9b6c9f19ca3ef57dba48b4689767b09",
+    "receipt_path": "reports/engineering_audits/CODEC1_FOCUSED_25_WIRE_CURRENT_20261030.json",
+    "receipt_sha256": "a78832f4b991badb2804bf056376f408a1da125e514550995a3aca63e95660a6",
     "status": "passed",
     "test_file_sha256": {
       "tests/test_driver_cli_alignment.py": "25ec4e3306ea3454add7344f28fd92d7a9cc2db4a6ad52b5f4d99f48d56fd221",
-      "tests/test_native_codec_overlap.py": "48d8a71744fb8363fd56f0c5236bbe39e9bb8312898a8d67108d5d482f2dc352",
+      "tests/test_native_codec_overlap.py": "cfa5ae3e5cb1f4e8a2531b45379a797ec5c75a88caa05ddc75ba3c3004a2bd50",
       "tests/test_native_fit_scope.py": "3c07e5979ced654ad967ff00c1194b6f5186f85da3fad72930ec218a16659055",
       "tests/test_verified_zombie_reap.py": "6a5553ce5f0280f7c7a893ecb34a1be654a0aab43c0efd6a540d59ec823843ae"
     }
   },
   "native_admission_harness": {
-    "receipt_path": "reports/engineering_audits/CODEC_ADMISSION_HARNESS3_CODEC4_FRESHNESS_CLOCK_20261030.json",
-    "receipt_sha256": "8927064a7b14d7645225cd69b3e5dea2e73faf93de0271130b0a5809ab90577f",
+    "receipt_path": "reports/engineering_audits/CODEC4_ADMISSION_HARNESS_WIRE_CURRENT_20261030.json",
+    "receipt_sha256": "ccfaae16f0d97ea9c9d5b72f54b55a073e5cb59690fd388c52b5b173e954e1f7",
     "status": "passed"
   },
   "native_input_manifests": {
@@ -34,21 +34,21 @@
     "current_workers": "validated_existing_worker_identities",
     "new_workers": "native_fit_proof_pristine_task_and_dependencies"
   },
-  "policy_sha256": "230bf8292771e5239d21fab6f7606330b742ede3232d30eb87176fd7afaa1b74",
+  "policy_sha256": "ec1c227bb0273acc3ad317b986a77d6a34e85dcc4577f17ca6e798f6ef8f6f81",
   "qualification_note": "Check-time freshness amendment is source-bound. The 25-case codec test set, codec4 profile/CLI tests, and fixture-only codec4 controller admission harness passed; profile stale/future age checks and scientific limits are unchanged.",
   "schema": "lamost-archive-native-codec-fit-overlap-qualification/1",
   "source_sha256": {
     "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
-    "archive_fit_admission.py": "59ad100cd5d6505a91e167f8b904528225d4beb6ee413bf1f750a345e4200dba",
-    "batch_plan.py": "2389a9468a73f5af6cacfe585346afd14cf9a2a340b16c59439c2a77304c9372",
-    "cold_auto_compaction.py": "5c438eff88940906ba229ce5c714046a32ece6b96c1a2feafe7aa57e282ddbf3",
-    "cold_codec_storage.py": "b0452742d8770a276361c5f18ebf1869d98a48e2269f44b3a7259f970759d53b",
-    "cold_model_storage.py": "be06705a14efd458e7aeaa9ad0e5fc60ba95bbeb325a60e255a65602f2f7b172",
+    "archive_fit_admission.py": "e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed",
+    "batch_plan.py": "63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47",
+    "cold_auto_compaction.py": "8b0edb2416ba2a9096ef256b3fed2c1b6b1c2dccad5aefb1d85b55f1f7fb5916",
+    "cold_codec_storage.py": "424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430",
+    "cold_model_storage.py": "4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25",
     "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
-    "commit_batch_child.py": "3564c97a73ba9f70c816a5d3c2524254dee7bd82054bd6f6f922a12369603f94",
+    "commit_batch_child.py": "03aa5a589ff52566942246c827299d77fa6e37e4013d24f3bba6bd200fe8be9c",
     "controller.py": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
     "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
-    "run_batch.py": "39cc2fe79aadce01a713b01ff37783b684562be0a3c0fe1bddacd857e1d5085d"
+    "run_batch.py": "890033a39d9e883b7e7ad1c27037026bdfc96193ed24c739368b90c98e6b7e07"
   },
   "status": "passed"
 }

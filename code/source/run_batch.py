@@ -12,7 +12,7 @@ ARCHIVE_IO_WALL_SECONDS=1800
 CODEC_LARGE_WALL_SECONDS=5400
 CODEC_FOLLOWUP_MAX_BYTES=1<<30
 CODEC_FOLLOWUP_MAX_GROUPS=1
-SOURCE_PINS={'commit_batch_child.py': 'b4fa91a978384d254460915540f3592da6fdea69c3580998be6f1b779da1d8e3',
+SOURCE_PINS={'commit_batch_child.py': '03aa5a589ff52566942246c827299d77fa6e37e4013d24f3bba6bd200fe8be9c',
  'controller.py': '7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b',
  'batch_plan.py': '63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
@@ -20,7 +20,7 @@ SOURCE_PINS={'commit_batch_child.py': 'b4fa91a978384d254460915540f3592da6fdea69c
  'cold_codec_storage.py': '424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430',
  'reversible_joblib_codec.py': 'f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
- 'archive_fit_admission.py': '79b3d87e26c0290d2ab18593e48f0be31dfe79ae177a63298162df2c88270e11',
+ 'archive_fit_admission.py': 'e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed',
  'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
  'metadata_access_contract_v2.py': '3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8'}
 BATCH_POLICIES={"initial":{"max_bytes":MAX_INITIAL_BYTES,"max_groups":MAX_INITIAL_GROUPS,"wall_seconds":CHILD_WALL_SECONDS,"packing":"smallest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup":{"max_bytes":MAX_LATER_BYTES,"max_groups":MAX_LATER_GROUPS,"wall_seconds":FOLLOWUP_CHILD_WALL_SECONDS,"packing":"largest_first","storage_codec_policy":None,"transient_disk_reserve_bytes":0},"storage-followup-codec":{"max_bytes":CODEC_FOLLOWUP_MAX_BYTES,"max_groups":CODEC_FOLLOWUP_MAX_GROUPS,"wall_seconds":FOLLOWUP_CHILD_WALL_SECONDS,"packing":"largest_first","storage_codec_policy":"reversible-xz-v1","transient_disk_reserve_bytes":0}}

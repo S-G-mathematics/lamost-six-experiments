@@ -1,10 +1,12 @@
 {
+  "admission_temp_budget_field": "codec_temp_budget_bytes",
   "archive_operation": {
     "archive_io_profile": "bounded-5400-codec4gib64-payload12",
     "batch_policy": "storage-followup-codec",
     "owner_operation": "rf_cold_batch_wrapper_20261026",
     "storage_codec_policy": "reversible-xz-v1-payload12"
   },
+  "legacy_temp_field_policy": "encoded_temp_max_bytes_must_be_absent_or_equal",
   "native_input_manifests": {
     "cache/cache_manifest.json": "bbcc195e0564066d541fbd483896935d7471e8893e6db34ca6184dfe90ee9720",
     "manifests/E4_MANIFEST.json": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423",
@@ -17,7 +19,8 @@
     "Existing codec4 profile batch, disk, time, thread, memory, and archive resource limits are unchanged.",
     "Qualification uses a fixture-only native-admission harness and a separate byte-exact real-artifact codec probe; no live payload12 archive operation or fit was run.",
     "The helper harness observed zero live workers and did not enumerate live process file descriptors.",
-    "The 12 GiB payload cap and 5,400-second wrapper policy are configured limits, not production throughput or maximum-size benchmark claims."
+    "The 12 GiB payload cap and 5,400-second wrapper policy are configured limits, not production throughput or maximum-size benchmark claims.",
+    "The helper private-admission receipt uses codec_temp_budget_bytes, which must equal the policy encoded_temp_max_bytes. If the legacy encoded_temp_max_bytes key is also present in a receipt, its value must match."
   ],
   "overlap_classes": {
     "current_workers": "validated_existing_worker_identities",
@@ -79,16 +82,16 @@
   },
   "source_sha256": {
     "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
-    "archive_fit_admission.py": "79b3d87e26c0290d2ab18593e48f0be31dfe79ae177a63298162df2c88270e11",
+    "archive_fit_admission.py": "e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed",
     "batch_plan.py": "63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47",
-    "cold_auto_compaction.py": "c7ba57b79c3f3a6bb7212895787d06ee2aa18ca7356eb0d6e9db3c72e9005c05",
+    "cold_auto_compaction.py": "8b0edb2416ba2a9096ef256b3fed2c1b6b1c2dccad5aefb1d85b55f1f7fb5916",
     "cold_codec_storage.py": "424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430",
     "cold_model_storage.py": "4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25",
     "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
-    "commit_batch_child.py": "b4fa91a978384d254460915540f3592da6fdea69c3580998be6f1b779da1d8e3",
+    "commit_batch_child.py": "03aa5a589ff52566942246c827299d77fa6e37e4013d24f3bba6bd200fe8be9c",
     "controller.py": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
     "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
-    "run_batch.py": "82b46060d42d4da0f9234982ee0ed5ba16a02826e443213b058e8d500979660b"
+    "run_batch.py": "890033a39d9e883b7e7ad1c27037026bdfc96193ed24c739368b90c98e6b7e07"
   },
   "status": "qualified",
   "storage_codec_policy": "reversible-xz-v1-payload12"

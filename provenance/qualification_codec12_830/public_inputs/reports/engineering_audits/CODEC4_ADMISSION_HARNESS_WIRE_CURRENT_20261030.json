@@ -1,0 +1,54 @@
+{
+  "archive_alias_ownership_closure": "passed",
+  "archive_helper_fixture_only": true,
+  "archive_operation": {
+    "archive_io_profile": "bounded-5400-codec4gib64",
+    "batch_policy": "storage-followup-codec",
+    "owner_operation": "rf_cold_batch_wrapper_20261026",
+    "storage_codec_policy": "reversible-xz-v1"
+  },
+  "archive_transactions_started": 0,
+  "controller_admission_gate": "passed",
+  "existing_worker_identity_validation": "passed",
+  "fit_attempts_started": 0,
+  "helper_identity_and_resource_gates": "passed",
+  "no_candidate_archive_model_fd_race": true,
+  "overlap_classes": {
+    "current_workers": "validated_existing_worker_identities",
+    "new_workers": "native_fit_proof_pristine_task_and_dependencies"
+  },
+  "schema": "lamost-archive-native-codec-overlap-admission-harness/1",
+  "source_sha256": {
+    "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+    "archive_fit_admission.py": "e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed",
+    "batch_plan.py": "63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47",
+    "cold_auto_compaction.py": "8b0edb2416ba2a9096ef256b3fed2c1b6b1c2dccad5aefb1d85b55f1f7fb5916",
+    "cold_codec_storage.py": "424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430",
+    "cold_model_storage.py": "4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25",
+    "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
+    "commit_batch_child.py": "03aa5a589ff52566942246c827299d77fa6e37e4013d24f3bba6bd200fe8be9c",
+    "controller.py": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+    "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
+    "run_batch.py": "890033a39d9e883b7e7ad1c27037026bdfc96193ed24c739368b90c98e6b7e07"
+  },
+  "status": "passed",
+  "test_run": {
+    "failed_test_count": 0,
+    "guarded_run": {
+      "exit_code": 0,
+      "finished_utc": "2026-10-30T04:42:31.408780+00:00",
+      "peak_process_tree_rss_bytes": 46579712,
+      "reason": null,
+      "rss_cap_bytes": 536870912,
+      "wall_seconds": 0.457
+    },
+    "passed_test_count": 3,
+    "profile_environment": "codec4",
+    "skipped_test_count": 1,
+    "test_file_sha256": {
+      "tests/test_codec_overlap_controller_harness.py": "95411194b617c1f378563d5bc1031f01a840a786ccd75de1e6bffe423c9b0e88"
+    }
+  },
+  "unverified_workers": 0,
+  "workers_checked": 0
+}

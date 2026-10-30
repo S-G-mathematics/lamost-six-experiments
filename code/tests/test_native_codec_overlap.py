@@ -61,6 +61,8 @@ def fixture12(root):
  doc={'schema':'lamost-archive-native-codec-payload12-fit-overlap-policy/1',
    'status':'qualified','policy_id':h.CODEC12_POLICY_ID,'scope':scope,'resources':resources,
    'archive_operation':op,'overlap_classes':overlap,'source_sha256':sh,
+   'admission_temp_budget_field':'codec_temp_budget_bytes',
+   'legacy_temp_field_policy':'encoded_temp_max_bytes_must_be_absent_or_equal',
    'native_input_manifests':ni,'qualification_path':qpath}
  pp=root/h.CODEC12_POLICY_REL
  ps=put(pp,json.dumps(doc,sort_keys=True,separators=(',',':')).encode())
@@ -130,7 +132,7 @@ def active(root,frozen,doc):
  rec,d,w,c=procset(root,opid,nonce,doc)
  put(pd/'private_process_inventory.json',json.dumps({'operation_id':opid,'archive_io_profile':doc['archive_operation']['archive_io_profile'],'driver_identity':{'pid':d['pid'],'process_start_ticks':d['start_ticks'],'source_sha256':doc['source_sha256']['cold_auto_compaction.py']},'wrapper_identity':{'pid':w['pid'],'process_start_ticks':w['start_ticks'],'pgid':w['pgid'],'argv':w['argv']}}).encode())
  put(od/'private_child_identity.json',json.dumps({'pid':c['pid'],'process_start_ticks':c['start_ticks'],'pgid':c['pgid'],'script':str(root/'source/commit_batch_child.py'),'address_space_limit_bytes':939524096}).encode())
- op=doc['archive_operation'];res=doc['resources'];tail=77;required=res['batch_max_bytes']+res['archive_disk_reserve_bytes']+res['archive_disk_growth_margin_bytes']+tail;admission={'batch_policy':op['batch_policy'],'archive_io_profile':op['archive_io_profile'],'storage_codec_policy':op['storage_codec_policy'],'helper_reservation_bytes':int(1.5*G),'policy_host_reserve_bytes':6*G,'policy_growth_margin_bytes':2*G,'batch_max_bytes':res['batch_max_bytes'],'batch_max_inode_groups':res['batch_max_inode_groups'],'encoded_temp_max_bytes':res['encoded_temp_max_bytes'],'child_wall_limit_seconds':res['archive_wall_seconds'],'transient_disk_reserve_bytes':res['archive_disk_reserve_bytes'],'archive_tail_backup_bytes':tail,'transient_disk_required_bytes':required};
+ op=doc['archive_operation'];res=doc['resources'];tail=77;required=res['batch_max_bytes']+res['archive_disk_reserve_bytes']+res['archive_disk_growth_margin_bytes']+tail;admission={'batch_policy':op['batch_policy'],'archive_io_profile':op['archive_io_profile'],'storage_codec_policy':op['storage_codec_policy'],'helper_reservation_bytes':int(1.5*G),'policy_host_reserve_bytes':6*G,'policy_growth_margin_bytes':2*G,'batch_max_bytes':res['batch_max_bytes'],'batch_max_inode_groups':res['batch_max_inode_groups'],'codec_temp_budget_bytes':res['encoded_temp_max_bytes'],'child_wall_limit_seconds':res['archive_wall_seconds'],'transient_disk_reserve_bytes':res['archive_disk_reserve_bytes'],'archive_tail_backup_bytes':tail,'transient_disk_required_bytes':required};
  if op['storage_codec_policy']==h.CODEC12_STORAGE_POLICY:admission['max_payload_bytes']=res['max_payload_bytes']
  put(od/'private_admission.json',json.dumps(admission).encode())
  return rec
@@ -231,6 +233,57 @@ class CodecPolicyTests(unittest.TestCase):
     r,f,doc,receipt=fixture12(td);ap=r/'reports/engineering_audits/native_admission12.json';ad=json.loads(ap.read_text());ad[field]=bad_value;asha=put(ap,json.dumps(ad,sort_keys=True,separators=(',',':')).encode())
     qp=r/doc['qualification_path'];q=json.loads(qp.read_text());q['native_admission_harness']['receipt_sha256']=asha;f[h.CODEC12_QUALIFICATION_FIELD]=put(qp,json.dumps(q,sort_keys=True,separators=(',',':')).encode())
     self.assertFalse(h.native_codec_overlap_policy_allowed(r,f,archive_io_profile=h.CODEC12_IO_PROFILE,batch_policy=h.CODEC_BATCH_POLICY,storage_codec_policy=h.CODEC12_STORAGE_POLICY))
+ def test_actual_run_batch_temp_wire_key_is_accepted(self):
+  source=(HERE/'source/run_batch.py').read_text()
+  self.assertIn("'codec_temp_budget_bytes':policy.get('codec_temp_budget_bytes')",source)
+  self.assertNotIn("'encoded_temp_max_bytes':policy.get('encoded_temp_max_bytes')",source)
+  # The same producer key carries each selected profile's existing, exact temp cap.
+  for label,build,expected in [('codec1',fixture,4*G),('codec4',fixture,8*G),('payload12',fixture12,8*G)]:
+   with self.subTest(profile=label),tempfile.TemporaryDirectory() as td:
+    values=build(td)
+    if label=='payload12':
+     r,f,doc,receipt=values
+    else:
+     r,f,doc=values
+    if label=='codec4':
+     doc['archive_operation']['archive_io_profile']=h.CODEC4_IO_PROFILE
+     doc['resources'].update({'batch_max_bytes':4*G,'encoded_temp_max_bytes':8*G,
+       'archive_disk_reserve_bytes':14*G,'archive_disk_growth_margin_bytes':2*G,
+       'archive_wall_seconds':5400,'archive_wrapper_wall_seconds':5460})
+    rec=active(r,f,doc)
+    admission=json.loads((r/'runs/auto_storage_20261029T010000Z_12345678/private_admission.json').read_text())
+    self.assertEqual(admission['codec_temp_budget_bytes'],expected)
+    self.assertNotIn('encoded_temp_max_bytes',admission)
+    proc=write_proc_fixture(r/'proc_fixture',rec)
+    if label=='codec4':
+     policy={'document':doc,'profile':'codec4','policy_sha256':'a'*64,
+       'qualification_sha256':'b'*64,'source_sha256':doc['source_sha256'],
+       'native_input_manifests':doc['native_input_manifests']}
+     with mock.patch.object(h,'_codec4_policy',return_value=policy):
+      state=h.inspect_runtime(r,f,proc_root=proc,uid=1000)
+    else:
+     state=h.inspect_runtime(r,f,proc_root=proc,uid=1000)
+    self.assertEqual((state['mode'],state['reason']),('active','verified_codec_archive_helper'))
+
+ def test_missing_or_underreported_canonical_temp_cap_fails_closed(self):
+  for field,value in [('codec_temp_budget_bytes',8*G-1),('encoded_temp_max_bytes',8*G)]:
+   with self.subTest(field=field),tempfile.TemporaryDirectory() as td:
+    r,f,doc,receipt=fixture12(td);rec=active(r,f,doc)
+    p=r/'runs/auto_storage_20261029T010000Z_12345678/private_admission.json'
+    ad=json.loads(p.read_text());ad.pop('codec_temp_budget_bytes',None);ad[field]=value;p.write_text(json.dumps(ad))
+    proc=write_proc_fixture(r/'proc_fixture',rec)
+    state=h.inspect_runtime(r,f,proc_root=proc,uid=1000)
+    self.assertEqual((state['mode'],state['reason']),('blocked','codec_temp_envelope_mismatch'))
+
+ def test_conflicting_legacy_temp_field_fails_closed(self):
+  with tempfile.TemporaryDirectory() as td:
+   r,f,doc,receipt=fixture12(td);rec=active(r,f,doc)
+   p=r/'runs/auto_storage_20261029T010000Z_12345678/private_admission.json'
+   ad=json.loads(p.read_text());ad['encoded_temp_max_bytes']=4*G;p.write_text(json.dumps(ad))
+   proc=write_proc_fixture(r/'proc_fixture',rec)
+   state=h.inspect_runtime(r,f,proc_root=proc,uid=1000)
+   self.assertEqual((state['mode'],state['reason']),('blocked','codec_temp_envelope_mismatch'))
+
 class NativeFitCodecQualificationTests(unittest.TestCase):
  def test_pristine_native_fit_gets_codec_profile_binding_and_old_attempt_is_rejected(self):
   with tempfile.TemporaryDirectory() as td:

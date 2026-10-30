@@ -8,6 +8,7 @@ else
   export PYTHONPATH="$R/source:$R/tests${PYTHONPATH:+:$PYTHONPATH}"
 fi
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1
+export LAMOST_TEST_CODEC_PROFILE=codec12
 pytest_args=(-q --rootdir="$R/tests" --disable-warnings --tb=short -p no:cacheprovider)
 if [[ "${LAMOST_TEST_COLLECT_ONLY:-0}" == "1" ]]; then
   pytest_args+=(--collect-only)

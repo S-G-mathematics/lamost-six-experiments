@@ -10,7 +10,7 @@ PINS={'cold_model_storage.py': '4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',
  'controller.py': '7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b',
  'batch_plan.py': '63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47',
- 'archive_fit_admission.py': '79b3d87e26c0290d2ab18593e48f0be31dfe79ae177a63298162df2c88270e11',
+ 'archive_fit_admission.py': 'e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed',
  'metadata_only_contract.py': '1d4e9f78bf3b0062effb3bc218fb5135aae0dba2375b2602773d21bf49d333a1',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
  'metadata_access_contract_v2.py': '3cf04ce36ba65b70b5ee68bf82aecf18ae405948c3cc36b5a7c678439b6d5bf8'}
