@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "60d410d370990adf2d06006c7cbf035f97496240f667c3084cee6b8964eb420e",
+  "attempt_id": "1793254548_f8567600",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-29T06:16:13.088185+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.763577329642456,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        14974,
+        9397,
+        2643,
+        541,
+        192,
+        93,
+        367
+      ],
+      [
+        3008,
+        59211,
+        46599,
+        1767,
+        423,
+        71,
+        470
+      ],
+      [
+        533,
+        21275,
+        156487,
+        14957,
+        1247,
+        81,
+        238
+      ],
+      [
+        168,
+        915,
+        22592,
+        80230,
+        2933,
+        66,
+        112
+      ],
+      [
+        47,
+        100,
+        1352,
+        3168,
+        38502,
+        14,
+        19
+      ],
+      [
+        61,
+        52,
+        81,
+        61,
+        15,
+        7295,
+        115
+      ],
+      [
+        274,
+        230,
+        157,
+        65,
+        13,
+        94,
+        6695
+      ]
+    ],
+    "coverage": 0.905964,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/K_half_generated_gmm",
+    "per_class": {
+      "0": {
+        "coverage": 0.732052327436452,
+        "n": 28207,
+        "recall": 0.5308611337611231,
+        "set_size": 1.7238628709185664
+      },
+      "1": {
+        "coverage": 0.8413880895391262,
+        "n": 111549,
+        "recall": 0.5308070892612216,
+        "set_size": 1.6912388277797201
+      },
+      "2": {
+        "coverage": 0.9598702378630312,
+        "n": 194818,
+        "recall": 0.8032471332217762,
+        "set_size": 1.6908961184284819
+      },
+      "3": {
+        "coverage": 0.8952212753233162,
+        "n": 107016,
+        "recall": 0.749700979292816,
+        "set_size": 1.4472602227704268
+      },
+      "4": {
+        "coverage": 0.954978936160363,
+        "n": 43202,
+        "recall": 0.8912087403360955,
+        "set_size": 1.232558677838989
+      },
+      "5": {
+        "coverage": 0.958984375,
+        "n": 7680,
+        "recall": 0.9498697916666666,
+        "set_size": 1.10546875
+      },
+      "6": {
+        "coverage": 0.936769394261424,
+        "n": 7528,
+        "recall": 0.8893464399574921,
+        "set_size": 1.2772316684378322
+      }
+    },
+    "pipeline_sha256": "f53e216d15c2cd70d0eba8c0162631b18337dcf74c00ac993fe6416b3975e48e",
+    "score_kind": "probability",
+    "set_size": 1.585864,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.815
+  },
+  "started_at": "2026-10-29T06:15:48.503926+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "runtime_20261025/artifacts/e4/rep_3/eval/treatment/random_forest/K_half_generated_gmm",
+    "condition": "K_half_generated_gmm",
+    "dependencies": [
+      "e4/rep_3/fit/treatment/random_forest/K_half_generated_gmm"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/K_half_generated_gmm",
+    "generator": "gmm",
+    "key": "e4/rep_3/eval/treatment/random_forest/K_half_generated_gmm",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 3,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 3,
+    "target_label": "K",
+    "treatment": "generated_gmm"
+  },
+  "task_sha256": "aaf976310dbb49f4b66552c83239b05f118c6039190f4939c313ef720376f87e"
+}

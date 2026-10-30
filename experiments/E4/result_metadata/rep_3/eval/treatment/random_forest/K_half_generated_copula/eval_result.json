@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "0b15b155d5e42f59f6626c4f65fc1fd3ddec3dd1d1909127363c4623b2d03a60",
+  "attempt_id": "1793254524_8a877ff5",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-29T06:15:45.638669+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7500130244364296,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        14443,
+        8926,
+        3246,
+        923,
+        198,
+        87,
+        384
+      ],
+      [
+        2668,
+        53844,
+        51695,
+        2363,
+        408,
+        73,
+        498
+      ],
+      [
+        364,
+        15709,
+        166201,
+        10920,
+        1289,
+        81,
+        254
+      ],
+      [
+        131,
+        661,
+        30392,
+        71593,
+        4055,
+        67,
+        117
+      ],
+      [
+        32,
+        61,
+        1446,
+        2814,
+        38822,
+        15,
+        12
+      ],
+      [
+        32,
+        31,
+        81,
+        129,
+        16,
+        7266,
+        125
+      ],
+      [
+        236,
+        198,
+        164,
+        133,
+        15,
+        93,
+        6689
+      ]
+    ],
+    "coverage": 0.90166,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/K_half_generated_copula",
+    "per_class": {
+      "0": {
+        "coverage": 0.7086893324352112,
+        "n": 28207,
+        "recall": 0.5120360194278016,
+        "set_size": 1.7866487042223562
+      },
+      "1": {
+        "coverage": 0.8496266214847287,
+        "n": 111549,
+        "recall": 0.4826937041120942,
+        "set_size": 1.7073393755210715
+      },
+      "2": {
+        "coverage": 0.9669486392427804,
+        "n": 194818,
+        "recall": 0.8531090556314098,
+        "set_size": 1.6758153764025912
+      },
+      "3": {
+        "coverage": 0.8590397697540555,
+        "n": 107016,
+        "recall": 0.668993421544442,
+        "set_size": 1.5200343873813262
+      },
+      "4": {
+        "coverage": 0.9568075552057775,
+        "n": 43202,
+        "recall": 0.8986158048238507,
+        "set_size": 1.2418869496782556
+      },
+      "5": {
+        "coverage": 0.9596354166666666,
+        "n": 7680,
+        "recall": 0.94609375,
+        "set_size": 1.107421875
+      },
+      "6": {
+        "coverage": 0.9363708820403825,
+        "n": 7528,
+        "recall": 0.8885494155154091,
+        "set_size": 1.2691285866099893
+      }
+    },
+    "pipeline_sha256": "89b270594aaf16cf19783556de11981ea59e3d6597920f913a937882b731500d",
+    "score_kind": "probability",
+    "set_size": 1.603412,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.815
+  },
+  "started_at": "2026-10-29T06:15:24.163131+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "runtime_20261025/artifacts/e4/rep_3/eval/treatment/random_forest/K_half_generated_copula",
+    "condition": "K_half_generated_copula",
+    "dependencies": [
+      "e4/rep_3/fit/treatment/random_forest/K_half_generated_copula"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/K_half_generated_copula",
+    "generator": "copula",
+    "key": "e4/rep_3/eval/treatment/random_forest/K_half_generated_copula",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 3,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 3,
+    "target_label": "K",
+    "treatment": "generated_copula"
+  },
+  "task_sha256": "69f4674a8dcf3e97331a71f17a71ff1c8ed7ff7c1f35ddd5d5cd659e84d4f1d4"
+}

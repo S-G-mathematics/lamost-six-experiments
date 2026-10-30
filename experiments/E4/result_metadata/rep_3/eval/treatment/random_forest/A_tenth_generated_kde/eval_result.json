@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "f17efbb26a74b3a569c8313d2ead8793243d095a4248d9fcb2747021c22ddf49",
+  "attempt_id": "1793195014_06979dc0",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-28T13:44:29.210813+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7325883286740977,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        8926,
+        15336,
+        2773,
+        501,
+        208,
+        89,
+        374
+      ],
+      [
+        1674,
+        60606,
+        46550,
+        1758,
+        445,
+        70,
+        446
+      ],
+      [
+        600,
+        21141,
+        156066,
+        15371,
+        1317,
+        77,
+        246
+      ],
+      [
+        191,
+        948,
+        21920,
+        80814,
+        2983,
+        64,
+        96
+      ],
+      [
+        110,
+        90,
+        1348,
+        3180,
+        38441,
+        16,
+        17
+      ],
+      [
+        65,
+        58,
+        90,
+        54,
+        16,
+        7255,
+        142
+      ],
+      [
+        418,
+        183,
+        131,
+        86,
+        13,
+        90,
+        6607
+      ]
+    ],
+    "coverage": 0.903434,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/A_tenth_generated_kde",
+    "per_class": {
+      "0": {
+        "coverage": 0.5529833020172298,
+        "n": 28207,
+        "recall": 0.31644627220193566,
+        "set_size": 1.76225759563229
+      },
+      "1": {
+        "coverage": 0.8581968462290115,
+        "n": 111549,
+        "recall": 0.543312804238496,
+        "set_size": 1.6797999085603637
+      },
+      "2": {
+        "coverage": 0.9634428030264144,
+        "n": 194818,
+        "recall": 0.8010861419376033,
+        "set_size": 1.739741707645084
+      },
+      "3": {
+        "coverage": 0.9062289751065261,
+        "n": 107016,
+        "recall": 0.7551581071989235,
+        "set_size": 1.479610525528893
+      },
+      "4": {
+        "coverage": 0.9561362899865747,
+        "n": 43202,
+        "recall": 0.8897967686681172,
+        "set_size": 1.2540854590065276
+      },
+      "5": {
+        "coverage": 0.9587239583333333,
+        "n": 7680,
+        "recall": 0.9446614583333334,
+        "set_size": 1.1217447916666667
+      },
+      "6": {
+        "coverage": 0.9353081827842721,
+        "n": 7528,
+        "recall": 0.8776567481402763,
+        "set_size": 1.3439160467587672
+      }
+    },
+    "pipeline_sha256": "6223e92e72f0caf9ecc70640490cec15e4d57dcd2baf993aab785418e2cfcca1",
+    "score_kind": "probability",
+    "set_size": 1.614548,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.8260000000000001
+  },
+  "started_at": "2026-10-28T13:43:34.754435+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "runtime_20261025/artifacts/e4/rep_3/eval/treatment/random_forest/A_tenth_generated_kde",
+    "condition": "A_tenth_generated_kde",
+    "dependencies": [
+      "e4/rep_3/fit/treatment/random_forest/A_tenth_generated_kde"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/A_tenth_generated_kde",
+    "generator": "kde",
+    "key": "e4/rep_3/eval/treatment/random_forest/A_tenth_generated_kde",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.1,
+    "rep": 3,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 0,
+    "target_label": "A",
+    "treatment": "generated_kde"
+  },
+  "task_sha256": "ff0a94570c83ccb9569fe32df458955b6decef65a2cc40cc2ada67121772eeef"
+}

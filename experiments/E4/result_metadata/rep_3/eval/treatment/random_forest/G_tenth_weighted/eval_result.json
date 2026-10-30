@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "51b327e3388fdd0bd7895063b5638524c4cf90e7b0f7e841551d9046baf1af3b",
+  "attempt_id": "1793249074_cab60089",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-29T04:45:22.390845+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7351736721517249,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        14045,
+        11953,
+        192,
+        1185,
+        351,
+        87,
+        394
+      ],
+      [
+        2341,
+        95047,
+        4121,
+        8627,
+        810,
+        70,
+        533
+      ],
+      [
+        498,
+        107516,
+        20798,
+        60844,
+        4762,
+        85,
+        315
+      ],
+      [
+        156,
+        4096,
+        2062,
+        96792,
+        3734,
+        64,
+        112
+      ],
+      [
+        33,
+        130,
+        34,
+        3572,
+        39400,
+        14,
+        19
+      ],
+      [
+        33,
+        85,
+        7,
+        82,
+        15,
+        7325,
+        133
+      ],
+      [
+        211,
+        211,
+        0,
+        87,
+        13,
+        86,
+        6920
+      ]
+    ],
+    "coverage": 0.897372,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/G_tenth_weighted",
+    "per_class": {
+      "0": {
+        "coverage": 0.8885383060942319,
+        "n": 28207,
+        "recall": 0.49792604672599,
+        "set_size": 2.3003864289006275
+      },
+      "1": {
+        "coverage": 0.9895382298362154,
+        "n": 111549,
+        "recall": 0.8520650117885413,
+        "set_size": 2.229352123282145
+      },
+      "2": {
+        "coverage": 0.7710889137554024,
+        "n": 194818,
+        "recall": 0.10675604923569691,
+        "set_size": 2.581080803621842
+      },
+      "3": {
+        "coverage": 0.9882914704343275,
+        "n": 107016,
+        "recall": 0.9044628840547208,
+        "set_size": 1.8321746280929954
+      },
+      "4": {
+        "coverage": 0.9827785750659692,
+        "n": 43202,
+        "recall": 0.9119948150548586,
+        "set_size": 1.4688440349983798
+      },
+      "5": {
+        "coverage": 0.9763020833333333,
+        "n": 7680,
+        "recall": 0.9537760416666666,
+        "set_size": 1.3059895833333333
+      },
+      "6": {
+        "coverage": 0.9697130712008502,
+        "n": 7528,
+        "recall": 0.9192348565356004,
+        "set_size": 1.7570403825717322
+      }
+    },
+    "pipeline_sha256": "3bba60d23342d993f5ae8f6d74da00941f375672f4bc850e597838a8c4f334a2",
+    "score_kind": "probability",
+    "set_size": 2.198392,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.9284676567548799
+  },
+  "started_at": "2026-10-29T04:44:34.374007+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "runtime_20261025/artifacts/e4/rep_3/eval/treatment/random_forest/G_tenth_weighted",
+    "condition": "G_tenth_weighted",
+    "dependencies": [
+      "e4/rep_3/fit/treatment/random_forest/G_tenth_weighted"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/G_tenth_weighted",
+    "generator": null,
+    "key": "e4/rep_3/eval/treatment/random_forest/G_tenth_weighted",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.1,
+    "rep": 3,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 2,
+    "target_label": "G",
+    "treatment": "weighted"
+  },
+  "task_sha256": "67d83887450f4d4c7b39c773166136af5e2bff1c133166a5b6434b363a68ca6e"
+}

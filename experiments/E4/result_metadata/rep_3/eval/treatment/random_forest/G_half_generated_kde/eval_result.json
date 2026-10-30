@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "1afabff6bed8fb3de5aab8f1c18a846334eabfe8f5920bf7c892e89ba9feeaaa",
+  "attempt_id": "1793211191_b1c8efe9",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-28T18:13:41.740441+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.7495664078353972,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        13131,
+        8286,
+        5466,
+        644,
+        211,
+        90,
+        379
+      ],
+      [
+        2387,
+        71272,
+        33464,
+        3369,
+        468,
+        71,
+        518
+      ],
+      [
+        326,
+        48777,
+        116523,
+        27339,
+        1504,
+        82,
+        267
+      ],
+      [
+        95,
+        1336,
+        17248,
+        85122,
+        3028,
+        63,
+        124
+      ],
+      [
+        23,
+        64,
+        1539,
+        3151,
+        38393,
+        15,
+        17
+      ],
+      [
+        10,
+        33,
+        134,
+        44,
+        14,
+        7309,
+        136
+      ],
+      [
+        136,
+        118,
+        261,
+        74,
+        13,
+        86,
+        6840
+      ]
+    ],
+    "coverage": 0.907142,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/G_half_generated_kde",
+    "per_class": {
+      "0": {
+        "coverage": 0.6838373453398092,
+        "n": 28207,
+        "recall": 0.4655227425816287,
+        "set_size": 1.8798170666855745
+      },
+      "1": {
+        "coverage": 0.9044097212884024,
+        "n": 111549,
+        "recall": 0.6389299769607975,
+        "set_size": 1.7434221732153583
+      },
+      "2": {
+        "coverage": 0.9158393988235173,
+        "n": 194818,
+        "recall": 0.5981120840990052,
+        "set_size": 1.9327782853740414
+      },
+      "3": {
+        "coverage": 0.9262540180907528,
+        "n": 107016,
+        "recall": 0.7954137699035658,
+        "set_size": 1.4534275248560964
+      },
+      "4": {
+        "coverage": 0.9569232905883986,
+        "n": 43202,
+        "recall": 0.8886857089949539,
+        "set_size": 1.2543863710013425
+      },
+      "5": {
+        "coverage": 0.9649739583333333,
+        "n": 7680,
+        "recall": 0.9516927083333333,
+        "set_size": 1.0872395833333333
+      },
+      "6": {
+        "coverage": 0.9428799149840595,
+        "n": 7528,
+        "recall": 0.9086078639744952,
+        "set_size": 1.2175876726886292
+      }
+    },
+    "pipeline_sha256": "c536379dd8b0771036f4c2407b658ba9addbaa6de7dee8ad72e55f5813b56a22",
+    "score_kind": "probability",
+    "set_size": 1.702578,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.81
+  },
+  "started_at": "2026-10-28T18:13:11.456163+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "runtime_20261025/artifacts/e4/rep_3/eval/treatment/random_forest/G_half_generated_kde",
+    "condition": "G_half_generated_kde",
+    "dependencies": [
+      "e4/rep_3/fit/treatment/random_forest/G_half_generated_kde"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/G_half_generated_kde",
+    "generator": "kde",
+    "key": "e4/rep_3/eval/treatment/random_forest/G_half_generated_kde",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 3,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 2,
+    "target_label": "G",
+    "treatment": "generated_kde"
+  },
+  "task_sha256": "2d02d13251689265d9431ad7d39de29198ff6532efea5e40c1fe6f135b5bbb59"
+}

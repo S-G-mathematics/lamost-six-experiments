@@ -1,0 +1,184 @@
+{
+  "artifact_sha256": "5af41270412252479035166741dce223026841072bd9c75f764080fa83b6ffed",
+  "attempt_id": "1793249192_d3edb1ba",
+  "engine_code_sha256": "75ec358024b13479203dbd23632565cb47f24d295a94e9b90505900520887bb0",
+  "finished_at": "2026-10-29T04:46:58.175666+00:00",
+  "reason": null,
+  "result": {
+    "balanced_accuracy": 0.754543707510514,
+    "calibration_fallback_count": 0,
+    "calibration_n": 10000,
+    "confusion_matrix": [
+      [
+        14790,
+        9163,
+        2642,
+        937,
+        213,
+        88,
+        374
+      ],
+      [
+        2902,
+        59092,
+        46601,
+        1982,
+        425,
+        73,
+        474
+      ],
+      [
+        464,
+        20978,
+        162452,
+        9199,
+        1397,
+        82,
+        246
+      ],
+      [
+        150,
+        841,
+        31139,
+        69731,
+        4960,
+        69,
+        126
+      ],
+      [
+        27,
+        68,
+        1426,
+        2402,
+        39249,
+        16,
+        14
+      ],
+      [
+        32,
+        37,
+        81,
+        133,
+        18,
+        7245,
+        134
+      ],
+      [
+        253,
+        217,
+        170,
+        79,
+        14,
+        92,
+        6703
+      ]
+    ],
+    "coverage": 0.902614,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/K_half_generated_chow_liu",
+    "per_class": {
+      "0": {
+        "coverage": 0.7305987875350091,
+        "n": 28207,
+        "recall": 0.5243379303009891,
+        "set_size": 1.78959123621796
+      },
+      "1": {
+        "coverage": 0.8527104680454329,
+        "n": 111549,
+        "recall": 0.5297402935033034,
+        "set_size": 1.7162054343830961
+      },
+      "2": {
+        "coverage": 0.9696999250582595,
+        "n": 194818,
+        "recall": 0.8338654539108296,
+        "set_size": 1.674357605560061
+      },
+      "3": {
+        "coverage": 0.8471443522463931,
+        "n": 107016,
+        "recall": 0.6515941541451745,
+        "set_size": 1.57108282873589
+      },
+      "4": {
+        "coverage": 0.9618304708115365,
+        "n": 43202,
+        "recall": 0.9084996064996991,
+        "set_size": 1.2263321142539698
+      },
+      "5": {
+        "coverage": 0.96015625,
+        "n": 7680,
+        "recall": 0.943359375,
+        "set_size": 1.1162760416666666
+      },
+      "6": {
+        "coverage": 0.9404888416578109,
+        "n": 7528,
+        "recall": 0.8904091392136025,
+        "set_size": 1.3121679064824654
+      }
+    },
+    "pipeline_sha256": "074ed025ffc6b096fbe35e36c2f088e8b3d43fa2147b36f575c16ad778f76ab7",
+    "score_kind": "probability",
+    "set_size": 1.615354,
+    "test_fallback_count": 0,
+    "test_fallback_per_class": {
+      "0": {
+        "fallback_count": 0,
+        "n": 28207
+      },
+      "1": {
+        "fallback_count": 0,
+        "n": 111549
+      },
+      "2": {
+        "fallback_count": 0,
+        "n": 194818
+      },
+      "3": {
+        "fallback_count": 0,
+        "n": 107016
+      },
+      "4": {
+        "fallback_count": 0,
+        "n": 43202
+      },
+      "5": {
+        "fallback_count": 0,
+        "n": 7680
+      },
+      "6": {
+        "fallback_count": 0,
+        "n": 7528
+      }
+    },
+    "test_n": 500000,
+    "threshold": 0.825
+  },
+  "started_at": "2026-10-29T04:46:32.104778+00:00",
+  "status": "successful",
+  "task": {
+    "artifact_dir": "runtime_20261025/artifacts/e4/rep_3/eval/treatment/random_forest/K_half_generated_chow_liu",
+    "condition": "K_half_generated_chow_liu",
+    "dependencies": [
+      "e4/rep_3/fit/treatment/random_forest/K_half_generated_chow_liu"
+    ],
+    "experiment": 4,
+    "fit_key": "e4/rep_3/fit/treatment/random_forest/K_half_generated_chow_liu",
+    "generator": "chow_liu",
+    "key": "e4/rep_3/eval/treatment/random_forest/K_half_generated_chow_liu",
+    "kind": "eval",
+    "mechanism": null,
+    "method": "random_forest",
+    "rate": null,
+    "ratio": 0.5,
+    "rep": 3,
+    "route": "treatment",
+    "scientific_case": true,
+    "target_class": 3,
+    "target_label": "K",
+    "treatment": "generated_chow_liu"
+  },
+  "task_sha256": "097b833d48bd452ca48d9cbf89a5452bdc2d582395fe6f068b7d77702c9fc420"
+}
