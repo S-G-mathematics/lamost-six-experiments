@@ -127,6 +127,8 @@ class ColdModelStore:
         if storage_codec_policy not in (None,"reversible-xz-v1","reversible-xz-v1-payload12"):raise UnsafePlan("unknown storage codec write policy")
         self.storage_codec_policy=storage_codec_policy
         self.writer_lock=Path(writer_lock or self.runtime/"locks"/"cold_model_store.writer.lock");self.reader_lock=Path(reader_lock or self.runtime/"locks"/"cold_model_store.readers.lock");self._archive_identity_cache=None
+        self._member_payload_verification_proof=None
+        self._member_payload_proof_journal_sha256=None
         for p in (self.runtime,self.archive,self.manifest,self.journals,self.writer_lock,self.reader_lock):
             try:p.resolve(strict=False).relative_to(self.root)
             except ValueError:raise UnsafePlan("cold store path escapes migration root")
@@ -447,8 +449,70 @@ class ColdModelStore:
                 if j.get("state") not in ("complete","rolled_back"):return True
         except Exception:return True
         return False
+    def _member_rows_sha256(self,manifest):
+        rows=manifest.get("members")
+        if not isinstance(rows,list):return None
+        return _sha_bytes(json.dumps(rows,sort_keys=True,separators=(",",":")).encode())
+    def _member_item_evidence(self,j):
+        return [{"task_key":x.get("task_key"),"archive_member":x.get("archive_member"),"sha256":x.get("sha256"),
+                 "bytes":x.get("bytes"),"crc32":x.get("crc32"),"storage_encoding":x.get("storage_encoding")}
+                for x in j.get("items",[])]
+    def _member_payload_proof_matches(self,proof,manifest,records,zip_start,identity,manifest_sha,pins,journal):
+        try:
+            if not isinstance(proof,dict) or proof.get("schema")!="verified-cold-member-payloads/1":return False
+            if proof.get("verification_basis") not in ("full_stream_before_append","inductive_append"):return False
+            if proof.get("member_count")!=len(manifest.get("members",[])) or proof.get("members_sha256")!=self._member_rows_sha256(manifest):return False
+            if proof.get("archive_path")!=self.archive.relative_to(self.root).as_posix():return False
+            if proof.get("archive_identity")!=list(identity) or proof.get("archive_sha256")!=manifest.get("archive_sha256"):return False
+            if proof.get("archive_bytes")!=self.archive.stat().st_size or proof.get("zip_records_sha256")!=_record_sha(records):return False
+            if proof.get("zip_start_dir")!=zip_start or proof.get("manifest_sha256")!=manifest_sha:return False
+            if proof.get("transaction_id")!=manifest.get("transaction_id") or proof.get("source_pins")!=pins:return False
+            if proof.get("new_item_evidence_sha256")!=_record_sha(self._member_item_evidence(journal)):return False
+            before=proof.get("baseline_verification")
+            if not isinstance(before,dict) or before.get("schema")!="cold-member-baseline-verification/1":return False
+            if before.get("archive_sha256")!=journal.get("archive_sha256_before"):return False
+            if before.get("member_count")!=journal.get("old_manifest_member_count"):return False
+            if before.get("members_sha256")!=journal.get("old_manifest_members_sha256"):return False
+            if before.get("mode") not in ("full_stream","inherited_verified_proof"):return False
+            new_keys={x.get("task_key") for x in journal.get("items",[])}
+            prior_rows=[x for x in manifest.get("members",[]) if x.get("task_key") not in new_keys]
+            if before.get("member_count")!=len(prior_rows):return False
+            prior_sha=_sha_bytes(json.dumps(prior_rows,sort_keys=True,separators=(",",":")).encode())
+            if before.get("members_sha256")!=prior_sha:return False
+            if before.get("mode")=="full_stream" and before.get("prior_proof_sha256") is not None:return False
+            if before.get("mode")=="inherited_verified_proof":
+                if not isinstance(before.get("prior_proof_sha256"),str) or len(before["prior_proof_sha256"])!=64:return False
+                if not isinstance(before.get("prior_journal_sha256"),str) or len(before["prior_journal_sha256"])!=64:return False
+                prior_txid=before.get("prior_transaction_id")
+                if not isinstance(prior_txid,str) or prior_txid!=journal.get("public_manifest_before_transaction_id"):return False
+                prior_path=self._journal_dir(prior_txid)/"journal.json"
+                if prior_path.is_symlink() or not prior_path.is_file() or sha256_file(prior_path)!=before["prior_journal_sha256"]:return False
+                prior_j=json.loads(prior_path.read_text())
+                prior_proof=prior_j.get("member_payload_verification")
+                if (prior_j.get("state")!="complete" or prior_j.get("transaction_id")!=prior_txid or
+                    not isinstance(prior_proof,dict) or
+                    _sha_bytes(json.dumps(prior_proof,sort_keys=True,separators=(",",":")).encode())!=before["prior_proof_sha256"] or
+                    prior_proof.get("member_count")!=before.get("member_count") or
+                    prior_proof.get("members_sha256")!=before.get("members_sha256") or
+                    prior_proof.get("archive_sha256")!=before.get("archive_sha256") or
+                    prior_proof.get("source_pins")!=pins or
+                    prior_proof.get("transaction_id")!=prior_txid or
+                    prior_proof.get("manifest_sha256")!=prior_j.get("manifest_sha256") or
+                    prior_j.get("manifest_sha256")!=prior_j.get("public_manifest_after_sha256") or
+                    prior_proof.get("archive_identity")!=prior_j.get("archive_identity_after") or
+                    prior_proof.get("zip_records_sha256")!=_record_sha(prior_j.get("member_records_after")) or
+                    prior_j.get("archive_sha256_after")!=before.get("archive_sha256")):return False
+            if journal.get("member_payload_verification")!=proof or journal.get("state")!="complete":return False
+            if journal.get("archive_sha256_after")!=proof.get("archive_sha256") or journal.get("archive_identity_after")!=proof.get("archive_identity"):return False
+            if journal.get("member_records_after")!=records or journal.get("archive_source_pins_after")!=pins:return False
+            if journal.get("manifest_sha256")!=manifest_sha or journal.get("public_manifest_after_sha256")!=manifest_sha:return False
+            return True
+        except (OSError,ValueError,TypeError,KeyError,AttributeError):
+            return False
     def _seed_verified_baseline_cache(self,manifest,actual_records,actual_zip_start,archive_identity):
-        """Seed the existing in-process cache only from a completed, fully bound receipt."""
+        """Seed archive identity and, separately, an exact old-member verification proof."""
+        self._member_payload_verification_proof=None
+        self._member_payload_proof_journal_sha256=None
         try:
             if self._has_pending_journal():return False
             archive_rel=self.archive.relative_to(self.root).as_posix()
@@ -491,8 +555,16 @@ class ColdModelStore:
             pins=self._baseline_cache_source_pins()
             if pins is None or receipt.get("source_pins")!=pins or j.get("archive_source_pins_after")!=pins:return False
             if receipt.get("verifier_source_sha256")!=_IMPORTED_SOURCE_SHA256:return False
+            proof=receipt.get("member_payload_verification")
+            verified_member_proof=None
+            if proof is not None:
+                if proof!=j.get("member_payload_verification") or not self._member_payload_proof_matches(
+                    proof,manifest,records,actual_zip_start,identity,manifest_sha,pins,j):return False
+                verified_member_proof=proof
             after=self.archive.stat()
             if _archive_stat_identity(after)!=identity:return False
+            self._member_payload_verification_proof=verified_member_proof
+            self._member_payload_proof_journal_sha256=journal_sha if verified_member_proof is not None else None
             self._archive_identity_cache={"identity":identity,"sha256":manifest["archive_sha256"],"zip_records":records,
                 "prefix_bytes":actual_zip_start,"prefix_sha256":prefix_sha,"zip_start_dir":actual_zip_start}
             return True
@@ -531,12 +603,14 @@ class ColdModelStore:
                 j.get("archive_prefix_sha256_after")!=prefix):return False
             pins=self._baseline_cache_source_pins()
             if pins is None or j.get("archive_source_pins_after")!=pins:return False
+            proof=j.get("member_payload_verification")
+            if not self._member_payload_proof_matches(proof,manifest,records,start,identity,manifest_sha,pins,j):return False
             if _archive_stat_identity(self.archive.stat())!=identity:return False
             receipt={"schema":"verified-cold-archive-baseline/1","transaction_id":transaction_id,"archive_path":archive_rel,
                 "archive_identity":list(identity),"archive_sha256":cache["sha256"],"archive_bytes":st.st_size,
                 "zip_records_sha256":_record_sha(records),"zip_start_dir":start,"prefix_bytes":prefix_bytes,"prefix_sha256":prefix,
                 "manifest_sha256":manifest_sha,"journal_sha256":journal_sha,"verifier_source_sha256":_IMPORTED_SOURCE_SHA256,
-                "source_pins":pins,"created_utc":_safety.now_utc()}
+                "source_pins":pins,"member_payload_verification":proof,"created_utc":_safety.now_utc()}
             path=self._baseline_cache_path();path.parent.mkdir(parents=True,exist_ok=True)
             if path.is_symlink():return False
             _atomic_json(path,receipt);os.chmod(path,0o600)
@@ -1140,8 +1214,37 @@ class ColdModelStore:
                 p.unlink();_fsync_dir(p.parent);item["removed_aliases"].append(rel);_atomic_json(jp,j);done+=1
                 if fail_after_unlinks is not None and done>=fail_after_unlinks:raise RuntimeError("injected interruption during alias removal")
         j["state"]="complete";j["completed_utc"]=time.time();_atomic_json(jp,j)
+    def _record_member_payload_verification(self,j):
+        """Record an inductive proof only after old validation, new-member round trips, manifest commit and prefix checks."""
+        if j.get("state")!="manifest_committed":raise AmbiguousState("member verification proof requires a committed manifest")
+        manifest=_manifest_load(self.manifest)
+        manifest_sha=sha256_file(self.manifest)
+        st=self.archive.stat();identity=_archive_stat_identity(st)
+        records=manifest.get("zip_records")
+        pins=self._baseline_cache_source_pins()
+        before=j.get("member_payload_verification_before")
+        if (not isinstance(before,dict) or pins is None or pins!=j.get("archive_source_pins_after") or
+            manifest.get("transaction_id")!=j.get("transaction_id") or
+            manifest_sha!=j.get("manifest_sha256") or manifest_sha!=j.get("public_manifest_after_sha256") or
+            manifest.get("archive_sha256")!=j.get("archive_sha256_after") or
+            list(identity)!=j.get("archive_identity_after") or records!=j.get("member_records_after")):
+            raise AmbiguousState("member verification proof inputs changed after append")
+        proof={"schema":"verified-cold-member-payloads/1",
+            "verification_basis":"full_stream_before_append" if before["mode"]=="full_stream" else "inductive_append",
+            "baseline_verification":before,"member_count":len(manifest.get("members",[])),
+            "members_sha256":self._member_rows_sha256(manifest),"archive_path":j.get("archive_relpath"),
+            "archive_identity":list(identity),"archive_sha256":j.get("archive_sha256_after"),"archive_bytes":st.st_size,
+            "zip_records_sha256":_record_sha(records),"zip_start_dir":j.get("archive_prefix_bytes_after"),
+            "manifest_sha256":manifest_sha,"transaction_id":j.get("transaction_id"),"source_pins":pins,
+            "new_item_evidence_sha256":_record_sha(self._member_item_evidence(j))}
+        j["member_payload_verification"]=proof
+        jp=self._journal_dir(j["transaction_id"])/"journal.json"
+        _atomic_json(jp,j)
+        return j
     def commit_models(self,items,registry_records,fail_after_unlinks=None,fault_after_bytes=None,*,codec_temp_budget_bytes=None):
         with self._write_lock():
+            self._member_payload_verification_proof=None
+            self._member_payload_proof_journal_sha256=None
             if codec_temp_budget_bytes is not None and (type(codec_temp_budget_bytes) is not int or codec_temp_budget_bytes<=0 or self.storage_codec_policy not in ("reversible-xz-v1","reversible-xz-v1-payload12")):
                 raise UnsafePlan("aggregate codec temp budget requires reversible-xz-v1 and positive bytes")
             self._assert_no_pending_transactions()
@@ -1166,15 +1269,32 @@ class ColdModelStore:
                 self._archive_identity_cache={"identity":old_identity,"sha256":oldsha,"zip_records":oldrec,
                     "prefix_bytes":start,"prefix_sha256":old_prefix_sha,"zip_start_dir":start}
             else:
+                self._member_payload_verification_proof=None
                 self._seed_verified_baseline_cache(current,oldrec,start,old_identity)
                 oldsha,_,_=self._check_archive_manifest(current)
-            required|=self._validate_existing_members(current,registry_records)
+            prior_proof=self._member_payload_verification_proof
+            old_members=current.get("members",[]) if isinstance(current.get("members"),list) else []
+            old_members_sha=self._member_rows_sha256({"members":old_members})
+            prior_manifest_txid=current.get("transaction_id")
+            if prior_proof is not None:
+                verification_before={"schema":"cold-member-baseline-verification/1","mode":"inherited_verified_proof",
+                    "member_count":len(old_members),"members_sha256":old_members_sha,"archive_sha256":oldsha,
+                    "prior_proof_sha256":_sha_bytes(json.dumps(prior_proof,sort_keys=True,separators=(",",":")).encode()),
+                    "prior_journal_sha256":self._member_payload_proof_journal_sha256,"prior_transaction_id":prior_manifest_txid}
+            else:
+                verification_before={"schema":"cold-member-baseline-verification/1","mode":"full_stream",
+                    "member_count":len(old_members),"members_sha256":old_members_sha,"archive_sha256":oldsha,
+                    "prior_proof_sha256":None,"prior_journal_sha256":None,"prior_transaction_id":prior_manifest_txid}
+            required|=self._validate_existing_members(current,registry_records,verify_payload=prior_proof is None)
             private_receipt=_safety.verify_no_matching_processes(self.root,required,registry_records)
             existing={r["member"] for r in oldrec};new={x["archive_member"] for x in normalized}
             if existing&new:raise UnsafePlan("cold ZIP member already exists")
             tx=uuid.uuid4().hex;d=self._journal_dir(tx);d.mkdir(parents=True,exist_ok=False)
             manifest_before_sha=sha256_file(self.manifest) if self.manifest.exists() else None
-            j={"schema_version":SCHEMA,"transaction_id":tx,"state":"creating_backup","archive_relpath":self.archive.relative_to(self.root).as_posix(),"archive_sha256_before":oldsha,"archive_size_before":oldsize,"archive_device":self.archive.stat().st_dev,"archive_inode":self.archive.stat().st_ino,"central_directory_offset":start,"old_zip_records":oldrec,"old_zip_records_sha256":_record_sha(oldrec),"items":normalized,"required_task_keys":sorted(required),"process_inventory_complete":private_receipt.get("complete") is True,"created_utc":_safety.now_utc(),"public_manifest_before_sha256":manifest_before_sha,"member_records_after":None,"archive_sha256_after":None,"last_error":None}
+            j={"schema_version":SCHEMA,"transaction_id":tx,"state":"creating_backup","archive_relpath":self.archive.relative_to(self.root).as_posix(),"archive_sha256_before":oldsha,"archive_size_before":oldsize,"archive_device":self.archive.stat().st_dev,"archive_inode":self.archive.stat().st_ino,"central_directory_offset":start,"old_zip_records":oldrec,"old_zip_records_sha256":_record_sha(oldrec),"items":normalized,"required_task_keys":sorted(required),"process_inventory_complete":private_receipt.get("complete") is True,"created_utc":_safety.now_utc(),"public_manifest_before_sha256":manifest_before_sha,"public_manifest_before_transaction_id":current.get("transaction_id"),
+                "old_manifest_member_count":len(old_members),"old_manifest_members_sha256":old_members_sha,
+                "member_payload_verification_before":verification_before,
+                "member_records_after":None,"archive_sha256_after":None,"last_error":None}
             j["storage_codec_policy"]=self.storage_codec_policy
             if codec_temp_budget_bytes is not None:j["codec_temp_budget_bytes"]=codec_temp_budget_bytes
             j["codec_verifier_source_sha256"]=_IMPORTED_SOURCE_SHA256
@@ -1184,7 +1304,10 @@ class ColdModelStore:
             tail=self._backup_tail(j)
             j["tail_sha256"]=sha256_file(tail);j["prefix_sha256"]=self._verified_prefix_digest(oldsha,start);j["state"]="prepared";_atomic_json(jp,j)
             try:
-                j=self._append_locked(j,fault_after_bytes,codec_temp_budget_bytes=codec_temp_budget_bytes);self._write_manifest(j);self._unlink_aliases(j,fail_after_unlinks)
+                j=self._append_locked(j,fault_after_bytes,codec_temp_budget_bytes=codec_temp_budget_bytes)
+                self._write_manifest(j)
+                j=self._record_member_payload_verification(j)
+                self._unlink_aliases(j,fail_after_unlinks)
                 self._persist_completed_baseline_cache(tx)
             except BaseException as e:
                 with contextlib.suppress(Exception):

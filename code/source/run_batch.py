@@ -12,11 +12,11 @@ ARCHIVE_IO_WALL_SECONDS=1800
 CODEC_LARGE_WALL_SECONDS=5400
 CODEC_FOLLOWUP_MAX_BYTES=1<<30
 CODEC_FOLLOWUP_MAX_GROUPS=1
-SOURCE_PINS={'commit_batch_child.py': 'f74f2a00b5bb488b60e51f40d5d64c05e393c52ca573e79e086b0ce932a55c3a',
+SOURCE_PINS={'commit_batch_child.py': '1391c1a1e6690dcd5030c1ef9ad131f3d639b294986eea29fc3f872ec66676f5',
  'controller.py': 'b6684a6031b47de96cce09d34db6ef01cc4a6b1f33ca68d026f7f38aef12c022',
  'batch_plan.py': '653ae3ff46e433ce102939e1a635f2a9374f8387b4e59abfc7681d5243dbe0f5',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
- 'cold_model_storage.py': '4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25',
+ 'cold_model_storage.py': '48fb2a2c52acdeb0a15fe36419676dbadc99d0ebdb46a3121e527471ffc45c57',
  'cold_codec_storage.py': '424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430',
  'reversible_joblib_codec.py': 'f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c',
  'cold_storage_safety.py': '7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273',

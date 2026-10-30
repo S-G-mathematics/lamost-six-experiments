@@ -1,6 +1,6 @@
 # Latest project progress
 
-Observation: 2026-10-30T16:54:50.689113+00:00, from a coherent read-only SQLite backup. Interim status; final artifact validation and global calibration replay remain pending.
+Observation: 2026-10-30T18:22:37.090314+00:00 UTC from a read-only registry query; interim status. Final artifact validation and global calibration replay remain pending.
 
 | Experiment | Planned | Successful / evaluated | Recorded failures | Unavailable | User-stopped | Pending |
 |---|---:|---:|---:|---:|---:|---:|
@@ -36,3 +36,7 @@ The prospective scope amendment selected 45 evaluations and marked 168 other E4/
 The installed controller is B668 bound to freeze F9FB. The [source closure and public qualification evidence](provenance/working_reserve_storage_20261030/README.md) records the approved 6 GiB working reserve with one concurrent fit. The 10 GiB per-fit ceiling and 600-second phase cap remain unchanged. This registry snapshot does not make a claim about current worker liveness.
 
 Bootstrap remains dropped. No fitted models, FITS files, or raw training data are in Git or the result-array ZIP.
+
+## Working-storage source qualification (2026-10-30T18:22:37.090314Z)
+
+The current portable engineering bundle passed 844/844 cases (105 subtests) at 18:05 UTC. The update adds exact member-verification reuse under validated prior-commit proof; new payload checks remain unchanged and absent proof still triggers full streaming verification. The 6 GiB working reserve, one fit, 10 GiB worker limit, and 600-second phase/trial caps are unchanged. The adoption snapshot at 18:16 UTC records the first current-source archive pass running; production cache-reuse speedup has not been measured. Read-only registry status remains 2,435 successes (including 12 E6 aliases), 127 failures, 90 unavailable, 168 user-stopped, and 3 pending. See [the qualification note](docs/WORKING_STORAGE_844.md) and [current case ledger](reports/planned_case_ledger.csv).

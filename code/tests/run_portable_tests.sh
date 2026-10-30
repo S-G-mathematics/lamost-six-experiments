@@ -122,6 +122,7 @@ test_files=(
   "$R/tests/test_codec_payload12_profile.py" \
   "$R/tests/test_et4_resource_disclosure.py" \
   "$R/tests/test_repetition_scope_finalizer.py" \
-  "$R/tests/test_archive_closure.py"
+  "$R/tests/test_archive_closure.py" \
+  "$R/tests/test_member_payload_verification_cache.py"
 )
 exec "$python_bin" -m pytest "${pytest_args[@]}" "${test_files[@]}"
