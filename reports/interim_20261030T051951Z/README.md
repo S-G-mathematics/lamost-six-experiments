@@ -1,0 +1,9 @@
+# Interim submission snapshot
+
+Snapshot observed at 2026-10-30T05:19:51.461846+00:00 UTC from a read-only SQLite registry snapshot and saved validated evaluation JSONs. This is an interim result delivery, not project completion. The original full repetition design remains incomplete; the score-independent scope amendment selected one evaluation per unique method/condition case from the original three-repetition plan and marked excess repetitions user-stopped while preserving all prior terminal outcomes.
+
+The complete E3-E6 planned-case ledger is planned_case_ledger.csv (2,823 rows). It includes outcomes and saved metrics for successful cases. E5 has 717/960 successful, 50 scientific failures, 78 unavailable, 101 user-stopped, and 14 still waiting in this snapshot. E6 has 12/15 member-reference aliases and no successful primary ensemble evaluation. E1 and E2 remain in their frozen component reports.
+
+E5_717_METADATA_QA.json cross-checks all 717 saved E5 evaluation JSONs against the generated CSVs, including 7-class confusion totals, 10,000 calibration rows and 500,000 test rows. This is a saved-artifact consistency check, not a fresh calibration replay or test inference. The 17 E5 rep-1 RF evaluation metadata records are under experiments/E5/result_metadata/. Their NPZ result arrays are referenced in E5_RESULT_ARRAY_COVERAGE_17.json: 13 exact-SHA arrays were already in published assets; four are in e5_rf_rep1_outcomes_delta_20261030T051951Z.zip (6,221,133 bytes; SHA-256 6ca36b039cadeee89d4c6b9d268acef0c1daaed623eae1ea41b3b4b59cc77e8a). No fitted models or raw training data are included.
+
+Figures in figures/ have their own dated source and hash manifests. E4/E5 main figures elsewhere in the repository retain earlier cutoffs; the current status chart and CSV tables correspond to this snapshot. Global native calibration replay, complete artifact validation, final report and final archives remain pending.
