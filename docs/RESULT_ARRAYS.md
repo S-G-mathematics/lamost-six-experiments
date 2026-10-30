@@ -2,7 +2,7 @@
 
 [Download the verified result release](https://github.com/S-G-mathematics/lamost-six-experiments/releases/tag/results-2026-10-28).
 
-The release contains 19 ZIP assets, 7,247,229,269 bytes, 4,455 member records and 3,688 additional alias paths. Every ZIP passed CRC validation; GitHub reports matching SHA-256 and byte size for every asset. The member manifest distinguishes historical and non-primary provenance. These are all available selected scientific result arrays, not missing historical artifacts or unfinished evaluations.
+The base release set contains 19 ZIP assets, 7,247,229,269 bytes, 4,455 member records and 3,688 additional alias paths. Every base ZIP passed CRC validation; GitHub reports matching SHA-256 and byte size for every base asset. The member manifest distinguishes historical and non-primary provenance. An additive E5 asset is listed below; together the current set has 20 assets and 4,457 ZIP members. These are saved available result arrays, not missing historical artifacts or unfinished evaluations.
 
 | Category | Unique member records | Source bytes |
 |---|---:|---:|
@@ -15,10 +15,15 @@ The release contains 19 ZIP assets, 7,247,229,269 bytes, 4,455 member records an
 | e5 corruption audits | 27 | 3,064,554 |
 | runtime historical outcomes | 18 | 28,388,604 |
 | runtime roles | 3 | 8,149,413 |
-| runtime test outcomes | 2,205 | 5,707,227,131 |
+| runtime test outcomes in base release | 2,205 | 5,707,227,131 |
 | runtime tuning posteriors | 6 | 16,190,966 |
 
-Download release_manifest.json for member SHA-256 hashes and aliases; SHA256SUMS.txt contains archive hashes. Run sha256sum -c SHA256SUMS.txt after downloading all listed files. Each ZIP contains paths relative to the EC2 migration root; extract only into a new empty directory. Aliases identify identical content without redundant archive payloads.
+Download release_manifest.json for member SHA-256 hashes and aliases; SHA256SUMS.txt contains archive hashes.
+
+## Additive E5 result asset (2026-10-30)
+
+One validated E5 rep-1 direct Extra Trees label_noise_10 test-outcome array was added after the base release manifest: [download ZIP](https://github.com/S-G-mathematics/lamost-six-experiments/releases/download/results-2026-10-28/e5_rep1_label_noise10_et_20261030T165450Z.zip). ZIP size is 1,609,889 bytes, SHA-256 23e620caa2c4369c3ed47a08bd6f7111a82bd61dea710a1d67096066266543b1; the NPZ member is 1,609,070 bytes with SHA-256 0701fba533213f4aae76b471fa2a445e5867d0f6aa53cb51e40ccb6bb4b2a37b and CRC-32 c93d43e0. The updated current payload crosswalk has 2,323 canonical rows: 2,214 overlaps with the base member manifest, 104 unique E4 rows, four prior E5 delta rows, and this one new E5 row. See [the additive verification record](../reports/RESULT_PAYLOAD_COVERAGE_DELTA_20261030T165450689113Z.json). The original release_manifest.json and SHA256SUMS.txt remain the immutable base-release indexes.
+ Run sha256sum -c SHA256SUMS.txt after downloading all listed files. Each ZIP contains paths relative to the EC2 migration root; extract only into a new empty directory. Aliases identify identical content without redundant archive payloads.
 
 E2 fidelity diagnostic samples and E5 corruption realizations are included. Fitted models, FITS, raw baseline matrices and generated downstream training datasets are excluded. Historical E1 arrays absent from EC2 cannot be restored by this release.
 
