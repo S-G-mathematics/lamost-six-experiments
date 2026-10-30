@@ -1,6 +1,6 @@
 # Final-report scope supplement: E6 outcomes and E4/E5 scope
 
-Registry snapshot: 2026-10-30T00:23:38.508202+00:00. This is a descriptive supplement, not a final project report. E5 still has waiting cases; full calibration-quantile replay and final artifact audit remain outstanding. No bootstrap intervals or significance tests are claimed.
+Registry snapshot: 2026-10-30T01:56:16.520900+00:00. This is a descriptive supplement, not a final project report. E5 still has waiting cases; full calibration-quantile replay and final artifact audit remain outstanding. No bootstrap intervals or significance tests are claimed.
 
 ## E6 primary ensemble results
 
@@ -27,9 +27,13 @@ The original scientific-case denominators remain 1,773 for E4 and 960 for E5. Th
 | Experiment | Planned rows | Successful | Scientific failures | Unavailable | User-stopped | Waiting |
 |---|---:|---:|---:|---:|---:|---:|
 | E4 | 1,773 | 1,632 | 71 | 3 | 67 | 0 |
-| E5 | 960 | 709 | 50 | 78 | 101 | 22 |
+| E5 | 960 | 713 | 50 | 78 | 101 | 18 |
 
-See the current [E4 case ledger](E4_DESCRIPTIVE_REFRESH_20261029T231928Z/E4_CURRENT_CELL_LEDGER.csv), [E5 status snapshot](E5_RF_NEW_RESULTS_BATCH_20261030T002044Z/E5_STATUS_COUNTS.csv), and the E5 incremental case and paired tables in [the current results batch](E5_RF_NEW_RESULTS_BATCH_20261030T002044Z/README.md). Paired effects are conditional on successful matched repetitions. A one-repetition pair is n=1/3 and has no defined sample SD; it is not a complete three-repetition estimate.
+See the current [E4 case ledger](E4_DESCRIPTIVE_REFRESH_20261029T231928Z/E4_CURRENT_CELL_LEDGER.csv), [E5 status snapshot](E5_INCREMENTAL_VALIDATED_20261030T015616Z/E5_STATUS_COUNTS.csv), and the E5 incremental case and paired tables in [the current results batch](E5_INCREMENTAL_VALIDATED_20261030T015616Z/README.md). Paired effects are conditional on successful matched repetitions. A one-repetition pair is n=1/3 and has no defined sample SD; it is not a complete three-repetition estimate.
+
+## New E5 validated-results increment
+
+This snapshot includes 4 newly validated cases after the prior report: e5/rep_1/eval/synthetic/random_forest/label_noise_05_copula, e5/rep_1/eval/synthetic/random_forest/label_noise_10_arf, e5/rep_1/eval/synthetic/random_forest/label_noise_10_chow_liu, e5/rep_1/eval/synthetic/random_forest/label_noise_10_copula. The case-level same-repetition comparisons are in [E5_INCREMENTAL_VALIDATED_20261030T015616Z/E5_MATCHED_CLEAN_DIFFERENCES.csv](E5_INCREMENTAL_VALIDATED_20261030T015616Z/E5_MATCHED_CLEAN_DIFFERENCES.csv).
 
 ## E5 label-noise denominators and transitions
 
