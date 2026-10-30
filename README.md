@@ -85,9 +85,13 @@ Read the authoritative E1 protocol and dependency specification in [code/E1_benc
 
 This export preserves available source and evidence; it is not self-contained for model reuse because fitted models and raw data are excluded. Do not rerun frozen E1 or the stopped recovery study to fill gaps. New execution needs the matching verified EC2 dataset/artifacts and the recorded resource policy.
 
+The storage-campaign note [documents the historical index and campaign boundary](reports/REPRODUCTION_SCOPE_STORAGE_CAMPAIGN_20261030.md): the extracted archive supports descriptive regeneration, while an independent run requires a fresh campaign. E1/E2 are not reopened for fitting.
+
 Final calibration replay, cross-experiment validation and final project delivery remain pending. Historical reports with “final” in their filenames refer to their documented component or observation, not completion of the entire project.
 
 See [export provenance and sanitization](docs/EXPORT_PROVENANCE.md) for source-versus-export hash differences.
+
+For the dated project snapshot and operational handoff, see [the 2026-10-30 progress note](handoff/LAMOST_PROGRESS_20261030T160407Z.md).
 
 ## Current status note
 
