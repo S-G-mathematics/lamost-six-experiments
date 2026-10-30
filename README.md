@@ -122,6 +122,11 @@ See [latest progress](LATEST_PROGRESS.md), [current case ledger](reports/CURRENT
 
 The [B668 controller and approved source closure](provenance/working_reserve_storage_20261030/README.md) records a 6 GiB working reserve with one fit; the 10 GiB per-fit cap and 600-second phase cap remain unchanged. Final calibration replay and project validation remain pending.
 
-## Current update (2026-10-30T18:22:37.090314Z)
+## Previous update (2026-10-30T18:22:37.090314Z)
 
 The read-only registry snapshot remains 2,435 successful E3-E6 cases (including 12 E6 member-reference aliases), 127 recorded failures, 90 unavailable, 168 user-stopped, and 3 pending of 2,823. No new scientific outcome was introduced by the storage-source update. The approved 844-case qualification and its unmeasured production-cache speedup caveat are documented in [Working-storage qualification 844](docs/WORKING_STORAGE_844.md). Final calibration replay and the final archive remain pending.
+
+
+## Current update (2026-10-30T22:36:34.427111+00:00 UTC)
+
+A single read-only registry snapshot records 2,436 successful E3-E6 cases (including 12 E6 member-reference aliases), 127 recorded failures, 90 unavailable, 168 user-stopped, and 2 pending of the original 2,823. E5 is at 728 successful, 50 failures, 79 unavailable, 101 user-stopped, and 2 pending. The new direct Extra Trees missingness_05 rep-1 result has balanced accuracy 0.766318, coverage 0.895524, and set size 1.539060 (10,000 calibration; 500,000 test; n=1 selected repetition). Its exact outcome array is a [verified GitHub release asset](https://github.com/S-G-mathematics/lamost-six-experiments/releases/download/results-2026-10-28/e5_rep1_missingness05_et_20261030T223329Z.zip), with [member verification](reports/E5_MISSINGNESS05_ET_REP1_20261030T223634Z/RELEASE_VERIFICATION.json). E6 still has zero successful primary ensemble evaluations. Final global calibration replay, artifact audit, and project completion remain pending. See [latest progress](LATEST_PROGRESS.md), [current case ledger](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030T223634Z/PLANNED_CASE_OUTCOMES_2823.csv), and [root E3/E4 visual prereview](reports/engineering_audits/ROOT_E3_E4_VISUAL_PREREVIEW_20261031.json).

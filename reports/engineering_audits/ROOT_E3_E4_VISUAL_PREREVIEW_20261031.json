@@ -1,0 +1,31 @@
+{
+  "schema": "lamost-interim-visual-review/1",
+  "observed_utc": "2026-10-30T18:52:03.786777+00:00",
+  "scope": "Visual pre-review of existing terminal E3/E4 outputs; does not approve a future final candidate",
+  "reviewer": "root agent",
+  "files": {
+    "E3_balanced_accuracy_route_comparison.png": {
+      "bytes": 259592,
+      "sha256": "b6d707b3df3e88f7e46846ec17bf3206919c14c44bdc5c11be7e9d4bff9a4775"
+    },
+    "E3_coverage_route_comparison.png": {
+      "bytes": 224064,
+      "sha256": "d5f9f3daffe81f4cbda3840a4b7c1805cea9ead09851dd40633ec954fbd7cdaf"
+    },
+    "E4_balanced_accuracy_target_treatment.png": {
+      "bytes": 1218768,
+      "sha256": "2a3986417be8265f8186840594ee347550630883fb8191181ddcc415b475996e"
+    },
+    "E4_direct_method_effect_heatmaps.png": {
+      "bytes": 713773,
+      "sha256": "74daa07e2c131c24b69c556f6a00f9ee4106da14bee6921d825ae6553426aa08"
+    }
+  },
+  "findings": [
+    "E3 family-specific matched denominators visible; random-forest GMM n=2, other available families n=3; KDE no matched triples explicitly shown.",
+    "E3 coverage panel marks nominal 0.90 and discloses sample SD and shared real-only baselines.",
+    "E4 direct-method heatmaps show all 17 methods, seven named targets, two severities, paired differences and per-cell n/3. Unavailable KDE/RBF-SVM rows explicitly retained.",
+    "Dense E4 absolute-value bar overview is supplementary; use paired heatmaps and CSVs for readable comparisons."
+  ],
+  "remaining": "Final candidate tables, figures, integrity and calibration-replay audit still required. No scientific evaluation/model load/fit performed."
+}
