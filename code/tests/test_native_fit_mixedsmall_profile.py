@@ -188,9 +188,9 @@ class StorageGateBoundaryTests(unittest.TestCase):
   staged_text=staged.read_text()
   st=ast.parse(staged_text)
   sn=next(n for n in st.body if isinstance(n,ast.FunctionDef) and n.name=='storage_allow')
-  # Pinned to the unchanged storage_allow AST from the qualified 793 predecessor controller (a778a4b2...).
+  # Pinned to the unchanged storage_allow AST from the reviewed B668 working-storage controller.
   self.assertEqual(hashlib.sha256(ast.dump(sn,include_attributes=False).encode()).hexdigest(),
-                   'c3f2238015bfd97d47b3e34f1a75e0f245f240160c469126b5ffe27e93c0aea9')
+                   '3aeac25662cbbe5880b725acd78439910d5b1cfdb3509835123053906739df64')
   self.assertIn("if storage and archive_fit_overlap_context().get('mode')!='blocked':",staged_text)
   self.assertIn("archive_context.get('mode')=='active'",staged_text)
 

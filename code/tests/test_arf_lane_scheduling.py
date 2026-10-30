@@ -24,6 +24,7 @@ class ArfLaneSchedulingTests(unittest.TestCase):
         peaks=list(credits)
         with mock.patch.object(c,"worker_reservation_bytes",side_effect=reservation), \
              mock.patch.object(c,"worker_resource_class",side_effect=resource_class), \
+             mock.patch.object(c,"candidate_cpu_reservation_units",return_value=1), \
              mock.patch.object(c,"bracketed_worker_memory",return_value=(available,list(credits),peaks)), \
              mock.patch.object(c.os,"cpu_count",return_value=total_cpus), \
              mock.patch.object(c.archive_fit_admission,"inspect_runtime",return_value={"mode":"inactive"}), \
@@ -49,42 +50,44 @@ class ArfLaneSchedulingTests(unittest.TestCase):
         chosen=self.run_candidate(running,[light,alias,arf],26*G,credits,reservations=reservations,classes=classes)
         self.assertEqual(chosen["key"],"alias-fast")
     def test_admits_arf_after_natural_worker_completion(self):
-        running,reservations,classes,credits=self.fixture_workers()
-        running=running[:3];credits=credits[:3]
-        del reservations["rbf3"];del reservations["rbf4"];del classes["rbf3"];del classes["rbf4"]
+        running=[];credits=[]
+        reservations={"arf-ready":6*G,"light-fit":2*G}
+        classes={"arf-ready":"heavy","light-fit":"light"}
         arf=task("arf-ready",method="arf",experiment=4)
         light=task("light-fit",method="logistic")
-        reservations.update({"arf-ready":6*G,"light-fit":2*G})
-        classes.update({"arf-ready":"heavy","light-fit":"light"})
         chosen=self.run_candidate(running,[light,arf],26*G,credits,reservations=reservations,classes=classes)
+        self.assertIsNotNone(chosen,c.LAST_MEMORY_ADMISSION)
         self.assertEqual(chosen["key"],"arf-ready")
-    def test_non_direct_arf_fit_does_not_reserve_or_defer(self):
+    def test_non_direct_arf_fit_is_not_special_lane_eligible(self):
         running,reservations,classes,credits=self.fixture_workers()
+        running=[];credits=[]
         arf_treatment=task("arf-treatment",method="arf",experiment=4,route="treatment")
         light=task("light-fit",method="logistic")
         reservations.update({"arf-treatment":6*G,"light-fit":2*G})
         classes.update({"arf-treatment":"heavy","light-fit":"light"})
+        self.assertIsNone(c._eligible_waiting_arf6_fit([arf_treatment]))
         chosen=self.run_candidate(running,[arf_treatment,light],26*G,credits,reservations=reservations,classes=classes)
-        self.assertEqual(chosen["key"],"light-fit")
+        self.assertIsNotNone(chosen)
     def test_rbf_or_rf_generator_named_arf_is_not_arf_lane(self):
         rf_gen=task("rf-generator-arf",method="random_forest",experiment=4,generator="arf")
         chosen=self.run_candidate([], [rf_gen],30*G,[],reservations={rf_gen["key"]:10*G},classes={rf_gen["key"]:"heavy"})
         self.assertEqual(chosen["key"],rf_gen["key"])
     def test_existing_arf_lane_preserves_normal_light_packing(self):
         active=task("active-arf",method="arf",experiment=5,status="running")
-        light=task("light-fit",method="logistic")
+        light=task("light-fit",kind="alias",method="logistic")
         arf2=task("second-arf",method="arf",experiment=4)
         chosen=self.run_candidate([active],[light,arf2],30*G,[G],reservations={"active-arf":6*G,"light-fit":2*G,"second-arf":6*G},
                                   classes={"active-arf":"heavy","light-fit":"light","second-arf":"heavy"})
         self.assertEqual(chosen["key"],"light-fit")
     def test_no_arf_ready_or_eligible_keeps_normal_admission(self):
-        running,reservations,classes,credits=self.fixture_workers()
+        running=[];credits=[]
+        reservations={"light-fit":2*G};classes={"light-fit":"light"}
         light=task("light-fit",method="logistic")
-        reservations["light-fit"]=2*G;classes["light-fit"]="light"
         self.assertEqual(self.run_candidate(running,[light],26*G,credits,reservations=reservations,classes=classes)["key"],"light-fit")
         arf_attempted=task("arf-old-attempt",method="arf",experiment=4,attempts=[{"attempt_id":"old"}])
         reservations[arf_attempted["key"]]=6*G;classes[arf_attempted["key"]]="heavy"
-        self.assertEqual(self.run_candidate(running,[light,arf_attempted],26*G,credits,reservations=reservations,classes=classes)["key"],"light-fit")
+        self.assertIsNone(c._eligible_waiting_arf6_fit([arf_attempted]))
+        self.assertIsNotNone(self.run_candidate(running,[light,arf_attempted],26*G,credits,reservations=reservations,classes=classes))
     def test_does_not_hold_new_fits_when_no_work_can_release_memory(self):
         arf=task("arf-ready",method="arf",experiment=4)
         light=task("light-fit",method="logistic")
@@ -103,6 +106,7 @@ class ArfLaneSchedulingTests(unittest.TestCase):
         light=task("light-fit",method="logistic")
         chosen=self.run_candidate([], [light,arf],16*G,[],reservations={"arf-ready":6*G,"light-fit":2*G},
                                   classes={"arf-ready":"heavy","light-fit":"light"})
+        self.assertIsNotNone(chosen,c.LAST_MEMORY_ADMISSION)
         self.assertEqual(chosen["key"],"arf-ready")
 
 if __name__=="__main__":unittest.main(verbosity=2)

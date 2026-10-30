@@ -1261,6 +1261,43 @@ def _add_pinned_qualified_input_closure(root,out,expected_source_sha256,records)
  if len(PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256)!=28:raise EvidenceError('qualified-input allowlist count changed')
  return records
 
+
+PINNED_OPERATIONAL_SOURCE_CLOSURE_SHA256={
+ 'operations/root_storage6gib_deploy_20261030/USER_RESOURCE_DECISION.json':('f815a14ce26006aa40320262d195a097128347a4d82d8e35bd65ed2f9a3febf2','public_resource_decision','exact_sha_pinned_public_operational_proof'),
+ 'operations/working_reserve_storage_20261030/WORKING_STORAGE_POLICY_20261030.json':('48e3c1c7f4f61b31b4ed4a535ca298dcabcdd7b2ccb63d538a5aa13b0278e4f5','public_working_storage_policy','exact_sha_pinned_public_operational_proof'),
+ 'operations/working_reserve_storage_20261030/FOCUSED_QUALIFICATION_20261030.json':('5087d088d0eb4f20ba26358d822565b37dce900029c2b5183f8de00a71d10b44','public_working_storage_qualification','exact_sha_pinned_public_operational_proof'),
+ 'operations/working_reserve_storage_20261030/tests/test_working_reserve_storage.py':('99537d17d0f3c97c542aaf88d6657d113bc78c2e5c04d88cfc84c84fe12bb378','public_operational_engineering_test','exact_sha_pinned_public_operational_source'),
+ 'operations/root_storage6gib_deploy_20261030/safe_watchdog.py':('7229453ac7ec9cd78a6c1947f7fd86134dc2fdcc4bc0dc19122fd101c1e135f7','public_safe_watchdog_source','exact_sha_pinned_public_operational_source'),
+ 'operations/root_storage6gib_deploy_20261030/tests/test_safe_watchdog.py':('79b0e09f20c8b74836e109066eec7e88511fb17c5ac36ed24a65ee749e9dddfc','public_operational_engineering_test','exact_sha_pinned_public_operational_source'),
+ 'operations/terminal_result_retention_v2_20261030/source/terminal_result_retention_v2.py':('91250c7ff7d6da84dbbe03bda7161d9f6b02e974312f9b7e0d2c636d1f28c010','public_terminal_retention_helper_source','exact_sha_pinned_public_operational_source'),
+ 'operations/terminal_result_retention_v2_20261030/tests/test_terminal_retention_v2.py':('dc8e54c706ed775d0965d9eb9354f6101e634d5521f5881f6fe1cb658bfec9ae','public_operational_engineering_test','exact_sha_pinned_public_operational_source'),
+ 'runtime_20261025/run_controller.sh':('746dadaa0a322061064435a7cd7d3b8df79313acb7a46648c74424fa2f90f3f4','public_controller_launch_script','exact_sha_pinned_public_operational_source'),
+}
+def _add_pinned_operational_source_closure(root,out,expected_source_sha256,records):
+ root=Path(root).resolve();expected_source_sha256=expected_source_sha256 or {}
+ existing={e.member for e in out}
+ for relative,(pinned_sha,category,curation) in PINNED_OPERATIONAL_SOURCE_CLOSURE_SHA256.items():
+  rel=PurePosixPath(relative)
+  if rel.is_absolute() or not rel.parts or any(part in ('','.','..') for part in rel.parts) or '\\' in relative:
+   raise EvidenceError('unsafe pinned operational closure path: '+relative)
+  path=root.joinpath(*rel.parts);cursor=root
+  for part in rel.parts:
+   cursor=cursor/part
+   if cursor.is_symlink():raise EvidenceError('symlink in pinned operational closure source path: '+relative)
+  try:mode=path.lstat().st_mode
+  except OSError as exc:raise EvidenceError('required pinned operational source is missing: '+relative) from exc
+  if not __import__('stat').S_ISREG(mode):raise EvidenceError('pinned operational source is not a regular file: '+relative)
+  raw=path.read_bytes();observed=sha_bytes(raw)
+  if observed!=pinned_sha:raise EvidenceError('pinned operational source SHA mismatch: '+relative)
+  reviewed=expected_source_sha256.get(str(path.resolve()))
+  if reviewed not in (None,observed):raise EvidenceError('reviewed operational source SHA mismatch: '+relative)
+  if relative.endswith('.json'):_assert_public_resource_review(raw,path)
+  if relative in existing:raise EvidenceError('duplicate pinned operational archive member: '+relative)
+  out.append(Entry(raw,relative,category));existing.add(relative)
+  records.append({'source_member':relative,'archive_member':relative,'source_sha256':observed,'archive_sha256':observed,'bytes':len(raw),'curation':curation})
+ if len(PINNED_OPERATIONAL_SOURCE_CLOSURE_SHA256)!=9:raise EvidenceError('operational source closure allowlist count changed')
+ return records
+
 def _add_public_provenance(root,runtime,out,expected_source_sha256=None):
  records=[]
  def add_raw(path,member,category):
@@ -1279,6 +1316,7 @@ def _add_public_provenance(root,runtime,out,expected_source_sha256=None):
  mf=runtime/'manifests'
  _add_resource_review_evidence(root,out,expected_source_sha256,records,required=(runtime/'source'/'admission_evidence.py').is_file())
  _add_pinned_qualified_input_closure(root,out,expected_source_sha256,records)
+ _add_pinned_operational_source_closure(root,out,expected_source_sha256,records)
  for name in ('baseline_identity_boundary_audit.json','concurrency_user_authorization_20261025.json'):
   path=mf/name
   if path.is_file():add_raw(path,'runtime_20261025/manifests/'+name,'public_scientific_provenance')
@@ -1288,7 +1326,7 @@ def _add_public_provenance(root,runtime,out,expected_source_sha256=None):
  if e4.is_file():add_curated(e4,'runtime_20261025/manifests/incidents/e4_weight_schema_20261025_summary.json','curated_E4_weight_schema_incident',_curated_e4_weight_schema)
  svm=mf/'incidents/svm_native_margin_api_20261026.json'
  if svm.is_file():add_curated(svm,'runtime_20261025/manifests/incidents/svm_native_margin_api_20261026_summary.json','curated_SVM_native_margin_incident',_curated_svm_incident)
- omitted={'scope':'Only the exact hash-pinned public resource-review JSONs, six qualified policy JSONs, and twenty-two reviewer-classified safe qualification logs listed in included are selected from runtime staging; all other staging files, operational incident holds, service/process receipts, private operational output-tail receipts, and private logs are retained on EC2 and excluded from the public archive.','examples':['staging/** except explicitly listed public review/policy members','incidents/*_hold*.json','incidents/serialization_validation_20261025/dequeue_hold_resolved.json','logs/operational/** except the one exact SHA-pinned terminal test log','private operational portable-test output-tail JSON receipts']}
+ omitted={'scope':'Only exact hash-pinned public resource-review JSONs, the 28-member qualified runtime policy/log closure, and the nine exact operations/runtime approval, policy, qualification, test, helper, watchdog-source, and launch-script files listed in included are archived. All other staging and operations files, operational incident holds, service/process receipts, private operational output-tail receipts, cleanup/index data, and private logs are retained on EC2 and excluded from the public archive.','examples':['staging/** except explicitly listed public review/policy members','incidents/*_hold*.json','incidents/serialization_validation_20261025/dequeue_hold_resolved.json','logs/operational/** except the one exact SHA-pinned terminal test log','private operational portable-test output-tail JSON receipts']}
  manifest={'schema_version':'lamost-public-execution-provenance/1','included':records,'retained_only_omissions':omitted}
  out.append(Entry((json.dumps(manifest,indent=2,sort_keys=True,ensure_ascii=False)+'\n').encode(),'runtime_20261025/manifests/public_scientific_provenance_manifest.json','public_scientific_provenance_inventory'))
 
@@ -2288,13 +2326,13 @@ def write_full_archive(root,runtime,fullpath,evidence,review_proof,expected_hash
   cold_sha,_,_=cold_store._check_archive_manifest(cold_doc)
   readme=package_readme(str(fullpath),evidence,cold_models=True)
   entries=collect_full(root,runtime,readme,public,review_proof,expected_hashes,cold_store=cold_store,registry_records=registry_records,review_manifest=review_manifest)
-  omissions=['Credentials/private keys/authentication, Harbor, PIDs/start ticks, worker/controller request/result/log receipts, root attempts/logs, and operational cleanup receipts are excluded.','Private per-phase process state/result receipts are excluded; scientific trial ledgers/configs/errors/models/data/outcomes are retained.','Historical E1 fitted models/per-test-row prediction arrays omitted from compact migration remain unavailable.','E1 baseline/project, final tables, and curated stopped recovery artifacts are included directly from verified EC2 trees; original E1 ZIP remains on EC2 but is not embedded. Operations/migration receipts, process state, private watcher logs, credentials, raw queue logs, and temporary stop-copy files are omitted.','The exact final report review candidate, agent audit receipt, immutable master-index snapshot, and review proof are included.','Existing cold-model payloads remain as prior ZIP members in the same archive; logical runtime artifact paths are recorded as hash-checked aliases and restored on extraction.']
+  omissions=['Credentials/private keys/authentication, Harbor, PIDs/start ticks, worker/controller request/result/log receipts, root attempts/logs, and operational cleanup receipts are excluded.','Private per-phase process state/result receipts are excluded; scientific trial ledgers/configs/errors/models/data/outcomes are retained.','Historical E1 fitted models/per-test-row prediction arrays omitted from compact migration remain unavailable.','E1 baseline/project, final tables, and curated stopped recovery artifacts are included directly from verified EC2 trees; original E1 ZIP remains on EC2 but is not embedded. Operations/migration receipts, process state, private watcher logs, credentials, raw queue logs, and temporary stop-copy files are omitted except for the nine exact public operational source/proof closure files enumerated in the provenance manifest.','The exact final report review candidate, agent audit receipt, immutable master-index snapshot, and review proof are included.','Existing cold-model payloads remain as prior ZIP members in the same archive; logical runtime artifact paths are recorded as hash-checked aliases and restored on extraction.']
   result=append_full_archive(__import__(__name__),cold_store,building,fullpath,entries,[],omissions,registry_records,cold_sha,expected_hashes,review_proof)
   atomic_json(Path(result['path']+'.receipt.json'),result)
   return result
  readme=package_readme(str(fullpath),evidence,cold_models=False)
  entries=collect_full(root,runtime,readme,public,review_proof,expected_hashes)
- omissions=['Credentials/private keys/authentication, Harbor, PIDs/start ticks, worker/controller request/result/log receipts, root attempts/logs, and operational cleanup receipts are excluded.','Private per-phase process state/result receipts are excluded; scientific trial ledgers/configs/errors/models/data/outcomes are retained.','Historical E1 fitted models/per-test-row prediction arrays omitted from the compact migration remain unavailable.','E1 baseline/project, final tables, and curated stopped recovery artifacts are included directly from verified EC2 trees; original E1 ZIP remains on EC2 but is not embedded.','The exact final report review candidate, agent audit receipt, immutable master-index snapshot, and review proof are included.']
+ omissions=['Credentials/private keys/authentication, Harbor, PIDs/start ticks, worker/controller request/result/log receipts, root attempts/logs, and operational cleanup receipts are excluded.','Private per-phase process state/result receipts are excluded; scientific trial ledgers/configs/errors/models/data/outcomes are retained.','Historical E1 fitted models/per-test-row prediction arrays omitted from the compact migration remain unavailable.','E1 baseline/project, final tables, and curated stopped recovery artifacts are included directly from verified EC2 trees; original E1 ZIP remains on EC2 but is not embedded. Operations/migration receipts, process state, private watcher logs, credentials, raw queue logs, and temporary stop-copy files are omitted except for the nine exact public operational source/proof closure files enumerated in the provenance manifest.','The exact final report review candidate, agent audit receipt, immutable master-index snapshot, and review proof are included.']
  result=zipwrite(fullpath,entries,[],omissions,expected_source_sha256=expected_hashes,review_proof=review_proof)
  atomic_json(Path(result['path']+'.receipt.json'),result)
  return result

@@ -41,7 +41,9 @@ class CompactorPreflightTests(unittest.TestCase):
    self.assertFalse(m.storage_freshness(path,10**12,stale_epoch)[0])
    self.assertEqual(m.should_trigger_storage(obs,10**12,stale_epoch)[1],'storage_observation_stale')
   body=inspect.getsource(m.run_once)
-  self.assertIn("storage_freshness(R/'storage_observation.json',free,current_storage_observation_epoch())",body)
+  self.assertIn("storage_freshness(R/'storage_observation.json',free,current_storage_observation_epoch(),",body)
+  self.assertIn("approved_campaign=storage_campaign,restore_budget=restore_budget",body)
+  self.assertIn("storage_policy=storage_policy,archive_io_profile=archive_io_profile,runtime_root=ROOT",body)
   self.assertNotIn("storage_freshness(R/'storage_observation.json',free,now_epoch)",body)
 
  def test_stale_observation_backoffs(self):

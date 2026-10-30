@@ -27,6 +27,10 @@ After the 10:45-10:47 UTC cleanup, free space was 19,182,096,384 bytes at 11:05:
 
 See [LATEST_PROGRESS.md](LATEST_PROGRESS.md) for the latest counts: E4 1,632 successes, E5 726, with five E5 cases still waiting; E6 has zero successful primary ensemble tests. The nine newest E5 rep-1 results and their metadata are documented in [the incremental results folder](reports/E5_REP1_NINE_VALIDATED_20261030/README.md). This is an interim record, not project completion.
 
+## Qualified finalizer closure (2026-10-30)
+
+The finalizer and review helper are mirrored at their currently qualified hashes. The portable test bundle records 835/835 passed (fixture and engineering tests; no claim of scientific completion). See [closure and limits](docs/QUALIFIED_FINALIZER_835_CLOSURE_20261030.md), [public pass receipt](provenance/reports/PORTABLE_TEST_PASS_afd7bee2762ea7c024f1fc52ad2b496cde69c95d2e9e32dcaff74031553de438.json), and the exact [portable bundle](provenance/tests/PORTABLE_TEST_BUNDLE.json). Project-wide artifact review and calibration replay remain pending.
+
 ## Current case ledger
 
 The canonical current 2,823-row planned outcome and reason ledger is [reports/planned_case_ledger.csv](reports/planned_case_ledger.csv), mirrored by the source-bound dated capture [PLANNED_CASE_OUTCOMES_2823.csv](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030/PLANNED_CASE_OUTCOMES_2823.csv), captured 2026-10-30T10:04:33.369017+00:00. The prior 05:19Z pre-scope public ledger is preserved byte-for-byte at [history/planned_case_ledger_20261030T051951Z.csv](reports/history/planned_case_ledger_20261030T051951Z.csv). The current ledger keeps the original denominator and distinguishes successful aliases, recorded failures, unavailable, user-stopped, and pending outcomes.
