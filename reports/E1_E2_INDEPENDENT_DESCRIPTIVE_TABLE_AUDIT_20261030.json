@@ -1,0 +1,69 @@
+{
+  "schema": "lamost-independent-descriptive-table-audit/1",
+  "observed_utc": "2026-10-30T00:15:46.588305+00:00",
+  "scope": "Saved aggregate tables only; no model fitting, no NPZ reads, no artifact/calibration replay, no bootstrap. Does not certify full project completion.",
+  "input_sha256": {
+    "e1_wrapup_20261024/E1_frozen_cells_765.csv": "52d056aa2dc98f3721fb88a611bb4fa76aba74562751afc87b263f478c78b456",
+    "e1_wrapup_20261024/E1_method_budget_summary_153.csv": "eab93af663cd170fb7c3d1c572fdb4be2f9faa97c961f9f8d1b86dedcfb133da",
+    "e1_wrapup_20261024/E1_recovery_cutoff_91.csv": "2adc7f07e884fc95fb038e09b3858c63442ac5434b69152877a86c7620f770ed",
+    "e2_20261024/E2_all_generators_270.csv": "2c2572015422c28a120fbdb41f56d9900c335cbd13901156c7630ac4ef992210",
+    "e2_20261024/E2_all_class_reports_1596.csv": "a94eb255fb878a2b5c915c4a1608458718b69b2c872d99cf7c11759b4d9830cd",
+    "e2_20261024/E2_combined_spearman_30.csv": "9984a9d2818077ee1554ab9c90b9a615089c5c11712dc81a8756b7b88d7df543",
+    "e2_20261024/E2_missing_primary_42.csv": "e46fd16390cbdae6472f03f585082758a3693548f9b87ea8f1fe9179bdf58053"
+  },
+  "E1": {
+    "cells": 765,
+    "method_budget_rows": 153,
+    "classification_counts": {
+      "scientific_model_or_support_failure": 10,
+      "successful_test_evaluation": 674,
+      "resource_failure": 55,
+      "supervisor_terminal_failure_without_cell_completion": 26
+    },
+    "denominator_errors": [],
+    "maximum_absolute_mean_or_sample_sd_difference": 8.881784197001252e-16,
+    "recovery_counts": {
+      "not_attempted_user_stopped": 55,
+      "successful_test_evaluation": 24,
+      "failed": 10,
+      "user_stopped": 2
+    }
+  },
+  "E2": {
+    "planned_rows": 270,
+    "family_status_counts": {
+      "primary": {
+        "fidelity_complete": 108,
+        "unavailable": 42
+      },
+      "classical_reference": {
+        "fidelity_complete": 120
+      }
+    },
+    "provenance_counts": {
+      "E2_reconstructed_fit": 185,
+      "unavailable": 42,
+      "original_saved_fit": 43
+    },
+    "class_reports": 1596,
+    "class_status_counts": {
+      "valid_low_precision": 210,
+      "valid": 1386
+    },
+    "maximum_absolute_equal_seven_class_average_difference": 2.220446049250313e-16,
+    "complete_five_family_strata": 4,
+    "maximum_absolute_within_stratum_spearman_difference": 1.3877787807814457e-17,
+    "missing_primary": 42,
+    "missing_by_method": {
+      "arf": 22,
+      "kde": 20
+    },
+    "reconstruction_gate_counts": {
+      "reproduced_original_test_balanced_accuracy": 154,
+      "not_applicable": 85,
+      "classification_not_reproduced": 31
+    }
+  },
+  "issues": [],
+  "passed": true
+}
