@@ -2,7 +2,7 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-**Interim research checkpoint - 2026-10-30T10:49:15Z.** The project is not complete. See [LATEST_PROGRESS.md](LATEST_PROGRESS.md) for the current ledger and the [full work report](handoff/LAMOST_ALL_EXPERIMENTS_WORK_REPORT_20261030.md) and [supervisor prompt](handoff/LAMOST_SUPERVISOR_PROMPT_20261030.md). Older status sections and figures retain their stated cutoffs.
+**Interim research checkpoint - 2026-10-30T11:05:18Z.** The project is not complete. See [LATEST_PROGRESS.md](LATEST_PROGRESS.md) for the current ledger and the [full work report](handoff/LAMOST_ALL_EXPERIMENTS_WORK_REPORT_20261030.md) and [supervisor prompt](handoff/LAMOST_SUPERVISOR_PROMPT_20261030.md). Older status sections and figures retain their stated cutoffs.
 
 
 ## Operational source update (2026-10-29T06:31:00Z)
@@ -19,7 +19,9 @@ E4 records 1,616 successful, 71 failed, 3 unavailable and 83 waiting cases. E5 r
 
 ## Result coverage and storage checkpoint
 
-The current status ledger and 2,322-member verified result-array catalog are summarized in the [10:49 UTC interim coverage and storage update](handoff/LAMOST_STORAGE_AND_RESULT_COVERAGE_UPDATE_20261030T1049Z.md). At the 10:04 UTC registry snapshot, 14 selected E5 cases remained pending. After the 10:45-10:47 UTC LAMOST-only cleanup, available space was 19,191,664,640 bytes, still below the unchanged 20 GiB standard storage floor. No new resource profile is active.
+The [11:05 UTC asset coverage and resource-approval update](handoff/LAMOST_RESULT_ASSET_AND_RESOURCE_APPROVAL_20261030T1105Z.md) links the metadata-only GitHub release audit and distinguishes the 10:04 UTC case-ledger snapshot from the later storage observation. The audit confirms 2,322 exact-member-verified later outcome arrays with 2,214 base-release overlaps and 108 unique additions. It also verifies 80 of 674 frozen E1 primary prediction arrays and 24 of 24 stopped-recovery prediction arrays; fitted models are not in the GitHub assets.
+
+After the 10:45-10:47 UTC cleanup, free space was 19,182,096,384 bytes at 11:05:18 UTC, below the existing 20 GiB storage floor. The user approved a 6 GiB working reserve with one concurrent fit, retaining the 10 GiB/600-second hard limits, but implementation and validation are pending; this setting is not active and no fit has started under it.
 
 ## Current case ledger
 

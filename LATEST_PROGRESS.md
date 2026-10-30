@@ -1,6 +1,6 @@
 # Latest project progress
 
-Observation: 2026-10-30T10:49:15Z UTC. Storage follows the 10:45-10:47 UTC cleanup; registry outcomes below remain from the latest coherent read-only snapshot at 2026-10-30T10:04:33.369017Z. This is interim and does not mark the project complete.
+Observation: 2026-10-30T11:05:18Z UTC. Registry outcomes below remain from the latest coherent read-only snapshot at 2026-10-30T10:04:33.369017Z; storage was re-observed at 11:05:18Z after the 10:45-10:47Z cleanup. This is interim and does not mark the project complete.
 
 ## Current machine-readable ledger
 
@@ -8,9 +8,9 @@ The canonical current 2,823-row outcome/reason ledger is [reports/planned_case_l
 
 ## Result coverage and current storage
 
-The [interim coverage and storage update](handoff/LAMOST_STORAGE_AND_RESULT_COVERAGE_UPDATE_20261030T1049Z.md) details the frozen E1/E2 caveats, all 2,823 E3-E6 case outcomes, result-array backing, and cleanup. The public success crosswalk includes 2,425 successful task rows; the result-payload catalog records 2,322 exact-member-verified test-outcome arrays and 165 added metadata records. E6 still has zero successful primary ensemble test evaluations.
+See the [11:05 UTC result-asset and resource-approval update](handoff/LAMOST_RESULT_ASSET_AND_RESOURCE_APPROVAL_20261030T1105Z.md) and [GitHub asset coverage audit](reports/GITHUB_AVAILABLE_RESULT_PAYLOAD_COVERAGE_20261030/README.md). The audit confirms 2,322 exact-member-verified later outcome arrays (2,214 overlap the base release and 108 are unique additions), 80/674 frozen E1 primary prediction arrays, and 24/24 recovery prediction arrays. Fitted models are not in GitHub assets.
 
-The bounded cleanup retired 2,132 already-published payload groups (5,601,906,688 allocated bytes). Available space was 19,191,664,640 bytes at 10:49:15 UTC, below the unchanged 21,474,836,480-byte standard storage floor by 2,283,171,840 bytes. The gate still blocks 13 fits and 14 evaluation cases. No alternative 6 GiB reserve is active; the 10 GiB fit ceiling and 600-second phase limit are unchanged.
+The 10:45-10:47Z cleanup retired 2,132 already-published result groups (5,601,906,688 allocated bytes). Free space was 19,182,096,384 bytes at 11:05:18Z, below the unchanged 21,474,836,480-byte standard floor by 2,292,740,096 bytes. The user approved a 6 GiB reserve with one fit while keeping the 10 GiB per-fit ceiling and 600-second phase cap; implementation and validation remain pending, the setting is not active, and no fit has started under it.
 
 ## Current E3-E6 scientific ledger
 
