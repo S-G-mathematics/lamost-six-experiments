@@ -1,5 +1,7 @@
 # Scientific result-array delivery
 
+See [Data availability](DATA_AVAILABILITY.md) for EC2 baseline and role paths, hashes, and reproduction limits.
+
 [Download the verified result release](https://github.com/S-G-mathematics/lamost-six-experiments/releases/tag/results-2026-10-28).
 
 The base release set contains 19 ZIP assets, 7,247,229,269 bytes, 4,455 member records and 3,688 additional alias paths. Every base ZIP passed CRC validation; GitHub reports matching SHA-256 and byte size for every base asset. The member manifest distinguishes historical and non-primary provenance. An additive E5 asset is listed below; together the current set has 20 assets and 4,457 ZIP members. These are saved available result arrays, not missing historical artifacts or unfinished evaluations.

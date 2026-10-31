@@ -11,3 +11,5 @@ Original E1 source, protocol and dependency specifications retain their source h
 snapshot_manifest.json inventories delivered Git files, including generated documentation and metadata. file_manifest.csv maps copied source files only, so generated export documentation is not expected in it. The snapshot manifest does not contain its own hash; the Git commit identifies it.
 
 Large result/role arrays are separate release assets with their own member inventory and checksums. Missing historical E1 model/prediction artifacts remain missing. No fitted model or FITS file is part of this Git delivery.
+
+The 863-test EC2 source bundle contains 212 source rows; this public snapshot mirrors 190 and lists the 22 omitted log bodies in docs/DATA_AVAILABILITY.md. Do not treat the EC2 pass receipt as a claim that a public clone can rerun the identical suite.

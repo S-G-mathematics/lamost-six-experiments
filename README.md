@@ -2,7 +2,7 @@
 
 Code, recorded results, figures and scientific provenance for seven-class classification using Pan-STARRS g, r, i, z, y and Gaia G photometry.
 
-## Current snapshot (2026-10-31, 2026-10-31T01:34:20Z)
+## Current snapshot (registry observation 2026-10-31T00:48:10.617209Z)
 
 This interim snapshot is not a final project report. All 6,270 registry task rows are validated terminal. The original 2,823 planned E3-E6 scientific-case denominator is preserved: 2,438 successful references, 127 recorded failures, 90 unavailable dependencies, 168 prospective user-stopped repetitions, and zero pending. E6 has twelve member-reference aliases and zero successful primary ensemble test evaluations. Full artifact review and global calibration/quantile replay remain pending.
 
@@ -17,7 +17,7 @@ This interim snapshot is not a final project report. All 6,270 registry task row
 | E5 | 960 | 730 including 88 aliases | 50 | 79 | 101 | 0 |
 | E6 | 21 | 12 member aliases; 0 primary ensembles | 3 | 6 | 0 | 0 |
 
-See the [current case ledger](reports/CURRENT_CASE_OUTCOME_LEDGER_20261031/PLANNED_CASE_OUTCOMES_2823.csv), [successful evaluation SHA crosswalk](reports/E3_E6_SUCCESS_EVALUATION_SHA_CROSSWALK_20261031.csv), and [scientific log coverage audit](reports/SCIENTIFIC_LOG_COVERAGE_20261031.md). The [current source/test closure](provenance/qualification_863/SOURCE_TEST_PUBLIC_PROOF_CLOSURE.json) is an 863/863 engineering/fixture result, not scientific-completion evidence.
+For execution and delivery boundaries, see the [final resource/delivery note](reports/FINAL_EXECUTION_RESOURCE_DELIVERY_NOTES_20261031.md). See also [data availability and reproduction limits](docs/DATA_AVAILABILITY.md), the [current case ledger](reports/CURRENT_CASE_OUTCOME_LEDGER_20261031/PLANNED_CASE_OUTCOMES_2823.csv), [successful evaluation SHA crosswalk](reports/E3_E6_SUCCESS_EVALUATION_SHA_CROSSWALK_20261031.csv), and [scientific log coverage audit](reports/SCIENTIFIC_LOG_COVERAGE_20261031.md). The [current source/test closure](provenance/qualification_863/SOURCE_TEST_PUBLIC_PROOF_CLOSURE.json) records 863/863 engineering/fixture tests passed on EC2. It is not scientific-completion evidence, and the public clone omits 22 operational/test log source inputs; see [data availability](docs/DATA_AVAILABILITY.md).
 
 E1 remains 674 successful, 81 recorded failures (55 resource plus 26 supervisor-terminal manifests still started), and 10 unsupported. Recovery is separate: 24 successful, 10 failed, 2 user-stopped, 55 not attempted. Historical fitted models remain omitted; 80/674 successful frozen E1 prediction arrays are available. E2 has 108/150 primary evaluations and 120/120 separate references; reconstruction records 31 accuracy differences, 210 low-precision flags, and four complete correlation strata. No E1/E2 bootstrap or refit is claimed.
 
@@ -72,7 +72,7 @@ Counts refer to scientific evaluation cases, not controller dependency tasks. La
 
 - [Frozen E1 code](code/E1_benchmark/) and [later-experiment implementation](code/source/).
 - [Engineering tests](code/tests/), [frozen manifests and configurations](provenance/manifests/).
-- [Experiment navigation](experiments/), [reports, CSV tables and figures](reports/).
+- [Experiment navigation](experiments/), [reports, CSV tables and figures](reports/), [baseline/role data availability](docs/DATA_AVAILABILITY.md).
 - [Per-repetition metrics](reports/per_repetition_metrics.csv), [per-class metrics](reports/per_class_metrics.csv), [coverage ledger](reports/experiment_outcome_coverage.csv), [resource failures](reports/resource_failure_ledger.csv).
 - [File-level source/export hashes](file_manifest.csv), [snapshot hashes](snapshot_manifest.json), [explicit exclusion inventory](exclusion_inventory.csv).
 - [Current scientific cell ledger](reports/CURRENT_CELL_LEDGER.csv) contains all 2,823 E3-E6 case states from the 2026-10-29T05:02:02.829484+00:00 read-only registry snapshot; it is not a process-liveness inventory.
@@ -81,7 +81,7 @@ Counts refer to scientific evaluation cases, not controller dependency tasks. La
 - [Incremental validated E4/E5 results](reports/E4_INCREMENTAL_RESULTS_20261028T084431Z.md) record three post-snapshot validated ledger entries and link the two unique outcome arrays.
 - [E4 rep-3 incremental validated results](reports/E4_INCREMENTAL_VALIDATED_20261028T200243Z.md) contains six later RF treatment evaluations and 42 class-level rows; older derived tables and figures remain dated to the 17:00:39Z analysis snapshot.
 
-Large scientific result arrays and role-membership arrays are delivered separately through [GitHub Releases](https://github.com/S-G-mathematics/lamost-six-experiments/releases), with member manifests, ZIP CRC verification and SHA-256 checksums. The [verified array delivery](docs/RESULT_ARRAYS.md) contains 19 ZIPs (7.25 GB), with remote SHA-256 and byte-size verification. Fitted-model files and FITS files are excluded. Raw/generated training datasets are not part of this code-and-results repository.
+Large scientific result arrays and role-membership arrays are delivered separately through [GitHub Releases](https://github.com/S-G-mathematics/lamost-six-experiments/releases), with member manifests, ZIP CRC verification and SHA-256 checksums. The [verified array delivery](docs/RESULT_ARRAYS.md) contains 19 ZIPs (7.25 GB), with remote SHA-256 and byte-size verification. Fitted-model files and FITS files are excluded. Baseline payloads are not bundled in Git; exact EC2 locations and SHA-256 identities, role-array release coverage, and reconstruction limits are documented in [Data availability](docs/DATA_AVAILABILITY.md).
 
 - [Frozen E1/E2 identity audit](provenance/identity/FROZEN_E1_E2_CURRENT_IDENTITY_20261029.json) records a 29-file current identity check; its archive check was a stat-chain check, not a fresh full archive hash.
 
@@ -109,9 +109,9 @@ See [export provenance and sanitization](docs/EXPORT_PROVENANCE.md) for source-v
 
 For the dated project snapshot and operational handoff, see [the 2026-10-30 progress note](handoff/LAMOST_PROGRESS_20261030T160407Z.md).
 
-## Current status note
+## Superseded status note (2026-10-30T16:54:50Z)
 
-Read-only registry snapshot 2026-10-30T16:54:50.689113+00:00: E3: 64 successful, 3 recorded scientific failures, 2 unavailable; E4: 1632 successful, 71 failures, 3 unavailable, 67 user-stopped, 0 pending; E5: 727 successful, 50 failures, 79 unavailable, 101 user-stopped, 3 pending; E6: 12 successful member-reference aliases and 0/6 successful primary ensembles. E3-E6 totals: 2,823 planned cases, 2435 successful including aliases, 127 recorded failures, 90 unavailable, 168 user-stopped, 3 pending. The latest E5 result is rep-1 direct Extra Trees label_noise_10 (BA 0.758352, coverage 0.895346, set size 1.647708; n=500,000 test / 10,000 calibration). The paired label_noise_20 ET fit failed its configured RSS limit; its evaluation is unavailable and its partial fit artifact is excluded. See the [current case ledger](reports/planned_case_ledger.csv) and [dated snapshot](reports/CURRENT_CASE_OUTCOME_LEDGER_20261030T165450689113Z/README.md). Final calibration replay and full artifact validation remain pending. The latest payload coverage addendum reports 2,323 canonical result arrays, including this newly verified E5 array; see [array delivery details](docs/RESULT_ARRAYS.md).
+The counts and result-array totals in this earlier note are historical. Use the current snapshot table above, the current case ledger, and the successful-evaluation SHA crosswalk for present status. Older dated sections below are retained as provenance and are not current-state claims.
 
 <!-- CURRENT REPETITION SCOPE -->
 ## Current repetition-scope amendment
@@ -120,9 +120,13 @@ At the registry snapshot in the linked interim report, the original 2,823 E3-E6 
 
 <!-- END CURRENT REPETITION SCOPE -->
 
-## Current working-storage qualification 844
+## Current portable qualification (863-test EC2 snapshot)
 
-Portable engineering qualification passed 844/844 cases (105 subtests) for the current storage source and exact bundle. It preserves the 6 GiB working reserve, one-fit limit, 10 GiB worker ceiling, and 600-second timeouts. Production cache-reuse speedup has not yet been measured; the independent adoption snapshot records the first current-source archive pass in progress. See [qualification and scope details](docs/WORKING_STORAGE_844.md).
+The current EC2 portable engineering suite passed 863/863 tests. Bundle fingerprint 1e68ddc3d21dae8decadcc602dcfcd84e42f34bdf822df47c50bdb962c2a4f49; bundle SHA-256 bac77c40050163c8b449971708d00eb21d03aaa96c58ca17dfe6c012124ecf7c. The exact public pass receipt is [PORTABLE_TEST_PASS.json](provenance/qualification_863/PORTABLE_TEST_PASS.json), and the public source closure is [SOURCE_TEST_PUBLIC_PROOF_CLOSURE.json](provenance/qualification_863/SOURCE_TEST_PUBLIC_PROOF_CLOSURE.json). The suite passed on EC2; this repository mirrors 190/212 source inputs because 22 operational/test log bodies remain excluded. Do not represent the public clone as independently reproducing all 863 tests. This qualification does not validate scientific results or complete calibration replay.
+
+## Historical working-storage qualification (844-test snapshot, superseded)
+
+The 844-test result documents an earlier storage-source snapshot. It is superseded by the 863-test EC2 qualification above. See [the historical qualification record](docs/WORKING_STORAGE_844.md).
 
 ## Historical portable qualification 807
 
