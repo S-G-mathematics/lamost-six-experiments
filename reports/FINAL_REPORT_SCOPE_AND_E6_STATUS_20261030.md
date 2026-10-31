@@ -1,3 +1,5 @@
+> **Superseded dated snapshot (2026-10-30T01:56Z).** E4/E5 counts and pending-case statements below predate later terminal outcomes. Its description of E6-v2 scope is historical; use [the current results guide](../docs/RESULTS_GUIDE.md), which records zero successful primary ensemble test evaluations and the current 2,823-case ledger. Original dated text is retained below.
+
 # Final-report scope supplement: E6 outcomes and E4/E5 scope
 
 Registry snapshot: 2026-10-30T01:56:16.520900+00:00. This is a descriptive supplement, not a final project report. E5 still has waiting cases; full calibration-quantile replay and final artifact audit remain outstanding. No bootstrap intervals or significance tests are claimed.

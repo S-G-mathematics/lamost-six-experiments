@@ -1,3 +1,5 @@
+> **Superseded historical snapshot (2026-10-27).** This report predates the corrected E6-v2 task attempts and later E4/E5 completion. Its E6 terminal-status narrative is not current. Use [the current results guide](../docs/RESULTS_GUIDE.md), [current 2,823-case ledger](CURRENT_CASE_OUTCOME_LEDGER_20261031/PLANNED_CASE_OUTCOMES_2823.csv), and [current aggregate snapshot](AGGREGATE_SNAPSHOT_20261031T010534Z/README.md). The historical content below is retained as dated evidence.
+
 # Cross-experiment synthesis: E1, E2, E3 and E6
 
 Corrected and revalidated at 2026-10-27T09:33:19+00:00 UTC on the existing EC2 from saved validated reports, ledgers, and summary tables. This is a synthesis for final-report use, not a declaration that the six-experiment project is complete. E4 and E5 remain in progress; global calibration-quantile replay and final project validation are pending.

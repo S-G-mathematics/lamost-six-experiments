@@ -1,5 +1,5 @@
-# E4 interim snapshot
+# E4 - target-class imbalance and restoration
 
-Registry status observed 2026-10-28T18:38:37.029396+00:00 UTC: 1599 successful, 71 scientific failures, 3 unavailable and 100 waiting of 1,773 planned cases.
+E4 has 1,773 planned cases: 1,632 successful references (21 aliases), 71 failures, 3 unavailable and 67 user-stopped. It varies target class, severity, learner, treatment and repetition. Completed repetitions remain; one further evaluation was selected for outstanding cases. The original three-repetition grid is not complete.
 
-Existing tables and figures remain bound to the validated 2026-10-28T17:00:39.712874Z analysis snapshot. This is interim availability reporting, not final paired-effects reporting. Pending cases remain pending.
+The 2,730-row [treatment/control ledger](../../reports/E4_CONTROL_TREATMENT_PAIRED.csv) keeps direct, generated, unchanged-control and untreated-altered contrasts separate. Direct altered-versus-unchanged has 600 available pairs among 714 contrast rows. These are contrast rows, not unique evaluation cases. See [pair availability](../../reports/descriptive_summaries_20261031/E4_pair_availability.csv), [paired effects](../../reports/descriptive_summaries_20261031/E4_treatment_control_pair_summaries.csv), and [class histograms](../../reports/E4_class_histograms.csv). One stratum, direct ARF targeting class A (index 0) at ratio 0.5, has altered-minus-unchanged BA -0.00600 (SD 0.01681; n=3). This does not summarize other strata.

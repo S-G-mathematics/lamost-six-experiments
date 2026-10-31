@@ -1,13 +1,7 @@
-# E2 snapshot
+# E2 - generator fidelity and classification
 
-Primary grid 108/150 evaluated; 42 unavailable. Classical references 120/120. Preserve original/reconstructed provenance, 31 accuracy differences, 210 low-precision flags, and four complete primary correlation strata. No bootstrap.
+The five-generator primary grid has 108/150 evaluated cells and 42 unavailable; the separate classical-reference set has 120/120 and is not part of the primary comparison. Only 4/30 budget-repetition strata contain all five primary generators. The remaining 26 are incomplete; no pooled cross-budget correlation is claimed.
 
-This is an interim export. See the linked tables/reports and metadata/current_execution_snapshot.json. Fitted models and raw datasets are excluded.
+Across 228 evaluated cells there are 1,596 seven-class quality reports, including 210 low-precision reports (<20 diagnostic rows), and no integrity errors. Reconstruction matches frozen balanced accuracy exactly in 154 comparisons; 31 differ, maximum absolute difference 3.1739351391335546e-05. Original and reconstructed fits remain labeled separately.
 
-## Reports and tables
-
-- [Current E2 report](E2_CURRENT_REPORT.md)
-- [Reconstruction amendment](E2_RECONSTRUCTION_AMENDMENT.md)
-- [Primary and reference cell table](E2_all_generators_270.csv)
-
-[All reports and figures](../../reports/) · [Current observation](../../metadata/current_execution_snapshot.json) · [Repository overview](../../README.md)
+See [report](E2_CURRENT_REPORT.md), [reconstruction amendment](E2_RECONSTRUCTION_AMENDMENT.md), [270-cell table](E2_all_generators_270.csv), [1,596 class reports](E2_all_class_reports_1596.csv), [stratum completeness](E2_combined_spearman_30.csv), [verified differences](../../reports/E2_RECONSTRUCTION_DIFFERENCES_VERIFIED.csv), and [availability figure](../../reports/frozen_e1_e2_figures/E2_primary_availability_and_strata.png). No bootstrap or test-based model selection is claimed.
