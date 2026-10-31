@@ -8,7 +8,7 @@ sys.path.insert(0,str(STAGE/'source'))
 sys.modules.pop('controller',None)
 sys.modules.pop('archive_fit_admission',None)
 import controller
-_EXPECTED_CONTROLLER_SHA='b6684a6031b47de96cce09d34db6ef01cc4a6b1f33ca68d026f7f38aef12c022'
+_EXPECTED_CONTROLLER_SHA='d09f18c367a0e51dead494a09e07b529673e41d1fdc615665d3fc49c83e0070a'
 assert Path(controller.__file__).resolve()==(STAGE/'source/controller.py').resolve()
 assert hashlib.sha256(Path(controller.__file__).read_bytes()).hexdigest()==_EXPECTED_CONTROLLER_SHA
 assert Path(controller.archive_fit_overlap_context.__code__.co_filename).resolve()==(STAGE/'source/controller.py').resolve()

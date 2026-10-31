@@ -12,8 +12,8 @@ ARCHIVE_IO_WALL_SECONDS=1800
 CODEC_LARGE_WALL_SECONDS=5400
 CODEC_FOLLOWUP_MAX_BYTES=1<<30
 CODEC_FOLLOWUP_MAX_GROUPS=1
-SOURCE_PINS={'commit_batch_child.py': '1391c1a1e6690dcd5030c1ef9ad131f3d639b294986eea29fc3f872ec66676f5',
- 'controller.py': 'b6684a6031b47de96cce09d34db6ef01cc4a6b1f33ca68d026f7f38aef12c022',
+SOURCE_PINS={'commit_batch_child.py': '607ed83ac7acc4a9490fb7e094871ef81c97f449897db0c2bf5c80f0f92798cf',
+ 'controller.py': 'd09f18c367a0e51dead494a09e07b529673e41d1fdc615665d3fc49c83e0070a',
  'batch_plan.py': '653ae3ff46e433ce102939e1a635f2a9374f8387b4e59abfc7681d5243dbe0f5',
  'admission_evidence.py': 'f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9',
  'cold_model_storage.py': '48fb2a2c52acdeb0a15fe36419676dbadc99d0ebdb46a3121e527471ffc45c57',

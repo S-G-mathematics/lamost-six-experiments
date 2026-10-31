@@ -1,0 +1,105 @@
+import importlib.util, sys, types, tempfile, hashlib, zlib, unittest
+from pathlib import Path
+
+STAGE=Path(__file__).resolve().parents[1]
+SRC=STAGE/'source'
+sys.path.insert(0,str(SRC))
+import batch_plan as bp
+
+controller_stub=types.ModuleType('controller')
+controller_stub.memory_admission_ok=lambda *a,**k: True
+controller_stub.archive_fit_admission=types.SimpleNamespace()
+sys.modules['controller']=controller_stub
+
+def load(name,path):
+    spec=importlib.util.spec_from_file_location(name,path)
+    mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod);return mod
+
+wrapper=load('codec_multigroup_run_batch',SRC/'run_batch.py')
+child=load('codec_multigroup_commit_child',SRC/'commit_batch_child.py')
+driver=load('codec_multigroup_auto',SRC/'cold_auto_compaction.py')
+
+class CodecMultigroupProfileTests(unittest.TestCase):
+    def test_all_entrypoints_accept_exact_codec_multigroup_profile(self):
+        profile=bp.CODEC_MULTIGROUP_PROFILE
+        w=wrapper.resolve_batch_policy('storage-followup-codec','reversible-xz-v1',profile)
+        c=child.validate_storage_policy('storage-followup-codec','reversible-xz-v1',profile)
+        d=driver.batch_config('reversible-xz-v1',profile)
+        for p in (w,c,d):
+            self.assertEqual((p['max_bytes'],p['max_groups'],p['wall_seconds']),
+                             (1<<30,64,1800))
+            self.assertEqual(p['storage_codec_policy'],'reversible-xz-v1')
+            self.assertEqual(p['codec_temp_budget_bytes'],4<<30)
+            self.assertEqual(p['transient_disk_reserve_bytes'],10<<30)
+            self.assertEqual(p['transient_disk_margin_bytes'],2<<30)
+        self.assertEqual(driver.outer_wrapper_wall_seconds(profile),1860)
+        self.assertEqual(child.CODEC_MULTIGROUP_PROFILE,profile)
+        self.assertEqual(driver.CODEC_MULTIGROUP_PROFILE,profile)
+
+    def test_legacy_codec_and_raw_profiles_keep_existing_caps(self):
+        oldw=wrapper.resolve_batch_policy('storage-followup-codec','reversible-xz-v1')
+        oldc=child.validate_storage_policy('storage-followup-codec','reversible-xz-v1')
+        oldd=driver.batch_config('reversible-xz-v1')
+        for p in (oldw,oldc,oldd):
+            self.assertEqual((p['max_bytes'],p['max_groups'],p['wall_seconds']),(1<<30,1,600))
+        raww=wrapper.resolve_batch_policy('storage-followup',None)
+        rawc=child.validate_storage_policy('storage-followup',None)
+        rawd=driver.batch_config(None)
+        for p in (raww,rawc,rawd):
+            self.assertEqual((p['max_bytes'],p['max_groups'],p['wall_seconds']),(2<<30,16,600))
+            self.assertIsNone(p['storage_codec_policy'])
+        self.assertEqual(wrapper.CHILD_ADDRESS_SPACE_BYTES,896<<20)
+        self.assertEqual(wrapper.CHILD_AGGREGATE_RSS_BYTES,1<<30)
+        self.assertEqual(driver.WRAPPER_RSS_LIMIT,1536<<20)
+        self.assertEqual(driver.WRAPPER_AS_LIMIT,1536<<20)
+
+    def test_mismatched_codec_unknown_and_raw_pairings_rejected(self):
+        profile=bp.CODEC_MULTIGROUP_PROFILE
+        with self.assertRaises(ValueError):wrapper.resolve_batch_policy('storage-followup-codec',None,profile)
+        with self.assertRaises(ValueError):wrapper.resolve_batch_policy('storage-followup','reversible-xz-v1',profile)
+        with self.assertRaises(ValueError):child.validate_storage_policy('storage-followup-codec',None,profile)
+        with self.assertRaises(ValueError):child.validate_storage_policy('storage-followup','reversible-xz-v1',profile)
+        with self.assertRaises(ValueError):driver.batch_config(None,profile)
+        with self.assertRaises(ValueError):wrapper.resolve_batch_policy('storage-followup-codec','reversible-xz-v1','unknown-profile')
+
+    def test_batch_selector_enforces_one_gib_and_64_groups_without_payloads(self):
+        rows=[{'bytes':(1<<30)+1,'inode_identity':[1,0],'producer_task':'oversize'}]
+        rows.extend({'bytes':1,'inode_identity':[1,i],'producer_task':str(i)} for i in range(1,70))
+        selected=bp.select_batch(rows,max_bytes=bp.CODEC_MULTIGROUP_MAX_BYTES,
+                                 max_groups=bp.CODEC_MULTIGROUP_MAX_GROUPS)
+        self.assertEqual(len(selected),64)
+        self.assertNotIn('oversize',[x['producer_task'] for x in selected])
+        self.assertLessEqual(sum(x['bytes'] for x in selected),1<<30)
+        self.assertEqual(selected[-1]['producer_task'],'64')
+
+    def test_disk_gate_includes_growth_temp_host_margin_and_exact_tail(self):
+        tail=1234567
+        required=bp.codec_multigroup_disk_required_bytes(tail)
+        self.assertEqual(required,(13<<30)+tail)
+        policy={'max_bytes':bp.CODEC_MULTIGROUP_MAX_BYTES,
+                'transient_disk_reserve_bytes':bp.CODEC_MULTIGROUP_TRANSIENT_DISK_RESERVE_BYTES,
+                'transient_disk_margin_bytes':bp.CODEC_MULTIGROUP_DISK_MARGIN_BYTES,
+                'archive_tail_backup_bytes':tail}
+        self.assertTrue(wrapper.transient_disk_headroom_ok(required,policy))
+        self.assertFalse(wrapper.transient_disk_headroom_ok(required-1,policy))
+
+class AggregateCodecTempBudgetTests(unittest.TestCase):
+    def test_encoder_fails_closed_before_exceeding_encoded_temp_budget(self):
+        import joblib.compressor
+        codec=load('codec_multigroup_reversible_codec',SRC/'reversible_joblib_codec.py')
+        payload=b'A'*(2<<20)
+        co=zlib.compressobj(3,zlib.DEFLATED,zlib.MAX_WBITS,8,zlib.Z_DEFAULT_STRATEGY)
+        source_bytes=co.compress(payload)+co.flush()
+        self.assertEqual(source_bytes[:2],codec.ZLIB_HEADER)
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);source=root/'source.joblib';out=root/'out.xz'
+            source.write_bytes(source_bytes)
+            before=hashlib.sha256(source.read_bytes()).hexdigest()
+            with self.assertRaises(codec.AggregateTempBudgetExceeded):
+                codec.encode_file(source,out,output_root=root,
+                    joblib_compressor_source_path=Path(joblib.compressor.__file__),
+                    max_encoded_temp_bytes=1)
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),before)
+            self.assertFalse(out.exists() and out.stat().st_size>1)
+
+if __name__=='__main__':unittest.main()

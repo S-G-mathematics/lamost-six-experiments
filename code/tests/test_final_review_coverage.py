@@ -38,11 +38,11 @@ class CoverageTests(unittest.TestCase):
    expected={}
    result=fr.public_provenance_records(root,runtime,expected,finalizer_path=finalizer)
    views=result['archive_views'];sources=result['source_records']
-   self.assertEqual(len(views),49)
-   self.assertEqual(len(sources),48)
+   self.assertEqual(len(views),56)
+   self.assertEqual(len(sources),55)
    finalizer_module=fr._public_provenance_finalizer(runtime,finalizer)
    operational_members=set(finalizer_module.PINNED_OPERATIONAL_SOURCE_CLOSURE_SHA256)
-   self.assertEqual(len(operational_members),9)
+   self.assertEqual(len(operational_members),16)
    self.assertTrue(operational_members.issubset(views))
    self.assertTrue(all(str((root/rel).resolve()) in expected for rel in operational_members))
    self.assertIn('runtime_20261025/manifests/incidents/e4_weight_schema_20261025_summary.json',views)

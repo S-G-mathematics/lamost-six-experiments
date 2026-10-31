@@ -1,0 +1,1407 @@
+{
+  "bootstrap": false,
+  "created_utc": "2026-10-27T17:05:42.523111+00:00",
+  "feature_order": [
+    "mag_ps_g",
+    "mag_ps_r",
+    "mag_ps_i",
+    "mag_ps_z",
+    "mag_ps_y",
+    "gaia_g_mean_mag"
+  ],
+  "label_order": [
+    "A",
+    "F",
+    "G",
+    "K",
+    "M",
+    "GALAXY",
+    "QSO"
+  ],
+  "original_plan_freeze_utc": "2026-10-25T04:46:31.018995+00:00",
+  "protocol_version": "E6-v2",
+  "schema_version": "lamost-e6-execution-overlay/2",
+  "source_build_plan_sha256": "26594bf3df6e96632baec887f61556d37e28154b495a38a56daa964a13ed052d",
+  "source_controller_pre_amendment_sha256": "ea35d3cf151be71152d9c830f366bf204cec2c28ab0e972fb15714a4b00aca6c",
+  "source_e3_manifest_sha256": "414af08d33e0a0269fa2cf01ba1d499981eaf312eea1d98a15a2b6734e815182",
+  "source_e6_manifest_sha256": "7a3fc00128addf19cb2c17e83260aaf6daf2848881b909f62a53b9d195e00a8f",
+  "source_ensemble_pre_amendment_sha256": "60a89134f546bfb257e2baf5be76af453bec1f2c7fc138c31d7d629227f1ec7c",
+  "source_plan_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+  "supersession_reason": "E6 v2 separates five fitted model dependencies from E3 direct evaluation-reference outcomes; the original six v1 unavailable_dependency records remain preserved in controller event history.",
+  "tasks": [
+    {
+      "e6_protocol_version": "E6-v2",
+      "effective_dependencies": [
+        "e3/rep_1/fit/arf",
+        "e3/rep_1/fit/chow_liu",
+        "e3/rep_1/fit/copula",
+        "e3/rep_1/fit/gmm",
+        "e3/rep_1/fit/kde"
+      ],
+      "member_evaluations": {
+        "arf": "e3/rep_1/eval/direct/arf",
+        "chow_liu": "e3/rep_1/eval/direct/chow_liu",
+        "copula": "e3/rep_1/eval/direct/copula",
+        "gmm": "e3/rep_1/eval/direct/gmm",
+        "kde": "e3/rep_1/eval/direct/kde"
+      },
+      "member_fit_evidence": {
+        "arf": {
+          "class_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_1/fit/arf",
+          "fit_result_sha256": "bdd1915b7bc75ae4dc30381bef0d498747557d1e394318963b3ed67c7342ebdc",
+          "method": "arf",
+          "pipeline_sha256": "eeddb9797ce8255a226b0537372ac64f7928b66a5f36a23c2715bbf2992ade16",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+          "selected_params_sha256": "8b242589fc42ea631d6e3dfb241d0ba9cedfd519fa735e40bfa27a47302ba47a",
+          "selection_sha256": "08a2cc22b6e1f10ee95bd20aa316b1354555925812d3b7a058d7a7fe5d352ec6",
+          "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+          "training_rows": 80000,
+          "validation_sha256": "e35474b3365e92b431d718f687427fe80a6173884f1f3e800e4a2e6d16e9a5f3"
+        },
+        "chow_liu": {
+          "class_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_1/fit/chow_liu",
+          "fit_result_sha256": "3fddbbe2df0bf92e47f45bc9f7e1a95396d9d5ed133b6fa6b3a9843bbb16e40d",
+          "method": "chow_liu",
+          "pipeline_sha256": "647093c63b826a577143c3f824e093db225a139771eefcb2377d95a897d746d3",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+          "selected_params_sha256": "b0a023514cb795932da873a6dab43b9b22d018464e785d11608ac99e4b202fe2",
+          "selection_sha256": "c494eebdc21e4c96202ffb02627002842fce6c0fa03668d6f87681a10620f38c",
+          "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+          "training_rows": 80000,
+          "validation_sha256": "732a504e7a6bfa0b979dedbda7238fd025352af7f0647a53e2bb483e282cbb79"
+        },
+        "copula": {
+          "class_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_1/fit/copula",
+          "fit_result_sha256": "3e3445dd748c14496a8e34cda4e57b1002f47400d20c273a3f0da7ec7da8319b",
+          "method": "copula",
+          "pipeline_sha256": "4f47e62f482f6beebd1ac9dd60cf0b381ae8a5ce677e892cc4b676fdf0fe26b5",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+          "selected_params_sha256": "5659773b64b0e2f37c08a11458e9f35dc41050e6bdb98bb4ad53289eae8853cc",
+          "selection_sha256": "d604f2e8800578226c5d13d566cbae33c6753959b15c1202d89cdbe1c06e95cc",
+          "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+          "training_rows": 80000,
+          "validation_sha256": "0bc8319b2d6c87a03663588f23730fc94a2cfa6048960b9eca41a78181463b92"
+        },
+        "gmm": {
+          "class_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_1/fit/gmm",
+          "fit_result_sha256": "4abd431aa668b5a065a50efd7a2a1b09fda11751cabf503f528788cd04b134e4",
+          "method": "gmm",
+          "pipeline_sha256": "40e09287b8fad6c1377465a922185f96983b434dc96447f8579b2c21fff7cdf2",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+          "selected_params_sha256": "f2a5d1f975210adb98ed6de37d30f54fa2ad44a078b5105c61a2452ade3acb0a",
+          "selection_sha256": "f45d3ecd28b5b96b82f2ed541a5adab08e9b7184377390920d61efdb78f140ee",
+          "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+          "training_rows": 80000,
+          "validation_sha256": "807cd2c22afac9f0ecea1ecec8e510d4d2b7e02eef8c408571ad5fe85c9e8035"
+        },
+        "kde": {
+          "class_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_1/fit/kde",
+          "fit_result_sha256": "1869501e6f67be0cc9df6798c41d6cb6861905332ad721326f52884b892aed07",
+          "method": "kde",
+          "pipeline_sha256": "451c1b23bcf908d2efff032cefdb6bdc8440dab8a14761910c5728af7d7efd49",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+          "selected_params_sha256": "071784775026d83733a972594ae428faab3dd199bd1962721380c040d0d197f7",
+          "selection_sha256": "6ea06832ab616558cc8c3a0ee2bca3894aed6f3e281af5fb2a15aa5dd55587e8",
+          "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+          "training_rows": 80000,
+          "validation_sha256": "d3d5ded9ebe96f4089b4b06391747ef1476a82e6cfbd19ce15df6425fc472110"
+        }
+      },
+      "members": {
+        "arf": "e3/rep_1/fit/arf",
+        "chow_liu": "e3/rep_1/fit/chow_liu",
+        "copula": "e3/rep_1/fit/copula",
+        "gmm": "e3/rep_1/fit/gmm",
+        "kde": "e3/rep_1/fit/kde"
+      },
+      "mode": "equal",
+      "original_task_definition_sha256": "000040671e133119859719607b0e3be1d378418bc246226221d2489683c4f3f9",
+      "prior_attempt_count": 0,
+      "prior_outcome": "unavailable_dependency",
+      "prior_registry_record_sha256": "5567a404ff7a7167f7a4664e586779c705be9ad42b239436a655c9155d42a86a",
+      "prior_status": "validated_terminal",
+      "rep": 1,
+      "task_key": "e6/rep_1/ensemble/equal"
+    },
+    {
+      "e6_protocol_version": "E6-v2",
+      "effective_dependencies": [
+        "e3/rep_1/fit/arf",
+        "e3/rep_1/fit/chow_liu",
+        "e3/rep_1/fit/copula",
+        "e3/rep_1/fit/gmm",
+        "e3/rep_1/fit/kde"
+      ],
+      "member_evaluations": {
+        "arf": "e3/rep_1/eval/direct/arf",
+        "chow_liu": "e3/rep_1/eval/direct/chow_liu",
+        "copula": "e3/rep_1/eval/direct/copula",
+        "gmm": "e3/rep_1/eval/direct/gmm",
+        "kde": "e3/rep_1/eval/direct/kde"
+      },
+      "member_fit_evidence": {
+        "arf": {
+          "class_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_1/fit/arf",
+          "fit_result_sha256": "bdd1915b7bc75ae4dc30381bef0d498747557d1e394318963b3ed67c7342ebdc",
+          "method": "arf",
+          "pipeline_sha256": "eeddb9797ce8255a226b0537372ac64f7928b66a5f36a23c2715bbf2992ade16",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+          "selected_params_sha256": "8b242589fc42ea631d6e3dfb241d0ba9cedfd519fa735e40bfa27a47302ba47a",
+          "selection_sha256": "08a2cc22b6e1f10ee95bd20aa316b1354555925812d3b7a058d7a7fe5d352ec6",
+          "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+          "training_rows": 80000,
+          "validation_sha256": "e35474b3365e92b431d718f687427fe80a6173884f1f3e800e4a2e6d16e9a5f3"
+        },
+        "chow_liu": {
+          "class_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_1/fit/chow_liu",
+          "fit_result_sha256": "3fddbbe2df0bf92e47f45bc9f7e1a95396d9d5ed133b6fa6b3a9843bbb16e40d",
+          "method": "chow_liu",
+          "pipeline_sha256": "647093c63b826a577143c3f824e093db225a139771eefcb2377d95a897d746d3",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+          "selected_params_sha256": "b0a023514cb795932da873a6dab43b9b22d018464e785d11608ac99e4b202fe2",
+          "selection_sha256": "c494eebdc21e4c96202ffb02627002842fce6c0fa03668d6f87681a10620f38c",
+          "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+          "training_rows": 80000,
+          "validation_sha256": "732a504e7a6bfa0b979dedbda7238fd025352af7f0647a53e2bb483e282cbb79"
+        },
+        "copula": {
+          "class_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_1/fit/copula",
+          "fit_result_sha256": "3e3445dd748c14496a8e34cda4e57b1002f47400d20c273a3f0da7ec7da8319b",
+          "method": "copula",
+          "pipeline_sha256": "4f47e62f482f6beebd1ac9dd60cf0b381ae8a5ce677e892cc4b676fdf0fe26b5",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+          "selected_params_sha256": "5659773b64b0e2f37c08a11458e9f35dc41050e6bdb98bb4ad53289eae8853cc",
+          "selection_sha256": "d604f2e8800578226c5d13d566cbae33c6753959b15c1202d89cdbe1c06e95cc",
+          "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+          "training_rows": 80000,
+          "validation_sha256": "0bc8319b2d6c87a03663588f23730fc94a2cfa6048960b9eca41a78181463b92"
+        },
+        "gmm": {
+          "class_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_1/fit/gmm",
+          "fit_result_sha256": "4abd431aa668b5a065a50efd7a2a1b09fda11751cabf503f528788cd04b134e4",
+          "method": "gmm",
+          "pipeline_sha256": "40e09287b8fad6c1377465a922185f96983b434dc96447f8579b2c21fff7cdf2",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+          "selected_params_sha256": "f2a5d1f975210adb98ed6de37d30f54fa2ad44a078b5105c61a2452ade3acb0a",
+          "selection_sha256": "f45d3ecd28b5b96b82f2ed541a5adab08e9b7184377390920d61efdb78f140ee",
+          "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+          "training_rows": 80000,
+          "validation_sha256": "807cd2c22afac9f0ecea1ecec8e510d4d2b7e02eef8c408571ad5fe85c9e8035"
+        },
+        "kde": {
+          "class_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_1/fit/kde",
+          "fit_result_sha256": "1869501e6f67be0cc9df6798c41d6cb6861905332ad721326f52884b892aed07",
+          "method": "kde",
+          "pipeline_sha256": "451c1b23bcf908d2efff032cefdb6bdc8440dab8a14761910c5728af7d7efd49",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334",
+          "selected_params_sha256": "071784775026d83733a972594ae428faab3dd199bd1962721380c040d0d197f7",
+          "selection_sha256": "6ea06832ab616558cc8c3a0ee2bca3894aed6f3e281af5fb2a15aa5dd55587e8",
+          "training_ids_sha256": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+          "training_rows": 80000,
+          "validation_sha256": "d3d5ded9ebe96f4089b4b06391747ef1476a82e6cfbd19ce15df6425fc472110"
+        }
+      },
+      "members": {
+        "arf": "e3/rep_1/fit/arf",
+        "chow_liu": "e3/rep_1/fit/chow_liu",
+        "copula": "e3/rep_1/fit/copula",
+        "gmm": "e3/rep_1/fit/gmm",
+        "kde": "e3/rep_1/fit/kde"
+      },
+      "mode": "learned",
+      "original_task_definition_sha256": "48c3c6ffb721bbb7d2da6d92967a4e6ba962f038549befa68e5c55a0453f6b10",
+      "prior_attempt_count": 0,
+      "prior_outcome": "unavailable_dependency",
+      "prior_registry_record_sha256": "558fdd868af53680977ace6b9509a2989da61d29b16c2f8b5996e4ac4e31d185",
+      "prior_status": "validated_terminal",
+      "rep": 1,
+      "task_key": "e6/rep_1/ensemble/learned"
+    },
+    {
+      "e6_protocol_version": "E6-v2",
+      "effective_dependencies": [
+        "e3/rep_2/fit/arf",
+        "e3/rep_2/fit/chow_liu",
+        "e3/rep_2/fit/copula",
+        "e3/rep_2/fit/gmm",
+        "e3/rep_2/fit/kde"
+      ],
+      "member_evaluations": {
+        "arf": "e3/rep_2/eval/direct/arf",
+        "chow_liu": "e3/rep_2/eval/direct/chow_liu",
+        "copula": "e3/rep_2/eval/direct/copula",
+        "gmm": "e3/rep_2/eval/direct/gmm",
+        "kde": "e3/rep_2/eval/direct/kde"
+      },
+      "member_fit_evidence": {
+        "arf": {
+          "class_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_2/fit/arf",
+          "fit_result_sha256": "073d057325115ed6ed7dae9ca80f4673fcfe0101f67369c39bd23b91e07fe86e",
+          "method": "arf",
+          "pipeline_sha256": "1f46428c57121a022561ae76b13c177e488ebc7ccc282ac1fcdcbecfaab95192",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc",
+          "selected_params_sha256": "871e4475ac1106c86ccaeeceb4a9869e02040d477fefccd990038b7e2bb9d47a",
+          "selection_sha256": "78c560168dd6514f23911303f09f2e682a20b53c5ced56e10c03db1c05b0a036",
+          "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+          "training_rows": 80000,
+          "validation_sha256": "63c4323be67f783dd8c346d7e82a0fb65ba89627d1c154b7ae7a2d884a6845f8"
+        },
+        "chow_liu": {
+          "class_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_2/fit/chow_liu",
+          "fit_result_sha256": "3bca9760b014439ebc5ee0120af8fc7e71ebbe902f00571afc3c56c2f87e1227",
+          "method": "chow_liu",
+          "pipeline_sha256": "4418775e8e9d7f61a26e1f3b190637790bafce71e4f55bcf6dabaf40f05a9531",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc",
+          "selected_params_sha256": "b0a023514cb795932da873a6dab43b9b22d018464e785d11608ac99e4b202fe2",
+          "selection_sha256": "55c3cda6c6f7fea3a07c7b17f0c3fc63a4265264e1b6ffa935251e80c61d61b1",
+          "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+          "training_rows": 80000,
+          "validation_sha256": "06e93ec3ae95ba07179c897d2286784e529c12f5c347e6bbd996dc2d5f06ed53"
+        },
+        "copula": {
+          "class_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_2/fit/copula",
+          "fit_result_sha256": "ce83a32404014d141575b0e7527b8a26669579e04fccdf01b0c6280cff99bfa8",
+          "method": "copula",
+          "pipeline_sha256": "14bfe42778a05bbd02c7b6207f540a6ca933d9dc388c59035db61416303889f1",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc",
+          "selected_params_sha256": "374fc4f5128993a118147c7877b73c1ef23236aeb94b7beac55a5bece10a035f",
+          "selection_sha256": "fa88324cb3485591838c16d25c14582df28b7a3c32bc7a27f8382441d6debb6b",
+          "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+          "training_rows": 80000,
+          "validation_sha256": "1d899cdcbaa7baaaf26c147fc9b55a36b38bf89fe015d2597cd99c12c6158c40"
+        },
+        "gmm": {
+          "class_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_2/fit/gmm",
+          "fit_result_sha256": "94431944ca7b91b61093eb10bc71e06e7765051cc26461dd35e8ed6c319e6a07",
+          "method": "gmm",
+          "pipeline_sha256": "10f1dbf973688ff62fca50ce5de93ca30a9961992b51ea1619c50d909b284b56",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc",
+          "selected_params_sha256": "5d046f872c4db6ec537fcec08411172b6ba10c751b73ec077ca5a379ff54e1c9",
+          "selection_sha256": "e7b094c14928d31aed8334bc017df3a1469ea57f63e1059304194e17f0b457a6",
+          "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+          "training_rows": 80000,
+          "validation_sha256": "b6c783a354e8536e8daa82ca4260655ed52142fe59ee06b19439df66a3cfa9d0"
+        },
+        "kde": {
+          "class_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_2/fit/kde",
+          "fit_result_sha256": "e909649d54cfd102cdc2bcb9fd5944f788c0979fe16e996c92dc5cdafb85e5bc",
+          "method": "kde",
+          "pipeline_sha256": "b855f527eaa5d8423514914828c1f7e69a141ef430572af5f9be4424666949b6",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc",
+          "selected_params_sha256": "2f007577522f278127150b545cff3ef7885585179e865748ac383391e428828e",
+          "selection_sha256": "1829734fce347df6942b4ac281cc821ce6d45e1587adc83ef21da9321cdacd3a",
+          "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+          "training_rows": 80000,
+          "validation_sha256": "b3a1b752816574a8d2f71ab077a6e8b547f82a8c574b45cebd5f94e617112862"
+        }
+      },
+      "members": {
+        "arf": "e3/rep_2/fit/arf",
+        "chow_liu": "e3/rep_2/fit/chow_liu",
+        "copula": "e3/rep_2/fit/copula",
+        "gmm": "e3/rep_2/fit/gmm",
+        "kde": "e3/rep_2/fit/kde"
+      },
+      "mode": "equal",
+      "original_task_definition_sha256": "b666354d41f1d50a32a17b59cc2ac2d88544868232c200df838cd353bdf03a24",
+      "prior_attempt_count": 0,
+      "prior_outcome": "unavailable_dependency",
+      "prior_registry_record_sha256": "0fcc46f40b3e8fd9ecab0b2f7788552cda398e80c8ce4581e5863f04e39eab19",
+      "prior_status": "validated_terminal",
+      "rep": 2,
+      "task_key": "e6/rep_2/ensemble/equal"
+    },
+    {
+      "e6_protocol_version": "E6-v2",
+      "effective_dependencies": [
+        "e3/rep_2/fit/arf",
+        "e3/rep_2/fit/chow_liu",
+        "e3/rep_2/fit/copula",
+        "e3/rep_2/fit/gmm",
+        "e3/rep_2/fit/kde"
+      ],
+      "member_evaluations": {
+        "arf": "e3/rep_2/eval/direct/arf",
+        "chow_liu": "e3/rep_2/eval/direct/chow_liu",
+        "copula": "e3/rep_2/eval/direct/copula",
+        "gmm": "e3/rep_2/eval/direct/gmm",
+        "kde": "e3/rep_2/eval/direct/kde"
+      },
+      "member_fit_evidence": {
+        "arf": {
+          "class_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_2/fit/arf",
+          "fit_result_sha256": "073d057325115ed6ed7dae9ca80f4673fcfe0101f67369c39bd23b91e07fe86e",
+          "method": "arf",
+          "pipeline_sha256": "1f46428c57121a022561ae76b13c177e488ebc7ccc282ac1fcdcbecfaab95192",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc",
+          "selected_params_sha256": "871e4475ac1106c86ccaeeceb4a9869e02040d477fefccd990038b7e2bb9d47a",
+          "selection_sha256": "78c560168dd6514f23911303f09f2e682a20b53c5ced56e10c03db1c05b0a036",
+          "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+          "training_rows": 80000,
+          "validation_sha256": "63c4323be67f783dd8c346d7e82a0fb65ba89627d1c154b7ae7a2d884a6845f8"
+        },
+        "chow_liu": {
+          "class_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_2/fit/chow_liu",
+          "fit_result_sha256": "3bca9760b014439ebc5ee0120af8fc7e71ebbe902f00571afc3c56c2f87e1227",
+          "method": "chow_liu",
+          "pipeline_sha256": "4418775e8e9d7f61a26e1f3b190637790bafce71e4f55bcf6dabaf40f05a9531",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc",
+          "selected_params_sha256": "b0a023514cb795932da873a6dab43b9b22d018464e785d11608ac99e4b202fe2",
+          "selection_sha256": "55c3cda6c6f7fea3a07c7b17f0c3fc63a4265264e1b6ffa935251e80c61d61b1",
+          "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+          "training_rows": 80000,
+          "validation_sha256": "06e93ec3ae95ba07179c897d2286784e529c12f5c347e6bbd996dc2d5f06ed53"
+        },
+        "copula": {
+          "class_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_2/fit/copula",
+          "fit_result_sha256": "ce83a32404014d141575b0e7527b8a26669579e04fccdf01b0c6280cff99bfa8",
+          "method": "copula",
+          "pipeline_sha256": "14bfe42778a05bbd02c7b6207f540a6ca933d9dc388c59035db61416303889f1",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc",
+          "selected_params_sha256": "374fc4f5128993a118147c7877b73c1ef23236aeb94b7beac55a5bece10a035f",
+          "selection_sha256": "fa88324cb3485591838c16d25c14582df28b7a3c32bc7a27f8382441d6debb6b",
+          "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+          "training_rows": 80000,
+          "validation_sha256": "1d899cdcbaa7baaaf26c147fc9b55a36b38bf89fe015d2597cd99c12c6158c40"
+        },
+        "gmm": {
+          "class_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_2/fit/gmm",
+          "fit_result_sha256": "94431944ca7b91b61093eb10bc71e06e7765051cc26461dd35e8ed6c319e6a07",
+          "method": "gmm",
+          "pipeline_sha256": "10f1dbf973688ff62fca50ce5de93ca30a9961992b51ea1619c50d909b284b56",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc",
+          "selected_params_sha256": "5d046f872c4db6ec537fcec08411172b6ba10c751b73ec077ca5a379ff54e1c9",
+          "selection_sha256": "e7b094c14928d31aed8334bc017df3a1469ea57f63e1059304194e17f0b457a6",
+          "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+          "training_rows": 80000,
+          "validation_sha256": "b6c783a354e8536e8daa82ca4260655ed52142fe59ee06b19439df66a3cfa9d0"
+        },
+        "kde": {
+          "class_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_2/fit/kde",
+          "fit_result_sha256": "e909649d54cfd102cdc2bcb9fd5944f788c0979fe16e996c92dc5cdafb85e5bc",
+          "method": "kde",
+          "pipeline_sha256": "b855f527eaa5d8423514914828c1f7e69a141ef430572af5f9be4424666949b6",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc",
+          "selected_params_sha256": "2f007577522f278127150b545cff3ef7885585179e865748ac383391e428828e",
+          "selection_sha256": "1829734fce347df6942b4ac281cc821ce6d45e1587adc83ef21da9321cdacd3a",
+          "training_ids_sha256": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+          "training_rows": 80000,
+          "validation_sha256": "b3a1b752816574a8d2f71ab077a6e8b547f82a8c574b45cebd5f94e617112862"
+        }
+      },
+      "members": {
+        "arf": "e3/rep_2/fit/arf",
+        "chow_liu": "e3/rep_2/fit/chow_liu",
+        "copula": "e3/rep_2/fit/copula",
+        "gmm": "e3/rep_2/fit/gmm",
+        "kde": "e3/rep_2/fit/kde"
+      },
+      "mode": "learned",
+      "original_task_definition_sha256": "a7ffee99cb550f11f4b6f5c185cf801c2ee695b4c8c5fcff4514bac9a40058d9",
+      "prior_attempt_count": 0,
+      "prior_outcome": "unavailable_dependency",
+      "prior_registry_record_sha256": "dc53253d09ac501715a42355a98d12d596de1ce0b952bd6bdea2d0ff63e4ecd6",
+      "prior_status": "validated_terminal",
+      "rep": 2,
+      "task_key": "e6/rep_2/ensemble/learned"
+    },
+    {
+      "e6_protocol_version": "E6-v2",
+      "effective_dependencies": [
+        "e3/rep_3/fit/arf",
+        "e3/rep_3/fit/chow_liu",
+        "e3/rep_3/fit/copula",
+        "e3/rep_3/fit/gmm",
+        "e3/rep_3/fit/kde"
+      ],
+      "member_evaluations": {
+        "arf": "e3/rep_3/eval/direct/arf",
+        "chow_liu": "e3/rep_3/eval/direct/chow_liu",
+        "copula": "e3/rep_3/eval/direct/copula",
+        "gmm": "e3/rep_3/eval/direct/gmm",
+        "kde": "e3/rep_3/eval/direct/kde"
+      },
+      "member_fit_evidence": {
+        "arf": {
+          "class_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_3/fit/arf",
+          "fit_result_sha256": "a431c27b7a70adb138c4c9e9430217416b11f36099f195156b28a9b46fe35f62",
+          "method": "arf",
+          "pipeline_sha256": "85adaa279e435547a6ce771614e14d3e9efe92127a0c018c2d2d4a1904b5bf7a",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e",
+          "selected_params_sha256": "32c676e094e44fd285ed600e0ae0aff706b15c4c27538d5cfb8324d55c8c3386",
+          "selection_sha256": "fd733defcea9496f4bf377e3b02d95a930526bad9267db740863c4cfa2e2cc62",
+          "training_ids_sha256": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+          "training_rows": 80000,
+          "validation_sha256": "3b39f24558e4dbadd286d3ee97db16c75019d9828233075a6b6db578c6b5c29a"
+        },
+        "chow_liu": {
+          "class_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_3/fit/chow_liu",
+          "fit_result_sha256": "41f754e0a323442706806dbf3c648eb809f127dd337ae13ba356264caf531e2f",
+          "method": "chow_liu",
+          "pipeline_sha256": "d8713a26b47f9e997843b2a369ba5a2e9e2d6ebd204e36ca024d62ba13f2fe85",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e",
+          "selected_params_sha256": "b0a023514cb795932da873a6dab43b9b22d018464e785d11608ac99e4b202fe2",
+          "selection_sha256": "ac0adae8e785d57c3cf3a25ae82f8098488590584b289e01da254e0518ee238a",
+          "training_ids_sha256": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+          "training_rows": 80000,
+          "validation_sha256": "eefa879b4c40e5a0e2c2d5aff44b63bc1cefbd06d4e4518bc7c0048d63399d77"
+        },
+        "copula": {
+          "class_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_3/fit/copula",
+          "fit_result_sha256": "ce9d167ebf84d3e1b5014c41728cfd0f19f60e152dde48b9dffc5c143f2dcb6e",
+          "method": "copula",
+          "pipeline_sha256": "1d2ea49b28469c9e92122204efe671d1396d00f16ef8f4f3908086608ade9990",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e",
+          "selected_params_sha256": "5659773b64b0e2f37c08a11458e9f35dc41050e6bdb98bb4ad53289eae8853cc",
+          "selection_sha256": "e1875b5df654bce15d6236373a3007865ef431f729a10d675e8aa13a5b9eefed",
+          "training_ids_sha256": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+          "training_rows": 80000,
+          "validation_sha256": "4c26c45db1ba279f8bf9d86967933fdb2188c1251b24dc088853feed769b5bdb"
+        },
+        "gmm": {
+          "class_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_3/fit/gmm",
+          "fit_result_sha256": "02b701436383ca621492db25da2b2aafd00c45d2a5c3231e71368bb45c41608e",
+          "method": "gmm",
+          "pipeline_sha256": "e4939d2ae3324b9cdf1f9583f0c62e060298a09cb1c79764bb407622c7b331dd",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e",
+          "selected_params_sha256": "ea543b1ef7e90fd8242fe444e64ba84a93474744db049fca75021a7a06681b8c",
+          "selection_sha256": "023e7a9b2270c934d453d042c463766c7878875da08b8170dec0d5002731a3a3",
+          "training_ids_sha256": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+          "training_rows": 80000,
+          "validation_sha256": "ae2e7387407ef775023b30f6a18cb248a20cb886d653639cacfbd62642bfea05"
+        },
+        "kde": {
+          "class_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_3/fit/kde",
+          "fit_result_sha256": "c34f70e278c8d68dc5a73cc5fcee49a4103bd0c13fcfddeb123adb5f67a7d6ed",
+          "method": "kde",
+          "pipeline_sha256": "c7df7ef61ff69628032666eda341564ac62cc0e608834ad537012ac86fa2ff98",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e",
+          "selected_params_sha256": "789d1b4738402f3bb2b8223d33033cfe163684c42303e6789dc4a078d70603fc",
+          "selection_sha256": "1e1c88e8886857dd372a7780fa2b34cc1764172812b55a70a90caf9b6d24b245",
+          "training_ids_sha256": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+          "training_rows": 80000,
+          "validation_sha256": "7042af2f23e6d385b90af576b3f49d2fa54b8cc28ac2baea7b178c76364db918"
+        }
+      },
+      "members": {
+        "arf": "e3/rep_3/fit/arf",
+        "chow_liu": "e3/rep_3/fit/chow_liu",
+        "copula": "e3/rep_3/fit/copula",
+        "gmm": "e3/rep_3/fit/gmm",
+        "kde": "e3/rep_3/fit/kde"
+      },
+      "mode": "equal",
+      "original_task_definition_sha256": "f8073503dfcb1f2b7676d5a9747d7e6008723aa6cda7e868577f35dd0776b9ca",
+      "prior_attempt_count": 0,
+      "prior_outcome": "unavailable_dependency",
+      "prior_registry_record_sha256": "897eeeed8cd5009b56d17b1bcb7a058658096b709e5dc5daed07bfc5b3487ba1",
+      "prior_status": "validated_terminal",
+      "rep": 3,
+      "task_key": "e6/rep_3/ensemble/equal"
+    },
+    {
+      "e6_protocol_version": "E6-v2",
+      "effective_dependencies": [
+        "e3/rep_3/fit/arf",
+        "e3/rep_3/fit/chow_liu",
+        "e3/rep_3/fit/copula",
+        "e3/rep_3/fit/gmm",
+        "e3/rep_3/fit/kde"
+      ],
+      "member_evaluations": {
+        "arf": "e3/rep_3/eval/direct/arf",
+        "chow_liu": "e3/rep_3/eval/direct/chow_liu",
+        "copula": "e3/rep_3/eval/direct/copula",
+        "gmm": "e3/rep_3/eval/direct/gmm",
+        "kde": "e3/rep_3/eval/direct/kde"
+      },
+      "member_fit_evidence": {
+        "arf": {
+          "class_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_3/fit/arf",
+          "fit_result_sha256": "a431c27b7a70adb138c4c9e9430217416b11f36099f195156b28a9b46fe35f62",
+          "method": "arf",
+          "pipeline_sha256": "85adaa279e435547a6ce771614e14d3e9efe92127a0c018c2d2d4a1904b5bf7a",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e",
+          "selected_params_sha256": "32c676e094e44fd285ed600e0ae0aff706b15c4c27538d5cfb8324d55c8c3386",
+          "selection_sha256": "fd733defcea9496f4bf377e3b02d95a930526bad9267db740863c4cfa2e2cc62",
+          "training_ids_sha256": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+          "training_rows": 80000,
+          "validation_sha256": "3b39f24558e4dbadd286d3ee97db16c75019d9828233075a6b6db578c6b5c29a"
+        },
+        "chow_liu": {
+          "class_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_3/fit/chow_liu",
+          "fit_result_sha256": "41f754e0a323442706806dbf3c648eb809f127dd337ae13ba356264caf531e2f",
+          "method": "chow_liu",
+          "pipeline_sha256": "d8713a26b47f9e997843b2a369ba5a2e9e2d6ebd204e36ca024d62ba13f2fe85",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e",
+          "selected_params_sha256": "b0a023514cb795932da873a6dab43b9b22d018464e785d11608ac99e4b202fe2",
+          "selection_sha256": "ac0adae8e785d57c3cf3a25ae82f8098488590584b289e01da254e0518ee238a",
+          "training_ids_sha256": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+          "training_rows": 80000,
+          "validation_sha256": "eefa879b4c40e5a0e2c2d5aff44b63bc1cefbd06d4e4518bc7c0048d63399d77"
+        },
+        "copula": {
+          "class_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_3/fit/copula",
+          "fit_result_sha256": "ce9d167ebf84d3e1b5014c41728cfd0f19f60e152dde48b9dffc5c143f2dcb6e",
+          "method": "copula",
+          "pipeline_sha256": "1d2ea49b28469c9e92122204efe671d1396d00f16ef8f4f3908086608ade9990",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e",
+          "selected_params_sha256": "5659773b64b0e2f37c08a11458e9f35dc41050e6bdb98bb4ad53289eae8853cc",
+          "selection_sha256": "e1875b5df654bce15d6236373a3007865ef431f729a10d675e8aa13a5b9eefed",
+          "training_ids_sha256": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+          "training_rows": 80000,
+          "validation_sha256": "4c26c45db1ba279f8bf9d86967933fdb2188c1251b24dc088853feed769b5bdb"
+        },
+        "gmm": {
+          "class_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_3/fit/gmm",
+          "fit_result_sha256": "02b701436383ca621492db25da2b2aafd00c45d2a5c3231e71368bb45c41608e",
+          "method": "gmm",
+          "pipeline_sha256": "e4939d2ae3324b9cdf1f9583f0c62e060298a09cb1c79764bb407622c7b331dd",
+          "provenance_group": "e2_reconstructed",
+          "role_membership_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e",
+          "selected_params_sha256": "ea543b1ef7e90fd8242fe444e64ba84a93474744db049fca75021a7a06681b8c",
+          "selection_sha256": "023e7a9b2270c934d453d042c463766c7878875da08b8170dec0d5002731a3a3",
+          "training_ids_sha256": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+          "training_rows": 80000,
+          "validation_sha256": "ae2e7387407ef775023b30f6a18cb248a20cb886d653639cacfbd62642bfea05"
+        },
+        "kde": {
+          "class_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "class_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "feature_order": [
+            "mag_ps_g",
+            "mag_ps_r",
+            "mag_ps_i",
+            "mag_ps_z",
+            "mag_ps_y",
+            "gaia_g_mean_mag"
+          ],
+          "fit_key": "e3/rep_3/fit/kde",
+          "fit_result_sha256": "c34f70e278c8d68dc5a73cc5fcee49a4103bd0c13fcfddeb123adb5f67a7d6ed",
+          "method": "kde",
+          "pipeline_sha256": "c7df7ef61ff69628032666eda341564ac62cc0e608834ad537012ac86fa2ff98",
+          "provenance_group": "e3_new_fit",
+          "role_membership_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e",
+          "selected_params_sha256": "789d1b4738402f3bb2b8223d33033cfe163684c42303e6789dc4a078d70603fc",
+          "selection_sha256": "1e1c88e8886857dd372a7780fa2b34cc1764172812b55a70a90caf9b6d24b245",
+          "training_ids_sha256": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+          "training_rows": 80000,
+          "validation_sha256": "7042af2f23e6d385b90af576b3f49d2fa54b8cc28ac2baea7b178c76364db918"
+        }
+      },
+      "members": {
+        "arf": "e3/rep_3/fit/arf",
+        "chow_liu": "e3/rep_3/fit/chow_liu",
+        "copula": "e3/rep_3/fit/copula",
+        "gmm": "e3/rep_3/fit/gmm",
+        "kde": "e3/rep_3/fit/kde"
+      },
+      "mode": "learned",
+      "original_task_definition_sha256": "23f4ed79ddd7e6ed209bc63d905b01bcb63af087da79cbfc0a2a3f3410947e3c",
+      "prior_attempt_count": 0,
+      "prior_outcome": "unavailable_dependency",
+      "prior_registry_record_sha256": "39c426f27c13662ad29dcb4e94ae90d35dd4a93f8f09b8434e61e08aef46e23e",
+      "prior_status": "validated_terminal",
+      "rep": 3,
+      "task_key": "e6/rep_3/ensemble/learned"
+    }
+  ]
+}

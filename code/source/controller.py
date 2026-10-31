@@ -1733,11 +1733,11 @@ def cpu_idle_cores():
  CPU_PREVIOUS=point
  return LAST_IDLE_CORES
 STORAGE_DRAIN_POLICY_ID='nonfit-e4e5-eval-only-20261028-v1'
-STORAGE_DRAIN_OUTPUT_RESERVE_BYTES=2*GIB
+STORAGE_DRAIN_OUTPUT_RESERVE_BYTES=GIB
 # Operational disk admission amendment; separate from scientific worker limits
 # and from the full archive verification performed by finalization.
 WORKING_STORAGE_POLICY={
- 'policy_id':'working-reserve-6gib-one-fit-v1',
+ 'policy_id':'working-reserve-6gib-one-fit-1gib-output-v1',
  'working_reserve_bytes':6*GIB,
  'maximum_restore_bytes':10*GIB,
  'maximum_single_restore_asset_bytes':GIB,

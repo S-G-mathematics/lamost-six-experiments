@@ -1,0 +1,57 @@
+{
+  "actual_live_source_sha256_at_staging": {
+    "cold_auto_compaction.py": "8522b42ad8a69f6f6caace44d39f905ebc8abc1a0eb9808207414a58bd025e7f",
+    "cold_model_storage.py": "4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25",
+    "commit_batch_child.py": "f74f2a00b5bb488b60e51f40d5d64c05e393c52ca573e79e086b0ce932a55c3a",
+    "run_batch.py": "622b28824e1dfd2bcd562f9762a00543b929b574e928b55a8dd4eed1d97d7698"
+  },
+  "candidate_changes": {
+    "cold_auto_compaction.py": "pin-only update to candidate core/child/driver",
+    "cold_model_storage.py": "inductive completed-member verification proof; old payload scan reuse only when exact prior-commit proof validates",
+    "commit_batch_child.py": "pin-only update to candidate cold core",
+    "run_batch.py": "pin-only update to candidate child/core"
+  },
+  "candidate_operational_source_sha256": {
+    "cold_auto_compaction.py": "998f1872bc353272de559944bf399ee5ec8b328dcacd6ecd02d1f7afc2cec373",
+    "cold_model_storage.py": "48fb2a2c52acdeb0a15fe36419676dbadc99d0ebdb46a3121e527471ffc45c57",
+    "commit_batch_child.py": "1391c1a1e6690dcd5030c1ef9ad131f3d639b294986eea29fc3f872ec66676f5",
+    "run_batch.py": "aad668a8a28064b24f48942aa589daa42cb1f5c1106d25b5fb1d76f7bae63497"
+  },
+  "circularity_note": "This amendment does not contain a pass receipt for the bundle that includes this amendment. A fresh bounded full-suite run is required after these metadata changes.",
+  "created_utc": "2026-10-30T18:03:35.803883+00:00",
+  "historical_freeze_operational_source_sha256": {
+    "cold_auto_compaction.py": "c7ba57b79c3f3a6bb7212895787d06ee2aa18ca7356eb0d6e9db3c72e9005c05",
+    "cold_model_storage.py": "4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25",
+    "commit_batch_child.py": "b4fa91a978384d254460915540f3592da6fdea69c3580998be6f1b779da1d8e3",
+    "run_batch.py": "82b46060d42d4da0f9234982ee0ed5ba16a02826e443213b058e8d500979660b"
+  },
+  "pre_metadata_candidate_code_qualification": {
+    "bundle_fingerprint_sha256": "0c9fef83759f48502fed7fe442bd502de6b64b21fa2326e9e40e753b17cbbd3f",
+    "cache_fixture_cases": 9,
+    "cache_fixture_path": "tests/test_member_payload_verification_cache.py",
+    "cache_fixture_sha256": "0a949f69019bd0a92d7b37cc9de8c402f0d0b22c9c4aab6784bef5cc1acf36ff",
+    "full_pass_receipt_path": "reports/PORTABLE_TEST_PASS_0c9fef83759f48502fed7fe442bd502de6b64b21fa2326e9e40e753b17cbbd3f.json",
+    "full_pass_receipt_sha256": "10265159473cc2dd2c188e0c00ee36e72a22c99f556aa088be243b0e914ad933",
+    "narrow_profile_focused_cases": 25,
+    "narrow_profile_focused_receipt_path": "reports/engineering_audits/CODEC12_NARROW_FOCUSED.json",
+    "narrow_profile_focused_receipt_sha256": "e1cf650507a50014a434cf336b804c67ff9cc60bbfc9258e3fefcfa7ff879974"
+  },
+  "preexisting_operational_pin_drift": {
+    "cold_auto_compaction.py": {
+      "actual_live": "8522b42ad8a69f6f6caace44d39f905ebc8abc1a0eb9808207414a58bd025e7f",
+      "historical_recorded": "c7ba57b79c3f3a6bb7212895787d06ee2aa18ca7356eb0d6e9db3c72e9005c05"
+    },
+    "commit_batch_child.py": {
+      "actual_live": "f74f2a00b5bb488b60e51f40d5d64c05e393c52ca573e79e086b0ce932a55c3a",
+      "historical_recorded": "b4fa91a978384d254460915540f3592da6fdea69c3580998be6f1b779da1d8e3"
+    },
+    "run_batch.py": {
+      "actual_live": "622b28824e1dfd2bcd562f9762a00543b929b574e928b55a8dd4eed1d97d7698",
+      "historical_recorded": "82b46060d42d4da0f9234982ee0ed5ba16a02826e443213b058e8d500979660b"
+    }
+  },
+  "record_note": "The historical freeze values are copied from the preserved pre-amendment freeze. They differ from actual live source bytes for three operational files; this pre-existing drift is recorded, not represented as current execution identity.",
+  "schema": "lamost-operational-storage-source-amendment/1",
+  "scope": "Operational source pin alignment for the staged cold member payload-verification cache. Scientific source map, roles, tasks, model settings, and resource policy are unchanged.",
+  "status": "staged_candidate_only"
+}

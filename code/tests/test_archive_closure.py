@@ -23,12 +23,12 @@ spec.loader.exec_module(f)
 
 
 class OperationalArchiveClosureTests(unittest.TestCase):
-    def test_exact_nine_members_and_legacy_28_member_runtime_allowlist(self):
+    def test_exact_seventeen_members_and_legacy_28_member_runtime_allowlist(self):
         out, records = [], []
         f._add_pinned_operational_source_closure(PROJECT, out, {}, records)
         expected = set(f.PINNED_OPERATIONAL_SOURCE_CLOSURE_SHA256)
         self.assertEqual({e.member for e in out}, expected)
-        self.assertEqual(len(out), 9)
+        self.assertEqual(len(out), 16)
         self.assertEqual({r["archive_member"] for r in records}, expected)
         self.assertEqual(len(f.PINNED_PUBLIC_QUALIFIED_CLOSURE_SHA256), 28)
         manifest = {r["archive_member"]: r for r in records}

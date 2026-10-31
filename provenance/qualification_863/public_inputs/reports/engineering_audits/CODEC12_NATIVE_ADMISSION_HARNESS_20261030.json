@@ -1,0 +1,81 @@
+{
+  "archive_alias_ownership_closure": "passed",
+  "archive_helper_fixture_only": true,
+  "archive_operation": {
+    "archive_io_profile": "bounded-5400-codec4gib64-payload12",
+    "batch_policy": "storage-followup-codec",
+    "owner_operation": "rf_cold_batch_wrapper_20261026",
+    "storage_codec_policy": "reversible-xz-v1-payload12"
+  },
+  "controller_admission_gate": "passed",
+  "evidence_tests": {
+    "archive_alias_ownership_closure": "tests/test_native_codec_overlap.py::NativeFitCodecQualificationTests.test_nonempty_archived_alias_for_candidate_is_rejected",
+    "candidate_fd_race_basis": "Synthetic fixture rejects a nonempty cold-manifest alias collision; live process file descriptors were not enumerated.",
+    "conflicting_temp_alias_rejection": "tests/test_native_codec_overlap.py::CodecPolicyTests.test_conflicting_legacy_temp_field_fails_closed",
+    "controller_admission_gate": "tests/test_codec_overlap_controller_harness.py::NativeCodecAdmissionHarnessTests.test_payload12_profile_is_bound_in_the_controller_launch_decision",
+    "existing_worker_identity_validation": "Synthetic /proc identity fixture only; workers_checked=0 because no live worker identities were inspected.",
+    "helper_identity_and_resource_gates": "tests/test_native_codec_overlap.py::CodecPolicyTests.test_payload12_qualified_policy_and_exact_helper_identity_fixture",
+    "producer_temp_wire_key": "tests/test_native_codec_overlap.py::CodecPolicyTests.test_actual_run_batch_temp_wire_key_is_accepted",
+    "underreported_and_missing_temp_cap_rejection": "tests/test_native_codec_overlap.py::CodecPolicyTests.test_missing_or_underreported_canonical_temp_cap_fails_closed"
+  },
+  "execution": {
+    "address_space_limit_bytes": 1073741824,
+    "failed_test_count": 0,
+    "fit_attempts_started": 0,
+    "log_path": "runtime_20261025/logs/private/codec12_wire_schema_20261030/final_focused_closure2/pytest.log",
+    "log_sha256": "6ebcd262ccfe594882858e4ac2b26fe19c388d573411375ccc26ccb062579d7d",
+    "native_threads": 1,
+    "nice": 19,
+    "observed_utc": "2026-10-30T04:27:21.913341+00:00",
+    "passed_test_count": 6,
+    "process_tree_peak_rss_bytes": 64573440,
+    "rss_cap_bytes": 536870912,
+    "status": "passed",
+    "subtest_count": 5,
+    "suite_cases_executed_in_shared_run": 24,
+    "wall_seconds": 1.127
+  },
+  "existing_worker_identity_validation": "passed",
+  "fit_attempts_started": 0,
+  "helper_identity_and_resource_gates": "passed",
+  "limitations": [
+    "Fixture-only admission evidence; workers_checked=0 and no live worker process was observed.",
+    "No payload12 archive operation or scientific fit was launched.",
+    "The archive-model FD statement is limited to absence of a candidate artifact/alias in the fixture; live process file descriptors were not enumerated."
+  ],
+  "no_candidate_archive_model_fd_race": true,
+  "observed_utc": "2026-10-30T04:23:05.755113+00:00",
+  "overlap_classes": {
+    "current_workers": "validated_existing_worker_identities",
+    "new_workers": "native_fit_proof_pristine_task_and_dependencies"
+  },
+  "schema": "lamost-archive-native-codec-overlap-admission-harness/1",
+  "source_sha256": {
+    "admission_evidence.py": "f2369fb24c39dde7241f12f6cb7831358168897a76810809d3f72cc351dc86b9",
+    "archive_fit_admission.py": "e834afcc5a6d2dbed06e583605d14f4a43b4bb862d08a37376c3a2b558af69ed",
+    "batch_plan.py": "63e363c545a72a54fe051264a26ba06ab84f3d0455e933e1860c4f771615fe47",
+    "cold_auto_compaction.py": "8b0edb2416ba2a9096ef256b3fed2c1b6b1c2dccad5aefb1d85b55f1f7fb5916",
+    "cold_codec_storage.py": "424e3df9e48029a30e3efbb437a314e94fda126f3835910194a25e94d6602430",
+    "cold_model_storage.py": "4afa04602172cec8ebb22b0cdbdbc67b4a1c711042008648d82fb3318d1c1a25",
+    "cold_storage_safety.py": "7dff7f8dc256f8252d41b6fd370b7624bfe8841fa7c5c13dbe86747ccc456273",
+    "commit_batch_child.py": "03aa5a589ff52566942246c827299d77fa6e37e4013d24f3bba6bd200fe8be9c",
+    "controller.py": "7c873853af440e5b8da889e42b4a741df9b24668f54f654398b234c6217b2b9b",
+    "reversible_joblib_codec.py": "f2d9653ce093cf65ae6268734b73e91504c519f6b7b2bdc0bcc551a21296256c",
+    "run_batch.py": "890033a39d9e883b7e7ad1c27037026bdfc96193ed24c739368b90c98e6b7e07"
+  },
+  "status": "passed",
+  "temp_budget_wire_contract": {
+    "expected_codec12_value_bytes": 8589934592,
+    "legacy_alias_rule": "absent_or_equal",
+    "legacy_receipt_alias": "encoded_temp_max_bytes",
+    "policy_resource_field": "encoded_temp_max_bytes",
+    "producer_field": "codec_temp_budget_bytes",
+    "tests": [
+      "test_actual_run_batch_temp_wire_key_is_accepted",
+      "test_missing_or_underreported_canonical_temp_cap_fails_closed",
+      "test_conflicting_legacy_temp_field_fails_closed"
+    ]
+  },
+  "unverified_workers": 0,
+  "workers_checked": 0
+}

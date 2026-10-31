@@ -1267,11 +1267,18 @@ PINNED_OPERATIONAL_SOURCE_CLOSURE_SHA256={
  'operations/working_reserve_storage_20261030/WORKING_STORAGE_POLICY_20261030.json':('48e3c1c7f4f61b31b4ed4a535ca298dcabcdd7b2ccb63d538a5aa13b0278e4f5','public_working_storage_policy','exact_sha_pinned_public_operational_proof'),
  'operations/working_reserve_storage_20261030/FOCUSED_QUALIFICATION_20261030.json':('5087d088d0eb4f20ba26358d822565b37dce900029c2b5183f8de00a71d10b44','public_working_storage_qualification','exact_sha_pinned_public_operational_proof'),
  'operations/working_reserve_storage_20261030/tests/test_working_reserve_storage.py':('99537d17d0f3c97c542aaf88d6657d113bc78c2e5c04d88cfc84c84fe12bb378','public_operational_engineering_test','exact_sha_pinned_public_operational_source'),
- 'operations/root_storage6gib_deploy_20261030/safe_watchdog.py':('7229453ac7ec9cd78a6c1947f7fd86134dc2fdcc4bc0dc19122fd101c1e135f7','public_safe_watchdog_source','exact_sha_pinned_public_operational_source'),
+ 'operations/root_storage6gib_deploy_20261030/safe_watchdog.py':('7bbfc93edb49443836bc0f788e50c450b03aec591508b3be780ecbb45faa9352','public_safe_watchdog_source','exact_sha_pinned_public_operational_source'),
  'operations/root_storage6gib_deploy_20261030/tests/test_safe_watchdog.py':('79b0e09f20c8b74836e109066eec7e88511fb17c5ac36ed24a65ee749e9dddfc','public_operational_engineering_test','exact_sha_pinned_public_operational_source'),
  'operations/terminal_result_retention_v2_20261030/source/terminal_result_retention_v2.py':('91250c7ff7d6da84dbbe03bda7161d9f6b02e974312f9b7e0d2c636d1f28c010','public_terminal_retention_helper_source','exact_sha_pinned_public_operational_source'),
  'operations/terminal_result_retention_v2_20261030/tests/test_terminal_retention_v2.py':('dc8e54c706ed775d0965d9eb9354f6101e634d5521f5881f6fe1cb658bfec9ae','public_operational_engineering_test','exact_sha_pinned_public_operational_source'),
  'runtime_20261025/run_controller.sh':('746dadaa0a322061064435a7cd7d3b8df79313acb7a46648c74424fa2f90f3f4','public_controller_launch_script','exact_sha_pinned_public_operational_source'),
+ 'operations/working_reserve_storage_1gib_20261031/WORKING_STORAGE_POLICY_20261031.json':('40d68b9904a768cc24d9607f31ee7a02af6d0812e8034e12751514c1b047a8c3','public_working_storage_policy','exact_sha_pinned_public_operational_proof'),
+ 'operations/working_reserve_storage_1gib_20261031/FOCUSED_QUALIFICATION_20261031.json':('b7e771e10da6811b8e28d1ceabea9ade91178c3cb6b72c9b9bd98091370d20d5','public_working_storage_qualification','exact_sha_pinned_public_operational_proof'),
+ 'operations/working_reserve_storage_1gib_20261031/STARTUP_CLOSURE_QUALIFICATION_20261031.json':('e327a07b3f650b89ca98119a0e07e27d061fb33586531f13957d028fee7892d4','public_working_storage_startup_closure','exact_sha_pinned_public_operational_proof'),
+ 'tests/run_storage_allowance_qualification.py':('681a9a014bce18ad54dbce1f792aba627be5bf4023acf2500270e0e7d0907b0d','public_operational_qualification_runner','exact_sha_pinned_public_operational_source'),
+ 'tests/test_storage_allowance_1gib.py':('7e19a270c19b6801f4cdfbb1e0660ff7392e14320ab25a405c321f401a784f0a','public_operational_engineering_test','exact_sha_pinned_public_operational_source'),
+ 'tests/test_storage_allowance_binding.py':('4a721c68a61ec1f4f202a8798008d0106770129f11fe3a884eddbfdc5df7b43b','public_operational_engineering_test','exact_sha_pinned_public_operational_source'),
+ 'tests/test_operational_closure.py':('e1de43bb68efb026a9b5677dfd90f46145e29811a8d7d69e171004965e30470a','public_operational_engineering_test','exact_sha_pinned_public_operational_source'),
 }
 def _add_pinned_operational_source_closure(root,out,expected_source_sha256,records):
  root=Path(root).resolve();expected_source_sha256=expected_source_sha256 or {}
@@ -1295,7 +1302,7 @@ def _add_pinned_operational_source_closure(root,out,expected_source_sha256,recor
   if relative in existing:raise EvidenceError('duplicate pinned operational archive member: '+relative)
   out.append(Entry(raw,relative,category));existing.add(relative)
   records.append({'source_member':relative,'archive_member':relative,'source_sha256':observed,'archive_sha256':observed,'bytes':len(raw),'curation':curation})
- if len(PINNED_OPERATIONAL_SOURCE_CLOSURE_SHA256)!=9:raise EvidenceError('operational source closure allowlist count changed')
+ if len(PINNED_OPERATIONAL_SOURCE_CLOSURE_SHA256)!=16:raise EvidenceError('operational source closure allowlist count changed')
  return records
 
 def _add_public_provenance(root,runtime,out,expected_source_sha256=None):

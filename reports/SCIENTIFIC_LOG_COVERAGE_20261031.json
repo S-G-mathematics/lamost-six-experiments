@@ -1,0 +1,134 @@
+{
+  "E1": {
+    "caveats": "Seven previously documented auxiliary-history caveats remain; historical fitted models omitted; 80/674 successful frozen prediction arrays available; stopped recovery is separate.",
+    "missing_case_csv": "reports/E1_NO_STUDY_TRIAL_FILE_CASES_20261031.csv",
+    "missing_case_status": "all 11 are supervisor-terminal manifest rows still marked started",
+    "no_study_trial_files": 11,
+    "planned_cells": 765,
+    "study_trials_csv": 754,
+    "trials_jsonl": 754
+  },
+  "E2": {
+    "class_reports": 1596,
+    "complete_correlation_strata": 4,
+    "low_precision_flags": 210,
+    "primary_evaluations": "108/150; 42 unavailable",
+    "raw_generated_datasets": "excluded",
+    "reconstruction_accuracy_differences": 31,
+    "separate_classical_references": "120/120"
+  },
+  "all_registry_rows_terminal": true,
+  "artifact_inventory": {
+    "E3": {
+      "artifact_json_files": 593,
+      "evaluation_json": 64,
+      "fit_result_json": 67,
+      "selection_json": 125,
+      "trial_history_files": 62,
+      "unique_fit_keys_with_trial_history": 60,
+      "validation_json": 146
+    },
+    "E4": {
+      "artifact_json_files": 15623,
+      "evaluation_json": 1582,
+      "fit_result_json": 1590,
+      "selection_json": 3159,
+      "trial_history_files": 1611,
+      "unique_fit_keys_with_trial_history": 1569,
+      "validation_json": 3760
+    },
+    "E5": {
+      "artifact_json_files": 5160,
+      "evaluation_json": 698,
+      "fit_result_json": 678,
+      "selection_json": 662,
+      "trial_history_files": 0,
+      "unique_fit_keys_with_trial_history": 0,
+      "validation_json": 1510
+    },
+    "E6": {
+      "artifact_json_files": 51,
+      "evaluation_json": 12,
+      "fit_result_json": 0,
+      "selection_json": 0,
+      "trial_history_files": 0,
+      "unique_fit_keys_with_trial_history": 0,
+      "validation_json": 12
+    }
+  },
+  "cost_tables": [
+    {
+      "bytes": 10612941,
+      "path": "reports/costs.csv",
+      "sha256": "206bcef6735f9cac8bd39e348907f08aee432010bda9f7c30ddd069c45b22940"
+    },
+    {
+      "bytes": 960175,
+      "path": "reports/cost_summary.csv",
+      "sha256": "ab4c6ce30e7f8fcdfe7377488848bedfc9d1ac084f1915b7276e381bc747463e"
+    },
+    {
+      "bytes": 260061,
+      "path": "reports/e5_completed_generator_routes_20261027/dependency_cost_ledger.csv",
+      "sha256": "daa34375c4268fadb1279f7e6ab327afc32ad90dcb19a210aa6bfca0ece26cba"
+    },
+    {
+      "bytes": 186710,
+      "path": "reports/e5_completed_generator_routes_20261027/evaluation_phase_costs.csv",
+      "sha256": "35b25ed45c5466991317ca84c3bbaa9daf0265eaa5efd5e33a34cac84b3cd16f"
+    },
+    {
+      "bytes": 141,
+      "path": "reports/E6_V2_INTERIM_20261027T204752Z/E6_V2_PHASE_COSTS.csv",
+      "sha256": "db736238cfc2bf46d0ad4dbf9f802cc5aa02c0c857d49f7bb25cb8757f4d1071"
+    }
+  ],
+  "crosswalk_path": "reports/E3_E6_SUCCESS_EVALUATION_SHA_CROSSWALK_20261031.csv",
+  "crosswalk_sha256": "768d9b46b4c36ddcf46bb78420ff99167d1c74f0e9993944674fe6f0b86ab3c3",
+  "evaluation_sha_bindings": {
+    "canonical_artifact_path": 2356,
+    "curated_result_snapshot_sha_match": 82
+  },
+  "limitations": [
+    "Checkpoint file counts are not fit counts; retry checkpoints can create more than one history file.",
+    "E5 is fixed clean-selected parameters with zero retuning trials; no optimizer trial histories are expected.",
+    "Raw stdout/stderr, private process/phase receipts and unreviewed sampler databases are excluded. Scientific selection, fit, validation, evaluation, trial-history and cost projections are included where present.",
+    "E6 has zero successful primary ensemble evaluations; twelve successes are member-reference aliases.",
+    "Global calibration/quantile replay and final artifact review remain pending."
+  ],
+  "observed_utc": "2026-10-31T01:34:20Z",
+  "outcomes": {
+    "scientific_failure": 127,
+    "successful": 2438,
+    "unavailable_dependency": 90,
+    "user_stopped": 168
+  },
+  "outcomes_by_experiment": {
+    "E3": {
+      "scientific_failure": 3,
+      "successful": 64,
+      "unavailable_dependency": 2
+    },
+    "E4": {
+      "scientific_failure": 71,
+      "successful": 1632,
+      "unavailable_dependency": 3,
+      "user_stopped": 67
+    },
+    "E5": {
+      "scientific_failure": 50,
+      "successful": 730,
+      "unavailable_dependency": 79,
+      "user_stopped": 101
+    },
+    "E6": {
+      "scientific_failure": 3,
+      "successful": 12,
+      "unavailable_dependency": 6
+    }
+  },
+  "planned_case_rows": 2823,
+  "registry_rows": 6270,
+  "schema_version": "lamost-scientific-log-coverage-audit/1",
+  "successful_evaluation_refs": 2438
+}
