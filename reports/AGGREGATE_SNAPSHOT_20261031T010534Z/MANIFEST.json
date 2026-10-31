@@ -1,0 +1,497 @@
+{
+  "evaluated_case_references": 2438,
+  "evidence_table_counts": {
+    "E4_histogram_rows": 378,
+    "E5_corruption_rows": 27,
+    "E5_label_noise_source_class_rate_rows": 63,
+    "E6_candidate_rows": 4770,
+    "E6_weight_rows": 6,
+    "dataset_inventory_rows": 776,
+    "evaluation_support_per_class_rows": 19761,
+    "evaluation_support_rows": 2823,
+    "label_transition_rows": 441,
+    "model_selection_ledger_rows": 17287,
+    "resource_failure_event_rows": 504,
+    "resource_failure_summary_rows": 19,
+    "terminal_trial_cutoff_rows": 2
+  },
+  "figure_files": [
+    {
+      "destination": "reports/E3_balanced_accuracy_route_comparison.png",
+      "destination_sha256": "b6d707b3df3e88f7e46846ec17bf3206919c14c44bdc5c11be7e9d4bff9a4775",
+      "destination_size_bytes": 259592,
+      "source": "runtime_20261025/reports/E3_balanced_accuracy_route_comparison.png",
+      "source_sha256": "b6d707b3df3e88f7e46846ec17bf3206919c14c44bdc5c11be7e9d4bff9a4775",
+      "source_size_bytes": 259592
+    },
+    {
+      "destination": "reports/E3_coverage_route_comparison.png",
+      "destination_sha256": "d5f9f3daffe81f4cbda3840a4b7c1805cea9ead09851dd40633ec954fbd7cdaf",
+      "destination_size_bytes": 224064,
+      "source": "runtime_20261025/reports/E3_coverage_route_comparison.png",
+      "source_sha256": "d5f9f3daffe81f4cbda3840a4b7c1805cea9ead09851dd40633ec954fbd7cdaf",
+      "source_size_bytes": 224064
+    },
+    {
+      "destination": "reports/E3_set_size_route_comparison.png",
+      "destination_sha256": "213b580602d405074ada24c2ff6558aec669c8df61ea489f3571218c5ae92bfb",
+      "destination_size_bytes": 251921,
+      "source": "runtime_20261025/reports/E3_set_size_route_comparison.png",
+      "source_sha256": "213b580602d405074ada24c2ff6558aec669c8df61ea489f3571218c5ae92bfb",
+      "source_size_bytes": 251921
+    },
+    {
+      "destination": "reports/E4_balanced_accuracy_target_treatment.png",
+      "destination_sha256": "2a3986417be8265f8186840594ee347550630883fb8191181ddcc415b475996e",
+      "destination_size_bytes": 1218768,
+      "source": "runtime_20261025/reports/E4_balanced_accuracy_target_treatment.png",
+      "source_sha256": "2a3986417be8265f8186840594ee347550630883fb8191181ddcc415b475996e",
+      "source_size_bytes": 1218768
+    },
+    {
+      "destination": "reports/E4_coverage_target_treatment.png",
+      "destination_sha256": "b72baf09b3261e2655af19be1ef0f80680c4fcd05e723aee4ea6c5dffbae7025",
+      "destination_size_bytes": 1041671,
+      "source": "runtime_20261025/reports/E4_coverage_target_treatment.png",
+      "source_sha256": "b72baf09b3261e2655af19be1ef0f80680c4fcd05e723aee4ea6c5dffbae7025",
+      "source_size_bytes": 1041671
+    },
+    {
+      "destination": "reports/E4_set_size_target_treatment.png",
+      "destination_sha256": "4ef23f5c6fab21e33e7b1d06c8b3b188ac84e283dd61f405a608c011d41ddce7",
+      "destination_size_bytes": 1251312,
+      "source": "runtime_20261025/reports/E4_set_size_target_treatment.png",
+      "source_sha256": "4ef23f5c6fab21e33e7b1d06c8b3b188ac84e283dd61f405a608c011d41ddce7",
+      "source_size_bytes": 1251312
+    },
+    {
+      "destination": "reports/E4_target_class_recall.png",
+      "destination_sha256": "8c54ea436b05a4f7432abd87f8d268cefa6041d84caf2611cbbb3199b9728b6c",
+      "destination_size_bytes": 1351704,
+      "source": "runtime_20261025/reports/E4_target_class_recall.png",
+      "source_sha256": "8c54ea436b05a4f7432abd87f8d268cefa6041d84caf2611cbbb3199b9728b6c",
+      "source_size_bytes": 1351704
+    },
+    {
+      "destination": "reports/E5_balanced_accuracy_corruption_sweeps.png",
+      "destination_sha256": "3d729fef46aca2f4fa883936b69383219fa2a52d9fea72e913c97bcf131793a3",
+      "destination_size_bytes": 339627,
+      "source": "runtime_20261025/reports/E5_balanced_accuracy_corruption_sweeps.png",
+      "source_sha256": "3d729fef46aca2f4fa883936b69383219fa2a52d9fea72e913c97bcf131793a3",
+      "source_size_bytes": 339627
+    },
+    {
+      "destination": "reports/E5_coverage_corruption_sweeps.png",
+      "destination_sha256": "2c30d62df9ee5c8c18fecafcafb6bc4d278115226829fa7ed40b46017b161569",
+      "destination_size_bytes": 132751,
+      "source": "runtime_20261025/reports/E5_coverage_corruption_sweeps.png",
+      "source_sha256": "2c30d62df9ee5c8c18fecafcafb6bc4d278115226829fa7ed40b46017b161569",
+      "source_size_bytes": 132751
+    },
+    {
+      "destination": "reports/E5_set_size_corruption_sweeps.png",
+      "destination_sha256": "ace1d65bcf7ea814380e4d950d1379384ad05cf464591aa9aff2d81b20b37aad",
+      "destination_size_bytes": 272478,
+      "source": "runtime_20261025/reports/E5_set_size_corruption_sweeps.png",
+      "source_sha256": "ace1d65bcf7ea814380e4d950d1379384ad05cf464591aa9aff2d81b20b37aad",
+      "source_size_bytes": 272478
+    },
+    {
+      "destination": "reports/E6_balanced_accuracy_member_ensemble.png",
+      "destination_sha256": "b4ce92a014a39b04feac8dff49fa1b45a2e5e495a7f4c38f925271905caf7727",
+      "destination_size_bytes": 78947,
+      "source": "runtime_20261025/reports/E6_balanced_accuracy_member_ensemble.png",
+      "source_sha256": "b4ce92a014a39b04feac8dff49fa1b45a2e5e495a7f4c38f925271905caf7727",
+      "source_size_bytes": 78947
+    },
+    {
+      "destination": "reports/E6_coverage_member_ensemble.png",
+      "destination_sha256": "4afd85e82ee7de2258786659d06fcb43d3ad4393d96f31f3dada718dd4ad5518",
+      "destination_size_bytes": 77244,
+      "source": "runtime_20261025/reports/E6_coverage_member_ensemble.png",
+      "source_sha256": "4afd85e82ee7de2258786659d06fcb43d3ad4393d96f31f3dada718dd4ad5518",
+      "source_size_bytes": 77244
+    },
+    {
+      "destination": "reports/E6_set_size_member_ensemble.png",
+      "destination_sha256": "16647f069a418fa9c297b67c35a2db675a4d61950fcc5783656bcc9a62329850",
+      "destination_size_bytes": 78148,
+      "source": "runtime_20261025/reports/E6_set_size_member_ensemble.png",
+      "source_sha256": "16647f069a418fa9c297b67c35a2db675a4d61950fcc5783656bcc9a62329850",
+      "source_size_bytes": 78148
+    },
+    {
+      "destination": "reports/E4_restoration_effect_heatmaps.png",
+      "destination_sha256": "46610d9ce85f570f58515bfe68d63793ee5e7eb8647d88dffd5f714803b6150b",
+      "destination_size_bytes": 1951827,
+      "source": "runtime_20261025/reports/E4_restoration_effect_heatmaps.png",
+      "source_sha256": "46610d9ce85f570f58515bfe68d63793ee5e7eb8647d88dffd5f714803b6150b",
+      "source_size_bytes": 1951827
+    },
+    {
+      "destination": "reports/E4_direct_method_effect_heatmaps.png",
+      "destination_sha256": "74daa07e2c131c24b69c556f6a00f9ee4106da14bee6921d825ae6553426aa08",
+      "destination_size_bytes": 713773,
+      "source": "runtime_20261025/reports/E4_direct_method_effect_heatmaps.png",
+      "source_sha256": "74daa07e2c131c24b69c556f6a00f9ee4106da14bee6921d825ae6553426aa08",
+      "source_size_bytes": 713773
+    },
+    {
+      "destination": "reports/E5_feature_noise_paired_BA_heatmaps.png",
+      "destination_sha256": "ea7cf67c45ce82714a60a85b3596c18ef65dd78aa3c8647139a5b5d4e61c4baa",
+      "destination_size_bytes": 256240,
+      "source": "runtime_20261025/reports/E5_feature_noise_paired_BA_heatmaps.png",
+      "source_sha256": "ea7cf67c45ce82714a60a85b3596c18ef65dd78aa3c8647139a5b5d4e61c4baa",
+      "source_size_bytes": 256240
+    },
+    {
+      "destination": "reports/E5_missingness_paired_BA_heatmaps.png",
+      "destination_sha256": "60fc6b7724a3b420bfe55a6f18d69e98760e115027678551faf1a4c1b59d6335",
+      "destination_size_bytes": 251968,
+      "source": "runtime_20261025/reports/E5_missingness_paired_BA_heatmaps.png",
+      "source_sha256": "60fc6b7724a3b420bfe55a6f18d69e98760e115027678551faf1a4c1b59d6335",
+      "source_size_bytes": 251968
+    },
+    {
+      "destination": "reports/E5_label_noise_paired_BA_heatmaps.png",
+      "destination_sha256": "07e00499cc92408791a67e8b588c4a81cf2c274d4bba7982ec4d5fd55d28e03a",
+      "destination_size_bytes": 256715,
+      "source": "runtime_20261025/reports/E5_label_noise_paired_BA_heatmaps.png",
+      "source_sha256": "07e00499cc92408791a67e8b588c4a81cf2c274d4bba7982ec4d5fd55d28e03a",
+      "source_size_bytes": 256715
+    }
+  ],
+  "limitations": [
+    "Saved aggregate outputs copied from report_result.json; no models or outcome arrays opened.",
+    "No new fitting, inference, or calibration replay was performed.",
+    "This snapshot is not final global calibration or artifact validation.",
+    "Private phase_evidence_path and other recognized private process columns were omitted; scientific phase timing/RSS fields remain."
+  ],
+  "observed_utc": "2026-10-31T01:05:34.402480Z",
+  "pending_cases": 0,
+  "planned_scientific_cases": 2823,
+  "report_status": "success",
+  "schema": "lamost-aggregate-report-snapshot/1",
+  "source_report_result_bytes": 3096,
+  "source_report_result_sha256": "ce76ab62a89722bb7c31baa6efc8ee66b6ec8f68402fb1c102adb94f674407f6",
+  "state_counts": {
+    "scientific_failure": 127,
+    "successful": 2438,
+    "unavailable_dependency": 90,
+    "user_stopped": 168
+  },
+  "table_files": [
+    {
+      "destination": "reports/dataset_inventory.csv",
+      "destination_sha256": "1f9158575604a08dd24642cdd00369125c14dffd95ca63bb51c23fb460a80840",
+      "destination_size_bytes": 535507,
+      "fields_removed": [],
+      "rows": 776,
+      "source": "runtime_20261025/reports/dataset_inventory.csv",
+      "source_sha256": "1f9158575604a08dd24642cdd00369125c14dffd95ca63bb51c23fb460a80840",
+      "source_size_bytes": 535507,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/E4_class_histograms.csv",
+      "destination_sha256": "9def7af0a956e8f40461f85dba0443b813e45258c1034a09a1d69ec2270fce22",
+      "destination_size_bytes": 358634,
+      "fields_removed": [],
+      "rows": 378,
+      "source": "runtime_20261025/reports/E4_class_histograms.csv",
+      "source_sha256": "9def7af0a956e8f40461f85dba0443b813e45258c1034a09a1d69ec2270fce22",
+      "source_size_bytes": 358634,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/E5_corruption_realization_summary.csv",
+      "destination_sha256": "1af2b90a0d86ab6e366018e310f0b97e4dd11282900b415a2b4789c2f9f31e81",
+      "destination_size_bytes": 374066,
+      "fields_removed": [],
+      "rows": 27,
+      "source": "runtime_20261025/reports/E5_corruption_realization_summary.csv",
+      "source_sha256": "1af2b90a0d86ab6e366018e310f0b97e4dd11282900b415a2b4789c2f9f31e81",
+      "source_size_bytes": 374066,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/label_transition_counts.csv",
+      "destination_sha256": "e4618e6934692bee7f8e44a996497be3785e12621b08af024a305fa60e1beb54",
+      "destination_size_bytes": 29930,
+      "fields_removed": [],
+      "rows": 441,
+      "source": "runtime_20261025/reports/label_transition_counts.csv",
+      "source_sha256": "e4618e6934692bee7f8e44a996497be3785e12621b08af024a305fa60e1beb54",
+      "source_size_bytes": 29930,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/E5_label_noise_source_class_rates.csv",
+      "destination_sha256": "e9cb09996954185b59c9f5a827c6d3f9bc717c20e16f4dc24fd0e6ee81207c93",
+      "destination_size_bytes": 6246,
+      "fields_removed": [],
+      "rows": 63,
+      "source": "runtime_20261025/reports/E5_label_noise_source_class_rates.csv",
+      "source_sha256": "e9cb09996954185b59c9f5a827c6d3f9bc717c20e16f4dc24fd0e6ee81207c93",
+      "source_size_bytes": 6246,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/model_selection_ledger.csv",
+      "destination_sha256": "29a6eafd2b79d03d818343c736b1baa7d301f29bdcc18570590b87e342107946",
+      "destination_size_bytes": 12110305,
+      "fields_removed": [
+        "phase_evidence_path"
+      ],
+      "rows": 17287,
+      "source": "runtime_20261025/reports/model_selection_ledger.csv",
+      "source_sha256": "d73c32aabec676912fee7735e45972807984b875bb02f8875be411f401b1489b",
+      "source_size_bytes": 13760924,
+      "transformation": "existing reason_text_curation applied to reason/error columns; recognized private process columns removed"
+    },
+    {
+      "destination": "reports/terminal_trial_cutoffs.csv",
+      "destination_sha256": "59f90bc46c80fd9b91797d4438aa2198c52a17e5857f9a2fdee4d6ad340df314",
+      "destination_size_bytes": 18224,
+      "fields_removed": [],
+      "rows": 2,
+      "source": "runtime_20261025/reports/terminal_trial_cutoffs.csv",
+      "source_sha256": "59f90bc46c80fd9b91797d4438aa2198c52a17e5857f9a2fdee4d6ad340df314",
+      "source_size_bytes": 18224,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/resource_failure_ledger.csv",
+      "destination_sha256": "35c34857e7090f1c13c23985bba65c1bc891eccd6585447ae32cea8a691cf270",
+      "destination_size_bytes": 324418,
+      "fields_removed": [
+        "phase_evidence_path"
+      ],
+      "rows": 504,
+      "source": "runtime_20261025/reports/resource_failure_ledger.csv",
+      "source_sha256": "a7e14f46c0d31c26a1a6b87a058a72ae281019111746bf0f0ec9dae1d3a3691f",
+      "source_size_bytes": 346592,
+      "transformation": "existing reason_text_curation applied to reason/error columns; recognized private process columns removed"
+    },
+    {
+      "destination": "reports/resource_failure_summary.csv",
+      "destination_sha256": "fa210e594e3419c499ea44f92ac8d4ce138b7b75a9995f0846f532e9dda5e301",
+      "destination_size_bytes": 1198,
+      "fields_removed": [],
+      "rows": 19,
+      "source": "runtime_20261025/reports/resource_failure_summary.csv",
+      "source_sha256": "fa210e594e3419c499ea44f92ac8d4ce138b7b75a9995f0846f532e9dda5e301",
+      "source_size_bytes": 1198,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/evaluation_support_fallbacks.csv",
+      "destination_sha256": "0c0fecbcef9954e2cc67c9040addeb50aed2bcc1a9587eab9d779b9bcd8b3e4e",
+      "destination_size_bytes": 1210247,
+      "fields_removed": [],
+      "rows": 2823,
+      "source": "runtime_20261025/reports/evaluation_support_fallbacks.csv",
+      "source_sha256": "0c0fecbcef9954e2cc67c9040addeb50aed2bcc1a9587eab9d779b9bcd8b3e4e",
+      "source_size_bytes": 1210247,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/evaluation_support_fallbacks_per_class.csv",
+      "destination_sha256": "c7a23465fe3fb91248742e9b7a508cfd67f6d82657f90c16f47e46e63996a33d",
+      "destination_size_bytes": 2075219,
+      "fields_removed": [],
+      "rows": 19761,
+      "source": "runtime_20261025/reports/evaluation_support_fallbacks_per_class.csv",
+      "source_sha256": "c7a23465fe3fb91248742e9b7a508cfd67f6d82657f90c16f47e46e63996a33d",
+      "source_size_bytes": 2075219,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/E6_weights.csv",
+      "destination_sha256": "1be913c569808c9a4fa4d94f88fa88228c6b1302fe0151fdab0c9d5ce028d864",
+      "destination_size_bytes": 3103,
+      "fields_removed": [],
+      "rows": 6,
+      "source": "runtime_20261025/reports/E6_weights.csv",
+      "source_sha256": "1be913c569808c9a4fa4d94f88fa88228c6b1302fe0151fdab0c9d5ce028d864",
+      "source_size_bytes": 3103,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/E6_candidate_ledger.csv",
+      "destination_sha256": "0c3de24bcaaf0585abe67f637f229bf26d4fc609ba79116e4f2d04f184b98a6c",
+      "destination_size_bytes": 1259284,
+      "fields_removed": [],
+      "rows": 4770,
+      "source": "runtime_20261025/reports/E6_candidate_ledger.csv",
+      "source_sha256": "0c3de24bcaaf0585abe67f637f229bf26d4fc609ba79116e4f2d04f184b98a6c",
+      "source_size_bytes": 1259284,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/planned_case_ledger.csv",
+      "destination_sha256": "d3f57a724b900e9d96cf231a67fee4ec1ca037e828f2d8c6cfe1d3adad8fd7e9",
+      "destination_size_bytes": 1959008,
+      "fields_removed": [],
+      "rows": 2823,
+      "source": "runtime_20261025/reports/planned_case_ledger.csv",
+      "source_sha256": "d3f57a724b900e9d96cf231a67fee4ec1ca037e828f2d8c6cfe1d3adad8fd7e9",
+      "source_size_bytes": 1959008,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/per_class_metrics.csv",
+      "destination_sha256": "b479635d565bf9b67dfe570e5020350249f9b7b1da0a30479e9b333a697e66af",
+      "destination_size_bytes": 2868380,
+      "fields_removed": [],
+      "rows": 17066,
+      "source": "runtime_20261025/reports/per_class_metrics.csv",
+      "source_sha256": "b479635d565bf9b67dfe570e5020350249f9b7b1da0a30479e9b333a697e66af",
+      "source_size_bytes": 2868380,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/E5_per_class_paired_differences.csv",
+      "destination_sha256": "e898c1591b16e58b7dc06dfba4896c5c71ed4e35d909c7e5d222e74aa3cc6c7d",
+      "destination_size_bytes": 2116529,
+      "fields_removed": [],
+      "rows": 6048,
+      "source": "runtime_20261025/reports/E5_per_class_paired_differences.csv",
+      "source_sha256": "e898c1591b16e58b7dc06dfba4896c5c71ed4e35d909c7e5d222e74aa3cc6c7d",
+      "source_size_bytes": 2116529,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/all_task_ledger.csv",
+      "destination_sha256": "42c8941a95c27b4b0f944aa3119ba4ba09264f502e1cc4855582155aa4abb4af",
+      "destination_size_bytes": 3267889,
+      "fields_removed": [],
+      "rows": 6270,
+      "source": "runtime_20261025/reports/all_task_ledger.csv",
+      "source_sha256": "42c8941a95c27b4b0f944aa3119ba4ba09264f502e1cc4855582155aa4abb4af",
+      "source_size_bytes": 3267889,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/experiment_outcome_coverage.csv",
+      "destination_sha256": "c5cc2ed72e28e08c17e5fde50c0c409d19f99558b6289845dfd60013b3b4dfbc",
+      "destination_size_bytes": 163764,
+      "fields_removed": [],
+      "rows": 941,
+      "source": "runtime_20261025/reports/experiment_outcome_coverage.csv",
+      "source_sha256": "c5cc2ed72e28e08c17e5fde50c0c409d19f99558b6289845dfd60013b3b4dfbc",
+      "source_size_bytes": 163764,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/per_repetition_metrics.csv",
+      "destination_sha256": "e645831e3cfb49d16eabb3333204536fc2352e3be2065000962f902566174f03",
+      "destination_size_bytes": 1713947,
+      "fields_removed": [],
+      "rows": 2438,
+      "source": "runtime_20261025/reports/per_repetition_metrics.csv",
+      "source_sha256": "e645831e3cfb49d16eabb3333204536fc2352e3be2065000962f902566174f03",
+      "source_size_bytes": 1713947,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/matched_paired_differences.csv",
+      "destination_sha256": "450be6a6ddd6a127ca4a4f21dd4462f1b8b140028cc9f02963cd7c1b82bbb7c6",
+      "destination_size_bytes": 106726,
+      "fields_removed": [],
+      "rows": 755,
+      "source": "runtime_20261025/reports/matched_paired_differences.csv",
+      "source_sha256": "450be6a6ddd6a127ca4a4f21dd4462f1b8b140028cc9f02963cd7c1b82bbb7c6",
+      "source_size_bytes": 106726,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/E4_CONTROL_TREATMENT_PAIRED.csv",
+      "destination_sha256": "e49fd5776b72d8b2fac6b3b720de8afeaabd9c355b9d3e4ced14a39e5e3c5c88",
+      "destination_size_bytes": 1259307,
+      "fields_removed": [],
+      "rows": 2730,
+      "source": "runtime_20261025/reports/E4_CONTROL_TREATMENT_PAIRED.csv",
+      "source_sha256": "e49fd5776b72d8b2fac6b3b720de8afeaabd9c355b9d3e4ced14a39e5e3c5c88",
+      "source_size_bytes": 1259307,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/E4_CONTROL_TREATMENT_PAIRED_SUMMARY.csv",
+      "destination_sha256": "61180bc37a36c3c618fd1597fa092c0fc83476baf7fa653b790d5aea725dd9e8",
+      "destination_size_bytes": 258744,
+      "fields_removed": [],
+      "rows": 910,
+      "source": "runtime_20261025/reports/E4_CONTROL_TREATMENT_PAIRED_SUMMARY.csv",
+      "source_sha256": "61180bc37a36c3c618fd1597fa092c0fc83476baf7fa653b790d5aea725dd9e8",
+      "source_size_bytes": 258744,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/E5_clean_corrupted_paired_metrics.csv",
+      "destination_sha256": "b41f386cec5b8f932c156f181d7846bcc71984fad5302927a14aa9c9537c74b9",
+      "destination_size_bytes": 274207,
+      "fields_removed": [],
+      "rows": 864,
+      "source": "runtime_20261025/reports/E5_clean_corrupted_paired_metrics.csv",
+      "source_sha256": "b41f386cec5b8f932c156f181d7846bcc71984fad5302927a14aa9c9537c74b9",
+      "source_size_bytes": 274207,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/E5_clean_corrupted_paired_metrics_summary.csv",
+      "destination_sha256": "34d168b5b80b7688e0100a96febbf70914c1cace737b3070a3ceb0c899b5d33e",
+      "destination_size_bytes": 43693,
+      "fields_removed": [],
+      "rows": 288,
+      "source": "runtime_20261025/reports/E5_clean_corrupted_paired_metrics_summary.csv",
+      "source_sha256": "34d168b5b80b7688e0100a96febbf70914c1cace737b3070a3ceb0c899b5d33e",
+      "source_size_bytes": 43693,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/E5_per_class_paired_summary.csv",
+      "destination_sha256": "a5376a53163e90c380b5fc75689286ffd48f772a17277bab7c258af02875cfa4",
+      "destination_size_bytes": 302771,
+      "fields_removed": [],
+      "rows": 2016,
+      "source": "runtime_20261025/reports/E5_per_class_paired_summary.csv",
+      "source_sha256": "a5376a53163e90c380b5fc75689286ffd48f772a17277bab7c258af02875cfa4",
+      "source_size_bytes": 302771,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/matched_paired_summary.csv",
+      "destination_sha256": "224210ea6b56a50fb20337ba5629bd5988f2c1e4e2268bf9e089e99e592b5eba",
+      "destination_size_bytes": 56707,
+      "fields_removed": [],
+      "rows": 276,
+      "source": "runtime_20261025/reports/matched_paired_summary.csv",
+      "source_sha256": "224210ea6b56a50fb20337ba5629bd5988f2c1e4e2268bf9e089e99e592b5eba",
+      "source_size_bytes": 56707,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/costs.csv",
+      "destination_sha256": "d2479a694337eb3af05f915b304f0398ef1306b14eeac2c9b6c7b71c18ca94d3",
+      "destination_size_bytes": 11062654,
+      "fields_removed": [],
+      "rows": 23626,
+      "source": "runtime_20261025/reports/costs.csv",
+      "source_sha256": "d2479a694337eb3af05f915b304f0398ef1306b14eeac2c9b6c7b71c18ca94d3",
+      "source_size_bytes": 11062654,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    },
+    {
+      "destination": "reports/cost_summary.csv",
+      "destination_sha256": "178d61f92dff5fcd7347076cdf8c9b7837cfb6dbc36c98f9009c77452a80a068",
+      "destination_size_bytes": 993599,
+      "fields_removed": [],
+      "rows": 3579,
+      "source": "runtime_20261025/reports/cost_summary.csv",
+      "source_sha256": "178d61f92dff5fcd7347076cdf8c9b7837cfb6dbc36c98f9009c77452a80a068",
+      "source_size_bytes": 993599,
+      "transformation": "existing reason_text_curation applied to reason/error columns"
+    }
+  ]
+}
