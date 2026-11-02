@@ -1,0 +1,201 @@
+from __future__ import annotations
+import hashlib, json, os, sys, time, tempfile
+import fcntl
+from pathlib import Path
+import numpy as np
+from ensemble_maintenance_patch import E6PhaseFailure, E6CachedPhaseFailure, _cached_record, run_phase_with_terminal_failure_cache, execute_with_terminal_classification  # E6_PHASE_FAILURE_TAXONOMY_V1
+MEMBERS=('gmm','copula','arf','kde','chow_liu')
+def _project(runtime):
+    p=Path(runtime).parent/'project'
+    if not p.exists(): p=Path('/home/ubuntu/lamost_e1_migration_20261023/project')
+    if str(p) not in sys.path: sys.path.insert(0,str(p))
+    from benchmark import ensembles,evaluation
+    return p,ensembles,evaluation
+def _json(path,obj):
+    p=Path(path); p.parent.mkdir(parents=True,exist_ok=True); t=p.with_suffix(p.suffix+'.tmp')
+    t.write_text(json.dumps(obj,sort_keys=True,indent=2,default=lambda x:x.tolist() if isinstance(x,np.ndarray) else int(x) if isinstance(x,np.integer) else float(x) if isinstance(x,np.floating) else str(x))+'\n'); os.replace(t,p)
+def _sha(a): return hashlib.sha256(np.ascontiguousarray(a).tobytes()).hexdigest()
+def _validate_class_order(model,name):
+    candidates=[]
+    for obj,attr in ((model,'classes_'),(getattr(model,'estimator',None),'classes_'),(model,'class_ids_'),(model,'label_order')):
+        value=getattr(obj,attr,None) if obj is not None else None
+        if value is not None: candidates.append((attr,np.asarray(value)))
+    for attr,value in candidates:
+        if value.shape!=(7,) or not np.array_equal(value,np.arange(7)):
+            raise ValueError(f'{name} exposes noncanonical class order in {attr}: {value.tolist()}')
+    priors=getattr(model,'priors',None)
+    if priors is not None and np.asarray(priors).shape!=(7,): raise ValueError(f'{name} prior vector does not contain seven fixed-order classes')
+def _posterior(a,name):
+    x=np.asarray(a,dtype=np.float64)
+    if x.ndim!=2 or x.shape[1]!=7 or not np.isfinite(x).all() or np.any(x<0) or not np.allclose(x.sum(1),1.,atol=1e-6):
+        raise ValueError(f'{name}: expected normalized finite nonnegative N x 7 posterior in class order 0..6')
+    return x
+def _load_npz(path,required):
+    if not Path(path).exists(): raise FileNotFoundError(path)
+    with np.load(path,allow_pickle=False) as z:
+        missing=[k for k in required if k not in z]
+        if missing: raise ValueError(f'{path}: missing keys {missing}')
+        return {k:z[k].copy() for k in z.files}
+def _role_ids(z,role):
+    for k in (f'{role}_ids',f'{role.lower()}_ids'):
+        if k in z: return np.asarray(z[k])
+    return None
+def _pipeline_path(runtime,key):
+    if not isinstance(key,str) or not key or '..' in Path(key).parts or Path(key).is_absolute(): raise ValueError('unsafe fit dependency key')
+    p=(Path(runtime)/'artifacts'/key/'pipeline.joblib').resolve()
+    if Path(runtime).resolve() not in p.parents: raise ValueError('fit key escapes runtime artifact directory')
+    return p
+def _phase_child(conn,pipeline_paths,X,outfile):
+    try:
+        os.environ.update({"OMP_NUM_THREADS":"1","OPENBLAS_NUM_THREADS":"1","MKL_NUM_THREADS":"1","NUMEXPR_NUM_THREADS":"1","VECLIB_MAXIMUM_THREADS":"1"})
+        try:
+            from threadpoolctl import threadpool_limits
+            threadpool_limits(1)
+        except Exception: pass
+        import joblib
+        X=np.asarray(X,dtype=np.float64); n=len(X); result={}
+        for name,path in pipeline_paths.items():
+            pipe=joblib.load(path); model=pipe["model"]; pieces=[]
+            for start in range(0,n,50000):
+                block=X[start:start+50000]
+                transformed=pipe["scaler"].transform(pipe["imputer"].transform(block))
+                raw=model.score_matrix(transformed) if hasattr(model,"score_matrix") else model.predict_proba(transformed)
+                pieces.append(_posterior(raw,f"{name} prediction"))
+            result[name]=np.concatenate(pieces,axis=0) if pieces else np.empty((0,7),dtype=float)
+        tmp=str(outfile)+f".{os.getpid()}.tmp.npz"
+        np.savez_compressed(tmp,**result); os.replace(tmp,outfile)
+        conn.send({"status":"success","n":n,"chunk_size":50000})
+    except BaseException as exc:
+        conn.send({"status":"error","error":f"{type(exc).__name__}: {exc}"})
+    finally:
+        conn.close()
+
+def _tree_rss_kib(pid):
+    rows={}
+    for d in Path('/proc').iterdir():
+        if not d.name.isdigit(): continue
+        try:
+            lines=(d/'status').read_text().splitlines(); ppid=int(next(x.split()[1] for x in lines if x.startswith('PPid:'))); rss=int(next(x.split()[1] for x in lines if x.startswith('VmRSS:'))); rows[int(d.name)]=(ppid,rss)
+        except Exception: pass
+    tree={pid}; changed=True
+    while changed:
+        changed=False
+        for child,(parent,_) in rows.items():
+            if parent in tree and child not in tree: tree.add(child); changed=True
+    return sum(rows[x][1] for x in tree if x in rows)
+
+def _run_prediction_phase(pipeline_paths,X,outfile,timeout=600,rss_limit_kib=10*1024*1024,grace=30):
+    import multiprocessing as mp
+    ctx=mp.get_context('fork'); parent,child=ctx.Pipe(duplex=False)
+    proc=ctx.Process(target=_phase_child,args=(child,pipeline_paths,np.asarray(X),str(outfile))); proc.start(); child.close()
+    started=time.monotonic(); peak=0; reason=None; owner_pid=os.getpid()
+    while proc.is_alive():
+        # Include this controller worker plus the isolated phase child and descendants.
+        peak=max(peak,_tree_rss_kib(owner_pid))
+        if peak>rss_limit_kib: reason='rss_limit'; break
+        if time.monotonic()-started>timeout: reason='timeout'; break
+        proc.join(.25)
+    if reason:
+        proc.terminate(); proc.join(grace)
+        if proc.is_alive(): proc.kill(); proc.join()
+    else: proc.join()
+    msg=parent.recv() if parent.poll() else {"status":"error","error":f"worker exited {proc.exitcode} without a result"}
+    parent.close()
+    rec={"seconds":time.monotonic()-started,"peak_tree_rss_kib":peak,"reason":reason,"exit_code":proc.exitcode,"result":msg}
+    if reason: raise RuntimeError(f"prediction_{reason}: {rec}")
+    if proc.exitcode!=0 or msg.get('status')!='success': raise RuntimeError(f"prediction_phase_failed: {rec}")
+    return rec
+
+def _load_scores(path):
+    with np.load(path,allow_pickle=False) as z: return {m:_posterior(z[m],m) for m in MEMBERS}
+def _save_scores(path,scores):
+    tmp=Path(str(path)+f".{os.getpid()}.tmp.npz"); np.savez_compressed(tmp,**scores); os.replace(tmp,path)
+
+def _execute_e6_before_phase_taxonomy(task,runtime)->dict:
+    """Evaluate one frozen five-member E6 ensemble; only prediction phases run."""
+    _,ens,ev=_project(runtime)
+    rep=int(task['rep']); mode=str(task.get('mode','equal'))
+    if mode not in {'equal','learned'}: raise ValueError('E6 mode must be equal or learned')
+    members=task.get('members',{})
+    if set(members)!=set(MEMBERS): return {'status':'unavailable_dependency','reason':'five-member primary ensemble requires all five generator fits','missing_members':sorted(set(MEMBERS)-set(members))}
+    runtime=Path(runtime).resolve(); cache=runtime/'cache'
+    roles=_load_npz(cache/'roles'/f'rep_{rep}.npz',('X_tune','y_tune','X_cal','y_cal','fit_ids','tuning_ids','calibration_ids'))
+    test=_load_npz(cache/'test.npz',('X','y','ids'))
+    for name,arr in [('X_tune',roles['X_tune']),('X_cal',roles['X_cal']),('X_test',test['X'])]:
+        if arr.ndim!=2 or arr.shape[1]!=6 or not np.isfinite(arr).all(): raise ValueError(f'{name} must be finite N x 6')
+    yt=np.asarray(roles['y_tune'],dtype=np.int64); yc=np.asarray(roles['y_cal'],dtype=np.int64); y=np.asarray(test['y'],dtype=np.int64); ids=np.asarray(test['ids'])
+    for name,v,n in [('tuning',yt,len(roles['X_tune'])),('calibration',yc,len(roles['X_cal'])),('test',y,len(test['X']))]:
+        if v.ndim!=1 or len(v)!=n or np.any((v<0)|(v>=7)): raise ValueError(f'{name} labels invalid')
+    if ids.ndim!=1 or len(ids)!=len(y) or len(np.unique(ids))!=len(ids): raise ValueError('test IDs must be unique and row matched')
+    out=runtime/'artifacts'/str(task['key']); out.mkdir(parents=True,exist_ok=True)
+    import joblib
+    paths={}; model_hashes={}; fit_hashes={}
+    for name in MEMBERS:
+        pp=_pipeline_path(runtime,members[name])
+        if not pp.exists(): return {'status':'unavailable_dependency','reason':f'missing pipeline for {name}','missing_members':[name],'fit_key':members[name]}
+        pipe=joblib.load(pp)
+        if not isinstance(pipe,dict) or not all(k in pipe for k in ('model','imputer','scaler')): raise ValueError(f'{name} pipeline schema invalid')
+        if pipe.get('method') not in (None,name): raise ValueError(f'{name} pipeline method mismatch: {pipe.get("method")}')
+        if getattr(pipe['model'],'score_kind','probability')!='probability': raise ValueError(f'{name} lacks native posterior probabilities')
+        _validate_class_order(pipe['model'],name)
+        fit_hash=pipe.get('training_ids_sha256')
+        if not fit_hash: raise ValueError(f'{name} pipeline lacks fitting-ID provenance hash')
+        fit_hashes[name]=fit_hash; paths[name]=pp
+        h=hashlib.sha256()
+        with pp.open('rb') as f:
+            for block in iter(lambda:f.read(1<<20),b''): h.update(block)
+        model_hashes[name]=h.hexdigest()
+    if len(set(fit_hashes.values()))!=1: raise ValueError('member fitting-role provenance hashes differ')
+    fit_ids=np.asarray(roles['fit_ids']); tune_ids=np.asarray(roles['tuning_ids']); cal_ids=np.asarray(roles['calibration_ids'])
+    if _sha(fit_ids)!=next(iter(set(fit_hashes.values()))): raise ValueError('member fitting IDs do not match the exact repetition role cache')
+    if len(np.unique(tune_ids))!=len(tune_ids) or len(tune_ids)!=len(yt): raise ValueError('tuning IDs do not match unique tuning rows')
+    if len(np.unique(cal_ids))!=len(cal_ids) or len(cal_ids)!=len(yc): raise ValueError('calibration IDs do not match unique calibration rows')
+    fingerprint={'pipeline_sha256':model_hashes,'fit_ids_sha256':_sha(fit_ids),'tuning_ids_sha256':_sha(tune_ids),'calibration_ids_sha256':_sha(cal_ids),'test_ids_sha256':_sha(ids),'X_tune_sha256':_sha(roles['X_tune']),'X_cal_sha256':_sha(roles['X_cal']),'X_test_sha256':_sha(test['X']),'y_tune_sha256':_sha(yt),'y_cal_sha256':_sha(yc),'y_test_sha256':_sha(y)}
+    sig=hashlib.sha256(json.dumps(fingerprint,sort_keys=True).encode()).hexdigest()[:24]
+    shared=cache/'e6_posteriors'/f'rep_{rep}'/sig; shared.mkdir(parents=True,exist_ok=True)
+    lock_path=shared/'phase.lock'; phase_times={}
+    def get_stage(stage,X):
+        cp=shared/f'{stage}.npz'
+        with lock_path.open('a+b') as lock:
+            fcntl.flock(lock.fileno(),fcntl.LOCK_EX)
+            failure_marker=shared/f'{stage}.scientific_failure.json'
+            if failure_marker.exists():
+                record=_cached_record(failure_marker,fingerprint)
+                if record.get('source_task_key')==str(task['key']): raise E6PhaseFailure(record)
+                raise E6CachedPhaseFailure(record)
+            if cp.exists():
+                try: scores=_load_scores(cp)
+                except Exception: scores=None
+            else: scores=None
+            if scores is None:
+                rec=run_phase_with_terminal_failure_cache(stage=stage,shared_dir=shared,fingerprint=fingerprint,mode=mode,task_key=task['key'],runner=lambda:_run_prediction_phase(paths,X,cp))
+                scores=_load_scores(cp); phase_times[f'{stage}_seconds']=rec['seconds']; phase_times[f'{stage}_peak_tree_rss_kib']=rec['peak_tree_rss_kib']; phase_times[f'{stage}_cache_hit']=False
+            else: phase_times[f'{stage}_cache_hit']=True
+            fcntl.flock(lock.fileno(),fcntl.LOCK_UN)
+        if any(v.shape!=(len(X),7) for v in scores.values()): raise ValueError(f'{stage} cache row count invalid')
+        return scores
+    tune_scores=get_stage('tune',roles['X_tune'])
+    # Freeze the selected vector and its full tuning ledger before calibration or test predictions.
+    weights_obj=None; start=time.monotonic()
+    search_cfg=task.get('weight_search',{}) if isinstance(task.get('weight_search',{}),dict) else {}
+    weight_seed=int(search_cfg.get('seed',int(task.get('seed',271828))+rep))
+    if mode=='equal': weights=np.full(5,.2,dtype=float)
+    else:
+        weights_obj=ens.fit_ensemble_weights(tune_scores,yt,seed=weight_seed,dirichlet_candidates=int(search_cfg.get('dirichlet_candidates',1000)),candidate_cap=int(search_cfg.get('maximum_candidates',search_cfg.get('candidate_cap',2000))))
+        weights=np.asarray(weights_obj['weights'],dtype=float)
+    phase_times['weight_selection_seconds']=time.monotonic()-start
+    np.savez_compressed(out/'tuning_posteriors.npz',**{f'{m}_posterior':tune_scores[m] for m in MEMBERS},y_tune=yt,tuning_ids=tune_ids)
+    if weights_obj is not None: _json(out/'candidate_ledger.json',weights_obj)
+    _json(out/'frozen_weights.json',{'mode':mode,'member_order':list(MEMBERS),'weights':weights.tolist(),'frozen_before_calibration_and_test':True,'weight_search_seed':weight_seed,'fingerprint':fingerprint,'candidate_ledger':'candidate_ledger.json' if weights_obj is not None else None})
+    cal_scores=get_stage('cal',roles['X_cal']); cal_mix=ens.ensemble_scores(cal_scores,weights)
+    q=ev.conformal_threshold(cal_mix,yc,score_kind='probability',alpha=.1)
+    test_scores=get_stage('test',test['X']); test_mix=ens.ensemble_scores(test_scores,weights)
+    result=ev.conformal_evaluate(test_mix,y,q,score_kind='probability')
+    from sklearn.metrics import confusion_matrix
+    np.savez_compressed(out/'test_outcomes.npz',sample_id=ids,y_pred=result['predictions'],set_mask=np.packbits(result['sets'],axis=1,bitorder='little')[:,0],covered=result['covered'],set_size=result['set_sizes'],y_true=y)
+    evaluation={k:result[k] for k in ('balanced_accuracy','set_size','coverage','per_class')}
+    evaluation.update({'confusion_matrix':confusion_matrix(y,result['predictions'],labels=np.arange(7)).tolist(),'calibration_n':len(yc),'test_n':len(y),'conformal_threshold':float(q),'alpha':.1,'score_kind':'probability','experiment':6,'repetition':rep,'mode':mode,'member_order':list(MEMBERS),'class_order':list(range(7)),'weights':weights.tolist(),'source_fit_keys':members,'pipeline_sha256':model_hashes,'training_role_hashes':{m:{'fit_ids_sha256':fit_hashes[m]} for m in MEMBERS},'fit_ids_sha256':_sha(fit_ids),'tuning_ids_sha256':_sha(tune_ids),'calibration_ids_sha256':_sha(cal_ids),'test_ids_sha256':_sha(ids),'phase_times_seconds':phase_times,'posterior_cache_key':sig,'set_mask_encoding':'one byte per row; low seven bits are classes 0..6','bootstrap':'not performed'})
+    _json(out/'evaluation.json',evaluation)
+    return {'status':'success','evaluation':evaluation,'artifact_dir':str(out)}
+def execute(task,runtime)->dict:
+    return execute_with_terminal_classification(_execute_e6_before_phase_taxonomy,task,runtime)

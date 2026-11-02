@@ -1,0 +1,335 @@
+{
+  "admission_decision": {
+    "actual_blocker": "There are nine dependency-ready E4 direct ARF evaluations, but under current source they default to a 10 GiB heavy reservation. Current candidate budget is approximately 3.679 GiB. The existing heavy-lane packing logic is not the blocker; a narrowly evidenced ARF-evaluation profile is missing.",
+    "current_fitting_phase_progress": {
+      "K_tenth": "At the recorded phase snapshot, four tuning trials had finished successfully and one trial was unsupported plus one timed out; the active phase was final_fit. Maximum completed tuning-trial RSS across all five trial records was 4,451,628 KiB.",
+      "M_tenth": "Trial 0 was still running; no completed fitting peak can be inferred."
+    },
+    "non_arf_change_supported": false,
+    "prospective_profile_change_supported": true,
+    "queue_packing_blocker": false,
+    "reason": "Four complete E3/E4 direct ARF evaluations provide eight calibration/test phase receipts; the maximum was 805,920 KiB across all receipts, with the largest measured pipeline 31,485,246 bytes. The largest of the nine ready E4 pipeline files is 33,596,802 bytes and its selected configuration (300 trees, min leaf 5, depth 10) matches the observed stress configuration. All matching task roles use 80k fitting, 10k calibration, 500k test, six predictors and 50k chunks. This supports only a provisional evaluation admission estimate, not an inference memory guarantee.",
+    "recommended_scoped_profile": {
+      "exclusions": [
+        "ARF fitting",
+        "ARF generation",
+        "other generators or routes",
+        "unvalidated or mismatched pipeline",
+        "model files above 34,000,000 bytes"
+      ],
+      "expected_immediate_opportunity": "Nine E4 rep-1 direct ARF evaluation tasks currently have successful fit dependencies. At the 22:23:10Z measured 3.679 GiB candidate budget, a 2 GiB candidate fits the current host-reserve/unspent-commitment formula; actual admission remains the root controller\u2019s decision after fresh remeasurement.",
+      "reservation_gib": 2,
+      "safeguards": [
+        "Keep the 10 GiB process-tree RSS hard cap.",
+        "Keep 600-second calibration/evaluation phase limits and 30-second termination grace.",
+        "Keep dynamic promotion to 10 GiB when charged process-tree PSS exceeds the provisional reservation.",
+        "Do not alter model definitions, roles, trial counts, or results."
+      ],
+      "scope": "Direct ARF eval tasks only; require a validated matching successful fit, 80,000 training rows, six predictors, 10,000 calibration rows, 500,000 test rows, 50,000-row prediction chunks, model pipeline <=34,000,000 bytes, exact frozen ARF score and provenance identity."
+    },
+    "safe_near_term_action": "If root accepts the narrow provisional estimate, add only the gated ARF evaluation profile; keep all fit reservations unchanged. Otherwise leave source/policy unchanged and let current tasks finish naturally."
+  },
+  "arf_phase_progress": {
+    "interpretation": "Task-level elapsed time is not a hung-phase signal: K_tenth has multiple completed serial trials and is now in its final fit. Keep current fit reservations; the active trial RSS maximum of 4,451,628 KiB is evidence against lowering ARF fit admission below 6 GiB.",
+    "task_1": "E4 rep 1 K_tenth: at the latest phase snapshot, trial 0 had terminal unsupported error (singular FORDE continuous marginal), trial 1 ended at the fixed 600-second timeout, and trials 2, 3, 4 succeeded. Completed-trial peak RSS values were 946,260; 3,667,204; 1,696,656; 4,451,628; and 1,577,284 KiB respectively; the highest is trial 3, not selected-only. The final-fit phase was running with about 144 seconds elapsed at the phase-state read. Current task process-tree PSS was 0.946 GiB and current CPU was 234.95 s at the later /proc observation.",
+    "task_2": "E4 rep 1 M_tenth: trial 0 was running with approximately 293 seconds elapsed at the latest phase-state read; current process-tree PSS was 1.25 GiB and current CPU was 299.84 s at the later /proc observation.",
+    "task_3": "E4 rep 3 A_half_weighted RF fit: trial 6 was running with approximately 56 seconds elapsed at the phase-state read; current process-tree PSS was 0.466 GiB and current CPU was 64.65 s at the later /proc observation."
+  },
+  "audit_name": "resource_throughput_review_20261027",
+  "current_resource_observation": {
+    "candidate_budget_formula": "MemAvailable 27,935,723,520 B - host reserve 6 GiB - unspent active reservations (17 GiB minus current descendant PSS 2,858,073,088 B) - growth margin 2 GiB = 3.679 GiB.",
+    "candidate_budget_gib": 3.679,
+    "credited_tree_pss_total_bytes": 2858073088,
+    "credited_tree_pss_total_gib": 2.662,
+    "host_plus_unspent_plus_growth_gib": 22.338,
+    "mem_available_bytes": 27935723520,
+    "mem_available_gib": 26.017,
+    "method": "direct read-only /proc sample at 2026-10-26T22:23:10Z; each controller-reported running PID matched its recorded process start ticks; full-descendant PSS/RSS and CPU ticks read without model access. This is a point observation, not a peak.",
+    "reservation_total_gib": 17,
+    "running_classes": [
+      {
+        "cpu_ticks_100hz": 23495,
+        "experiment": "E4 ARF direct fit K_tenth",
+        "reservation_gib": 6,
+        "tree_pss_bytes": 1015689216,
+        "tree_pss_gib": 0.946,
+        "tree_rss_bytes": 1160753152
+      },
+      {
+        "cpu_ticks_100hz": 6465,
+        "experiment": "E4 RF treatment fit A_half_weighted",
+        "reservation_gib": 5,
+        "tree_pss_bytes": 500672512,
+        "tree_pss_gib": 0.466,
+        "tree_rss_bytes": 643260416
+      },
+      {
+        "cpu_ticks_100hz": 29984,
+        "experiment": "E4 ARF direct fit M_tenth",
+        "reservation_gib": 6,
+        "tree_pss_bytes": 1341711360,
+        "tree_pss_gib": 1.25,
+        "tree_rss_bytes": 1486163968
+      }
+    ],
+    "running_task_count": 3,
+    "stored_memory_admission_observation_used": false,
+    "stored_observation_note": "The JSON observation was older than the direct process sample and was not used to assert current liveness.",
+    "unspent_reservations_gib": 14.338
+  },
+  "evidence_files": [
+    {
+      "path": "runtime_20261025/staging/nonrf_heavy_resource_readiness_20261026/HEAVY_METHOD_RESOURCE_READINESS_AUDIT_20261026.json",
+      "sha256": "b3530fd93a17095fa6d3e8b7071b4df943cceea829ecad4415513ac06bf11c49"
+    },
+    {
+      "path": "runtime_20261025/staging/e4_rf_fit_reservation_review_20261026/E4_RF_FIT_RESERVATION_RESOURCE_REVIEW_20261026.json",
+      "sha256": "2e6356dac0be320eb5e57c3537b3c4dff01e8943d5f1490424f117e4b332e1b6"
+    },
+    {
+      "path": "runtime_20261025/staging/resource_followup_e5_e4_rf_20261026/E5_E4_RF_RESOURCE_FOLLOWUP_20261026.json",
+      "sha256": "9884af26a84d04e5be913d651d36f9b055dda7613a8e2f95b73a137626de4754"
+    }
+  ],
+  "historical_memory_evidence": {
+    "ARF": "The heavy-method readiness audit covers three successful matching E3 80k\u00d76 fits with final phase RSS maxima 1,233,280, 3,630,416 and 3,245,952 KiB; 13 executed tuning phases (including 6 timeouts and 2 other nonzero exits) had maximum RSS 3,697,924 KiB and maximum duration 600.29 s. The report supports only a provisional 6 GiB admission estimate for scoped E4/E5 ARF fit routes; the 10 GiB hard cap and promotion guard remain necessary. Current E4 ARF attempts have not completed, so their live phase cannot support lowering.",
+    "RF_eval": "The E4 treatment RF evaluation follow-up has only four successful matched evaluation receipts, all rep 1/A_half generated-restoration, with 500k test rows. Maximum phase tree RSS 3,869,900 KiB (3.69 GiB). That narrow evidence supports the existing 6 GiB scoped estimate only; it does not justify 4 GiB for the five current unqualified pending evaluations. Parent/concurrent memory is excluded from phase RSS.",
+    "RF_fit": "The E4 nonweighted treatment RF audit covers 25 completed successful fits (80,611\u201382,394 rows; selected 200/500 trees), 202 executed trial phases plus 25 final-fit phases. Maximum across all executed trials and final fits was 3,907,392 KiB (3.72 GiB), including failed-trial history review with no recorded failed/nonzero phase in that subset. It supports the existing scoped 5 GiB provisional fit admission, with limitations for other sizes/configurations.",
+    "arf_evaluation": {
+      "assessment": "Evidence supports considering a provisional 2 GiB admission estimate for direct ARF evaluation only, gated to validated 80k\u00d76 selected fits, fixed 10k calibration/500k test roles, 50k chunks, and pipeline size <=34,000,000 bytes. Sample size is four evaluations, so this is a scoped admission estimate, not a worst-case guarantee. Preserve 10 GiB process-tree RSS hard cap, 600-second phase limit, 30-second grace, and dynamic promotion to 10 GiB.",
+      "calibration_rows": 10000,
+      "failed_or_incomplete_eval_attempts": 0,
+      "largest_observed_pipeline_bytes": 31485246,
+      "largest_pending_model_params": {
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "matching_observed_stress_configuration": "E3 rep 2 evaluation used a 300-tree, min-leaf-5, depth-10 ARF pipeline, measured at 805,920 KiB peak evaluation RSS and 507.42 seconds; its 31,485,246-byte pipeline is 6.7% smaller than the largest currently dependency-ready E4 pipeline.",
+      "maximum_pending_rep1_E4_pipeline_bytes": 33596802,
+      "pending_pipeline_size_delta_vs_sample_max_pct": 6.7,
+      "phase_durations_seconds": {
+        "calibrate_max": 20.61559509905055,
+        "evaluate_max": 507.41853015706874
+      },
+      "phase_maxima_kib": {
+        "all_phases": 805920,
+        "calibrate": 576476,
+        "evaluate": 805920
+      },
+      "prediction_chunk_rows": 50000,
+      "predictor_count": 6,
+      "ready_E4_rep1_models": [
+        {
+          "key": "e4/rep_1/eval/direct/arf/A_tenth",
+          "params": {
+            "max_depth": 10,
+            "min_samples_leaf": 5,
+            "num_trees": 300
+          },
+          "pipeline_bytes": 33596802,
+          "pipeline_sha256": "9c4b1b5b3bf0be812eef3656c97384af8509c728da611b4fa072314737ccecfe"
+        },
+        {
+          "key": "e4/rep_1/eval/direct/arf/F_half",
+          "pipeline_bytes": 21818072,
+          "pipeline_sha256": "b8b83d9dd86fad56830db84f35636382ec3c66c92a79df09f5330f8d254569e8"
+        },
+        {
+          "key": "e4/rep_1/eval/direct/arf/F_tenth",
+          "pipeline_bytes": 21988074,
+          "pipeline_sha256": "f337988e3d8c0e446b6952eda65959ffcf2325fe150a1c0f9f4794ca21825b76"
+        },
+        {
+          "key": "e4/rep_1/eval/direct/arf/G_half",
+          "pipeline_bytes": 21025835,
+          "pipeline_sha256": "beb39433a8dee3e3363a11d1ccaf267a527fe905a62b93d8976692af3032b95d"
+        },
+        {
+          "key": "e4/rep_1/eval/direct/arf/G_tenth",
+          "pipeline_bytes": 21081832,
+          "pipeline_sha256": "5a9a4767989c8a8621152c24651cca1eddcc5886d45d7e0cc2786177cd5aee92"
+        },
+        {
+          "key": "e4/rep_1/eval/direct/arf/K_half",
+          "pipeline_bytes": 14164810,
+          "pipeline_sha256": "9d234e6f94c0dff52a1e16798cb81715f68915b70dcdbdcdbdffc91aefdfe514"
+        },
+        {
+          "key": "e4/rep_1/eval/direct/arf/M_half",
+          "params": {
+            "max_depth": 10,
+            "min_samples_leaf": 100,
+            "num_trees": 300
+          },
+          "pipeline_bytes": 14520767,
+          "pipeline_sha256": "130a7a6f301cbc1b9922140acd063105dd756067d7feeffa58a929bbfbe51d11"
+        },
+        {
+          "key": "e4/rep_1/eval/direct/arf/GALAXY_half",
+          "pipeline_bytes": 20943767,
+          "pipeline_sha256": "ff48123e7e3c2035ac69ba21155652b78325ac7fec5641edd71e52f6626e28e8"
+        },
+        {
+          "key": "e4/rep_1/eval/direct/arf/GALAXY_tenth",
+          "pipeline_bytes": 13718524,
+          "pipeline_sha256": "e69b292aef358498196522f157c996f0b97e3942b7c8a04596c804109805bbb2"
+        }
+      ],
+      "receipts": [
+        {
+          "calibration": {
+            "receipt_path": "runtime_20261025/artifacts/e3/rep_1/eval/direct/arf/attempts/1792931042_7b88f1eb/phase_calibrate_result.json",
+            "rss_kib": 387608,
+            "seconds": 9.775025057024322,
+            "sha256": "7f819ba5cef38e1462ad11885f41556e5d3f28f4e20398c310dad3a714d59f91"
+          },
+          "evaluate": {
+            "receipt_path": "runtime_20261025/artifacts/e3/rep_1/eval/direct/arf/attempts/1792931042_7b88f1eb/phase_evaluate_result.json",
+            "rss_kib": 532292,
+            "seconds": 212.44399137503933,
+            "sha256": "641804a57929d210e33951fcd39c2e082357288c0d95660c36e490ebec01ebde"
+          },
+          "pipeline_bytes": 21027579,
+          "pipeline_sha256": "eeddb9797ce8255a226b0537372ac64f7928b66a5f36a23c2715bbf2992ade16",
+          "task_key": "e3/rep_1/eval/direct/arf"
+        },
+        {
+          "calibration": {
+            "receipt_path": "runtime_20261025/artifacts/e3/rep_2/eval/direct/arf/attempts/1792932589_1d418d40/phase_calibrate_result.json",
+            "rss_kib": 576476,
+            "seconds": 20.61559509905055,
+            "sha256": "f99f4586a0fa0b8fa69b675ba73959b5b635e9c3b9bd157d6fecc045c31caf9d"
+          },
+          "evaluate": {
+            "receipt_path": "runtime_20261025/artifacts/e3/rep_2/eval/direct/arf/attempts/1792932589_1d418d40/phase_evaluate_result.json",
+            "rss_kib": 805920,
+            "seconds": 507.41853015706874,
+            "sha256": "d41815ff2a7d53053c3a7d1ff1654775301a66e6b971260fcceab6b860f5849c"
+          },
+          "pipeline_bytes": 31485246,
+          "pipeline_sha256": "1f46428c57121a022561ae76b13c177e488ebc7ccc282ac1fcdcbecfaab95192",
+          "task_key": "e3/rep_2/eval/direct/arf"
+        },
+        {
+          "calibration": {
+            "receipt_path": "runtime_20261025/artifacts/e3/rep_3/eval/direct/arf/attempts/1792939109_8622b655/phase_calibrate_result.json",
+            "rss_kib": 338356,
+            "seconds": 11.5785771550145,
+            "sha256": "9c4a3b1ea6c80bdb3dea6d3ddf4138a525f17b4741847b3e55b9285eaf2497be"
+          },
+          "evaluate": {
+            "receipt_path": "runtime_20261025/artifacts/e3/rep_3/eval/direct/arf/attempts/1792939109_8622b655/phase_evaluate_result.json",
+            "rss_kib": 594656,
+            "seconds": 388.69782959797885,
+            "sha256": "696aeeb939a0b5591c9ba8f2d5e7c0b69fb5af3a3ea3d6c73c077a524705499e"
+          },
+          "pipeline_bytes": 14116371,
+          "pipeline_sha256": "85adaa279e435547a6ce771614e14d3e9efe92127a0c018c2d2d4a1904b5bf7a",
+          "task_key": "e3/rep_3/eval/direct/arf"
+        },
+        {
+          "calibration": {
+            "receipt_path": "runtime_20261025/artifacts/e4/rep_1/eval/direct/arf/A_half/attempts/1793041206_e3a6e5aa/phase_calibrate_result.json",
+            "rss_kib": 242852,
+            "seconds": 5.189399832044728,
+            "sha256": "6d2d471de9ed36898c81dbea4ce5b1c3435f834d671a4e2571e2162c45eb0373"
+          },
+          "evaluate": {
+            "receipt_path": "runtime_20261025/artifacts/e4/rep_1/eval/direct/arf/A_half/attempts/1793041206_e3a6e5aa/phase_evaluate_result.json",
+            "rss_kib": 388456,
+            "seconds": 142.76609682792332,
+            "sha256": "6e314385fe0e770ec6d505dd02419d7039d51fa5d4f8a3c9015aa759476b4798"
+          },
+          "pipeline_bytes": 8758614,
+          "pipeline_sha256": "4c3d1bfca985ba8d0aab071f31fdfcc529e1f894afe7299a82f952916401a70a",
+          "task_key": "e4/rep_1/eval/direct/arf/A_half"
+        }
+      ],
+      "scope": "All recorded direct ARF evaluation tasks in E3 and E4 at the snapshot: four successful task evaluations, no failed evaluation attempts. Each task has one calibration and one fixed-test evaluation phase; all eight phase receipts are included.",
+      "source_pipeline_bytes": [
+        21027579,
+        31485246,
+        14116371,
+        8758614
+      ],
+      "successful_task_count": 4,
+      "test_rows": 500000
+    },
+    "arf_fit_current_attempt": "Current K_tenth completed tuning trials include failure/timeout cases and a successful trial at 4,451,628 KiB peak RSS; final fit had not completed at the observation. Retain 6 GiB ARF fit admission and 10 GiB hard cap."
+  },
+  "limitations": [
+    "The direct /proc PSS sample is a point observation, not continuous peak memory.",
+    "No task was admitted or simulated; this is a resource audit, not a throughput experiment.",
+    "The pending-task count is dependency readiness before cooldown and storage gates.",
+    "No predictive scores, model payloads, or scientific predictions were inspected."
+  ],
+  "observed_ist": "2026-10-27T03:53:10+05:30",
+  "observed_utc": "2026-10-26T22:23:10Z",
+  "registry_snapshot": {
+    "basis": "All dependency-ready tasks remain heavy under the currently installed profile. The candidate ARF evaluations are default 10 GiB today; their valid E4 fit dependencies make them ready, but no ARF-evaluation resource profile exists. This is a missing scoped profile, not heavy-lane packing. A candidate 2 GiB provisional estimate would classify only exact, validated ARF evaluation tasks as light.",
+    "definition": "Pending tasks whose frozen direct dependencies all have validated_terminal/successful outcomes; this count precedes retry cooldown and storage/admission filters.",
+    "dependency_ready_by_kind_route_method": {
+      "E4 ARF direct evaluations": 9,
+      "E4 ARF direct fits": 30,
+      "E4 ARF generation tasks": 9,
+      "E4 ExtraTrees direct fits": 45,
+      "E4 KNN direct fits": 45,
+      "E4 RBF-SVM direct fits": 45,
+      "E4 RF treatment evaluations": 5,
+      "E4 RF treatment fits": 145,
+      "E5 ARF direct fits": 27,
+      "E5 RF synthetic fits": 90
+    },
+    "dependency_satisfied_pending_tasks": 450,
+    "e4_direct_arf_dependency_ready_evaluations": 9,
+    "e4_direct_arf_dependency_ready_keys": [
+      "e4/rep_1/eval/direct/arf/A_tenth",
+      "e4/rep_1/eval/direct/arf/F_half",
+      "e4/rep_1/eval/direct/arf/F_tenth",
+      "e4/rep_1/eval/direct/arf/G_half",
+      "e4/rep_1/eval/direct/arf/G_tenth",
+      "e4/rep_1/eval/direct/arf/K_half",
+      "e4/rep_1/eval/direct/arf/M_half",
+      "e4/rep_1/eval/direct/arf/GALAXY_half",
+      "e4/rep_1/eval/direct/arf/GALAXY_tenth"
+    ],
+    "light_admission_candidates": 0,
+    "method": "SQLite opened read-only and copied through SQLite backup API into an in-memory snapshot, so the live WAL was included consistently; no controller readiness function or mutating call was invoked.",
+    "running_tasks": 3,
+    "snapshot_utc": "2026-10-26T22:23:10Z",
+    "source": "runtime_20261025/registry.sqlite",
+    "task_count": 6270
+  },
+  "schema_version": "lamost-resource-throughput-review/1",
+  "scope": {
+    "no_Harbor_access": true,
+    "no_launch_or_signal": true,
+    "no_model_load_or_scoring": true,
+    "no_queue_mutation": true,
+    "no_source_or_controller_changes": true,
+    "purpose": "Determine whether dependency-ready work is blocked by queue packing or an unsupported memory reservation profile.",
+    "read_only": true
+  },
+  "source_identity": {
+    "policy": {
+      "cpu_reserve_cores": 2,
+      "growth_margin_gib": 2,
+      "host_OS_Harbor_reserve_gib": 6,
+      "initial_admission_floor_gib": 8,
+      "native_threads": 1,
+      "per_worker_hard_rss_gib": 10,
+      "phase_and_trial_timeout_seconds": 600,
+      "reservation_classes_gib": {
+        "heavy": 10,
+        "light": 2
+      },
+      "termination_grace_seconds": 30
+    },
+    "policy_revision": "adaptive-concurrency-20261025-v1.1",
+    "runtime_source_admission_evidence_sha256": "755719376672de4a88070cadf05ae30412b3ce44eccc17e021d9fc40107812d9",
+    "runtime_source_controller_sha256": "b0aa426dbcea53ead73014b6c61bfbc5f7b175a6f2bb839e9c69421a7d1a966a",
+    "runtime_source_phase_worker_sha256": "03df2cf1208d7a0a14ceda002f7f16291e0e08ee7308f967980d9519d05cc8de",
+    "runtime_source_science_sha256": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3"
+  }
+}

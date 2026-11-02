@@ -1,0 +1,318 @@
+from __future__ import annotations
+import argparse,collections,datetime,fcntl,hashlib,json,os,pathlib,signal,sqlite3,subprocess,sys,time,uuid,shutil
+R=pathlib.Path(__file__).resolve().parents[1]
+SUCCESS='successful'
+TERMINAL={'successful','scientific_failure','unsupported','unavailable_dependency','user_stopped'}
+THREADS={'OPENBLAS_NUM_THREADS':'1','OMP_NUM_THREADS':'1','MKL_NUM_THREADS':'1','NUMEXPR_NUM_THREADS':'1'}
+STOP=False
+DEFINITIONS={}
+STORAGE_ESTIMATE=(0.0,0)
+CPU_PREVIOUS=None
+LAST_IDLE_CORES=0.0
+def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def atomic(p,obj):
+ p=pathlib.Path(p);p.parent.mkdir(parents=True,exist_ok=True);t=p.with_suffix(p.suffix+'.tmp');t.write_text(json.dumps(obj,indent=2,sort_keys=True,default=str)+'\n');os.replace(t,p)
+def sha(p):
+ h=hashlib.sha256()
+ with open(p,'rb') as f:
+  for x in iter(lambda:f.read(1<<20),b''):h.update(x)
+ return h.hexdigest()
+def start_ticks(pid):
+ try:return pathlib.Path(f'/proc/{pid}/stat').read_text().rpartition(')')[2].split()[19]
+ except Exception:return None
+def alive(pid,ticks,needle='worker.py'):
+ try:
+  return bool(pid and ticks and start_ticks(pid)==str(ticks) and needle in pathlib.Path(f'/proc/{pid}/cmdline').read_bytes().decode(errors='replace'))
+ except OSError:return False
+def process_table():
+ rows={}
+ for p in pathlib.Path('/proc').iterdir():
+  if not p.name.isdigit():continue
+  try:
+   lines=(p/'status').read_text().splitlines();pp=int(next(x.split()[1] for x in lines if x.startswith('PPid:')));rss=int(next(x.split()[1] for x in lines if x.startswith('VmRSS:')))*1024
+   rows[int(p.name)]=(pp,rss)
+  except Exception:pass
+ return rows
+def tree_rss(pid,rows):
+ ids={int(pid)}
+ for _ in range(12):
+  more={p for p,(pp,rss) in rows.items() if pp in ids}
+  if more<=ids:break
+  ids|=more
+ return sum(rows.get(p,(0,0))[1] for p in ids),ids
+def memory_available():
+ for l in pathlib.Path('/proc/meminfo').read_text().splitlines():
+  if l.startswith('MemAvailable:'):return int(l.split()[1])*1024
+ return 0
+def source_hashes():
+ names=['controller.py','worker.py','science.py','phase_worker.py','cohorts.py','ensemble.py','ensemble_maintenance_patch.py']
+ return {n:sha(R/'source'/n) for n in names}
+def lock_project():
+ f=(R/'owner.lock').open('a+')
+ try:fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB)
+ except BlockingIOError:raise SystemExit('Project controller ownership lock already held')
+ return f
+def connect():
+ db=sqlite3.connect(R/'registry.sqlite',timeout=30)
+ db.execute('PRAGMA journal_mode=WAL');db.execute('PRAGMA synchronous=FULL')
+ db.execute('CREATE TABLE IF NOT EXISTS tasks(key TEXT PRIMARY KEY, record TEXT NOT NULL)')
+ db.execute('CREATE TABLE IF NOT EXISTS events(id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp TEXT, kind TEXT, record TEXT)')
+ db.execute('CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY,value TEXT)')
+ db.commit();return db
+def event(db,kind,record):
+ db.execute('INSERT INTO events(timestamp,kind,record) VALUES (?,?,?)',(now(),kind,json.dumps(record,sort_keys=True,default=str)));db.commit()
+def put(db,t):
+ db.execute('INSERT OR REPLACE INTO tasks(key,record) VALUES (?,?)',(t['key'],json.dumps(t,sort_keys=True,default=str)));db.commit()
+def load(db):return {k:json.loads(v) for k,v in db.execute('SELECT key,record FROM tasks')}
+def export(db,tasks):
+ counts=collections.defaultdict(collections.Counter)
+ for t in tasks.values():
+  if t.get('scientific_case'):counts[str(t['experiment'])][t.get('outcome') or t['status']]+=1
+ atomic(R/'registry.json',{'schema_version':1,'observed_utc':now(),'tasks':list(tasks.values()),'scientific_counts':dict(counts)})
+ atomic(R/'status.json',{'observed_utc':now(),'scientific_counts':dict(counts),'task_counts':dict(collections.Counter(t['status'] for t in tasks.values())),'owner_pid':os.getpid(),'active':[{'key':t['key'],'pid':t.get('pid'),'process_start_ticks':t.get('process_start_ticks'),'started_utc':t.get('started_utc')} for t in tasks.values() if t['status']=='running']})
+def human_checkpoint(tasks):
+ counts=collections.defaultdict(collections.Counter)
+ for t in tasks.values():
+  if t.get('scientific_case'):counts[str(t['experiment'])][t.get('outcome') or t['status']]+=1
+ lines=['# Airbag project checkpoint','', 'Observed UTC: '+now(),'', 'Read status.json, registry.json, manifests/freeze.json and RUN_RESUME_REPRODUCE.md before resuming.','', 'Do not restart terminal scientific failures or use heartbeats as proof of liveness.','']
+ for e,c in sorted(counts.items()):lines.append('E'+e+': '+json.dumps(dict(c),sort_keys=True))
+ (R/'AIRBAG_STATE.md').write_text('\n'.join(lines)+'\n')
+def maybe_report(db,tasks):
+ for e in (3,4,5,6):
+  cases=[t for t in tasks.values() if t.get('experiment')==e and t.get('scientific_case')]
+  marker=R/'reports'/('E'+str(e)+'_EXECUTION_TERMINAL.json')
+  if cases and all(t['status']=='validated_terminal' for t in cases) and not marker.exists():
+   export(db,tasks)
+   atomic(marker,{'observed_utc':now(),'planned':len(cases),'outcomes':dict(collections.Counter(t.get('outcome') for t in cases))})
+   event(db,'experiment_terminal',{'experiment':e,'planned':len(cases)})
+   if (R/'source/report_cli.py').exists():
+    with (R/'logs/reporting.log').open('a') as log:subprocess.Popen(['/usr/bin/python3',str(R/'source/report_cli.py')],stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+
+def initialize(db):
+ global DEFINITIONS
+ p=R/'manifests/tasks.json';plan=json.loads(p.read_text());tasks=plan['tasks'] if isinstance(plan,dict) else plan
+ assert len({t['key'] for t in tasks})==len(tasks)
+ DEFINITIONS={t['key']:dict(t) for t in tasks}
+ keys={t['key'] for t in tasks}
+ for t in tasks:
+  assert set(t.get('dependencies',[]))<=keys,(t['key'],'unknown dependency')
+  assert not t['key'].startswith('/') and '..' not in t['key'].split('/')
+ plan_sha=sha(p);old=db.execute("SELECT value FROM meta WHERE key='plan_sha256'").fetchone()
+ if old and old[0]!=plan_sha:raise RuntimeError('Frozen plan differs from initialized registry; explicit amendment required')
+ if not old:
+  for t in tasks:
+   t=dict(t);t.update(status='planned',outcome=None,validation_state='pending',attempts=[],observed_utc=now(),artifact_dir=str(R/'artifacts'/t['key']))
+   put(db,t)
+  db.execute("INSERT INTO meta VALUES ('plan_sha256',?)",(plan_sha,));db.commit()
+  event(db,'plan_initialized',{'plan_sha256':plan_sha,'tasks':len(tasks)})
+ return load(db)
+def freeze():
+ p=R/'manifests/freeze.json';actual=source_hashes()
+ if p.exists():
+  f=json.loads(p.read_text())
+  if f['source_sha256']!=actual:raise RuntimeError('Execution source changed after freeze; reviewed amendment required')
+  return f
+ f={'protocol_version':'LAMOST-later-v1-20261025','frozen_utc':now(),'source_sha256':actual,'plan_sha256':sha(R/'manifests/tasks.json'),'bootstrap':False,'test_information_history':'E1/E2 fixed test results already observed; later plans frozen before new test evaluations','resource_policy':{'max_workers':2,'worker_memory_gib':10,'trial_seconds':600,'phase_seconds':600,'termination_grace_seconds':30,'native_threads':1,'prediction_chunk_rows':50000},'airbag_method':'ownership lock, atomic checkpoints, actual-process supervision, bounded recovery, five-minute watchdog','airbag_skill_available':False}
+ atomic(p,f);return f
+def terminalize(db,t,outcome,reason=None,result=None):
+ t.update(status='validated_terminal',outcome=outcome,reason=reason,finished_utc=now(),observed_utc=now(),validation_state='validated' if outcome=='successful' else 'validated_terminal_outcome')
+ if result is not None:t['result']=result
+ put(db,t);event(db,'task_terminal',{'key':t['key'],'outcome':outcome,'reason':reason})
+def orphan_phases(t):
+ out=R/'artifacts'/t['key'];found=[]
+ for p in out.glob('attempts/**/phase_*_state.json'):
+  try:
+   z=json.loads(p.read_text());pid=z.get('pid');ticks=z.get('process_start_ticks')
+   if not ticks and pid: ticks=start_ticks(pid)
+   if alive(pid,ticks,'phase_worker.py'):
+    found.append((int(pid),str(ticks),p))
+  except Exception:pass
+ return found
+def terminate_verified(pid,ticks,needle='worker.py',force=False):
+ if not alive(pid,ticks,needle):return False
+ try:os.killpg(int(pid),signal.SIGKILL if force else signal.SIGTERM);return True
+ except ProcessLookupError:return False
+def recover(db,t,reason):
+ orphan=orphan_phases(t)
+ if orphan:
+  if not t.get('orphan_term_epoch'):
+   for pid,ticks,p in orphan:terminate_verified(pid,ticks,'phase_worker.py')
+   t['orphan_term_epoch']=time.time();put(db,t);event(db,'orphan_phase_term',{'key':t['key'],'phase_pids':[x[0] for x in orphan]})
+  elif time.time()-t['orphan_term_epoch']>30:
+   for pid,ticks,p in orphan:terminate_verified(pid,ticks,'phase_worker.py',True)
+  return
+ n=int(t.get('operational_recoveries',0))
+ if n>=2:
+  t.update(status='operationally_interrupted',reason=reason+'; automatic recovery limit reached',observed_utc=now());put(db,t);return
+ t.update(status='planned',outcome=None,reason=reason,operational_recoveries=n+1,pid=None,process_start_ticks=None,observed_utc=now())
+ put(db,t);event(db,'operational_recovery',{'key':t['key'],'reason':reason,'recovery_number':n+1,'checkpoint_preserved':True})
+def admit(db,t):
+ aid=uuid.uuid4().hex;attempt=R/'attempts'/t['key']/aid;attempt.mkdir(parents=True,exist_ok=True)
+ request=attempt/'request.json';result=attempt/'worker_result.json';log=attempt/'worker.log'
+ definition=dict(DEFINITIONS[t['key']]);definition['artifact_dir']=str(R/'artifacts'/t['key'])
+ cfg={'task':definition,'attempt_id':aid,'result_path':str(result)}
+ atomic(request,cfg)
+ env=os.environ.copy();env.update(THREADS);env['PYTHONUNBUFFERED']='1'
+ with log.open('w') as f:
+  p=subprocess.Popen([sys.executable,str(R/'source/worker.py'),str(request)],stdout=f,stderr=subprocess.STDOUT,start_new_session=True,env=env)
+ t.update(status='running',pid=p.pid,process_start_ticks=start_ticks(p.pid),started_utc=now(),started_epoch=time.time(),result_path=str(result),request_path=str(request),observed_utc=now())
+ t.setdefault('attempts',[]).append({'attempt_id':aid,'request_path':str(request),'result_path':str(result),'started_utc':t['started_utc'],'reason':t.get('reason','initial planned attempt')})
+ put(db,t);event(db,'worker_started',{'key':t['key'],'attempt_id':aid,'pid':p.pid,'process_start_ticks':t['process_start_ticks']})
+def job_limit(t):
+ if t['kind']=='fit':return (int(t.get('trials',10))+3)*660+120
+ if t['kind']=='eval':return 2*660+120
+ if t['kind']=='ensemble':return 6*660+120
+ return 660+120
+def check_running(db,tasks):
+ procs=process_table()
+ for t in list(tasks.values()):
+  if t['status']!='running':continue
+  if t.get('forced_reason') and not alive(t.get('pid'),t.get('process_start_ticks')):
+   orphan=orphan_phases(t)
+   for pid,ticks,p in orphan:terminate_verified(pid,ticks,'phase_worker.py',time.time()-t.get('forced_term_epoch',0)>30)
+   if not orphan:
+    if t.get('forced_outcome','scientific_failure')=='scientific_failure':terminalize(db,t,'scientific_failure',t['forced_reason'])
+    else:
+     t.update(status='operationally_invalid',reason=t['forced_reason'],observed_utc=now());put(db,t);event(db,'outer_supervision_invalid',{'key':t['key'],'reason':t['reason']})
+   continue
+  result=pathlib.Path(t.get('result_path','/nonexistent'))
+  if result.is_file():
+   try:r=json.loads(result.read_text())
+   except Exception:continue
+   if r.get('controller_attempt_id')!=t['attempts'][-1]['attempt_id']:
+    t.update(status='operationally_invalid',reason='worker attempt identity mismatch');put(db,t);continue
+   st=r.get('status')
+   if st in TERMINAL:
+    if st=='successful' and not r.get('validation'):
+     t.update(status='operationally_invalid',reason='successful worker lacks artifact validation',result=r);put(db,t)
+    else:terminalize(db,t,st,r.get('reason'),r)
+   elif st=='operationally_interrupted':recover(db,t,r.get('reason','worker-reported operational interruption'))
+   else:
+    t.update(status='operationally_invalid',reason=r.get('reason','worker returned invalid state'),result=r,observed_utc=now());put(db,t);event(db,'operational_invalid',{'key':t['key'],'reason':t['reason']})
+   continue
+  if not alive(t.get('pid'),t.get('process_start_ticks')):
+   recover(db,t,'verified worker process absent without terminal result');continue
+  rss,ids=tree_rss(t['pid'],procs)
+  t['peak_tree_rss_bytes']=max(t.get('peak_tree_rss_bytes',0),rss)
+  exceeded=rss>10*1024**3 or time.time()-t.get('started_epoch',time.time())>job_limit(t)
+  if exceeded:
+   if not t.get('forced_term_epoch'):
+    terminate_verified(t['pid'],t['process_start_ticks'])
+    for pid,ticks,p in orphan_phases(t):terminate_verified(pid,ticks,'phase_worker.py')
+    t['forced_term_epoch']=time.time();t['forced_reason']='worker process-tree memory policy exceeded' if rss>10*1024**3 else 'worker outer supervision deadline exceeded; phase supervisor defect requires review';t['forced_outcome']='scientific_failure' if rss>10*1024**3 else 'operationally_invalid';put(db,t)
+   elif time.time()-t['forced_term_epoch']>30:
+    terminate_verified(t['pid'],t['process_start_ticks'],force=True)
+    for pid,ticks,p in orphan_phases(t):terminate_verified(pid,ticks,'phase_worker.py',True)
+    if t.get('forced_outcome','scientific_failure')=='scientific_failure':terminalize(db,t,'scientific_failure',t['forced_reason'])
+    else:
+     t.update(status='operationally_invalid',reason=t['forced_reason'],observed_utc=now());put(db,t)
+def ready_tasks(db,tasks):
+ ready=[]
+ for t in tasks.values():
+  if t['status'] not in ['planned','waiting_for_dependency']:continue
+  deps=[tasks[k] for k in t.get('dependencies',[])]
+  failed=[d for d in deps if d['status']=='validated_terminal' and d.get('outcome')!='successful']
+  if failed:
+   terminalize(db,t,'unavailable_dependency','; '.join(d['key']+': '+str(d.get('outcome')) for d in failed));continue
+  if all(d['status']=='validated_terminal' and d.get('outcome')=='successful' for d in deps):ready.append(t)
+  elif t['status']!='waiting_for_dependency':
+   t['status']='waiting_for_dependency';put(db,t)
+ priority={'alias':0,'e4_cohort':1,'e5_corruption':1,'e4_treatment':2,'e4_append':2,'generate':3,'fit':4,'eval':2,'ensemble':6}
+ methods={'gmm':0,'copula':1,'chow_liu':2,'gaussian_nb':3,'lda':4,'qda':5,'shared_diagonal':6,'logistic':7,'hist_gb':8,'cart':9,'random_forest':10,'extra_trees':11,'linear_svm':12,'knn':13,'arf':14,'kde':15,'rbf_svm':16}
+ return sorted(ready,key=lambda t:(t['experiment'],0 if t.get('reuse_pipeline') else priority.get(t['kind'],7),methods.get(t.get('method'),0),t['key']))
+def cpu_idle_cores():
+ global CPU_PREVIOUS,LAST_IDLE_CORES
+ vals=list(map(int,pathlib.Path('/proc/stat').read_text().splitlines()[0].split()[1:]))
+ point=(sum(vals),vals[3])
+ if CPU_PREVIOUS is None:LAST_IDLE_CORES=0.0
+ else:
+  total=point[0]-CPU_PREVIOUS[0];idle=point[1]-CPU_PREVIOUS[1]
+  if total>0:LAST_IDLE_CORES=(os.cpu_count() or 1)*idle/total
+  else:LAST_IDLE_CORES=0.0
+ CPU_PREVIOUS=point
+ return LAST_IDLE_CORES
+def storage_allow():
+ global STORAGE_ESTIMATE
+ free=shutil.disk_usage(R).free
+ if time.monotonic()-STORAGE_ESTIMATE[0]>300:
+  seen=set();size=0
+  for root in [R/'artifacts',R/'cache',R.parent/'e2_20261024']:
+   for base,dirs,files in os.walk(root):
+    dirs[:]=[d for d in dirs if d!='__pycache__']
+    for name in files:
+     try:
+      st=os.stat(os.path.join(base,name));identity=(st.st_dev,st.st_ino)
+      if identity not in seen:size+=st.st_size;seen.add(identity)
+     except OSError:pass
+  size+=(R.parent/'packages/LAMOST_E1_WRAPUP_20261024T080232_571618+0000.zip').stat().st_size
+  STORAGE_ESTIMATE=(time.monotonic(),size)
+ minimum=max(20*1024**3,STORAGE_ESTIMATE[1]+6*1024**3)
+ atomic(R/'storage_observation.json',{'observed_utc':now(),'free_bytes':free,'estimated_uncompressed_archive_input_bytes_conservative':STORAGE_ESTIMATE[1],'minimum_free_bytes':minimum,'no_unique_artifacts_deleted':True})
+ return free>=minimum,free
+def stop_handler(sig,frame):
+ global STOP;STOP=True
+def run():
+ global STOP
+ lock=lock_project();db=connect();tasks=initialize(db);frozen=freeze()
+ atomic(R/'owner.json',{'pid':os.getpid(),'process_start_ticks':start_ticks(os.getpid()),'started_utc':now(),'instance_id':pathlib.Path('/sys/devices/virtual/dmi/id/board_asset_tag').read_text().strip(),'code_sha256':sha(pathlib.Path(__file__))})
+ signal.signal(signal.SIGTERM,stop_handler);signal.signal(signal.SIGINT,stop_handler)
+ event(db,'controller_started',{'pid':os.getpid(),'tasks':len(tasks),'plan_sha256':frozen['plan_sha256']})
+ last_export=last_report=last_source=0
+ while not STOP:
+  check_running(db,tasks)
+  if time.monotonic()-last_source>60:
+   if source_hashes()!=frozen['source_sha256']:
+    atomic(R/'CODE_CHANGE_HOLD.json',{'observed_utc':now(),'reason':'execution source changed without reviewed freeze amendment'});event(db,'source_change_hold',{});STOP=True;break
+   last_source=time.monotonic()
+  ready=ready_tasks(db,tasks);running=[t for t in tasks.values() if t['status']=='running']
+  storage,free=storage_allow()
+  idle=cpu_idle_cores();cpu_slots=2 if idle>=4 else 1 if idle>=2 else 0
+  slots=min(cpu_slots,2,max(0,int((memory_available()-6*1024**3)//(10*1024**3))))-len(running)
+  if storage and slots>0:
+   for t in ready[:slots]:admit(db,t)
+  elif ready and not storage:
+   atomic(R/'STORAGE_HOLD.json',{'observed_utc':now(),'free_bytes':free,'minimum_free_bytes':20*1024**3,'reason':'storage backoff; unique artifacts preserved'})
+  if time.monotonic()-last_export>10:
+   export(db,tasks);human_checkpoint(tasks);maybe_report(db,tasks);last_export=time.monotonic()
+  remaining=[t for t in tasks.values() if t['status']!='validated_terminal']
+  if not remaining:
+   export(db,tasks);atomic(R/'EXECUTION_TERMINAL.json',{'observed_utc':now(),'tasks':len(tasks),'counts':dict(collections.Counter(t.get('outcome') for t in tasks.values()))})
+   event(db,'execution_terminal',{'tasks':len(tasks)})
+   if (R/'source/finalize_project.py').exists():
+    proc=subprocess.run(['tmux','new-session','-d','-s','lamost-finalize','/bin/bash',str(R/'run_finalizer.sh')],capture_output=True,text=True)
+    if proc.returncode:atomic(R/'PACKAGING_PENDING.json',{'observed_utc':now(),'reason':proc.stderr})
+   else:atomic(R/'PACKAGING_PENDING.json',{'observed_utc':now(),'reason':'finalizer implementation not yet installed'})
+   break
+  if time.monotonic()-last_report>300:
+   event(db,'progress',{'remaining':len(remaining),'active':len([t for t in tasks.values() if t['status']=='running']),'ready':len(ready),'free_disk_bytes':free,'available_memory_bytes':memory_available()});last_report=time.monotonic()
+  time.sleep(2)
+ export(db,tasks);event(db,'controller_stopped',{'stop_signal':STOP})
+def watchdog():
+ if not (R/'READY_TO_START.json').exists():return
+ try:owner=json.loads((R/'owner.json').read_text())
+ except Exception:owner={}
+ if alive(owner.get('pid'),owner.get('process_start_ticks'),'controller.py'):return
+ if (R/'PROJECT_COMPLETE.json').exists() or (R/'EC2_COMPLETE_DELIVERY_PENDING.json').exists():return
+ if (R/'EXECUTION_TERMINAL.json').exists():
+  if (R/'source/finalize_project.py').exists():subprocess.run(['tmux','new-session','-d','-s','lamost-finalize','/bin/bash',str(R/'run_finalizer.sh')],capture_output=True)
+  return
+ if (R/'CODE_CHANGE_HOLD.json').exists() or (R/'WATCHDOG_START_HOLD.json').exists():return
+ hp=R/'watchdog_history.json'
+ try:history=json.loads(hp.read_text())
+ except Exception:history=[]
+ recent=[x for x in history if time.time()-x['epoch']<3600]
+ if len(recent)>=3:
+  atomic(R/'WATCHDOG_START_HOLD.json',{'observed_utc':now(),'reason':'three verified controller restart attempts in one hour; review deterministic startup failure'})
+  return
+ proc=subprocess.run(['tmux','new-session','-d','-s','lamost-project','/bin/bash',str(R/'run_controller.sh')],capture_output=True,text=True)
+ history.append({'epoch':time.time(),'observed_utc':now(),'returncode':proc.returncode,'reason':'verified prior controller absent'})
+ atomic(hp,history[-30:])
+def main():
+ p=argparse.ArgumentParser();p.add_argument('command',choices=['init','run','status','watchdog']);a=p.parse_args()
+ if a.command=='run':run()
+ elif a.command=='watchdog':watchdog()
+ elif a.command=='init':
+  lock=lock_project();db=connect();tasks=initialize(db);freeze();export(db,tasks);print(json.dumps({'tasks':len(tasks),'scientific_cases':dict(collections.Counter(t['experiment'] for t in tasks.values() if t.get('scientific_case')))}))
+ else:
+  print((R/'status.json').read_text() if (R/'status.json').exists() else '{"status":"not_initialized"}')
+if __name__=='__main__':main()

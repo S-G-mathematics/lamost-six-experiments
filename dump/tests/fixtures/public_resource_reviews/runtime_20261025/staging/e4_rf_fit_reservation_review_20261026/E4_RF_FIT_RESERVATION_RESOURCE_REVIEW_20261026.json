@@ -1,0 +1,3106 @@
+{
+  "assessment": {
+    "evidence": "Across 25 completed successful treatment RF fits (80,611-82,394 rows; selected forests 200 or 500 trees), 202 executed tuning phases plus 25 selected final-fit phases all have recorded peak RSS; maximum across all is below 4 GiB. The maximum is 3,907,392 KiB (3.72 GiB), leaving 1.28 GiB to a 5 GiB reservation. Across later-admission controller samples, the maximum PSS observation is 3,184,574,464 bytes (2.97 GiB).",
+    "failed_trials": "No failed or nonzero tuning phase was recorded in the 25 successful fit histories: 202 executed trial phases succeeded and 48 duplicate_cached slots reused earlier observations. The saved histories show no failed trial counterexample.",
+    "not_a_guarantee": "The controller PSS data are sparse bracketed snapshots, not continuous peaks. One attempted worker lacks any positive persisted controller PSS sample, three fit workers are still running and excluded from completed maxima, and only the completed/successful fit domain is covered. This does not establish a mathematical worst case or cover larger rows, >500 trees, or other methods.",
+    "preserve_limits": "Any future lower reservation is admission planning only; retain 10 GiB worker hard limit, 600-second trial/phase limits, and dynamic promotion to 10 GiB. No changed limits are supported here.",
+    "verdict": "SUPPORTS ONLY A PROVISIONAL 5 GiB ADMISSION RESERVATION WITH THE EXISTING 10 GiB HARD CAP AND PROMOTION GUARD."
+  },
+  "audit_name": "e4_rf_fit_reservation_review_20261026",
+  "controller_process_tree_pss_samples": {
+    "attempted_E4_RF_worker_keys_with_positive_sample": 27,
+    "attempted_keys_without_positive_sample": [
+      "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_kde"
+    ],
+    "continuous_peak_tree_rss_task_fields": [
+      {
+        "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+        "peak_tree_rss_bytes": 644784128
+      }
+    ],
+    "continuous_peak_tree_rss_task_fields_present_for_count": 1,
+    "max_sample": {
+      "bytes": 3184574464,
+      "observation_utc": "2026-10-26T01:40:28.292228+00:00",
+      "sample_parent_task": "e5/rep_3/eval/synthetic/hist_gb/feature_noise_10_copula"
+    },
+    "max_sample_by_worker": {
+      "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu": {
+        "bytes": 1888738304,
+        "observation_utc": "2026-10-26T00:22:24.016119+00:00",
+        "sample_parent_task": "e4/rep_3/eval/direct/random_forest/GALAXY_tenth"
+      },
+      "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula": {
+        "bytes": 2258399232,
+        "observation_utc": "2026-10-26T00:38:20.293830+00:00",
+        "sample_parent_task": "e5/rep_1/eval/direct/gmm/feature_noise_20"
+      },
+      "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm": {
+        "bytes": 2100086784,
+        "observation_utc": "2026-10-26T00:54:37.197483+00:00",
+        "sample_parent_task": "e5/rep_3/fit/direct/chow_liu/feature_noise_20"
+      },
+      "e4/rep_1/fit/treatment/random_forest/A_half_generated_kde": {
+        "bytes": 1980718080,
+        "observation_utc": "2026-10-26T01:03:35.141329+00:00",
+        "sample_parent_task": "e5/rep_1/eval/synthetic/hist_gb/feature_noise_05_copula"
+      },
+      "e4/rep_1/fit/treatment/random_forest/A_half_ros": {
+        "bytes": 528095232,
+        "observation_utc": "2026-10-26T01:14:50.751521+00:00",
+        "sample_parent_task": "e5/rep_1/eval/synthetic/hist_gb/feature_noise_20_chow_liu"
+      },
+      "e4/rep_1/fit/treatment/random_forest/A_half_smote": {
+        "bytes": 3184574464,
+        "observation_utc": "2026-10-26T01:40:28.292228+00:00",
+        "sample_parent_task": "e5/rep_3/eval/synthetic/hist_gb/feature_noise_10_copula"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu": {
+        "bytes": 2090610688,
+        "observation_utc": "2026-10-26T01:51:24.798270+00:00",
+        "sample_parent_task": "e5/rep_3/eval/synthetic/hist_gb/missingness_20_gmm"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_copula": {
+        "bytes": 1951787008,
+        "observation_utc": "2026-10-26T01:51:54.751966+00:00",
+        "sample_parent_task": "e5/rep_1/fit/direct/random_forest/feature_noise_05"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_gmm": {
+        "bytes": 1927511040,
+        "observation_utc": "2026-10-26T02:00:08.205048+00:00",
+        "sample_parent_task": "e5/rep_2/fit/direct/random_forest/feature_noise_20"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde": {
+        "bytes": 1880433664,
+        "observation_utc": "2026-10-26T02:03:18.020000+00:00",
+        "sample_parent_task": "e5/rep_2/fit/direct/random_forest/missingness_05"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_half_ros": {
+        "bytes": 520313856,
+        "observation_utc": "2026-10-26T02:08:49.680294+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote": {
+        "bytes": 1259772928,
+        "observation_utc": "2026-10-26T02:11:47.069805+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu": {
+        "bytes": 417914880,
+        "observation_utc": "2026-10-26T02:15:37.364521+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula": {
+        "bytes": 448949248,
+        "observation_utc": "2026-10-26T02:26:28.046194+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm": {
+        "bytes": 737785856,
+        "observation_utc": "2026-10-26T02:39:56.047823+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_smote"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde": {
+        "bytes": 468806656,
+        "observation_utc": "2026-10-26T02:34:05.559831+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros": {
+        "bytes": 403637248,
+        "observation_utc": "2026-10-26T02:40:00.605706+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu"
+      },
+      "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_smote": {
+        "bytes": 325087232,
+        "observation_utc": "2026-10-26T02:44:07.567014+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula"
+      },
+      "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu": {
+        "bytes": 1241411584,
+        "observation_utc": "2026-10-26T02:57:25.810250+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde"
+      },
+      "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula": {
+        "bytes": 510390272,
+        "observation_utc": "2026-10-26T02:48:11.913426+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm"
+      },
+      "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm": {
+        "bytes": 2091027456,
+        "observation_utc": "2026-10-26T02:57:25.810250+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde"
+      },
+      "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde": {
+        "bytes": 1069370368,
+        "observation_utc": "2026-10-26T03:04:27.258069+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote"
+      },
+      "e4/rep_1/fit/treatment/random_forest/QSO_half_ros": {
+        "bytes": 659731456,
+        "observation_utc": "2026-10-26T03:04:27.258069+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote"
+      },
+      "e4/rep_1/fit/treatment/random_forest/QSO_half_smote": {
+        "bytes": 1002405888,
+        "observation_utc": "2026-10-26T03:11:31.513430+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu"
+      },
+      "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu": {
+        "bytes": 2234497024,
+        "observation_utc": "2026-10-26T03:21:19.985960+00:00",
+        "sample_parent_task": "e5/rep_2/eval/direct/random_forest/missingness_10"
+      },
+      "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_copula": {
+        "bytes": 1936000000,
+        "observation_utc": "2026-10-26T03:29:31.004592+00:00",
+        "sample_parent_task": "e5/rep_3/eval/direct/random_forest/missingness_05"
+      },
+      "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_gmm": {
+        "bytes": 458545152,
+        "observation_utc": "2026-10-26T03:31:36.060875+00:00",
+        "sample_parent_task": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_kde"
+      }
+    },
+    "max_sample_gib": 2.9658660888671875,
+    "positive_samples": 932,
+    "sample_rows": 933,
+    "source_semantics": "Controller sums smaps_rollup PSS across a running worker tree, capped by VmRSS and 10GiB; stored value is the maximum of two bracketed instantaneous samples at later admissions, not a continuous per-fit peak.",
+    "zero_or_unavailable_samples": 1
+  },
+  "current_counts": {
+    "admission_profiles": {
+      "(10737418240, 'adaptive-concurrency-20261025-v1.1-default')": 4,
+      "(6442450944, 'e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026')": 24
+    },
+    "attempted": 28,
+    "planned": 336,
+    "running": 3,
+    "running_keys": [
+      {
+        "key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_copula",
+        "profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+        "reservation_bytes": 6442450944
+      },
+      {
+        "key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_gmm",
+        "profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+        "reservation_bytes": 6442450944
+      },
+      {
+        "key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_kde",
+        "profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+        "reservation_bytes": 6442450944
+      }
+    ],
+    "successful": 25,
+    "waiting_for_dependency": 308
+  },
+  "final_fit_phases": {
+    "all_completed_final_fits_exit_zero_without_reason": true,
+    "max_final_fit_phase_rss_kib": 3907392,
+    "max_final_fit_receipt": {
+      "exit_code": 0,
+      "peak_tree_rss_kib": 3907392,
+      "reason": null,
+      "seconds": 98.0954235700192,
+      "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde"
+    },
+    "missing_count": 0,
+    "phase_receipts": [
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3784372,
+        "reason": null,
+        "seconds": 104.45205072802491,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3858400,
+        "reason": null,
+        "seconds": 101.74011869903188,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3281012,
+        "reason": null,
+        "seconds": 221.95842217106838,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1265688,
+        "reason": null,
+        "seconds": 90.1488357320195,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_kde"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 606652,
+        "reason": null,
+        "seconds": 33.44653049798217,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_ros"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3141100,
+        "reason": null,
+        "seconds": 222.80716475495137,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_smote"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3152708,
+        "reason": null,
+        "seconds": 217.15314708894584,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 2601412,
+        "reason": null,
+        "seconds": 207.67085624404717,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_copula"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3069832,
+        "reason": null,
+        "seconds": 214.25391648407094,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_gmm"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1246592,
+        "reason": null,
+        "seconds": 86.23977222689427,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1113640,
+        "reason": null,
+        "seconds": 83.8104862740729,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_ros"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1256576,
+        "reason": null,
+        "seconds": 86.80607443407644,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3089124,
+        "reason": null,
+        "seconds": 214.21278435597196,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3163916,
+        "reason": null,
+        "seconds": 215.17180618294515,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3907392,
+        "reason": null,
+        "seconds": 98.0954235700192,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1359752,
+        "reason": null,
+        "seconds": 87.20022452995181,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1376824,
+        "reason": null,
+        "seconds": 86.33348617097363,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 750600,
+        "reason": null,
+        "seconds": 34.03805216704495,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_smote"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1314800,
+        "reason": null,
+        "seconds": 86.30581193801481,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3201988,
+        "reason": null,
+        "seconds": 214.74802940094378,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3114920,
+        "reason": null,
+        "seconds": 214.27875548496377,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1274384,
+        "reason": null,
+        "seconds": 86.73585620499216,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_ros"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3217392,
+        "reason": null,
+        "seconds": 214.6356896639336,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1640120,
+        "reason": null,
+        "seconds": 39.97686400997918,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote"
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 3823416,
+        "reason": null,
+        "seconds": 99.02288592699915,
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu"
+      }
+    ],
+    "receipt_count": 25
+  },
+  "frozen_domain": {
+    "all_trial_and_selected_params_within_frozen_domain": true,
+    "allowed_param_domain": {
+      "max_depth": [
+        null,
+        10,
+        20
+      ],
+      "max_features": [
+        "sqrt",
+        1.0
+      ],
+      "min_samples_leaf": [
+        1,
+        5,
+        20
+      ],
+      "n_estimators": [
+        200,
+        500
+      ]
+    },
+    "fit_rows_max_observed": 82394,
+    "fit_rows_min_observed": 80611,
+    "out_of_domain_trials": [],
+    "proposed_row_domain": [
+      80000,
+      82394
+    ],
+    "selected_fit_matches_selection_record_count": 25,
+    "selected_mismatches": [],
+    "selected_param_frequencies": {
+      "(200, 20, 1, '1.0')": 1,
+      "(200, 20, 5, 'sqrt')": 1,
+      "(200, None, 1, '1.0')": 7,
+      "(200, None, 1, 'sqrt')": 1,
+      "(200, None, 5, 'sqrt')": 1,
+      "(500, 20, 1, '1.0')": 1,
+      "(500, None, 1, '1.0')": 9,
+      "(500, None, 1, 'sqrt')": 4
+    }
+  },
+  "frozen_tasks_sha256": "42784648ca1cad873f6910a1bc5e76d8c104edb4c9826b8aacd9cecfa18b71eb",
+  "observed_utc": "2026-10-26T03:41:20.746829+00:00",
+  "per_completed_fit": [
+    {
+      "admission_profile_id": "adaptive-concurrency-20261025-v1.1-default",
+      "admission_reservation_bytes": 10737418240,
+      "condition": "A_half_generated_chow_liu",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 3784372,
+      "fit_result_sha256": "9349ce2cc20a6101676c6bcdd831f69a97dd07eb84713f889ebe38f7b7cc230d",
+      "key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu",
+      "maximum_tuning_phase_rss_kib": 2105800,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "97cfd606bb79e3d25fc2504f0b72bd416c079dc93b3dc795da8cd6045158f597",
+      "training_rows": 82394,
+      "treatment": "generated_chow_liu",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "adaptive-concurrency-20261025-v1.1-default",
+      "admission_reservation_bytes": 10737418240,
+      "condition": "A_half_generated_copula",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 3858400,
+      "fit_result_sha256": "7a20197d5c8fec53cf48f3b5cfd881ceb58c25c712fa6aafc91918302f1d73a9",
+      "key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula",
+      "maximum_tuning_phase_rss_kib": 2116048,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "3bf037cf3b6dd680f60d8bf9f28e9e6ace5beaaa8f9a72de3569fa3bff7fbb4c",
+      "training_rows": 82394,
+      "treatment": "generated_copula",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "adaptive-concurrency-20261025-v1.1-default",
+      "admission_reservation_bytes": 10737418240,
+      "condition": "A_half_generated_gmm",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 3281012,
+      "fit_result_sha256": "b6790f62386c169414d2d9a8adf0aeb11d6637b6914cc5adafc92b4914c67157",
+      "key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm",
+      "maximum_tuning_phase_rss_kib": 1961188,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "1574f3140440714fa690561f0ba70441e6ab38d88e55e10919ad4388f69bf77d",
+      "training_rows": 82394,
+      "treatment": "generated_gmm",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "adaptive-concurrency-20261025-v1.1-default",
+      "admission_reservation_bytes": 10737418240,
+      "condition": "A_half_generated_kde",
+      "executed_trial_phases": 7,
+      "final_fit_phase_rss_kib": 1265688,
+      "fit_result_sha256": "75fca6df8da9e33d67893a5672b4fdc1275f7bd83ef91159a3e40477f425f886",
+      "key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_kde",
+      "maximum_tuning_phase_rss_kib": 1957512,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "selection_sha256": "26b1820b6977d860d54d34a39d8248737996e39f0222c3e99a7d948d6a5592e7",
+      "training_rows": 82394,
+      "treatment": "generated_kde",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 3,
+        "success": 7
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "A_half_ros",
+      "executed_trial_phases": 7,
+      "final_fit_phase_rss_kib": 606652,
+      "fit_result_sha256": "62be9d94e8bc002d5fd6a020f835444555b506a177f3307e54f52875bd55a594",
+      "key": "e4/rep_1/fit/treatment/random_forest/A_half_ros",
+      "maximum_tuning_phase_rss_kib": 528920,
+      "selected_params": {
+        "max_depth": 20,
+        "max_features": "sqrt",
+        "min_samples_leaf": 5,
+        "n_estimators": 200
+      },
+      "selection_sha256": "ec675381e68697f2f3abfe86f5ff1e1ecc9eb37bebf776cd189b8446bacbd80b",
+      "training_rows": 82394,
+      "treatment": "ros",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 3,
+        "success": 7
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "A_half_smote",
+      "executed_trial_phases": 9,
+      "final_fit_phase_rss_kib": 3141100,
+      "fit_result_sha256": "d671cddcd9a3f6ca3951558084db1b8e70a3c1e8eff3760024a5d9537a11222e",
+      "key": "e4/rep_1/fit/treatment/random_forest/A_half_smote",
+      "maximum_tuning_phase_rss_kib": 1946220,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "8ad4d6eb13d934c8ad060dbd67ac30e8fd6b4943c5690aa08391c52f9581d4c7",
+      "training_rows": 82394,
+      "treatment": "smote",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 1,
+        "success": 9
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_half_generated_chow_liu",
+      "executed_trial_phases": 9,
+      "final_fit_phase_rss_kib": 3152708,
+      "fit_result_sha256": "a8f432abf2374d74463f625ce30b121244c4f0f91edaf73fc820944596bf46e5",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu",
+      "maximum_tuning_phase_rss_kib": 1951992,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "04cbe212b7c7eed49aaf01b3a267f1561823078f6e4b0b3af2d0daf67fbadb84",
+      "training_rows": 80625,
+      "treatment": "generated_chow_liu",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 1,
+        "success": 9
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_half_generated_copula",
+      "executed_trial_phases": 7,
+      "final_fit_phase_rss_kib": 2601412,
+      "fit_result_sha256": "145b24b624bad346620bca35fb443089cb3cda8b58b430f5ed9ab39355066f93",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_copula",
+      "maximum_tuning_phase_rss_kib": 1824860,
+      "selected_params": {
+        "max_depth": 20,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "968a4d1cf67e13259254c1b20782e68ce190172a9255d6129a8aadc28b33976d",
+      "training_rows": 80625,
+      "treatment": "generated_copula",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 3,
+        "success": 7
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_half_generated_gmm",
+      "executed_trial_phases": 7,
+      "final_fit_phase_rss_kib": 3069832,
+      "fit_result_sha256": "2a924e849693c1c062eb6c990544db2c943755ef157f8c76940371e803b514c6",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_gmm",
+      "maximum_tuning_phase_rss_kib": 1948824,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "352839e1a2a2be6f293117220a809b9c11cd67e0ecb3f2890417a8570b531184",
+      "training_rows": 80625,
+      "treatment": "generated_gmm",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 3,
+        "success": 7
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_half_generated_kde",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 1246592,
+      "fit_result_sha256": "40c940abf68d7a8e02c59279d2c025821404b8dc1314bf13e53f8bc6436ca800",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde",
+      "maximum_tuning_phase_rss_kib": 1821412,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "selection_sha256": "259d4dbab546f029ee0b92b530a27f5df2d1b400ad6c63d49929d942ca609eef",
+      "training_rows": 80625,
+      "treatment": "generated_kde",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_half_ros",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 1113640,
+      "fit_result_sha256": "58de74f2e1045dd305a444dde1237611de28662db97e9ced2fdfc2af9f2b4b1c",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_ros",
+      "maximum_tuning_phase_rss_kib": 845432,
+      "selected_params": {
+        "max_depth": 20,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "selection_sha256": "5b65c68ad09f6d15a75ce5b1ab4240bfab78a34e404e5798ce6dd88d98bf04b3",
+      "training_rows": 80625,
+      "treatment": "ros",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_tenth_generated_chow_liu",
+      "executed_trial_phases": 9,
+      "final_fit_phase_rss_kib": 1256576,
+      "fit_result_sha256": "1466aa618b95d0ec383dd5dc4a8c72e3a53c48b44119d5f60649a720c61dc354",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+      "maximum_tuning_phase_rss_kib": 2112908,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "selection_sha256": "1b5bde22789c7b1e4f2646b2ba1224fadbb699763034910c9e128bea8e12d9a8",
+      "training_rows": 81124,
+      "treatment": "generated_chow_liu",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 1,
+        "success": 9
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_half_smote",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 3089124,
+      "fit_result_sha256": "03bdee0971bfc5658ecbcb2d945111b273623bcd5172262dbf08489135b7050b",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote",
+      "maximum_tuning_phase_rss_kib": 1948116,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "cf6a205fce3bfd5c063bfee87d3243825d477280d0487e62a9b0caa8588835c3",
+      "training_rows": 80625,
+      "treatment": "smote",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_tenth_generated_copula",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 3163916,
+      "fit_result_sha256": "9cfa3fba82d330081b491b16db184a349f9d2665680fb07249cec323556910da",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula",
+      "maximum_tuning_phase_rss_kib": 1952368,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "fe95018e5d8e43231eab28ab1ed0764c83c68a1e6e5fe9bd1983b321ff1db04c",
+      "training_rows": 81124,
+      "treatment": "generated_copula",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_tenth_generated_kde",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 3907392,
+      "fit_result_sha256": "378cf8f33ed3fe61f83fb7c4919bb5e66200db44ac0732a427e79c5291549596",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+      "maximum_tuning_phase_rss_kib": 2107524,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "cac79e594e9f53ed593ce7d4dceed36bd2a6105604adb083fa80124cc7419b7b",
+      "training_rows": 81124,
+      "treatment": "generated_kde",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_tenth_generated_gmm",
+      "executed_trial_phases": 9,
+      "final_fit_phase_rss_kib": 1359752,
+      "fit_result_sha256": "d7840d4441459fb9b341da93f6b7dd17175934003ada51abb2aeecd2e481ad83",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+      "maximum_tuning_phase_rss_kib": 1950652,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "selection_sha256": "1b3274babce2b8492a06f7be05399a81c4af6c98ac84298fd0503172e41171b1",
+      "training_rows": 81124,
+      "treatment": "generated_gmm",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 1,
+        "success": 9
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_tenth_ros",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 1376824,
+      "fit_result_sha256": "6bc442bd1a4a1f75d6cbd8015d7ee860c4dcc197c8d599b2962d34e9edaa0bf0",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros",
+      "maximum_tuning_phase_rss_kib": 1079016,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "selection_sha256": "b114b886f2ea20cc7b8944a8b9ae7e4e8fa2b736c9fb38d7bbbfc9336f56b039",
+      "training_rows": 81124,
+      "treatment": "ros",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "GALAXY_tenth_smote",
+      "executed_trial_phases": 7,
+      "final_fit_phase_rss_kib": 750600,
+      "fit_result_sha256": "ff1b5a56687783ab17b3de94748d2ab6e3659e2c72b3c04bc578e17695256b87",
+      "key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_smote",
+      "maximum_tuning_phase_rss_kib": 1031968,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 5,
+        "n_estimators": 200
+      },
+      "selection_sha256": "da19b35613ad71fc990a8b9fae773713e20625df3ad91ad95c09796c11812dc5",
+      "training_rows": 81124,
+      "treatment": "smote",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 3,
+        "success": 7
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "QSO_half_generated_copula",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 1314800,
+      "fit_result_sha256": "c0b8dabfb79abafc24e60f93787b7ab7edf02850fd2a31ec423c81092a428348",
+      "key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula",
+      "maximum_tuning_phase_rss_kib": 1061132,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "selection_sha256": "1f808b4aa264d6a2a3e3180ec5959b7ad0cfc16f9ac4be650f606007a34df242",
+      "training_rows": 80611,
+      "treatment": "generated_copula",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "QSO_half_generated_chow_liu",
+      "executed_trial_phases": 9,
+      "final_fit_phase_rss_kib": 3201988,
+      "fit_result_sha256": "f1b6db3292715504e5486128cb3d263162be3422713de67b42f6b52fa2fca706",
+      "key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu",
+      "maximum_tuning_phase_rss_kib": 2105376,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "1ff620bf4254a412b77ec1f2e034434753e116c17b69f7fd0c839b0e5677060e",
+      "training_rows": 80611,
+      "treatment": "generated_chow_liu",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 1,
+        "success": 9
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "QSO_half_generated_gmm",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 3114920,
+      "fit_result_sha256": "abf7474c35b8513a888b5cb124689868c60f9286b300107db513445a3d478a12",
+      "key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm",
+      "maximum_tuning_phase_rss_kib": 2103632,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "668cc34d23bc30550595c2d11b4c894367763c0f1a0aac6ca826f75dc8d582a3",
+      "training_rows": 80611,
+      "treatment": "generated_gmm",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "QSO_half_ros",
+      "executed_trial_phases": 9,
+      "final_fit_phase_rss_kib": 1274384,
+      "fit_result_sha256": "6b36c8927e4a206807989cfcf0dfc0fc30d622cf0da08326febc80d0f4006a82",
+      "key": "e4/rep_1/fit/treatment/random_forest/QSO_half_ros",
+      "maximum_tuning_phase_rss_kib": 1934004,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "selection_sha256": "7ccaa3e43ec4fd823e55317d1798ef60fcf1510558221e178d5b0982adad1b91",
+      "training_rows": 80611,
+      "treatment": "ros",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 1,
+        "success": 9
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "QSO_half_generated_kde",
+      "executed_trial_phases": 9,
+      "final_fit_phase_rss_kib": 3217392,
+      "fit_result_sha256": "6737e0d017d519df87925527552e44a4c0bcdccf9a1f5501c0d736bc3c68fc5a",
+      "key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde",
+      "maximum_tuning_phase_rss_kib": 2102660,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "194c21b352c357ece782ecc1d96c7ab27a6b9cf196001679ce9899dd8d4b39de",
+      "training_rows": 80611,
+      "treatment": "generated_kde",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 1,
+        "success": 9
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "QSO_half_smote",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 1640120,
+      "fit_result_sha256": "3dfd57a67732a325e731a6a66c8acdb3bc786f96b9e57878dd37f9d7635ecb92",
+      "key": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote",
+      "maximum_tuning_phase_rss_kib": 1828012,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      "selection_sha256": "24342d18ec32d1044b36667a7b779ddf47df7adf89764131e8219f2327223de7",
+      "training_rows": 80611,
+      "treatment": "smote",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    },
+    {
+      "admission_profile_id": "e4-nonweighted-treatment-rf-up-to-82394-admission-6gib-20261026",
+      "admission_reservation_bytes": 6442450944,
+      "condition": "QSO_tenth_generated_chow_liu",
+      "executed_trial_phases": 8,
+      "final_fit_phase_rss_kib": 3823416,
+      "fit_result_sha256": "3c7b135d3965b75b0e8ed7800cb3a80c56b75a53676e4d6ce14803f0b4d3a86d",
+      "key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu",
+      "maximum_tuning_phase_rss_kib": 2107532,
+      "selected_params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1,
+        "n_estimators": 500
+      },
+      "selection_sha256": "e1aa854e4f544a2efee287aac052ae0ce3a6a96ef8cd79796df83a3994ef3431",
+      "training_rows": 81101,
+      "treatment": "generated_chow_liu",
+      "trial_slots": 10,
+      "trial_status_counts": {
+        "duplicate_cached": 2,
+        "success": 8
+      }
+    }
+  ],
+  "phase_rss_headroom_for_5gib": {
+    "byte_margin_to_5gib": 1367539712,
+    "dynamic_promotion_to_10gib_remains": true,
+    "gib_margin_to_5gib": 1.27362060546875,
+    "max_across_all_completed_trial_and_final_fit_phases_kib": 3907392,
+    "max_phase_rss_gib": 3.72637939453125,
+    "per_worker_hard_rss_limit_gib": 10,
+    "reservation_bytes": 5368709120,
+    "reservation_gib": 5,
+    "trial_and_phase_timeout_seconds": 600
+  },
+  "registry_observed_utc": "2026-10-26T03:41:12.401185+00:00",
+  "registry_sha256": "488532484d0935317a7e65919d20c86e7b872c405267d42027eb4c2811cff10d",
+  "scope": {
+    "experiment": 4,
+    "kind": "fit",
+    "method": "random_forest",
+    "no_fit_or_queue_or_source_mutation": true,
+    "no_models_loaded": true,
+    "read_only": true,
+    "route": "treatment"
+  },
+  "source_controller_sha256": "7134d55eaac181ad94fec377bb817109fcb26b5a2cf1b79b829cc47be2f1f736",
+  "tuning_trials": {
+    "actual_trial_phase_receipts": 202,
+    "completed_fit_histories": 25,
+    "duplicate_cached_slots": 48,
+    "failed_or_nonzero_phases": [],
+    "failed_or_nonzero_tune_phase_count": 0,
+    "max_trial_phase_receipt": {
+      "exit_code": 0,
+      "peak_tree_rss_kib": 2116048,
+      "reason": null,
+      "seconds": 85.97197767999023,
+      "state_receipt_exists": true,
+      "status": "success",
+      "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula",
+      "trial": 6
+    },
+    "max_trial_phase_rss_kib": 2116048,
+    "missing_phase_result_receipts": 0,
+    "phase_outcome_counts": {
+      "(0, None)": 202
+    },
+    "phase_receipts": [
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 569424,
+        "reason": null,
+        "seconds": 32.753461844986305,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 451848,
+        "reason": null,
+        "seconds": 172.06727786606643,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 450056,
+        "reason": null,
+        "seconds": 171.23619593202602,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 534868,
+        "reason": null,
+        "seconds": 31.38701135898009,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu",
+        "trial": 3
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 249016,
+        "reason": null,
+        "seconds": 21.22412438504398,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 255900,
+        "reason": null,
+        "seconds": 55.4077473989455,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1097060,
+        "reason": null,
+        "seconds": 79.88500061701052,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 2105800,
+        "reason": null,
+        "seconds": 89.18689613300376,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_chow_liu",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 239652,
+        "reason": null,
+        "seconds": 20.74586560705211,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 310620,
+        "reason": null,
+        "seconds": 68.20670182607137,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1027932,
+        "reason": null,
+        "seconds": 74.4595732599264,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 322180,
+        "reason": null,
+        "seconds": 137.94799719296861,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1097936,
+        "reason": null,
+        "seconds": 77.0370482110884,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 2116048,
+        "reason": null,
+        "seconds": 85.97197767999023,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 976456,
+        "reason": null,
+        "seconds": 35.00489000300877,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 450000,
+        "reason": null,
+        "seconds": 167.8747469279915,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_copula",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 305640,
+        "reason": null,
+        "seconds": 51.1015213530045,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 297768,
+        "reason": null,
+        "seconds": 135.0887078898959,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 448032,
+        "reason": null,
+        "seconds": 66.12623319996055,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 977928,
+        "reason": null,
+        "seconds": 35.15284537593834,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 309656,
+        "reason": null,
+        "seconds": 67.72922773694154,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 863232,
+        "reason": null,
+        "seconds": 81.55978336092085,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 568832,
+        "reason": null,
+        "seconds": 31.448552804999053,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1961188,
+        "reason": null,
+        "seconds": 207.45953713008203,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_gmm",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 251760,
+        "reason": null,
+        "seconds": 20.9853941219626,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_kde",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 238836,
+        "reason": null,
+        "seconds": 20.753387657925487,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_kde",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 541008,
+        "reason": null,
+        "seconds": 30.594286007923074,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_kde",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1035868,
+        "reason": null,
+        "seconds": 189.57911760394927,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_kde",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1957512,
+        "reason": null,
+        "seconds": 210.67126604693476,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_kde",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 913168,
+        "reason": null,
+        "seconds": 84.76676684897393,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_kde",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 309948,
+        "reason": null,
+        "seconds": 67.6468406500062,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_generated_kde",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 304840,
+        "reason": null,
+        "seconds": 50.91893135593273,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_ros",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 296716,
+        "reason": null,
+        "seconds": 50.66059684904758,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_ros",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 246516,
+        "reason": null,
+        "seconds": 55.28651916899253,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_ros",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 296932,
+        "reason": null,
+        "seconds": 66.989880940062,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_ros",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 436736,
+        "reason": null,
+        "seconds": 165.60436550399754,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_ros",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 528920,
+        "reason": null,
+        "seconds": 30.34537746605929,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_ros",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 298316,
+        "reason": null,
+        "seconds": 27.36006506893318,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_ros",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 310276,
+        "reason": null,
+        "seconds": 68.1132363040233,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_smote",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 311264,
+        "reason": null,
+        "seconds": 27.53141010599211,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_smote",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 257148,
+        "reason": null,
+        "seconds": 56.15812513092533,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_smote",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 450340,
+        "reason": null,
+        "seconds": 168.9796767999651,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_smote",
+        "trial": 3
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1946220,
+        "reason": null,
+        "seconds": 211.9310343679972,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_smote",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1826212,
+        "reason": null,
+        "seconds": 81.35759690403938,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_smote",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1097120,
+        "reason": null,
+        "seconds": 77.95385955297388,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_smote",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1038964,
+        "reason": null,
+        "seconds": 192.2281187879853,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_smote",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 323276,
+        "reason": null,
+        "seconds": 138.81448889593594,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/A_half_smote",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 974556,
+        "reason": null,
+        "seconds": 34.073049011058174,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 311100,
+        "reason": null,
+        "seconds": 66.24779091903474,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 863744,
+        "reason": null,
+        "seconds": 32.10409520496614,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 452332,
+        "reason": null,
+        "seconds": 66.42213555297349,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 556436,
+        "reason": null,
+        "seconds": 75.95999285101425,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 317788,
+        "reason": null,
+        "seconds": 51.157995112007484,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 253996,
+        "reason": null,
+        "seconds": 20.91465331602376,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1038612,
+        "reason": null,
+        "seconds": 187.3690407309914,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1951992,
+        "reason": null,
+        "seconds": 204.42994270892814,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_chow_liu",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 251868,
+        "reason": null,
+        "seconds": 53.84910272201523,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_copula",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 254076,
+        "reason": null,
+        "seconds": 20.805382827995345,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_copula",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 318944,
+        "reason": null,
+        "seconds": 50.30294477404095,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_copula",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 449396,
+        "reason": null,
+        "seconds": 163.63247568393126,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_copula",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1824860,
+        "reason": null,
+        "seconds": 197.85786070406903,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_copula",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1037692,
+        "reason": null,
+        "seconds": 182.6397446199553,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_copula",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 863088,
+        "reason": null,
+        "seconds": 31.51876296196133,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_copula",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1028364,
+        "reason": null,
+        "seconds": 72.42045505193528,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_gmm",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 309512,
+        "reason": null,
+        "seconds": 65.54709526395891,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_gmm",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 450868,
+        "reason": null,
+        "seconds": 64.58066877699457,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_gmm",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 861968,
+        "reason": null,
+        "seconds": 32.425130241084844,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_gmm",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 259884,
+        "reason": null,
+        "seconds": 53.78563264606055,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_gmm",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 971260,
+        "reason": null,
+        "seconds": 33.492983136093244,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_gmm",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1948824,
+        "reason": null,
+        "seconds": 201.1899861410493,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_gmm",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 450928,
+        "reason": null,
+        "seconds": 64.33653731702361,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1821412,
+        "reason": null,
+        "seconds": 195.85519677901175,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 239460,
+        "reason": null,
+        "seconds": 20.251040056929924,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 319360,
+        "reason": null,
+        "seconds": 133.0098044059705,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 909812,
+        "reason": null,
+        "seconds": 81.13149557099678,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 554732,
+        "reason": null,
+        "seconds": 74.5258667729795,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 971456,
+        "reason": null,
+        "seconds": 33.74594050797168,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 309760,
+        "reason": null,
+        "seconds": 65.15947554900777,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_generated_kde",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 305328,
+        "reason": null,
+        "seconds": 132.59145621804055,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_ros",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 433920,
+        "reason": null,
+        "seconds": 161.0697714400012,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_ros",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 259612,
+        "reason": null,
+        "seconds": 48.51467017096002,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_ros",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 845432,
+        "reason": null,
+        "seconds": 78.96483554807492,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_ros",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 540436,
+        "reason": null,
+        "seconds": 74.47012760106008,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_ros",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 243908,
+        "reason": null,
+        "seconds": 20.443680873024277,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_ros",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 295296,
+        "reason": null,
+        "seconds": 26.23167721601203,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_ros",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 235632,
+        "reason": null,
+        "seconds": 52.95154069701675,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_ros",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 2112908,
+        "reason": null,
+        "seconds": 83.03980674000923,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 914636,
+        "reason": null,
+        "seconds": 81.5428030610783,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 312752,
+        "reason": null,
+        "seconds": 65.63862686499488,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1827532,
+        "reason": null,
+        "seconds": 196.27924867300317,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 544296,
+        "reason": null,
+        "seconds": 29.592111916979775,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 260508,
+        "reason": null,
+        "seconds": 54.02329837705474,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 275628,
+        "reason": null,
+        "seconds": 49.03388239105698,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 866292,
+        "reason": null,
+        "seconds": 31.65777293406427,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1066516,
+        "reason": null,
+        "seconds": 185.28064036101568,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_chow_liu",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 451256,
+        "reason": null,
+        "seconds": 64.43020716204774,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1821448,
+        "reason": null,
+        "seconds": 195.2818146039499,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 554916,
+        "reason": null,
+        "seconds": 74.47193861799315,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 258080,
+        "reason": null,
+        "seconds": 20.516237561940216,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 309676,
+        "reason": null,
+        "seconds": 65.45551708200946,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 319320,
+        "reason": null,
+        "seconds": 134.38173690694384,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1826888,
+        "reason": null,
+        "seconds": 77.68980718695093,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1948116,
+        "reason": null,
+        "seconds": 201.9500353479525,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_half_smote",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1065136,
+        "reason": null,
+        "seconds": 185.17878688301425,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 319960,
+        "reason": null,
+        "seconds": 49.59142660407815,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 261844,
+        "reason": null,
+        "seconds": 54.35009975300636,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 569612,
+        "reason": null,
+        "seconds": 30.3990644790465,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 450048,
+        "reason": null,
+        "seconds": 161.91007944301236,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 321284,
+        "reason": null,
+        "seconds": 133.6833735780092,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 453300,
+        "reason": null,
+        "seconds": 64.36667470296379,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1952368,
+        "reason": null,
+        "seconds": 202.10192655189894,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_copula",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1063544,
+        "reason": null,
+        "seconds": 185.65125577000435,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 863212,
+        "reason": null,
+        "seconds": 31.654082701075822,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 251336,
+        "reason": null,
+        "seconds": 53.7432011020137,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 973552,
+        "reason": null,
+        "seconds": 33.82411674596369,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 2107524,
+        "reason": null,
+        "seconds": 82.67060574307106,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 309796,
+        "reason": null,
+        "seconds": 49.617067932966165,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1825776,
+        "reason": null,
+        "seconds": 196.50029181793798,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 447988,
+        "reason": null,
+        "seconds": 63.85824928898364,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_kde",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 911400,
+        "reason": null,
+        "seconds": 81.80597697000485,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 973808,
+        "reason": null,
+        "seconds": 33.98499473393895,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1832676,
+        "reason": null,
+        "seconds": 77.68448517809156,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 258824,
+        "reason": null,
+        "seconds": 53.97779138805345,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 449096,
+        "reason": null,
+        "seconds": 162.56379909801763,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 310828,
+        "reason": null,
+        "seconds": 65.95890592003707,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1950652,
+        "reason": null,
+        "seconds": 202.93022163491696,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 240300,
+        "reason": null,
+        "seconds": 20.17922382801771,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 543132,
+        "reason": null,
+        "seconds": 29.612036359030753,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_generated_gmm",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 295596,
+        "reason": null,
+        "seconds": 65.22708175901789,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1079016,
+        "reason": null,
+        "seconds": 74.28281528397929,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 958952,
+        "reason": null,
+        "seconds": 33.49706243502442,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 309796,
+        "reason": null,
+        "seconds": 133.62983290106058,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 244120,
+        "reason": null,
+        "seconds": 20.534988297033124,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 297756,
+        "reason": null,
+        "seconds": 26.487269934033975,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 897844,
+        "reason": null,
+        "seconds": 80.76268375699874,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 541672,
+        "reason": null,
+        "seconds": 74.36845495994203,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_ros",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 448836,
+        "reason": null,
+        "seconds": 162.32031128392555,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_smote",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 310724,
+        "reason": null,
+        "seconds": 65.93084747693501,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_smote",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 240708,
+        "reason": null,
+        "seconds": 20.411768794059753,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_smote",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1031968,
+        "reason": null,
+        "seconds": 72.23915002204012,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_smote",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 319320,
+        "reason": null,
+        "seconds": 49.819585195044056,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_smote",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 568388,
+        "reason": null,
+        "seconds": 30.64922466489952,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_smote",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 258716,
+        "reason": null,
+        "seconds": 54.21645744598936,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/GALAXY_tenth_smote",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 273044,
+        "reason": null,
+        "seconds": 48.55300012789667,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 309304,
+        "reason": null,
+        "seconds": 65.46664874791168,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 447004,
+        "reason": null,
+        "seconds": 161.11008612299338,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 859900,
+        "reason": null,
+        "seconds": 78.61383067199495,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 910688,
+        "reason": null,
+        "seconds": 80.90179331507534,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 971676,
+        "reason": null,
+        "seconds": 33.50962038896978,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1061132,
+        "reason": null,
+        "seconds": 184.48830442503095,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 257912,
+        "reason": null,
+        "seconds": 53.652370512951165,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_copula",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1061668,
+        "reason": null,
+        "seconds": 185.0307023699861,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 545120,
+        "reason": null,
+        "seconds": 74.38407686899882,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1949984,
+        "reason": null,
+        "seconds": 201.7450264119543,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 274212,
+        "reason": null,
+        "seconds": 48.52178854402155,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 865136,
+        "reason": null,
+        "seconds": 31.682345507084392,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 310324,
+        "reason": null,
+        "seconds": 66.37267339497339,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 2105376,
+        "reason": null,
+        "seconds": 81.85419592808466,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 259904,
+        "reason": null,
+        "seconds": 53.804633954074234,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1825428,
+        "reason": null,
+        "seconds": 195.73204995703418,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_chow_liu",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 258540,
+        "reason": null,
+        "seconds": 54.05983322893735,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 565732,
+        "reason": null,
+        "seconds": 30.234582355013117,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 308472,
+        "reason": null,
+        "seconds": 65.36010549601633,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1028100,
+        "reason": null,
+        "seconds": 71.6609097860055,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 2103632,
+        "reason": null,
+        "seconds": 82.34679194597993,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 317372,
+        "reason": null,
+        "seconds": 49.28886502608657,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1948448,
+        "reason": null,
+        "seconds": 201.166059736046,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1823028,
+        "reason": null,
+        "seconds": 195.06798881909344,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_gmm",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1934004,
+        "reason": null,
+        "seconds": 200.75681408599485,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_ros",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 896716,
+        "reason": null,
+        "seconds": 80.80142933002207,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_ros",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 845084,
+        "reason": null,
+        "seconds": 31.332401052000932,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_ros",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 236504,
+        "reason": null,
+        "seconds": 53.102779743028805,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_ros",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 294768,
+        "reason": null,
+        "seconds": 49.08528879506048,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_ros",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 529568,
+        "reason": null,
+        "seconds": 73.52935528208036,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_ros",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 296788,
+        "reason": null,
+        "seconds": 26.200758291059174,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_ros",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 246464,
+        "reason": null,
+        "seconds": 53.78071787196677,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_ros",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 433376,
+        "reason": null,
+        "seconds": 63.39161572500598,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_ros",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 565956,
+        "reason": null,
+        "seconds": 30.082023815019056,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 309552,
+        "reason": null,
+        "seconds": 26.182023899978958,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 304868,
+        "reason": null,
+        "seconds": 49.01952866092324,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 552896,
+        "reason": null,
+        "seconds": 74.39135955704842,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde",
+        "trial": 3
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 542680,
+        "reason": null,
+        "seconds": 73.59332003700547,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 908268,
+        "reason": null,
+        "seconds": 81.11152104893699,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde",
+        "trial": 5
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1947704,
+        "reason": null,
+        "seconds": 201.72308727400377,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1820504,
+        "reason": null,
+        "seconds": 195.76571016502567,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 2102660,
+        "reason": null,
+        "seconds": 82.37265148200095,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_generated_kde",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 543024,
+        "reason": null,
+        "seconds": 73.62120116094593,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1828012,
+        "reason": null,
+        "seconds": 77.04563925496768,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 446072,
+        "reason": null,
+        "seconds": 63.64403040194884,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 970868,
+        "reason": null,
+        "seconds": 33.28716611408163,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 259056,
+        "reason": null,
+        "seconds": 53.758868849952705,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 308956,
+        "reason": null,
+        "seconds": 65.19204131199513,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1090408,
+        "reason": null,
+        "seconds": 74.28216701303609,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 318560,
+        "reason": null,
+        "seconds": 133.12966932402924,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_half_smote",
+        "trial": 9
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 311436,
+        "reason": null,
+        "seconds": 65.74937000207137,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu",
+        "trial": 0
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 912548,
+        "reason": null,
+        "seconds": 81.6044457409298,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu",
+        "trial": 1
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 259088,
+        "reason": null,
+        "seconds": 54.20751796895638,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu",
+        "trial": 2
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 2107532,
+        "reason": null,
+        "seconds": 84.19824506703299,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu",
+        "trial": 4
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 1032564,
+        "reason": null,
+        "seconds": 74.17381787090562,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu",
+        "trial": 6
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 318556,
+        "reason": null,
+        "seconds": 49.749264517915435,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu",
+        "trial": 7
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 452308,
+        "reason": null,
+        "seconds": 64.66069456702098,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu",
+        "trial": 8
+      },
+      {
+        "exit_code": 0,
+        "peak_tree_rss_kib": 862176,
+        "reason": null,
+        "seconds": 31.772346602054313,
+        "state_receipt_exists": true,
+        "status": "success",
+        "task_key": "e4/rep_1/fit/treatment/random_forest/QSO_tenth_generated_chow_liu",
+        "trial": 9
+      }
+    ],
+    "planned_slots": 250,
+    "slot_status_counts": {
+      "duplicate_cached": 48,
+      "success": 202
+    }
+  }
+}

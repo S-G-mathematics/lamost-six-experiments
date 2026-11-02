@@ -1,0 +1,1322 @@
+{
+  "controller_policy": {
+    "admission_only_safety_buffer_gib": 1,
+    "admission_pause_below_gib": 8,
+    "commitment_growth_margin_gib": 2,
+    "current_source_sha256": "d34bf3db889ee7c642cf28d079cbeb32f27fb772584163f497e78499a994d5ac",
+    "historical_rf4_rule": "Any recorded RF4 attempt retains a 10 GiB reservation; this audit changed no task or admission policy.",
+    "host_os_harbor_reserve_gib": 6,
+    "promotion": "promoted_reservation_bytes returns 10 GiB when observed charged worker PSS exceeds task reservation; emergency_interrupt_one uses bracketed worker PSS samples to promote and account for unspent reservation.",
+    "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+    "worker_memory_limit_gib": 10
+  },
+  "created_utc": "2026-10-28T02:11:20Z",
+  "inputs": {
+    "registry_path": "runtime_20261025/registry.sqlite",
+    "registry_snapshot_mode": "read-only SQLite transaction; hashes bind each selected raw task record",
+    "source_files": [
+      {
+        "bytes": 101802,
+        "path": "source/controller.py",
+        "sha256": "d34bf3db889ee7c642cf28d079cbeb32f27fb772584163f497e78499a994d5ac"
+      },
+      {
+        "bytes": 10207,
+        "path": "source/parallel_rf/worker.py",
+        "sha256": "5741d1f60b513a6da0023e508b8d17d28e8f6e4355f30c08d5cfb81f1f233ab9"
+      },
+      {
+        "bytes": 1162,
+        "path": "source/parallel_rf/phase_worker.py",
+        "sha256": "6bbc631629227aa5113badefac6206884187ce01fa2d9d77edf66b477d6c08a3"
+      },
+      {
+        "bytes": 40271,
+        "path": "source/parallel_rf/science.py",
+        "sha256": "e36c8040c7dca254fc7e16a53ffe860872df31a77868a7bc6480162f32d253c6"
+      }
+    ]
+  },
+  "limitations": [
+    "Phase receipts report aggregate process-tree RSS; admission promotion uses charged process-tree PSS. These metrics are not interchangeable.",
+    "The ten observations cover E4 rep 2 only and training rows 91,492–125,955; they are not a worst-case bound.",
+    "This does not qualify E4 rep 1/rep 3, other E4 RF profiles, or E5 synthetic RF.",
+    "No admission profile, queue state, source file, or model artifact was changed."
+  ],
+  "observed": {
+    "fits": [
+      {
+        "admission_reservation_bytes": 10737418240,
+        "controller_attempt_id": "71b85e71efb64560a72a838c6d4d57e4",
+        "controller_request_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/attempts/e4/rep_2/fit/treatment/random_forest/F_half_smote/71b85e71efb64560a72a838c6d4d57e4/request.json",
+        "engine_attempt_id": "1793144633_8a24e655",
+        "final_fit_phase_count": 1,
+        "fit_result": {
+          "bytes": 2818,
+          "execution_policy": "rf4-fit_n_jobs4-v1",
+          "fit_n_jobs": 4,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/fit_result.json",
+          "prediction_n_jobs": 1,
+          "selected_params": {
+            "max_depth": null,
+            "max_features": 1.0,
+            "min_samples_leaf": 1,
+            "n_estimators": 200
+          },
+          "sha256": "bf257e1831db1b55805504d714d149141ff16e649dc57cfe944f1e3c9cf14479",
+          "training_rows": 91492
+        },
+        "key": "e4/rep_2/fit/treatment/random_forest/F_half_smote",
+        "max_phase_receipt_path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/attempts/1793144633_8a24e655/phase_final_fit_result.json",
+        "max_phase_receipt_sha256": "7b5f25b61cc741a49a3dd9bee0fbdc9b3581fc4eb8a1cca8e00e93a853319b84",
+        "max_phase_tree_rss_kib": 1437628,
+        "phase_receipt_count": 9,
+        "phase_receipts": [
+          {
+            "bytes": 249,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/attempts/1793144633_8a24e655/phase_final_fit_result.json",
+            "peak_tree_rss_kib": 1437628,
+            "phase": "final_fit",
+            "seconds": 31.545507709961385,
+            "sha256": "7b5f25b61cc741a49a3dd9bee0fbdc9b3581fc4eb8a1cca8e00e93a853319b84"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/attempts/1793144633_8a24e655/phase_trial_0_result.json",
+            "peak_tree_rss_kib": 306552,
+            "phase": "trial_0",
+            "seconds": 15.549932554946281,
+            "sha256": "cece5159b6f65acde2d3a197cfb00ee217c542d54f59f0604ffae38c257e5112"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/attempts/1793144633_8a24e655/phase_trial_1_result.json",
+            "peak_tree_rss_kib": 1141728,
+            "phase": "trial_1",
+            "seconds": 56.48350415599998,
+            "sha256": "15375e5111885f5b2acc66c85b2c543612432f38ca0f92686b253f777eb28b02"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/attempts/1793144633_8a24e655/phase_trial_2_result.json",
+            "peak_tree_rss_kib": 582972,
+            "phase": "trial_2",
+            "seconds": 20.880064357072115,
+            "sha256": "d46e24e4d5983153bd94c7654475dc2dd0e2fdf21786b1686d6a5430fdca5e91"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/attempts/1793144633_8a24e655/phase_trial_4_result.json",
+            "peak_tree_rss_kib": 956120,
+            "phase": "trial_4",
+            "seconds": 25.594974603969604,
+            "sha256": "9dab1d6427e7794f14bd53f2f0e9ad846756a4ee19535a3e334ee25be6ace248"
+          },
+          {
+            "bytes": 244,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/attempts/1793144633_8a24e655/phase_trial_5_result.json",
+            "peak_tree_rss_kib": 897912,
+            "phase": "trial_5",
+            "seconds": 24.8235884020105,
+            "sha256": "4e838ccb8aa9015135593d7a98c392e3fe386b43e58a559bf421b532910d262f"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/attempts/1793144633_8a24e655/phase_trial_6_result.json",
+            "peak_tree_rss_kib": 1012712,
+            "phase": "trial_6",
+            "seconds": 11.497221272904426,
+            "sha256": "26a83d350b5525141a9c64387f769285df93631143a152df0169c1599118e409"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/attempts/1793144633_8a24e655/phase_trial_7_result.json",
+            "peak_tree_rss_kib": 394156,
+            "phase": "trial_7",
+            "seconds": 21.430026873014867,
+            "sha256": "5d2e18b47e56da246e7cf2fb2e3b3c5af6531e65016ba7169ad672f23d2b092b"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/attempts/1793144633_8a24e655/phase_trial_9_result.json",
+            "peak_tree_rss_kib": 354204,
+            "phase": "trial_9",
+            "seconds": 41.80839501693845,
+            "sha256": "c74ef2703bd13f8c6d407ee203ede2b71ef66e86cf468ec163c81abef3494ad1"
+          }
+        ],
+        "registry_record_sha256": "a40829476aaf046e54a17572feb47f0303db871adebd2b469949cd1f857ec273",
+        "selection": {
+          "bytes": 3786,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_half_smote/selection.json",
+          "sha256": "618ec90ebcd44bc39feaa54d10803efb930d40d9e479727f2e4f6cb258a3fc3d",
+          "status_counts": {
+            "duplicate_cached": 2,
+            "success": 8
+          },
+          "trial_count": 10
+        },
+        "successful_trial_phase_count": 8
+      },
+      {
+        "admission_reservation_bytes": 10737418240,
+        "controller_attempt_id": "8225a61f801c4c3c90b46d729eab7acc",
+        "controller_request_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/attempts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/8225a61f801c4c3c90b46d729eab7acc/request.json",
+        "engine_attempt_id": "1793144642_f3189a10",
+        "final_fit_phase_count": 1,
+        "fit_result": {
+          "bytes": 2842,
+          "execution_policy": "rf4-fit_n_jobs4-v1",
+          "fit_n_jobs": 4,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/fit_result.json",
+          "prediction_n_jobs": 1,
+          "selected_params": {
+            "max_depth": null,
+            "max_features": 1.0,
+            "min_samples_leaf": 1,
+            "n_estimators": 500
+          },
+          "sha256": "8c8738111824383cc9d95c4863a973db929877119b03b82cfde21a8dffa8259e",
+          "training_rows": 100685
+        },
+        "key": "e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf",
+        "max_phase_receipt_path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/attempts/1793144642_f3189a10/phase_final_fit_result.json",
+        "max_phase_receipt_sha256": "adcedcb01c215376055f068542df52fe44e4aa193171355c498eaeae76657302",
+        "max_phase_tree_rss_kib": 2856128,
+        "phase_receipt_count": 8,
+        "phase_receipts": [
+          {
+            "bytes": 249,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/attempts/1793144642_f3189a10/phase_final_fit_result.json",
+            "peak_tree_rss_kib": 2856128,
+            "phase": "final_fit",
+            "seconds": 107.41354922601022,
+            "sha256": "adcedcb01c215376055f068542df52fe44e4aa193171355c498eaeae76657302"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/attempts/1793144642_f3189a10/phase_trial_0_result.json",
+            "peak_tree_rss_kib": 577516,
+            "phase": "trial_0",
+            "seconds": 37.37336851900909,
+            "sha256": "8368cd8f80b4f3c98cf64dc2156361ef7d9e659d5de53920fb56e670346aaf3b"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/attempts/1793144642_f3189a10/phase_trial_1_result.json",
+            "peak_tree_rss_kib": 657064,
+            "phase": "trial_1",
+            "seconds": 29.526430233963765,
+            "sha256": "7f9ab3207858dcaacabd6ab90576655ee7c84bd737723990e2a5705766257db1"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/attempts/1793144642_f3189a10/phase_trial_2_result.json",
+            "peak_tree_rss_kib": 286216,
+            "phase": "trial_2",
+            "seconds": 18.303650852059945,
+            "sha256": "c0a3aefe80b44ebc885e816ba54a72fff59f348daf899fa9909a20271ff21535"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/attempts/1793144642_f3189a10/phase_trial_4_result.json",
+            "peak_tree_rss_kib": 953544,
+            "phase": "trial_4",
+            "seconds": 15.432702365098521,
+            "sha256": "a618c815a0d6c05b50d5f982c1a43ff110cc90fb9baf1ec720ffdb597cd6d464"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/attempts/1793144642_f3189a10/phase_trial_6_result.json",
+            "peak_tree_rss_kib": 533000,
+            "phase": "trial_6",
+            "seconds": 12.517365298001096,
+            "sha256": "d5a435cf30d35bbe72470a3d691f0e7f39b3e6176a36b8fa106a725b13ce40ac"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/attempts/1793144642_f3189a10/phase_trial_7_result.json",
+            "peak_tree_rss_kib": 1879192,
+            "phase": "trial_7",
+            "seconds": 95.84097654710058,
+            "sha256": "e4cd4f8174e6f39058233f9f61528a511cb73b942c44ae321a4f53a4db900cb6"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/attempts/1793144642_f3189a10/phase_trial_9_result.json",
+            "peak_tree_rss_kib": 309772,
+            "phase": "trial_9",
+            "seconds": 48.47830564994365,
+            "sha256": "b91ed2f4f7c26b50e6b3895553fb143ed63e9e85a1e347d9d4822eb7d7fe4aa9"
+          }
+        ],
+        "registry_record_sha256": "4aeb5293b101c97beaaa01f49c10399b3b68948a1497da03bb3cacaa1af5d444",
+        "selection": {
+          "bytes": 3699,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_generated_arf/selection.json",
+          "sha256": "e8fd73b7d6c3166c74bfabd403b081c0b9e70052c266117bd796bbdb4c3f5f57",
+          "status_counts": {
+            "duplicate_cached": 3,
+            "success": 7
+          },
+          "trial_count": 10
+        },
+        "successful_trial_phase_count": 7
+      },
+      {
+        "admission_reservation_bytes": 10737418240,
+        "controller_attempt_id": "86b62bc2dd224af68672bdbadcbb0939",
+        "controller_request_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/attempts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/86b62bc2dd224af68672bdbadcbb0939/request.json",
+        "engine_attempt_id": "1793145074_90fe252c",
+        "final_fit_phase_count": 1,
+        "fit_result": {
+          "bytes": 2806,
+          "execution_policy": "rf4-fit_n_jobs4-v1",
+          "fit_n_jobs": 4,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/fit_result.json",
+          "prediction_n_jobs": 1,
+          "selected_params": {
+            "max_depth": null,
+            "max_features": 1.0,
+            "min_samples_leaf": 1,
+            "n_estimators": 500
+          },
+          "sha256": "b5dc02f72e34247df6f873e57cec229aa61e315f81c1be2f279348259c636cc8",
+          "training_rows": 100685
+        },
+        "key": "e4/rep_2/fit/treatment/random_forest/F_tenth_ros",
+        "max_phase_receipt_path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/attempts/1793145074_90fe252c/phase_final_fit_result.json",
+        "max_phase_receipt_sha256": "2dfce3566724e067d6c86333fdcd58157c99ae78cc41df0eb54e400939d46010",
+        "max_phase_tree_rss_kib": 2590720,
+        "phase_receipt_count": 8,
+        "phase_receipts": [
+          {
+            "bytes": 248,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/attempts/1793145074_90fe252c/phase_final_fit_result.json",
+            "peak_tree_rss_kib": 2590720,
+            "phase": "final_fit",
+            "seconds": 70.12070832797326,
+            "sha256": "2dfce3566724e067d6c86333fdcd58157c99ae78cc41df0eb54e400939d46010"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/attempts/1793145074_90fe252c/phase_trial_0_result.json",
+            "peak_tree_rss_kib": 821404,
+            "phase": "trial_0",
+            "seconds": 10.04615026107058,
+            "sha256": "324f2d86e96725556888652b4f0d2e51122c996bb01ddd25c33d7991d972ce6d"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/attempts/1793145074_90fe252c/phase_trial_1_result.json",
+            "peak_tree_rss_kib": 296444,
+            "phase": "trial_1",
+            "seconds": 15.459536500973627,
+            "sha256": "e82980ab98a9dd1c9d2d386fdcc1a2d40f1df8b1e461001699a33c600e726dfa"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/attempts/1793145074_90fe252c/phase_trial_2_result.json",
+            "peak_tree_rss_kib": 391444,
+            "phase": "trial_2",
+            "seconds": 8.757137548993342,
+            "sha256": "b6bd613216eeccb58925d54b59c3f01b9b07085900af033409853d7826e9e1f0"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/attempts/1793145074_90fe252c/phase_trial_4_result.json",
+            "peak_tree_rss_kib": 1037024,
+            "phase": "trial_4",
+            "seconds": 53.88347863603849,
+            "sha256": "c142ca0fde3807035e56da47185902dbb1e453ed394ba11f13d4898108435c0b"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/attempts/1793145074_90fe252c/phase_trial_6_result.json",
+            "peak_tree_rss_kib": 1844992,
+            "phase": "trial_6",
+            "seconds": 57.479358322918415,
+            "sha256": "2c3014de48e86ae3767511e141bc7dc244a63eb112199244f552b2c54bc65f4e"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/attempts/1793145074_90fe252c/phase_trial_8_result.json",
+            "peak_tree_rss_kib": 279708,
+            "phase": "trial_8",
+            "seconds": 17.477380189928226,
+            "sha256": "3245f6e562fb5f1ad4e5553e183aef786189138d61cc8a0b3d24def1c8d2c7f4"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/attempts/1793145074_90fe252c/phase_trial_9_result.json",
+            "peak_tree_rss_kib": 1964584,
+            "phase": "trial_9",
+            "seconds": 25.062796437065117,
+            "sha256": "4d6624114db021f8e45cba58d53d270224fbd78d4b2da017fefe8efe17aaadd7"
+          }
+        ],
+        "registry_record_sha256": "ddcde7f86022ab0daea0202cbd3b8ae0fb2b723dded68f11a85edffee4e7ef8c",
+        "selection": {
+          "bytes": 3695,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_ros/selection.json",
+          "sha256": "06b633f0a14257d046fe4846a666ac18c18d793b97d0e0f104d0e7f96aedfe95",
+          "status_counts": {
+            "duplicate_cached": 3,
+            "success": 7
+          },
+          "trial_count": 10
+        },
+        "successful_trial_phase_count": 7
+      },
+      {
+        "admission_reservation_bytes": 10737418240,
+        "controller_attempt_id": "c2c9e624359146038c93f79950dcdd87",
+        "controller_request_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/attempts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/c2c9e624359146038c93f79950dcdd87/request.json",
+        "engine_attempt_id": "1793145157_4b2e15ad",
+        "final_fit_phase_count": 1,
+        "fit_result": {
+          "bytes": 2826,
+          "execution_policy": "rf4-fit_n_jobs4-v1",
+          "fit_n_jobs": 4,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/fit_result.json",
+          "prediction_n_jobs": 1,
+          "selected_params": {
+            "max_depth": 20,
+            "max_features": "sqrt",
+            "min_samples_leaf": 1,
+            "n_estimators": 500
+          },
+          "sha256": "252fa2f0ae2859f8dfae723d0cebd1eaaa56c8987edaf6935c0a10348b2ce33e",
+          "training_rows": 100685
+        },
+        "key": "e4/rep_2/fit/treatment/random_forest/F_tenth_smote",
+        "max_phase_receipt_path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/attempts/1793145157_4b2e15ad/phase_final_fit_result.json",
+        "max_phase_receipt_sha256": "0cea1fe5e738c35c793d6dbf70716ae93ac5ae7c51eccc0265ec4dbdda32660b",
+        "max_phase_tree_rss_kib": 3021896,
+        "phase_receipt_count": 10,
+        "phase_receipts": [
+          {
+            "bytes": 249,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/attempts/1793145157_4b2e15ad/phase_final_fit_result.json",
+            "peak_tree_rss_kib": 3021896,
+            "phase": "final_fit",
+            "seconds": 39.227574954973534,
+            "sha256": "0cea1fe5e738c35c793d6dbf70716ae93ac5ae7c51eccc0265ec4dbdda32660b"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/attempts/1793145157_4b2e15ad/phase_trial_0_result.json",
+            "peak_tree_rss_kib": 297160,
+            "phase": "trial_0",
+            "seconds": 19.059300516033545,
+            "sha256": "9847fbdbce4cabcf0258a0fbc95d1d7cd27e4aefc4f1dfb61ac95c621e2d6f1a"
+          },
+          {
+            "bytes": 244,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/attempts/1793145157_4b2e15ad/phase_trial_1_result.json",
+            "peak_tree_rss_kib": 593616,
+            "phase": "trial_1",
+            "seconds": 26.6282110119937,
+            "sha256": "0f10fc944a992dfaf1bd4fae4897ce6d28b6a5f6c4d7dcb960256aacc188bf40"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/attempts/1793145157_4b2e15ad/phase_trial_2_result.json",
+            "peak_tree_rss_kib": 408972,
+            "phase": "trial_2",
+            "seconds": 10.200662100920454,
+            "sha256": "94e7538f16996dd0474346f7e23c6ee6653a32836495e661a1a2895c6d8d2547"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/attempts/1793145157_4b2e15ad/phase_trial_4_result.json",
+            "peak_tree_rss_kib": 346720,
+            "phase": "trial_4",
+            "seconds": 17.497883491916582,
+            "sha256": "4bb85ae8d1e497c9dd96ca1619bbf658717bbda29a82b179b61d7a874783518a"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/attempts/1793145157_4b2e15ad/phase_trial_5_result.json",
+            "peak_tree_rss_kib": 1115428,
+            "phase": "trial_5",
+            "seconds": 61.95658814103808,
+            "sha256": "6c9b461e1463533431ec1baab8f6f9e5cdcaa714189d8999f09eb679946e3239"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/attempts/1793145157_4b2e15ad/phase_trial_6_result.json",
+            "peak_tree_rss_kib": 634168,
+            "phase": "trial_6",
+            "seconds": 55.19240019796416,
+            "sha256": "022bfabf1c1a33e4dc8527715f53b2c7e22741b203104dd544fe3403930cdf3f"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/attempts/1793145157_4b2e15ad/phase_trial_7_result.json",
+            "peak_tree_rss_kib": 406112,
+            "phase": "trial_7",
+            "seconds": 22.39690827706363,
+            "sha256": "d4f80b58d171f1e4d37eb9a77e3c4382e90e8ea7eadff6902f02d9457f111524"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/attempts/1793145157_4b2e15ad/phase_trial_8_result.json",
+            "peak_tree_rss_kib": 590268,
+            "phase": "trial_8",
+            "seconds": 10.925257851020433,
+            "sha256": "dd59a1cab223ee0693a788e06b23e0eb1697e6a268156f04e01e3e0bfe867262"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/attempts/1793145157_4b2e15ad/phase_trial_9_result.json",
+            "peak_tree_rss_kib": 1907172,
+            "phase": "trial_9",
+            "seconds": 26.51925912196748,
+            "sha256": "d5823675d7d039474fa2242e5354a9d1df6b61a2a00deda47d04c1cab19b0bc2"
+          }
+        ],
+        "registry_record_sha256": "c2001b7d7da69fa7e90e0a5b3ff9b1e232bfae293b92967129dcd0e3a2b88b18",
+        "selection": {
+          "bytes": 3876,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/F_tenth_smote/selection.json",
+          "sha256": "62851b733e67e492a03d06dce200bd4405b042b1de24448d68d0a2b41a959607",
+          "status_counts": {
+            "duplicate_cached": 1,
+            "success": 9
+          },
+          "trial_count": 10
+        },
+        "successful_trial_phase_count": 9
+      },
+      {
+        "admission_reservation_bytes": 10737418240,
+        "controller_attempt_id": "bf944623606043a5b06d9b2cd0bc682b",
+        "controller_request_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/attempts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/bf944623606043a5b06d9b2cd0bc682b/request.json",
+        "engine_attempt_id": "1793145434_0ac9cc45",
+        "final_fit_phase_count": 1,
+        "fit_result": {
+          "bytes": 2835,
+          "execution_policy": "rf4-fit_n_jobs4-v1",
+          "fit_n_jobs": 4,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/fit_result.json",
+          "prediction_n_jobs": 1,
+          "selected_params": {
+            "max_depth": null,
+            "max_features": 1.0,
+            "min_samples_leaf": 1,
+            "n_estimators": 500
+          },
+          "sha256": "8d864b20ed7f4f3fb4f75fa5e748108dae4086f008d5f22974820ddba60d827a",
+          "training_rows": 105531
+        },
+        "key": "e4/rep_2/fit/treatment/random_forest/G_half_generated_arf",
+        "max_phase_receipt_path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/attempts/1793145434_0ac9cc45/phase_final_fit_result.json",
+        "max_phase_receipt_sha256": "cd23cf3c4e0647849cb27654ef25ddf343e6c364df445d07336e60c52321ff90",
+        "max_phase_tree_rss_kib": 3552292,
+        "phase_receipt_count": 10,
+        "phase_receipts": [
+          {
+            "bytes": 249,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/attempts/1793145434_0ac9cc45/phase_final_fit_result.json",
+            "peak_tree_rss_kib": 3552292,
+            "phase": "final_fit",
+            "seconds": 101.39452695602085,
+            "sha256": "cd23cf3c4e0647849cb27654ef25ddf343e6c364df445d07336e60c52321ff90"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/attempts/1793145434_0ac9cc45/phase_trial_0_result.json",
+            "peak_tree_rss_kib": 277800,
+            "phase": "trial_0",
+            "seconds": 8.223015839001164,
+            "sha256": "d9f60267655d7a9282217012bd81fa8d08e90edcf727c26b225f578519626fa0"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/attempts/1793145434_0ac9cc45/phase_trial_1_result.json",
+            "peak_tree_rss_kib": 2093820,
+            "phase": "trial_1",
+            "seconds": 86.56138772901613,
+            "sha256": "af9a20ca9e6faeb46511a81496de0407d760a188855c1e445fd7480d24b836af"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/attempts/1793145434_0ac9cc45/phase_trial_2_result.json",
+            "peak_tree_rss_kib": 471316,
+            "phase": "trial_2",
+            "seconds": 26.823413332924247,
+            "sha256": "e515aeecc3ea889e79805b975a1da2e52b598367dd541daa4b46758e134a7e6c"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/attempts/1793145434_0ac9cc45/phase_trial_4_result.json",
+            "peak_tree_rss_kib": 315324,
+            "phase": "trial_4",
+            "seconds": 49.138307210989296,
+            "sha256": "8765d335a5e02952e1a55e9e6d973853f3d9cfd2a438a8d6f9423a25d2befa6e"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/attempts/1793145434_0ac9cc45/phase_trial_5_result.json",
+            "peak_tree_rss_kib": 597592,
+            "phase": "trial_5",
+            "seconds": 34.509552913950756,
+            "sha256": "675ee6962234d53374cc0167b3ad698dfd56f376ca784c3bd84130a1b47e9736"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/attempts/1793145434_0ac9cc45/phase_trial_6_result.json",
+            "peak_tree_rss_kib": 1277024,
+            "phase": "trial_6",
+            "seconds": 14.874825535924174,
+            "sha256": "ee1da1a0aa5339fc9efb740a41354069f5ada5c9df10636c162ce50f9bde47b3"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/attempts/1793145434_0ac9cc45/phase_trial_7_result.json",
+            "peak_tree_rss_kib": 704064,
+            "phase": "trial_7",
+            "seconds": 77.89806855795905,
+            "sha256": "19eb155768a796ae0646fd5a204f7b837e70f5b0c38b68fdc66fb7ef1357bf30"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/attempts/1793145434_0ac9cc45/phase_trial_8_result.json",
+            "peak_tree_rss_kib": 581016,
+            "phase": "trial_8",
+            "seconds": 31.91010431095492,
+            "sha256": "cfcc2199829557f25e3961bbb7d5ef5cc3816c737c6c655678f3d4550a9fb915"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/attempts/1793145434_0ac9cc45/phase_trial_9_result.json",
+            "peak_tree_rss_kib": 276032,
+            "phase": "trial_9",
+            "seconds": 20.89692119997926,
+            "sha256": "c84acdefea4037144b7d6b49f723e4ffa87a9f6303d4d8e3a4f5a0d29eaaee8c"
+          }
+        ],
+        "registry_record_sha256": "1e97262171c96461aab94cc5c942acb4cb439c044a7fe9164b8eacbce22e4ca6",
+        "selection": {
+          "bytes": 3872,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_arf/selection.json",
+          "sha256": "75f325fe44514e4c430987c15b84baaf9d93c65fce312893028869174f236df2",
+          "status_counts": {
+            "duplicate_cached": 1,
+            "success": 9
+          },
+          "trial_count": 10
+        },
+        "successful_trial_phase_count": 9
+      },
+      {
+        "admission_reservation_bytes": 10737418240,
+        "controller_attempt_id": "86932a5fbdd9469f9d82d8bfdfeacae0",
+        "controller_request_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/attempts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/86932a5fbdd9469f9d82d8bfdfeacae0/request.json",
+        "engine_attempt_id": "1793145591_72635955",
+        "final_fit_phase_count": 1,
+        "fit_result": {
+          "bytes": 2831,
+          "execution_policy": "rf4-fit_n_jobs4-v1",
+          "fit_n_jobs": 4,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/fit_result.json",
+          "prediction_n_jobs": 1,
+          "selected_params": {
+            "max_depth": 20,
+            "max_features": 1.0,
+            "min_samples_leaf": 1,
+            "n_estimators": 200
+          },
+          "sha256": "d147ca54cf137926ff201c186b0c6a2661d9b40c31432f11dc7851dbc4d43666",
+          "training_rows": 105531
+        },
+        "key": "e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm",
+        "max_phase_receipt_path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/attempts/1793145591_72635955/phase_trial_4_result.json",
+        "max_phase_receipt_sha256": "43cf3cf1e2058b6d381b8e22aaeb2500f8ceee7228b8e20b6e352966da917405",
+        "max_phase_tree_rss_kib": 2091332,
+        "phase_receipt_count": 9,
+        "phase_receipts": [
+          {
+            "bytes": 248,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/attempts/1793145591_72635955/phase_final_fit_result.json",
+            "peak_tree_rss_kib": 1446660,
+            "phase": "final_fit",
+            "seconds": 36.31171524897218,
+            "sha256": "5b39d5ecc04cbf2067ab7c45bd2abc4392e4d57c519fc04b558bf22457dae9bd"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/attempts/1793145591_72635955/phase_trial_0_result.json",
+            "peak_tree_rss_kib": 295216,
+            "phase": "trial_0",
+            "seconds": 8.604903758969158,
+            "sha256": "5e57017643fe44e305b24488e9b21d8d89a1849e9ae01c4c32930e667ebbe64e"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/attempts/1793145591_72635955/phase_trial_1_result.json",
+            "peak_tree_rss_kib": 1157472,
+            "phase": "trial_1",
+            "seconds": 27.910725452005863,
+            "sha256": "20f55c3d0eea173fd6195ee8c02df7ff4021565447c548926bc0fb07a82cf233"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/attempts/1793145591_72635955/phase_trial_2_result.json",
+            "peak_tree_rss_kib": 298360,
+            "phase": "trial_2",
+            "seconds": 20.108924446976744,
+            "sha256": "94a0c59cd61751e994f1a80cdc8e1dd9275e82933d0ad75622c74eb7c9d41956"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/attempts/1793145591_72635955/phase_trial_4_result.json",
+            "peak_tree_rss_kib": 2091332,
+            "phase": "trial_4",
+            "seconds": 71.33832170802634,
+            "sha256": "43cf3cf1e2058b6d381b8e22aaeb2500f8ceee7228b8e20b6e352966da917405"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/attempts/1793145591_72635955/phase_trial_6_result.json",
+            "peak_tree_rss_kib": 974268,
+            "phase": "trial_6",
+            "seconds": 30.547457479056902,
+            "sha256": "a54fbe77a346b12e8220265069b8a87a65415444fde1858a7085ef12b90c648d"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/attempts/1793145591_72635955/phase_trial_7_result.json",
+            "peak_tree_rss_kib": 1429180,
+            "phase": "trial_7",
+            "seconds": 31.863299721037038,
+            "sha256": "d18ce801a416845cc6c5d397d8a7f71b9d68169546e6b9a904f1d319e87cde6f"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/attempts/1793145591_72635955/phase_trial_8_result.json",
+            "peak_tree_rss_kib": 412460,
+            "phase": "trial_8",
+            "seconds": 24.54933974391315,
+            "sha256": "7764f45f995f8e83a00a18c4ed3ca9ad17874db086a16d96a89995113cba7126"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/attempts/1793145591_72635955/phase_trial_9_result.json",
+            "peak_tree_rss_kib": 986184,
+            "phase": "trial_9",
+            "seconds": 12.53119282296393,
+            "sha256": "33ddbd9dab2ebd537d85416ff60d740f9dfc6980896eab757bb101a41eeeb693"
+          }
+        ],
+        "registry_record_sha256": "0b99bc13c196f2b871502a0e772e0265c592ef6d86bac6a899019f381bee2167",
+        "selection": {
+          "bytes": 3775,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_gmm/selection.json",
+          "sha256": "2ffb86e59313d70753047fdc5736e0531cd151a4f252cb2ab770edeea23641e3",
+          "status_counts": {
+            "duplicate_cached": 2,
+            "success": 8
+          },
+          "trial_count": 10
+        },
+        "successful_trial_phase_count": 8
+      },
+      {
+        "admission_reservation_bytes": 10737418240,
+        "controller_attempt_id": "2faf7861e89b4e2f9c25461882628059",
+        "controller_request_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/attempts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/2faf7861e89b4e2f9c25461882628059/request.json",
+        "engine_attempt_id": "1793150041_a5ea068d",
+        "final_fit_phase_count": 1,
+        "fit_result": {
+          "bytes": 2836,
+          "execution_policy": "rf4-fit_n_jobs4-v1",
+          "fit_n_jobs": 4,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/fit_result.json",
+          "prediction_n_jobs": 1,
+          "selected_params": {
+            "max_depth": null,
+            "max_features": "sqrt",
+            "min_samples_leaf": 1,
+            "n_estimators": 200
+          },
+          "sha256": "664f297d2759a71b9293210119357860850d9582f2eb6a13f522ecdd46ba7d5a",
+          "training_rows": 105531
+        },
+        "key": "e4/rep_2/fit/treatment/random_forest/G_half_generated_kde",
+        "max_phase_receipt_path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/attempts/1793150041_a5ea068d/phase_final_fit_result.json",
+        "max_phase_receipt_sha256": "048d42ff7cba1dbd5d556ecd97bcff810f42e87bc539f6f1a72d117d0c662997",
+        "max_phase_tree_rss_kib": 2104940,
+        "phase_receipt_count": 10,
+        "phase_receipts": [
+          {
+            "bytes": 249,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/attempts/1793150041_a5ea068d/phase_final_fit_result.json",
+            "peak_tree_rss_kib": 2104940,
+            "phase": "final_fit",
+            "seconds": 21.847829984966666,
+            "sha256": "048d42ff7cba1dbd5d556ecd97bcff810f42e87bc539f6f1a72d117d0c662997"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/attempts/1793150041_a5ea068d/phase_trial_0_result.json",
+            "peak_tree_rss_kib": 317080,
+            "phase": "trial_0",
+            "seconds": 17.96877952700015,
+            "sha256": "4410c5084425e11db01f1e06e4b1d76d7052587fc35d921134f4f289e0da4271"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/attempts/1793150041_a5ea068d/phase_trial_1_result.json",
+            "peak_tree_rss_kib": 1711180,
+            "phase": "trial_1",
+            "seconds": 28.637223177938722,
+            "sha256": "615bd73fdc84f4e824d4a9f535c40132cca042ab58056767fa43912ed8a53977"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/attempts/1793150041_a5ea068d/phase_trial_2_result.json",
+            "peak_tree_rss_kib": 598696,
+            "phase": "trial_2",
+            "seconds": 28.24503380304668,
+            "sha256": "93d4e650de7b0594116cde8bf0e3e4474e8eb6c803c6d7a83134b1229e3d3625"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/attempts/1793150041_a5ea068d/phase_trial_4_result.json",
+            "peak_tree_rss_kib": 300308,
+            "phase": "trial_4",
+            "seconds": 20.373731125029735,
+            "sha256": "d955cbec81f3bc4b9919ac507648a385a102f5585d3932ab6cd32a62061ff3f5"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/attempts/1793150041_a5ea068d/phase_trial_5_result.json",
+            "peak_tree_rss_kib": 635052,
+            "phase": "trial_5",
+            "seconds": 62.28473017492797,
+            "sha256": "5ecc96cd52be6a0b83e77917c9d74d564fd805e51522718fd8ae21647f7d318f"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/attempts/1793150041_a5ea068d/phase_trial_6_result.json",
+            "peak_tree_rss_kib": 592428,
+            "phase": "trial_6",
+            "seconds": 11.766023408039473,
+            "sha256": "18e21fc9938d57b050fa5c2f74d02a8320d3a0007bda473e3085cc5e955727d5"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/attempts/1793150041_a5ea068d/phase_trial_7_result.json",
+            "peak_tree_rss_kib": 413404,
+            "phase": "trial_7",
+            "seconds": 25.909700267016888,
+            "sha256": "6bb4fb61d00e15908aaf0a73fcba0a63ac4256687ca2cc60001a89a7609d572a"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/attempts/1793150041_a5ea068d/phase_trial_8_result.json",
+            "peak_tree_rss_kib": 360252,
+            "phase": "trial_8",
+            "seconds": 48.95468997803982,
+            "sha256": "810e70eff37881b17e471057e851df1b376a6ecace50438b71aca9e20476a953"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/attempts/1793150041_a5ea068d/phase_trial_9_result.json",
+            "peak_tree_rss_kib": 1609296,
+            "phase": "trial_9",
+            "seconds": 14.106239325017668,
+            "sha256": "15cd8fea1195315bfd72085935c79423590aa10e6f32655d514ee603379a98a6"
+          }
+        ],
+        "registry_record_sha256": "aed8324e66e14da9c85e64dbaaa6f57be4e49525003f085e2b967fdcb2f72939",
+        "selection": {
+          "bytes": 3877,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_generated_kde/selection.json",
+          "sha256": "5e4d7d73f66b15601251fc06d8797f454a59a101c700cc6e60358f488513cc5d",
+          "status_counts": {
+            "duplicate_cached": 1,
+            "success": 9
+          },
+          "trial_count": 10
+        },
+        "successful_trial_phase_count": 9
+      },
+      {
+        "admission_reservation_bytes": 10737418240,
+        "controller_attempt_id": "3e4615f49bcf4180939953637eaf1268",
+        "controller_request_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/attempts/e4/rep_2/fit/treatment/random_forest/G_half_ros/3e4615f49bcf4180939953637eaf1268/request.json",
+        "engine_attempt_id": "1793150067_e49443fd",
+        "final_fit_phase_count": 1,
+        "fit_result": {
+          "bytes": 2803,
+          "execution_policy": "rf4-fit_n_jobs4-v1",
+          "fit_n_jobs": 4,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/fit_result.json",
+          "prediction_n_jobs": 1,
+          "selected_params": {
+            "max_depth": null,
+            "max_features": 1.0,
+            "min_samples_leaf": 1,
+            "n_estimators": 200
+          },
+          "sha256": "edf1b356551fd88a7ddc999abbca8d7a60cc1fba547b9aa3d39f37c6f9d9e63c",
+          "training_rows": 105531
+        },
+        "key": "e4/rep_2/fit/treatment/random_forest/G_half_ros",
+        "max_phase_receipt_path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/attempts/1793150067_e49443fd/phase_final_fit_result.json",
+        "max_phase_receipt_sha256": "25bf6a24e79d4eedc228fb88d7fcf41472cd79904b356517779fb75012b5a116",
+        "max_phase_tree_rss_kib": 1381380,
+        "phase_receipt_count": 9,
+        "phase_receipts": [
+          {
+            "bytes": 248,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/attempts/1793150067_e49443fd/phase_final_fit_result.json",
+            "peak_tree_rss_kib": 1381380,
+            "phase": "final_fit",
+            "seconds": 33.41609320801217,
+            "sha256": "25bf6a24e79d4eedc228fb88d7fcf41472cd79904b356517779fb75012b5a116"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/attempts/1793150067_e49443fd/phase_trial_0_result.json",
+            "peak_tree_rss_kib": 342640,
+            "phase": "trial_0",
+            "seconds": 18.060087503981777,
+            "sha256": "396760d2b22da9706785f0d2f61d7dbf182b6275832560aa60f2510a948b8b97"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/attempts/1793150067_e49443fd/phase_trial_1_result.json",
+            "peak_tree_rss_kib": 578316,
+            "phase": "trial_1",
+            "seconds": 11.207585463067517,
+            "sha256": "e7eddeb8dd96fefbbb90e8b56f31c21e7bbf7f3d8089b5bd4f50fe0ae7ee7631"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/attempts/1793150067_e49443fd/phase_trial_2_result.json",
+            "peak_tree_rss_kib": 893760,
+            "phase": "trial_2",
+            "seconds": 12.059440403012559,
+            "sha256": "20dbb83747599288ce3bf5874c8432364e79e46009e37dd90a2a4d75dbd9da53"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/attempts/1793150067_e49443fd/phase_trial_4_result.json",
+            "peak_tree_rss_kib": 958808,
+            "phase": "trial_4",
+            "seconds": 28.01833514100872,
+            "sha256": "3677d63361ef3681850dd6d7700bee415044b484a2c696eefeec0773b06ea561"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/attempts/1793150067_e49443fd/phase_trial_6_result.json",
+            "peak_tree_rss_kib": 623152,
+            "phase": "trial_6",
+            "seconds": 55.74727014300879,
+            "sha256": "fbd1556ce3ff7520e752431d17b4519d20f65890fb2baca88bd5e5d929d16844"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/attempts/1793150067_e49443fd/phase_trial_7_result.json",
+            "peak_tree_rss_kib": 278740,
+            "phase": "trial_7",
+            "seconds": 18.811839162022807,
+            "sha256": "f593d87e1e856500db87f56523e93bb4f79cd56ff44467d28a8a4c0f82eca8c5"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/attempts/1793150067_e49443fd/phase_trial_8_result.json",
+            "peak_tree_rss_kib": 600784,
+            "phase": "trial_8",
+            "seconds": 25.63279587496072,
+            "sha256": "fd7e1f6747683539dfd48e0f867d9093123be758b891fd63239759fcbabd051d"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/attempts/1793150067_e49443fd/phase_trial_9_result.json",
+            "peak_tree_rss_kib": 1123936,
+            "phase": "trial_9",
+            "seconds": 62.24887929693796,
+            "sha256": "66d7f41f5bbce67ccea74aa29f3f77bb5697ff0dc7f3c5cefbaafb13bba0b3e7"
+          }
+        ],
+        "registry_record_sha256": "febfe5bf001a30f1049edbc60f4b2299b2ade03990b93ba0db2294f0eed08ea3",
+        "selection": {
+          "bytes": 3779,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_ros/selection.json",
+          "sha256": "744c52efb20299e545f335d29bbd23b05868ace1dbe11ce3bda665a81a5df1a2",
+          "status_counts": {
+            "duplicate_cached": 2,
+            "success": 8
+          },
+          "trial_count": 10
+        },
+        "successful_trial_phase_count": 8
+      },
+      {
+        "admission_reservation_bytes": 10737418240,
+        "controller_attempt_id": "9f41932cbbee4a6fba68cef0c5a0bd92",
+        "controller_request_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/attempts/e4/rep_2/fit/treatment/random_forest/G_half_smote/9f41932cbbee4a6fba68cef0c5a0bd92/request.json",
+        "engine_attempt_id": "1793150392_d48c8a5e",
+        "final_fit_phase_count": 1,
+        "fit_result": {
+          "bytes": 2817,
+          "execution_policy": "rf4-fit_n_jobs4-v1",
+          "fit_n_jobs": 4,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/fit_result.json",
+          "prediction_n_jobs": 1,
+          "selected_params": {
+            "max_depth": null,
+            "max_features": 1.0,
+            "min_samples_leaf": 1,
+            "n_estimators": 500
+          },
+          "sha256": "8ee496a9ab1daf96a9dec43e633460b4a734506a71d3f4f8fecf8a8bdcc6bb9c",
+          "training_rows": 105531
+        },
+        "key": "e4/rep_2/fit/treatment/random_forest/G_half_smote",
+        "max_phase_receipt_path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/attempts/1793150392_d48c8a5e/phase_final_fit_result.json",
+        "max_phase_receipt_sha256": "e357f5e758c48ad21e4207dedf0e8cf81a14dbae441ab9a43fb6be26ed265eba",
+        "max_phase_tree_rss_kib": 3859156,
+        "phase_receipt_count": 9,
+        "phase_receipts": [
+          {
+            "bytes": 248,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/attempts/1793150392_d48c8a5e/phase_final_fit_result.json",
+            "peak_tree_rss_kib": 3859156,
+            "phase": "final_fit",
+            "seconds": 92.62121506209951,
+            "sha256": "e357f5e758c48ad21e4207dedf0e8cf81a14dbae441ab9a43fb6be26ed265eba"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/attempts/1793150392_d48c8a5e/phase_trial_0_result.json",
+            "peak_tree_rss_kib": 622696,
+            "phase": "trial_0",
+            "seconds": 28.501549734035507,
+            "sha256": "d3fdf4be5a397c09c2727ca9ccfda3c989623d4e96239f62d4d2f800b81e95f5"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/attempts/1793150392_d48c8a5e/phase_trial_1_result.json",
+            "peak_tree_rss_kib": 1503720,
+            "phase": "trial_1",
+            "seconds": 13.341490024002269,
+            "sha256": "dcb42a1984526efc29b58b5ef6312fb25851f8f0c0d2cf0cc8b5742f7a6dfc2a"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/attempts/1793150392_d48c8a5e/phase_trial_3_result.json",
+            "peak_tree_rss_kib": 317804,
+            "phase": "trial_3",
+            "seconds": 18.83664555498399,
+            "sha256": "7069e57c29d8f45b038d7e6c04b4083984b9a91735d11f4f50c23720a49b306a"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/attempts/1793150392_d48c8a5e/phase_trial_4_result.json",
+            "peak_tree_rss_kib": 1977128,
+            "phase": "trial_4",
+            "seconds": 28.789372722036205,
+            "sha256": "d79d11813aec6a65c879a14fb4c87cddd977de05322d6283d894c4063eeef241"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/attempts/1793150392_d48c8a5e/phase_trial_5_result.json",
+            "peak_tree_rss_kib": 300144,
+            "phase": "trial_5",
+            "seconds": 20.418391323066317,
+            "sha256": "82e04382d41af324b824407ca41d6d87464f95ea2c22b3e7fad691b873696b4d"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/attempts/1793150392_d48c8a5e/phase_trial_6_result.json",
+            "peak_tree_rss_kib": 597180,
+            "phase": "trial_6",
+            "seconds": 12.02238133107312,
+            "sha256": "7ee08343cf6cd4857f4bf6257685f7e8b3fcc2b600dcedd18ae986f5660c2b57"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/attempts/1793150392_d48c8a5e/phase_trial_7_result.json",
+            "peak_tree_rss_kib": 414736,
+            "phase": "trial_7",
+            "seconds": 10.709699435974471,
+            "sha256": "983aef8ff14656f47215e43668f783a2f39d29a69dabde8fc103d3826ef21e2b"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/attempts/1793150392_d48c8a5e/phase_trial_8_result.json",
+            "peak_tree_rss_kib": 2074548,
+            "phase": "trial_8",
+            "seconds": 73.73703271604609,
+            "sha256": "d4dd6d6cde3439cd39cbf348af7c74decdd6a681fb7df22ed5f9b4242d28dc1b"
+          }
+        ],
+        "registry_record_sha256": "9e8d3e45ece26e8ec59abfc8bbf37f4fcf48d26211386317097854f700897880",
+        "selection": {
+          "bytes": 3795,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/selection.json",
+          "sha256": "96b090edb7498bae6608bafd51726ee97a0fab142335d2fa6b506b656febde21",
+          "status_counts": {
+            "duplicate_cached": 2,
+            "success": 8
+          },
+          "trial_count": 10
+        },
+        "successful_trial_phase_count": 8
+      },
+      {
+        "admission_reservation_bytes": 10737418240,
+        "controller_attempt_id": "6496ca2f8fc04286800c0ef8c83e8529",
+        "controller_request_path": "/home/ubuntu/lamost_e1_migration_20261023/runtime_20261025/attempts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/6496ca2f8fc04286800c0ef8c83e8529/request.json",
+        "engine_attempt_id": "1793150394_6c89ba36",
+        "final_fit_phase_count": 1,
+        "fit_result": {
+          "bytes": 2844,
+          "execution_policy": "rf4-fit_n_jobs4-v1",
+          "fit_n_jobs": 4,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/fit_result.json",
+          "prediction_n_jobs": 1,
+          "selected_params": {
+            "max_depth": null,
+            "max_features": 1.0,
+            "min_samples_leaf": 1,
+            "n_estimators": 500
+          },
+          "sha256": "b0c85fc0f129d95fdc6bdc5292311f8a9e4f489b460488af415a803841c12b6b",
+          "training_rows": 125955
+        },
+        "key": "e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf",
+        "max_phase_receipt_path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/attempts/1793150394_6c89ba36/phase_final_fit_result.json",
+        "max_phase_receipt_sha256": "2e355d4b90544ab1d8f8beeed3eaa1acdc992734a0d562a34ae90cf8eb514f79",
+        "max_phase_tree_rss_kib": 3042032,
+        "phase_receipt_count": 9,
+        "phase_receipts": [
+          {
+            "bytes": 249,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/attempts/1793150394_6c89ba36/phase_final_fit_result.json",
+            "peak_tree_rss_kib": 3042032,
+            "phase": "final_fit",
+            "seconds": 121.70629136404023,
+            "sha256": "2e355d4b90544ab1d8f8beeed3eaa1acdc992734a0d562a34ae90cf8eb514f79"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/attempts/1793150394_6c89ba36/phase_trial_0_result.json",
+            "peak_tree_rss_kib": 1150964,
+            "phase": "trial_0",
+            "seconds": 106.50588054500986,
+            "sha256": "13a4a3e60c12486c9230b767f3af9e4e3e7cff723d90ffc60e87bc5dc2861689"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/attempts/1793150394_6c89ba36/phase_trial_1_result.json",
+            "peak_tree_rss_kib": 1074564,
+            "phase": "trial_1",
+            "seconds": 35.59405515703838,
+            "sha256": "aafdf1f0f403d3dd72ebd3ae0eb83cc7511e19edadc3e67d4d22e70b18a0aed0"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/attempts/1793150394_6c89ba36/phase_trial_2_result.json",
+            "peak_tree_rss_kib": 301752,
+            "phase": "trial_2",
+            "seconds": 26.171428594039753,
+            "sha256": "520505bcb91435b4506a44cf7cc6d00745ab74477add58ebb9e088e39ec7f9c4"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/attempts/1793150394_6c89ba36/phase_trial_4_result.json",
+            "peak_tree_rss_kib": 430080,
+            "phase": "trial_4",
+            "seconds": 15.943093022913672,
+            "sha256": "983c3652d3b82eb75c5ee85c51be6c1705a9d978bb91c2a521e0466cb237b9f6"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/attempts/1793150394_6c89ba36/phase_trial_5_result.json",
+            "peak_tree_rss_kib": 485804,
+            "phase": "trial_5",
+            "seconds": 88.20850242499728,
+            "sha256": "33a04368ba083b88ddccdbbc8e675060dd84663cbc616fa8f59bf16fde8d0943"
+          },
+          {
+            "bytes": 246,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/attempts/1793150394_6c89ba36/phase_trial_6_result.json",
+            "peak_tree_rss_kib": 326552,
+            "phase": "trial_6",
+            "seconds": 22.753784246044233,
+            "sha256": "c0155a87f4fd409cc9195bfb5cb2454bb557b59ba9351dcb88ce21460ef3bd0c"
+          },
+          {
+            "bytes": 245,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/attempts/1793150394_6c89ba36/phase_trial_7_result.json",
+            "peak_tree_rss_kib": 440400,
+            "phase": "trial_7",
+            "seconds": 37.40384110296145,
+            "sha256": "9e1dcb309341e356a21f24af23933c1f9ec8c6393fb09dfae5f9c3e3d693475c"
+          },
+          {
+            "bytes": 247,
+            "exit_code": 0,
+            "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/attempts/1793150394_6c89ba36/phase_trial_8_result.json",
+            "peak_tree_rss_kib": 2044204,
+            "phase": "trial_8",
+            "seconds": 109.26983509701677,
+            "sha256": "a4519842887b621d8dc37e1095b6d284851b63abcc394cb0d93d79ca087fac5e"
+          }
+        ],
+        "registry_record_sha256": "c33af4bff56af39dbd3ebfecefd800d520227078d7e5d42298e18ae79d98637e",
+        "selection": {
+          "bytes": 3779,
+          "path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_tenth_generated_arf/selection.json",
+          "sha256": "38e7930a7068c854cf47116f183404a506cd970eb0030a0ffa7e45cf825c9915",
+          "status_counts": {
+            "duplicate_cached": 2,
+            "success": 8
+          },
+          "trial_count": 10
+        },
+        "successful_trial_phase_count": 8
+      }
+    ],
+    "summary": {
+      "duplicate_cached_trial_slots": 19,
+      "final_fit_phase_receipt_count": 10,
+      "margin_to_6gib_admission_gib": 2.319622039794922,
+      "max_phase_name": "final_fit",
+      "max_phase_receipt_path": "artifacts/e4/rep_2/fit/treatment/random_forest/G_half_smote/attempts/1793150392_d48c8a5e/phase_final_fit_result.json",
+      "max_phase_receipt_sha256": "e357f5e758c48ad21e4207dedf0e8cf81a14dbae441ab9a43fb6be26ed265eba",
+      "max_phase_task_key": "e4/rep_2/fit/treatment/random_forest/G_half_smote",
+      "max_phase_tree_rss_bytes": 3951775744,
+      "max_phase_tree_rss_gib": 3.680377960205078,
+      "max_phase_tree_rss_kib": 3859156,
+      "phase_receipt_count": 91,
+      "successful_fit_count": 10,
+      "successful_trial_phase_receipt_count": 81,
+      "successful_trial_slots": 81,
+      "training_rows_max": 125955,
+      "training_rows_min": 91492,
+      "trial_slots_per_fit": 10
+    }
+  },
+  "rf4_profile": {
+    "execution_policy": "rf4-fit_n_jobs4-v1",
+    "fit_n_jobs": 4,
+    "native_threads": 1,
+    "phase_hard_limit_gib": 10,
+    "phase_timeout_seconds": 600,
+    "prediction_chunk_rows": 50000,
+    "prediction_n_jobs": 1,
+    "reservation_gib_recorded": 10,
+    "resource_profile": "rf-fit_n_jobs4",
+    "termination_grace_seconds": 30,
+    "trial_timeout_seconds": 600
+  },
+  "schema_version": "lamost-rf4-e4-prospective-admission-evidence/1",
+  "scope": {
+    "admission_profile_id": "rf-fit_n_jobs4",
+    "cohort_count": 10,
+    "experiment": 4,
+    "kind": "fit",
+    "method": "random_forest",
+    "rep": 2,
+    "route": "treatment",
+    "validated_terminal_success_only": true
+  }
+}

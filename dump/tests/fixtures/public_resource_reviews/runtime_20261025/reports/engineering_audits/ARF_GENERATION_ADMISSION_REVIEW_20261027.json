@@ -1,0 +1,624 @@
+{
+  "arf_fit_artifact_context": [
+    {
+      "fit_key": "e3/rep_1/fit/arf",
+      "outcome": "successful",
+      "pipeline_bytes": 21027579,
+      "pipeline_present": true,
+      "selected_params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": null,
+        "min_samples_leaf": 100,
+        "num_trees": 100
+      },
+      "selected_trial": 4
+    },
+    {
+      "fit_key": "e3/rep_2/fit/arf",
+      "outcome": "successful",
+      "pipeline_bytes": 31485246,
+      "pipeline_present": true,
+      "selected_params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "num_trees": 300
+      },
+      "selected_trial": 1
+    },
+    {
+      "fit_key": "e3/rep_3/fit/arf",
+      "outcome": "successful",
+      "pipeline_bytes": 14116371,
+      "pipeline_present": true,
+      "selected_params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 100,
+        "num_trees": 300
+      },
+      "selected_trial": 0
+    },
+    {
+      "fit_key": "e4/rep_1/fit/direct/arf/A_half",
+      "outcome": "successful",
+      "pipeline_bytes": 8758614,
+      "pipeline_present": true,
+      "selected_params": {
+        "density_dist": "truncnorm",
+        "finite_bounds": "no",
+        "max_depth": 10,
+        "min_samples_leaf": 100,
+        "num_trees": 100
+      },
+      "selected_trial": 1
+    }
+  ],
+  "generation_outcomes": {
+    "e3": {
+      "failed_generation_attempts": 0,
+      "phase_summary": {
+        "n": 3,
+        "rss_kib_max": 659520,
+        "rss_kib_median": 509120,
+        "rss_kib_min": 419740,
+        "seconds_max": 10.050143179949373,
+        "seconds_median": 7.985126261017285,
+        "seconds_min": 6.708832198986784
+      },
+      "planned": 3,
+      "status_counts": {
+        "validated_terminal": 3
+      },
+      "successful_phase_receipts": [
+        {
+          "attempt_count": 1,
+          "class_counts": [
+            22595,
+            89240,
+            155795,
+            85635,
+            34565,
+            6150,
+            6020
+          ],
+          "condition": "primary",
+          "mechanism": null,
+          "n_rows": 400000,
+          "outcome": "successful",
+          "phase": "generate",
+          "phase_exit_code": 0,
+          "phase_peak_tree_rss_kib": 509120,
+          "phase_seconds": 7.985126261017285,
+          "status": "validated_terminal",
+          "target_class": null,
+          "task_key": "e3/rep_1/generate/arf"
+        },
+        {
+          "attempt_count": 1,
+          "class_counts": [
+            22550,
+            89270,
+            155840,
+            85600,
+            34570,
+            6150,
+            6020
+          ],
+          "condition": "primary",
+          "mechanism": null,
+          "n_rows": 400000,
+          "outcome": "successful",
+          "phase": "generate",
+          "phase_exit_code": 0,
+          "phase_peak_tree_rss_kib": 659520,
+          "phase_seconds": 10.050143179949373,
+          "status": "validated_terminal",
+          "target_class": null,
+          "task_key": "e3/rep_2/generate/arf"
+        },
+        {
+          "attempt_count": 1,
+          "class_counts": [
+            22595,
+            89230,
+            155830,
+            85610,
+            34585,
+            6140,
+            6010
+          ],
+          "condition": "primary",
+          "mechanism": null,
+          "n_rows": 400000,
+          "outcome": "successful",
+          "phase": "generate",
+          "phase_exit_code": 0,
+          "phase_peak_tree_rss_kib": 419740,
+          "phase_seconds": 6.708832198986784,
+          "status": "validated_terminal",
+          "target_class": null,
+          "task_key": "e3/rep_3/generate/arf"
+        }
+      ]
+    },
+    "e4": {
+      "failed_generation_attempts": 0,
+      "per_case_cohort_metadata": [
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/A_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 2394,
+          "target_class": 0,
+          "task_key": "e4/rep_1/generate/A_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/A_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 4310,
+          "target_class": 0,
+          "task_key": "e4/rep_1/generate/A_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/F_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 11487,
+          "target_class": 1,
+          "task_key": "e4/rep_1/generate/F_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/F_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 20676,
+          "target_class": 1,
+          "task_key": "e4/rep_1/generate/F_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/GALAXY_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 625,
+          "target_class": 5,
+          "task_key": "e4/rep_1/generate/GALAXY_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/GALAXY_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 1124,
+          "target_class": 5,
+          "task_key": "e4/rep_1/generate/GALAXY_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/G_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 25518,
+          "target_class": 2,
+          "task_key": "e4/rep_1/generate/G_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/G_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 45934,
+          "target_class": 2,
+          "task_key": "e4/rep_1/generate/G_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/K_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 10896,
+          "target_class": 3,
+          "task_key": "e4/rep_1/generate/K_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/K_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 19613,
+          "target_class": 3,
+          "task_key": "e4/rep_1/generate/K_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/M_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 3783,
+          "target_class": 4,
+          "task_key": "e4/rep_1/generate/M_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/M_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 6811,
+          "target_class": 4,
+          "task_key": "e4/rep_1/generate/M_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/QSO_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 611,
+          "target_class": 6,
+          "task_key": "e4/rep_1/generate/QSO_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_1/cohort/QSO_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 1101,
+          "target_class": 6,
+          "task_key": "e4/rep_1/generate/QSO_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/A_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 2390,
+          "target_class": 0,
+          "task_key": "e4/rep_2/generate/A_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/A_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 4301,
+          "target_class": 0,
+          "task_key": "e4/rep_2/generate/A_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/F_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 11492,
+          "target_class": 1,
+          "task_key": "e4/rep_2/generate/F_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/F_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 20685,
+          "target_class": 1,
+          "task_key": "e4/rep_2/generate/F_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/GALAXY_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 625,
+          "target_class": 5,
+          "task_key": "e4/rep_2/generate/GALAXY_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/GALAXY_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 1124,
+          "target_class": 5,
+          "task_key": "e4/rep_2/generate/GALAXY_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/G_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 25531,
+          "target_class": 2,
+          "task_key": "e4/rep_2/generate/G_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/G_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 45955,
+          "target_class": 2,
+          "task_key": "e4/rep_2/generate/G_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/K_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 10891,
+          "target_class": 3,
+          "task_key": "e4/rep_2/generate/K_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/K_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 19603,
+          "target_class": 3,
+          "task_key": "e4/rep_2/generate/K_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/M_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 3784,
+          "target_class": 4,
+          "task_key": "e4/rep_2/generate/M_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/M_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 6812,
+          "target_class": 4,
+          "task_key": "e4/rep_2/generate/M_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/QSO_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 611,
+          "target_class": 6,
+          "task_key": "e4/rep_2/generate/QSO_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_2/cohort/QSO_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 1101,
+          "target_class": 6,
+          "task_key": "e4/rep_2/generate/QSO_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/A_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 2394,
+          "target_class": 0,
+          "task_key": "e4/rep_3/generate/A_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/A_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 4310,
+          "target_class": 0,
+          "task_key": "e4/rep_3/generate/A_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/F_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 11485,
+          "target_class": 1,
+          "task_key": "e4/rep_3/generate/F_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/F_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 20673,
+          "target_class": 1,
+          "task_key": "e4/rep_3/generate/F_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/GALAXY_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 624,
+          "target_class": 5,
+          "task_key": "e4/rep_3/generate/GALAXY_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/GALAXY_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 1122,
+          "target_class": 5,
+          "task_key": "e4/rep_3/generate/GALAXY_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/G_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 25528,
+          "target_class": 2,
+          "task_key": "e4/rep_3/generate/G_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/G_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 45950,
+          "target_class": 2,
+          "task_key": "e4/rep_3/generate/G_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/K_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 10892,
+          "target_class": 3,
+          "task_key": "e4/rep_3/generate/K_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/K_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 19606,
+          "target_class": 3,
+          "task_key": "e4/rep_3/generate/K_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/M_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 3785,
+          "target_class": 4,
+          "task_key": "e4/rep_3/generate/M_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/M_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 6814,
+          "target_class": 4,
+          "task_key": "e4/rep_3/generate/M_tenth/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/QSO_half",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.5,
+          "restore_added_rows": 610,
+          "target_class": 6,
+          "task_key": "e4/rep_3/generate/QSO_half/arf"
+        },
+        {
+          "altered_fit_rows": 80000,
+          "cohort_key": "e4/rep_3/cohort/QSO_tenth",
+          "cohort_status": "validated_terminal",
+          "ratio": 0.1,
+          "restore_added_rows": 1099,
+          "target_class": 6,
+          "task_key": "e4/rep_3/generate/QSO_tenth/arf"
+        }
+      ],
+      "phase_summary": {
+        "n": 1,
+        "rss_kib_max": 223472,
+        "rss_kib_median": 223472,
+        "rss_kib_min": 223472,
+        "seconds_max": 1.8168912910623476,
+        "seconds_median": 1.8168912910623476,
+        "seconds_min": 1.8168912910623476
+      },
+      "planned": 42,
+      "status_counts": {
+        "validated_terminal": 1,
+        "waiting_for_dependency": 41
+      },
+      "successful_phase_receipts": [
+        {
+          "attempt_count": 1,
+          "class_counts": [
+            2394,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "condition": "A_half",
+          "mechanism": null,
+          "n_rows": 2394,
+          "outcome": "successful",
+          "phase": "generate",
+          "phase_exit_code": 0,
+          "phase_peak_tree_rss_kib": 223472,
+          "phase_seconds": 1.8168912910623476,
+          "status": "validated_terminal",
+          "target_class": 0,
+          "task_key": "e4/rep_1/generate/A_half/arf"
+        }
+      ]
+    },
+    "e5": {
+      "attempts_started": 0,
+      "failed_generation_attempts": 0,
+      "planned": 27,
+      "status_counts": {
+        "waiting_for_dependency": 27
+      },
+      "successful_phase_receipts": []
+    }
+  },
+  "limitations": [
+    "Four successful phase receipts only: E3 n=3 and E4 n=1. E4 has 41 waiting generation cases and E5 has 27 waiting cases; no failed generation phase receipts were observed.",
+    "E3 ARF selected model variants differ by repetition; model and condition may change generation RSS. Model files were statted, not deserialized.",
+    "Six predictor count is from the frozen design; arrays were not opened to revalidate shape.",
+    "This review concerns generation phases only, not ARF fitting, downstream evaluation, inference, or prediction memory."
+  ],
+  "observed_utc": "2026-10-26T22:32:31.651557+00:00",
+  "resource_policy_review": {
+    "dynamic_reservation_promotion_required": true,
+    "existing_phase_timeout_seconds": 600,
+    "existing_scientific_hard_worker_memory_limit_gib": 10,
+    "existing_termination_grace_seconds": 30,
+    "proposed_admission_reservation_gib": 2,
+    "recommendation": "A provisional 2 GiB admission reservation is supported for the narrowly bounded E4 ARF target-class restoration cases capped at 80,000 generated rows and E5 400,000-row ARF generation, while keeping the 10 GiB hard limit, 600 s phase timeout, 30 s termination grace, and dynamic reservation promotion. E4 planned added-row counts are 610?45,955; one successful output (2,394 rows) measured 223,472 KiB tree RSS. E5 direct receipts are absent, but E3 has three same-family 400,000-row all-class receipts at 419,740?659,520 KiB (about 410?644 MiB), so E5 support is indirect/provisional and must be reassessed when its own phases complete."
+  },
+  "schema": "arf-generation-admission-review/1",
+  "scientific_shape_context": {
+    "common_predictor_count": 6,
+    "e3_arf_generation_rows_per_rep": 400000,
+    "e3_development_fit_rows_per_rep": 80000,
+    "e3_generation_output_role": "all seven classes; actual per-class counts recorded",
+    "e4_altered_fit_rows_per_condition": 80000,
+    "e4_cohort_ratio_cases": {
+      "0.1": 21,
+      "0.5": 21
+    },
+    "e4_generation_output_role": "target-class-only restoration rows",
+    "e4_planned_arf_generation_cases": 42,
+    "e4_restore_add_rows_min_max": [
+      610,
+      45955
+    ],
+    "e5_generation_output_role": "all classes by task plan; target_class is null",
+    "e5_generation_rows_distribution": {
+      "400000": 27
+    },
+    "e5_planned_arf_generation_cases": 27
+  },
+  "scope": "Read-only SQLite mode=ro task records and small selection/worker-result/cohort metadata JSON. No NPZ/data-array reads, model loads, fitting, generation, or live process changes. Resource RSS/time values are summarized without PIDs/PGIDs/stderr/stdout.",
+  "source_paths": [
+    "runtime_20261025/registry.sqlite",
+    "small selection.json for selected ARF fit configs",
+    "small worker_result.json fields already present in registry records"
+  ]
+}

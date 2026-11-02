@@ -1,0 +1,736 @@
+{
+  "E1_frozen_context": {
+    "config": {
+      "budgets": [
+        100,
+        300,
+        1000,
+        3000,
+        10000,
+        30000,
+        100000,
+        300000,
+        1000000
+      ],
+      "memory_limit_gib": 6.0,
+      "model_n_jobs": 1,
+      "prediction_chunk_rows": 50000,
+      "repetitions": 5,
+      "resource_profile": "native8gib8cores",
+      "trial_timeout_seconds": 180
+    },
+    "method_implementation": {
+      "knn": "KNeighborsClassifier; n_jobs=1; auto algorithm; Euclidean metric; n_neighbors 3/5/15/50/100; uniform/distance weighting",
+      "rbf_svm": "SVC with RBF kernel, OVR decision shape, break_ties enabled, fixed 512 MiB cache, seed; log C in [1e-2,1e3], log gamma in [1e-3,1.0]; margin scores"
+    },
+    "observations": {
+      "knn": {
+        "by_budget": {
+          "100": {
+            "manifest_peak_rss_max_kib": 1197476,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1177024,
+            "trial_rows": 25,
+            "trial_seconds_max": 0.010951145995932166,
+            "trial_status_counts": {
+              "complete": 20,
+              "duplicate": 5
+            }
+          },
+          "1000": {
+            "manifest_peak_rss_max_kib": 1198500,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1178600,
+            "trial_rows": 25,
+            "trial_seconds_max": 0.009339384996565059,
+            "trial_status_counts": {
+              "complete": 19,
+              "duplicate": 6
+            }
+          },
+          "10000": {
+            "manifest_peak_rss_max_kib": 1174132,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1154096,
+            "trial_rows": 25,
+            "trial_seconds_max": 0.029576093998912256,
+            "trial_status_counts": {
+              "complete": 19,
+              "duplicate": 6
+            }
+          },
+          "100000": {
+            "manifest_peak_rss_max_kib": 1177148,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1153424,
+            "trial_rows": 24,
+            "trial_seconds_max": 0.36154880399408285,
+            "trial_status_counts": {
+              "complete": 17,
+              "duplicate": 7
+            }
+          },
+          "1000000": {
+            "manifest_peak_rss_max_kib": 1290012,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1290012,
+            "trial_rows": 25,
+            "trial_seconds_max": 6.035264140984509,
+            "trial_status_counts": {
+              "complete": 19,
+              "duplicate": 6
+            }
+          },
+          "300": {
+            "manifest_peak_rss_max_kib": 1198752,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1178948,
+            "trial_rows": 25,
+            "trial_seconds_max": 0.0058305339989601634,
+            "trial_status_counts": {
+              "complete": 20,
+              "duplicate": 5
+            }
+          },
+          "3000": {
+            "manifest_peak_rss_max_kib": 1196196,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1176264,
+            "trial_rows": 25,
+            "trial_seconds_max": 0.01040029800060438,
+            "trial_status_counts": {
+              "complete": 20,
+              "duplicate": 5
+            }
+          },
+          "30000": {
+            "manifest_peak_rss_max_kib": 1173868,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1153872,
+            "trial_rows": 25,
+            "trial_seconds_max": 0.09236271999543533,
+            "trial_status_counts": {
+              "complete": 19,
+              "duplicate": 6
+            }
+          },
+          "300000": {
+            "manifest_peak_rss_max_kib": 1192868,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1192868,
+            "trial_rows": 25,
+            "trial_seconds_max": 1.2994670719490387,
+            "trial_status_counts": {
+              "complete": 19,
+              "duplicate": 6
+            }
+          }
+        },
+        "manifest_count": 45,
+        "manifest_peak_rss_kib_max": 1290012,
+        "manifest_phase_timing_summary": {
+          "manifest_rows": 45,
+          "manifest_status_counts": {
+            "complete": 45
+          },
+          "peak_rss_kib_by_manifest_status": {
+            "complete": 1290012
+          },
+          "phase_timing": {
+            "calibration_prediction_seconds": {
+              "max_seconds": 2.0326501260278746,
+              "median_seconds": 0.0040034140038187616,
+              "min_seconds": 0.0008553939987905324,
+              "n_missing": 0,
+              "n_recorded": 45,
+              "sum_seconds_recorded_including_only_available": 9.113363068005128
+            },
+            "final_fit_seconds": {
+              "max_seconds": 0.8188216240378097,
+              "median_seconds": 0.005399541005317587,
+              "min_seconds": 0.0010806130012497306,
+              "n_missing": 0,
+              "n_recorded": 45,
+              "sum_seconds_recorded_including_only_available": 5.217365570955735
+            },
+            "fit_seconds_total": {
+              "max_seconds": 15.838304284086917,
+              "median_seconds": 0.06811288299650187,
+              "min_seconds": 0.01271630500559695,
+              "n_missing": 0,
+              "n_recorded": 45,
+              "sum_seconds_recorded_including_only_available": 84.03596528632625
+            },
+            "test_prediction_seconds": {
+              "max_seconds": 9.064905946957879,
+              "median_seconds": 1.622980775005999,
+              "min_seconds": 0.32623054899886483,
+              "n_missing": 0,
+              "n_recorded": 45,
+              "sum_seconds_recorded_including_only_available": 115.53761542702705
+            }
+          }
+        },
+        "manifest_status_counts": {
+          "complete": 45
+        },
+        "supervisor_100k": [],
+        "supervisor_cell_count": 0,
+        "supervisor_status_counts": {},
+        "supervisor_timeout_phase_counts": {},
+        "trial_error_present_count": 0,
+        "trial_peak_rss_kib_max": 1290012,
+        "trial_peak_rss_kib_median": 1173492.0,
+        "trial_peak_rss_kib_p95": 1280036.0,
+        "trial_rows": 224,
+        "trial_seconds_max": 6.035264140984509,
+        "trial_seconds_median": 0.006041071501385886,
+        "trial_status_counts": {
+          "complete": 172,
+          "duplicate": 52
+        }
+      },
+      "rbf_svm": {
+        "by_budget": {
+          "100": {
+            "manifest_peak_rss_max_kib": 1198424,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1178680,
+            "trial_rows": 25,
+            "trial_seconds_max": 0.006320489999779966,
+            "trial_status_counts": {
+              "complete": 25
+            }
+          },
+          "1000": {
+            "manifest_peak_rss_max_kib": 1198468,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1178604,
+            "trial_rows": 25,
+            "trial_seconds_max": 0.051833851997798774,
+            "trial_status_counts": {
+              "complete": 25
+            }
+          },
+          "10000": {
+            "manifest_peak_rss_max_kib": 1173824,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1162472,
+            "trial_rows": 25,
+            "trial_seconds_max": 2.923671819997253,
+            "trial_status_counts": {
+              "complete": 25
+            }
+          },
+          "100000": {
+            "manifest_peak_rss_max_kib": null,
+            "manifest_status_counts": {
+              "failed": 4,
+              "started": 1
+            },
+            "trial_peak_rss_max_kib": 1667924,
+            "trial_rows": 25,
+            "trial_seconds_max": 181.49595778000366,
+            "trial_status_counts": {
+              "complete": 23,
+              "failed": 2
+            }
+          },
+          "1000000": {
+            "manifest_peak_rss_max_kib": null,
+            "manifest_status_counts": {
+              "started": 5
+            },
+            "trial_peak_rss_max_kib": null,
+            "trial_rows": 0,
+            "trial_seconds_max": null,
+            "trial_status_counts": {}
+          },
+          "300": {
+            "manifest_peak_rss_max_kib": 1196568,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1176740,
+            "trial_rows": 25,
+            "trial_seconds_max": 0.018324963995837606,
+            "trial_status_counts": {
+              "complete": 25
+            }
+          },
+          "3000": {
+            "manifest_peak_rss_max_kib": 1195056,
+            "manifest_status_counts": {
+              "complete": 5
+            },
+            "trial_peak_rss_max_kib": 1175496,
+            "trial_rows": 25,
+            "trial_seconds_max": 0.2997847680017003,
+            "trial_status_counts": {
+              "complete": 25
+            }
+          },
+          "30000": {
+            "manifest_peak_rss_max_kib": null,
+            "manifest_status_counts": {
+              "failed": 5
+            },
+            "trial_peak_rss_max_kib": 1560332,
+            "trial_rows": 25,
+            "trial_seconds_max": 18.07914924200304,
+            "trial_status_counts": {
+              "complete": 25
+            }
+          },
+          "300000": {
+            "manifest_peak_rss_max_kib": null,
+            "manifest_status_counts": {
+              "started": 5
+            },
+            "trial_peak_rss_max_kib": null,
+            "trial_rows": 0,
+            "trial_seconds_max": null,
+            "trial_status_counts": {}
+          }
+        },
+        "manifest_count": 45,
+        "manifest_peak_rss_kib_max": 1198468,
+        "manifest_phase_timing_summary": {
+          "manifest_rows": 45,
+          "manifest_status_counts": {
+            "complete": 25,
+            "failed": 9,
+            "started": 11
+          },
+          "peak_rss_kib_by_manifest_status": {
+            "complete": 1198468,
+            "failed": null,
+            "started": null
+          },
+          "phase_timing": {
+            "calibration_prediction_seconds": {
+              "max_seconds": 0.1785736409947276,
+              "median_seconds": 0.0029612969956360757,
+              "min_seconds": 0.001003807999950368,
+              "n_missing": 20,
+              "n_recorded": 25,
+              "sum_seconds_recorded_including_only_available": 0.8865630410000449
+            },
+            "final_fit_seconds": {
+              "max_seconds": 2.8786321220031823,
+              "median_seconds": 0.03090630000224337,
+              "min_seconds": 0.0017298430029768497,
+              "n_missing": 20,
+              "n_recorded": 25,
+              "sum_seconds_recorded_including_only_available": 10.37614478199248
+            },
+            "fit_seconds_total": {
+              "max_seconds": 8.798989524999342,
+              "median_seconds": 0.142663184000412,
+              "min_seconds": 0.019688394997501746,
+              "n_missing": 20,
+              "n_recorded": 25,
+              "sum_seconds_recorded_including_only_available": 43.39617990401166
+            },
+            "test_prediction_seconds": {
+              "max_seconds": 81.45631727799628,
+              "median_seconds": 9.919404840002244,
+              "min_seconds": 1.3038325239976984,
+              "n_missing": 20,
+              "n_recorded": 25,
+              "sum_seconds_recorded_including_only_available": 578.3875716480034
+            }
+          }
+        },
+        "manifest_status_counts": {
+          "complete": 25,
+          "failed": 9,
+          "started": 11
+        },
+        "supervisor_100k": [],
+        "supervisor_cell_count": 0,
+        "supervisor_status_counts": {},
+        "supervisor_timeout_phase_counts": {},
+        "trial_error_present_count": 2,
+        "trial_peak_rss_kib_max": 1667924,
+        "trial_peak_rss_kib_median": 1175496,
+        "trial_peak_rss_kib_p95": 1611420.0,
+        "trial_rows": 175,
+        "trial_seconds_max": 181.49595778000366,
+        "trial_seconds_median": 0.13850573200033978,
+        "trial_status_counts": {
+          "complete": 173,
+          "failed": 2
+        }
+      }
+    },
+    "supervisor_cell_status_counts": {
+      "complete": 674,
+      "terminal_failure": 91
+    }
+  },
+  "created_asia_kolkata": "2026-10-27T04:55:08.105875+05:30",
+  "created_utc": "2026-10-26T23:25:08.105875+00:00",
+  "current_E4_E5_context": {
+    "E4": {
+      "calibration_rows": 10000,
+      "features": [
+        "mag_ps_g",
+        "mag_ps_r",
+        "mag_ps_i",
+        "mag_ps_z",
+        "mag_ps_y",
+        "gaia_g_mean_mag"
+      ],
+      "fit_rows": 80000,
+      "label_order": [
+        "A",
+        "F",
+        "G",
+        "K",
+        "M",
+        "GALAXY",
+        "QSO"
+      ],
+      "resource_policy": {
+        "admission_pause_below_gib": 8,
+        "alias_reservation_gib": 0.25,
+        "bounded_helper_reservation_gib": 1,
+        "commitment_growth_margin_gib": 2,
+        "cpu_reserve_cores": 2,
+        "emergency_backoff_seconds": 60,
+        "host_os_harbor_reserve_gib": 6,
+        "max_operational_recoveries": 2,
+        "nested_threads": 1,
+        "phase_timeout_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "queue_packing": "retain one heavy fitting lane and prefer admissible light work before additional heavy fits",
+        "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+        "retry_cooldown_seconds": [
+          60,
+          120,
+          300
+        ],
+        "termination_grace_seconds": 30,
+        "trial_timeout_seconds": 600,
+        "worker_admission_reservation_gib_by_class": {
+          "heavy": 10,
+          "light": 2
+        },
+        "worker_count_ceiling": "cpu-derived",
+        "worker_memory_limit_gib": 10,
+        "worker_nice": 10
+      },
+      "role_hashes": {
+        "1": {
+          "fit_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "id_hashes": {
+            "calibration_ids": "9dfa5d3a64279d1106bcfe1db38a3d08c7c0f34ade8702cc428188ec77243903",
+            "fit_ids": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+            "tuning_ids": "0e489582cafccae210fc02ad94b665b6afe19d92a25dd522beb00eaa30f33bc8"
+          },
+          "source": "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/results/e1/rep_1/n_100000/role_membership.npz",
+          "source_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334"
+        },
+        "2": {
+          "fit_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "id_hashes": {
+            "calibration_ids": "670be2d3b576828b0a0481f2c7c2ef69a9c5788f3803f64a372fec04c70630b8",
+            "fit_ids": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+            "tuning_ids": "3cec10594094f8c4423c684c7e16c1b6e551756b1af028d00c2e681c6e11d195"
+          },
+          "source": "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/results/e1/rep_2/n_100000/role_membership.npz",
+          "source_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc"
+        },
+        "3": {
+          "fit_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "id_hashes": {
+            "calibration_ids": "27c90e9051d20ef9e15af51d0d0bc73c8feb1e84584d0ffe6d522456f0c8682a",
+            "fit_ids": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+            "tuning_ids": "5e01eeacdda87b0091eac068d620ca6c92600b0d7d708c9c82408765b0517a65"
+          },
+          "source": "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/results/e1/rep_3/n_100000/role_membership.npz",
+          "source_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e"
+        }
+      },
+      "sha256": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423",
+      "test_rows": 500000,
+      "tuning_rows": 10000
+    },
+    "E5": {
+      "calibration_rows": 10000,
+      "features": [
+        "mag_ps_g",
+        "mag_ps_r",
+        "mag_ps_i",
+        "mag_ps_z",
+        "mag_ps_y",
+        "gaia_g_mean_mag"
+      ],
+      "fit_rows": 80000,
+      "label_order": [
+        "A",
+        "F",
+        "G",
+        "K",
+        "M",
+        "GALAXY",
+        "QSO"
+      ],
+      "resource_policy": {
+        "admission_pause_below_gib": 8,
+        "alias_reservation_gib": 0.25,
+        "bounded_helper_reservation_gib": 1,
+        "commitment_growth_margin_gib": 2,
+        "cpu_reserve_cores": 2,
+        "emergency_backoff_seconds": 60,
+        "host_os_harbor_reserve_gib": 6,
+        "max_operational_recoveries": 2,
+        "nested_threads": 1,
+        "phase_timeout_seconds": 600,
+        "prediction_chunk_rows": 50000,
+        "queue_packing": "retain one heavy fitting lane and prefer admissible light work before additional heavy fits",
+        "reclaim_condition": "MemAvailable < host reserve + unspent worker reservations + 2 GiB growth margin",
+        "retry_cooldown_seconds": [
+          60,
+          120,
+          300
+        ],
+        "termination_grace_seconds": 30,
+        "trial_timeout_seconds": 600,
+        "worker_admission_reservation_gib_by_class": {
+          "heavy": 10,
+          "light": 2
+        },
+        "worker_count_ceiling": "cpu-derived",
+        "worker_memory_limit_gib": 10,
+        "worker_nice": 10
+      },
+      "role_hashes": {
+        "1": {
+          "fit_counts": [
+            4519,
+            17848,
+            31159,
+            17127,
+            6913,
+            1230,
+            1204
+          ],
+          "id_hashes": {
+            "calibration_ids": "9dfa5d3a64279d1106bcfe1db38a3d08c7c0f34ade8702cc428188ec77243903",
+            "fit_ids": "7c9f62c773fe53cdfaf81d059db399574acd63b1748f418b0830c9bba244ca91",
+            "tuning_ids": "0e489582cafccae210fc02ad94b665b6afe19d92a25dd522beb00eaa30f33bc8"
+          },
+          "source": "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/results/e1/rep_1/n_100000/role_membership.npz",
+          "source_sha256": "e3ef78cddd5c23acebe8ff1a8fe8760e653da194cceebd45c5051416b329d334"
+        },
+        "2": {
+          "fit_counts": [
+            4510,
+            17854,
+            31168,
+            17120,
+            6914,
+            1230,
+            1204
+          ],
+          "id_hashes": {
+            "calibration_ids": "670be2d3b576828b0a0481f2c7c2ef69a9c5788f3803f64a372fec04c70630b8",
+            "fit_ids": "ef08a94e0484d814cf4c4fc5de910ccc9944d1705a9dd6568606b6bc4f18afdc",
+            "tuning_ids": "3cec10594094f8c4423c684c7e16c1b6e551756b1af028d00c2e681c6e11d195"
+          },
+          "source": "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/results/e1/rep_2/n_100000/role_membership.npz",
+          "source_sha256": "30f7d5d361a6563309f102f0d9ab9c676c630eee30f314bd49b64785b6ab4efc"
+        },
+        "3": {
+          "fit_counts": [
+            4519,
+            17846,
+            31166,
+            17122,
+            6917,
+            1228,
+            1202
+          ],
+          "id_hashes": {
+            "calibration_ids": "27c90e9051d20ef9e15af51d0d0bc73c8feb1e84584d0ffe6d522456f0c8682a",
+            "fit_ids": "ccdb09ab869973a58d1b8beb8d732cdcd7fd93752a1bd706023eb90873edd818",
+            "tuning_ids": "5e01eeacdda87b0091eac068d620ca6c92600b0d7d708c9c82408765b0517a65"
+          },
+          "source": "/home/ubuntu/lamost_e1_migration_20261023/project/benchmark/results/e1/rep_3/n_100000/role_membership.npz",
+          "source_sha256": "1bc8859b0fee37c49ba92661e83a635c63564705968d294b61f19e55adacf63e"
+        }
+      },
+      "sha256": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9",
+      "test_rows": 500000,
+      "tuning_rows": 10000
+    }
+  },
+  "current_actual_process_observation": {
+    "additional_admission_headroom_bytes": 309998592,
+    "growth_margin_bytes": 2147483648,
+    "host_os_harbor_reserve_bytes": 6442450944,
+    "mem_available_bytes": 26071158784,
+    "mem_total_bytes": 33081999360,
+    "observed_utc": "2026-10-26T23:25:08.105875+00:00",
+    "reserved_bytes": 21474836480,
+    "running_registry_rows": 8,
+    "unspent_reservations_bytes": 17171225600,
+    "verified_worker_count": 8,
+    "worker_tree_pss_bytes": 4303610880,
+    "workers": [
+      {
+        "key": "e4/rep_1/fit/direct/arf/QSO_tenth",
+        "reservation_bytes": 6442450944,
+        "tree_pss_bytes": 699028480,
+        "verified": true
+      },
+      {
+        "key": "e4/rep_1/eval/direct/arf/F_half",
+        "reservation_bytes": 2147483648,
+        "tree_pss_bytes": 571490304,
+        "verified": true
+      },
+      {
+        "key": "e4/rep_1/eval/direct/arf/F_tenth",
+        "reservation_bytes": 2147483648,
+        "tree_pss_bytes": 572235776,
+        "verified": true
+      },
+      {
+        "key": "e4/rep_1/eval/direct/arf/GALAXY_tenth",
+        "reservation_bytes": 2147483648,
+        "tree_pss_bytes": 466195456,
+        "verified": true
+      },
+      {
+        "key": "e4/rep_1/eval/direct/arf/K_half",
+        "reservation_bytes": 2147483648,
+        "tree_pss_bytes": 459208704,
+        "verified": true
+      },
+      {
+        "key": "e4/rep_1/eval/direct/arf/K_tenth",
+        "reservation_bytes": 2147483648,
+        "tree_pss_bytes": 693370880,
+        "verified": true
+      },
+      {
+        "key": "e4/rep_1/eval/direct/arf/M_half",
+        "reservation_bytes": 2147483648,
+        "tree_pss_bytes": 456396800,
+        "verified": true
+      },
+      {
+        "key": "e4/rep_1/eval/direct/arf/M_tenth",
+        "reservation_bytes": 2147483648,
+        "tree_pss_bytes": 385684480,
+        "verified": true
+      }
+    ]
+  },
+  "current_scoped_plan_statuses": {
+    "E4/knn/eval": {
+      "waiting_for_dependency": 45
+    },
+    "E4/knn/fit": {
+      "planned": 3,
+      "waiting_for_dependency": 42
+    },
+    "E4/rbf_svm/eval": {
+      "waiting_for_dependency": 45
+    },
+    "E4/rbf_svm/fit": {
+      "planned": 3,
+      "waiting_for_dependency": 42
+    },
+    "E5/knn/alias": {
+      "waiting_for_dependency": 3
+    },
+    "E5/knn/eval": {
+      "waiting_for_dependency": 27
+    },
+    "E5/knn/fit": {
+      "waiting_for_dependency": 27
+    },
+    "E5/rbf_svm/alias": {
+      "waiting_for_dependency": 3
+    },
+    "E5/rbf_svm/eval": {
+      "waiting_for_dependency": 27
+    },
+    "E5/rbf_svm/fit": {
+      "waiting_for_dependency": 27
+    }
+  },
+  "recommendation": {
+    "activation": "Evidence only. Root owns any resource amendment; require a fresh scheduler headroom calculation before admitting a lower reservation.",
+    "knn_fit_and_eval": "Provisional 2 GiB admission reservation for the planned six-feature, 80k-fit E4/E5 KNN cells. E1 KNN maximum recorded process peak RSS was 1,290,012 KiB at the larger 1,000,000 budget. Keep the current 10 GiB hard limit and 600-second trial/phase policy. This is a reservation, not a cap; promote to 10 GiB if observed PSS exceeds 2 GiB.",
+    "limitations": [
+      "E1 used 6 GiB memory limit and 180-second trial timeout; E4/E5 use 10 GiB hard limit and 600-second trial/phase limits. Do not claim identical resource policies.",
+      "Historical E1 source/software and later runtime are separately versioned; reservations are provisional until actual E4/E5 phase PSS is observed.",
+      "RBF terminal timeout/failure status and started-looking manifests remain separate; started manifest does not imply live process.",
+      "No scores, model deserialization, arrays, fitting, inference, or tests were used."
+    ],
+    "rbf_svm_fit_and_eval": "Provisional 3 GiB admission reservation for planned six-feature, 80k-fit E4/E5 RBF-SVM cells. E1 RBF trial max PSS was 1,667,924 KiB at 100,000 fit rows, with the fixed 512 MiB cache. E4/E5 test cohort remains 500,000 with 50k prediction chunks. Keep the current 10 GiB hard limit and 600-second policy; promote to 10 GiB if observed PSS exceeds 3 GiB. E1 terminal timeouts are not evidence of memory failure."
+  },
+  "schema": "lamost-knn-rbf-admission-review/1",
+  "scope": "Read-only resource review. No predictive scores/metrics/parameters read, no model or array loads, no fit/inference/test, and no queue/source/Harbor changes.",
+  "source_identities": {
+    "E1_master_config_sha256": "be5cdaf82de78e83cfcddb91858fb2eab2329bb793e7f5d0fe67d35c4aff9815",
+    "E1_models_basic_sha256": "5c0079097f90339c452e48cba178f8f22bc5012882097fad23715f425e4ec8b2",
+    "E4_manifest_sha256": "ad1b9e1fac7414d650d27e64094aaacd7113b856bf0c6e1d9604a41071c2c423",
+    "E5_manifest_sha256": "ee27039ea1c16eea1cb5553f8107eaba7fad7432baaf2ac081e90c4c7de970c9",
+    "runtime_science_sha256": "9937104e3e2d56eab25bb9596b39dcadbdefcd677ffa941cd1a635ae4ba58bd3",
+    "runtime_worker_sha256": "f158d2bed12072da661af9195cc3a1b7e0367ff7cb2fe3ad24111e076dd29b18"
+  }
+}

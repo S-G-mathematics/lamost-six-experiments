@@ -1,0 +1,478 @@
+from __future__ import annotations
+import hashlib, json, os, re, shutil, subprocess, sys, time, uuid
+from pathlib import Path
+from datetime import datetime, timezone
+import numpy as np
+
+CLASSES=7
+THREAD_ENV={"OMP_NUM_THREADS":"1","OPENBLAS_NUM_THREADS":"1","MKL_NUM_THREADS":"1","NUMEXPR_NUM_THREADS":"1","VECLIB_MAXIMUM_THREADS":"1"}
+
+def _now(): return datetime.now(timezone.utc).isoformat()
+def _atomic_copy(src,dst,prefer_link=False):
+    src=Path(src); dst=Path(dst); dst.parent.mkdir(parents=True,exist_ok=True)
+    temp=dst.with_name(dst.name+".tmp")
+    try:
+        if prefer_link: os.link(src,temp)
+        else: raise OSError("copy requested")
+    except OSError: shutil.copy2(src,temp)
+    os.replace(temp,dst)
+
+def _json(path,obj):
+    p=Path(path); p.parent.mkdir(parents=True,exist_ok=True); t=p.with_suffix(p.suffix+".tmp")
+    t.write_text(json.dumps(obj,sort_keys=True,indent=2,default=_json_default)); os.replace(t,p)
+def _json_default(x):
+    if isinstance(x,(np.integer,)): return int(x)
+    if isinstance(x,(np.floating,)): return float(x)
+    if isinstance(x,np.ndarray): return x.tolist()
+    if isinstance(x,Path): return str(x)
+    raise TypeError(type(x).__name__)
+def _sha(path):
+    h=hashlib.sha256()
+    with open(path,"rb") as f:
+        for b in iter(lambda:f.read(1<<20),b""): h.update(b)
+    return h.hexdigest()
+def _keypath(runtime,key):
+    if not isinstance(key,str) or not key or not re.fullmatch(r"[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*",key): raise ValueError("unsafe task key")
+    root=(Path(runtime)/"artifacts").resolve(); p=(root/key).resolve()
+    if root not in p.parents: raise ValueError("task key escapes artifact root")
+    return p
+def _project(runtime):
+    p=Path(runtime).parent/"project"
+    if not p.exists(): p=Path("/home/ubuntu/lamost_e1_migration_20261023/project")
+    if str(p) not in sys.path: sys.path.insert(0,str(p))
+    return p
+def resolve_fit(runtime,key):
+    p=_keypath(runtime,key)/"pipeline.joblib"
+    if not p.exists(): raise FileNotFoundError(f"fit dependency missing: {p}")
+    return p
+
+def _model_module(method,project):
+    if method in {"gmm","copula","arf","kde","chow_liu"}:
+        from benchmark import models_arf, models_flexible
+        return models_arf if method=="arf" else models_flexible
+    from benchmark import models_basic
+    return models_basic
+
+def _cache_roles(runtime,rep):
+    p=Path(runtime)/"cache"/"roles"/f"rep_{int(rep)}.npz"
+    if not p.exists(): raise FileNotFoundError(f"role cache unavailable: {p}")
+    return np.load(p,allow_pickle=False)
+def _preprocess():
+    from sklearn.impute import SimpleImputer
+    from sklearn.preprocessing import StandardScaler
+    return SimpleImputer(strategy="median"),StandardScaler()
+class ScientificFitFailure(RuntimeError):
+    pass
+class PhaseExecutionError(RuntimeError):
+    def __init__(self, category, message):
+        super().__init__(message); self.category=category
+
+def _train_model(model,X,y,sample_weight=None):
+    try:
+        if sample_weight is not None and hasattr(model,"estimator"):
+            model.estimator.fit(X,y,sample_weight=sample_weight)
+            if not np.array_equal(model.estimator.classes_,np.arange(CLASSES)):
+                raise ValueError("weighted estimator did not preserve all seven classes")
+            return model
+        if sample_weight is not None:
+            raise ValueError(f"{type(model).__name__} does not support sample_weight")
+        return model.fit(X,y)
+    except Exception as e:
+        raise ScientificFitFailure(f"{type(e).__name__}: {e}") from e
+def _scores(model,X):
+    if hasattr(model,"predict_proba"): return np.asarray(model.predict_proba(X),dtype=np.float64)
+    if hasattr(model,"score_matrix"): return np.asarray(model.score_matrix(X),dtype=np.float64)
+    raise TypeError("pipeline model has no seven-class score interface")
+def _chunks(model,X,size=50000):
+    out=[]
+    for i in range(0,len(X),size): out.append(_scores(model,X[i:i+size]))
+    return np.concatenate(out,axis=0)
+def _alloc(counts,n):
+    c=np.asarray(counts,dtype=np.float64)
+    if c.shape!=(CLASSES,) or np.any(c<0) or c.sum()<=0: raise ValueError("invalid class counts")
+    raw=c*n/c.sum(); base=np.floor(raw).astype(int)
+    for i in np.argsort(-(raw-base),kind="stable")[:n-int(base.sum())]: base[i]+=1
+    return base
+def _fit_phase(payload):
+    import joblib
+    from sklearn.impute import SimpleImputer
+    from sklearn.preprocessing import StandardScaler
+    runtime=Path(payload["runtime"]); task=payload["task"]; out=Path(payload["out"])
+    phase=payload["phase"]; method=task["method"]; project=_project(runtime); mod=_model_module(method,project)
+    if task.get("reuse_pipeline"):
+        src=Path(task["reuse_pipeline"]); shutil.copy2(src,out/"pipeline.joblib")
+        pipe=joblib.load(out/"pipeline.joblib"); source_hash=_sha(src)
+        if not all(k in pipe for k in ("model","imputer","scaler","params","seed")): raise ValueError("reused pipeline schema invalid")
+        role=_cache_roles(runtime,task["rep"]); ids=np.asarray(role["fit_ids"])
+        roles_hash=hashlib.sha256(np.ascontiguousarray(ids).tobytes()).hexdigest()
+        old_ids_hash=pipe.get("training_ids_sha256")
+        expected=task.get("training_ids_sha256",roles_hash)
+        if expected!=roles_hash: raise ValueError("planner fitting-ID hash does not match role cache")
+        if old_ids_hash is not None and old_ids_hash!=expected:
+            raise ValueError("reused pipeline fitting-ID hash does not match required role membership")
+        if task.get("source_sha256") and task["source_sha256"]!=source_hash:
+            raise ValueError("reused pipeline source hash differs from planner manifest")
+        pipe.setdefault("training_ids_sha256",expected)
+        pipe.setdefault("class_counts",task.get("training_counts",np.bincount(np.asarray(role["y_fit"],int),minlength=7).tolist()))
+        pipe["source_sha256"]=source_hash
+        pipe["source_metadata"]=task.get("source_metadata",{})
+        joblib.dump(pipe,out/"pipeline.joblib",compress=3)
+        return {"status":"success","reused":True,"source":str(src),"source_sha256":source_hash,"params":pipe["params"],"seed":pipe["seed"],"class_counts":pipe["class_counts"],"training_ids_sha256":pipe["training_ids_sha256"]}
+    if task.get("train_path"):
+        z=np.load(task["train_path"],allow_pickle=False); X=np.asarray(z["X"],float); y=np.asarray(z["y"],int); ids=z["ids"] if "ids" in z else np.arange(len(y))
+        sw=np.asarray(z["sample_weight"],float) if "sample_weight" in z else None
+    else:
+        z=_cache_roles(runtime,task["rep"]); X=np.asarray(z["X_fit"],float); y=np.asarray(z["y_fit"],int); ids=z["fit_ids"]; sw=None
+    if X.ndim!=2 or X.shape[1]!=6 or len(X)!=len(y) or np.isinf(X).any() or np.any((y<0)|(y>=7)): raise ValueError("training array validation failed (NaN allowed; infinity is not)")
+    if np.isnan(X).all(axis=0).any(): raise ValueError("unsupported: a fitting feature is entirely missing")
+    counts=np.bincount(y,minlength=7); minimum=int(counts.min())
+    imputer=SimpleImputer(strategy="median",keep_empty_features=True); Xt=imputer.fit_transform(X); scaler=StandardScaler(); Xt=scaler.fit_transform(Xt)
+    params=payload.get("params")
+    seed=int(task.get("seed",0))
+    if phase=="trial" or phase.startswith("trial_"):
+        model=mod.make_model(method,params,seed,n_jobs=1)
+        _train_model(model,Xt,y,sw)
+        roles=_cache_roles(runtime,task["rep"]); Xv=np.asarray(roles["X_tune"],float); yv=np.asarray(roles["y_tune"],int)
+        pv=_chunks(model,scaler.transform(imputer.transform(Xv)))
+        from benchmark.evaluation import balanced_accuracy
+        return {"status":"success","score":balanced_accuracy(yv,np.argmax(pv,axis=1)),"params":params,"seconds":payload.get("elapsed",0)}
+    model=mod.make_model(method,params,seed,n_jobs=1)
+    t=time.monotonic(); _train_model(model,Xt,y,sw); duration=time.monotonic()-t
+    pipeline={"model":model,"imputer":imputer,"scaler":scaler,"params":params,"seed":seed,"method":method,
+      "training_ids_sha256":hashlib.sha256(np.ascontiguousarray(ids).tobytes()).hexdigest(),
+      "training_rows":len(y),"class_counts":counts.tolist(),"train_path":str(task.get("train_path","role_cache"))}
+    temp_pipeline=out/"pipeline.joblib.tmp"
+    joblib.dump(pipeline,temp_pipeline,compress=3)
+    os.replace(temp_pipeline,out/"pipeline.joblib")
+    check=joblib.load(out/"pipeline.joblib")
+    if check["model"].__class__!=model.__class__: raise ValueError("pipeline reload validation failed")
+    source_path=Path(task["train_path"]) if task.get("train_path") else Path(runtime)/"cache"/"roles"/f"rep_{int(task['rep'])}.npz"
+    return {"status":"success","params":params,"seed":seed,"training_rows":len(y),"class_counts":counts.tolist(),"fit_seconds":duration,"pipeline_sha256":_sha(out/"pipeline.joblib"),"training_ids_sha256":pipeline["training_ids_sha256"],"source_sha256":_sha(source_path)}
+def _calibrate_phase(payload):
+    import joblib
+    runtime=Path(payload["runtime"]); _project(runtime)
+    from benchmark.evaluation import conformal_threshold
+    task=payload["task"]; pipe=joblib.load(resolve_fit(runtime,task["fit_key"]))
+    roles=_cache_roles(runtime,task["rep"])
+    Xcal=np.asarray(roles["X_cal"],float); ycal=np.asarray(roles["y_cal"],int)
+    model=pipe["model"]
+    scores=_chunks(model,pipe["scaler"].transform(pipe["imputer"].transform(Xcal)))
+    threshold=conformal_threshold(scores,ycal,getattr(model,"score_kind","probability"),.1)
+    return {"status":"success","threshold":float(threshold),"score_kind":getattr(model,"score_kind","probability"),"calibration_n":len(ycal),"fit_key":task["fit_key"],"pipeline_sha256":_sha(resolve_fit(runtime,task["fit_key"]))}
+
+def _prepare_phase(payload):
+    runtime=Path(payload["runtime"]); task=payload["task"]
+    if task.get("train_path"):
+        z=np.load(task["train_path"],allow_pickle=False); X=np.asarray(z["X"],float); y=np.asarray(z["y"],int)
+    else:
+        z=_cache_roles(runtime,task["rep"]); X=np.asarray(z["X_fit"],float); y=np.asarray(z["y_fit"],int)
+    if X.ndim!=2 or X.shape[1]!=6 or len(X)!=len(y) or np.isinf(X).any() or np.isnan(X).all(axis=0).any() or np.any((y<0)|(y>=7)):
+        raise ValueError("prepare validation failed for X/y (NaN allowed except all-missing columns)")
+    return {"status":"success","rows":len(y),"class_counts":np.bincount(y,minlength=7).tolist(),"shape":list(X.shape)}
+
+def _eval_phase(payload):
+    import joblib
+    from sklearn.metrics import confusion_matrix
+    runtime=Path(payload["runtime"]); _project(runtime)
+    from benchmark.evaluation import conformal_threshold,conformal_evaluate
+    task=payload["task"]; out=Path(payload["out"])
+    fit=resolve_fit(runtime,task["fit_key"]); pipe=joblib.load(fit); z=_cache_roles(runtime,task["rep"])
+    Xcal=np.asarray(z["X_cal"],float); ycal=np.asarray(z["y_cal"],int)
+    test=Path(runtime)/"cache"/"test.npz"
+    if not test.exists(): raise FileNotFoundError(f"test cache unavailable: {test}")
+    q=np.load(test,allow_pickle=False); X=np.asarray(q["X"],float); y=np.asarray(q["y"],int); ids=q["ids"]
+    model,imp,sc=pipe["model"],pipe["imputer"],pipe["scaler"]
+    chosen_threshold=payload.get("params",{}).get("threshold",payload.get("threshold"))
+    if chosen_threshold is None:
+        cal=_chunks(model,sc.transform(imp.transform(Xcal)))
+        chosen_threshold=conformal_threshold(cal,ycal,getattr(model,"score_kind","probability"),.1)
+    threshold=float(chosen_threshold)
+    scores=_chunks(model,sc.transform(imp.transform(X)))
+    ev=conformal_evaluate(scores,y,threshold,getattr(model,"score_kind","probability"))
+    tmp=out/"test_outcomes.npz.tmp"
+    with open(tmp,"wb") as f: np.savez_compressed(f,sample_id=ids,y_pred=ev["predictions"],set_mask=np.packbits(ev["sets"],axis=1,bitorder="little")[:,0],covered=ev["covered"],set_size=ev["set_sizes"])
+    os.replace(tmp,out/"test_outcomes.npz")
+    result={k:v for k,v in ev.items() if k not in {"predictions","sets","covered","set_sizes"}}
+    result.update({"confusion_matrix":confusion_matrix(y,ev["predictions"],labels=np.arange(7)).tolist(),"calibration_n":len(ycal),"test_n":len(y),"threshold":float(threshold),"score_kind":getattr(model,"score_kind","probability"),"fit_key":task["fit_key"],"pipeline_sha256":_sha(fit)})
+    return {"status":"success","evaluation":result}
+def _gen_phase(payload):
+    import joblib
+    runtime=Path(payload["runtime"]); _project(runtime)
+    task=payload["task"]; out=Path(payload["out"]); pipe=joblib.load(resolve_fit(runtime,task["fit_key"]))
+    model=pipe["model"]
+    seed_value=task.get("generation_seed")
+    if seed_value is None: seed_value=task.get("seed")
+    if seed_value is None: seed_value=int(hashlib.sha256(task["key"].encode()).hexdigest()[:8],16)
+    seed=int(seed_value)
+    if task.get("target_class") is not None:
+        counts=np.zeros(7,dtype=int); c=int(task["target_class"])
+        added=task.get("added_count")
+        if added is None and task.get("cohort_key"):
+            cp=_keypath(runtime,task["cohort_key"])
+            meta=next((p for p in (cp/"metadata.json",cp/"cohort.json",cp/"cohort_metadata.json") if p.exists()),None)
+            if meta is None: raise FileNotFoundError(f"cohort metadata unavailable for {task['cohort_key']}")
+            md=json.loads(meta.read_text()); added=md.get("added_count",md.get("restore_added_count",md.get("restoration_added_count")))
+        if added is None: raise ValueError("target generation requires added_count or cohort metadata")
+        counts[c]=int(added)
+    else:
+        n=int(task["n_rows"])
+        if task.get("counts") is not None: counts=_alloc(task["counts"],n)
+        else:
+            stored=pipe.get("class_counts")
+            if stored is None:
+                try: stored=np.bincount(np.asarray(_cache_roles(runtime,task.get("rep",0))["y_fit"],int),minlength=7)
+                except Exception: stored=np.ones(7,dtype=int)
+            counts=_alloc(stored,n)
+    Xs=[]; ys=[]
+    for c,nc in enumerate(counts):
+        if nc:
+            if not hasattr(model,"sample_class"): return {"status":"unsupported","reason":f"{task['fit_key']} model cannot generate class samples"}
+            a=np.asarray(model.sample_class(c,int(nc),seed+1009*c),dtype=float)
+            if a.shape!=(int(nc),6) or not np.isfinite(a).all(): raise ValueError(f"generator returned invalid class {c} array")
+            Xs.append(a); ys.append(np.full(int(nc),c,dtype=np.int8))
+    Xscaled=np.concatenate(Xs,axis=0); y=np.concatenate(ys)
+    perm=np.random.default_rng(seed).permutation(len(y)); Xscaled=Xscaled[perm]; y=y[perm]
+    X=pipe["scaler"].inverse_transform(Xscaled)
+    tmp=out/"data.npz.tmp"
+    with open(tmp,"wb") as f: np.savez_compressed(f,X=np.asarray(X,dtype=np.float64),y=y.astype(np.int8))
+    os.replace(tmp,out/"data.npz")
+    return {"status":"success","n_rows":len(y),"class_counts":np.bincount(y,minlength=7).tolist(),"generation_seed":seed,"data_sha256":_sha(out/"data.npz")}
+def worker(payload):
+    out=Path(payload["out"]); out.mkdir(parents=True,exist_ok=True)
+    ph=payload["phase"]
+    if ph=="final_fit" or ph=="trial" or ph.startswith("trial_"): return _fit_phase(payload)
+    if ph=="prepare": return _prepare_phase(payload)
+    if ph=="calibrate": return _calibrate_phase(payload)
+    if ph=="evaluate": return _eval_phase(payload)
+    if ph=="generate": return _gen_phase(payload)
+    raise ValueError(f"unknown phase: {ph}")
+
+def _process_tree_rss(pid):
+    # procfs recursive PPID inventory; only this explicitly launched process group is supervised.
+    rows={}
+    for d in Path("/proc").iterdir():
+        if not d.name.isdigit(): continue
+        try:
+            s=(d/"status").read_text(); ppid=int(next(x.split()[1] for x in s.splitlines() if x.startswith("PPid:"))); rss=int(next(x.split()[1] for x in s.splitlines() if x.startswith("VmRSS:")))
+            rows[int(d.name)]=(ppid,rss)
+        except Exception: pass
+    tree={pid}; changed=True
+    while changed:
+        changed=False
+        for p,(pp,rss) in rows.items():
+            if pp in tree and p not in tree: tree.add(p); changed=True
+    return sum(rows[p][1] for p in tree if p in rows),tree
+def _proc_start_ticks(pid):
+    try:
+        stat=(Path("/proc")/str(pid)/"stat").read_text()
+        tail=stat[stat.rfind(")")+2:].split()
+        return int(tail[19])
+    except Exception: return None
+
+def _group_members(pgid):
+    members=[]
+    for d in Path("/proc").iterdir():
+        if not d.name.isdigit(): continue
+        try:
+            stat=(d/"stat").read_text(); tail=stat[stat.rfind(")")+2:].split()
+            if int(tail[2])==int(pgid): members.append(int(d.name))
+        except Exception: pass
+    return members
+
+def _run_phase(runtime,task,phase,out,params=None,timeout=600,rss_cap_kib=10*1024*1024):
+    cfg=Path(out)/("phase_"+phase+".json"); _json(cfg,{"runtime":str(runtime),"task":task,"phase":phase,"out":str(out),"params":params})
+    env=os.environ.copy(); env.update(THREAD_ENV); env["PYTHONUNBUFFERED"]="1"
+    cmd=[sys.executable,str(Path(__file__).with_name("phase_worker.py")),str(cfg)]
+    stdout_path=Path(out)/("phase_"+phase+".stdout.log"); stderr_path=Path(out)/("phase_"+phase+".stderr.log")
+    stdout_file=open(stdout_path,"w"); stderr_file=open(stderr_path,"w")
+    p=subprocess.Popen(cmd,stdout=stdout_file,stderr=stderr_file,text=True,start_new_session=True,env=env)
+    started=time.monotonic(); peak=0; reason=None; last_state=0.0; started_stamp=_now()
+    state_path=Path(out)/("phase_"+phase+"_state.json")
+    start_ticks=_proc_start_ticks(p.pid)
+    _json(state_path,{"phase":phase,"status":"running","pid":p.pid,"pgid":p.pid,"process_start_ticks":start_ticks,"started_at":started_stamp,"deadline_seconds":timeout,"rss_cap_kib":rss_cap_kib})
+    while p.poll() is None:
+        rss,tree=_process_tree_rss(p.pid); peak=max(peak,rss)
+        if time.monotonic()-last_state>=5:
+            _json(state_path,{"phase":phase,"status":"running","pid":p.pid,"pgid":p.pid,"process_start_ticks":start_ticks,"started_at":started_stamp,"elapsed_seconds":time.monotonic()-started,"peak_tree_rss_kib":peak,"rss_cap_kib":rss_cap_kib,"deadline_seconds":timeout})
+            last_state=time.monotonic()
+        if rss>rss_cap_kib: reason="rss_limit"
+        elif time.monotonic()-started>timeout: reason="timeout"
+        if reason:
+            try: os.killpg(p.pid,15)
+            except ProcessLookupError: pass
+            try: p.wait(timeout=30)
+            except subprocess.TimeoutExpired: pass
+            members=_group_members(p.pid)
+            if members:
+                try: os.killpg(p.pid,9)
+                except ProcessLookupError: pass
+                if p.poll() is None: p.wait()
+            break
+        time.sleep(.25)
+    stdout_file.close(); stderr_file.close()
+    stdout=stdout_path.read_text(errors="replace")[-4000:]; stderr=stderr_path.read_text(errors="replace")[-8000:]
+    rec={"phase":phase,"pid":p.pid,"pgid":p.pid,"exit_code":p.returncode,"seconds":time.monotonic()-started,"peak_tree_rss_kib":peak,"reason":reason,"stdout":stdout,"stderr":stderr,"finished_at":_now()}
+    _json(Path(out)/("phase_"+phase+"_result.json"),rec)
+    _json(state_path,{"phase":phase,"status":"finished" if p.returncode==0 and not reason else "failed","pid":p.pid,"pgid":p.pid,"process_start_ticks":start_ticks,"finished_at":rec["finished_at"],"exit_code":p.returncode,"reason":reason,"peak_tree_rss_kib":peak})
+    if reason: raise PhaseExecutionError("scientific_failure",f"phase_{reason}: {rec}")
+    if p.returncode!=0:
+        ep=Path(out)/"phase_exception.json"
+        detail=json.loads(ep.read_text()) if ep.exists() else {"category":"operationally_invalid","phase":phase,"stderr":stderr}
+        raise PhaseExecutionError(detail.get("category","operationally_invalid"),f"phase_exit_{p.returncode}: {detail}; supervision={rec}")
+    result=json.loads((Path(out)/"phase_result.json").read_text())
+    result["phase_supervision"]=rec
+    return result
+
+def execute(task:dict,runtime)->dict:
+    runtime=Path(runtime).resolve(); key=task.get("key"); out=_keypath(runtime,key); out.mkdir(parents=True,exist_ok=True)
+    aid=f"{int(time.time())}_{uuid.uuid4().hex[:8]}"; attempt=out/"attempts"/aid; attempt.mkdir(parents=True)
+    started=_now()
+    identity={k:v for k,v in task.items() if k not in {"attempt_id","worker_pid","started_at","observed_at","observed_utc","artifact_dir","controller_pid","status","attempts","attempt_number","queue_state","controller_state"}}
+    engine_hash=hashlib.sha256((_sha(Path(__file__))+_sha(Path(__file__).with_name("phase_worker.py"))).encode()).hexdigest()
+    identity["engine_code_sha256"]=engine_hash
+    taskhash=hashlib.sha256(json.dumps(identity,sort_keys=True,default=str).encode()).hexdigest()
+    record={"task":task,"task_sha256":taskhash,"engine_code_sha256":engine_hash,"attempt_id":aid,"status":"running","started_at":started}
+    _json(attempt/"attempt.json",record)
+    try:
+        kind=task.get("kind")
+        result_name={"fit":"fit_result.json","eval":"eval_result.json","generate":"generation_result.json"}.get(kind)
+        output_name={"fit":"pipeline.joblib","eval":"test_outcomes.npz","generate":"data.npz"}.get(kind)
+        prior_path=out/result_name if result_name else None
+        artifact_path=out/output_name if output_name else None
+        if prior_path and artifact_path and prior_path.exists() and artifact_path.exists():
+            prior=json.loads(prior_path.read_text())
+            expected=prior.get("artifact_sha256")
+            if prior.get("task_sha256")==taskhash and prior.get("status")=="successful" and expected and _sha(artifact_path)==expected:
+                reused={**prior,"attempt_id":aid,"reused_validated_artifact":True,"observed_at":_now()}
+                _json(attempt/"attempt.json",reused)
+                return reused
+        if kind=="fit":
+            params=None
+            checkpoint_pipeline=out/"checkpoints"/taskhash/"pipeline.joblib"
+            if checkpoint_pipeline.exists():
+                import joblib
+                joblib.load(checkpoint_pipeline)
+                shutil.copy2(checkpoint_pipeline,attempt/"pipeline.joblib")
+                res={"status":"success","resumed_final_fit":True,"pipeline_sha256":_sha(checkpoint_pipeline)}
+                prior_selection=out/"checkpoints"/taskhash/"selection.json"
+                if prior_selection.exists():
+                    shutil.copy2(prior_selection,attempt/"selection.json")
+                    res["params"]=json.loads(prior_selection.read_text()).get("selected_params")
+                    res["seed"]=task.get("seed")
+            elif task.get("reuse_pipeline"):
+                res=_run_phase(runtime,task,"final_fit",attempt)
+            elif task.get("selection_source"):
+                src=Path(task["selection_source"])
+                if src.is_dir(): src=src/"selection.json"
+                sel=json.loads(src.read_text()); params=sel.get("selected_params",sel.get("params"))
+                if params is None: raise ValueError("selection.json missing selected_params/params")
+                res=_run_phase(runtime,task,"final_fit",attempt,params=params)
+            else:
+                project=_project(runtime); method=task["method"]; mod=_model_module(method,project)
+                if task.get("train_path"):
+                    z=np.load(task["train_path"],allow_pickle=False); y=np.asarray(z["y"],int)
+                else: y=np.asarray(_cache_roles(runtime,task["rep"])["y_fit"],int)
+                trials=int(task.get("trials",5 if method in {"arf","kde","knn","rbf_svm"} else 10))
+                if trials<1: raise ValueError("trials must be positive")
+                try: import optuna
+                except Exception as e: raise RuntimeError(f"optuna unavailable: {e}")
+                checkpoints=out/"checkpoints"/taskhash; checkpoints.mkdir(parents=True,exist_ok=True)
+                study_name="task_"+hashlib.sha256((key+taskhash).encode()).hexdigest()[:20]
+                db=checkpoints/"optuna.sqlite3"
+                storage="sqlite:///"+str(db)
+                study=optuna.create_study(study_name=study_name,storage=storage,load_if_exists=True,direction="maximize",sampler=optuna.samplers.TPESampler(seed=int(task.get("optimizer_seed",task.get("seed",0))),n_startup_trials=3))
+                ledger=checkpoints/"trial_history.json"
+                trial_rows=json.loads(ledger.read_text()) if ledger.exists() else []
+                by_number={int(row["number"]):row for row in trial_rows}
+                for old in study.trials:
+                    if old.number not in by_number:
+                        if old.state==optuna.trial.TrialState.RUNNING:
+                            status="operationally_interrupted"
+                        elif old.value is not None:
+                            status="success"
+                        else:
+                            status="scientific_failure"
+                        row={"number":old.number,"status":status,"params":old.params,"score":old.value,"resumed_from_study":True}
+                        trial_rows.append(row); by_number[old.number]=row
+                trial_rows.sort(key=lambda row:row["number"])
+                cache={}
+                for old in study.trials:
+                    if old.value is not None:
+                        cache[json.dumps(old.params,sort_keys=True)]=(float(old.value),float(old.user_attrs.get("seconds",0.0)))
+                pending=[old for old in study.trials if old.state==optuna.trial.TrialState.RUNNING]
+                while pending or len(study.trials)<trials:
+                    if pending:
+                        frozen=pending.pop(0)
+                        t=optuna.trial.Trial(study,frozen._trial_id)
+                    else:
+                        t=study.ask()
+                    try:
+                        pp=mod.suggest_parameters(t,method,len(y),int(np.bincount(y,minlength=7).min()))
+                        sig=json.dumps(pp,sort_keys=True)
+                        if sig in cache:
+                            score,cost=cache[sig]
+                            row={"number":t.number,"status":"duplicate_cached","params":pp,"score":score,"seconds":cost}
+                            study.tell(t,score)
+                        else:
+                            r=_run_phase(runtime,task,"trial_"+str(t.number),attempt,params=pp,timeout=600)
+                            cost=float(r["phase_supervision"]["seconds"]); cache[sig]=(float(r["score"]),cost)
+                            row={"number":t.number,"status":"success","params":pp,"score":float(r["score"]),"seconds":cost}
+                            t.set_user_attr("seconds",cost)
+                            study.tell(t,float(r["score"]))
+                    except Exception as e:
+                        if isinstance(e,PhaseExecutionError) and e.category!="scientific_failure":
+                            row={"number":t.number,"status":e.category,"params":getattr(t,"params",{}),"error":str(e)}
+                            by_number[int(t.number)]=row
+                            trial_rows=sorted(by_number.values(),key=lambda x:int(x["number"]))
+                            _json(ledger,trial_rows)
+                            _json(attempt/"selection.json",{"trials":trial_rows,"study_best":study.best_trial.number if study.best_trials else None})
+                            raise
+                        try: study.tell(t,state=optuna.trial.TrialState.FAIL)
+                        except Exception: pass
+                        row={"number":t.number,"status":"scientific_failure","params":getattr(t,"params",{}),"error":str(e)}
+                    by_number[int(t.number)]=row
+                    trial_rows=sorted(by_number.values(),key=lambda x:int(x["number"]))
+                    _json(ledger,trial_rows)
+                    _json(attempt/"selection.json",{"trials":trial_rows,"study_best":study.best_trial.number if study.best_trials else None})
+                viable=[x for x in trial_rows if x["status"] in {"success","duplicate_cached"} and "score" in x]
+                if not viable:
+                    unsupported=bool(trial_rows) and all(("unsupported" in str(row.get("error","")).lower() or "requires" in str(row.get("error","")).lower()) for row in trial_rows)
+                    state="unsupported" if unsupported else "scientific_failure"
+                    return _finish(out,attempt,record,state,"all tuning trials unsupported" if unsupported else "all tuning trials failed",{"trials":trial_rows})
+                viable.sort(key=lambda x:(-x["score"],mod.complexity_key(method,x["params"]),x.get("seconds",0),x["number"]))
+                params=viable[0]["params"]
+                _json(attempt/"selection.json",{"selected_params":params,"selected_trial":viable[0]["number"],"selected_score":viable[0]["score"],"trials":trial_rows,"optimizer_seed":task.get("optimizer_seed",task.get("seed",0))})
+                res=_run_phase(runtime,task,"final_fit",attempt,params=params)
+            cpdir=out/"checkpoints"/taskhash; cpdir.mkdir(parents=True,exist_ok=True)
+            if not (cpdir/"pipeline.joblib").exists(): _atomic_copy(attempt/"pipeline.joblib",cpdir/"pipeline.joblib",prefer_link=True)
+            if (attempt/"selection.json").exists(): shutil.copy2(attempt/"selection.json",cpdir/"selection.json")
+            _atomic_copy(attempt/"pipeline.joblib",out/"pipeline.joblib",prefer_link=True)
+            selected_record=json.loads((attempt/"selection.json").read_text()) if (attempt/"selection.json").exists() else {"selected_params":res.get("params",params),"seed":res.get("seed",task.get("seed")),"reused":bool(res.get("reused")),"source_sha256":res.get("source_sha256")}
+            if selected_record.get("selected_params") is None and selected_record.get("params") is not None: selected_record["selected_params"]=selected_record["params"]
+            if selected_record.get("selected_params") is None and task.get("reuse_pipeline"):
+                selected_record["selected_params"]=res.get("params")
+            _json(out/"selection.json",selected_record)
+            return _finish(out,attempt,record,"successful",None,res)
+        if kind=="eval":
+            calibration=_run_phase(runtime,task,"calibrate",attempt)
+            res=_run_phase(runtime,task,"evaluate",attempt,params={"threshold":calibration["threshold"]})
+            _atomic_copy(attempt/"test_outcomes.npz",out/"test_outcomes.npz")
+            return _finish(out,attempt,record,"successful",None,res["evaluation"])
+        if kind=="generate":
+            res=_run_phase(runtime,task,"generate",attempt)
+            if res.get("status")=="unsupported": return _finish(out,attempt,record,"unsupported",res.get("reason"),res)
+            _atomic_copy(attempt/"data.npz",out/"data.npz")
+            return _finish(out,attempt,record,"successful",None,res)
+        return _finish(out,attempt,record,"unsupported",f"unknown task kind {kind!r}",{})
+    except FileNotFoundError as e:
+        return _finish(out,attempt,record,"unavailable_dependency",str(e),{})
+    except Exception as e:
+        status=e.category if isinstance(e,PhaseExecutionError) else "operationally_invalid"
+        return _finish(out,attempt,record,status,str(e),{"exception_type":type(e).__name__})
+def _finish(out,attempt,record,status,reason,result):
+    final={**record,"status":status,"reason":reason,"result":result,"finished_at":_now()}
+    if status=="successful":
+        k=record["task"].get("kind"); artifact={"fit":"pipeline.joblib","eval":"test_outcomes.npz","generate":"data.npz"}.get(k)
+        if artifact and (out/artifact).exists(): final["artifact_sha256"]=_sha(out/artifact)
+    _json(attempt/"attempt.json",final); _json(out/"fit_result.json" if record["task"].get("kind")=="fit" else out/("eval_result.json" if record["task"].get("kind")=="eval" else "generation_result.json"),final)
+    return final
